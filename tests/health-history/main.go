@@ -90,10 +90,9 @@ func run() error {
 	}
 	redact := strings.NewReplacer(directory, "<isolated-history>", workspace, "<workspace>", "/private"+os.TempDir(), "<temp>/", os.TempDir(), "<temp>/")
 	cleanReceipt := redact.Replace(receipt.String())
-	if err := os.WriteFile("docs/workflow/health-methods-history.log", []byte(cleanReceipt), 0600); err != nil {
-		return err
+	if _, err := fmt.Print(cleanReceipt); err != nil {
+		return fmt.Errorf("write historical HTTP receipt to stdout: %w", err)
 	}
-	fmt.Print(cleanReceipt)
 	return assessment
 }
 

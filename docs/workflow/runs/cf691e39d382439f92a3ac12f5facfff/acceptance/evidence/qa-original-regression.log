@@ -1,0 +1,17 @@
+=== RUN   TestHistoryCommandOutput
+=== RUN   TestHistoryCommandOutput/expected_red
+    main_test.go:106: historical file changed: docs/workflow/health-methods-history.log (error=<nil>)
+=== RUN   TestHistoryCommandOutput/rejected
+    main_test.go:106: historical file changed: docs/workflow/health-methods-history.log (error=<nil>)
+=== RUN   TestHistoryCommandOutput/closed_stdout
+    main_test.go:91: failure not propagated: error=<nil> stdout= stderr=
+--- FAIL: TestHistoryCommandOutput (3.24s)
+    --- FAIL: TestHistoryCommandOutput/expected_red (1.40s)
+    --- FAIL: TestHistoryCommandOutput/rejected (0.42s)
+    --- FAIL: TestHistoryCommandOutput/closed_stdout (1.39s)
+FAIL
+FAIL	model-relay/tests/health-history	3.823s
+FAIL
+
+qa_original_overlay_exit_code=1
+scope=HEAD main.go with current regression; writes confined to test temp fixtures

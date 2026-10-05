@@ -1,0 +1,131 @@
+Trellis check: supplemental non-listening checks; not full verification
+Single-repo project (no packages configured)
+
+Spec layers: backend, frontend
+all modules verified
+go vet ./...
+node --test tests/browser/ui.test.mjs
+✔ password toggle preserves the input node and value without requesting or submitting (3.849125ms)
+✔ login success, logout and rejected login reset password visibility (0.9285ms)
+✔ session restoration resets an entered visible password (0.616ms)
+✔ upstream form is unavailable until GET completes, then saves entered values (1.757208ms)
+✔ runtime version preserves raw strings including dev without blocking overview (0.963167ms)
+✔ runtime version missing degrades locally and reentry recovers (0.722958ms)
+✔ runtime version empty degrades locally and reentry recovers (0.61475ms)
+✔ runtime version whitespace degrades locally and reentry recovers (0.618041ms)
+✔ runtime version number degrades locally and reentry recovers (0.733375ms)
+✔ runtime version null version degrades locally and reentry recovers (0.757958ms)
+✔ runtime version null body degrades locally and reentry recovers (0.68875ms)
+✔ runtime version array degrades locally and reentry recovers (0.577375ms)
+✔ runtime version string body degrades locally and reentry recovers (0.595667ms)
+✔ runtime version 401 degrades locally and reentry recovers (0.672542ms)
+✔ runtime version 503 degrades locally and reentry recovers (0.672792ms)
+✔ runtime version network degrades locally and reentry recovers (0.576166ms)
+✔ runtime version invalid json degrades locally and reentry recovers (0.719209ms)
+✔ late success cannot clear a newer timer or version (0.563459ms)
+✔ late failure cannot clear a newer timer or version (0.59475ms)
+✔ 5 second timeout covers headers and ignores late resolution (1.176625ms)
+✔ 5 second timeout covers body and ignores late resolution (0.486042ms)
+✔ logout invalidates immediately and late success cannot contaminate a new login (0.542958ms)
+✔ real management 401 still logs out and invalidates runtime version (0.48775ms)
+✔ older response after a newer completion cannot overwrite the current version (0.506084ms)
+✔ failed configuration load leaves an error and navigation can recover (0.412375ms)
+✔ a stale navigation cannot reveal a panel after the user leaves (0.508208ms)
+✔ rejected save recovers persisted configuration after navigation finishes (0.607875ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 96.637583
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+# model-relay/internal/relay.test
+ld: warning: '<temp>/go-link-1154442273/000023.o' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestHealthMethodsHandler
+=== RUN   TestHealthMethodsHandler/healthy
+=== RUN   TestHealthMethodsHandler/healthy/GET
+=== RUN   TestHealthMethodsHandler/healthy/HEAD
+=== RUN   TestHealthMethodsHandler/healthy/POST
+=== RUN   TestHealthMethodsHandler/healthy/PUT
+=== RUN   TestHealthMethodsHandler/healthy/PATCH
+=== RUN   TestHealthMethodsHandler/healthy/DELETE
+=== RUN   TestHealthMethodsHandler/healthy/OPTIONS
+=== RUN   TestHealthMethodsHandler/healthy/TRACE
+=== RUN   TestHealthMethodsHandler/healthy/CUSTOM
+=== RUN   TestHealthMethodsHandler/healthy/recovered_GET
+=== RUN   TestHealthMethodsHandler/healthy/recovered_HEAD
+=== RUN   TestHealthMethodsHandler/degraded
+=== RUN   TestHealthMethodsHandler/degraded/GET
+=== RUN   TestHealthMethodsHandler/degraded/HEAD
+=== RUN   TestHealthMethodsHandler/degraded/POST
+=== RUN   TestHealthMethodsHandler/degraded/PUT
+=== RUN   TestHealthMethodsHandler/degraded/PATCH
+=== RUN   TestHealthMethodsHandler/degraded/DELETE
+=== RUN   TestHealthMethodsHandler/degraded/OPTIONS
+=== RUN   TestHealthMethodsHandler/degraded/TRACE
+=== RUN   TestHealthMethodsHandler/degraded/CUSTOM
+=== RUN   TestHealthMethodsHandler/degraded/recovered_GET
+=== RUN   TestHealthMethodsHandler/degraded/recovered_HEAD
+=== RUN   TestHealthMethodsHandler/database_closed
+=== RUN   TestHealthMethodsHandler/database_closed/GET
+=== RUN   TestHealthMethodsHandler/database_closed/HEAD
+=== RUN   TestHealthMethodsHandler/database_closed/POST
+=== RUN   TestHealthMethodsHandler/database_closed/PUT
+=== RUN   TestHealthMethodsHandler/database_closed/PATCH
+=== RUN   TestHealthMethodsHandler/database_closed/DELETE
+=== RUN   TestHealthMethodsHandler/database_closed/OPTIONS
+=== RUN   TestHealthMethodsHandler/database_closed/TRACE
+=== RUN   TestHealthMethodsHandler/database_closed/CUSTOM
+=== RUN   TestHealthMethodsHandler/database_closed/recovered_GET
+=== RUN   TestHealthMethodsHandler/database_closed/recovered_HEAD
+--- PASS: TestHealthMethodsHandler (3.59s)
+    --- PASS: TestHealthMethodsHandler/healthy (1.19s)
+        --- PASS: TestHealthMethodsHandler/healthy/GET (0.00s)
+        --- PASS: TestHealthMethodsHandler/healthy/HEAD (0.00s)
+        --- PASS: TestHealthMethodsHandler/healthy/POST (0.00s)
+        --- PASS: TestHealthMethodsHandler/healthy/PUT (0.00s)
+        --- PASS: TestHealthMethodsHandler/healthy/PATCH (0.00s)
+        --- PASS: TestHealthMethodsHandler/healthy/DELETE (0.00s)
+        --- PASS: TestHealthMethodsHandler/healthy/OPTIONS (0.00s)
+        --- PASS: TestHealthMethodsHandler/healthy/TRACE (0.00s)
+        --- PASS: TestHealthMethodsHandler/healthy/CUSTOM (0.00s)
+        --- PASS: TestHealthMethodsHandler/healthy/recovered_GET (0.00s)
+        --- PASS: TestHealthMethodsHandler/healthy/recovered_HEAD (0.00s)
+    --- PASS: TestHealthMethodsHandler/degraded (1.19s)
+        --- PASS: TestHealthMethodsHandler/degraded/GET (0.00s)
+        --- PASS: TestHealthMethodsHandler/degraded/HEAD (0.00s)
+        --- PASS: TestHealthMethodsHandler/degraded/POST (0.00s)
+        --- PASS: TestHealthMethodsHandler/degraded/PUT (0.00s)
+        --- PASS: TestHealthMethodsHandler/degraded/PATCH (0.00s)
+        --- PASS: TestHealthMethodsHandler/degraded/DELETE (0.00s)
+        --- PASS: TestHealthMethodsHandler/degraded/OPTIONS (0.00s)
+        --- PASS: TestHealthMethodsHandler/degraded/TRACE (0.00s)
+        --- PASS: TestHealthMethodsHandler/degraded/CUSTOM (0.00s)
+        --- PASS: TestHealthMethodsHandler/degraded/recovered_GET (0.00s)
+        --- PASS: TestHealthMethodsHandler/degraded/recovered_HEAD (0.00s)
+    --- PASS: TestHealthMethodsHandler/database_closed (1.21s)
+        --- PASS: TestHealthMethodsHandler/database_closed/GET (0.00s)
+        --- PASS: TestHealthMethodsHandler/database_closed/HEAD (0.00s)
+        --- PASS: TestHealthMethodsHandler/database_closed/POST (0.00s)
+        --- PASS: TestHealthMethodsHandler/database_closed/PUT (0.00s)
+        --- PASS: TestHealthMethodsHandler/database_closed/PATCH (0.00s)
+        --- PASS: TestHealthMethodsHandler/database_closed/DELETE (0.00s)
+        --- PASS: TestHealthMethodsHandler/database_closed/OPTIONS (0.00s)
+        --- PASS: TestHealthMethodsHandler/database_closed/TRACE (0.00s)
+        --- PASS: TestHealthMethodsHandler/database_closed/CUSTOM (0.00s)
+        --- PASS: TestHealthMethodsHandler/database_closed/recovered_GET (0.00s)
+        --- PASS: TestHealthMethodsHandler/database_closed/recovered_HEAD (0.00s)
+=== RUN   TestHealthVersionContract
+=== RUN   TestHealthVersionContract/dev
+=== RUN   TestHealthVersionContract/v1.2.3-build
+=== RUN   TestHealthVersionContract/__raw-version__
+--- PASS: TestHealthVersionContract (3.54s)
+    --- PASS: TestHealthVersionContract/dev (1.18s)
+    --- PASS: TestHealthVersionContract/v1.2.3-build (1.18s)
+    --- PASS: TestHealthVersionContract/__raw-version__ (1.18s)
+PASS
+ok  	model-relay/internal/relay	8.447s
+
+exit_code=0

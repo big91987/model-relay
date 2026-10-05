@@ -4,8 +4,111 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"os"
+	"os/exec"
+	"path/filepath"
+	"strings"
 	"testing"
 )
+
+func TestHistoryCommandHelper(t *testing.T) {
+	if os.Getenv("HISTORY_TEST_HELPER") != "1" {
+		return
+	}
+	if os.Getenv("HISTORY_TEST_CLOSE_STDOUT") == "1" {
+		if err := os.Stdout.Close(); err != nil {
+			t.Fatal(err)
+		}
+	}
+	main()
+}
+
+func TestHistoryCommandOutput(t *testing.T) {
+	root, err := filepath.Abs("../..")
+	if err != nil {
+		t.Fatal(err)
+	}
+	archiveCommand := exec.Command("git", "archive", baseline)
+	archiveCommand.Dir = root
+	archive, err := archiveCommand.Output()
+	if err != nil {
+		t.Fatal(err)
+	}
+	testSource, err := os.ReadFile(filepath.Join(root, "internal/relay/health_test.go"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	executable, err := os.Executable()
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, scenario := range []string{"expected_red", "rejected", "closed_stdout"} {
+		t.Run(scenario, func(t *testing.T) {
+			directory := t.TempDir()
+			files := map[string][]byte{
+				"baseline.tar":                             archive,
+				"internal/relay/health_test.go":            testSource,
+				"docs/workflow/health-methods-history.log": []byte("preserved historical receipt\n"),
+				"docs/workflow/runs/prior/tasks/task.md":   []byte("preserved historical task\n"),
+				"tools/git":                                []byte("#!/bin/sh\n[ \"$*\" = \"archive " + baseline + "\" ] || exit 99\ncat \"$HISTORY_TEST_ARCHIVE\"\n"),
+				"tools/go":                                 []byte("#!/bin/sh\n[ \"$*\" = \"test -json -race -count=1 -run ^TestHealthMethodsHTTP$ ./internal/relay\" ] || exit 99\ncat \"$HISTORY_TEST_EVENTS\"\nexit 1\n"),
+			}
+			events := historicalEvents()
+			if scenario == "rejected" {
+				events = []testEvent{{Action: "output", Output: "listen tcp 127.0.0.1:0: bind: operation not permitted\n"}, {Action: "fail"}}
+			}
+			files["events.json"] = encodeEvents(t, events)
+			for path, data := range files {
+				target := filepath.Join(directory, path)
+				if err := os.MkdirAll(filepath.Dir(target), 0700); err != nil {
+					t.Fatal(err)
+				}
+				if err := os.WriteFile(target, data, 0700); err != nil {
+					t.Fatal(err)
+				}
+			}
+			command := exec.Command(executable, "-test.run=^TestHistoryCommandHelper$")
+			command.Dir = directory
+			command.Env = append(os.Environ(),
+				"HISTORY_TEST_HELPER=1",
+				"PATH="+filepath.Join(directory, "tools")+string(os.PathListSeparator)+os.Getenv("PATH"),
+				"HISTORY_TEST_ARCHIVE="+filepath.Join(directory, "baseline.tar"),
+				"HISTORY_TEST_EVENTS="+filepath.Join(directory, "events.json"),
+				"HISTORY_TEST_CLOSE_STDOUT=0")
+			if scenario == "closed_stdout" {
+				command.Env = append(command.Env, "HISTORY_TEST_CLOSE_STDOUT=1")
+			}
+			var stdout, stderr bytes.Buffer
+			command.Stdout, command.Stderr = &stdout, &stderr
+			runErr := command.Run()
+			if scenario == "expected_red" {
+				if runErr != nil || !strings.Contains(stdout.String(), "PASS expected historical HTTP red") || !strings.Contains(stdout.String(), "baseline="+baseline) || stderr.Len() != 0 {
+					t.Fatalf("expected classified red receipt: error=%v stdout=%s stderr=%s", runErr, &stdout, &stderr)
+				}
+			} else {
+				failure, ok := runErr.(*exec.ExitError)
+				if !ok || failure.ExitCode() != 1 || !strings.Contains(stderr.String(), "historical HTTP reproduction rejected:") {
+					t.Fatalf("failure not propagated: error=%v stdout=%s stderr=%s", runErr, &stdout, &stderr)
+				}
+				if scenario == "rejected" && (!strings.Contains(stdout.String(), "REJECTED:") || strings.Contains(stdout.String(), "PASS expected historical HTTP red")) {
+					t.Fatalf("missing rejected receipt: %s", &stdout)
+				}
+				if scenario == "closed_stdout" && !strings.Contains(stderr.String(), "write historical HTTP receipt to stdout:") {
+					t.Fatalf("missing output diagnostic: %s", &stderr)
+				}
+			}
+			for path, expected := range files {
+				if !strings.HasPrefix(path, "docs/") {
+					continue
+				}
+				actual, err := os.ReadFile(filepath.Join(directory, path))
+				if err != nil || !bytes.Equal(actual, expected) {
+					t.Errorf("historical file changed: %s (error=%v)", path, err)
+				}
+			}
+		})
+	}
+}
 
 func historicalEvents() []testEvent {
 	var events []testEvent
