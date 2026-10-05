@@ -1,0 +1,41 @@
+2026-10-06T05:00:22+0800
+all modules verified
+go vet ./...
+node --test tests/browser/ui.test.mjs
+✔ password toggle preserves the input node and value without requesting or submitting (3.973791ms)
+✔ login success, logout and rejected login reset password visibility (1.096083ms)
+✔ session restoration resets an entered visible password (0.689917ms)
+✔ upstream form is unavailable until GET completes, then saves entered values (1.5985ms)
+✔ runtime version preserves raw strings including dev without blocking overview (0.782041ms)
+✔ runtime version missing degrades locally and reentry recovers (0.663583ms)
+✔ runtime version empty degrades locally and reentry recovers (0.670708ms)
+✔ runtime version whitespace degrades locally and reentry recovers (0.724458ms)
+✔ runtime version number degrades locally and reentry recovers (0.796083ms)
+✔ runtime version null version degrades locally and reentry recovers (0.663125ms)
+✔ runtime version null body degrades locally and reentry recovers (0.565083ms)
+✔ runtime version array degrades locally and reentry recovers (0.515083ms)
+✔ runtime version string body degrades locally and reentry recovers (0.532625ms)
+✔ runtime version 401 degrades locally and reentry recovers (0.6155ms)
+✔ runtime version 503 degrades locally and reentry recovers (0.550916ms)
+✔ runtime version network degrades locally and reentry recovers (0.521042ms)
+✔ runtime version invalid json degrades locally and reentry recovers (0.597ms)
+✔ late success cannot clear a newer timer or version (0.54375ms)
+✔ late failure cannot clear a newer timer or version (0.532667ms)
+✔ 5 second timeout covers headers and ignores late resolution (0.535083ms)
+✔ 5 second timeout covers body and ignores late resolution (1.175667ms)
+✔ logout invalidates immediately and late success cannot contaminate a new login (0.696792ms)
+✔ real management 401 still logs out and invalidates runtime version (0.471666ms)
+✔ older response after a newer completion cannot overwrite the current version (0.478ms)
+✔ failed configuration load leaves an error and navigation can recover (0.495667ms)
+✔ a stale navigation cannot reveal a panel after the user leaves (0.483292ms)
+✔ rejected save recovers persisted configuration after navigation finishes (1.409666ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 93.74625
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+qa_exit_code=0

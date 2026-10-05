@@ -1,0 +1,127 @@
+report_integrity_time=2026-10-06 05:08:50 +0800
+
+$ git rev-parse HEAD
+066f035bc551b2b4d031166cebdab0849084afd4
+head_exit_code=0
+
+$ go run ./tests/evidence
+{"files":36,"go":"go1.25.6","head":"066f035bc551b2b4d031166cebdab0849084afd4","scope":"product + tests + build locks + README + acceptance/design; excludes delivery receipts to avoid self-reference","working_tree_sha256":"b33aa9f6f848a8cda1bf5af08ba9c2e540d0aa09f91090930ccafa6d4e636702"}
+evidence_exit_code=0
+
+$ shasum -a 256 -c verification/history-before.sha256
+docs/workflow/admin-password-reset.md: OK
+docs/workflow/conflict-recovery.md: OK
+docs/workflow/delivery.md: OK
+docs/workflow/design.md: OK
+docs/workflow/development-browser-diagnostics-browser.log: OK
+docs/workflow/development-browser-diagnostics-static.log: OK
+docs/workflow/development-browser-diagnostics-verify.log: OK
+docs/workflow/development-browser-final.log: OK
+docs/workflow/development-browser-initial.log: OK
+docs/workflow/development-browser-sandbox.log: OK
+docs/workflow/development-host-browser-recovery-failure.log: OK
+docs/workflow/development-host-browser-save-failure.log: OK
+docs/workflow/development-host-browser-timeout.log: OK
+docs/workflow/development-qa-gaps-browser-initial.log: OK
+docs/workflow/development-qa-gaps-browser.log: OK
+docs/workflow/development-qa-gaps-static-attempt.log: OK
+docs/workflow/development-qa-gaps-static-initial.log: OK
+docs/workflow/development-qa-gaps-static.log: OK
+docs/workflow/development-qa-gaps-verify-initial.log: OK
+docs/workflow/development-qa-gaps-verify.log: OK
+docs/workflow/development-static-final.log: OK
+docs/workflow/development-static-initial.log: OK
+docs/workflow/development-static.log: OK
+docs/workflow/development-ui-race-after.log: OK
+docs/workflow/development-ui-race-before.log: OK
+docs/workflow/development-ui-race-browser.log: OK
+docs/workflow/development-ui-race-static.log: OK
+docs/workflow/development-ui-race-verify.log: OK
+docs/workflow/development-ui-recovery-after.log: OK
+docs/workflow/development-ui-recovery-before.log: OK
+docs/workflow/development-ui-recovery-browser.log: OK
+docs/workflow/development-ui-recovery-fixture-attempt.log: OK
+docs/workflow/development-ui-recovery-static.log: OK
+docs/workflow/development-ui-recovery-verify.log: OK
+docs/workflow/development-usage-after.log: OK
+docs/workflow/development-usage-before.log: OK
+docs/workflow/development-verify-attempt2.log: OK
+docs/workflow/development-verify-attempt4.log: OK
+docs/workflow/development-verify-final.log: OK
+docs/workflow/development-verify-initial.log: OK
+docs/workflow/development-verify-sandbox.log: OK
+docs/workflow/development-version-browser-runner.log: OK
+docs/workflow/development-version-browser.log: OK
+docs/workflow/development-version-targeted.log: OK
+docs/workflow/development-version-verify-initial.log: OK
+docs/workflow/development-version-verify.log: OK
+docs/workflow/health-methods-before.log: OK
+docs/workflow/health-methods-browser-direct.log: OK
+docs/workflow/health-methods-browser.log: OK
+docs/workflow/health-methods-build.log: OK
+docs/workflow/health-methods-handler-after.log: OK
+docs/workflow/health-methods-handler-recovery-failure.log: OK
+docs/workflow/health-methods-history-assessment.log: OK
+docs/workflow/health-methods-history-initial.log: OK
+docs/workflow/health-methods-history-sandbox.log: OK
+docs/workflow/health-methods-history-static.log: OK
+docs/workflow/health-methods-history-verify-initial.log: OK
+docs/workflow/health-methods-history-verify.log: OK
+docs/workflow/health-methods-history-version.json: OK
+docs/workflow/health-methods-history.log: OK
+docs/workflow/health-methods-qa-independent.log: OK
+docs/workflow/health-methods-qa-recheck.log: OK
+docs/workflow/health-methods-verify-final.log: OK
+docs/workflow/health-methods-verify-initial.log: OK
+docs/workflow/health-methods-version.json: OK
+docs/workflow/history/issue-8/delivery.md: OK
+docs/workflow/history/issue-8/pr.md: OK
+docs/workflow/history/issue-8/qa.md: OK
+docs/workflow/history/issue-8/task.md: OK
+docs/workflow/pr.md: OK
+docs/workflow/qa-host-seq13-review.md: OK
+docs/workflow/qa-host-seq16-review.md: OK
+docs/workflow/qa-sandbox-checks.log: OK
+docs/workflow/qa-sandbox-recheck.log: OK
+docs/workflow/qa-version-host-receipt.md: OK
+docs/workflow/qa-version-local.log: OK
+docs/workflow/qa.md: OK
+docs/workflow/requirements.md: OK
+docs/workflow/runs/836b817833886b3188f263800b0f092f/README.md: OK
+docs/workflow/runs/836b817833886b3188f263800b0f092f/acceptance/acceptance-matrix.md: OK
+docs/workflow/runs/836b817833886b3188f263800b0f092f/acceptance/acceptance-report.md: OK
+docs/workflow/runs/836b817833886b3188f263800b0f092f/acceptance/defects.md: OK
+docs/workflow/runs/836b817833886b3188f263800b0f092f/acceptance/evidence/final-integrity.log: OK
+docs/workflow/runs/836b817833886b3188f263800b0f092f/acceptance/evidence/host-connector-receipt.md: OK
+docs/workflow/runs/836b817833886b3188f263800b0f092f/acceptance/evidence/host-health-history.log: OK
+docs/workflow/runs/836b817833886b3188f263800b0f092f/acceptance/evidence/qa-health-history.log: OK
+docs/workflow/runs/836b817833886b3188f263800b0f092f/acceptance/evidence/qa-make-verify.log: OK
+docs/workflow/runs/836b817833886b3188f263800b0f092f/acceptance/evidence/qa-non-listening-checks.log: OK
+docs/workflow/runs/836b817833886b3188f263800b0f092f/acceptance/evidence/snapshot.log: OK
+docs/workflow/runs/836b817833886b3188f263800b0f092f/acceptance/evidence/static-review.md: OK
+docs/workflow/runs/836b817833886b3188f263800b0f092f/acceptance/journeys.md: OK
+docs/workflow/runs/836b817833886b3188f263800b0f092f/design-integrity-check.txt: OK
+docs/workflow/runs/836b817833886b3188f263800b0f092f/g1-review.md: OK
+docs/workflow/runs/836b817833886b3188f263800b0f092f/g2-review.md: OK
+docs/workflow/runs/836b817833886b3188f263800b0f092f/historical-documents.sha256: OK
+docs/workflow/runs/836b817833886b3188f263800b0f092f/milestones/M01-password-visibility.md: OK
+docs/workflow/runs/836b817833886b3188f263800b0f092f/password-visibility-architecture.md: OK
+docs/workflow/runs/836b817833886b3188f263800b0f092f/pr.md: OK
+docs/workflow/runs/836b817833886b3188f263800b0f092f/product-definition.md: OK
+docs/workflow/runs/836b817833886b3188f263800b0f092f/tasks/T001-password-visibility.md: OK
+docs/workflow/runs/836b817833886b3188f263800b0f092f/verification/M01-development.md: OK
+docs/workflow/runs/836b817833886b3188f263800b0f092f/verification/final-integrity.log: OK
+docs/workflow/runs/836b817833886b3188f263800b0f092f/verification/historical-logs.sha256: OK
+docs/workflow/runs/836b817833886b3188f263800b0f092f/verification/make-verify-attempt-1.log: OK
+docs/workflow/runs/836b817833886b3188f263800b0f092f/verification/non-listening-checks.log: OK
+docs/workflow/task.md: OK
+history_exit_code=0
+
+$ shasum -a 256 Makefile
+048e33cc8936e629dc4421052c825f620984eac2fd622cb7c74b25b37d856c63  Makefile
+
+$ git diff --exit-code -- Makefile
+makefile_diff_exit_code=0
+
+$ git diff --check
+diff_check_exit_code=0

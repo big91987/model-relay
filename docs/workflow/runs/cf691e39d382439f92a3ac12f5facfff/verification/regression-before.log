@@ -1,0 +1,47 @@
+=== RUN   TestHistoryCommandHelper
+--- PASS: TestHistoryCommandHelper (0.00s)
+=== RUN   TestHistoryCommandOutput
+=== RUN   TestHistoryCommandOutput/expected_red
+    main_test.go:106: historical file changed: docs/workflow/health-methods-history.log (error=<nil>)
+=== RUN   TestHistoryCommandOutput/rejected
+    main_test.go:106: historical file changed: docs/workflow/health-methods-history.log (error=<nil>)
+=== RUN   TestHistoryCommandOutput/closed_stdout
+    main_test.go:91: failure not propagated: error=<nil> stdout= stderr=
+--- FAIL: TestHistoryCommandOutput (1.60s)
+    --- FAIL: TestHistoryCommandOutput/expected_red (0.84s)
+    --- FAIL: TestHistoryCommandOutput/rejected (0.37s)
+    --- FAIL: TestHistoryCommandOutput/closed_stdout (0.36s)
+=== RUN   TestHistoricalAssessment
+=== RUN   TestHistoricalAssessment/bind
+=== RUN   TestHistoricalAssessment/build
+=== RUN   TestHistoricalAssessment/warning_with_error
+=== RUN   TestHistoricalAssessment/timeout
+=== RUN   TestHistoricalAssessment/green
+=== RUN   TestHistoricalAssessment/missing_assertion
+=== RUN   TestHistoricalAssessment/extra_assertion
+=== RUN   TestHistoricalAssessment/race
+=== RUN   TestHistoricalAssessment/wrong_status
+=== RUN   TestHistoricalAssessment/query_failure
+=== RUN   TestHistoricalAssessment/skip
+=== RUN   TestHistoricalAssessment/duplicate
+=== RUN   TestHistoricalAssessment/missing_package
+=== RUN   TestHistoricalAssessment/invalid_json
+--- PASS: TestHistoricalAssessment (0.00s)
+    --- PASS: TestHistoricalAssessment/bind (0.00s)
+    --- PASS: TestHistoricalAssessment/build (0.00s)
+    --- PASS: TestHistoricalAssessment/warning_with_error (0.00s)
+    --- PASS: TestHistoricalAssessment/timeout (0.00s)
+    --- PASS: TestHistoricalAssessment/green (0.00s)
+    --- PASS: TestHistoricalAssessment/missing_assertion (0.00s)
+    --- PASS: TestHistoricalAssessment/extra_assertion (0.00s)
+    --- PASS: TestHistoricalAssessment/race (0.00s)
+    --- PASS: TestHistoricalAssessment/wrong_status (0.00s)
+    --- PASS: TestHistoricalAssessment/query_failure (0.00s)
+    --- PASS: TestHistoricalAssessment/skip (0.00s)
+    --- PASS: TestHistoricalAssessment/duplicate (0.00s)
+    --- PASS: TestHistoricalAssessment/missing_package (0.00s)
+    --- PASS: TestHistoricalAssessment/invalid_json (0.00s)
+FAIL
+FAIL	model-relay/tests/health-history	2.198s
+FAIL
+exit_code=1
