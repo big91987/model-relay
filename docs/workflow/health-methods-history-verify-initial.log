@@ -1,0 +1,42 @@
+go run ./tests/evidence
+{"files":35,"go":"go1.25.6","head":"9b6994ed80de2bdba79ff267419150dccaac1360","scope":"product + tests + build locks + README + acceptance/design; excludes delivery receipts to avoid self-reference","working_tree_sha256":"2036f2299244884101157d7d3fdcc96fab125d91932273ef8278c75efb73568a"}
+/Library/Developer/CommandLineTools/usr/bin/make health-history
+go run ./tests/health-history
+修复后隔离重建旧版网络复现（非原开发时成功记录）
+baseline=9b6994ed80de2bdba79ff267419150dccaac1360
+baseline_archive_sha256=e8307563c976a77940851da8254d70b8255fa4caa690d898a6452ee15de4eaaf
+server_sha256=d61e4e747231654aa7895404b94c2539497cef2074186b3bbe05b90a94252383
+final_test_sha256=15b13fbd3cb3265c8bedb9a34f78980fea195351e458f5a4b83ca675513f7c3e
+command=go test -json -race -count=1 -run ^TestHealthMethodsHTTP$ ./internal/relay
+exit_code=1
+{"ImportPath":"model-relay/internal/relay.test","Action":"build-output","Output":"# model-relay/internal/relay.test\nld: warning: '/private<temp>go-link-4048157509/000023.o' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626\n"}
+{"Time":"2026-10-06T00:30:10.769036+08:00","Action":"start","Package":"model-relay/internal/relay"}
+{"Time":"2026-10-06T00:30:11.2682+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP"}
+{"Time":"2026-10-06T00:30:11.268288+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP","Output":"=== RUN   TestHealthMethodsHTTP\n"}
+{"Time":"2026-10-06T00:30:11.268335+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy"}
+{"Time":"2026-10-06T00:30:11.268339+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy","Output":"=== RUN   TestHealthMethodsHTTP/healthy\n"}
+{"Time":"2026-10-06T00:30:12.562082+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy","Output":"    health_test.go:29: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted\n"}
+{"Time":"2026-10-06T00:30:12.562732+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy","Output":"--- FAIL: TestHealthMethodsHTTP/healthy (1.29s)\n"}
+{"Time":"2026-10-06T00:30:12.562753+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy","Elapsed":1.29}
+{"Time":"2026-10-06T00:30:12.562897+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded"}
+{"Time":"2026-10-06T00:30:12.562902+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded","Output":"=== RUN   TestHealthMethodsHTTP/degraded\n"}
+{"Time":"2026-10-06T00:30:13.857539+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded","Output":"    health_test.go:29: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted\n"}
+{"Time":"2026-10-06T00:30:13.858306+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded","Output":"--- FAIL: TestHealthMethodsHTTP/degraded (1.30s)\n"}
+{"Time":"2026-10-06T00:30:13.858316+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded","Elapsed":1.3}
+{"Time":"2026-10-06T00:30:13.858335+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed"}
+{"Time":"2026-10-06T00:30:13.858338+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed","Output":"=== RUN   TestHealthMethodsHTTP/database_closed\n"}
+{"Time":"2026-10-06T00:30:15.137713+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed","Output":"    health_test.go:29: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted\n"}
+{"Time":"2026-10-06T00:30:15.138355+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed","Output":"--- FAIL: TestHealthMethodsHTTP/database_closed (1.28s)\n"}
+{"Time":"2026-10-06T00:30:15.13836+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed","Elapsed":1.28}
+{"Time":"2026-10-06T00:30:15.138383+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP","Output":"--- FAIL: TestHealthMethodsHTTP (3.87s)\n"}
+{"Time":"2026-10-06T00:30:15.138395+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP","Elapsed":3.87}
+{"Time":"2026-10-06T00:30:15.138469+08:00","Action":"output","Package":"model-relay/internal/relay","Output":"FAIL\n"}
+{"Time":"2026-10-06T00:30:15.153316+08:00","Action":"output","Package":"model-relay/internal/relay","Output":"FAIL\tmodel-relay/internal/relay\t4.384s\n"}
+{"Time":"2026-10-06T00:30:15.153335+08:00","Action":"fail","Package":"model-relay/internal/relay","Elapsed":4.385}
+REJECTED: unexpected test output in 
+historical HTTP reproduction rejected: unexpected test output in 
+exit status 1
+make[1]: *** [health-history] Error 1
+make: *** [verify] Error 2
+
+exit_code=2
