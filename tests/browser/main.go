@@ -107,7 +107,7 @@ func journey() error {
 	if err != nil {
 		return fmt.Errorf("real browser service listener unavailable: %w", err)
 	}
-	server := relay.New(store, relay.Config{Authority: listener.Addr().String(), Policy: relay.Policy{TestAuthority: upstreamListener.Addr().String()}})
+	server := relay.New(store, relay.Config{Version: "dev", Authority: listener.Addr().String(), Policy: relay.Policy{TestAuthority: upstreamListener.Addr().String()}})
 	httpServer := &http.Server{Handler: server, ReadHeaderTimeout: 5 * time.Second}
 	go httpServer.Serve(listener)
 	defer func() { httpServer.Close() }()
@@ -140,7 +140,7 @@ func journey() error {
 				http.Error(writer, "controlled restart listener failed", 500)
 				return
 			}
-			server = relay.New(store, relay.Config{Authority: address, Policy: relay.Policy{TestAuthority: upstreamListener.Addr().String()}})
+			server = relay.New(store, relay.Config{Version: "dev", Authority: address, Policy: relay.Policy{TestAuthority: upstreamListener.Addr().String()}})
 			httpServer = &http.Server{Handler: server, ReadHeaderTimeout: 5 * time.Second}
 			go httpServer.Serve(restartedListener)
 			writer.WriteHeader(204)

@@ -33,6 +33,76 @@ async function loadUpstreamPanel(page) {
     await page.unroute('**/admin/api/upstream', delayedLoad);
   }
 }
+async function runtimeVersionJourney(page, context, width, healthRequests) {
+  checkpoint = 'runtime version actual Go health consistency';
+  const actual = await context.request.get(origin + '/healthz');
+  assert.equal(actual.status(), 200);
+  const {version} = await actual.json();
+  assert.equal(version, 'dev');
+  await visibleText(page, '#runtime-version', version);
+  assert.equal(await page.locator('#runtime-version').textContent(), version);
+  assert.equal(await page.locator('#runtime-version').getAttribute('role'), 'status');
+  assert.equal(await page.locator('#runtime-version').getAttribute('aria-live'), 'polite');
+  const beforeReload = healthRequests.count;
+  await page.reload();
+  await visibleText(page, '#runtime-version', version);
+  assert.equal(healthRequests.count, beforeReload + 1, 'refresh performs exactly one health request');
+
+  checkpoint = 'runtime version failure and navigation recovery';
+  const unavailable = route => route.fulfill({status: 401, contentType: 'application/json', body: '{}'});
+  await page.route('**/healthz', unavailable);
+  await navigate(page, '模型');
+  assert.equal(await page.locator('#runtime-version').isVisible(), false);
+  await navigate(page, '概览');
+  await visibleText(page, '#runtime-version', '版本未知');
+  await page.locator('#summary').waitFor({state: 'visible'});
+  assert.equal(await page.locator('#console').isVisible(), true);
+  assert.equal(await page.locator('#error').textContent(), '');
+  const beforeFailureReload = healthRequests.count;
+  await page.reload();
+  await visibleText(page, '#runtime-version', '版本未知');
+  assert.equal(healthRequests.count, beforeFailureReload + 1);
+  await page.unroute('**/healthz', unavailable);
+  await navigate(page, '模型');
+  await navigate(page, '概览');
+  await visibleText(page, '#runtime-version', version);
+  await page.reload();
+  await visibleText(page, '#runtime-version', version);
+
+  checkpoint = 'runtime version pending health does not block management';
+  let releaseHealth;
+  const released = new Promise(resolve => { releaseHealth = resolve; });
+  const started = page.waitForRequest('**/healthz');
+  const delayed = async route => { await released; await route.fulfill({status: 200, contentType: 'application/json', body: JSON.stringify({version: 'late-version'})}).catch(() => {}); };
+  await page.route('**/healthz', delayed);
+  try {
+    await navigate(page, '概览');
+    await started;
+    await visibleText(page, '#runtime-version', '加载中');
+    await page.locator('#summary').waitFor({state: 'visible'});
+    await navigate(page, '模型');
+    await page.locator('#models').waitFor({state: 'visible'});
+    assert.equal(await page.locator('#runtime-version').isVisible(), false);
+  } finally {
+    releaseHealth();
+    await page.unroute('**/healthz', delayed);
+  }
+
+  checkpoint = 'runtime version safe text and long value layout';
+  const literal = '  <img src=x onerror="window.versionInjected=true"> & ' + 'long-version-'.repeat(50) + '  ';
+  const textResponse = route => route.fulfill({status: 200, contentType: 'application/json', body: JSON.stringify({version: literal})});
+  await page.route('**/healthz', textResponse);
+  await navigate(page, '概览');
+  await page.waitForFunction(expected => document.getElementById('runtime-version').textContent === expected, literal);
+  assert.equal(await page.locator('#runtime-version > *').count(), 0);
+  assert.equal(await page.evaluate(() => window.versionInjected), undefined);
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+  await page.unroute('**/healthz', textResponse);
+  await navigate(page, '模型');
+  await navigate(page, '概览');
+  await visibleText(page, '#runtime-version', version);
+  console.log(`PASS runtime version actual health, refresh, failure/reentry, nonblocking and text/layout ${width}px`);
+}
 try {
   browser = await chromium.launch({headless: true});
   for (const width of [1280, 390]) {
@@ -40,6 +110,8 @@ try {
     responses.length = 0;
     const context = await browser.newContext({viewport: {width, height: 900}});
     const page = await context.newPage();
+    const healthRequests = {count: 0};
+    page.on('request', request => { if (new URL(request.url()).pathname === '/healthz') healthRequests.count++; });
     page.on('dialog', dialog => dialog.accept());
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
@@ -51,12 +123,15 @@ try {
     });
     checkpoint = 'open login';
     await page.goto(origin + '/admin/');
+    assert.equal(await page.locator('#runtime-version').isVisible(), false);
+    assert.equal(healthRequests.count, 0, 'no health request before login');
     await page.getByLabel('管理员密码').fill('wrong fixture password');
     await navigate(page, '登录');
     await visibleText(page, '#error', 'unauthorized');
     await page.getByLabel('管理员密码').fill(process.env.RELAY_BROWSER_PASSWORD);
     await navigate(page, '登录');
     await visibleText(page, '#summary', width === 1280 ? '待配置' : '上游');
+    await runtimeVersionJourney(page, context, width, healthRequests);
     await loadUpstreamPanel(page);
     await page.getByLabel('上游地址').fill(process.env.RELAY_BROWSER_UPSTREAM);
     await page.getByLabel('上游凭据').fill('controlled-browser-upstream');
@@ -209,6 +284,8 @@ try {
     await navigate(page, '退出');
     checkpoint = 'visible #login after logout';
     await page.locator('#login').waitFor({state: 'visible'});
+    assert.equal(await page.locator('#runtime-version').isVisible(), false);
+    assert.equal(await page.locator('#runtime-version').textContent(), '');
     const response = await context.request.get(origin + '/admin/api/keys');
     assert.equal(response.status(), 401);
     await context.close();

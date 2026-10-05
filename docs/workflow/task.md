@@ -1,28 +1,38 @@
-# Issue #8：/healthz HTTP 方法边界修复入口
+# 管理台运行服务版本：任务入口判断
 
-## 目标、现象与预期
+## 目标与现状
 
-用户报告运行服务的 `POST /healthz` 返回 200。核对 `internal/relay/server.go` 的 `ServeHTTP`：健康检查分支仅匹配路径，没有方法限制；随后检查 degraded 状态及数据库 Ping，成功返回 status/version JSON。这与报告一致；本节点未发送运行时请求，不冒充复现成功。
+原任务对应 `big91987/model-relay` Issue #9：管理台展示当前运行服务版本，便于确认测试环境升级结果。用户明确要求先在原 Issue 澄清展示位置、版本取值及不可用行为，收到答复后才进入设计与实现；这一要求优先于一般自动推荐授权。
 
-- GET 保持现有 status/version JSON 和存储故障 503 语义。
-- HEAD 与 GET 在相同健康状态下返回相同状态码且无响应体，包含存储故障场景。
-- POST、PUT、PATCH、DELETE 等所有非 GET/HEAD 方法返回 405，Allow 明确为 `GET, HEAD`；存储故障不应把这些方法改判为健康查询。
-- 不改其他路由、现有 Host 校验及无关安全边界，不引入供应商调用、不部署。
+仓库事实：`internal/relay/web/index.html` 顶部目前写死「v0.1 · 团队模型网关」，登录后的概览没有运行版本展示；`internal/relay/server.go` 的 `GET /healthz` 成功响应已有 `version`，取自 `server.Config.Version`；`cmd/model-relay/main.go` 将 `buildVersion` 传入配置，默认值为 `dev`。`internal/relay/web/app.js` 已有概览导航和登录后进入概览的流程，可沿用。预期仅在登录后概览显示运行实例版本，具体行为已由用户确认。
 
-## 范围与验收依据
+已有 requirements、design 和交付／QA 资料属于此前 v0.1 产品任务，不是本次展示行为的已确认需求或验收基线。前序 Connector 已准备分支并创建 Issue，本节点不重复操作。
 
-限于健康检查方法处理及相邻回归测试，必要时更新与此次修复直接相关的说明。已有 `internal/relay/relay_test.go` 提供真实 loopback HTTP 服务和隔离安装辅助函数；可沿用，不需要新存储、接口体系或跨模块架构。
+## 范围与非目标
 
-开发先添加通过真实 HTTP 请求断言上述预期的回归，保留修复前在旧代码上失败的证据，再修复并保留通过证据。覆盖 GET JSON、HEAD 空体、非查询方法的 405/Allow，以及 degraded 和数据库不可用时 GET/HEAD 的一致性；测试使用临时目录及随机端口，不访问用户安装或供应商。仅 Recorder 测试不能替代真实 HTTP 回归。
+- 沿用现有 Go 服务、管理台及健康接口；本节点仅判断入口与记录澄清状态，不修改产品代码。
+- 不引入供应商调用，不部署；不自行创建 Issue、分支、提交、推送、PR 或启动 Workflow。
+- 最终须项目测试、独立 QA、原 Issue 回写与草稿 PR，由对应阶段及 Connector 执行。
 
-固定完整验证入口为 `make verify`：现有 Makefile 包含代码/版本证据、格式、模块校验、vet、前端状态测试、race Go 测试、构建及实际 Go 服务浏览器旅程，不缩减入口。开发及独立 QA 以真实回执和代码版本一致性为准；失败或监听沙箱限制单独保留，必要时由既有 host-only 验证 Connector 执行，不扩大权限、不宣称未运行的检查通过。本节点仅判断起点，不运行验收。
+## 已确认行为
 
-## 起点、既有资料与后续授权
+用户在恢复后的同一会话明确确认以下行为，作为本次需求输入；不再重复访谈或请求阶段批准：
 
-选择 `development`，跳过本次 requirements 和 design 阶段：用户明确要求直接开发，现象、预期、非目标、验证方法均已明确，实际实现支持局部修复，无需新增产品范围或架构决策；无需重复审批。
+1. 仅在登录后的「概览」展示当前服务版本，不把运行版本放到登录前或全局顶部。
+2. 读取现有 `/healthz.version` 的原始值，包括 `dev`；不从静态标签推断或查询 GitHub。
+3. 请求失败、字段缺失或为空时显示准确文案「版本未知」，不阻塞其他管理操作；重新进入概览或刷新页面时重试。
+4. 只读，不调用供应商；补回归、运行 `make verify`，再交独立 QA，交付草稿 PR，不部署。
 
-已有 `docs/workflow/requirements.md`、`design.md` 和原 task.md 属于首版 v0.1/Issue #1 的建设任务（其中仍有“尚无实现”历史描述），不是本次修复的需求或设计基线。本记录替换旧入口记录；不创建跳过阶段的占位文档，也不以历史验证日志证明本次通过。
+## 验收依据
 
-前序 Connector 首次 fetch 超时（退出 1）；显式重试后准备成功（退出 0），已确认分支 `workflow/1382a96a9e697c58ba68fe3c3c26f34b`，入口 HEAD `9b6994ed80de2bdba79ff267419150dccaac1360`，Issue #8 已创建。不重复准备、创建 Issue 或执行 Git 发布操作。
+验收以本次用户确认行为为依据：登录前不展示运行版本，登录后概览显示健康接口原始版本（含 `dev`）；请求失败、缺失字段及空值均显示「版本未知」，其他管理操作可继续；重新进入概览及刷新均重新获取，失败后可恢复正常版本；只读且无供应商调用。后续阶段固化这些 AC，并补充对应回归。
 
-继续沿用用户授权：开发完成后交独立 QA，实际执行阶段分别更新 delivery.md、qa.md、pr.md 并明确为 Issue #8；在本 Issue 回写真实证据并由 Connector 提交草稿 PR。Git 提交、推送和草稿 PR 属于后续 Connector，本节点不执行；不部署、不启动 GitHub Workflow。
+后续实现与独立 QA 使用管理员配置的 `make verify` 真实结果，保留失败证据并核对代码版本；不把静态演示或未执行测试记为通过。本节点未运行测试。原 Issue 回写由平台 Hook 完成；草稿 PR 与 Git 发布由授权 Connector 完成，不部署。
+
+## 起点与跳过理由
+
+选择 `requirements`：本任务是新增管理台展示能力，而非既有行为的局部修复；用户已完成关键澄清，足以直接形成精简的本次范围与 AC。需求节点沿用上述决定，不扩大范围、不重复询问，随后按用户要求进入必要的设计与实现。旧 requirements/design 不作为本次需求基线；本节点只更新入口记录，不编写 PRD 或设计。
+
+跳过阶段：无必要业务阶段被跳过；澄清已完成，不再等待 GitHub 权限，不重复前序 Connector 的分支与 Issue 准备。规模局部，不需要组织级文档、额外接口、存储或平台运营设计。
+
+历史失败证据保留：此前 GitHub `fetch_issue` 和 `fetch_issue_comments` 对 Issue #9 均返回 `404 Not Found`；`add_comment_to_issue` 被运行时拒绝：`MCP tool call requires approval, but approval policy is never`，该工具写入未成功。用户随后明确：原 Issue 内容与评论由平台适配器送入会话，自然语言问题与结论由平台 Hook 自动回写，用户已在原 Issue 看到了问题；禁止 Agent 自行调用 GitHub 读写接口，无需扩大权限。因此这些历史工具失败不再是业务阻塞，也不影响已送达的确认。后续节点遵守同一入口沟通方式。

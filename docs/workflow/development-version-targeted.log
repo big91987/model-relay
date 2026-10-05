@@ -1,0 +1,16 @@
+# model-relay/internal/relay.test
+ld: warning: '[temp]/linker-object' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestHealthVersionContract
+=== RUN   TestHealthVersionContract/dev
+=== RUN   TestHealthVersionContract/v1.2.3-build
+=== RUN   TestHealthVersionContract/__raw-version__
+--- PASS: TestHealthVersionContract (3.66s)
+    --- PASS: TestHealthVersionContract/dev (1.24s)
+    --- PASS: TestHealthVersionContract/v1.2.3-build (1.22s)
+    --- PASS: TestHealthVersionContract/__raw-version__ (1.20s)
+PASS
+ok  	model-relay/internal/relay	5.172s
+CONTRACT_EXIT=0
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+BUILD_EXIT=0
+JOURNEY_SYNTAX_EXIT=0

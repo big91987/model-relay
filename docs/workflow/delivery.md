@@ -1,53 +1,44 @@
 # 研发交付记录
 
-## QA-H8-01：旧版真实网络补证计划（2026-10-06）
+## Issue 9 运行版本展示（2026-10-05）
 
-范围仅为 QA seq 7 退回的历史 HTTP 证据缺口，不修改当前业务实现。seq 6 宿主完整 `make verify` exit 0 已验证旧工作树摘要；不能反推修复前真实 HTTP 已成功复现。原沙箱监听失败与 handler 红灯日志继续保留。
+基线：本次 task.md、requirements.md AC-01～08、design.md 及设计交接。用户澄清已完成，不再重复确认。下方 v0.1 记录及旧日志仅保留历史失败，不作为本次通过证据。
 
-任务计划：将入口提交 `9b6994ed80de2bdba79ff267419150dccaac1360` 通过只读 git archive 解包到隔离临时目录，仅复制当前最终 `health_test.go`；运行真实 `TestHealthMethodsHTTP`，记录旧提交、旧 server/test SHA256 与脱敏 JSON 回执。严格要求三个状态的 21 个非查询方法均出现预期状态错误及缺 Allow、12 个 GET/HEAD/恢复用例通过，任何构建、监听、恢复或额外错误均拒绝视为预期红灯。临时目录退出时清理，测试服务由已有 cleanup 关闭。
+- VERSION-01：概览增加只读版本文本；独立健康请求、5 秒全请求超时、导航/退出失效。无生产后端变更、供应商调用或部署。
+- VERSION-02：VM 回归覆盖原值、异常、非阻塞、重入、迟到响应与 body 超时；真实 Go 服务浏览器覆盖登录边界、刷新恢复、文本安全及双视口；Go HTTP 检查健康版本契约。
+- VERSION-03：运行原固定 `make verify`（保留全部既有门禁），记录代码摘要及真实失败；若本机监听受限，交固定项目测试 Connector 实际执行，不标通过。
 
-新增复现门禁进入固定 `make verify`，原摘要/格式/模块/vet/frontend/race/build/browser 全部保留。先验证红灯判定器正常与失败拒绝路径，再尝试完整入口；若监听仍受沙箱拒绝，明确未运行项，交 next 宿主执行完整入口后再独立 QA。不改写开发顺序，新证据标为“修复后隔离重建旧版网络复现”；不自行关闭 QA-H8-01、不提交、推送、回写 Issue 或部署。
+关键路径：VERSION-01 → VERSION-02 → VERSION-03 → 项目测试 → 独立 QA。负责人为研发实现节点；VERSION-01/02 实现与测试资产就绪，VERSION-03 本机验证已执行但未通过，整体 `Ready for host verification / In Review`。不是功能验收通过或 QA 放行，不自行提交、推送。
 
-### 本轮补证资产与开发验证结果
+首轮 `development-version-verify-initial.log`：`make verify` exit 2，前端 23/23 通过；存在两个不同失败来源：沙箱拒绝真实 HTTP/CLI 监听，以及新增健康契约测试的 Host 夹具未设置导致 403。后者已修正为匹配 Authority 的请求并使用隔离真实 Store（健康接口会 Ping DB），不能将夹具失败归为沙箱。初轮摘要仅代表修复前代码；后续以新回执为准。
 
-- 新增 `tests/health-history`：只读导出指定提交，复制最终健康回归，执行 `go test -json -race -count=1 -run ^TestHealthMethodsHTTP$ ./internal/relay`。不回滚或修改正式产品源码，不改数据库记录，不访问供应商。原 HTTP 测试仍用 t.TempDir/随机端口/t.Cleanup；历史临时目录在 runner 退出时删除。
-- 判定器要求全部 33 个网络叶用例及其父级结果完整：21 个非查询方法必须同时报告旧状态（healthy 200、两个故障状态 503）与空 Allow；12 个查询/恢复用例必须 pass；其他断言、skip、重复结果、race、意外输出、构建错误、超时及 JSON 错误均拒绝。只允许精确匹配且已在旧宿主回执存在的 macOS LC_DYSYMTAB 链接警告，不忽略一般错误。
-- `health-methods-history-assessment.log`：判定器合成事件单测 `go test -race` exit 0，包含有效完整红灯和已知链接警告的正常路径，以及 14 类拒绝路径。这是判定资产测试，不是真实 HTTP 证据。
-- 初次入口 `health-methods-history-verify-initial.log` 与 `health-methods-history-initial.log` 保留 exit 2/子进程 exit 1。严格判定器起初先拒绝了已知链接警告；加入精确警告匹配及对应单测后重新执行，未宽泛放行 build-output。
-- 最终完整入口尝试 `health-methods-history-verify.log` exit 2：新增历史复现阶段实际启动测试，但三个状态均在 loopback bind 被原生沙箱拒绝，未发送 HTTP 请求，判定器明确拒绝；未获得旧版网络红灯。`health-methods-history-sandbox.log` 单独保留这一沙箱回执，供宿主生成新的 `health-methods-history.log` 后仍可复核。新日志记录旧提交、整个 git archive SHA256、旧 server SHA256、最终测试 SHA256、真实退出码，路径脱敏。
-- 该次串行完整入口在历史门禁停止；其后的 format/module/vet/frontend/test/build/browser **本轮未到达**，不能借用 seq 6 声称新摘要已全通过。单独 `make format-check vet` exit 0 见 `health-methods-history-static.log`，`git diff --check` 无错误。原业务实现及 `health_test.go` 保持前轮内容不变。
-- `health-methods-history-version.json`：HEAD `9b6994ed80de2bdba79ff267419150dccaac1360`，35 文件工作树摘要 `edb4224576eb1ef488c33d9e8ab354bdba90a8a39668bb75f0c548a616f7dd48`，与最终入口一致。新增 Makefile 历史门禁及两个 Go 资产文件已纳入摘要；delivery/日志仍不参与自引用。
+### 实现与 AC 追踪
 
-状态：**补证入口就绪 / 等待宿主测试**。交 `next → tests` 执行不缩减的 `make verify`。必须看到历史门禁返回 PASS expected historical HTTP red 且健康 POST 实际 200/预期 405/空 Allow，再完成当前实现的全量绿色门禁与原真实浏览器旅程；任何意外失败返回研发。随后交独立 QA 判断 QA-H8-01 是否关闭。本节点不作独立 QA 放行，也不把事后重建说成原开发时成功复现。后续 Issue 回写/草稿 PR 仍由 Connector 完成，不部署。
+- AC-01/02：概览标题下的 `#runtime-version` 展示原始文本，含 `dev`；未登录不请求。不修改品牌、启动版本链或生产健康接口。
+- AC-03/04：独立 `/healthz` 请求，不复用管理 api/调用测试控制器；`cache:no-store`；未知只更新版本文本，既有概览与导航不等待版本 Promise。
+- AC-05/06：每次概览进入重新加载；5 秒覆盖 headers/body；请求身份、导航快照、active 与登录状态共同约束写回。切页、退出开始、真实管理 401 清理，旧 success/catch/finally 不污染新请求。
+- AC-07：仅 `textContent` 写入，`pre-wrap` 与 `overflow-wrap:anywhere`；不写存储、配置或调用供应商。README 增补运行/降级/重试说明。
+- VERSION-02：`tests/browser/ui.test.mjs` 24 项包含原 4 项，新增原值、12 类异常、非阻塞、重入、超时/body、晚到成功/失败、旧 finally、退出/重登和真实管理 401；`internal/relay/version_test.go` 增加进程内健康契约及真实 HTTP 回归；`tests/browser/journey.mjs` 在原真实 Go 服务旅程插入 1280/390px 版本检查（真实健康一致性、刷新、401、重入恢复、挂起时模型读取、文本安全/长文本布局及退出边界）。浏览器测试服务明确注入 `dev`，重启沿用，避免测试夹具空值冒充实际 CLI 默认值。
+- 所有回归均已纳入原 `make verify`：`frontend-test`、`go test -race ./...`、`browser`；Makefile 原有完整门禁保持不变，无另建或跳过关键断言。无需静态 browser.check：本功能依赖真实 Go 后端，静态服务不构成验收。
 
-## Issue #8：健康检查方法边界（2026-10-06）
+### 最终代码与本机验证
 
-当前状态：In Progress；负责人为研发实现节点，后续固定项目测试 Connector 执行完整入口，再交独立 QA；不在本节点放行、提交、推送或部署。
+最终 HEAD：`9b6994ed80de2bdba79ff267419150dccaac1360`；33 文件工作树 SHA256：`f96017d3daf52e8372e1ef106397bfb31224e049010bb53a6cd033d69f27d414`。沿用 `tests/evidence` 摘要口径（排除交付回执，避免自引用），不代表提交已产生。初轮摘要 `858a0a646c7d835f1656c7ec20140af8a75be9e95314cfbbc8df3eafb20183f1` 对应夹具修正及最后一项回归之前，不能混用。
 
-依据：本次 `task.md` 与入口交接。需求、设计明确跳过，以下首版记录仅为历史，不作为本次验收证据。入口 HEAD 为 `9b6994ed80de2bdba79ff267419150dccaac1360`。此前 prepare fetch 超时已由 Connector 重试成功，与健康检查缺陷无关，原回执保留在平台。
+| 回执 | 实际结果与限制 |
+|---|---|
+| `development-version-verify.log` | 最终 `make verify` exit **2**：format/modules/vet 与前端 **24/24** 通过；健康契约 **3/3** 通过。Go race/HTTP/CLI 门禁在真实端口监听处 `bind: operation not permitted` 失败（包括新 `TestHTTPHealthVersion`）；串行 build/browser 未到达。最终未再出现健康 403 夹具断言失败。 |
+| `development-version-targeted.log` | `go test -race -count=1 -v ./internal/relay -run '^TestHealthVersionContract$'` exit **0**，3/3；独立 `make build` exit **0**；journey JS 语法检查 exit **0**。不替代真实 HTTP 或浏览器通过。 |
+| `development-version-browser.log` | 独立 `make browser` exit **2**：npm 锁定依赖安装连接本机代理被 EPERM 拒绝，未启动 Go/Chromium；无浏览器断言执行。 |
+| `development-version-browser-runner.log` | 直接运行同一真实服务 runner `go run ./tests/browser` exit **1**：测试上游 `127.0.0.1:0` 监听被拒绝，未启动 Chromium。没有用静态服务代替。 |
 
-任务与验证计划（关键路径：回归 → 原失败 → 修复 → 完整验证 → 独立检查）：
-- H8-A：用隔离安装、随机 loopback 端口和真实 HTTP 请求覆盖健康、degraded、数据库关闭三种状态；GET 校验 status/version 或 storage_unavailable，HEAD 校验状态一致、空体；POST/PUT/PATCH/DELETE/OPTIONS/TRACE/自定义方法校验 405 和 Allow 精确为 GET, HEAD。
-- H8-B：修复前运行回归并保留失败；若沙箱拒绝监听，另用相同断言的 handler 回归记录旧逻辑失败，但不冒充真实 HTTP 复现。
-- H8-C：仅调整健康分支，保留 Host 校验和其他路由；HEAD 显式不写 body，不调用供应商。验证故障消除后的恢复路径。
-- H8-D：沿用原 `make verify` 所有门禁，不修改或缩减；记录真实退出码、HEAD/工作树摘要和未执行项。无 UI 行为改动，不额外增加静态浏览器验收；完整入口原真实 Go 服务浏览器检查保留。
+原失败和 linker LC_DYSYMTAB 警告保留。新回执仅将本机绝对路径脱敏为 `[toolchain]`、`[temp]`、`[npm-runtime]` 或相对路径，未隐藏失败；缓存/bin/node_modules 仍受已有 .gitignore 排除，无凭据或个人会话入库。
 
-必要回归纳入 `internal/relay`，由现有 `go test -race -count=1 -v ./...` 自动执行；复现命令为 `make test` 或定向 `go test ./internal/relay -run TestHealthMethods -count=1 -v`。不访问用户数据或配置，不需要凭据。
+### 交接与简化审查
 
-### Issue #8 实施与真实证据
+按 Skill 检查上游/任务/关键路径/Harness/公共接续：局部功能不拆组织级文档或新增平台模型，任务与 AC 可从本节、requirements/design 和共享入口恢复；无范围或结构偏差需要返回需求/设计，无需用户裁决。验证门槛仍 **Blocked by Validation**，资产 **Ready for Dispatch** 到固定宿主项目测试，而非版本交付 Accepted。
 
-- 实现仅修改 `server.go` 的 `/healthz` 分支：先拒绝非 GET/HEAD 并返回 405/`Allow: GET, HEAD`，再按原 degraded/Ping 判定状态；HEAD 显式返回 JSON Content-Type 和状态但不写 body；GET 原 JSON 与 storage_unavailable 503 保留。原 Host 校验先于该分支，其他路由不变，没有供应商调用。
-- `health_test.go` 包含真实 HTTP 和辅助 handler 两套同断言回归，各覆盖三状态、九方法及故障恢复 GET/HEAD。真实 HTTP 使用现有 localServer 的随机端口与 installation 临时目录；关闭数据库后通过正常 Close/Open 释放安装锁、重开存储，不修改数据库记录。
-- 修复前 `health-methods-before.log`：定向回归 exit 1；真实 HTTP 三状态都被沙箱 `bind: operation not permitted` 拒绝，因此没有真实网络复现成功。辅助 handler 明确复现健康 POST 200、缺 Allow、HEAD 写 body，以及故障时非查询方法错误返回 503。旧源码仍为入口版本，带新增回归的摘要为 `07c58fdaab77662fcb0545d09dc2f10ba970831942aa757c355d1d23eb364c0a`。
-- 初次修复后辅助回归 exit 1 的原因是测试仅关闭 DB 后直接 Open，安装锁仍在（`installation is in use`）；保留 `health-methods-handler-recovery-failure.log`，修正测试为 Close 后重开。初次完整入口 exit 2 的 `health-methods-verify-initial.log` 同时保留该测试失败与沙箱限制，对应摘要 `645bf05daf88f5861eea1b38be7fd3e1fc05e32fda899aff330bd3fb95bdeb5f`，不是最终版本。
-- 最终 `go test -race ./internal/relay -run TestHealthMethodsHandler -count=1 -v` exit 0：见 `health-methods-handler-after.log`；全部 33 个方法/恢复子用例通过。这是辅助开发证据，不替代真实 HTTP 验收。
-- 最终 `make verify` exit 2：见 `health-methods-verify-final.log`。版本证据、格式、模块校验、vet、4/4 前端状态测试通过；race Go 测试中的辅助健康回归通过，但真实 HTTP（包括本次新回归）及 CLI/crash 网络测试被监听沙箱拒绝。串行入口没有执行 build/browser，未声明完整通过。
-- 单独 `make build` exit 0：`health-methods-build.log`。单独 `make browser` exit 2：`health-methods-browser.log`，npm 下载锁定依赖遇到 registry DNS ENOTFOUND，未运行旅程。进一步直接执行现有 Go 浏览器启动器 `go run ./tests/browser` exit 1：`health-methods-browser-direct.log`，在真实测试上游监听被拒绝，未运行 Chromium/网页断言。没有用静态页面冒充后端验收，没有删改 Makefile 或测试门禁。
-- 最终代码证据 `health-methods-version.json`：HEAD `9b6994ed80de2bdba79ff267419150dccaac1360`，33 文件工作树摘要 `917c0548d72974f6df7dbed371036e070c67a28f958b242d532d884734721089`。最终完整入口回执内摘要一致；delivery 与日志按原证据规则不计入摘要。`git diff --check` 通过，生成缓存沿用原 gitignore，不提交本机路径或凭据。
-
-交接状态：**In Review / Ready for host verification**，不是 Done 或 QA 放行。用户恢复同一会话并持续授权；无需重新审批。固定 next→tests Connector 必须执行未缩减的 `make verify`，核验上述最终代码版本的真实 HTTP 三状态/所有方法/恢复断言及原完整浏览器旅程；监听与 npm 网络限制均为待宿主核验项，不是通过依据。任一真实断言失败返回研发。独立 QA 在项目测试真实回执后检查代码/版本一致性与覆盖；后续 Connector 回写 Issue #8 证据并提交草稿 PR，不部署。本节点不自行评论 Issue、提交、推送或创建 PR。
-
-以下为首版历史记录。
+下一步 `next → tests`：使用已配置宿主 Connector 完整运行 **make verify**，核对上述最终摘要；必须实际执行新增 HTTP 及 1280/390px 浏览器版本旅程与所有原测试。重点待核验：健康/UI 原值一致、登录边界、刷新/重入恢复、健康挂起时真实模型页读取、文本安全/长值布局、既有后台及恢复流程不回归。若真实断言失败返回研发；项目测试成功后再交独立 QA 核对 AC-01～08。现有 qa/pr 是历史材料，本节点不覆盖或自行 QA 放行；Issue Hook 和草稿 PR Connector 接续，不部署。
 
 ## R3 独立 QA 验收资产补齐计划（2026-10-05，seq 14）
 

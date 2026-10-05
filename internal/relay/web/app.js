@@ -1,6 +1,36 @@
 'use strict';
 const element = id => document.getElementById(id);
 let csrf = '', active = 'overview', aborter = null, nextCursor = null, navigationVersion = 0;
+let versionRequest = null;
+function clearVersion() {
+  const request = versionRequest;
+  versionRequest = null;
+  if (request) { clearTimeout(request.timer); request.controller.abort(); }
+  element('runtime-version').textContent = '';
+}
+async function loadVersion() {
+  if (element('console').hidden) return;
+  const request = {controller: new AbortController(), navigation: navigationVersion};
+  versionRequest = request;
+  const current = () => versionRequest === request && request.navigation === navigationVersion && active === 'overview' && !element('console').hidden;
+  element('runtime-version').textContent = '加载中';
+  request.timer = setTimeout(() => {
+    if (current()) { element('runtime-version').textContent = '版本未知'; versionRequest = null; }
+    request.controller.abort();
+  }, 5000);
+  try {
+    const response = await fetch('/healthz', {method: 'GET', cache: 'no-store', signal: request.controller.signal});
+    if (!response.ok) throw new Error('health unavailable');
+    const value = await response.json();
+    const version = value && !Array.isArray(value) && typeof value.version === 'string' && value.version.trim() ? value.version : '版本未知';
+    if (current()) element('runtime-version').textContent = version;
+  } catch {
+    if (current()) element('runtime-version').textContent = '版本未知';
+  } finally {
+    clearTimeout(request.timer);
+    if (versionRequest === request) versionRequest = null;
+  }
+}
 function message(text, failed = false) { element(failed ? 'error' : 'notice').textContent = text; element(failed ? 'notice' : 'error').textContent = ''; }
 async function api(path, method = 'GET', body) {
   const response = await fetch('/admin/api/' + path, {method, headers: {'Content-Type': 'application/json', 'X-CSRF-Token': csrf}, body: body === undefined ? undefined : JSON.stringify(body)});
@@ -9,7 +39,7 @@ async function api(path, method = 'GET', body) {
   return value;
 }
 function clearSecrets() { for (const id of ['password', 'upstream-token', 'issued-key', 'test-key', 'test-message']) element(id).value = ''; element('issued').hidden = true; element('test-output').textContent = ''; }
-function signedOut() { if (aborter) aborter.abort(); csrf = ''; clearSecrets(); element('console').hidden = true; element('login').hidden = false; }
+function signedOut() { clearVersion(); if (aborter) aborter.abort(); csrf = ''; clearSecrets(); element('console').hidden = true; element('login').hidden = false; }
 function signedIn() { element('password').value = ''; element('console').hidden = false; element('login').hidden = true; }
 function item(text, action, callback) { const row = document.createElement('div'); row.className = 'item'; const span = document.createElement('span'); span.textContent = text; row.append(span); const button = document.createElement('button'); button.textContent = action; button.onclick = () => guarded(button, callback); row.append(button); return row; }
 async function guarded(button, callback) { button.disabled = true; try { await callback(); } catch (error) { message(error.message, true); } finally { button.disabled = false; } }
@@ -21,9 +51,11 @@ async function load(view) {
 }
 async function navigate(view) {
   const version = ++navigationVersion;
+  clearVersion();
   if (aborter) aborter.abort();
   if (active === 'test' || active === 'keys' || active === 'upstream') clearSecrets();
   active = view;
+  if (view === 'overview') loadVersion();
   for (const panel of document.querySelectorAll('.panel')) panel.hidden = true;
   nextCursor = null;
   message('加载中');
@@ -39,7 +71,7 @@ form('model-form', async () => { await api('models', 'POST', {alias: element('mo
 form('key-form', async () => { element('issued-key').value = ''; element('issued').hidden = true; const value = await api('keys', 'POST', {name: element('key-name').value}); element('issued-key').value = value.key; element('issued').hidden = false; await load('keys'); message('密钥已签发，请立即保管'); });
 element('close-key').onclick = () => { element('issued-key').value = ''; element('issued').hidden = true; };
 element('copy-key').onclick = () => guarded(element('copy-key'), async () => { await navigator.clipboard.writeText(element('issued-key').value); message('已复制，请保管'); });
-element('logout').onclick = () => guarded(element('logout'), async () => { await api('logout', 'POST', {}); signedOut(); message('已退出'); });
+element('logout').onclick = () => guarded(element('logout'), async () => { clearVersion(); await api('logout', 'POST', {}); signedOut(); message('已退出'); });
 element('refresh-records').onclick = () => { nextCursor = null; guarded(element('refresh-records'), () => load('records')); };
 element('more-records').onclick = () => guarded(element('more-records'), () => load('records'));
 element('cancel').onclick = () => { if (aborter) aborter.abort(); clearSecrets(); };

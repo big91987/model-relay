@@ -1,93 +1,95 @@
-# 修复 /healthz 方法边界：仅接受 GET/HEAD，其他方法返回 405
+# 管理台概览显示当前运行服务版本，失败时局部降级并可重试
 
-建议草稿 PR 标题：**fix: 限制 /healthz 为 GET/HEAD 并保留故障状态与 HEAD 空体**
+建议草稿 PR 标题：**feat: 在登录后概览展示运行版本并支持异常降级与重试**
 
-## 背景、原故障与预期
+## 背景、原问题与预期
 
-运行中的 Model Relay 原先仅按路径匹配 `/healthz`，未限制 HTTP 方法。健康状态下 `POST /healthz` 也返回 200，非查询请求被错误地当作健康检查；存储故障时这些方法返回 503，且没有明确允许的方法列表。
+管理员需要确认测试环境当前运行的是哪一版服务。原管理台顶部只有静态「v0.1 · 团队模型网关」品牌标签，概览没有运行实例版本，不能据此判断升级结果。这是现有管理台的新增展示能力，不是从零实现中转服务，也不是修改服务版本来源。
 
-本次仅修复该接口的方法边界。验收依据为 `docs/workflow/task.md` 的“目标、现象与预期”和“范围与验收依据”：GET 保留原 status/version JSON 及存储故障语义；HEAD 在相同健康状态下与 GET 同状态码且无响应体；所有非 GET/HEAD 方法返回 405，`Allow` 精确为 `GET, HEAD`。不改其他路由或 Host 校验，不引入供应商调用，不部署。
+依据 `docs/workflow/task.md` 的已确认行为和验收目标，用户已在原 Issue #9 的接续会话确认：仅登录后概览展示现有 `/healthz.version` 原始值（包括 `dev`）；不可用时显示「版本未知」，不阻塞其他管理操作，重入概览或刷新可重试。预期解决静态标签无法反映运行版本的问题，而不是证明构建标记、生产升级或多实例一致性正确。
 
-当前独立 QA 结论为 **Go，QA-H8-01 Closed**，可交 Connector 创建草稿 PR，最终合并由人决定。本文不表示 PR 已创建，也不表示生产或真实供应商验收通过。
+需求为本次 `requirements.md` AC-01～08，设计为本次 `design.md`。研发记录见 `delivery.md` 的 Issue 9 章节；独立 QA 见 `qa.md` 开头的本次版本展示报告。旧 v0.1 记录及旧日志不是本次验收依据。
 
-## 具体行为与实现取舍
+结论：**独立 QA Go，允许交授权 Connector 提交、推送并创建草稿 PR，最终合并由人决定；不部署。** 本报告不表示草稿 PR 已创建或原 Issue 最终回复已完成。
 
-| 请求 | 健康 | degraded / 数据库不可用 |
-|---|---|---|
-| GET /healthz | 200，原 status/version JSON | 503，原 storage_unavailable 错误 JSON |
-| HEAD /healthz | 200，空响应体 | 503，空响应体 |
-| 非 GET/HEAD 方法 | 405，Allow: GET, HEAD | 405，Allow: GET, HEAD |
+## 具体功能与行为
 
-- `internal/relay/server.go` 仅修改健康检查分支：先判断方法，再查询健康状态，使非查询方法不受存储故障影响。原 Host 校验仍在路由前执行，上表以通过该校验的请求为前提。
-- GET/HEAD 共用 degraded/数据库 Ping 的状态判断；HEAD 显式写入 JSON 内容类型和状态码后返回，不依赖 HTTP 服务自动丢弃响应体。GET 的成功载荷与故障错误契约不变。
-- `internal/relay/health_test.go` 新增真实 HTTP 和辅助 handler 两层回归。三种状态各覆盖 GET、HEAD、POST、PUT、PATCH、DELETE、OPTIONS、TRACE、CUSTOM 以及恢复后 GET/HEAD，每层 33 个叶用例；使用隔离临时安装和随机端口。
-- `tests/health-history/main.go` 与 `main_test.go` 补充隔离旧版网络复现及判定器。只读归档入口提交，复制最终回归，既不回滚正式源码，也不修改数据库来制造通过。
-- `Makefile` 将 `health-history` 加入固定 `make verify`，保留原格式、依赖、vet、前端、全量 race、构建和实际 Go 服务浏览器门禁。旧版子测试 exit 1 仅在全部精确预期断言齐全时被视为复现成功；监听、构建、超时、race、skip 或额外断言失败不能冒充红灯。
+- 登录或恢复有效会话进入概览，在概览标题下显示「运行版本」；登录前不展示、不发起该健康请求，其他管理页与退出后不显示新增版本区域。原静态品牌标签保持不变。
+- 进入概览独立 GET `/healthz`，等待时显示「加载中」；有效非空字符串按原文展示，保留前后空白，包含 `dev`，不从静态标签或 GitHub 推断版本。
+- 网络失败、非成功 HTTP 状态、无效 JSON、版本缺失、空字符串、仅空白或非字符串均显示准确文案「版本未知」，不保留上次成功值。5 秒超时涵盖响应头和响应体读取。
+- 版本获取不阻塞概览其余信息或导航，也不把健康请求的 401 当作管理会话失效；真正管理 API 的 401 仍沿用退出登录行为。
+- 离开再进入概览或刷新页面重新获取，可从失败恢复；切页、退出开始、实际会话失效都会使旧请求失效，迟到成功或失败不能覆盖新版本或清理新请求的计时器。
+- 版本仅通过 `textContent` 显示，标记不执行；长文本可折行。没有轮询、持久化、专用刷新按钮、配置写入或供应商调用。
 
-## 实际经过的阶段
+## 关键实现取舍与变更范围
 
-入口判断 → 开发 → 宿主项目测试 → 独立 QA → 补证开发 → 宿主完整复验 → 独立 QA 最终复验 → 本次交付说明。
+| 文件 | 本次变更 |
+|---|---|
+| `internal/relay/web/index.html` | 概览增加只读版本文本，带 `role="status"` 与 `aria-live="polite"`。 |
+| `internal/relay/web/app.js` | 独立 `cache: no-store` 健康请求、专用 AbortController、5 秒全请求超时；请求身份、导航快照、当前页面及登录状态联合限制写回。 |
+| `internal/relay/web/style.css` | 版本文本使用 `white-space: pre-wrap` 与 `overflow-wrap: anywhere`。 |
+| `internal/relay/version_test.go` | 新增进程内健康原值契约与真实 HTTP 的 dev/发布字符串回归。 |
+| `tests/browser/ui.test.mjs` | 总计 24 项确定性前端回归，含原有 4 项；覆盖异常输入、重入恢复、超时 headers/body、迟到响应与退出/管理401。 |
+| `tests/browser/journey.mjs`、`tests/browser/main.go` | 在既有真实 Go 服务旅程加入版本检查，夹具明确注入 dev；覆盖 1280px/390px。 |
+| `README.md` | 说明版本来源、降级、恢复及验证边界。 |
 
-本次 requirements/design 阶段按用户明确授权跳过：问题、范围、预期和验收入口明确，无新增产品或架构决策。仓库已有同名文档属于首版建设，不作为此次修复需求/设计基线；未补造占位 PRD 或设计。研发记录保存在 `delivery.md`，其中“等待宿主测试”等为当时状态；最终结论以 `qa.md` 顶部最终复验和下述 seq 9 回执为准。
+沿用现有健康接口和启动版本链，不修改生产 Go 后端、数据库、依赖锁或 Makefile 门禁。独立于管理 API 包装和调用测试控制器，避免局部健康失败触发全局错误或取消其他操作。新增测试进入原固定 `make verify`，没有用静态页面检查替代真实后端。
 
-原开发先加入真实 HTTP 回归，但沙箱在监听阶段失败，没有发送请求；辅助 handler 在旧版抵达了错误断言。QA 首轮因此阻塞 QA-H8-01。后续按照 QA 整改方案在宿主隔离重建旧业务版本，取得真实网络红灯并再次运行完整门禁，QA 才关闭缺口。**旧版网络证据是修复后重建补证，不是原修复前当时成功运行的记录**，不能把实际顺序写成完美的先红后绿。
+## 实际阶段与裁剪
+
+实际经过：平台分支/Issue 准备 → 入口与用户关键澄清 → 精简需求 → 局部设计 → 实现与回归 → 宿主项目测试 → 独立 QA → 本交付说明。当前待执行为 Connector Git 发布与草稿 PR，Issue 自然语言进展和最终回复由平台 Hook 自动回写。
+
+依据 `task.md`，没有跳过必要业务阶段；澄清已完成，不重复访谈、阶段批准或前序分支/Issue 操作。只读局部功能不适用组织级 PRD、额外平台运营设计、原型/PoC；没有为这些不适用阶段补造文档。生产部署和真实供应商联调明确不在本次范围。
 
 ## 实际验证与证据
 
-提交前 HEAD：`9b6994ed80de2bdba79ff267419150dccaac1360`。实现尚在工作树，不能仅凭 HEAD 标识被验代码；35 文件摘要为：
+本轮平台 **tests 节点 seq 7** 的宿主固定 `make verify` 回执为 **exit 0**。完整输出在平台回执，仓库摘录为 `docs/workflow/qa-version-host-receipt.md`，不能将摘录称为 QA 新执行的完整日志。
+
+| 实际门禁 | 结果 |
+|---|---|
+| format-check、go mod verify、go vet | 通过，未削弱原门禁。 |
+| 前端 Node/VM 回归 | 24/24 通过，0 fail、0 skipped；这是确定性异步测试，不冒充真实浏览器。 |
+| `go test -race -count=1 -v ./...` | 全部通过，包括既有实际 HTTP/CLI 回归、新健康原值契约3个子项及真实 HTTP 的 dev/发布版本2个子项。 |
+| `go build -trimpath` | 通过。 |
+| 真实 Go 服务 Playwright 旅程 | 1280px 与 390px 均通过；真实未拦截健康值与 UI dev 一致、刷新、401降级/重入恢复、健康挂起时模型读取、文本安全/长文本、退出边界及既有管理旅程。异常和文本夹具由 page.route 显式注入。 |
+
+独立 QA 本轮 seq 8 结论 **Go**：AC-01～07 与 AC-08 当前阶段责任通过；原 Issue/草稿 PR 是后续平台职责，未冒充已完成。QA 沙箱另跑前端24/24、进程内健康契约3/3和 diff 检查通过，输出保留于 `docs/workflow/qa-version-local.log`；不是再跑一套完整 HTTP/UI 门禁。
+
+被测分支为 `workflow/509e5c927cb88a6bbcefa274656ac6d2`，提交前 HEAD 为 `9b6994ed80de2bdba79ff267419150dccaac1360`。实现尚在工作树，不能仅用 HEAD 代表被测代码。宿主、独立 QA 与本报告节点再次执行 `go run ./tests/evidence` 的33文件摘要均为：
 
 ```text
-edb4224576eb1ef488c33d9e8ab354bdba90a8a39668bb75f0c548a616f7dd48
+f96017d3daf52e8372e1ef106397bfb31224e049010bb53a6cd033d69f27d414
 ```
 
-摘要由 `tests/evidence/main.go` 计算，覆盖产品、测试、构建锁、README 和验收/设计文件，排除交付报告与日志避免自引用。该值与 seq 9 宿主回执、最终独立 QA 及 `health-methods-history-version.json` 一致。本报告节点使用项目本地缓存重新计算得到相同摘要，`git diff --check` 成功；首次直接计算因默认用户缓存不可读失败，改用项目已有 `.cache/go-build` 后成功，未扩大权限。
+摘要边界见 `tests/evidence/main.go`：产品、测试、构建锁、README、task/requirements/design；排除 delivery、QA、本报告与回执以免自引用。本报告节点只修改 `pr.md`，不改代码、测试或基线，不声称重新执行宿主完整门禁。
 
-| 验证 | 真实结果与依据 |
-|---|---|
-| 旧版真实 HTTP 复现 | seq 9 与 `health-methods-history.log`：healthy POST 实际 200/预期 405、Allow 空；三状态共 21 个非查询方法失败，42 条 status/Allow 诊断，12 个查询/恢复用例通过；子 go test exit 1，判定器输出 PASS expected historical HTTP red |
-| 当前完整 make verify | 平台 previous_results seq 9，tests Connector，command exit_code 0；串行包含 evidence、历史复现、格式、module、vet、前端、全量 race、build、browser，无忽略失败 |
-| 当前方法契约 | 真实 HTTP 三状态 33 叶用例由完整门禁验证；GET JSON/503、HEAD 同状态空体、七种非查询方法 405/Allow 及恢复行为全部覆盖 |
-| 独立 QA | `qa.md` 最终结论 Go；`health-methods-qa-recheck.log` 记录摘要、diff、旧版/测试哈希、完整历史事件独立解析、判定器正常及 14 类拒绝路径 race 测试、handler 33 叶用例成功 |
-| 实际服务 UI | 完整入口包含真实 Go 服务的 1280px/390px 连续浏览器旅程，使用受控测试上游，不是静态页面或真实供应商联调 |
-
-seq 9 会话 stdout 在历史事件段后截断，未逐行看到本轮 test/build/browser 后半段输出。完整成功依据是真实整体 exit 0 和独立 QA 核对的串行 Makefile/脚本错误传播，不捏造截断行。seq 6 未截断回执提供同一未变更浏览器资产的两视口明确 PASS，但其旧 33 文件摘要不替代 seq 9 的新摘要验收。
-
-旧版来源：入口提交归档 SHA-256 `e8307563c976a77940851da8254d70b8255fa4caa690d898a6452ee15de4eaaf`；旧 server.go `d61e4e747231654aa7895404b94c2539497cef2074186b3bbe05b90a94252383`；最终 health_test.go `15b13fbd3cb3265c8bedb9a34f78980fea195351e458f5a4b83ca675513f7c3e`，均由独立 QA 核对。
-
-失败证据未删除：`health-methods-before.log` 保留最初 HTTP 监听阻塞与 handler 旧版失败；`health-methods-handler-recovery-failure.log` 保留测试安装锁错误；`health-methods-verify-final.log`、`health-methods-browser.log`、`health-methods-browser-direct.log` 保留沙箱 bind/DNS 失败；`health-methods-history-verify-initial.log`、`health-methods-history-sandbox.log`、`health-methods-history-verify.log` 保留补证初次判定失败及监听阻塞。它们不算产品通过，后续宿主成功也不改写原失败。
+失败证据不覆盖、不删除：`development-version-verify-initial.log` 记录修复前健康 Host/Authority 夹具403和沙箱监听拒绝；夹具修正后当前匹配版本的契约/宿主 HTTP通过。`development-version-verify.log` 的研发沙箱完整入口仍为 exit 2，串行 build/browser 未到达；`development-version-targeted.log` 为独立契约/build/语法成功；`development-version-browser.log` 为依赖安装 EPERM、`development-version-browser-runner.log` 为监听 EPERM，均未执行浏览器断言。后续同摘要宿主成功覆盖受限项，不将早期失败写成通过。macOS LC_DYSYMTAB 链接警告保留，未导致失败；`storage_write_failed` 为既有故障注入用例输出，相应测试通过。
 
 ## 已知限制
 
-- 事后重建补证的时序限制永久保留；旧版真实 HEAD 空体本来由 Go HTTP 层抑制响应体，不能将 handler 的旧版 HEAD body 失败混称网络 HEAD 失败。
-- 历史门禁依赖上述基线提交仍可被 `git archive` 读取，浅克隆缺失该对象时应补齐历史，不得跳过门禁。
-- 原生 Agent 沙箱不能监听，网络/浏览器验收由固定宿主 Connector 执行；未生成截图、trace 或单独宿主进程盘点，不声称另做这些检查。
-- macOS LC_DYSYMTAB 链接警告有真实记录，未导致宿主整体失败；历史判定器只允许该精确已知警告，不泛化忽略构建错误。
-- 无真实供应商、生产部署、性能/SLA 或额外 UI/读屏验收。本次不新增用户界面、权限、配置、依赖或数据迁移。
+- 只展示当前响应服务自报版本；`dev` 如实展示，不保证构建标记正确、部署到指定发行版或负载均衡下各实例一致。不提供版本编辑或升级控制。
+- 非阻塞指版本请求不会额外阻塞管理操作，不承诺全服务故障时其他管理接口仍成功。无轮询，状态更新需重入概览或刷新。
+- 异常输入、全部超时和竞态由 VM 分层覆盖，未逐项另跑真实浏览器；真实浏览器已验证正常、失败恢复和非阻塞路径。
+- 没有成功截图/视频、人工读屏、无障碍全量验收、生产升级验证或真实供应商验证。既有受控测试上游仅用于隔离回归，不证明供应商可用；没有付费调用或部署。
 
 ## 试用方式
 
-前提为项目 Go 1.25 工具链、CGO/C 编译器。使用全新的独立数据目录和密钥文件，避免覆盖现有安装；初始化密码只向终端展示，不保存到仓库日志。运维注意事项见 `README.md`。
+在已有测试安装中使用原参数启动服务、登录 `/admin/` 并查看「概览」的「运行版本」。普通开发构建默认显示 `dev`；可在同一监听地址 GET `/healthz`，核对 `version` 与页面一致。切换到模型页再返回，或刷新并恢复有效会话，会重新读取；不要以顶部静态 v0.1 标签作为运行版本。
+
+没有现有安装时，沿用 README 的隔离初始化方式（Go 1.25+、CGO/C 编译器）；使用新的目录，不覆盖用户已有安装，不将密码或主密钥写入仓库：
 
 ```sh
 make build
-bin/model-relay init --data-dir ../relay-health-demo --key-file ../relay-health-demo.key
-bin/model-relay serve --data-dir ../relay-health-demo --key-file ../relay-health-demo.key --listen 127.0.0.1:5544
+bin/model-relay init --data-dir ../relay-data --key-file ../relay.key
+bin/model-relay serve --data-dir ../relay-data --key-file ../relay.key --listen 127.0.0.1:5544
 ```
 
-在另一个终端检查，不需要供应商凭据或发送生成请求：
+浏览器访问 `http://127.0.0.1:5544/admin/`，使用初始化时一次展示的管理员密码。保持 Host 与监听 authority 一致，不将地址换成 localhost。本次查看版本无需配置供应商或发送模型请求。
 
-```sh
-curl -i http://127.0.0.1:5544/healthz
-curl -I http://127.0.0.1:5544/healthz
-curl -i -X POST http://127.0.0.1:5544/healthz
-```
+失败/恢复、超时/迟到、安全文本和双视口的自动试用纳入 `make verify`；浏览器测试依赖准备见 README。受限 Agent 沙箱无法监听时交固定宿主测试 Connector，不提权、不修改业务数据凑通过。
 
-预期依次为 200 + status/version JSON、200 + 无响应体、405 + `Allow: GET, HEAD`；不要把 authority 改为 localhost。Ctrl-C 停止服务。degraded/数据库不可用及恢复由隔离自动回归验证，不建议破坏试用数据库来手工模拟。
+## Connector 交接
 
-完整复验使用 `make verify`，浏览器测试需项目锁定的 npm 依赖和 Playwright Chromium，安装方式见 README。受限沙箱沿用宿主验证 Connector，不删除历史门禁、不以静态页面测试替代。
+走 `next → publish`，沿用上述具体 PR 标题和正文。授权 Connector 负责提交当前工作树、推送并创建草稿 PR；合并由人决定。本节点不自行 GitHub 读写、提交、切分支、推送、创建/合并 PR、启动 Workflow 或部署。
 
-## 后续 Connector 交接
-
-走 `next → publish`，由授权 Connector 回写 Issue #8 的真实证据、提交当前工作树、推送并创建草稿 PR，使用本文具体修复标题及正文，最终由人审阅合并。保持不部署、不触发 GitHub Workflow、不扩大访问权限。本节点只整理交付说明，未创建/合并 PR 或执行 Git 发布。
-
-提交会改变 HEAD，但不改写提交前验收事实。若发布前改变产品、测试、构建或验收资产导致内容摘要变化，必须重新执行固定 `make verify` 并交独立 QA，不能沿用本次放行。
+发布提交后 HEAD 自然变化，保留提交前 HEAD 与内容摘要关联。若交付前产品、测试、构建锁或验收基线变化，必须重新验证并交独立 QA，不能继续沿用当前摘要的 Go。平台共享 PR 标题修复及安全重启是用户提供的恢复上下文，不是本报告执行或验收的产品变更。
