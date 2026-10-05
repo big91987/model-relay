@@ -5,10 +5,12 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"io"
 	"net"
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 
@@ -19,7 +21,7 @@ var buildVersion = "dev"
 
 func run(args []string) error {
 	if len(args) == 0 {
-		return errors.New("usage: model-relay init|serve|backup|restore")
+		return errors.New("usage: model-relay init|serve|backup|restore|reset-password")
 	}
 	flags := flag.NewFlagSet(args[0], flag.ContinueOnError)
 	directory := flags.String("data-dir", "data", "installation directory")
@@ -27,6 +29,7 @@ func run(args []string) error {
 	listen := flags.String("listen", "127.0.0.1:5544", "loopback listen authority")
 	input := flags.String("input", "", "backup input")
 	output := flags.String("output", "", "backup output")
+	passwordStdin := flags.Bool("password-stdin", false, "read replacement password from standard input")
 	if err := flags.Parse(args[1:]); err != nil {
 		return err
 	}
@@ -40,6 +43,20 @@ func run(args []string) error {
 			return err
 		}
 		fmt.Println("Administrator password (shown once): " + password)
+		return nil
+	case "reset-password":
+		if !*passwordStdin {
+			return errors.New("--password-stdin required")
+		}
+		input, err := io.ReadAll(io.LimitReader(os.Stdin, 1027))
+		if err != nil {
+			return errors.New("cannot read password input")
+		}
+		password := strings.TrimSuffix(strings.TrimSuffix(string(input), "\n"), "\r")
+		if err := relay.ResetAdminPassword(*directory, *keyFile, password); err != nil {
+			return err
+		}
+		fmt.Println("Password reset complete.")
 		return nil
 	case "backup":
 		if *output == "" {
