@@ -1,0 +1,11 @@
+Source: platform tests Connector seq 9; selected failure evidence, not full receipt.
+Command: make verify
+exit_code=2
+working_tree_sha256=cd8742dcd205f8f89098a1e4da31635e1c1d50820b3a9ac37541518f30fd8ec2
+format/module/vet/race Go tests/actual HTTP and CLI/build: passed on that source version.
+FAIL actual Go service browser journey: {"viewport":1280,"checkpoint":"visible #notice contains 上游已保存","location":"journey.mjs:11:56","error":"TimeoutError","responses":[{"method":"GET","path":"/admin/api/session","status":401},{"method":"POST","path":"/admin/api/login","status":401},{"method":"POST","path":"/admin/api/login","status":200},{"method":"GET","path":"/admin/api/upstream","status":200},{"method":"GET","path":"/admin/api/session","status":200},{"method":"GET","path":"/admin/api/upstream","status":200}]}
+exit status 1
+exit status 1
+make[1]: *** [browser] Error 1
+make: *** [verify] Error 2
+No PUT upstream was observed in the captured response list. UI acceptance failed; not a sandbox listener failure.

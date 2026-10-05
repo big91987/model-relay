@@ -1,0 +1,31 @@
+✔ upstream form is unavailable until GET completes, then saves entered values (4.369917ms)
+✔ failed configuration load leaves an error and navigation can recover (1.004083ms)
+✔ a stale navigation cannot reveal a panel after the user leaves (0.652083ms)
+✖ rejected save recovers persisted configuration after navigation finishes (1.151167ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 89.549875
+
+✖ failing tests:
+
+test at tests/browser/ui.test.mjs:87:1
+✖ rejected save recovers persisted configuration after navigation finishes (1.151167ms)
+  AssertionError [ERR_ASSERTION]: expected GET session
+      at Object.respond (file://<workspace>/tests/browser/ui.test.mjs:25:12)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:101:7)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+exit_code: 1

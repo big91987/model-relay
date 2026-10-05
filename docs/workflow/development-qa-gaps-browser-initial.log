@@ -1,0 +1,9 @@
+npm ci --ignore-scripts --omit=optional --no-audit --no-fund --cache .cache/npm
+
+added 2 packages in 393ms
+go run ./tests/browser
+real browser upstream listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+exit status 1
+make: *** [browser] Error 1
+
+exit_code=2

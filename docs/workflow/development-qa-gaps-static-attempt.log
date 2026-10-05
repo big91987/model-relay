@@ -1,0 +1,18 @@
+go vet ./...
+node --test tests/browser/ui.test.mjs
+✔ upstream form is unavailable until GET completes, then saves entered values (4.420459ms)
+✔ failed configuration load leaves an error and navigation can recover (0.686167ms)
+✔ a stale navigation cannot reveal a panel after the user leaves (0.548167ms)
+✔ rejected save recovers persisted configuration after navigation finishes (0.687708ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 86.168709
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+open <workspace-path>: operation not permitted
+
+exit_code=1

@@ -1,0 +1,8 @@
+=== RUN   TestInProcessContract
+    inprocess_test.go:104: record contract
+--- FAIL: TestInProcessContract (0.28s)
+FAIL
+FAIL	model-relay/internal/relay	0.890s
+FAIL
+
+go test targeted exit_code=1

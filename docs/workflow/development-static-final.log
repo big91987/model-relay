@@ -1,0 +1,13 @@
+$ make build
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+make build exit_code=0
+$ node --check internal/relay/web/app.js
+node app.js exit_code=0
+$ node --check tests/browser/journey.mjs
+node journey.mjs exit_code=0
+$ GOCACHE=.cache/go-build GOTOOLCHAIN=local GOPROXY=off go run ./tests/evidence
+{"files":30,"go":"go1.25.6","head":"fdcb16cb3426d403327da727ae2a8f95c001f1af","scope":"product + tests + build locks + README + acceptance/design; excludes delivery receipts to avoid self-reference","working_tree_sha256":"3964b300ba3734905090d4e565fbd3fcddf31b9b3288c6d8d1d1e50faeadbf2c"}
+evidence exit_code=0
+$ node --version; npm --version
+v26.0.0
+11.12.1

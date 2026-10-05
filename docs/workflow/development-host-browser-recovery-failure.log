@@ -1,0 +1,11 @@
+Source: platform tests Connector seq 11 (excerpt; full original receipt retained by platform)
+Command: make verify
+Working tree SHA256: d4b105f594595fbe96e1b7b054a89a971d136469c9b420d5310e8676672b065a
+frontend-test: 3/3 PASS
+Go race, actual HTTP/SSE/CLI/recovery tests: PASS
+build: PASS
+FAIL actual Go service browser journey: {"viewport":1280,"checkpoint":"click 上游","location":"journey.mjs:67:12","error":"AssertionError","responses":[{"method":"GET","path":"/admin/api/session","status":401},{"method":"POST","path":"/admin/api/login","status":401},{"method":"POST","path":"/admin/api/login","status":200},{"method":"GET","path":"/admin/api/upstream","status":200},{"method":"GET","path":"/admin/api/session","status":200},{"method":"GET","path":"/admin/api/upstream","status":200},{"method":"PUT","path":"/admin/api/upstream","status":200},{"method":"GET","path":"/admin/api/upstream","status":200},{"method":"PUT","path":"/admin/api/upstream","status":400},{"method":"GET","path":"/admin/api/upstream","status":200},{"method":"GET","path":"/admin/api/session","status":200}]}
+exit status 1
+make[1]: *** [browser] Error 1
+make: *** [verify] Error 2
+Connector exit_code: 2
