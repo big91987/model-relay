@@ -187,10 +187,40 @@ func TestCLIInstallationCommands(t *testing.T) {
 			check(admin("PATCH", "keys/"+issued.Metadata.ID, map[string]bool{"enabled": false}), 200)
 		}
 	}
+	reset := func(value string, extra ...string) ([]byte, error) {
+		args := []string{"reset-password", "--data-dir", restored, "--key-file", keyFile}
+		args = append(args, extra...)
+		resetCommand := exec.Command(binary, args...)
+		resetCommand.Stdin = strings.NewReader(value)
+		return resetCommand.CombinedOutput()
+	}
+	if _, err := reset("admin\n", "--password-stdin"); err == nil {
+		t.Fatal("password reset accepted a running installation")
+	}
 	stop(command)
+	if _, err := reset("admin\n"); err == nil {
+		t.Fatal("password reset accepted missing explicit stdin flag")
+	}
+	for _, invalid := range []string{"", "\n", "one\ntwo", strings.Repeat("x", 1025)} {
+		if _, err := reset(invalid, "--password-stdin"); err == nil {
+			t.Fatal("password reset accepted invalid input")
+		}
+	}
+	if _, err := reset("admin\n", "--password-stdin", "--key-file", filepath.Join(root, "missing")); err == nil {
+		t.Fatal("password reset accepted missing encryption key")
+	}
+	output, err = reset("admin\n", "--password-stdin")
+	if err != nil {
+		t.Fatalf("password reset failed: %v %s", err, output)
+	}
+	if bytes.Contains(output, []byte("admin")) {
+		t.Fatal("password reset exposed replacement password")
+	}
 	command, address = start()
 	check(admin("GET", "keys", nil), 401)
 	cookie = nil
+	check(admin("POST", "login", map[string]string{"password": password}), 401)
+	password = "admin"
 	login()
 	response = admin("GET", "models", nil)
 	var models []struct{ Alias string }

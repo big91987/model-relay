@@ -8,8 +8,10 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"strings"
 	"syscall"
 	"time"
+	"unicode/utf8"
 
 	_ "github.com/mattn/go-sqlite3"
 	"golang.org/x/crypto/argon2"
@@ -177,6 +179,36 @@ func (store *Store) Close() error {
 	}
 	return lockErr
 }
+
+// ResetAdminPassword requires the stopped installation's exclusive lock and
+// encryption key. Restarting the service also discards existing login sessions.
+func ResetAdminPassword(directory, keyFile, password string) error {
+	if len(password) > 1024 || strings.TrimSpace(password) == "" || strings.ContainsAny(password, "\r\n\x00") || !utf8.ValidString(password) {
+		return errors.New("password must be one nonempty UTF-8 line of at most 1024 bytes")
+	}
+	store, err := Open(directory, keyFile)
+	if err != nil {
+		return err
+	}
+	defer store.Close()
+	transaction, err := store.DB.Begin()
+	if err != nil {
+		return err
+	}
+	defer transaction.Rollback()
+	salt := digest(randomSecret(16))[:16]
+	hash := argon2.IDKey([]byte(password), salt, 3, 64*1024, 1, 32)
+	result, err := transaction.Exec("UPDATE admin SET salt=?,hash=?", salt, hash)
+	if err != nil {
+		return err
+	}
+	count, err := result.RowsAffected()
+	if err != nil || count != 1 {
+		return errors.New("installation must contain exactly one administrator")
+	}
+	return transaction.Commit()
+}
+
 func (store *Store) Password(value string) bool {
 	var salt, hash []byte
 	if store.DB.QueryRow("SELECT salt,hash FROM admin").Scan(&salt, &hash) != nil {

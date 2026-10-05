@@ -19,6 +19,16 @@
 
 首版已通过 PR #2 合并到 `main`，并在测试主机完成首次 Actions 发布。后续合并只自动准备，Owner 仍须在 Actions 手动部署；最新发布状态、版本和效果地址从 GitHub Deployment 或 Agent Platform 的原 Run 页面核对，操作说明见 [本机持续预览](docs/local-deployment.md)。`make verify` 的短命服务和手工预览不算正式发布。
 
+## 重置管理员密码
+
+本机运维者可在停止服务后，通过独立主密钥和正式命令重置密码；服务运行中会拒绝操作。先用 `backup` 保存安装，再从私有文件传入新密码：
+
+```sh
+bin/model-relay reset-password --data-dir <data-directory> --key-file <key-file> --password-stdin < <private-password-file>
+```
+
+输入为一行非空 UTF-8 文本（最多 1024 字节），命令不回显密码。重启原服务后使用新密码登录，旧密码和旧会话失效；上游、模型、应用密钥和调用记录保留。部署器生成的 `initial-admin-password.txt` 仅记录首次初始化密码，重置不会更新该历史文件。由 launchd 管理的实例需先 `bootout` 对应服务，重置后用原 plist `bootstrap`；直接杀进程会被 KeepAlive 自动拉起。
+
 ## 安装与运行
 
 构建前提：Go 1.25.6 或兼容的 1.25+ 工具链、C 编译器及 `CGO_ENABLED=1`。SQLite driver 包含 SQLite 引擎，不需要另起数据库；本版不支持无 C 工具链的纯 Go 交叉编译。Go 依赖由 `go.mod` / `go.sum` 锁定，页面资源嵌入二进制，运行无需 Node。
