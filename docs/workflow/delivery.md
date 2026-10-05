@@ -1,4 +1,44 @@
-# v0.1 研发交付记录
+# 研发交付记录
+
+## Issue 9 运行版本展示（2026-10-05）
+
+基线：本次 task.md、requirements.md AC-01～08、design.md 及设计交接。用户澄清已完成，不再重复确认。下方 v0.1 记录及旧日志仅保留历史失败，不作为本次通过证据。
+
+- VERSION-01：概览增加只读版本文本；独立健康请求、5 秒全请求超时、导航/退出失效。无生产后端变更、供应商调用或部署。
+- VERSION-02：VM 回归覆盖原值、异常、非阻塞、重入、迟到响应与 body 超时；真实 Go 服务浏览器覆盖登录边界、刷新恢复、文本安全及双视口；Go HTTP 检查健康版本契约。
+- VERSION-03：运行原固定 `make verify`（保留全部既有门禁），记录代码摘要及真实失败；若本机监听受限，交固定项目测试 Connector 实际执行，不标通过。
+
+关键路径：VERSION-01 → VERSION-02 → VERSION-03 → 项目测试 → 独立 QA。负责人为研发实现节点；VERSION-01/02 实现与测试资产就绪，VERSION-03 本机验证已执行但未通过，整体 `Ready for host verification / In Review`。不是功能验收通过或 QA 放行，不自行提交、推送。
+
+首轮 `development-version-verify-initial.log`：`make verify` exit 2，前端 23/23 通过；存在两个不同失败来源：沙箱拒绝真实 HTTP/CLI 监听，以及新增健康契约测试的 Host 夹具未设置导致 403。后者已修正为匹配 Authority 的请求并使用隔离真实 Store（健康接口会 Ping DB），不能将夹具失败归为沙箱。初轮摘要仅代表修复前代码；后续以新回执为准。
+
+### 实现与 AC 追踪
+
+- AC-01/02：概览标题下的 `#runtime-version` 展示原始文本，含 `dev`；未登录不请求。不修改品牌、启动版本链或生产健康接口。
+- AC-03/04：独立 `/healthz` 请求，不复用管理 api/调用测试控制器；`cache:no-store`；未知只更新版本文本，既有概览与导航不等待版本 Promise。
+- AC-05/06：每次概览进入重新加载；5 秒覆盖 headers/body；请求身份、导航快照、active 与登录状态共同约束写回。切页、退出开始、真实管理 401 清理，旧 success/catch/finally 不污染新请求。
+- AC-07：仅 `textContent` 写入，`pre-wrap` 与 `overflow-wrap:anywhere`；不写存储、配置或调用供应商。README 增补运行/降级/重试说明。
+- VERSION-02：`tests/browser/ui.test.mjs` 24 项包含原 4 项，新增原值、12 类异常、非阻塞、重入、超时/body、晚到成功/失败、旧 finally、退出/重登和真实管理 401；`internal/relay/version_test.go` 增加进程内健康契约及真实 HTTP 回归；`tests/browser/journey.mjs` 在原真实 Go 服务旅程插入 1280/390px 版本检查（真实健康一致性、刷新、401、重入恢复、挂起时模型读取、文本安全/长文本布局及退出边界）。浏览器测试服务明确注入 `dev`，重启沿用，避免测试夹具空值冒充实际 CLI 默认值。
+- 所有回归均已纳入原 `make verify`：`frontend-test`、`go test -race ./...`、`browser`；Makefile 原有完整门禁保持不变，无另建或跳过关键断言。无需静态 browser.check：本功能依赖真实 Go 后端，静态服务不构成验收。
+
+### 最终代码与本机验证
+
+最终 HEAD：`9b6994ed80de2bdba79ff267419150dccaac1360`；33 文件工作树 SHA256：`f96017d3daf52e8372e1ef106397bfb31224e049010bb53a6cd033d69f27d414`。沿用 `tests/evidence` 摘要口径（排除交付回执，避免自引用），不代表提交已产生。初轮摘要 `858a0a646c7d835f1656c7ec20140af8a75be9e95314cfbbc8df3eafb20183f1` 对应夹具修正及最后一项回归之前，不能混用。
+
+| 回执 | 实际结果与限制 |
+|---|---|
+| `development-version-verify.log` | 最终 `make verify` exit **2**：format/modules/vet 与前端 **24/24** 通过；健康契约 **3/3** 通过。Go race/HTTP/CLI 门禁在真实端口监听处 `bind: operation not permitted` 失败（包括新 `TestHTTPHealthVersion`）；串行 build/browser 未到达。最终未再出现健康 403 夹具断言失败。 |
+| `development-version-targeted.log` | `go test -race -count=1 -v ./internal/relay -run '^TestHealthVersionContract$'` exit **0**，3/3；独立 `make build` exit **0**；journey JS 语法检查 exit **0**。不替代真实 HTTP 或浏览器通过。 |
+| `development-version-browser.log` | 独立 `make browser` exit **2**：npm 锁定依赖安装连接本机代理被 EPERM 拒绝，未启动 Go/Chromium；无浏览器断言执行。 |
+| `development-version-browser-runner.log` | 直接运行同一真实服务 runner `go run ./tests/browser` exit **1**：测试上游 `127.0.0.1:0` 监听被拒绝，未启动 Chromium。没有用静态服务代替。 |
+
+原失败和 linker LC_DYSYMTAB 警告保留。新回执仅将本机绝对路径脱敏为 `[toolchain]`、`[temp]`、`[npm-runtime]` 或相对路径，未隐藏失败；缓存/bin/node_modules 仍受已有 .gitignore 排除，无凭据或个人会话入库。
+
+### 交接与简化审查
+
+按 Skill 检查上游/任务/关键路径/Harness/公共接续：局部功能不拆组织级文档或新增平台模型，任务与 AC 可从本节、requirements/design 和共享入口恢复；无范围或结构偏差需要返回需求/设计，无需用户裁决。验证门槛仍 **Blocked by Validation**，资产 **Ready for Dispatch** 到固定宿主项目测试，而非版本交付 Accepted。
+
+下一步 `next → tests`：使用已配置宿主 Connector 完整运行 **make verify**，核对上述最终摘要；必须实际执行新增 HTTP 及 1280/390px 浏览器版本旅程与所有原测试。重点待核验：健康/UI 原值一致、登录边界、刷新/重入恢复、健康挂起时真实模型页读取、文本安全/长值布局、既有后台及恢复流程不回归。若真实断言失败返回研发；项目测试成功后再交独立 QA 核对 AC-01～08。现有 qa/pr 是历史材料，本节点不覆盖或自行 QA 放行；Issue Hook 和草稿 PR Connector 接续，不部署。
 
 ## R3 独立 QA 验收资产补齐计划（2026-10-05，seq 14）
 

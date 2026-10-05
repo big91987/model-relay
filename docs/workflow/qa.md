@@ -1,4 +1,61 @@
-# Model Relay v0.1 独立 QA
+# 管理台运行服务版本：独立 QA
+
+> 日期：2026-10-06（Asia/Shanghai）
+> 模式：本次局部功能首次全量验收；固定入口执行全项目回归。执行者为宿主项目测试 Connector；本节点独立复核规格、版本、覆盖与回执，并在 Agent 沙箱补跑非监听测试。
+> 结论：**Go，允许进入报告与草稿 PR 交付；不部署。** 未发现本次范围内未关闭 P0/P1。原 Issue 回写与草稿 PR 仍由平台后续交付，不在 QA 冒充已完成。
+
+## 1. 本次基线与版本冻结
+
+- 基线：task.md 已确认澄清、本次 requirements.md AC-01～08、design.md。用户确认仅登录后概览显示 `/healthz.version` 原值（含 dev），异常为「版本未知」，非阻塞，重入/刷新恢复，无供应商调用。澄清已完成，无需重复提问。
+- 仓库：big91987/model-relay；分支 `workflow/509e5c927cb88a6bbcefa274656ac6d2`；HEAD `9b6994ed80de2bdba79ff267419150dccaac1360`。实现尚未提交，HEAD 本身不能证明被测改动。
+- QA 独立运行 `go run ./tests/evidence` 得到 33 文件摘要 `f96017d3daf52e8372e1ef106397bfb31224e049010bb53a6cd033d69f27d414`，与本轮 tests seq 7 宿主回执一致。核对摘要程序覆盖产品、全部测试、Makefile、锁文件、README 和本次基线，非仅相信研发摘要声明。QA 文档及日志不参与自引用摘要。
+- 起始未提交修改：README.md；docs/workflow/{task,requirements,design,delivery}.md；internal/relay/web/{app.js,index.html,style.css}；tests/browser/{journey.mjs,main.go,ui.test.mjs}。未跟踪：internal/relay/version_test.go 和五份 development-version 日志。QA 仅新增本轮证据、更新 qa.md，没有修改产品或测试实现。
+- 测试制品：当前工作树 Go 服务、其内嵌 UI；宿主 Go go1.25.6，Playwright 锁定依赖与 Chromium。QA 本机 Node v26.0.0。服务测试版本明确设为 dev；真实 HTTP 另覆盖发布样式版本。没有生产部署制品。
+
+## 2. 连续旅程与验收矩阵
+
+Actor 为隔离测试实例的管理员。Go runner 使用临时目录、SQLite 和临时端口准备安装及密码，浏览器通过页面登录；夹具准备不是用户中间步骤。每个视口使用同一 context/page 连续完成入口、结果与退出；1280px 首次无上游配置，390px 为已配置状态。本次只读版本无独立创建/授权流程，不额外要求运营或供应商验收。
+
+UI-E2E 连续步骤：打开登录页（无版本、无健康请求）→错误密码→正确登录概览→未拦截实际健康响应与 UI dev 精确一致→刷新一次请求→切模型页隐藏版本→拦截健康 401 后进入概览未知、概览仍可用→刷新仍未知→撤销拦截并重入/刷新恢复→挂起健康时可读模型页→返回概览验证标记字面值、长文本不溢出→恢复真实健康→继续既有上游、模型、密钥、调用与记录回归→退出隐藏版本及请求计数边界。两视口宿主 UI-E2E 均 Pass；没有用静态原型替代后端。
+
+| 基线 | 分层证据与独立核对 | 结果 |
+|---|---|---|
+| AC-01 登录/概览边界 | 宿主真实 UI 入口无健康请求，登录显示，模型页及退出隐藏；审阅 journey 对应断言 | Pass |
+| AC-02 原值与 dev | UI 与未拦截 `/healthz` dev 精确对账；HTTP dev/发布字符串；VM dev/发布/空白原值精确对账 | Pass |
+| AC-03 异常未知 | VM 分别覆盖网络、401/503、缺失、空白/空字符串、非字符串、null/array/string body、无效 JSON；真实 UI 401 显示未知 | Pass |
+| AC-04 独立非阻塞 | 真实 UI 健康挂起时概览/模型读取正常；401 不退出且 error 为空；VM 5 秒涵盖 headers/body；审阅独立 fetch 未使用管理错误包装 | Pass |
+| AC-05 重入/刷新恢复 | 同一真实会话成功→失败→刷新失败→撤销拦截→重入恢复→刷新成功；健康请求计数，VM 每种异常后重入恢复 | Pass |
+| AC-06 迟到隔离 | 实际 app.js 的 VM 确定性测试：旧成功/失败/finally 不清新计时器、旧响应不覆盖新结果、超时后迟到、退出立即失效/重登、真实管理401失效；真实 UI 挂起切页 | Pass |
+| AC-07 文本安全/只读 | 真实 UI 含 img/onerror 原值仅文本、无子节点/注入、双视口无横向溢出；独立 diff 审查版本链路仅 GET /healthz、textContent 和局部状态，无配置写入/供应商调用 | Pass |
+| AC-08 QA 与固定门禁 | 当前摘要宿主完整 make verify exit 0，新增回归确实在原入口执行；本报告保留失败和未测边界 | Pass（本节点责任） |
+| AC-08 后续 Issue/草稿 PR | Hook/Connector 后续交付，QA 没有自行 GitHub 操作，也未部署 | Not Run（后续职责） |
+
+VM 是异步状态测试，不等同真实浏览器。HTTP 是接口证据，不冒充 UI。表中真实 UI Pass 仅来源于宿主真实连续旅程的回执，不来源于代码阅读。
+
+## 3. 实际执行与证据
+
+- 宿主：本轮 tests seq 7 固定 `make verify` exit 0，format/modules/vet、前端 24/24、全 Go race/HTTP/CLI、build、真实 Go 服务 Playwright 双视口全部执行；详见 qa-version-host-receipt.md 摘录与平台完整回执。
+- QA 沙箱：独立摘要核对；`make frontend-test` exit 0（24/24、skip=0）；`go test -race -count=1 -v ./internal/relay -run '^TestHealthVersionContract$'` exit 0（3 个版本子项）；`git diff --check` exit 0。实测输出在 qa-version-local.log，临时链接对象路径已脱敏。不是完整门禁或额外 UI 执行。
+- 独立静态复核：Makefile 未削弱门禁；runner 启动真实 relay/Store 与测试上游，非 Node 产品后端；journey 真实浏览器断言失败会非零退出，不吞断言；健康正常路径没有拦截，异常和文本夹具明确用 page.route 注入。测试上游仅既有确定性回归，不是本次新增供应商访问。
+- 截图/视频：本轮未生成成功截图，UI 证据是真实浏览器断言及 Connector 回执；不声称人工视觉、读屏音频或无障碍全量验收。role/status 与 aria-live 属性已在真实浏览器断言，但不等于读屏验收。
+
+## 4. 失败、缺陷、限制与恢复
+
+研发首轮健康契约 403 为测试 Host/Authority 夹具错误，不是沙箱问题；development-version-verify-initial.log 保留原失败，当前匹配版本的独立契约复跑与宿主 HTTP 全绿，确认已关闭。其余研发日志记录监听被 Agent 沙箱拒绝、依赖安装 EPERM；这些不是产品断言失败，不能算原轮通过。本节点不要求扩大权限重跑监听；当前同摘要宿主完整回执覆盖原受限项，不把旧失败日志改绿。
+
+本次没有新增、复发或未关闭产品缺陷；macOS linker LC_DYSYMTAB 警告在宿主及 QA 存在，测试正常退出。相对此次研发交接，关键变化是完整宿主门禁与真实 UI 证据已补齐；此前 v0.1 QA 缺陷与旧摘要不作为本次通过依据。
+
+未测项：真实供应商、生产环境升级、集群版本一致性、实际构建标记是否准确、人工读屏及未来里程碑；均非本次承诺。服务自报 dev 不等于已证明部署到指定发行版。所有异常种类和超时/竞态在 VM，未逐项另跑真实浏览器；符合本次 AC 的确定性回归方式，真实 UI 的正常、失败恢复及非阻塞路径已有独立执行证据。
+
+环境：runner 使用独立临时数据，defer 关闭服务/监听并 RemoveAll，浏览器关闭 context/browser；回执没有清理错误，未接触用户上游/业务数据。QA 本地契约使用 testing 临时数据；仅保留忽略的构建缓存和本次报告，无凭据或本机绝对路径纳入证据。
+
+## 5. 放行与交接
+
+Go → report：本次 AC-01～07 与 AC-08 当前阶段要求已有匹配版本真实证据，无需求矛盾、设计错误或实现阻断。后续平台须按已授权流程回写原 Issue、Connector 提交/推送并创建草稿 PR，不合并、不部署。若交付前产品/测试/基线摘要发生变化，不能复用此绿色结论，需重新执行受影响验证并匹配回执。
+
+---
+
+# 历史记录：Model Relay v0.1 独立 QA（不作为本次版本展示验收依据）
 
 > **当前结论（2026-10-05，seq 16 复验）：Go。** QA-GAP-01/02 已由匹配当前 32 文件摘要的宿主完整门禁与真实网页旅程关闭；详见第 9 节。以下第 1～8 节是 seq 13 的历史 No-Go，保留失败与缺口证据，不代表当前结论。
 

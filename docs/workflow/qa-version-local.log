@@ -1,0 +1,49 @@
+Independent QA sandbox checks (2026-10-06 Asia/Shanghai)
+workflow/509e5c927cb88a6bbcefa274656ac6d2
+9b6994ed80de2bdba79ff267419150dccaac1360
+{"files":33,"go":"go1.25.6","head":"9b6994ed80de2bdba79ff267419150dccaac1360","scope":"product + tests + build locks + README + acceptance/design; excludes delivery receipts to avoid self-reference","working_tree_sha256":"f96017d3daf52e8372e1ef106397bfb31224e049010bb53a6cd033d69f27d414"}
+node --test tests/browser/ui.test.mjs
+✔ upstream form is unavailable until GET completes, then saves entered values (4.438333ms)
+✔ runtime version preserves raw strings including dev without blocking overview (1.141334ms)
+✔ runtime version missing degrades locally and reentry recovers (1.475625ms)
+✔ runtime version empty degrades locally and reentry recovers (0.722417ms)
+✔ runtime version whitespace degrades locally and reentry recovers (0.765416ms)
+✔ runtime version number degrades locally and reentry recovers (0.664833ms)
+✔ runtime version null version degrades locally and reentry recovers (0.64ms)
+✔ runtime version null body degrades locally and reentry recovers (0.628917ms)
+✔ runtime version array degrades locally and reentry recovers (0.694917ms)
+✔ runtime version string body degrades locally and reentry recovers (0.859958ms)
+✔ runtime version 401 degrades locally and reentry recovers (0.632458ms)
+✔ runtime version 503 degrades locally and reentry recovers (0.7345ms)
+✔ runtime version network degrades locally and reentry recovers (0.654083ms)
+✔ runtime version invalid json degrades locally and reentry recovers (0.714375ms)
+✔ late success cannot clear a newer timer or version (0.668125ms)
+✔ late failure cannot clear a newer timer or version (0.587292ms)
+✔ 5 second timeout covers headers and ignores late resolution (0.556375ms)
+✔ 5 second timeout covers body and ignores late resolution (0.539584ms)
+✔ logout invalidates immediately and late success cannot contaminate a new login (0.754291ms)
+✔ real management 401 still logs out and invalidates runtime version (1.341125ms)
+✔ older response after a newer completion cannot overwrite the current version (0.924583ms)
+✔ failed configuration load leaves an error and navigation can recover (0.480208ms)
+✔ a stale navigation cannot reveal a panel after the user leaves (0.399584ms)
+✔ rejected save recovers persisted configuration after navigation finishes (0.59175ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 94.014459
+# model-relay/internal/relay.test
+ld: warning: '<temporary-link-object>' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestHealthVersionContract
+=== RUN   TestHealthVersionContract/dev
+=== RUN   TestHealthVersionContract/v1.2.3-build
+=== RUN   TestHealthVersionContract/__raw-version__
+--- PASS: TestHealthVersionContract (3.65s)
+    --- PASS: TestHealthVersionContract/dev (1.22s)
+    --- PASS: TestHealthVersionContract/v1.2.3-build (1.21s)
+    --- PASS: TestHealthVersionContract/__raw-version__ (1.21s)
+PASS
+ok  	model-relay/internal/relay	5.121s

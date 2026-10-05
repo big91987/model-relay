@@ -1,0 +1,178 @@
+go run ./tests/evidence
+{"files":33,"go":"go1.25.6","head":"9b6994ed80de2bdba79ff267419150dccaac1360","scope":"product + tests + build locks + README + acceptance/design; excludes delivery receipts to avoid self-reference","working_tree_sha256":"f96017d3daf52e8372e1ef106397bfb31224e049010bb53a6cd033d69f27d414"}
+[toolchain]/make format-check
+go mod verify
+all modules verified
+[toolchain]/make vet
+go vet ./...
+[toolchain]/make frontend-test
+node --test tests/browser/ui.test.mjs
+✔ upstream form is unavailable until GET completes, then saves entered values (4.67675ms)
+✔ runtime version preserves raw strings including dev without blocking overview (1.142667ms)
+✔ runtime version missing degrades locally and reentry recovers (1.339041ms)
+✔ runtime version empty degrades locally and reentry recovers (0.625709ms)
+✔ runtime version whitespace degrades locally and reentry recovers (0.595084ms)
+✔ runtime version number degrades locally and reentry recovers (0.533667ms)
+✔ runtime version null version degrades locally and reentry recovers (0.645292ms)
+✔ runtime version null body degrades locally and reentry recovers (0.653875ms)
+✔ runtime version array degrades locally and reentry recovers (0.706208ms)
+✔ runtime version string body degrades locally and reentry recovers (0.659042ms)
+✔ runtime version 401 degrades locally and reentry recovers (0.532458ms)
+✔ runtime version 503 degrades locally and reentry recovers (0.541541ms)
+✔ runtime version network degrades locally and reentry recovers (0.640458ms)
+✔ runtime version invalid json degrades locally and reentry recovers (0.77625ms)
+✔ late success cannot clear a newer timer or version (0.643375ms)
+✔ late failure cannot clear a newer timer or version (0.458542ms)
+✔ 5 second timeout covers headers and ignores late resolution (0.531458ms)
+✔ 5 second timeout covers body and ignores late resolution (0.499583ms)
+✔ logout invalidates immediately and late success cannot contaminate a new login (0.896875ms)
+✔ real management 401 still logs out and invalidates runtime version (0.645042ms)
+✔ older response after a newer completion cannot overwrite the current version (1.701208ms)
+✔ failed configuration load leaves an error and navigation can recover (0.434042ms)
+✔ a stale navigation cannot reveal a panel after the user leaves (0.346209ms)
+✔ rejected save recovers persisted configuration after navigation finishes (0.429625ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 96.994375
+[toolchain]/make test
+go test -race -count=1 -v ./...
+# model-relay/cmd/model-relay.test
+ld: warning: '[temp]/linker-object' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+# model-relay/internal/relay.test
+ld: warning: '[temp]/linker-object' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestCLIInstallationCommands
+    main_test.go:59: CLI port occupancy verification unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+--- FAIL: TestCLIInstallationCommands (1.93s)
+FAIL
+FAIL	model-relay/cmd/model-relay	2.188s
+=== RUN   TestSpecialInstallationPath
+--- PASS: TestSpecialInstallationPath (2.47s)
+=== RUN   TestHeaderBoundaryAndFailureContract
+2026/10/06 00:30:40 storage_write_failed
+--- PASS: TestHeaderBoundaryAndFailureContract (2.45s)
+=== RUN   TestCrashProcessHelper
+--- PASS: TestCrashProcessHelper (0.00s)
+=== RUN   TestProcessCrashRecovery
+    crash_test.go:40: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+--- FAIL: TestProcessCrashRecovery (1.21s)
+=== RUN   TestInProcessContract
+--- PASS: TestInProcessContract (2.42s)
+=== RUN   TestHTTPConfigurationChangesAndReenable
+    lifecycle_test.go:21: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+--- FAIL: TestHTTPConfigurationChangesAndReenable (1.21s)
+=== RUN   TestHTTPRestartAndBackup
+    persistence_test.go:14: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+--- FAIL: TestHTTPRestartAndBackup (1.20s)
+=== RUN   TestInterruptedActualRequest
+    persistence_test.go:86: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+--- FAIL: TestInterruptedActualRequest (1.20s)
+=== RUN   TestUsageSnapshots
+--- PASS: TestUsageSnapshots (0.00s)
+=== RUN   TestInstallationRecovery
+--- PASS: TestInstallationRecovery (4.87s)
+=== RUN   TestInterruptedAndVersion
+--- PASS: TestInterruptedAndVersion (1.22s)
+=== RUN   TestSourceAndLoginLimits
+--- PASS: TestSourceAndLoginLimits (13.27s)
+=== RUN   TestDestinationAndProtocol
+--- PASS: TestDestinationAndProtocol (0.00s)
+=== RUN   TestHTTPManagementAndOrdinary
+    relay_test.go:335: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+--- FAIL: TestHTTPManagementAndOrdinary (1.23s)
+=== RUN   TestTransparentParametersAndLocalReject
+    relay_test.go:443: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+--- FAIL: TestTransparentParametersAndLocalReject (1.23s)
+=== RUN   TestSSEBarrierAndUsage
+    relay_test.go:471: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+--- FAIL: TestSSEBarrierAndUsage (1.20s)
+=== RUN   TestCancellation
+=== RUN   TestCancellation/false
+    relay_test.go:505: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+=== RUN   TestCancellation/true
+    relay_test.go:505: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+--- FAIL: TestCancellation (2.41s)
+    --- FAIL: TestCancellation/false (1.20s)
+    --- FAIL: TestCancellation/true (1.20s)
+=== RUN   TestUpstreamFailures
+=== RUN   TestUpstreamFailures/auth
+    relay_test.go:574: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+=== RUN   TestUpstreamFailures/rate
+    relay_test.go:574: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+=== RUN   TestUpstreamFailures/server
+    relay_test.go:574: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+=== RUN   TestUpstreamFailures/bad_type
+    relay_test.go:574: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+=== RUN   TestUpstreamFailures/bad_json
+    relay_test.go:574: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+=== RUN   TestUpstreamFailures/bad_stream_type
+    relay_test.go:574: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+=== RUN   TestUpstreamFailures/stream_error
+    relay_test.go:574: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+=== RUN   TestUpstreamFailures/stream_eof
+    relay_test.go:574: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+=== RUN   TestUpstreamFailures/stream_extension
+    relay_test.go:574: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+--- FAIL: TestUpstreamFailures (11.15s)
+    --- FAIL: TestUpstreamFailures/auth (1.24s)
+    --- FAIL: TestUpstreamFailures/rate (1.21s)
+    --- FAIL: TestUpstreamFailures/server (1.25s)
+    --- FAIL: TestUpstreamFailures/bad_type (1.25s)
+    --- FAIL: TestUpstreamFailures/bad_json (1.24s)
+    --- FAIL: TestUpstreamFailures/bad_stream_type (1.24s)
+    --- FAIL: TestUpstreamFailures/stream_error (1.24s)
+    --- FAIL: TestUpstreamFailures/stream_eof (1.23s)
+    --- FAIL: TestUpstreamFailures/stream_extension (1.25s)
+=== RUN   TestTimeoutRedirectAndNetwork
+=== RUN   TestTimeoutRedirectAndNetwork/header_timeout
+    relay_test.go:604: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+=== RUN   TestTimeoutRedirectAndNetwork/idle_timeout
+    relay_test.go:604: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+=== RUN   TestTimeoutRedirectAndNetwork/redirect
+    relay_test.go:604: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+=== RUN   TestTimeoutRedirectAndNetwork/network
+    relay_test.go:604: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+--- FAIL: TestTimeoutRedirectAndNetwork (0.00s)
+    --- FAIL: TestTimeoutRedirectAndNetwork/header_timeout (0.00s)
+    --- FAIL: TestTimeoutRedirectAndNetwork/idle_timeout (0.00s)
+    --- FAIL: TestTimeoutRedirectAndNetwork/redirect (0.00s)
+    --- FAIL: TestTimeoutRedirectAndNetwork/network (0.00s)
+=== RUN   TestStorageFailClosed
+=== RUN   TestStorageFailClosed/start
+    relay_test.go:648: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+=== RUN   TestStorageFailClosed/finish
+    relay_test.go:648: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+=== RUN   TestStorageFailClosed/stream_finish
+    relay_test.go:648: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+--- FAIL: TestStorageFailClosed (3.68s)
+    --- FAIL: TestStorageFailClosed/start (1.22s)
+    --- FAIL: TestStorageFailClosed/finish (1.20s)
+    --- FAIL: TestStorageFailClosed/stream_finish (1.25s)
+=== RUN   TestHealthVersionContract
+=== RUN   TestHealthVersionContract/dev
+=== RUN   TestHealthVersionContract/v1.2.3-build
+=== RUN   TestHealthVersionContract/__raw-version__
+--- PASS: TestHealthVersionContract (3.80s)
+    --- PASS: TestHealthVersionContract/dev (1.27s)
+    --- PASS: TestHealthVersionContract/v1.2.3-build (1.30s)
+    --- PASS: TestHealthVersionContract/__raw-version__ (1.23s)
+=== RUN   TestHTTPHealthVersion
+=== RUN   TestHTTPHealthVersion/dev
+    version_test.go:32: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+=== RUN   TestHTTPHealthVersion/v1.2.3-build
+    version_test.go:32: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+--- FAIL: TestHTTPHealthVersion (2.45s)
+    --- FAIL: TestHTTPHealthVersion/dev (1.23s)
+    --- FAIL: TestHTTPHealthVersion/v1.2.3-build (1.22s)
+FAIL
+FAIL	model-relay/internal/relay	58.948s
+?   	model-relay/tests/browser	[no test files]
+?   	model-relay/tests/evidence	[no test files]
+FAIL
+make[1]: *** [test] Error 1
+make: *** [verify] Error 2
+VERIFY_EXIT=2
