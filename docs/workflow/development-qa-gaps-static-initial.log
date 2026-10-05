@@ -1,0 +1,18 @@
+go vet ./...
+node --test tests/browser/ui.test.mjs
+✔ upstream form is unavailable until GET completes, then saves entered values (4.485041ms)
+✔ failed configuration load leaves an error and navigation can recover (0.872875ms)
+✔ a stale navigation cannot reveal a panel after the user leaves (0.582458ms)
+✔ rejected save recovers persisted configuration after navigation finishes (1.012375ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 90.315292
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+{"files":32,"go":"go1.25.6","head":"fdcb16cb3426d403327da727ae2a8f95c001f1af","scope":"product + tests + build locks + README + acceptance/design; excludes delivery receipts to avoid self-reference","working_tree_sha256":"ec890408d79260760cf6b04a0d50d578104ddf74ca6b2863f2962863a91b299b"}
+
+exit_code=0

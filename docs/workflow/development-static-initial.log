@@ -1,0 +1,9 @@
+$ make build
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+make build exit_code=0
+$ node --check internal/relay/web/app.js
+node app.js exit_code=0
+$ node --check tests/browser/journey.mjs
+node journey.mjs exit_code=0
+$ go run ./tests/evidence
+open <local-path> operation not permitted

@@ -1,0 +1,48 @@
+Independent QA / Agent sandbox / 2026-10-05
+Commands in order (fail-fast):
+go run ./tests/evidence
+make format-check
+go mod verify
+make vet
+make frontend-test
+go test -race -count=1 -v ./internal/relay -run '^(TestInProcessContract|TestHeaderBoundaryAndFailureContract|TestDestinationAndProtocol|TestUsageSnapshots|TestInstallationRecovery|TestInterruptedAndVersion|TestSourceAndLoginLimits)$'
+make build
+Environment: project-local GOCACHE, CGO_ENABLED=1, GOTOOLCHAIN=local. No listening/browser tests rerun here.
+Output (temporary linker path normalized; no credential values):
+ {"files":32,"go":"go1.25.6","head":"fdcb16cb3426d403327da727ae2a8f95c001f1af","scope":"product + tests + build locks + README + acceptance/design; excludes delivery receipts to avoid self-reference","working_tree_sha256":"fbc07625a4d9819bba5aa809de5dfea636450cf42489d7d7c72ab66ccba06efe"}
+ all modules verified
+ go vet ./...
+ node --test tests/browser/ui.test.mjs
+ ✔ upstream form is unavailable until GET completes, then saves entered values (4.361125ms)
+ ✔ failed configuration load leaves an error and navigation can recover (0.778333ms)
+ ✔ a stale navigation cannot reveal a panel after the user leaves (0.734ms)
+ ✔ rejected save recovers persisted configuration after navigation finishes (1.195125ms)
+ ℹ tests 4
+ ℹ suites 0
+ ℹ pass 4
+ ℹ fail 0
+ ℹ cancelled 0
+ ℹ skipped 0
+ ℹ todo 0
+ ℹ duration_ms 88.425792
+ # model-relay/internal/relay.test
+ ld: warning: '<temporary-link-dir>/000023.o' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+ === RUN   TestHeaderBoundaryAndFailureContract
+ 2026/10/05 16:02:36 storage_write_failed
+ --- PASS: TestHeaderBoundaryAndFailureContract (2.58s)
+ === RUN   TestInProcessContract
+ --- PASS: TestInProcessContract (2.57s)
+ === RUN   TestUsageSnapshots
+ --- PASS: TestUsageSnapshots (0.00s)
+ === RUN   TestInstallationRecovery
+ --- PASS: TestInstallationRecovery (5.10s)
+ === RUN   TestInterruptedAndVersion
+ --- PASS: TestInterruptedAndVersion (1.29s)
+ === RUN   TestSourceAndLoginLimits
+ --- PASS: TestSourceAndLoginLimits (14.02s)
+ === RUN   TestDestinationAndProtocol
+ --- PASS: TestDestinationAndProtocol (0.00s)
+ PASS
+ ok  	model-relay/internal/relay	26.996s
+ go build -trimpath -o bin/model-relay ./cmd/model-relay
+ QA_SANDBOX_EXIT=0

@@ -1,0 +1,27 @@
+Source: fixed tests Connector, previous_results seq 7 (2026-10-05).
+This is a selected receipt excerpt, not a new run or the full output.
+command: make verify
+head: fdcb16cb3426d403327da727ae2a8f95c001f1af
+working_tree_sha256: 3964b300ba3734905090d4e565fbd3fcddf31b9b3288c6d8d1d1e50faeadbf2c
+files: 30
+format-check: passed
+go mod verify: all modules verified
+go vet ./...: passed
+go test -race -count=1 -v ./...:
+  model-relay/cmd/model-relay PASS (4.196s)
+  model-relay/internal/relay PASS (93.130s)
+  real HTTP, SSE barrier, cancellation, upstream errors/timeouts/redirect,
+  storage fail-closed, installation/CLI, restart and crash recovery passed.
+  macOS linker LC_DYSYMTAB warnings were present, not fatal.
+go build -trimpath -o bin/model-relay ./cmd/model-relay: passed
+make browser:
+  npm ci: added 2 packages in 401ms
+  go run ./tests/browser
+  FAIL actual Go service browser journey: TimeoutError locator.waitFor: Timeout 10000ms exceeded.
+  exit status 1
+  exit status 1
+  make[1]: *** [browser] Error 1
+  make: *** [verify] Error 2
+exit_code: 2
+The original logger discarded locator call details; viewport and failing
+assertion cannot be inferred reliably from this receipt. No UI pass claimed.

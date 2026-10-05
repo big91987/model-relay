@@ -17,4 +17,73 @@
 - [当前阶段：v0.1.0 基础中转](docs/releases/v0.1.0.md)
 - [产品委托](docs/product-brief.md)
 
-当前处于首版研发阶段，尚无已发布版本。
+首版代码当前以草稿 PR 供人工审查，尚未合并或正式部署。`make verify` 的短命测试服务、手工启动的临时预览都不代表合并后发布。合并到 `main` 后的本机部署入口与状态核对见 [本机持续预览](docs/local-deployment.md)；是否合并由仓库 Owner 决定。
+
+## 安装与运行
+
+构建前提：Go 1.25.6 或兼容的 1.25+ 工具链、C 编译器及 `CGO_ENABLED=1`。SQLite driver 包含 SQLite 引擎，不需要另起数据库；本版不支持无 C 工具链的纯 Go 交叉编译。Go 依赖由 `go.mod` / `go.sum` 锁定，页面资源嵌入二进制，运行无需 Node。
+
+```sh
+make build
+bin/model-relay init --data-dir ../relay-data --key-file ../relay.key
+bin/model-relay serve --data-dir ../relay-data --key-file ../relay.key --listen 127.0.0.1:5544
+```
+
+`init` 创建随机管理员密码，仅向当前终端展示一次：立即安全保管，不重定向到仓库日志。独立主密钥文件也是恢复必需材料。非空安装/已存在的 key-file 拒绝覆盖；启动不自动初始化。不要让数据目录或 key-file 指向已有文件/链接，不使用共享可写目录。数据库与密钥为 0600，数据目录 0700。用户负责同机权限、磁盘容量及备份材料保管。
+
+访问 `http://127.0.0.1:5544/admin/`（不要改为 `localhost`，Host 必须与实际监听 authority 一致），使用一次输出的密码登录。默认安装没有上游、模型或密钥，不自动发送任何生成请求：
+
+1. “上游”保存完整 HTTPS base URL（例如供应商 `/v1` 地址）与凭据。初次和改地址必须有新凭据；相同地址留空保留原值。保存只代表本地提交，不是联调成功。
+2. “模型”建立稳定别名与真实模型映射，可编辑映射、停用或重新启用。
+3. “应用密钥”签发命名密钥，仅创建时展示完整值，可复制后关闭。遗失后签发新的并停用旧的；查询不找回原值。
+4. “调用测试”明确输入应用密钥、别名及消息，手动选择普通/SSE 发送。可能产生真实供应商费用；支持取消，不自动重试。页面离开、退出和取消会清空敏感输入。
+5. “调用记录”只显示真实请求元数据、状态、耗时及可空用量；未知不等于零。分页最多 100 条，不记录对话或供应商诊断正文。
+
+应用端调用示例（环境变量仅供调用者自行填入，测试不读取用户密钥）：
+
+```sh
+curl -H "Authorization: Bearer $APPLICATION_KEY" http://127.0.0.1:5544/v1/models
+curl --no-buffer http://127.0.0.1:5544/v1/chat/completions \
+  -H "Authorization: Bearer $APPLICATION_KEY" -H 'Content-Type: application/json' \
+  -d '{"model":"your-alias","messages":[{"role":"user","content":"Hello"}],"stream":true}'
+```
+
+## 停止、备份与恢复
+
+使用 Ctrl-C 或向该进程发送 SIGTERM。最多排空 10 秒，超时取消剩余请求；不静默更换占用端口。服务排他持有安装锁；同目录多实例、运行中备份均明确失败。
+
+```sh
+# 先停止服务，再执行；输出文件必须不存在。
+bin/model-relay backup --data-dir ../relay-data --output ../relay.backup
+# 使用原 key-file，恢复到不存在或空的独立目录。
+bin/model-relay restore --input ../relay.backup --data-dir ../relay-restored --key-file ../relay.key
+bin/model-relay serve --data-dir ../relay-restored --key-file ../relay.key --listen 127.0.0.1:5544
+```
+
+备份含数据库、版本与摘要，不含独立主密钥或登录会话。数据库仍含认证摘要与加密上游凭据：备份同样属于敏感材料。请分别安全保存备份与原 key-file，丢失材料不能解密恢复。恢复先校验归档路径/类型/大小/摘要/版本与加密哨兵，失败不覆盖原安装；本版恢复的数据库上限 1 GiB。损坏、未知 schema 版本、错误/缺失主密钥必须人工处理，不删库重建。恢复及重启保留配置、应用密钥状态和历史；浏览器旧会话失效。
+
+非正常退出的 `started` 记录在下次启动变为 `process_interrupted`，不会重放。记录写入失败使服务 degraded：健康接口 503、新生成 fail-closed。停止后排查磁盘与权限，保留原安装，再重启；不能假设磁盘故障时最后一条记录已保存。
+
+## 协议与安全边界
+
+仅支持 `GET /v1/models` 和文本/函数工具子集的 `POST /v1/chat/completions`。协议清单、来源规则与错误契约以 `docs/workflow/design.md` 第 4–6 节为准：支持常见生成参数、function tools/choice、response_format、stream_options.include_usage，未知字段和多模态转发前拒绝。只替换请求 model；普通结果及合法 SSE chunk 原样返回，响应中的真实 model 不改写。不转发客户端 Cookie/自定义头或供应商 Set-Cookie；不会访问客户端指定目的地址。
+
+默认拒绝 HTTP、私网/loopback/特殊地址、环境代理、所有重定向；配置和实际 Dial 均复验 DNS。管理写操作须精确 Origin，登录后的写操作还需会话 CSRF；管理会话与应用 Bearer 隔离。上游 token AES-GCM 加密，管理员密码 Argon2id，随机应用密钥仅存 SHA-256 摘要。本版只支持 loopback，无公网 TLS/生产部署承诺，同机特权进程不在秘密保护边界内。
+
+生成请求最大 1 MiB、管理 JSON 64 KiB、普通响应 8 MiB、SSE 事件 256 KiB/全流 32 MiB；响应头 30 秒、整个请求 300 秒、有效 SSE 事件空闲 60 秒；逐次下游写 10 秒。全局登录 10 次/分钟，最多两个并行口令验证。每次生成至多一次供应商 POST，不做重试。SSE 只有记录落盘后才发送 `[DONE]`；`event: error` 或缺少 `[DONE]` 均为不完整，不以 finish_reason 代替结束。取消不能保证供应商撤销费用。
+
+## 验证
+
+前提：上述 Go/C 工具链，以及 Node 18+、npm、Playwright Chromium（仅测试依赖）。
+
+```sh
+npm ci --ignore-scripts --omit=optional --no-audit --no-fund --cache .cache/npm
+npx playwright install chromium
+make verify
+```
+
+固定 `make verify` 顺序执行工作树代码摘要/HEAD、格式、module 校验、vet、前端异步状态回归、race 单元与真实 HTTP/CLI 测试、构建、实际 Go 服务浏览器旅程（1280/390px，包含延迟配置加载屏障）。`make frontend-test` 可单独运行实际 app.js 的隔离状态测试，不代替真实浏览器验收。任何失败都会非零退出，HTTP 或浏览器不可用不算通过。浏览器依赖锁在 package-lock 中，不用于产品后端；受控上游只在测试程序内以指定 authority 放行，正式 CLI 没有测试开关、没有默认假供应商。测试拥有临时数据及随机端口，不使用用户安装或付费凭据。
+
+配置生命周期回归包括不同模型编辑、新地址/新凭据及旧目标计数、上游禁用无消耗后恢复。两屏网页旅程创建两个不同映射、编辑后正常停止 HTTP 服务并关闭存储、重新打开同一临时安装和启动 Go 服务，再登录核对管理响应与恢复网页；同时检查调用记录及捕获的服务日志不含完整凭据、哨兵对话或敏感上游错误。浏览器 runner 的独立 loopback 生命周期/日志检查服务仅在测试内存在，不是产品 API，也不修改数据库记录。实际进程 SIGTERM/崩溃恢复另由原 Go/CLI 测试覆盖。
+
+研发环境监听受沙箱限制，完整通过回执需已配置 host-only 项目测试节点实际执行；参见 `docs/workflow/delivery.md` 的失败与待核验清单。真实供应商联调未测，受控测试、构建成功及草稿 PR 都不代替独立 QA 或用户最终验收。

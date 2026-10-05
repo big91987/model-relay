@@ -1,0 +1,5 @@
+go vet ./...
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+{"files":31,"go":"go1.25.6","head":"fdcb16cb3426d403327da727ae2a8f95c001f1af","scope":"product + tests + build locks + README + acceptance/design; excludes delivery receipts to avoid self-reference","working_tree_sha256":"d4b105f594595fbe96e1b7b054a89a971d136469c9b420d5310e8676672b065a"}
+
+exit_code=0

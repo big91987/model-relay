@@ -1,0 +1,36 @@
+✔ upstream form is unavailable until GET completes, then saves entered values (4.13325ms)
+✔ failed configuration load leaves an error and navigation can recover (0.722708ms)
+✔ a stale navigation cannot reveal a panel after the user leaves (0.633791ms)
+✖ rejected save recovers persisted configuration after navigation finishes (1.414875ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 84.057333
+
+✖ failing tests:
+
+test at tests/browser/ui.test.mjs:87:1
+✖ rejected save recovers persisted configuration after navigation finishes (1.414875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'http://127.0.0.1:1/v1'
+  - 'https://controlled.example/v1'
+         ^
+  
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:105:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'http://127.0.0.1:1/v1',
+    expected: 'https://controlled.example/v1',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+exit_code: 1

@@ -1,0 +1,8 @@
+=== RUN   TestInProcessContract
+--- PASS: TestInProcessContract (0.27s)
+=== RUN   TestUsageSnapshots
+--- PASS: TestUsageSnapshots (0.00s)
+PASS
+ok  	model-relay/internal/relay	0.743s
+
+go test targeted exit_code=0
