@@ -110,12 +110,21 @@ func (server *Server) ServeHTTP(writer http.ResponseWriter, request *http.Reques
 	}
 	switch {
 	case request.URL.Path == "/healthz":
-		if server.degraded.Load() {
-			failure(writer, 503, "storage_unavailable", "")
+		if request.Method != http.MethodGet && request.Method != http.MethodHead {
+			writer.Header().Set("Allow", "GET, HEAD")
+			failure(writer, http.StatusMethodNotAllowed, "method_not_allowed", "")
 			return
 		}
-		ctx := request.Context()
-		if server.Store.DB.PingContext(ctx) != nil {
+		status := http.StatusOK
+		if server.degraded.Load() || server.Store.DB.PingContext(request.Context()) != nil {
+			status = http.StatusServiceUnavailable
+		}
+		if request.Method == http.MethodHead {
+			writer.Header().Set("Content-Type", "application/json")
+			writer.WriteHeader(status)
+			return
+		}
+		if status == http.StatusServiceUnavailable {
 			failure(writer, 503, "storage_unavailable", "")
 			return
 		}

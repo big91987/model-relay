@@ -4,9 +4,10 @@ export GOCACHE := $(CURDIR)/.cache/go-build
 export CGO_ENABLED := 1
 export GOTOOLCHAIN := local
 
-.PHONY: verify format-check vet test build browser frontend-test
+.PHONY: verify format-check vet test build browser frontend-test health-history
 verify:
 	go run ./tests/evidence
+	$(MAKE) health-history
 	$(MAKE) format-check
 	go mod verify
 	$(MAKE) vet
@@ -14,6 +15,9 @@ verify:
 	$(MAKE) test
 	$(MAKE) build
 	$(MAKE) browser
+
+health-history:
+	go run ./tests/health-history
 
 format-check:
 	@test -z "$$(gofmt -l cmd internal tests)" || { gofmt -l cmd internal tests; exit 1; }
