@@ -1,0 +1,138 @@
+Issue #8 pre-fix regression; product server.go unchanged; new tests present
+HEAD: 9b6994ed80de2bdba79ff267419150dccaac1360
+working_tree_sha256: 07c58fdaab77662fcb0545d09dc2f10ba970831942aa757c355d1d23eb364c0a
+Command: go test ./internal/relay -run TestHealthMethods -count=1 -v
+Exit: 1
+=== RUN   TestHealthMethodsHTTP
+=== RUN   TestHealthMethodsHTTP/healthy
+    health_test.go:29: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+=== RUN   TestHealthMethodsHTTP/degraded
+    health_test.go:29: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+=== RUN   TestHealthMethodsHTTP/database_closed
+    health_test.go:29: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+--- FAIL: TestHealthMethodsHTTP (0.37s)
+    --- FAIL: TestHealthMethodsHTTP/healthy (0.14s)
+    --- FAIL: TestHealthMethodsHTTP/degraded (0.12s)
+    --- FAIL: TestHealthMethodsHTTP/database_closed (0.11s)
+=== RUN   TestHealthMethodsHandler
+=== RUN   TestHealthMethodsHandler/healthy
+=== RUN   TestHealthMethodsHandler/healthy/GET
+=== RUN   TestHealthMethodsHandler/healthy/HEAD
+    health_test.go:109: HEAD body has 46 bytes, want zero
+=== RUN   TestHealthMethodsHandler/healthy/POST
+    health_test.go:109: POST status = 200, want 405
+    health_test.go:109: POST Allow = "", want GET, HEAD
+=== RUN   TestHealthMethodsHandler/healthy/PUT
+    health_test.go:109: PUT status = 200, want 405
+    health_test.go:109: PUT Allow = "", want GET, HEAD
+=== RUN   TestHealthMethodsHandler/healthy/PATCH
+    health_test.go:109: PATCH status = 200, want 405
+    health_test.go:109: PATCH Allow = "", want GET, HEAD
+=== RUN   TestHealthMethodsHandler/healthy/DELETE
+    health_test.go:109: DELETE status = 200, want 405
+    health_test.go:109: DELETE Allow = "", want GET, HEAD
+=== RUN   TestHealthMethodsHandler/healthy/OPTIONS
+    health_test.go:109: OPTIONS status = 200, want 405
+    health_test.go:109: OPTIONS Allow = "", want GET, HEAD
+=== RUN   TestHealthMethodsHandler/healthy/TRACE
+    health_test.go:109: TRACE status = 200, want 405
+    health_test.go:109: TRACE Allow = "", want GET, HEAD
+=== RUN   TestHealthMethodsHandler/healthy/CUSTOM
+    health_test.go:109: CUSTOM status = 200, want 405
+    health_test.go:109: CUSTOM Allow = "", want GET, HEAD
+=== RUN   TestHealthMethodsHandler/healthy/recovered_GET
+=== RUN   TestHealthMethodsHandler/healthy/recovered_HEAD
+    health_test.go:122: HEAD body has 46 bytes, want zero
+=== RUN   TestHealthMethodsHandler/degraded
+=== RUN   TestHealthMethodsHandler/degraded/GET
+=== RUN   TestHealthMethodsHandler/degraded/HEAD
+    health_test.go:109: HEAD body has 142 bytes, want zero
+=== RUN   TestHealthMethodsHandler/degraded/POST
+    health_test.go:109: POST status = 503, want 405
+    health_test.go:109: POST Allow = "", want GET, HEAD
+=== RUN   TestHealthMethodsHandler/degraded/PUT
+    health_test.go:109: PUT status = 503, want 405
+    health_test.go:109: PUT Allow = "", want GET, HEAD
+=== RUN   TestHealthMethodsHandler/degraded/PATCH
+    health_test.go:109: PATCH status = 503, want 405
+    health_test.go:109: PATCH Allow = "", want GET, HEAD
+=== RUN   TestHealthMethodsHandler/degraded/DELETE
+    health_test.go:109: DELETE status = 503, want 405
+    health_test.go:109: DELETE Allow = "", want GET, HEAD
+=== RUN   TestHealthMethodsHandler/degraded/OPTIONS
+    health_test.go:109: OPTIONS status = 503, want 405
+    health_test.go:109: OPTIONS Allow = "", want GET, HEAD
+=== RUN   TestHealthMethodsHandler/degraded/TRACE
+    health_test.go:109: TRACE status = 503, want 405
+    health_test.go:109: TRACE Allow = "", want GET, HEAD
+=== RUN   TestHealthMethodsHandler/degraded/CUSTOM
+    health_test.go:109: CUSTOM status = 503, want 405
+    health_test.go:109: CUSTOM Allow = "", want GET, HEAD
+=== RUN   TestHealthMethodsHandler/degraded/recovered_GET
+=== RUN   TestHealthMethodsHandler/degraded/recovered_HEAD
+    health_test.go:122: HEAD body has 46 bytes, want zero
+=== RUN   TestHealthMethodsHandler/database_closed
+=== RUN   TestHealthMethodsHandler/database_closed/GET
+=== RUN   TestHealthMethodsHandler/database_closed/HEAD
+    health_test.go:109: HEAD body has 142 bytes, want zero
+=== RUN   TestHealthMethodsHandler/database_closed/POST
+    health_test.go:109: POST status = 503, want 405
+    health_test.go:109: POST Allow = "", want GET, HEAD
+=== RUN   TestHealthMethodsHandler/database_closed/PUT
+    health_test.go:109: PUT status = 503, want 405
+    health_test.go:109: PUT Allow = "", want GET, HEAD
+=== RUN   TestHealthMethodsHandler/database_closed/PATCH
+    health_test.go:109: PATCH status = 503, want 405
+    health_test.go:109: PATCH Allow = "", want GET, HEAD
+=== RUN   TestHealthMethodsHandler/database_closed/DELETE
+    health_test.go:109: DELETE status = 503, want 405
+    health_test.go:109: DELETE Allow = "", want GET, HEAD
+=== RUN   TestHealthMethodsHandler/database_closed/OPTIONS
+    health_test.go:109: OPTIONS status = 503, want 405
+    health_test.go:109: OPTIONS Allow = "", want GET, HEAD
+=== RUN   TestHealthMethodsHandler/database_closed/TRACE
+    health_test.go:109: TRACE status = 503, want 405
+    health_test.go:109: TRACE Allow = "", want GET, HEAD
+=== RUN   TestHealthMethodsHandler/database_closed/CUSTOM
+    health_test.go:109: CUSTOM status = 503, want 405
+    health_test.go:109: CUSTOM Allow = "", want GET, HEAD
+=== NAME  TestHealthMethodsHandler/database_closed
+    health_test.go:115: installation is in use
+--- FAIL: TestHealthMethodsHandler (0.34s)
+    --- FAIL: TestHealthMethodsHandler/healthy (0.11s)
+        --- PASS: TestHealthMethodsHandler/healthy/GET (0.00s)
+        --- FAIL: TestHealthMethodsHandler/healthy/HEAD (0.00s)
+        --- FAIL: TestHealthMethodsHandler/healthy/POST (0.00s)
+        --- FAIL: TestHealthMethodsHandler/healthy/PUT (0.00s)
+        --- FAIL: TestHealthMethodsHandler/healthy/PATCH (0.00s)
+        --- FAIL: TestHealthMethodsHandler/healthy/DELETE (0.00s)
+        --- FAIL: TestHealthMethodsHandler/healthy/OPTIONS (0.00s)
+        --- FAIL: TestHealthMethodsHandler/healthy/TRACE (0.00s)
+        --- FAIL: TestHealthMethodsHandler/healthy/CUSTOM (0.00s)
+        --- PASS: TestHealthMethodsHandler/healthy/recovered_GET (0.00s)
+        --- FAIL: TestHealthMethodsHandler/healthy/recovered_HEAD (0.00s)
+    --- FAIL: TestHealthMethodsHandler/degraded (0.11s)
+        --- PASS: TestHealthMethodsHandler/degraded/GET (0.00s)
+        --- FAIL: TestHealthMethodsHandler/degraded/HEAD (0.00s)
+        --- FAIL: TestHealthMethodsHandler/degraded/POST (0.00s)
+        --- FAIL: TestHealthMethodsHandler/degraded/PUT (0.00s)
+        --- FAIL: TestHealthMethodsHandler/degraded/PATCH (0.00s)
+        --- FAIL: TestHealthMethodsHandler/degraded/DELETE (0.00s)
+        --- FAIL: TestHealthMethodsHandler/degraded/OPTIONS (0.00s)
+        --- FAIL: TestHealthMethodsHandler/degraded/TRACE (0.00s)
+        --- FAIL: TestHealthMethodsHandler/degraded/CUSTOM (0.00s)
+        --- PASS: TestHealthMethodsHandler/degraded/recovered_GET (0.00s)
+        --- FAIL: TestHealthMethodsHandler/degraded/recovered_HEAD (0.00s)
+    --- FAIL: TestHealthMethodsHandler/database_closed (0.11s)
+        --- PASS: TestHealthMethodsHandler/database_closed/GET (0.00s)
+        --- FAIL: TestHealthMethodsHandler/database_closed/HEAD (0.00s)
+        --- FAIL: TestHealthMethodsHandler/database_closed/POST (0.00s)
+        --- FAIL: TestHealthMethodsHandler/database_closed/PUT (0.00s)
+        --- FAIL: TestHealthMethodsHandler/database_closed/PATCH (0.00s)
+        --- FAIL: TestHealthMethodsHandler/database_closed/DELETE (0.00s)
+        --- FAIL: TestHealthMethodsHandler/database_closed/OPTIONS (0.00s)
+        --- FAIL: TestHealthMethodsHandler/database_closed/TRACE (0.00s)
+        --- FAIL: TestHealthMethodsHandler/database_closed/CUSTOM (0.00s)
+FAIL
+FAIL	model-relay/internal/relay	1.394s
+FAIL

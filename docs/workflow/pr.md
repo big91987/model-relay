@@ -1,104 +1,93 @@
-# Model Relay v0.1：新增 Go 管理服务、应用密钥与普通/SSE 中转闭环
+# 修复 /healthz 方法边界：仅接受 GET/HEAD，其他方法返回 405
 
-建议草稿 PR 标题：**feat: 实现 Model Relay v0.1 Go 管理与普通/SSE 中转及持久化运维**
+建议草稿 PR 标题：**fix: 限制 /healthz 为 GET/HEAD 并保留故障状态与 HEAD 空体**
 
-## 背景、原问题与预期
+## 背景、原故障与预期
 
-原仓库只有产品范围文档，没有可运行服务、管理网页、Go 模块或验证入口。团队无法通过统一入口配置供应商、为应用签发独立权限、调用模型并追踪结果。本次是从零首版交付，不是对已有中转产品的局部修补。
+运行中的 Model Relay 原先仅按路径匹配 `/healthz`，未限制 HTTP 方法。健康状态下 `POST /healthz` 也返回 200，非查询请求被错误地当作健康检查；存储故障时这些方法返回 503，且没有明确允许的方法列表。
 
-依据 `docs/workflow/task.md` 的验收目标，仅实现 `docs/roadmap.md` M1 和 `docs/releases/v0.1.0.md`：从空目录初始化，经管理员配置上游与别名、签发应用密钥、普通/实时 SSE 调用、查看记录、停用密钥，到停止、重启保留数据和备份恢复。需求基线是 `docs/workflow/requirements.md` 的 AC-01～19；接口、安全、存储和失败契约见 `docs/workflow/design.md`。
+本次仅修复该接口的方法边界。验收依据为 `docs/workflow/task.md` 的“目标、现象与预期”和“范围与验收依据”：GET 保留原 status/version JSON 及存储故障语义；HEAD 在相同健康状态下与 GET 同状态码且无响应体；所有非 GET/HEAD 方法返回 405，`Allow` 精确为 `GET, HEAD`。不改其他路由或 Host 校验，不引入供应商调用，不部署。
 
-当前结论：**M1/v0.1 受控验收通过，可交授权 Connector 创建草稿 PR，仍需人审阅。** 不是生产发布或真实供应商联调通过声明，本文也不表示草稿 PR 已创建。
+当前独立 QA 结论为 **Go，QA-H8-01 Closed**，可交 Connector 创建草稿 PR，最终合并由人决定。本文不表示 PR 已创建，也不表示生产或真实供应商验收通过。
 
-## 具体功能与行为
+## 具体行为与实现取舍
 
-- Go CLI 提供 `init`、`serve`、`backup`、`restore`；初始化生成管理员密码并仅向终端显示一次，拒绝覆盖现有安装或主密钥。数据存于独立 SQLite 安装目录，不写入源码。
-- 同一 Go 服务嵌入管理网页：管理员登录/退出、单上游配置与启停、多个模型别名创建/编辑/启停、命名应用密钥签发与停用、手动普通/SSE 调用测试、调用记录分页。加载失败可恢复，桌面及 390px 窄屏操作真实后端。
-- 应用使用 Bearer 密钥访问 `GET /v1/models`、`POST /v1/chat/completions`。别名映射到真实模型；生成参数及工具字段遵循明确兼容子集，不能支持的输入明确拒绝，不静默丢弃。
-- 每次生成最多一次上游 POST，不自动重试或故障转移。SSE 增量及时转发，客户端取消中止上游；覆盖流前/流中错误、断流与有限超时。成功终态记录落盘后才发 `[DONE]`，失败不伪装正常结束。
-- 记录请求标识、模型、状态、耗时、上游状态及可空用量；缺失用量不是零，默认不记录提示词、回答、凭据或上游诊断正文。写记录失败进入 degraded，健康检查返回 503，新生成 fail-closed。
-- 正常停止和重启保留配置、应用密钥状态与历史；旧管理会话失效。异常终止的未完成记录在下次启动标记 `process_interrupted`，不重放生成。停止服务后可备份并用原独立主密钥恢复到空目录。
+| 请求 | 健康 | degraded / 数据库不可用 |
+|---|---|---|
+| GET /healthz | 200，原 status/version JSON | 503，原 storage_unavailable 错误 JSON |
+| HEAD /healthz | 200，空响应体 | 503，空响应体 |
+| 非 GET/HEAD 方法 | 405，Allow: GET, HEAD | 405，Allow: GET, HEAD |
 
-## 关键实现取舍
+- `internal/relay/server.go` 仅修改健康检查分支：先判断方法，再查询健康状态，使非查询方法不受存储故障影响。原 Host 校验仍在路由前执行，上表以通过该校验的请求为前提。
+- GET/HEAD 共用 degraded/数据库 Ping 的状态判断；HEAD 显式写入 JSON 内容类型和状态码后返回，不依赖 HTTP 服务自动丢弃响应体。GET 的成功载荷与故障错误契约不变。
+- `internal/relay/health_test.go` 新增真实 HTTP 和辅助 handler 两层回归。三种状态各覆盖 GET、HEAD、POST、PUT、PATCH、DELETE、OPTIONS、TRACE、CUSTOM 以及恢复后 GET/HEAD，每层 33 个叶用例；使用隔离临时安装和随机端口。
+- `tests/health-history/main.go` 与 `main_test.go` 补充隔离旧版网络复现及判定器。只读归档入口提交，复制最终回归，既不回滚正式源码，也不修改数据库来制造通过。
+- `Makefile` 将 `health-history` 加入固定 `make verify`，保留原格式、依赖、vet、前端、全量 race、构建和实际 Go 服务浏览器门禁。旧版子测试 exit 1 仅在全部精确预期断言齐全时被视为复现成功；监听、构建、超时、race、skip 或额外断言失败不能冒充红灯。
 
-- 后端、管理 API、代理、持久化和运维全部 Go；HTML/CSS/JavaScript 仅为 Go 提供的前端。没有默认假供应商，没有供应商 SDK；原创实现，不读取或改编 New API 实现。
-- 单进程、嵌入页面、SQLite 单事实源适合首版团队自用，不引入多服务或组织级运营平台。设计推荐的 pure-Go SQLite driver/Go 1.27.1 未作为最终构建基线：研发记录了获取依赖的失败证据，实际采用 Go 1.25.6 与 CGO SQLite driver，代价是需要 C 工具链、不支持无 C 工具链的纯 Go 交叉编译。调整依据和历史尝试见 `docs/workflow/delivery.md`。
-- 锁定 `go-sqlite3 v1.14.52`、`x/crypto v0.55.0`、`x/sys v0.47.0`，Go 模块由 `go.mod`/`go.sum` 管理；Playwright 1.59.1 由 `package-lock.json` 锁定，仅用于测试，产品运行无需 Node。
-- 管理会话与应用鉴权隔离；管理写操作校验来源，登录有限速。应用密钥摘要存储，上游凭据 AES-GCM 加密且不回显；改上游地址必须提交新凭据。地址校验包含实际 Dial 重新解析，禁止代理及重定向，默认拒绝私网目的地。
-- 有界请求/响应与超时：生成输入 1 MiB、管理 JSON 64 KiB、普通响应 8 MiB、SSE 单事件 256 KiB/全流 32 MiB；上游响应头 30 秒、总请求 300 秒、有效 SSE 事件空闲 60 秒。默认 loopback，公网发布不在本次范围。
-- 主要实现位置：`cmd/model-relay/`、`internal/relay/`、`internal/relay/web/`；固定验证入口 `Makefile`，真实浏览器旅程与摘要入口分别在 `tests/browser/`、`tests/evidence/`。
+## 实际经过的阶段
 
-## 实际经过的阶段与修复
+入口判断 → 开发 → 宿主项目测试 → 独立 QA → 补证开发 → 宿主完整复验 → 独立 QA 最终复验 → 本次交付说明。
 
-实际顺序为入口判断 → 需求 → 设计 → 开发 → 宿主固定验证及研发续修 → 独立 QA → 补验收资产 → 宿主全量验证 → 独立 QA 复验 → 本交付说明。需求、设计、开发和独立 QA 均未跳过；不存在短路径省略 PRD/设计的情况。独立原型、生产部署、压测和 M2～M4 不属于本次委托，不补造其产物。
+本次 requirements/design 阶段按用户明确授权跳过：问题、范围、预期和验收入口明确，无新增产品或架构决策。仓库已有同名文档属于首版建设，不作为此次修复需求/设计基线；未补造占位 PRD 或设计。研发记录保存在 `delivery.md`，其中“等待宿主测试”等为当时状态；最终结论以 `qa.md` 顶部最终复验和下述 seq 9 回执为准。
 
-研发与 QA 的失败并未删除：
+原开发先加入真实 HTTP 回归，但沙箱在监听阶段失败，没有发送请求；辅助 handler 在旧版抵达了错误断言。QA 首轮因此阻塞 QA-H8-01。后续按照 QA 整改方案在宿主隔离重建旧业务版本，取得真实网络红灯并再次运行完整门禁，QA 才关闭缺口。**旧版网络证据是修复后重建补证，不是原修复前当时成功运行的记录**，不能把实际顺序写成完美的先红后绿。
 
-| 原故障或缺口 | 预期、修正与验证 |
-|---|---|
-| 空 usage 覆盖已知用量快照 | 缺失字段保留已有快照、不伪造零；研发保存 `development-usage-before.log`/`development-usage-after.log`，最终全量回归继续覆盖 |
-| 上游 GET 回填前展示表单，覆盖新输入，required 阻止保存；宿主 seq 9 无 PUT、提示超时 | 加载完成再展示表单，并保护过期导航；实际 app.js 红转绿回归及两屏延迟 GET 屏障证明加载期间不可编辑、加载后可保存 |
-| 拒绝保存后重新导航，浏览器测试即时读取隐藏字段旧值；seq 11 断言失败 | 修正测试同步：恢复导航同样等待真实 GET 屏障；保留原持久值预期及 10 秒超时，未改产品或放宽断言 |
-| seq 14 独立 QA No-Go：AC-04 动态配置生命周期、AC-15 网页记录秘密排除覆盖不足 | 新增真实 HTTP 配置/凭据更新、旧目标计数、禁用无消耗/重新启用，以及两屏编辑/多映射正常重启和敏感失败记录 DOM/服务日志排除；seq 16 全量通过后独立 QA 关闭 QA-GAP-01/02 |
+## 实际验证与证据
 
-`delivery.md` 保留各轮研发当时的“待宿主验证”状态；`qa.md` 第 1～8 节保留历史 No-Go。当前版本的最终状态以 **`qa.md` 第 9 节**及 seq 16 匹配回执为准，不把旧结论改写成成功。
-
-## 实际验证与版本证据
-
-2026-10-05，平台项目测试 Connector 在宿主实际运行 **`make verify`，seq 16，exit 0**。完整原回执保存在平台；仓库审核索引为 `docs/workflow/qa-host-seq16-review.md`，不是另一份测试执行，也不是完整原始回执附件。
-
-验证时 HEAD：`fdcb16cb3426d403327da727ae2a8f95c001f1af`；实现仍未提交，不能只用 HEAD 证明版本。32 文件工作树摘要：
+提交前 HEAD：`9b6994ed80de2bdba79ff267419150dccaac1360`。实现尚在工作树，不能仅凭 HEAD 标识被验代码；35 文件摘要为：
 
 ```text
-fbc07625a4d9819bba5aa809de5dfea636450cf42489d7d7c72ab66ccba06efe
+edb4224576eb1ef488c33d9e8ab354bdba90a8a39668bb75f0c548a616f7dd48
 ```
 
-摘要边界由 `tests/evidence/main.go` 定义：产品、测试、构建锁、README 和 task/requirements/design；不包含 delivery、QA、本文及回执，避免自引用。本报告节点重新计算摘要，与 seq 16 和独立 QA 一致；未修改产品、测试或验收基线。
+摘要由 `tests/evidence/main.go` 计算，覆盖产品、测试、构建锁、README 和验收/设计文件，排除交付报告与日志避免自引用。该值与 seq 9 宿主回执、最终独立 QA 及 `health-methods-history-version.json` 一致。本报告节点使用项目本地缓存重新计算得到相同摘要，`git diff --check` 成功；首次直接计算因默认用户缓存不可读失败，改用项目已有 `.cache/go-build` 后成功，未扩大权限。
 
-| 实际门禁 | 结果及范围 |
+| 验证 | 真实结果与依据 |
 |---|---|
-| 格式、Go module 校验、vet | 全部通过 |
-| 前端异步状态回归 | 4/4 通过：加载后保存、加载失败恢复、旧导航保护、拒绝保存后的配置恢复 |
-| `go test -race -count=1 -v ./...` | 通过，包括实际 HTTP、CLI、进程正常/异常退出、备份恢复、鉴权与来源、配置更新、凭据隔离、SSE 首包屏障、取消、超时/重定向/失败、记录存储 fail-closed 和用量快照 |
-| `go build -trimpath` | 通过 |
-| 实际 Go 服务浏览器旅程 | 1280px、390px 均通过；包含加载/恢复屏障、多映射重启、普通/SSE/取消、签发/停用/退出、真实敏感失败及记录区域/捕获服务日志秘密排除 |
+| 旧版真实 HTTP 复现 | seq 9 与 `health-methods-history.log`：healthy POST 实际 200/预期 405、Allow 空；三状态共 21 个非查询方法失败，42 条 status/Allow 诊断，12 个查询/恢复用例通过；子 go test exit 1，判定器输出 PASS expected historical HTTP red |
+| 当前完整 make verify | 平台 previous_results seq 9，tests Connector，command exit_code 0；串行包含 evidence、历史复现、格式、module、vet、前端、全量 race、build、browser，无忽略失败 |
+| 当前方法契约 | 真实 HTTP 三状态 33 叶用例由完整门禁验证；GET JSON/503、HEAD 同状态空体、七种非查询方法 405/Allow 及恢复行为全部覆盖 |
+| 独立 QA | `qa.md` 最终结论 Go；`health-methods-qa-recheck.log` 记录摘要、diff、旧版/测试哈希、完整历史事件独立解析、判定器正常及 14 类拒绝路径 race 测试、handler 33 叶用例成功 |
+| 实际服务 UI | 完整入口包含真实 Go 服务的 1280px/390px 连续浏览器旅程，使用受控测试上游，不是静态页面或真实供应商联调 |
 
-独立 QA 在 `docs/workflow/qa.md` 第 9 节确认 AC-01～19 Pass、QA-GAP-01/02 Closed，结论 **Go（仅受控验收）**。独立 Agent 非监听自查另有 `docs/workflow/qa-sandbox-recheck.log`，exit 0；其格式/module/vet、4 前端回归、7 非监听 race 用例及 build 不混称宿主 HTTP/UI 执行。
+seq 9 会话 stdout 在历史事件段后截断，未逐行看到本轮 test/build/browser 后半段输出。完整成功依据是真实整体 exit 0 和独立 QA 核对的串行 Makefile/脚本错误传播，不捏造截断行。seq 6 未截断回执提供同一未变更浏览器资产的两视口明确 PASS，但其旧 33 文件摘要不替代 seq 9 的新摘要验收。
 
-沙箱历史 `make verify`/browser 因监听或 Chromium 权限限制失败，证据留在 `docs/workflow/development-*.log`；未申请提权、未删除门禁。宿主链接器 LC_DYSYMTAB warning 未导致失败；用例注入的 `storage_write_failed` 是预期故障覆盖，不是被忽略的产品错误。没有生成截图或 trace，不编造附件。
+旧版来源：入口提交归档 SHA-256 `e8307563c976a77940851da8254d70b8255fa4caa690d898a6452ee15de4eaaf`；旧 server.go `d61e4e747231654aa7895404b94c2539497cef2074186b3bbe05b90a94252383`；最终 health_test.go `15b13fbd3cb3265c8bedb9a34f78980fea195351e458f5a4b83ca675513f7c3e`，均由独立 QA 核对。
 
-## 已知限制与未测边界
+失败证据未删除：`health-methods-before.log` 保留最初 HTTP 监听阻塞与 handler 旧版失败；`health-methods-handler-recovery-failure.log` 保留测试安装锁错误；`health-methods-verify-final.log`、`health-methods-browser.log`、`health-methods-browser-direct.log` 保留沙箱 bind/DNS 失败；`health-methods-history-verify-initial.log`、`health-methods-history-sandbox.log`、`health-methods-history-verify.log` 保留补证初次判定失败及监听阻塞。它们不算产品通过，后续宿主成功也不改写原失败。
 
-- **真实供应商联调 Not Run**：没有真实凭据、响应或付费调用授权。测试使用隔离目录/随机端口及显式允许的受控上游，不触达用户安装；受控成功不证明供应商实际可用或全协议兼容。
-- 仅单管理员、单上游及明确 OpenAI 兼容子集；不含多渠道调度、自动故障转移、计费、角色、多租户、其他协议、HA 或后续 M2～M4。没有吞吐/SLA 承诺或生产部署验证。
-- 调用测试必须由用户明确发送；配置保存不代表联调成功，取消也不能保证供应商撤销费用。流中失败可能已交付部分输出，不能撤回。
-- 构建需 CGO/C 编译器；备份须先停服，并分别保管备份与原主密钥。备份不含主密钥或登录会话，丢失密钥不能解密恢复；恢复数据库上限 1 GiB。
-- 宿主 Node/Chromium 精确版本未在验证回执中报告，不臆造。窄屏使用同一隔离安装的新浏览器 context，不宣称额外一次空安装；正常服务/存储重开由网页 runner 控制，真实 CLI/进程退出另有 Go 测试。
+## 已知限制
 
-## 试用与审阅方式
+- 事后重建补证的时序限制永久保留；旧版真实 HEAD 空体本来由 Go HTTP 层抑制响应体，不能将 handler 的旧版 HEAD body 失败混称网络 HEAD 失败。
+- 历史门禁依赖上述基线提交仍可被 `git archive` 读取，浅克隆缺失该对象时应补齐历史，不得跳过门禁。
+- 原生 Agent 沙箱不能监听，网络/浏览器验收由固定宿主 Connector 执行；未生成截图、trace 或单独宿主进程盘点，不声称另做这些检查。
+- macOS LC_DYSYMTAB 链接警告有真实记录，未导致宿主整体失败；历史判定器只允许该精确已知警告，不泛化忽略构建错误。
+- 无真实供应商、生产部署、性能/SLA 或额外 UI/读屏验收。本次不新增用户界面、权限、配置、依赖或数据迁移。
 
-前提：Go 1.25.6 或兼容 1.25+ 工具链、C 编译器及 `CGO_ENABLED=1`。使用新的独立目录和 key-file，不覆盖已有数据，不把密码输出重定向到仓库证据。
+## 试用方式
+
+前提为项目 Go 1.25 工具链、CGO/C 编译器。使用全新的独立数据目录和密钥文件，避免覆盖现有安装；初始化密码只向终端展示，不保存到仓库日志。运维注意事项见 `README.md`。
 
 ```sh
 make build
-bin/model-relay init --data-dir ../relay-data --key-file ../relay.key
-bin/model-relay serve --data-dir ../relay-data --key-file ../relay.key --listen 127.0.0.1:5544
+bin/model-relay init --data-dir ../relay-health-demo --key-file ../relay-health-demo.key
+bin/model-relay serve --data-dir ../relay-health-demo --key-file ../relay-health-demo.key --listen 127.0.0.1:5544
 ```
 
-浏览器访问 `http://127.0.0.1:5544/admin/`，使用初始化一次展示的密码；不要替换为 localhost，Host 必须与监听 authority 一致。配置获授权的 HTTPS 上游和凭据 → 建立别名 → 签发应用密钥并安全保存 → 在调用测试页明确发送普通/SSE → 查看记录 → 停用密钥核对拒绝 → Ctrl-C 停止 → 用相同参数重启并重新登录，核对保留状态。真实调用可能产生费用，没有凭据时不要把未联调当失败或通过。
-
-完整应用 curl 示例、`backup`/`restore` 命令和安全注意事项见 `README.md`。复跑自动验收需 Node 18+、npm 和 Playwright Chromium，仅用于测试：
+在另一个终端检查，不需要供应商凭据或发送生成请求：
 
 ```sh
-npm ci --ignore-scripts --omit=optional --no-audit --no-fund --cache .cache/npm
-npx playwright install chromium
-make verify
+curl -i http://127.0.0.1:5544/healthz
+curl -I http://127.0.0.1:5544/healthz
+curl -i -X POST http://127.0.0.1:5544/healthz
 ```
 
-受限 Agent 沙箱不能监听时沿用已配置宿主验证 Connector，不用静态页面检查代替。审阅优先关注鉴权/来源/地址和加密边界、SSE 完成与存储失败、运维恢复以及真实测试断言。
+预期依次为 200 + status/version JSON、200 + 无响应体、405 + `Allow: GET, HEAD`；不要把 authority 改为 localhost。Ctrl-C 停止服务。degraded/数据库不可用及恢复由隔离自动回归验证，不建议破坏试用数据库来手工模拟。
+
+完整复验使用 `make verify`，浏览器测试需项目锁定的 npm 依赖和 Playwright Chromium，安装方式见 README。受限沙箱沿用宿主验证 Connector，不删除历史门禁、不以静态页面测试替代。
 
 ## 后续 Connector 交接
 
-走 `next → publish`。仅由授权 Connector 对当前工作树提交、推送并创建草稿 PR，使用本文建议标题和正文；最终合并由人决定。本节点未创建 Issue、分支、提交、推送、PR、部署或 GitHub Workflow，也未扩大访问权限。
+走 `next → publish`，由授权 Connector 回写 Issue #8 的真实证据、提交当前工作树、推送并创建草稿 PR，使用本文具体修复标题及正文，最终由人审阅合并。保持不部署、不触发 GitHub Workflow、不扩大访问权限。本节点只整理交付说明，未创建/合并 PR 或执行 Git 发布。
 
-提交后 HEAD 自然变化，不改变上述提交前验证事实；保留原 HEAD 和内容摘要关联。若发布前修改产品、测试、构建锁或验收基线，必须重新计算匹配摘要、执行固定 `make verify` 并返回独立 QA，不沿用 seq 16 放行。
+提交会改变 HEAD，但不改写提交前验收事实。若发布前改变产品、测试、构建或验收资产导致内容摘要变化，必须重新执行固定 `make verify` 并交独立 QA，不能沿用本次放行。
