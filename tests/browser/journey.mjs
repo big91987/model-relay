@@ -14,6 +14,71 @@ async function navigate(page, name) {
   checkpoint = `click ${name}`;
   await page.getByRole('button', {name, exact: true}).click();
 }
+async function passwordState(page, visible, cleared = false) {
+  checkpoint = visible ? 'password shown with accessible action and state' : 'password hidden with accessible action and state';
+  const toggle = page.locator('#password-toggle');
+  const name = visible ? '隐藏密码' : '显示密码';
+  const status = visible ? '密码已显示' : '密码已隐藏';
+  assert.equal(await page.locator('#password').getAttribute('type'), visible ? 'text' : 'password');
+  assert.equal(await toggle.textContent(), name);
+  assert.equal(await page.getByRole('button', {name, exact: true}).count(), 1);
+  assert.equal((await toggle.ariaSnapshot()).includes('button "' + name + '"'), true);
+  assert.equal(await toggle.getAttribute('type'), 'button');
+  assert.equal(await toggle.getAttribute('aria-controls'), 'password');
+  assert.equal(await toggle.getAttribute('aria-describedby'), 'password-visibility-status');
+  assert.equal(await toggle.getAttribute('aria-pressed'), null);
+  assert.equal(await page.locator('#password-visibility-status').getAttribute('role'), 'status');
+  assert.equal(await page.locator('#password-visibility-status').getAttribute('aria-live'), 'polite');
+  assert.equal(await page.locator('#password-visibility-status').textContent(), status);
+  assert.equal((await page.locator('#password-visibility-status').ariaSnapshot()).includes(status), true);
+  if (cleared) assert.equal((await page.locator('#password').inputValue()) === '', true, 'password cleared');
+}
+async function passwordVisibilityJourney(page, context, requests) {
+  await page.locator('#login').waitFor({state: 'visible'});
+  await passwordState(page, false, true);
+  await page.reload();
+  await page.locator('#login').waitFor({state: 'visible'});
+  await passwordState(page, false, true);
+  const before = requests.count;
+  const url = page.url();
+  const storage = JSON.stringify(await context.storageState());
+  await page.evaluate(() => {
+    window.passwordEvents = {submit: 0, invalid: 0};
+    document.getElementById('login-form').addEventListener('submit', () => window.passwordEvents.submit++);
+    document.getElementById('login-form').addEventListener('invalid', () => window.passwordEvents.invalid++, true);
+  });
+  const input = page.getByLabel('管理员密码');
+  const toggle = page.locator('#password-toggle');
+  for (const value of ['', '  controlled <&> 密码 !  ']) {
+    await input.fill(value);
+    await input.focus();
+    await page.keyboard.press('Tab');
+    assert.equal(await toggle.evaluate(node => node === document.activeElement), true);
+    assert.equal(await toggle.evaluate(node => getComputedStyle(node).outlineStyle !== 'none' && parseFloat(getComputedStyle(node).outlineWidth) >= 3), true);
+    for (const activation of ['Enter', 'Space', 'click', 'click']) {
+      const visible = (await input.getAttribute('type')) === 'password';
+      if (activation === 'click') await toggle.click();
+      else await page.keyboard.press(activation);
+      await passwordState(page, visible);
+      assert.equal((await input.inputValue()) === value, true, 'toggle preserves original value');
+      assert.equal(await toggle.evaluate(node => node === document.activeElement), true);
+    }
+    await page.keyboard.press('Tab');
+    assert.equal(await page.getByRole('button', {name: '登录', exact: true}).evaluate(node => node === document.activeElement), true);
+  }
+  await page.waitForTimeout(50);
+  checkpoint = 'password toggles have zero requests, submit and invalid events or storage writes';
+  assert.equal(requests.count, before);
+  assert.deepEqual(await page.evaluate(() => window.passwordEvents), {submit: 0, invalid: 0});
+  assert.equal(page.url() === url, true);
+  assert.equal(JSON.stringify(await context.storageState()) === storage, true);
+  assert.equal(await page.evaluate(() => localStorage.length + sessionStorage.length), 0);
+  assert.deepEqual(await page.evaluate(async () => indexedDB.databases()), []);
+  assert.equal(await page.evaluate(async () => (await navigator.serviceWorker.getRegistrations()).length), 0);
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+  assert.equal(await toggle.evaluate(node => node.getBoundingClientRect().height >= 44), true);
+  await input.fill('');
+}
 async function loadUpstreamPanel(page) {
   let releaseLoad;
   const loadReleased = new Promise(resolve => { releaseLoad = resolve; });
@@ -111,6 +176,8 @@ try {
     const context = await browser.newContext({viewport: {width, height: 900}});
     const page = await context.newPage();
     const healthRequests = {count: 0};
+    const allRequests = {count: 0};
+    page.on('request', () => allRequests.count++);
     page.on('request', request => { if (new URL(request.url()).pathname === '/healthz') healthRequests.count++; });
     page.on('dialog', dialog => dialog.accept());
     const errors = [];
@@ -125,13 +192,34 @@ try {
     await page.goto(origin + '/admin/');
     assert.equal(await page.locator('#runtime-version').isVisible(), false);
     assert.equal(healthRequests.count, 0, 'no health request before login');
+    await passwordVisibilityJourney(page, context, allRequests);
     await page.getByLabel('管理员密码').fill('wrong fixture password');
+    await navigate(page, '显示密码');
     await navigate(page, '登录');
     await visibleText(page, '#error', 'unauthorized');
+    await passwordState(page, false, true);
     await page.getByLabel('管理员密码').fill(process.env.RELAY_BROWSER_PASSWORD);
+    checkpoint = 'hidden password Enter submits normal login';
+    await page.getByLabel('管理员密码').press('Enter');
+    await visibleText(page, '#summary', width === 1280 ? '待配置' : '上游');
+    assert.equal((await page.locator('#password').inputValue()) === '', true);
+    assert.equal(await page.locator('#password').getAttribute('type'), 'password');
+    await navigate(page, '退出');
+    await page.locator('#login').waitFor({state: 'visible'});
+    await passwordState(page, false, true);
+    await page.reload();
+    await page.locator('#login').waitFor({state: 'visible'});
+    await passwordState(page, false, true);
+    await page.getByLabel('管理员密码').fill(process.env.RELAY_BROWSER_PASSWORD);
+    await navigate(page, '显示密码');
+    await passwordState(page, true);
     await navigate(page, '登录');
     await visibleText(page, '#summary', width === 1280 ? '待配置' : '上游');
+    assert.equal((await page.locator('#password').inputValue()) === '', true);
+    assert.equal(await page.locator('#password').getAttribute('type'), 'password');
     await runtimeVersionJourney(page, context, width, healthRequests);
+    assert.equal((await page.locator('#password').inputValue()) === '', true, 'session restoration clears password');
+    assert.equal(await page.locator('#password').getAttribute('type'), 'password');
     await loadUpstreamPanel(page);
     await page.getByLabel('上游地址').fill(process.env.RELAY_BROWSER_UPSTREAM);
     await page.getByLabel('上游凭据').fill('controlled-browser-upstream');
@@ -245,7 +333,7 @@ try {
     const rejectedRow = page.locator('#record-list tr').filter({hasText: 'alpha-' + width}).filter({hasText: 'upstream_rejected'});
     await rejectedRow.waitFor({state: 'visible', timeout: 10000});
     assert.equal(await rejectedRow.count(), 1);
-    const secrets = [process.env.RELAY_BROWSER_PASSWORD, 'controlled-browser-upstream', ...keys, 'browser-prompt-sentinel', 'browser-error-prompt-sentinel', 'controlled ordinary', 'controlled first', 'stream fixture', 'cancel fixture', 'browser-sensitive-diagnostic-sentinel'];
+    const secrets = [process.env.RELAY_BROWSER_PASSWORD, 'wrong fixture password', '  controlled <&> 密码 !  ', 'controlled after logout input', 'controlled-browser-upstream', ...keys, 'browser-prompt-sentinel', 'browser-error-prompt-sentinel', 'controlled ordinary', 'controlled first', 'stream fixture', 'cancel fixture', 'browser-sensitive-diagnostic-sentinel'];
     checkpoint = 'record-list excludes credentials, conversations and sensitive upstream diagnostics';
     const recordText = await page.locator('#record-list').textContent();
     for (const secret of secrets) assert.equal(recordText.includes(secret), false, 'record-list exclusion failed');
@@ -284,6 +372,12 @@ try {
     await navigate(page, '退出');
     checkpoint = 'visible #login after logout';
     await page.locator('#login').waitFor({state: 'visible'});
+    await passwordState(page, false, true);
+    await page.getByLabel('管理员密码').fill('controlled after logout input');
+    await passwordState(page, false);
+    await page.reload();
+    await page.locator('#login').waitFor({state: 'visible'});
+    await passwordState(page, false, true);
     assert.equal(await page.locator('#runtime-version').isVisible(), false);
     assert.equal(await page.locator('#runtime-version').textContent(), '');
     const response = await context.request.get(origin + '/admin/api/keys');

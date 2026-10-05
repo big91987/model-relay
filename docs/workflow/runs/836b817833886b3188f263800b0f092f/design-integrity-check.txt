@@ -1,0 +1,34 @@
+Design node integrity receipt (not product verification)
+Run: 836b817833886b3188f263800b0f092f
+Source HEAD: 73681a7df4c5cbe5914056ac13348154d58726e0
+
+Executed: shasum -a 256 -c docs/workflow/runs/836b817833886b3188f263800b0f092f/historical-documents.sha256
+Exit: 0
+docs/workflow/task.md: OK
+docs/workflow/requirements.md: OK
+docs/workflow/design.md: OK
+docs/workflow/delivery.md: OK
+docs/workflow/qa.md: OK
+docs/workflow/pr.md: OK
+docs/workflow/history/issue-8/delivery.md: OK
+docs/workflow/history/issue-8/pr.md: OK
+docs/workflow/history/issue-8/qa.md: OK
+docs/workflow/history/issue-8/task.md: OK
+
+Executed: git diff --check
+Exit: 0; no output (tracked diff only; new Run documents are untracked).
+
+Observed git diff --name-only: .gitignore
+Observed git status --short:
+ M .gitignore
+?? .gitattributes
+?? .trellis/
+?? docs/workflow/runs/
+
+The preparation changes were already present before this node and remain untouched.
+This node added password-visibility-architecture.md, g2-review.md and this receipt
+under the current Run root. Requirements and historical baseline files are retained.
+No business source changes. No make verify, product browser test or independent QA
+was executed by this node. No deployment, provider call or Git publication performed.
+Hashes prove only the ten listed historical documents remain unchanged, not test success;
+all other historical documents and logs must also remain preserved downstream.

@@ -1,0 +1,203 @@
+修复后隔离重建旧版网络复现（非原开发时成功记录）
+baseline=9b6994ed80de2bdba79ff267419150dccaac1360
+baseline_archive_sha256=e8307563c976a77940851da8254d70b8255fa4caa690d898a6452ee15de4eaaf
+server_sha256=d61e4e747231654aa7895404b94c2539497cef2074186b3bbe05b90a94252383
+final_test_sha256=15b13fbd3cb3265c8bedb9a34f78980fea195351e458f5a4b83ca675513f7c3e
+command=go test -json -race -count=1 -run ^TestHealthMethodsHTTP$ ./internal/relay
+exit_code=1
+{"ImportPath":"model-relay/internal/relay.test","Action":"build-output","Output":"# model-relay/internal/relay.test\nld: warning: '<temp>/go-link-2604504390/000023.o' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626\n"}
+{"Time":"2026-10-06T04:15:38.011962+08:00","Action":"start","Package":"model-relay/internal/relay"}
+{"Time":"2026-10-06T04:15:38.505875+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP"}
+{"Time":"2026-10-06T04:15:38.505934+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP","Output":"=== RUN   TestHealthMethodsHTTP\n"}
+{"Time":"2026-10-06T04:15:38.505966+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy"}
+{"Time":"2026-10-06T04:15:38.505969+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy","Output":"=== RUN   TestHealthMethodsHTTP/healthy\n"}
+{"Time":"2026-10-06T04:15:39.76663+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/GET"}
+{"Time":"2026-10-06T04:15:39.766646+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/GET","Output":"=== RUN   TestHealthMethodsHTTP/healthy/GET\n"}
+{"Time":"2026-10-06T04:15:39.767844+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/GET","Output":"--- PASS: TestHealthMethodsHTTP/healthy/GET (0.00s)\n"}
+{"Time":"2026-10-06T04:15:39.767862+08:00","Action":"pass","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/GET","Elapsed":0}
+{"Time":"2026-10-06T04:15:39.767871+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/HEAD"}
+{"Time":"2026-10-06T04:15:39.767873+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/HEAD","Output":"=== RUN   TestHealthMethodsHTTP/healthy/HEAD\n"}
+{"Time":"2026-10-06T04:15:39.768186+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/HEAD","Output":"--- PASS: TestHealthMethodsHTTP/healthy/HEAD (0.00s)\n"}
+{"Time":"2026-10-06T04:15:39.768192+08:00","Action":"pass","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/HEAD","Elapsed":0}
+{"Time":"2026-10-06T04:15:39.76822+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/POST"}
+{"Time":"2026-10-06T04:15:39.768222+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/POST","Output":"=== RUN   TestHealthMethodsHTTP/healthy/POST\n"}
+{"Time":"2026-10-06T04:15:39.768535+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/POST","Output":"    health_test.go:109: POST status = 200, want 405\n"}
+{"Time":"2026-10-06T04:15:39.76855+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/POST","Output":"    health_test.go:109: POST Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-06T04:15:39.768575+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/POST","Output":"--- FAIL: TestHealthMethodsHTTP/healthy/POST (0.00s)\n"}
+{"Time":"2026-10-06T04:15:39.768598+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/POST","Elapsed":0}
+{"Time":"2026-10-06T04:15:39.768609+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/PUT"}
+{"Time":"2026-10-06T04:15:39.768611+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/PUT","Output":"=== RUN   TestHealthMethodsHTTP/healthy/PUT\n"}
+{"Time":"2026-10-06T04:15:39.768873+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/PUT","Output":"    health_test.go:109: PUT status = 200, want 405\n"}
+{"Time":"2026-10-06T04:15:39.76889+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/PUT","Output":"    health_test.go:109: PUT Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-06T04:15:39.768921+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/PUT","Output":"--- FAIL: TestHealthMethodsHTTP/healthy/PUT (0.00s)\n"}
+{"Time":"2026-10-06T04:15:39.768932+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/PUT","Elapsed":0}
+{"Time":"2026-10-06T04:15:39.768944+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/PATCH"}
+{"Time":"2026-10-06T04:15:39.768945+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/PATCH","Output":"=== RUN   TestHealthMethodsHTTP/healthy/PATCH\n"}
+{"Time":"2026-10-06T04:15:39.769212+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/PATCH","Output":"    health_test.go:109: PATCH status = 200, want 405\n"}
+{"Time":"2026-10-06T04:15:39.769228+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/PATCH","Output":"    health_test.go:109: PATCH Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-06T04:15:39.769256+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/PATCH","Output":"--- FAIL: TestHealthMethodsHTTP/healthy/PATCH (0.00s)\n"}
+{"Time":"2026-10-06T04:15:39.769269+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/PATCH","Elapsed":0}
+{"Time":"2026-10-06T04:15:39.769272+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/DELETE"}
+{"Time":"2026-10-06T04:15:39.769273+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/DELETE","Output":"=== RUN   TestHealthMethodsHTTP/healthy/DELETE\n"}
+{"Time":"2026-10-06T04:15:39.76955+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/DELETE","Output":"    health_test.go:109: DELETE status = 200, want 405\n"}
+{"Time":"2026-10-06T04:15:39.769567+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/DELETE","Output":"    health_test.go:109: DELETE Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-06T04:15:39.769596+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/DELETE","Output":"--- FAIL: TestHealthMethodsHTTP/healthy/DELETE (0.00s)\n"}
+{"Time":"2026-10-06T04:15:39.769607+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/DELETE","Elapsed":0}
+{"Time":"2026-10-06T04:15:39.769618+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/OPTIONS"}
+{"Time":"2026-10-06T04:15:39.769623+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/OPTIONS","Output":"=== RUN   TestHealthMethodsHTTP/healthy/OPTIONS\n"}
+{"Time":"2026-10-06T04:15:39.769863+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/OPTIONS","Output":"    health_test.go:109: OPTIONS status = 200, want 405\n"}
+{"Time":"2026-10-06T04:15:39.769875+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/OPTIONS","Output":"    health_test.go:109: OPTIONS Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-06T04:15:39.7699+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/OPTIONS","Output":"--- FAIL: TestHealthMethodsHTTP/healthy/OPTIONS (0.00s)\n"}
+{"Time":"2026-10-06T04:15:39.769912+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/OPTIONS","Elapsed":0}
+{"Time":"2026-10-06T04:15:39.769921+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/TRACE"}
+{"Time":"2026-10-06T04:15:39.769924+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/TRACE","Output":"=== RUN   TestHealthMethodsHTTP/healthy/TRACE\n"}
+{"Time":"2026-10-06T04:15:39.770138+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/TRACE","Output":"    health_test.go:109: TRACE status = 200, want 405\n"}
+{"Time":"2026-10-06T04:15:39.770153+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/TRACE","Output":"    health_test.go:109: TRACE Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-06T04:15:39.770179+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/TRACE","Output":"--- FAIL: TestHealthMethodsHTTP/healthy/TRACE (0.00s)\n"}
+{"Time":"2026-10-06T04:15:39.770186+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/TRACE","Elapsed":0}
+{"Time":"2026-10-06T04:15:39.770197+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/CUSTOM"}
+{"Time":"2026-10-06T04:15:39.7702+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/CUSTOM","Output":"=== RUN   TestHealthMethodsHTTP/healthy/CUSTOM\n"}
+{"Time":"2026-10-06T04:15:39.770465+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/CUSTOM","Output":"    health_test.go:109: CUSTOM status = 200, want 405\n"}
+{"Time":"2026-10-06T04:15:39.770482+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/CUSTOM","Output":"    health_test.go:109: CUSTOM Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-06T04:15:39.770524+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/CUSTOM","Output":"--- FAIL: TestHealthMethodsHTTP/healthy/CUSTOM (0.00s)\n"}
+{"Time":"2026-10-06T04:15:39.770544+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/CUSTOM","Elapsed":0}
+{"Time":"2026-10-06T04:15:39.770548+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/recovered_GET"}
+{"Time":"2026-10-06T04:15:39.77055+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/recovered_GET","Output":"=== RUN   TestHealthMethodsHTTP/healthy/recovered_GET\n"}
+{"Time":"2026-10-06T04:15:39.770842+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/recovered_GET","Output":"--- PASS: TestHealthMethodsHTTP/healthy/recovered_GET (0.00s)\n"}
+{"Time":"2026-10-06T04:15:39.77085+08:00","Action":"pass","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/recovered_GET","Elapsed":0}
+{"Time":"2026-10-06T04:15:39.770859+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/recovered_HEAD"}
+{"Time":"2026-10-06T04:15:39.770861+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/recovered_HEAD","Output":"=== RUN   TestHealthMethodsHTTP/healthy/recovered_HEAD\n"}
+{"Time":"2026-10-06T04:15:39.771124+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/recovered_HEAD","Output":"--- PASS: TestHealthMethodsHTTP/healthy/recovered_HEAD (0.00s)\n"}
+{"Time":"2026-10-06T04:15:39.771127+08:00","Action":"pass","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/recovered_HEAD","Elapsed":0}
+{"Time":"2026-10-06T04:15:39.772028+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy","Output":"--- FAIL: TestHealthMethodsHTTP/healthy (1.27s)\n"}
+{"Time":"2026-10-06T04:15:39.772032+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy","Elapsed":1.27}
+{"Time":"2026-10-06T04:15:39.772047+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded"}
+{"Time":"2026-10-06T04:15:39.772049+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded","Output":"=== RUN   TestHealthMethodsHTTP/degraded\n"}
+{"Time":"2026-10-06T04:15:41.033656+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/GET"}
+{"Time":"2026-10-06T04:15:41.03367+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/GET","Output":"=== RUN   TestHealthMethodsHTTP/degraded/GET\n"}
+{"Time":"2026-10-06T04:15:41.034566+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/GET","Output":"--- PASS: TestHealthMethodsHTTP/degraded/GET (0.00s)\n"}
+{"Time":"2026-10-06T04:15:41.034574+08:00","Action":"pass","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/GET","Elapsed":0}
+{"Time":"2026-10-06T04:15:41.034586+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/HEAD"}
+{"Time":"2026-10-06T04:15:41.034589+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/HEAD","Output":"=== RUN   TestHealthMethodsHTTP/degraded/HEAD\n"}
+{"Time":"2026-10-06T04:15:41.034899+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/HEAD","Output":"--- PASS: TestHealthMethodsHTTP/degraded/HEAD (0.00s)\n"}
+{"Time":"2026-10-06T04:15:41.034909+08:00","Action":"pass","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/HEAD","Elapsed":0}
+{"Time":"2026-10-06T04:15:41.034928+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/POST"}
+{"Time":"2026-10-06T04:15:41.034933+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/POST","Output":"=== RUN   TestHealthMethodsHTTP/degraded/POST\n"}
+{"Time":"2026-10-06T04:15:41.035226+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/POST","Output":"    health_test.go:109: POST status = 503, want 405\n"}
+{"Time":"2026-10-06T04:15:41.035242+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/POST","Output":"    health_test.go:109: POST Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-06T04:15:41.035272+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/POST","Output":"--- FAIL: TestHealthMethodsHTTP/degraded/POST (0.00s)\n"}
+{"Time":"2026-10-06T04:15:41.035278+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/POST","Elapsed":0}
+{"Time":"2026-10-06T04:15:41.035295+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/PUT"}
+{"Time":"2026-10-06T04:15:41.035297+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/PUT","Output":"=== RUN   TestHealthMethodsHTTP/degraded/PUT\n"}
+{"Time":"2026-10-06T04:15:41.03556+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/PUT","Output":"    health_test.go:109: PUT status = 503, want 405\n"}
+{"Time":"2026-10-06T04:15:41.035575+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/PUT","Output":"    health_test.go:109: PUT Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-06T04:15:41.035605+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/PUT","Output":"--- FAIL: TestHealthMethodsHTTP/degraded/PUT (0.00s)\n"}
+{"Time":"2026-10-06T04:15:41.035651+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/PUT","Elapsed":0}
+{"Time":"2026-10-06T04:15:41.035654+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/PATCH"}
+{"Time":"2026-10-06T04:15:41.035655+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/PATCH","Output":"=== RUN   TestHealthMethodsHTTP/degraded/PATCH\n"}
+{"Time":"2026-10-06T04:15:41.03593+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/PATCH","Output":"    health_test.go:109: PATCH status = 503, want 405\n"}
+{"Time":"2026-10-06T04:15:41.035946+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/PATCH","Output":"    health_test.go:109: PATCH Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-06T04:15:41.03597+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/PATCH","Output":"--- FAIL: TestHealthMethodsHTTP/degraded/PATCH (0.00s)\n"}
+{"Time":"2026-10-06T04:15:41.035979+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/PATCH","Elapsed":0}
+{"Time":"2026-10-06T04:15:41.035988+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/DELETE"}
+{"Time":"2026-10-06T04:15:41.03599+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/DELETE","Output":"=== RUN   TestHealthMethodsHTTP/degraded/DELETE\n"}
+{"Time":"2026-10-06T04:15:41.036223+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/DELETE","Output":"    health_test.go:109: DELETE status = 503, want 405\n"}
+{"Time":"2026-10-06T04:15:41.036239+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/DELETE","Output":"    health_test.go:109: DELETE Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-06T04:15:41.036267+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/DELETE","Output":"--- FAIL: TestHealthMethodsHTTP/degraded/DELETE (0.00s)\n"}
+{"Time":"2026-10-06T04:15:41.036274+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/DELETE","Elapsed":0}
+{"Time":"2026-10-06T04:15:41.036289+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/OPTIONS"}
+{"Time":"2026-10-06T04:15:41.03629+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/OPTIONS","Output":"=== RUN   TestHealthMethodsHTTP/degraded/OPTIONS\n"}
+{"Time":"2026-10-06T04:15:41.036564+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/OPTIONS","Output":"    health_test.go:109: OPTIONS status = 503, want 405\n"}
+{"Time":"2026-10-06T04:15:41.036569+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/OPTIONS","Output":"    health_test.go:109: OPTIONS Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-06T04:15:41.036586+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/OPTIONS","Output":"--- FAIL: TestHealthMethodsHTTP/degraded/OPTIONS (0.00s)\n"}
+{"Time":"2026-10-06T04:15:41.036598+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/OPTIONS","Elapsed":0}
+{"Time":"2026-10-06T04:15:41.036609+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/TRACE"}
+{"Time":"2026-10-06T04:15:41.036611+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/TRACE","Output":"=== RUN   TestHealthMethodsHTTP/degraded/TRACE\n"}
+{"Time":"2026-10-06T04:15:41.036853+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/TRACE","Output":"    health_test.go:109: TRACE status = 503, want 405\n"}
+{"Time":"2026-10-06T04:15:41.036868+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/TRACE","Output":"    health_test.go:109: TRACE Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-06T04:15:41.036897+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/TRACE","Output":"--- FAIL: TestHealthMethodsHTTP/degraded/TRACE (0.00s)\n"}
+{"Time":"2026-10-06T04:15:41.036903+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/TRACE","Elapsed":0}
+{"Time":"2026-10-06T04:15:41.036916+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/CUSTOM"}
+{"Time":"2026-10-06T04:15:41.036919+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/CUSTOM","Output":"=== RUN   TestHealthMethodsHTTP/degraded/CUSTOM\n"}
+{"Time":"2026-10-06T04:15:41.037134+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/CUSTOM","Output":"    health_test.go:109: CUSTOM status = 503, want 405\n"}
+{"Time":"2026-10-06T04:15:41.037147+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/CUSTOM","Output":"    health_test.go:109: CUSTOM Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-06T04:15:41.037196+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/CUSTOM","Output":"--- FAIL: TestHealthMethodsHTTP/degraded/CUSTOM (0.00s)\n"}
+{"Time":"2026-10-06T04:15:41.037199+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/CUSTOM","Elapsed":0}
+{"Time":"2026-10-06T04:15:41.037201+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/recovered_GET"}
+{"Time":"2026-10-06T04:15:41.037209+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/recovered_GET","Output":"=== RUN   TestHealthMethodsHTTP/degraded/recovered_GET\n"}
+{"Time":"2026-10-06T04:15:41.037433+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/recovered_GET","Output":"--- PASS: TestHealthMethodsHTTP/degraded/recovered_GET (0.00s)\n"}
+{"Time":"2026-10-06T04:15:41.037494+08:00","Action":"pass","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/recovered_GET","Elapsed":0}
+{"Time":"2026-10-06T04:15:41.037516+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/recovered_HEAD"}
+{"Time":"2026-10-06T04:15:41.037522+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/recovered_HEAD","Output":"=== RUN   TestHealthMethodsHTTP/degraded/recovered_HEAD\n"}
+{"Time":"2026-10-06T04:15:41.037692+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/recovered_HEAD","Output":"--- PASS: TestHealthMethodsHTTP/degraded/recovered_HEAD (0.00s)\n"}
+{"Time":"2026-10-06T04:15:41.037698+08:00","Action":"pass","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/recovered_HEAD","Elapsed":0}
+{"Time":"2026-10-06T04:15:41.038639+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded","Output":"--- FAIL: TestHealthMethodsHTTP/degraded (1.27s)\n"}
+{"Time":"2026-10-06T04:15:41.038643+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded","Elapsed":1.27}
+{"Time":"2026-10-06T04:15:41.038663+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed"}
+{"Time":"2026-10-06T04:15:41.038664+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed","Output":"=== RUN   TestHealthMethodsHTTP/database_closed\n"}
+{"Time":"2026-10-06T04:15:42.268934+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/GET"}
+{"Time":"2026-10-06T04:15:42.268946+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/GET","Output":"=== RUN   TestHealthMethodsHTTP/database_closed/GET\n"}
+{"Time":"2026-10-06T04:15:42.269702+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/GET","Output":"--- PASS: TestHealthMethodsHTTP/database_closed/GET (0.00s)\n"}
+{"Time":"2026-10-06T04:15:42.269711+08:00","Action":"pass","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/GET","Elapsed":0}
+{"Time":"2026-10-06T04:15:42.269725+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/HEAD"}
+{"Time":"2026-10-06T04:15:42.269733+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/HEAD","Output":"=== RUN   TestHealthMethodsHTTP/database_closed/HEAD\n"}
+{"Time":"2026-10-06T04:15:42.270035+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/HEAD","Output":"--- PASS: TestHealthMethodsHTTP/database_closed/HEAD (0.00s)\n"}
+{"Time":"2026-10-06T04:15:42.270039+08:00","Action":"pass","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/HEAD","Elapsed":0}
+{"Time":"2026-10-06T04:15:42.270051+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/POST"}
+{"Time":"2026-10-06T04:15:42.270054+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/POST","Output":"=== RUN   TestHealthMethodsHTTP/database_closed/POST\n"}
+{"Time":"2026-10-06T04:15:42.270331+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/POST","Output":"    health_test.go:109: POST status = 503, want 405\n"}
+{"Time":"2026-10-06T04:15:42.270347+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/POST","Output":"    health_test.go:109: POST Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-06T04:15:42.270375+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/POST","Output":"--- FAIL: TestHealthMethodsHTTP/database_closed/POST (0.00s)\n"}
+{"Time":"2026-10-06T04:15:42.270387+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/POST","Elapsed":0}
+{"Time":"2026-10-06T04:15:42.270398+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/PUT"}
+{"Time":"2026-10-06T04:15:42.2704+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/PUT","Output":"=== RUN   TestHealthMethodsHTTP/database_closed/PUT\n"}
+{"Time":"2026-10-06T04:15:42.270646+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/PUT","Output":"    health_test.go:109: PUT status = 503, want 405\n"}
+{"Time":"2026-10-06T04:15:42.270661+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/PUT","Output":"    health_test.go:109: PUT Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-06T04:15:42.270703+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/PUT","Output":"--- FAIL: TestHealthMethodsHTTP/database_closed/PUT (0.00s)\n"}
+{"Time":"2026-10-06T04:15:42.270706+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/PUT","Elapsed":0}
+{"Time":"2026-10-06T04:15:42.270708+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/PATCH"}
+{"Time":"2026-10-06T04:15:42.270709+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/PATCH","Output":"=== RUN   TestHealthMethodsHTTP/database_closed/PATCH\n"}
+{"Time":"2026-10-06T04:15:42.270984+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/PATCH","Output":"    health_test.go:109: PATCH status = 503, want 405\n"}
+{"Time":"2026-10-06T04:15:42.270999+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/PATCH","Output":"    health_test.go:109: PATCH Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-06T04:15:42.271023+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/PATCH","Output":"--- FAIL: TestHealthMethodsHTTP/database_closed/PATCH (0.00s)\n"}
+{"Time":"2026-10-06T04:15:42.271034+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/PATCH","Elapsed":0}
+{"Time":"2026-10-06T04:15:42.271046+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/DELETE"}
+{"Time":"2026-10-06T04:15:42.271049+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/DELETE","Output":"=== RUN   TestHealthMethodsHTTP/database_closed/DELETE\n"}
+{"Time":"2026-10-06T04:15:42.271294+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/DELETE","Output":"    health_test.go:109: DELETE status = 503, want 405\n"}
+{"Time":"2026-10-06T04:15:42.27131+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/DELETE","Output":"    health_test.go:109: DELETE Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-06T04:15:42.271334+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/DELETE","Output":"--- FAIL: TestHealthMethodsHTTP/database_closed/DELETE (0.00s)\n"}
+{"Time":"2026-10-06T04:15:42.271343+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/DELETE","Elapsed":0}
+{"Time":"2026-10-06T04:15:42.271355+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/OPTIONS"}
+{"Time":"2026-10-06T04:15:42.271357+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/OPTIONS","Output":"=== RUN   TestHealthMethodsHTTP/database_closed/OPTIONS\n"}
+{"Time":"2026-10-06T04:15:42.271587+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/OPTIONS","Output":"    health_test.go:109: OPTIONS status = 503, want 405\n"}
+{"Time":"2026-10-06T04:15:42.271602+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/OPTIONS","Output":"    health_test.go:109: OPTIONS Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-06T04:15:42.271629+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/OPTIONS","Output":"--- FAIL: TestHealthMethodsHTTP/database_closed/OPTIONS (0.00s)\n"}
+{"Time":"2026-10-06T04:15:42.271633+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/OPTIONS","Elapsed":0}
+{"Time":"2026-10-06T04:15:42.271643+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/TRACE"}
+{"Time":"2026-10-06T04:15:42.271645+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/TRACE","Output":"=== RUN   TestHealthMethodsHTTP/database_closed/TRACE\n"}
+{"Time":"2026-10-06T04:15:42.271894+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/TRACE","Output":"    health_test.go:109: TRACE status = 503, want 405\n"}
+{"Time":"2026-10-06T04:15:42.271909+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/TRACE","Output":"    health_test.go:109: TRACE Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-06T04:15:42.271935+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/TRACE","Output":"--- FAIL: TestHealthMethodsHTTP/database_closed/TRACE (0.00s)\n"}
+{"Time":"2026-10-06T04:15:42.271945+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/TRACE","Elapsed":0}
+{"Time":"2026-10-06T04:15:42.271957+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/CUSTOM"}
+{"Time":"2026-10-06T04:15:42.27196+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/CUSTOM","Output":"=== RUN   TestHealthMethodsHTTP/database_closed/CUSTOM\n"}
+{"Time":"2026-10-06T04:15:42.272175+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/CUSTOM","Output":"    health_test.go:109: CUSTOM status = 503, want 405\n"}
+{"Time":"2026-10-06T04:15:42.272191+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/CUSTOM","Output":"    health_test.go:109: CUSTOM Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-06T04:15:42.272216+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/CUSTOM","Output":"--- FAIL: TestHealthMethodsHTTP/database_closed/CUSTOM (0.00s)\n"}
+{"Time":"2026-10-06T04:15:42.272221+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/CUSTOM","Elapsed":0}
+{"Time":"2026-10-06T04:15:42.272724+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/recovered_GET"}
+{"Time":"2026-10-06T04:15:42.272727+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/recovered_GET","Output":"=== RUN   TestHealthMethodsHTTP/database_closed/recovered_GET\n"}
+{"Time":"2026-10-06T04:15:42.272955+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/recovered_GET","Output":"--- PASS: TestHealthMethodsHTTP/database_closed/recovered_GET (0.00s)\n"}
+{"Time":"2026-10-06T04:15:42.272964+08:00","Action":"pass","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/recovered_GET","Elapsed":0}
+{"Time":"2026-10-06T04:15:42.272976+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/recovered_HEAD"}
+{"Time":"2026-10-06T04:15:42.272978+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/recovered_HEAD","Output":"=== RUN   TestHealthMethodsHTTP/database_closed/recovered_HEAD\n"}
+{"Time":"2026-10-06T04:15:42.273191+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/recovered_HEAD","Output":"--- PASS: TestHealthMethodsHTTP/database_closed/recovered_HEAD (0.00s)\n"}
+{"Time":"2026-10-06T04:15:42.2732+08:00","Action":"pass","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/recovered_HEAD","Elapsed":0}
+{"Time":"2026-10-06T04:15:42.274043+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed","Output":"--- FAIL: TestHealthMethodsHTTP/database_closed (1.24s)\n"}
+{"Time":"2026-10-06T04:15:42.274048+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed","Elapsed":1.24}
+{"Time":"2026-10-06T04:15:42.274103+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP","Output":"--- FAIL: TestHealthMethodsHTTP (3.77s)\n"}
+{"Time":"2026-10-06T04:15:42.274116+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP","Elapsed":3.77}
+{"Time":"2026-10-06T04:15:42.274177+08:00","Action":"output","Package":"model-relay/internal/relay","Output":"FAIL\n"}
+{"Time":"2026-10-06T04:15:42.289587+08:00","Action":"output","Package":"model-relay/internal/relay","Output":"FAIL\tmodel-relay/internal/relay\t4.277s\n"}
+{"Time":"2026-10-06T04:15:42.289596+08:00","Action":"fail","Package":"model-relay/internal/relay","Elapsed":4.2780000000000005}
+PASS expected historical HTTP red: 21 method failures with exact status/Allow diagnostics; 12 query/recovery passes
