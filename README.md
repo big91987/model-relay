@@ -17,7 +17,7 @@
 - [当前阶段：v0.1.0 基础中转](docs/releases/v0.1.0.md)
 - [产品委托](docs/product-brief.md)
 
-首版代码当前以草稿 PR 供人工审查，尚未合并或正式部署。`make verify` 的短命测试服务、手工启动的临时预览都不代表合并后发布。合并到 `main` 后的本机部署入口与状态核对见 [本机持续预览](docs/local-deployment.md)；是否合并由仓库 Owner 决定。
+首版已通过 PR #2 合并到 `main`，并在测试主机完成首次 Actions 发布。后续合并只自动准备，Owner 仍须在 Actions 手动部署；最新发布状态、版本和效果地址从 GitHub Deployment 或 Agent Platform 的原 Run 页面核对，操作说明见 [本机持续预览](docs/local-deployment.md)。`make verify` 的短命服务和手工预览不算正式发布。
 
 ## 安装与运行
 
