@@ -1,0 +1,95 @@
+COMMAND: go run ./tests/evidence (final source after browser test refinement)
+{"files":36,"go":"go1.25.6","head":"73681a7df4c5cbe5914056ac13348154d58726e0","scope":"product + tests + build locks + README + acceptance/design; excludes delivery receipts to avoid self-reference","working_tree_sha256":"0f6ee2d6894067323697f632231ee0d62b098be0261a4da7e975edb6e1efb37b"}
+COMMAND_EXIT_CODE=0
+COMMAND: historical document SHA-256 check
+docs/workflow/task.md: OK
+docs/workflow/requirements.md: OK
+docs/workflow/design.md: OK
+docs/workflow/delivery.md: OK
+docs/workflow/qa.md: OK
+docs/workflow/pr.md: OK
+docs/workflow/history/issue-8/delivery.md: OK
+docs/workflow/history/issue-8/pr.md: OK
+docs/workflow/history/issue-8/qa.md: OK
+docs/workflow/history/issue-8/task.md: OK
+COMMAND_EXIT_CODE=0
+COMMAND: tracked historical docs and logs diff
+COMMAND_EXIT_CODE=0
+COMMAND: git diff --check
+COMMAND_EXIT_CODE=0
+COMMAND: final source SHA-256
+c6740016b5d2b3930d15d28b78ea7aaac7f4c02822ef7de921b19e019eec3e8f  internal/relay/web/index.html
+af9f25a2c3d9035b27b5c83c256c85988e0c5d01dc9b21f68945e4adaedf5786  internal/relay/web/app.js
+f8b4d6008f0e06cfe10c27081b0ae46fc4395e28f8c239e3717c1d42ef4cd720  internal/relay/web/style.css
+a692a3000de2e85fa2f633444d2f1252e904ed53f6c7b6d51d3e8a733131c273  tests/browser/ui.test.mjs
+de6b967dddf33b54c7d7da6c1b8b3a52f40682294428e73421c16fb9d818a525  tests/browser/journey.mjs
+048e33cc8936e629dc4421052c825f620984eac2fd622cb7c74b25b37d856c63  Makefile
+COMMAND: Trellis spec placeholder and navigation check
+PASS 8 source-backed specs, all navigation links resolve
+COMMAND_EXIT_CODE=0
+COMMAND: historical log protection check (62 logs)
+docs/workflow/development-browser-diagnostics-browser.log: OK
+docs/workflow/development-browser-diagnostics-static.log: OK
+docs/workflow/development-browser-diagnostics-verify.log: OK
+docs/workflow/development-browser-final.log: OK
+docs/workflow/development-browser-initial.log: OK
+docs/workflow/development-browser-sandbox.log: OK
+docs/workflow/development-host-browser-recovery-failure.log: OK
+docs/workflow/development-host-browser-save-failure.log: OK
+docs/workflow/development-host-browser-timeout.log: OK
+docs/workflow/development-qa-gaps-browser-initial.log: OK
+docs/workflow/development-qa-gaps-browser.log: OK
+docs/workflow/development-qa-gaps-static-attempt.log: OK
+docs/workflow/development-qa-gaps-static-initial.log: OK
+docs/workflow/development-qa-gaps-static.log: OK
+docs/workflow/development-qa-gaps-verify-initial.log: OK
+docs/workflow/development-qa-gaps-verify.log: OK
+docs/workflow/development-static-final.log: OK
+docs/workflow/development-static-initial.log: OK
+docs/workflow/development-static.log: OK
+docs/workflow/development-ui-race-after.log: OK
+docs/workflow/development-ui-race-before.log: OK
+docs/workflow/development-ui-race-browser.log: OK
+docs/workflow/development-ui-race-static.log: OK
+docs/workflow/development-ui-race-verify.log: OK
+docs/workflow/development-ui-recovery-after.log: OK
+docs/workflow/development-ui-recovery-before.log: OK
+docs/workflow/development-ui-recovery-browser.log: OK
+docs/workflow/development-ui-recovery-fixture-attempt.log: OK
+docs/workflow/development-ui-recovery-static.log: OK
+docs/workflow/development-ui-recovery-verify.log: OK
+docs/workflow/development-usage-after.log: OK
+docs/workflow/development-usage-before.log: OK
+docs/workflow/development-verify-attempt2.log: OK
+docs/workflow/development-verify-attempt4.log: OK
+docs/workflow/development-verify-final.log: OK
+docs/workflow/development-verify-initial.log: OK
+docs/workflow/development-verify-sandbox.log: OK
+docs/workflow/development-version-browser-runner.log: OK
+docs/workflow/development-version-browser.log: OK
+docs/workflow/development-version-targeted.log: OK
+docs/workflow/development-version-verify-initial.log: OK
+docs/workflow/development-version-verify.log: OK
+docs/workflow/health-methods-before.log: OK
+docs/workflow/health-methods-browser-direct.log: OK
+docs/workflow/health-methods-browser.log: OK
+docs/workflow/health-methods-build.log: OK
+docs/workflow/health-methods-handler-after.log: OK
+docs/workflow/health-methods-handler-recovery-failure.log: OK
+docs/workflow/health-methods-history-assessment.log: OK
+docs/workflow/health-methods-history-initial.log: OK
+docs/workflow/health-methods-history-sandbox.log: OK
+docs/workflow/health-methods-history-static.log: OK
+docs/workflow/health-methods-history-verify-initial.log: OK
+docs/workflow/health-methods-history-verify.log: OK
+docs/workflow/health-methods-history.log: OK
+docs/workflow/health-methods-qa-independent.log: OK
+docs/workflow/health-methods-qa-recheck.log: OK
+docs/workflow/health-methods-verify-final.log: OK
+docs/workflow/health-methods-verify-initial.log: OK
+docs/workflow/qa-sandbox-checks.log: OK
+docs/workflow/qa-sandbox-recheck.log: OK
+docs/workflow/qa-version-local.log: OK
+COMMAND_EXIT_CODE=0
+COMMAND: final git diff --check and unchanged historical docs/logs
+COMMAND_EXIT_CODE=0

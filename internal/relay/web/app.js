@@ -38,9 +38,11 @@ async function api(path, method = 'GET', body) {
   if (!response.ok) { if (response.status === 401) signedOut(); throw new Error(value.error?.code || '请求失败'); }
   return value;
 }
-function clearSecrets() { for (const id of ['password', 'upstream-token', 'issued-key', 'test-key', 'test-message']) element(id).value = ''; element('issued').hidden = true; element('test-output').textContent = ''; }
+function passwordVisibility(visible) { element('password').type = visible ? 'text' : 'password'; element('password-toggle').textContent = visible ? '隐藏密码' : '显示密码'; element('password-visibility-status').textContent = visible ? '密码已显示' : '密码已隐藏'; }
+element('password-toggle').onclick = () => passwordVisibility(element('password').type === 'password');
+function clearSecrets() { for (const id of ['password', 'upstream-token', 'issued-key', 'test-key', 'test-message']) element(id).value = ''; passwordVisibility(false); element('issued').hidden = true; element('test-output').textContent = ''; }
 function signedOut() { clearVersion(); if (aborter) aborter.abort(); csrf = ''; clearSecrets(); element('console').hidden = true; element('login').hidden = false; }
-function signedIn() { element('password').value = ''; element('console').hidden = false; element('login').hidden = true; }
+function signedIn() { element('password').value = ''; passwordVisibility(false); element('console').hidden = false; element('login').hidden = true; }
 function item(text, action, callback) { const row = document.createElement('div'); row.className = 'item'; const span = document.createElement('span'); span.textContent = text; row.append(span); const button = document.createElement('button'); button.textContent = action; button.onclick = () => guarded(button, callback); row.append(button); return row; }
 async function guarded(button, callback) { button.disabled = true; try { await callback(); } catch (error) { message(error.message, true); } finally { button.disabled = false; } }
 async function load(view) {

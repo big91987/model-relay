@@ -9,7 +9,7 @@ const tick = () => new Promise(resolve => setImmediate(resolve));
 function fixture() {
   const elements = new Map();
   const element = id => {
-    if (!elements.has(id)) elements.set(id, {id, value: '', textContent: '', hidden: true, disabled: false, checked: false});
+    if (!elements.has(id)) elements.set(id, {id, value: '', type: id === 'password' ? 'password' : '', textContent: '', hidden: true, disabled: false, checked: false});
     return elements.get(id);
   };
   const panels = ['overview', 'upstream', 'models', 'keys', 'test', 'records'].map(element);
@@ -41,6 +41,80 @@ async function ready() {
   await tick();
   return app;
 }
+
+function hiddenPassword(app) {
+  assert.equal(app.element('password').type, 'password');
+  assert.equal(app.element('password').value === '', true, 'secret must be cleared');
+  assert.equal(app.element('password-toggle').textContent, '显示密码');
+  assert.equal(app.element('password-visibility-status').textContent, '密码已隐藏');
+}
+
+test('password toggle preserves the input node and value without requesting or submitting', async () => {
+  const app = await ready();
+  hiddenPassword(app);
+  const input = app.element('password');
+  const baseline = app.pending.length;
+  for (const value of ['', '  controlled <&> 密码 !  ']) {
+    input.value = value;
+    for (let attempt = 0; attempt < 3; attempt++) {
+      app.element('password-toggle').onclick();
+      assert.equal(input.type, 'text');
+      assert.equal(app.element('password-toggle').textContent, '隐藏密码');
+      assert.equal(app.element('password-visibility-status').textContent, '密码已显示');
+      assert.equal(input.value === value, true);
+      app.element('password-toggle').onclick();
+      assert.equal(input.type, 'password');
+      assert.equal(app.element('password-toggle').textContent, '显示密码');
+      assert.equal(app.element('password-visibility-status').textContent, '密码已隐藏');
+      assert.equal(input.value === value, true);
+      assert.equal(app.element('password'), input);
+      assert.equal(app.pending.length, baseline);
+    }
+  }
+});
+
+test('login success, logout and rejected login reset password visibility', async () => {
+  const app = await ready();
+  app.element('password').value = 'controlled login input';
+  app.element('password-toggle').onclick();
+  app.element('login-form').onsubmit({preventDefault() {}, submitter: app.element('login-button')});
+  const request = app.respond('POST', 'login', {csrf: 'test-only-csrf'});
+  assert.equal(JSON.parse(request.options.body).password === 'controlled login input', true);
+  await tick();
+  hiddenPassword(app);
+  assert.equal(app.element('console').hidden, false);
+  app.respond('GET', 'upstream', {});
+  await tick();
+  app.respond('GET', 'session', {});
+  await tick();
+  app.element('password-toggle').onclick();
+  app.element('logout').onclick();
+  app.respond('POST', 'logout', {});
+  await tick();
+  hiddenPassword(app);
+  assert.equal(app.element('login').hidden, false);
+  app.element('password').value = 'wrong controlled input';
+  app.element('password-toggle').onclick();
+  app.element('login-form').onsubmit({preventDefault() {}, submitter: app.element('login-button')});
+  app.respond('POST', 'login', {error: {code: 'unauthorized'}}, 401);
+  await tick();
+  hiddenPassword(app);
+  assert.equal(app.element('error').textContent, 'unauthorized');
+});
+
+test('session restoration resets an entered visible password', async () => {
+  const app = fixture();
+  app.element('password').value = 'controlled pending-session input';
+  app.element('password-toggle').onclick();
+  app.respond('GET', 'session', {csrf: 'test-only-csrf'});
+  await tick();
+  hiddenPassword(app);
+  assert.equal(app.element('login').hidden, true);
+  app.respond('GET', 'upstream', {});
+  await tick();
+  app.respond('GET', 'session', {});
+  await tick();
+});
 
 test('upstream form is unavailable until GET completes, then saves entered values', async () => {
   const app = await ready();
@@ -215,6 +289,8 @@ test('logout invalidates immediately and late success cannot contaminate a new l
 
 test('real management 401 still logs out and invalidates runtime version', async () => {
   const app = await authenticated();
+  app.element('password').value = 'controlled stale input';
+  app.element('password-toggle').onclick();
   const old = health(app);
   const navigation = app.navigate('upstream');
   app.respond('GET', 'upstream', {error: {code: 'unauthorized'}}, 401);
@@ -224,6 +300,7 @@ test('real management 401 still logs out and invalidates runtime version', async
   assert.equal(app.element('console').hidden, true);
   assert.equal(app.element('runtime-version').textContent, '');
   assert.equal(app.timers.size, 0);
+  hiddenPassword(app);
 });
 
 test('older response after a newer completion cannot overwrite the current version', async () => {

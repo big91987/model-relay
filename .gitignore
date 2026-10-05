@@ -12,3 +12,11 @@ playwright-report/
 !.env.example
 data/
 .DS_Store
+
+# Local Trellis execution state
+/.agents/
+/.codex/
+/.trellis/workspace/
+/.trellis/tasks/
+/.trellis/.runtime/
+/.trellis/.developer

@@ -1,0 +1,127 @@
+2026-10-06T04:29:44+0800
+
+COMMAND final current source evidence
+{"files":36,"go":"go1.25.6","head":"73681a7df4c5cbe5914056ac13348154d58726e0","scope":"product + tests + build locks + README + acceptance/design; excludes delivery receipts to avoid self-reference","working_tree_sha256":"0f6ee2d6894067323697f632231ee0d62b098be0261a4da7e975edb6e1efb37b"}
+EXIT=0
+
+COMMAND historical document integrity
+docs/workflow/task.md: OK
+docs/workflow/requirements.md: OK
+docs/workflow/design.md: OK
+docs/workflow/delivery.md: OK
+docs/workflow/qa.md: OK
+docs/workflow/pr.md: OK
+docs/workflow/history/issue-8/delivery.md: OK
+docs/workflow/history/issue-8/pr.md: OK
+docs/workflow/history/issue-8/qa.md: OK
+docs/workflow/history/issue-8/task.md: OK
+EXIT=0
+
+COMMAND historical log integrity
+docs/workflow/development-browser-diagnostics-browser.log: OK
+docs/workflow/development-browser-diagnostics-static.log: OK
+docs/workflow/development-browser-diagnostics-verify.log: OK
+docs/workflow/development-browser-final.log: OK
+docs/workflow/development-browser-initial.log: OK
+docs/workflow/development-browser-sandbox.log: OK
+docs/workflow/development-host-browser-recovery-failure.log: OK
+docs/workflow/development-host-browser-save-failure.log: OK
+docs/workflow/development-host-browser-timeout.log: OK
+docs/workflow/development-qa-gaps-browser-initial.log: OK
+docs/workflow/development-qa-gaps-browser.log: OK
+docs/workflow/development-qa-gaps-static-attempt.log: OK
+docs/workflow/development-qa-gaps-static-initial.log: OK
+docs/workflow/development-qa-gaps-static.log: OK
+docs/workflow/development-qa-gaps-verify-initial.log: OK
+docs/workflow/development-qa-gaps-verify.log: OK
+docs/workflow/development-static-final.log: OK
+docs/workflow/development-static-initial.log: OK
+docs/workflow/development-static.log: OK
+docs/workflow/development-ui-race-after.log: OK
+docs/workflow/development-ui-race-before.log: OK
+docs/workflow/development-ui-race-browser.log: OK
+docs/workflow/development-ui-race-static.log: OK
+docs/workflow/development-ui-race-verify.log: OK
+docs/workflow/development-ui-recovery-after.log: OK
+docs/workflow/development-ui-recovery-before.log: OK
+docs/workflow/development-ui-recovery-browser.log: OK
+docs/workflow/development-ui-recovery-fixture-attempt.log: OK
+docs/workflow/development-ui-recovery-static.log: OK
+docs/workflow/development-ui-recovery-verify.log: OK
+docs/workflow/development-usage-after.log: OK
+docs/workflow/development-usage-before.log: OK
+docs/workflow/development-verify-attempt2.log: OK
+docs/workflow/development-verify-attempt4.log: OK
+docs/workflow/development-verify-final.log: OK
+docs/workflow/development-verify-initial.log: OK
+docs/workflow/development-verify-sandbox.log: OK
+docs/workflow/development-version-browser-runner.log: OK
+docs/workflow/development-version-browser.log: OK
+docs/workflow/development-version-targeted.log: OK
+docs/workflow/development-version-verify-initial.log: OK
+docs/workflow/development-version-verify.log: OK
+docs/workflow/health-methods-before.log: OK
+docs/workflow/health-methods-browser-direct.log: OK
+docs/workflow/health-methods-browser.log: OK
+docs/workflow/health-methods-build.log: OK
+docs/workflow/health-methods-handler-after.log: OK
+docs/workflow/health-methods-handler-recovery-failure.log: OK
+docs/workflow/health-methods-history-assessment.log: OK
+docs/workflow/health-methods-history-initial.log: OK
+docs/workflow/health-methods-history-sandbox.log: OK
+docs/workflow/health-methods-history-static.log: OK
+docs/workflow/health-methods-history-verify-initial.log: OK
+docs/workflow/health-methods-history-verify.log: OK
+docs/workflow/health-methods-history.log: OK
+docs/workflow/health-methods-qa-independent.log: OK
+docs/workflow/health-methods-qa-recheck.log: OK
+docs/workflow/health-methods-verify-final.log: OK
+docs/workflow/health-methods-verify-initial.log: OK
+docs/workflow/qa-sandbox-checks.log: OK
+docs/workflow/qa-sandbox-recheck.log: OK
+docs/workflow/qa-version-local.log: OK
+EXIT=0
+
+COMMAND diff hygiene
+EXIT=0
+
+COMMAND historical tracked paths diff
+
+COMMAND product/test/build/dependency/spec/baseline SHA256
+af9f25a2c3d9035b27b5c83c256c85988e0c5d01dc9b21f68945e4adaedf5786  internal/relay/web/app.js
+c6740016b5d2b3930d15d28b78ea7aaac7f4c02822ef7de921b19e019eec3e8f  internal/relay/web/index.html
+f8b4d6008f0e06cfe10c27081b0ae46fc4395e28f8c239e3717c1d42ef4cd720  internal/relay/web/style.css
+de6b967dddf33b54c7d7da6c1b8b3a52f40682294428e73421c16fb9d818a525  tests/browser/journey.mjs
+a692a3000de2e85fa2f633444d2f1252e904ed53f6c7b6d51d3e8a733131c273  tests/browser/ui.test.mjs
+048e33cc8936e629dc4421052c825f620984eac2fd622cb7c74b25b37d856c63  Makefile
+43a61905ab453f007d88c21bd3066453570fb6d9bd533247b94b81612b615477  go.mod
+9afb7f3a178eab537ac50d13d8f518553386f2ebf4e0fce528cbc6b2f8be99d5  go.sum
+1a2755144abab6752719532bd09707cc2a09067d29d60e406cb3835999e89a3a  package.json
+05459652f98128ebcb6786e2d80bf694d23c437c0d4f7d45c56371da511bc688  package-lock.json
+d0308cfc61061b146c2da801e43510949fb3230e1ddd1b83cb5f66bcd282e978  bin/model-relay
+5a04f57809234cc9c78a7fd6a66bcf95a6d06609f1e0d2ec50211c306e59c3cb  docs/workflow/runs/836b817833886b3188f263800b0f092f/product-definition.md
+4d07a6ba2df54f24cc4960518b84babd249ddff0a1aee22561c00d039b48c42c  docs/workflow/runs/836b817833886b3188f263800b0f092f/password-visibility-architecture.md
+fd95f67cc07327bc80f25f41665fb97631a2d78b4add9391b62ec868336f6bf1  docs/workflow/runs/836b817833886b3188f263800b0f092f/g1-review.md
+36569e819dc901aeb2c02aad337f2517daedddef3cb1c83c5d76ea2582be07e0  docs/workflow/runs/836b817833886b3188f263800b0f092f/g2-review.md
+f3cee5fc72662d1bd98d2e42c928afae33e290d4751006535e63059e770cf2ce  .trellis/spec/backend/index.md
+139dcd1c1209b3971905f22188f2f0108c91963ec3c7e992b660f8ac5c5d92ec  .trellis/spec/backend/runtime-contracts.md
+62aa72036d1c6add572fa894dd7746622954c3a2d93a380f06c510c09fa999b4  .trellis/spec/frontend/dom-lifecycle.md
+9275ab6f62ae5233010048fed9510efdd7a1baebfd20045d47d81edb19c7412d  .trellis/spec/frontend/index.md
+73fe00725544dec65924f62d934816d3fb294fd0974d3beb97ce29dcdf6acf08  .trellis/spec/frontend/verification.md
+020a7261b39b32787dc31a513b6e1ad84909de10f3e363ef7b8e4b254ebacd18  .trellis/spec/guides/code-reuse-thinking-guide.md
+9d7afca3abcb2b04fe875af51aad505f12be07c02bca9999860d9ac07e9881fc  .trellis/spec/guides/cross-layer-thinking-guide.md
+3b52068ba0d7df6f8b1aca21dedb3c7cc4b3358c7efee8ae784ed2f67373f0a3  .trellis/spec/guides/index.md
+
+COMMAND spec blank-template review
+RESULT=no blank template markers
+
+COMMAND final Git status
+ M .gitignore
+ M internal/relay/web/app.js
+ M internal/relay/web/index.html
+ M internal/relay/web/style.css
+ M tests/browser/journey.mjs
+ M tests/browser/ui.test.mjs
+?? .gitattributes
+?? .trellis/
+?? docs/workflow/runs/
