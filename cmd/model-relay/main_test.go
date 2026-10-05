@@ -140,7 +140,14 @@ func TestCLIInstallationCommands(t *testing.T) {
 	if err != nil {
 		t.Fatal("CLI health failed")
 	}
-	check(response, 200)
+	var health struct {
+		Status  string
+		Version string
+	}
+	if response.StatusCode != 200 || json.NewDecoder(response.Body).Decode(&health) != nil || health.Status != "ok" || health.Version != buildVersion {
+		t.Fatal("CLI health did not report the running version")
+	}
+	response.Body.Close()
 	login := func() {
 		response := admin("POST", "login", map[string]string{"password": password})
 		if response.StatusCode != 200 {

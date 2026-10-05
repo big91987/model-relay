@@ -18,6 +18,7 @@ import (
 
 type Config struct {
 	Authority     string
+	Version       string
 	Policy        Policy
 	TotalTimeout  time.Duration
 	IdleTimeout   time.Duration
@@ -118,7 +119,7 @@ func (server *Server) ServeHTTP(writer http.ResponseWriter, request *http.Reques
 			failure(writer, 503, "storage_unavailable", "")
 			return
 		}
-		reply(writer, 200, map[string]string{"status": "ok"})
+		reply(writer, 200, map[string]string{"status": "ok", "version": server.Config.Version})
 	case strings.HasPrefix(request.URL.Path, "/admin/api/"):
 		server.admin(writer, request)
 	case request.URL.Path == "/v1/models" && request.Method == http.MethodGet:

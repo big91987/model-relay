@@ -15,6 +15,8 @@ import (
 	"model-relay/internal/relay"
 )
 
+var buildVersion = "dev"
+
 func run(args []string) error {
 	if len(args) == 0 {
 		return errors.New("usage: model-relay init|serve|backup|restore")
@@ -70,7 +72,7 @@ func run(args []string) error {
 		defer listener.Close()
 		root, cancel := context.WithCancel(context.Background())
 		defer cancel()
-		server := &http.Server{Handler: relay.New(store, relay.Config{Authority: listener.Addr().String()}), ReadHeaderTimeout: 5 * time.Second, IdleTimeout: 60 * time.Second, MaxHeaderBytes: 32 * 1024, BaseContext: func(net.Listener) context.Context { return root }}
+		server := &http.Server{Handler: relay.New(store, relay.Config{Authority: listener.Addr().String(), Version: buildVersion}), ReadHeaderTimeout: 5 * time.Second, IdleTimeout: 60 * time.Second, MaxHeaderBytes: 32 * 1024, BaseContext: func(net.Listener) context.Context { return root }}
 		signals, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 		defer stop()
 		done := make(chan struct{})
