@@ -1,0 +1,42 @@
+command=go test -race -count=1 -v -run ^Test(RoutingBoundedAndStop|RoutingPassiveCooldown|RoutingSelectionAndEvidence|RoutingTemporaryAllowlistAndUnknownTotals|ConsoleOverviewAndExactRecords)$ ./internal/relay
+# model-relay/internal/relay.test
+ld: warning: '<temporary-link-object> has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestConsoleOverviewAndExactRecords
+--- PASS: TestConsoleOverviewAndExactRecords (2.40s)
+=== RUN   TestRoutingSelectionAndEvidence
+--- PASS: TestRoutingSelectionAndEvidence (2.42s)
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Moved_Permanently
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Bad_Request
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Unauthorized
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Forbidden
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Not_Found
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Request_Timeout
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Too_Many_Requests
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Internal_Server_Error
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Not_Implemented
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Bad_Gateway
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Service_Unavailable
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Gateway_Timeout
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/HTTP_Version_Not_Supported
+--- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals (31.32s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Moved_Permanently (2.39s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Bad_Request (2.39s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Unauthorized (2.40s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Forbidden (2.41s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Not_Found (2.42s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Request_Timeout (2.42s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Too_Many_Requests (2.42s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Internal_Server_Error (2.40s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Not_Implemented (2.41s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Bad_Gateway (2.41s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Service_Unavailable (2.42s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Gateway_Timeout (2.42s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/HTTP_Version_Not_Supported (2.41s)
+=== RUN   TestRoutingBoundedAndStop
+--- PASS: TestRoutingBoundedAndStop (4.84s)
+=== RUN   TestRoutingPassiveCooldown
+--- PASS: TestRoutingPassiveCooldown (2.46s)
+PASS
+ok  	model-relay/internal/relay	44.888s
+exit_code=0

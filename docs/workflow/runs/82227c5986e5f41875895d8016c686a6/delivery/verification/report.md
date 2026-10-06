@@ -2,7 +2,7 @@
 
 ## 当前产品验证结论（2026-10-06）
 
-结论：Passed（版本11产品切片）；宿主 seq21 原 `make verify` 完整exit0，同版本[独立QA report-02](../../acceptance/report-02.md) Go，四项P1 Closed。当前[矩阵](../../acceptance/matrix-02.md)、[回执](../../acceptance/evidence/host-seq21.md)及[版本锁](../../acceptance/evidence/version-lock-02.json)是完成依据；不是本节点或QA完整入口重跑。D1–D5 Done、M01–M03 Accepted，只允许草稿PR，不代表正式发布或供应商Go。文档收尾及版本差异见[审查](report-closeout.md)。DEP02–04/06–07和供应商继续Not Run，DEP05仅标准模板子范围通过。
+结论：Passed（版本13产品切片；不是正式发布Go）。宿主[seq28](../../acceptance/evidence/host-seq28.md)固定 `make verify` 在900秒预算完整exit0，86文件已验摘要 `e3cde10304e0bbce0dcebf671f9469ab7e5c494d8524cb9a7b7e04228d71d54f`。独立QA [report-03](../../acceptance/report-03.md)及[矩阵03](../../acceptance/matrix-03.md)确认两项Important/P1 Closed、原四项未复发；QA专项race与119/119VM不是另一次完整监听入口。返工红绿保留于[原记录](premerge-sse-01.md)，收尾差异见[本次审查](report-closeout-02.md)。Draft PR #19已创建，本轮修复待原Connector提交推送并更新，尚未合并部署。DEP02–04/06–07、DEP05未覆盖边缘、精确DONE TCP故障注入及供应商仍Not Run。以下原版本结论均为历史，不覆盖为本版通过。
 
 ## 历史验证记录（以下均为当时快照，不是当前状态）
 

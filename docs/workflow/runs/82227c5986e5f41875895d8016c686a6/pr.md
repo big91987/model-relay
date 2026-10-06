@@ -2,7 +2,14 @@
 
 Refs #18。承接公共路线第2项；基线 main `85f6d17c07c5fddeb2d6a39a5a067769a11bb4cc`。Go后端、单实例、单管理员，不提前实现路线3/4的应用治理或分布式设施。
 
-**当前结论：产品切片独立QA Go，可交付草稿PR；不是正式发布或真实供应商验收Go。** 本文在提交／推送前整理；以下仓库链接指向实际任务分支，须由发布Connector提交并推送本轮产物后生效，不声称当前远端已可访问，不链接旧main冒充本轮证据。
+**当前结论：版本13产品切片Go，两项合并前Important/P1已关闭，允许更新原Draft PR #19；不是正式发布或供应商Go。** 已审HEAD `8ae4e5173aa0dc45c28ad61dbc64df20afe229a6` 已由Connector提交推送并创建本PR。本轮版本13修复与新增验收尚未提交推送，本文分支链接在原发布Connector推送并更新PR后反映本版；不能用旧HEAD证明本版远端可读。尚未合并或部署。
+
+### 合并前返工（2026-10-06）
+
+- 两项Important：首SSE data行超过Scanner 256 KiB上限错误切换／冷却，以及DONE写失败／取消纠正后仍留下成功上游。按既有协议和成功事实契约修复，无需求或设计变更。
+- 明确将ErrTooLong归类为不可切换的协议错误；提交前后均不生成备用请求、不冷却。非成功终态清空成功归属，DONE写后取消也纠正请求及attempt，详情与概览一致。
+- 新增管理/代理Handler＋隔离Transport＋真实SQLite红绿回归，及宿主真实HTTP超长行回归，自动进入原make verify。版本13宿主900秒固定make verify完整exit0，独立QA按原发现层复验Closed；真实HTTP超长行与确定性Writer故障证据分开。
+- [返工红绿记录](https://github.com/big91987/model-relay/blob/workflow%2F82227c5986e5f41875895d8016c686a6/docs/workflow/runs/82227c5986e5f41875895d8016c686a6/delivery/verification/premerge-sse-01.md)保留旧版失败与修复过程；[当前QA报告](https://github.com/big91987/model-relay/blob/workflow%2F82227c5986e5f41875895d8016c686a6/docs/workflow/runs/82227c5986e5f41875895d8016c686a6/acceptance/report-03.md)关闭两项Important，原四项P1本版未复发。DONE确定性Writer错误/取消不是精确TCP故障注入；后者仍Not Run，不冒称网络故障复现。平台联合链／正式Actions升级恢复和真实供应商仍Not Run。
 
 ### 用户得到的结果
 
@@ -15,19 +22,20 @@ Refs #18。承接公共路线第2项；基线 main `85f6d17c07c5fddeb2d6a39a5a06
 
 权威输入：[PRD](https://github.com/big91987/model-relay/blob/workflow%2F82227c5986e5f41875895d8016c686a6/docs/workflow/runs/82227c5986e5f41875895d8016c686a6/product-definition.md)、[路由架构](https://github.com/big91987/model-relay/blob/workflow%2F82227c5986e5f41875895d8016c686a6/docs/workflow/runs/82227c5986e5f41875895d8016c686a6/routing-architecture.md)、[交互契约](https://github.com/big91987/model-relay/blob/workflow%2F82227c5986e5f41875895d8016c686a6/docs/workflow/runs/82227c5986e5f41875895d8016c686a6/routing-interaction.md)。原创实现，仅借鉴公开行为，不复制New API实现、资产、数据或凭据。
 
-### 验证与独立QA
+### 当前版本13验证与独立QA
 
 | 证据层 | 实际结果与范围 |
 |---|---|
-| 原固定入口 make verify | 宿主tests Connector seq21，900秒预算，exit0；79939 bytes完整保留、truncated=false。格式、锁模块、vet、前端、Go race/真实HTTP、build及真实Go浏览器链完整通过；历史health负控按原门禁分类保留 |
-| 版本绑定 | 验收版本11：85文件工作树摘要852f7bfc90323b6253658c8b9c2167fa22c43a5f59389f0bbcb92539865120e7，不能仅用旧HEAD证明新实现；Workflow a3d814fa47da0c74e6934ab46138f2b854c55cf1de177f7fba538b4365ab2f45及manifest单独锁定 |
-| 独立QA | report-02 Go（仅产品），13组AC产品范围满足；原QA-01～04四项P1在原层级Closed。QA独立契约race exit0／13.473秒、前端119/119 exit0；QA没有重跑完整监听／浏览器入口 |
+| 原固定入口 make verify | 宿主tests Connector seq28，900秒预算，exit0；81349 bytes完整保留、truncated=false。格式、锁模块、vet、前端、Go race/真实HTTP、build及真实Go浏览器链完整通过；历史health负控按原门禁分类保留 |
+| 版本绑定 | 验收版本13：86文件工作树摘要e3cde10304e0bbce0dcebf671f9469ab7e5c494d8524cb9a7b7e04228d71d54f，不能仅用旧HEAD证明新实现；Workflow a3d814fa47da0c74e6934ab46138f2b854c55cf1de177f7fba538b4365ab2f45及manifest单独锁定 |
+| 独立QA | report-03 Go（仅产品），13组AC产品范围满足；两项SSE Important/P1原层级Closed，原QA-01～04四项P1未复发。QA独立契约race 7顶层exit0／28.424秒、前端119/119 exit0；QA没有重跑完整监听／浏览器入口 |
+| SSE新回归 | 实际HTTP超长行首事件前及提交后：primary1/secondary0、协议错误、无冷却；DONE成功对照及写失败/取消带错误/写返回nil时取消：SQLite详情request/attempt与概览一致，非成功归属为空 |
 | 真实受控旅程 | 两屏原首配及多候选完整键盘旅程、真实路由计数、核验取消／超时／纠错、完成折叠同ID回看、冷却、SSE取消与工具EOF/idle/cancel零备用，有同版宿主证据 |
 | 非空旧数据 | 旧SHA用户UI形成2别名／2密钥／2历史请求，再backup→schema1至2→原key调用→新增UI对象→旧backup回退／旧服务调用；不是空库或手写SQL替代主旅程 |
 
-主证据：[独立验收报告](https://github.com/big91987/model-relay/blob/workflow%2F82227c5986e5f41875895d8016c686a6/docs/workflow/runs/82227c5986e5f41875895d8016c686a6/acceptance/report-02.md)、[逐AC矩阵](https://github.com/big91987/model-relay/blob/workflow%2F82227c5986e5f41875895d8016c686a6/docs/workflow/runs/82227c5986e5f41875895d8016c686a6/acceptance/matrix-02.md)、[seq21回执索引](https://github.com/big91987/model-relay/blob/workflow%2F82227c5986e5f41875895d8016c686a6/docs/workflow/runs/82227c5986e5f41875895d8016c686a6/acceptance/evidence/host-seq21.md)、[版本锁](https://github.com/big91987/model-relay/blob/workflow%2F82227c5986e5f41875895d8016c686a6/docs/workflow/runs/82227c5986e5f41875895d8016c686a6/acceptance/evidence/version-lock-02.json)。回执索引不是完整日志副本；平台保存完整seq21日志。截图及PID选择轨迹仅为辅助证据，不单独证明全部旅程。
+主证据：[独立验收报告](https://github.com/big91987/model-relay/blob/workflow%2F82227c5986e5f41875895d8016c686a6/docs/workflow/runs/82227c5986e5f41875895d8016c686a6/acceptance/report-03.md)、[逐AC矩阵](https://github.com/big91987/model-relay/blob/workflow%2F82227c5986e5f41875895d8016c686a6/docs/workflow/runs/82227c5986e5f41875895d8016c686a6/acceptance/matrix-03.md)、[seq28回执索引](https://github.com/big91987/model-relay/blob/workflow%2F82227c5986e5f41875895d8016c686a6/docs/workflow/runs/82227c5986e5f41875895d8016c686a6/acceptance/evidence/host-seq28.md)、[版本锁](https://github.com/big91987/model-relay/blob/workflow%2F82227c5986e5f41875895d8016c686a6/docs/workflow/runs/82227c5986e5f41875895d8016c686a6/acceptance/evidence/version-lock-03.json)。回执索引不是完整日志副本；平台保存完整seq28日志。截图及PID选择轨迹仅为辅助证据，不单独证明全部旅程。
 
-[公共交付总览](https://github.com/big91987/model-relay/blob/workflow%2F82227c5986e5f41875895d8016c686a6/docs/workflow/runs/82227c5986e5f41875895d8016c686a6/delivery/README.md)已同步D1–D5 Done、M01–M03 Accepted，限定当前产品切片。原[首次No-Go](https://github.com/big91987/model-relay/blob/workflow%2F82227c5986e5f41875895d8016c686a6/docs/workflow/runs/82227c5986e5f41875895d8016c686a6/acceptance/report-01.md)、沙箱失败、seq9中断及历次宿主返工保留。本次只改文档，证据工具覆盖的公共文档变化会产生新摘要，不能说整树仍等于已验快照；代码／测试／锁／规范／模板未变，差异和实际审查见[收尾核对](https://github.com/big91987/model-relay/blob/workflow%2F82227c5986e5f41875895d8016c686a6/docs/workflow/runs/82227c5986e5f41875895d8016c686a6/delivery/verification/report-closeout.md)。本节点未再执行完整make verify。
+[公共交付总览](https://github.com/big91987/model-relay/blob/workflow%2F82227c5986e5f41875895d8016c686a6/docs/workflow/runs/82227c5986e5f41875895d8016c686a6/delivery/README.md)已同步D1–D5 Done、M01–M03 Accepted，限定当前产品切片。原[首次No-Go](https://github.com/big91987/model-relay/blob/workflow%2F82227c5986e5f41875895d8016c686a6/docs/workflow/runs/82227c5986e5f41875895d8016c686a6/acceptance/report-01.md)、沙箱失败、seq9中断及历次宿主返工保留。相对已审HEAD，本轮修复只改proxy.go/routed_proxy.go、新增SSE回归及相关规范；版本13同版门禁和QA重新通过，未沿用版本11。报告收尾仅更新公共文档，证据工具覆盖的文档状态变化会产生新摘要，不能说整树仍等于已验快照；收尾不改行为、测试、锁、规范或模板，差异与实际静态核对见[收尾审查](https://github.com/big91987/model-relay/blob/workflow%2F82227c5986e5f41875895d8016c686a6/docs/workflow/runs/82227c5986e5f41875895d8016c686a6/delivery/verification/report-closeout-02.md)。报告节点未再执行完整make verify。
 
 ### 升级、回退与发布限制
 
@@ -35,4 +43,4 @@ Refs #18。承接公共路线第2项；基线 main `85f6d17c07c5fddeb2d6a39a5a06
 - **Not Run：** DEP02–04真实可信controller与旧／新Go联合顺序、失败恢复及legacy保护；DEP06正式Actions非空升级；DEP07同可信路径获授权隔离失败恢复。DEP05仅受管理模板Installed／Unchanged及manifest子范围通过，全部安装漂移／失败边缘未独立复跑。
 - 平台固定源294ddb33a18a02d413af9e790e4d5caaf26eca51标准模板经原安装器同步；用户提供45项平台回归／复审及控制器安装按来源归档，不冒充本产品节点复跑，不关闭真实联合链。见[部署契约](https://github.com/big91987/model-relay/blob/workflow%2F82227c5986e5f41875895d8016c686a6/docs/workflow/runs/82227c5986e5f41875895d8016c686a6/deployment-upgrade-contract.md)。不复制controller、不手改平台DB、不人工预upgrade替代activate，不自动合并平台源PR。
 - **真实供应商 Not Run：** 无凭据和费用授权，实际外部行为全部来自标注受控夹具。核验成功不证明生成／费用可用，取消不承诺撤费，缩短配置的停止测试不冒称完整300秒生产SLA。
-- 本节点未提交、推送、创建PR、合并或部署。Connector负责草稿PR；目标维护者依既有授权核对并推进测试仓合并及正式Actions，保留真实merge SHA／Deployment／healthz版本／schema／非空数据／浏览器一致证据。产品Go不替代尚未完成的发布依赖。
+- 本PR此前已由Connector创建；当前报告节点未提交推送本轮修复、未创建新PR、合并或部署。原Connector负责更新本Draft PR #19，不另建PR；目标维护者依既有授权核对并推进测试仓合并及正式Actions，保留真实merge SHA／Deployment／healthz版本／schema／非空数据／浏览器一致证据。产品Go不替代尚未完成的发布依赖。

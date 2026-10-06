@@ -1,6 +1,6 @@
 # 产品与可信正式部署器的窄升级契约
 
-2026-10-06，设计补充／实现和正式Actions验收均未执行。依据本轮新增用户反馈及只读代码核对补齐 [ADR-001](adr-001-storage-upgrade.md)，不新建Issue、Run或路线。产品范围仍为路线2所需schema1→2；不是路线4全套运维平台。
+2026-10-06，设计补充为当时快照；产品版本13已实现并经seq28固定门禁与独立QA report-03通过，正式Actions验收未执行。依据本轮新增用户反馈及只读代码核对补齐 [ADR-001](adr-001-storage-upgrade.md)，不新建Issue、Run或路线。产品范围仍为路线2所需schema1→2；不是路线4全套运维平台。
 
 ## 1. 设计时缺口、维护源与责任
 
@@ -95,7 +95,7 @@ activate在可信部署锁内执行以下受支持流程，所有动作纳入既
 
 | 层级 | 要验证的事实 | 当前状态 |
 |---|---|---|
-| 产品make verify | Go deployment-contract的无副作用/版本/schema；至少一条精确旧SHA用户页面建上游/模型/key并实际调用的非空安装主旅程，再正式备份/upgrade/restore守恒；API仅补重复/错误/并发边界；普通协议/health新增字段回归 | Pass（仅产品）：版本11 seq21原make verify完整exit0，独立QA report-02 Go；旧UI非空schema1→2及旧backup回退通过，不扩为正式Actions |
+| 产品make verify | Go deployment-contract的无副作用/版本/schema；至少一条精确旧SHA用户页面建上游/模型/key并实际调用的非空安装主旅程，再正式备份/upgrade/restore守恒；API仅补重复/错误/并发边界；普通协议/health新增字段回归 | Pass（仅产品）：版本13 seq28原make verify完整exit0，独立QA report-03 Go；旧UI非空schema1→2及旧backup回退通过，不扩为正式Actions |
 | 平台维护源测试 | prepare契约/漂移拒绝、旧协议兼容、backup→candidate upgrade→start顺序、升级/启动/健康/恢复失败、重复和崩溃阶段；真实新旧Go二进制配合控制器，不能仅shell伪命令 | 用户报告固定源d0564d05的38项隔离夹具及复审通过；真实新旧Go联合迁移/恢复 **Not Run**，不据夹具关闭本层 |
 | 标准安装升级 | 修复后的平台源经install.py生效；若Workflow变化经install_workflow.py --upgrade；重复安装不改数据/设置、模板漂移拒绝、Controller源版本/摘要可核对 | 用户报告原install.py升级/重复安装核对；配置/deployed/current未变，Workflow模板unchanged；控制器摘要和证据来源见下方引用，未迁移产品 |
 | 正式Actions旧数据升级 | 从已有正式schema1非空安装，经精确merge SHA prepare/activate，真实执行候选upgrade；同Deployment实际health/schema/版本与控制台、旧身份和历史守恒 | **Not Run**，CLI/受控本地控制器通过不能替代 |

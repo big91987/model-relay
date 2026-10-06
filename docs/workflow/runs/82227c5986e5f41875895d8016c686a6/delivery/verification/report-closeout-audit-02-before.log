@@ -1,0 +1,21 @@
+{
+  "date": "2026-10-06",
+  "scope": "report closeout only; no make verify rerun or remote link availability assertion",
+  "baseline_files": 570,
+  "updated_documents": 9,
+  "new_artifacts": 2,
+  "relative_links": 141,
+  "pr_repository_urls": 14,
+  "qa_locked_files": 27,
+  "post_report_source": {
+    "files": 86,
+    "go": "go1.25.6",
+    "head": "8ae4e5173aa0dc45c28ad61dbc64df20afe229a6",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "50102b71df7a62ae0d9936c590d0de00b0621f99de31cbb5616def909f47710b"
+  },
+  "errors": [
+    "Overview inconsistent"
+  ]
+}
+exit_code=1

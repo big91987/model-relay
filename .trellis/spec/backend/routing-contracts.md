@@ -59,3 +59,32 @@ CLI installation regressions must use the same route-2 management contract, with
 
 ## 7. Wrong vs Correct
 Wrong: only final usage, resetting overall deadline on fallback, treating fixture green as real browser acceptance. Correct: atomically save candidates, persist each attempt with nullable usage, conservatively aggregate, stop on commitment/cancel, preserve fixed-entry receipts for QA. Example check input: `{"expected_execution_revision":1}`; example candidate: `{"upstream_id":1,"remote_model":"provider-a","enabled":true,"priority":10,"weight":3}`. Rollback is old binary + pre-upgrade archive + empty target, never merging post-upgrade changes.
+
+## Scenario: SSE scanner size and corrected terminal attribution
+
+### 1. Scope / Trigger
+PR #19 pre-merge review found oversized first SSE lines incorrectly replayed and DONE write failures retaining success attribution. This is protocol → routing → SQLite → management evidence, not a new protocol or schema.
+
+### 2. Signatures
+`Server.stream(writer, request, ctx, response, record, finish)` owns Scanner error classification. The `streamFinish(resultState, resultCode) bool` closure in `routedGenerate` persists attempts; `generate`'s `finish(state, code) bool` persists the authoritative request terminal through `Store.Finish(record Record) error`.
+
+### 3. Contracts
+Scanner `bufio.ErrTooLong` is `upstream_protocol_error`, not a temporary transport interruption. Size limits remain 256 KiB/event and 32 MiB/stream. No backup dispatch or temporary cooldown, before or after commitment. HTTP after commitment remains 200 with an incomplete/error stream, not success. `successful_upstream_id` is nullable and must be null in every non-success request terminal, including a correction after provisional success. Caller cancellation overrides the requested state before clearing attribution and persisting. Attempt and request terminal must agree; overview cannot retain the corrected request as call evidence. No new env, payload, migration or error code.
+
+### 4. Validation & Error Matrix
+| Condition | Result |
+|---|---|
+| Oversized first line | 502 / stream_interrupted / upstream_protocol_error; one attempt, no cooldown |
+| Oversized line after valid committed delta | HTTP200 incomplete / same protocol terminal; one attempt, no cooldown |
+| Valid delta + DONE delivered | success; actual attempt upstream attribution and overview evidence |
+| DONE write fails | canceled / downstream_write_failed; null attribution, no overview evidence |
+| Cancellation during DONE write (error or successful write return) | canceled / client_canceled; matching attempt/request, null attribution |
+
+### 5. Good / Base / Bad Cases
+Good: size error terminates without generating on the backup. Base: normal DONE preserves success. Bad: classify every scanner error as `stream_interrupted`, or clear attribution only at the beginning of an attempt.
+
+### 6. Tests Required
+`sse_terminal_regression_test.go`: `TestSSEOverlongLineNeverSwitchesOrCools` uses management/proxy handlers, isolated Transport and real SQLite before/after commitment; asserts exact error, count, attempt, commit and cooldown. `TestSSEDoneTerminalAttribution` covers success, DONE write error and cancellation with/without write error; reads persisted management detail and overview. These are not network proofs. `TestSSERealHTTPOverlongLineNeverSwitchesOrCools` uses actual isolated HTTP servers for both size boundaries. All automatically enter original `go test ./...` / `make verify`; sandbox restrictions leave host execution pending.
+
+### 7. Wrong vs Correct
+Wrong: `classify(ctx, scanner.Err(), true)` for ErrTooLong → temporary fallback; `finish("canceled", ...)` while retaining a previously assigned successful upstream. Correct: match `errors.Is(err, bufio.ErrTooLong)` before transport classification; clear `record.SuccessfulUpstream` for non-success after cancellation override in the authoritative finish closure, and correct canceled DONE delivery after write returns.

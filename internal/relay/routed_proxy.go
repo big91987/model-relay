@@ -174,6 +174,8 @@ func (server *Server) routedGenerate(writer http.ResponseWriter, request *http.R
 						}
 						if state == "success" {
 							record.SuccessfulUpstream = &attempt.UpstreamID
+						} else {
+							record.SuccessfulUpstream = nil
 						}
 						if output.isCommitted() || state == "success" {
 							return finish(state, errorCode)

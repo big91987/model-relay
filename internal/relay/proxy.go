@@ -39,6 +39,9 @@ func (server *Server) generate(writer http.ResponseWriter, request *http.Request
 		}
 		record.State = state
 		record.Code = code
+		if state != "success" {
+			record.SuccessfulUpstream = nil
+		}
 		elapsed := time.Since(started).Milliseconds()
 		record.Duration = &elapsed
 		if server.Store.Finish(record) != nil {
@@ -240,10 +243,13 @@ func (server *Server) stream(writer http.ResponseWriter, request *http.Request, 
 				return
 			}
 			if request.Context().Err() != nil {
+				finish("canceled", "client_canceled")
 				return
 			}
 			if write("data: [DONE]\n\n") != nil {
 				finish("canceled", "downstream_write_failed")
+			} else if request.Context().Err() != nil {
+				finish("canceled", "client_canceled")
 			}
 			return
 		}
@@ -265,6 +271,10 @@ func (server *Server) stream(writer http.ResponseWriter, request *http.Request, 
 		}
 	}
 	err := scanner.Err()
+	if errors.Is(err, bufio.ErrTooLong) {
+		fail(502, "stream_interrupted", "upstream_protocol_error")
+		return
+	}
 	if timedOut.Load() {
 		err = context.DeadlineExceeded
 	}

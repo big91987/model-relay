@@ -6,7 +6,7 @@
 
 ## 阶段边界
 
-产品后端统一用 Go，团队自用、单管理员、单实例。公共路线以 [产品路线图](roadmap.md) 为唯一来源；[v0.1.0](releases/v0.1.0.md) 保留基础中转契约。Issue #16 / PR #17 的第 1 项“首次配置、调用与诊断”已合并并正式测试部署，本轮基线为 main `85f6d17c07c5fddeb2d6a39a5a067769a11bb4cc`；用户提供的发布证据与受控上游／供应商边界统一见路线图“发布承接”，本节点未独立复验发布，原 Run 历史报告不改写。最新 Issue #18 进入路线第 2 项“多上游、有限故障切换与可解释控制台”，需求见 [当前 PRD](workflow/runs/82227c5986e5f41875895d8016c686a6/product-definition.md)；当前产品切片已实现并通过版本11宿主固定门禁及[独立QA](workflow/runs/82227c5986e5f41875895d8016c686a6/acceptance/report-02.md)，允许进入草稿PR，尚未正式发布。真实可信部署联合链、Actions非空升级／失败恢复及供应商仍Not Run，当前状态统一见路线图和[交付总览](workflow/runs/82227c5986e5f41875895d8016c686a6/delivery/README.md)。第 3–4 项依赖前一切片完成后由目标维护者以独立 Issue 接续，无需用户再次发起；不提前进入本 Run，成员角色和额外协议扩展仍按实际场景选择。
+产品后端统一用 Go，团队自用、单管理员、单实例。公共路线以 [产品路线图](roadmap.md) 为唯一来源；[v0.1.0](releases/v0.1.0.md) 保留基础中转契约。Issue #16 / PR #17 的第 1 项“首次配置、调用与诊断”已合并并正式测试部署，本轮基线为 main `85f6d17c07c5fddeb2d6a39a5a067769a11bb4cc`；用户提供的发布证据与受控上游／供应商边界统一见路线图“发布承接”，本节点未独立复验发布，原 Run 历史报告不改写。最新 Issue #18 进入路线第 2 项“多上游、有限故障切换与可解释控制台”，需求见 [当前 PRD](workflow/runs/82227c5986e5f41875895d8016c686a6/product-definition.md)。版本13宿主seq28固定make verify完整exit0及[独立QA report-03](workflow/runs/82227c5986e5f41875895d8016c686a6/acceptance/report-03.md) Go，两项合并前Important/P1 Closed、原四项未复发；当前产品切片Delivered。Connector已创建原Draft PR #19，本版修复待原Connector提交推送并更新；未合并部署，不用原版本11历史Go替代本版验收。真实可信部署联合链、Actions非空升级／失败恢复及供应商仍Not Run，当前状态统一见路线图和[交付总览](workflow/runs/82227c5986e5f41875895d8016c686a6/delivery/README.md)。第 3–4 项依赖前一切片完成后由目标维护者以独立 Issue 接续，无需用户再次发起；不提前进入本 Run，成员角色和额外协议扩展仍按实际场景选择。
 
 允许参考 New API 与 LiteLLM 的公开功能和 UI 交互，形成原创设计；禁止读取、复制、翻译或改编 New API 实现、数据库模型、资产及本机数据与凭据。旧的“只做 M1”“不参考公开交互”不限制最新授权；禁止复制实现的约束持续有效。
 

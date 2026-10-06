@@ -1,6 +1,6 @@
 # 研发与独立QA验证交接
 
-状态：产品验证已完成（版本11 seq21及独立QA）；正式可信部署与供应商未执行。2026-10-06。实际逐项结果以[当前QA矩阵](acceptance/matrix-02.md)及[report-02](acceptance/report-02.md)为准，以下保留验证契约而非第二份验收结果。固定入口仍为 `make verify`；不可替换、删除历史重建/格式/vet/modules/前端/Go race/HTTP/build/真服务浏览器各级门禁。引用 [PRD](product-definition.md)、[架构](routing-architecture.md)、[交互](routing-interaction.md)、[ADR](adr-001-storage-upgrade.md)、[正式部署窄契约](deployment-upgrade-contract.md)，本文件不是QA报告。
+状态：产品验证已完成（版本13 seq28及独立QA report-03）；正式可信部署与供应商未执行。2026-10-06。实际逐项结果以[当前QA矩阵](acceptance/matrix-03.md)及[report-03](acceptance/report-03.md)为准，以下保留验证契约而非第二份验收结果。固定入口仍为 `make verify`；不可替换、删除历史重建/格式/vet/modules/前端/Go race/HTTP/build/真服务浏览器各级门禁。引用 [PRD](product-definition.md)、[架构](routing-architecture.md)、[交互](routing-interaction.md)、[ADR](adr-001-storage-upgrade.md)、[正式部署窄契约](deployment-upgrade-contract.md)，本文件不是QA报告。
 
 ## 1. 进入证据、实施顺序与退出条件
 
@@ -68,7 +68,7 @@
 | DEP-02 可信控制器顺序 | 平台 `examples/github/model-relay-preview/tests/controller_test.py`及维护源受支持测试入口，目标维护者执行 | 与真实精确旧/新Go二进制联合，旧backup→候选upgrade→切current/start顺序；receipt/schema/版本解析错误拒绝，不先serve试运气；原私有fetch令牌/精确main/二进制摘要/设置保护不退化 | 38项平台隔离夹具/复审进展见下方补充；真实新旧Go联合验收 **Not Run** |
 | DEP-03 失败与重入 | 同平台维护源测试，临时部署根/受控启动与健康故障 | backup失败零迁移；upgrade/提交后启动/health失败均旧binary restore旧schema/身份/history；超时进程停完才恢复；restore失败明确未恢复；重复activate零副作用、崩溃阶段不重新旧backup已升级库 | 38项平台隔离夹具/复审进展见下方补充；真实新旧Go联合验收 **Not Run** |
 | DEP-04 legacy兼容 | 产品旧源码真实二进制＋可信控制器维护源测试 | 旧binary无deployment-contract/upgrade仍完成backup/restore；已知legacy schema1→schema1原路径；schema2→legacy和未知/损坏契约停旧前拒绝，不把任意命令非零当旧协议 | 38项平台隔离夹具/复审进展见下方补充；真实新旧Go联合验收 **Not Run** |
-| DEP-05 标准安装升级 | 平台install.py；模板变化才install_workflow.py --upgrade，原manifest/设置检查 | 源修复后安装控制器摘要/源版本可核对，重复安装不改数据/key/port/current；必要Workflow升级保留标准漂移校验；不得手工拷贝controller、改manifest或新建Issue特制条件 | 当前仅受管理模板子范围Pass：原install_workflow.py授权Installed/Unchanged、固定294ddb33模板及manifest版本锁一致；用户控制器安装进展分层保留；全部安装错误／漂移边缘Not Run，见[QA矩阵](acceptance/matrix-02.md) |
+| DEP-05 标准安装升级 | 平台install.py；模板变化才install_workflow.py --upgrade，原manifest/设置检查 | 源修复后安装控制器摘要/源版本可核对，重复安装不改数据/key/port/current；必要Workflow升级保留标准漂移校验；不得手工拷贝controller、改manifest或新建Issue特制条件 | 当前仅受管理模板子范围Pass：原install_workflow.py授权Installed/Unchanged、固定294ddb33模板及manifest版本锁一致；用户控制器安装进展分层保留；全部安装错误／漂移边缘Not Run，见[QA矩阵](acceptance/matrix-03.md) |
 | DEP-06 正式Actions成功 | 既有正式prepare＋获授权workflow_dispatch/activate | 已有非空schema1→实际候选upgrade→schema2；merge SHA/Actions run/Deployment/controller版本/二进制摘要/实际healthz和控制台一致；旧登录/key/模型/历史及非敏感数据守恒；回执脱敏归档本Run | **Not Run** |
 | DEP-07 正式失败恢复 | 同一可信Actions路径的获授权隔离部署根 | 独立失败回执与旧binary/schema/data真实恢复，保留失败库；不得默认破坏当前正式根、改变产品权限、加入产品故障开关或临时Issue分支；未有受支持隔离根及授权则明确未执行 | **Not Run** |
 

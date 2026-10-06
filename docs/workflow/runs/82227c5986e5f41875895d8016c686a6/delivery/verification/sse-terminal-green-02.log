@@ -1,0 +1,21 @@
+# model-relay/internal/relay.test
+ld: warning: '<temporary-link-object> has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestSSEOverlongLineNeverSwitchesOrCools
+=== RUN   TestSSEOverlongLineNeverSwitchesOrCools/before_commit
+=== RUN   TestSSEOverlongLineNeverSwitchesOrCools/after_commit
+--- PASS: TestSSEOverlongLineNeverSwitchesOrCools (4.91s)
+    --- PASS: TestSSEOverlongLineNeverSwitchesOrCools/before_commit (2.45s)
+    --- PASS: TestSSEOverlongLineNeverSwitchesOrCools/after_commit (2.45s)
+=== RUN   TestSSEDoneTerminalAttribution
+=== RUN   TestSSEDoneTerminalAttribution/success
+=== RUN   TestSSEDoneTerminalAttribution/write_failure
+=== RUN   TestSSEDoneTerminalAttribution/cancel_with_error
+=== RUN   TestSSEDoneTerminalAttribution/cancel_after_write
+--- PASS: TestSSEDoneTerminalAttribution (9.64s)
+    --- PASS: TestSSEDoneTerminalAttribution/success (2.41s)
+    --- PASS: TestSSEDoneTerminalAttribution/write_failure (2.41s)
+    --- PASS: TestSSEDoneTerminalAttribution/cancel_with_error (2.41s)
+    --- PASS: TestSSEDoneTerminalAttribution/cancel_after_write (2.41s)
+PASS
+ok  	model-relay/internal/relay	15.911s
+exit_code=0
