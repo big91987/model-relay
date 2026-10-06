@@ -64,6 +64,8 @@ type Policy struct {
 	Resolver      Resolver
 }
 
+var errDestinationForbidden = errors.New("destination forbidden")
+
 var blocked = []netip.Prefix{
 	netip.MustParsePrefix("0.0.0.0/8"),
 	netip.MustParsePrefix("100.64.0.0/10"),
@@ -115,7 +117,7 @@ func (policy Policy) validateIPs(ctx context.Context, host, authority string) (n
 			continue
 		}
 		if !publicIP(address) {
-			return netip.Addr{}, errors.New("destination forbidden")
+			return netip.Addr{}, errDestinationForbidden
 		}
 	}
 	return addresses[0], nil

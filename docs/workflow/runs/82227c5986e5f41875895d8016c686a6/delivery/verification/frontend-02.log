@@ -1,0 +1,859 @@
+✔ password toggle preserves the input node and value without requesting or submitting (6.889208ms)
+✔ login success, logout and rejected login reset password visibility (1.241667ms)
+✔ pending rejected login keeps the prior session error until its own 401 clears the password (0.614583ms)
+✔ session restoration resets an entered visible password (0.577958ms)
+✖ upstream form is unavailable until GET completes, then saves entered values (2.399584ms)
+✖ overview distinguishes empty, saved and successful persisted configuration on reentry (1.057875ms)
+✖ runtime version preserves raw strings including dev without blocking overview (10003.547ms)
+✖ runtime version missing degrades locally and reentry recovers (10003.506667ms)
+✖ runtime version empty degrades locally and reentry recovers (10001.726125ms)
+✖ runtime version whitespace degrades locally and reentry recovers (10003.402417ms)
+✖ runtime version number degrades locally and reentry recovers (10002.718125ms)
+✖ runtime version null version degrades locally and reentry recovers (10002.120125ms)
+✖ runtime version null body degrades locally and reentry recovers (10002.780125ms)
+✖ runtime version array degrades locally and reentry recovers (10001.76825ms)
+✖ runtime version string body degrades locally and reentry recovers (10001.109459ms)
+✖ runtime version 401 degrades locally and reentry recovers (10002.661125ms)
+✖ runtime version 503 degrades locally and reentry recovers (10001.536541ms)
+✖ runtime version network degrades locally and reentry recovers (10000.09125ms)
+✖ runtime version invalid json degrades locally and reentry recovers (10002.269708ms)
+✖ late success cannot clear a newer timer or version (10002.441583ms)
+✖ late failure cannot clear a newer timer or version (10002.943542ms)
+✔ 5 second timeout covers headers and ignores late resolution (5.096834ms)
+✔ 5 second timeout covers body and ignores late resolution (2.944041ms)
+✔ logout invalidates immediately and late success cannot contaminate a new login (3.404166ms)
+✔ real management 401 still logs out and invalidates runtime version (1.543375ms)
+✖ older response after a newer completion cannot overwrite the current version (10003.074958ms)
+✔ failed configuration load leaves an error and navigation can recover (4.724166ms)
+✖ a stale navigation cannot reveal a panel after the user leaves (10000.569917ms)
+✔ rejected save recovers persisted configuration after navigation finishes (5.721125ms)
+✖ explicit upstream reread retains stale credential status until its own GET settles (2.709041ms)
+✖ upstream restore immediately clears secret, restores only confirmed public fields and performs zero writes: false (3.059ms)
+✖ upstream restore immediately clears secret, restores only confirmed public fields and performs zero writes: true (2.991583ms)
+✖ upstream save owns both controls through its readback; restore and repeated save cannot overlap (1.725584ms)
+✔ late upstream restore cannot replace a new draft or unlock a newer operation (1.540625ms)
+✔ upstream busy controls release on owner invalidation without applying a late restore: pagehide (1.404375ms)
+✔ upstream busy controls release on owner invalidation without applying a late restore: uncertain session (1.560042ms)
+✖ in-flight submitted controls stay visible and disabled until current call terminates: complete (2.832833ms)
+✖ in-flight submitted controls stay visible and disabled until current call terminates: failed (1.160875ms)
+✖ in-flight submitted controls stay visible and disabled until current call terminates: cancel (1.093666ms)
+✖ late canceled-call finally cannot unlock new submitted controls (1.018459ms)
+✔ key list displays server created time and explicitly unknown, never a client timestamp (1.014791ms)
+✔ state-change replacement restores only same identity unless focus moved: models/false (1.425375ms)
+✔ state-change replacement restores only same identity unless focus moved: models/true (0.947ms)
+✔ state-change replacement restores only same identity unless focus moved: keys/false (1.395541ms)
+✔ state-change replacement restores only same identity unless focus moved: keys/true (0.982ms)
+✔ late state change on departed page cannot restore old row focus (0.910417ms)
+✔ upstream rejected clears credential, preserves public draft and distinguishes acknowledged write (0.943542ms)
+✔ upstream network clears credential, preserves public draft and distinguishes acknowledged write (1.394083ms)
+✔ upstream refresh clears credential, preserves public draft and distinguishes acknowledged write (0.945917ms)
+✖ generation application failure clears only sensitive inputs and keeps diagnosis and identity (0.869916ms)
+✖ generation provider failure clears only sensitive inputs and keeps diagnosis and identity (0.825584ms)
+✖ generation network failure clears only sensitive inputs and keeps diagnosis and identity (0.876958ms)
+✖ generation protocol failure clears only sensitive inputs and keeps diagnosis and identity (0.972083ms)
+✖ generation stream failure clears only sensitive inputs and keeps diagnosis and identity (0.825583ms)
+✖ overview evidence action uses displayed ID, while generic records remains unfiltered (0.891041ms)
+✔ overview precise evidence action survives session restore with no local generation identity (0.932917ms)
+✔ overview precise evidence action survives new login with no local generation identity (0.717791ms)
+✔ late upstream rejected failure cannot clear new-page credential or notice (0.797459ms)
+✔ late upstream refresh failure cannot clear new-page credential or notice (0.836917ms)
+✖ overview success metadata comes from the request evidence, never the clock or global revision (1.55175ms)
+✖ late overview metadata cannot replace a newer response (1.101ms)
+✔ failed overview refresh disables and discards the old precise evidence action (1.07925ms)
+✖ model selection, placeholder example, readable text and request ID are independent of raw JSON (2.268708ms)
+✖ cancel isolates late headers, old finally cannot enable a new request (0.938792ms)
+✖ cancel isolates late json, old finally cannot enable a new request (0.664167ms)
+✖ cancel isolates late failure, old finally cannot enable a new request (0.84325ms)
+✖ SSE decodes split UTF8 and CRLF, presents increments before DONE and isolates canceled reads (0.724792ms)
+✖ tool-only output is not treated as network failure; unknown usage stays unknown and zero stays zero (0.714667ms)
+✖ late key issuance and management 401 cannot affect a new page or login (10002.594167ms)
+✖ clipboard completion is isolated after closing, reissuing or leaving; failures have a manual path (10003.539083ms)
+✖ SSE DONE succeeds, missing DONE and event error fail without a second request (6.753667ms)
+✔ overview query failure remains unknown rather than zero and retry recovers (2.123541ms)
+✔ creation cancellation preserves public drafts with zero writes (1.233583ms)
+✖ model edit keeps canceled draft and a pending save cannot be replaced by another editor (2.06325ms)
+✔ unknown navigation hashes normalize to a safe overview target (1.143875ms)
+✖ expired session clears current generation and restores safe hash target without replay (1.132209ms)
+✖ stream tool fragments summarize only after DONE without executing arguments (2.629125ms)
+✖ empty content remains distinct and tool names/count storage are bounded (1.420417ms)
+✖ visible long stream checks at 30s; network uncertainty clears secrets, isolates late output and requires manual recovery (1.213875ms)
+✖ known expiry cancels without a session fetch; relogin restores target without replay (2.089292ms)
+✔ uncertain session invalidates late issuance and explicit relogin clears and preserves safe target (1.490791ms)
+✖ known expiry also blocks submit before timer runs (1.064375ms)
+✖ hidden generation skips polling; visibility check is single flight and stale failure cannot clear a new page (1.02525ms)
+✖ known expiry survives a hanging one-shot session check and ignores late success (1.6835ms)
+✖ known expiry survives a hanging one-shot session check and ignores late network failure (0.930625ms)
+✖ known expiry survives a hanging one-shot session check and ignores late 401 (0.865709ms)
+✖ hanging session result across navigation cannot extend expiry or affect a new login: success (0.941667ms)
+✖ hanging session result across navigation cannot extend expiry or affect a new login: network failure (0.852458ms)
+✖ hanging session result across navigation cannot extend expiry or affect a new login: 401 (0.767958ms)
+✖ uncertain session recovery may hang but the original known expiry still clears it (0.817583ms)
+✖ ordinary periodic session success does not tell an active call to re-enter or resend (0.84225ms)
+✖ pagehide stops timers and pageshow still enforces a known deadline before a hanging check can resume (0.82675ms)
+✖ visibility restore enforces known expiry even when uncertain-state timer delivery was suspended (0.929458ms)
+✔ closed model selection helper commits later viewport option: false (2.165916ms)
+✔ closed model selection helper commits later viewport option: true (0.807542ms)
+✔ closed model selection helper fails rather than accepting an unchanged first option (0.938542ms)
+✔ model selection diagnostic records type-ahead and Tab boundaries without assigning DOM values (0.74ms)
+✔ closed model selection helper handles starting at end and disabled options: 0/false (0.704584ms)
+✔ closed model selection helper handles starting at end and disabled options: 3/false (0.670167ms)
+✔ closed model selection helper handles starting at end and disabled options: 1/true (0.716208ms)
+✔ native model selection helper rejects unavailable target before activation: true (0.684542ms)
+✔ native model selection helper rejects unavailable target before activation: false (0.6965ms)
+✔ actual model diagnostic projection observes focus, option redraw and replacement without values (1.447625ms)
+✔ model diagnostics distinguish pending response bodies, failed reads and load-finally readiness (0.754875ms)
+✔ model diagnostic event trace is bounded and only records approved key and focus labels (0.882208ms)
+✔ model diagnostic printable keys are redacted and type-ahead boundaries survive compaction (1.053625ms)
+✔ failure model projection omits arbitrary fields and keeps the bounded boundary evidence (0.760125ms)
+✔ entire UTF-8 failure line fits host tail while retaining first and final key boundaries (1.202167ms)
+ℹ tests 108
+ℹ suites 0
+ℹ pass 46
+ℹ fail 43
+ℹ cancelled 19
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 190266.336833
+
+✖ failing tests:
+
+test at tests/browser/ui.test.mjs:180:1
+✖ upstream form is unavailable until GET completes, then saves entered values (2.399584ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+      enabled: true,
+  +   name: '',
+      token: 'test-only-token',
+      url: 'https://controlled.example/v1'
+    }
+  
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:192:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { name: '', url: 'https://controlled.example/v1', token: 'test-only-token', enabled: true },
+    expected: { url: 'https://controlled.example/v1', token: 'test-only-token', enabled: true },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:223:1
+✖ overview distinguishes empty, saved and successful persisted configuration on reentry (1.057875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '配置已保存；尚无当前配置的生成成功记录。'
+  - '上游配置已保存；本次启动尚无当前配置成功证据，请显式调用核验。'
+  
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:233:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '配置已保存；尚无当前配置的生成成功记录。',
+    expected: '上游配置已保存；本次启动尚无当前配置成功证据，请显式调用核验。',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:244:1
+✖ runtime version preserves raw strings including dev without blocking overview (10003.547ms)
+  'test timed out after 10000ms'
+
+test at tests/browser/ui.test.mjs:270:3
+✖ runtime version missing degrades locally and reentry recovers (10003.506667ms)
+  'test timed out after 10000ms'
+
+test at tests/browser/ui.test.mjs:270:3
+✖ runtime version empty degrades locally and reentry recovers (10001.726125ms)
+  'test timed out after 10000ms'
+
+test at tests/browser/ui.test.mjs:270:3
+✖ runtime version whitespace degrades locally and reentry recovers (10003.402417ms)
+  'test timed out after 10000ms'
+
+test at tests/browser/ui.test.mjs:270:3
+✖ runtime version number degrades locally and reentry recovers (10002.718125ms)
+  'test timed out after 10000ms'
+
+test at tests/browser/ui.test.mjs:270:3
+✖ runtime version null version degrades locally and reentry recovers (10002.120125ms)
+  'test timed out after 10000ms'
+
+test at tests/browser/ui.test.mjs:270:3
+✖ runtime version null body degrades locally and reentry recovers (10002.780125ms)
+  'test timed out after 10000ms'
+
+test at tests/browser/ui.test.mjs:270:3
+✖ runtime version array degrades locally and reentry recovers (10001.76825ms)
+  'test timed out after 10000ms'
+
+test at tests/browser/ui.test.mjs:270:3
+✖ runtime version string body degrades locally and reentry recovers (10001.109459ms)
+  'test timed out after 10000ms'
+
+test at tests/browser/ui.test.mjs:270:3
+✖ runtime version 401 degrades locally and reentry recovers (10002.661125ms)
+  'test timed out after 10000ms'
+
+test at tests/browser/ui.test.mjs:270:3
+✖ runtime version 503 degrades locally and reentry recovers (10001.536541ms)
+  'test timed out after 10000ms'
+
+test at tests/browser/ui.test.mjs:270:3
+✖ runtime version network degrades locally and reentry recovers (10000.09125ms)
+  'test timed out after 10000ms'
+
+test at tests/browser/ui.test.mjs:270:3
+✖ runtime version invalid json degrades locally and reentry recovers (10002.269708ms)
+  'test timed out after 10000ms'
+
+test at tests/browser/ui.test.mjs:298:3
+✖ late success cannot clear a newer timer or version (10002.441583ms)
+  'test timed out after 10000ms'
+
+test at tests/browser/ui.test.mjs:298:3
+✖ late failure cannot clear a newer timer or version (10002.943542ms)
+  'test timed out after 10000ms'
+
+test at tests/browser/ui.test.mjs:382:1
+✖ older response after a newer completion cannot overwrite the current version (10003.074958ms)
+  'test timed out after 10000ms'
+
+test at tests/browser/ui.test.mjs:410:1
+✖ a stale navigation cannot reveal a panel after the user leaves (10000.569917ms)
+  'test timed out after 10000ms'
+
+test at tests/browser/ui.test.mjs:447:1
+✖ explicit upstream reread retains stale credential status until its own GET settles (2.709041ms)
+  TypeError: Cannot read properties of undefined (reading 'options')
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:470:33)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7)
+
+test at tests/browser/ui.test.mjs:500:38
+✖ upstream restore immediately clears secret, restores only confirmed public fields and performs zero writes: false (3.059ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:508:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:500:38
+✖ upstream restore immediately clears secret, restores only confirmed public fields and performs zero writes: true (2.991583ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:508:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:519:1
+✖ upstream save owns both controls through its readback; restore and repeated save cannot overlap (1.725584ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:525:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:563:58
+✖ in-flight submitted controls stay visible and disabled until current call terminates: complete (2.832833ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:565:48)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:563:58
+✖ in-flight submitted controls stay visible and disabled until current call terminates: failed (1.160875ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:565:48)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:563:58
+✖ in-flight submitted controls stay visible and disabled until current call terminates: cancel (1.093666ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:565:48)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:575:1
+✖ late canceled-call finally cannot unlock new submitted controls (1.018459ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:577:43)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:642:3
+✖ generation application failure clears only sensitive inputs and keeps diagnosis and identity (0.869916ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:645:44)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:642:3
+✖ generation provider failure clears only sensitive inputs and keeps diagnosis and identity (0.825584ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:645:44)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:642:3
+✖ generation network failure clears only sensitive inputs and keeps diagnosis and identity (0.876958ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:645:44)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:642:3
+✖ generation protocol failure clears only sensitive inputs and keeps diagnosis and identity (0.972083ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:645:44)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:642:3
+✖ generation stream failure clears only sensitive inputs and keeps diagnosis and identity (0.825583ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:645:44)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:659:1
+✖ overview evidence action uses displayed ID, while generic records remains unfiltered (0.891041ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:661:32)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:711:1
+✖ overview success metadata comes from the request evidence, never the clock or global revision (1.55175ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '当前配置曾成功调用 · 模型 alpha；请求身份、时间及适用范围可进入详情查看。'
+  - '当前配置曾成功调用 · 请求 EvidenceMetadataOnly01 · 模型 alpha · 调用时间 2001-02-03T04:05:06Z · 配置版本 17 · 本次服务启动、当前配置'
+  
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:717:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '当前配置曾成功调用 · 模型 alpha；请求身份、时间及适用范围可进入详情查看。',
+    expected: '当前配置曾成功调用 · 请求 EvidenceMetadataOnly01 · 模型 alpha · 调用时间 2001-02-03T04:05:06Z · 配置版本 17 · 本次服务启动、当前配置',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:740:1
+✖ late overview metadata cannot replace a newer response (1.101ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /调用时间 2002-03-04T05:06:07Z · 配置版本 18/. Input:
+  
+  '当前配置曾成功调用 · 模型 alpha；请求身份、时间及适用范围可进入详情查看。'
+  
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:748:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '当前配置曾成功调用 · 模型 alpha；请求身份、时间及适用范围可进入详情查看。',
+    expected: /调用时间 2002-03-04T05:06:07Z · 配置版本 18/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:765:1
+✖ model selection, placeholder example, readable text and request ID are independent of raw JSON (2.268708ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:770:46)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:783:3
+✖ cancel isolates late headers, old finally cannot enable a new request (0.938792ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:785:38)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:783:3
+✖ cancel isolates late json, old finally cannot enable a new request (0.664167ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:785:38)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:783:3
+✖ cancel isolates late failure, old finally cannot enable a new request (0.84325ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:785:38)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:804:1
+✖ SSE decodes split UTF8 and CRLF, presents increments before DONE and isolates canceled reads (0.724792ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:806:42)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:821:1
+✖ tool-only output is not treated as network failure; unknown usage stays unknown and zero stays zero (0.714667ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:823:27)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:831:1
+✖ late key issuance and management 401 cannot affect a new page or login (10002.594167ms)
+  'test timed out after 10000ms'
+
+test at tests/browser/ui.test.mjs:840:1
+✖ clipboard completion is isolated after closing, reissuing or leaving; failures have a manual path (10003.539083ms)
+  'test timed out after 10000ms'
+
+test at tests/browser/ui.test.mjs:866:1
+✖ SSE DONE succeeds, missing DONE and event error fail without a second request (6.753667ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:869:39)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:895:1
+✖ model edit keeps canceled draft and a pending save cannot be replaced by another editor (2.06325ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:907:64)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:916:1
+✖ expired session clears current generation and restores safe hash target without replay (1.132209ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:918:40)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:925:1
+✖ stream tool fragments summarize only after DONE without executing arguments (2.629125ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:928:3)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:941:1
+✖ empty content remains distinct and tool names/count storage are bounded (1.420417ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:943:30)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:952:1
+✖ visible long stream checks at 30s; network uncertainty clears secrets, isolates late output and requires manual recovery (1.213875ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:954:66)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:975:1
+✖ known expiry cancels without a session fetch; relogin restores target without replay (2.089292ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:978:48)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:999:1
+✖ known expiry also blocks submit before timer runs (1.064375ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:1003:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:1007:1
+✖ hidden generation skips polling; visibility check is single flight and stale failure cannot clear a new page (1.02525ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:1009:48)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:1023:3
+✖ known expiry survives a hanging one-shot session check and ignores late success (1.6835ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:1026:86)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:1023:3
+✖ known expiry survives a hanging one-shot session check and ignores late network failure (0.930625ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:1026:86)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:1023:3
+✖ known expiry survives a hanging one-shot session check and ignores late 401 (0.865709ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:1026:86)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:1051:3
+✖ hanging session result across navigation cannot extend expiry or affect a new login: success (0.941667ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:1053:56)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:1051:3
+✖ hanging session result across navigation cannot extend expiry or affect a new login: network failure (0.852458ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:1053:56)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:1051:3
+✖ hanging session result across navigation cannot extend expiry or affect a new login: 401 (0.767958ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:1053:56)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:1079:1
+✖ uncertain session recovery may hang but the original known expiry still clears it (0.817583ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:1081:48)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:1093:1
+✖ ordinary periodic session success does not tell an active call to re-enter or resend (0.84225ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:1096:48)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:1112:1
+✖ pagehide stops timers and pageshow still enforces a known deadline before a hanging check can resume (0.82675ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:1114:48)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:1123:1
+✖ visibility restore enforces known expiry even when uncertain-state timer delivery was suspended (0.929458ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to: -1
+      at generation (file://<workspace>/tests/browser/ui.test.mjs:488:10)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:1125:48)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }

@@ -1,0 +1,7 @@
+command=node document/protected-artifact/trace/source audit
+exit_code=1
+failure=go run ./tests/evidence attempted the default user Go build cache; operation not permitted
+scope=No product/browser assertion ran or failed here; missing project GOCACHE in this audit command, not a new host or listening failure.
+source_digest=not produced by this failed audit
+raw_receipt=retained in this node tool execution; local paths omitted from public summary
+next=retry audit with existing workspace .cache/go-build, preserving this failed receipt

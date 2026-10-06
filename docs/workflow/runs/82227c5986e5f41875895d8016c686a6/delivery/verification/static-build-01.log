@@ -1,0 +1,4 @@
+Commands: make format-check; go mod verify; make vet; make build; node --check (product and browser drivers)
+internal/relay/version_test.go
+make: *** [format-check] Error 1
+exit_code=2

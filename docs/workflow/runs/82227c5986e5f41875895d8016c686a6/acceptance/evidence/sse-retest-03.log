@@ -1,0 +1,72 @@
+# model-relay/internal/relay.test
+ld: warning: '<temp>/go-link/000023.o' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestConnectionCancelDeduplicatesAndPreservesRouting
+--- PASS: TestConnectionCancelDeduplicatesAndPreservesRouting (2.43s)
+=== RUN   TestQAConnectionCheckTenSecondBudget
+--- PASS: TestQAConnectionCheckTenSecondBudget (2.43s)
+=== RUN   TestQAConnectionCheckProtocolAndFailureStates
+=== RUN   TestQAConnectionCheckProtocolAndFailureStates/valid_empty_list
+=== RUN   TestQAConnectionCheckProtocolAndFailureStates/wrong_content_type
+=== RUN   TestQAConnectionCheckProtocolAndFailureStates/missing_list_object
+=== RUN   TestQAConnectionCheckProtocolAndFailureStates/wrong_list_object
+=== RUN   TestQAConnectionCheckProtocolAndFailureStates/missing_model_id
+=== RUN   TestQAConnectionCheckProtocolAndFailureStates/empty_model_id
+=== RUN   TestQAConnectionCheckProtocolAndFailureStates/malformed_json
+=== RUN   TestQAConnectionCheckProtocolAndFailureStates/authentication_failure
+=== RUN   TestQAConnectionCheckProtocolAndFailureStates/rate_limit_failure
+=== RUN   TestQAConnectionCheckProtocolAndFailureStates/server_failure
+=== RUN   TestQAConnectionCheckProtocolAndFailureStates/network_failure
+--- PASS: TestQAConnectionCheckProtocolAndFailureStates (2.42s)
+    --- PASS: TestQAConnectionCheckProtocolAndFailureStates/valid_empty_list (0.00s)
+    --- PASS: TestQAConnectionCheckProtocolAndFailureStates/wrong_content_type (0.00s)
+    --- PASS: TestQAConnectionCheckProtocolAndFailureStates/missing_list_object (0.00s)
+    --- PASS: TestQAConnectionCheckProtocolAndFailureStates/wrong_list_object (0.00s)
+    --- PASS: TestQAConnectionCheckProtocolAndFailureStates/missing_model_id (0.00s)
+    --- PASS: TestQAConnectionCheckProtocolAndFailureStates/empty_model_id (0.00s)
+    --- PASS: TestQAConnectionCheckProtocolAndFailureStates/malformed_json (0.00s)
+    --- PASS: TestQAConnectionCheckProtocolAndFailureStates/authentication_failure (0.00s)
+    --- PASS: TestQAConnectionCheckProtocolAndFailureStates/rate_limit_failure (0.00s)
+    --- PASS: TestQAConnectionCheckProtocolAndFailureStates/server_failure (0.00s)
+    --- PASS: TestQAConnectionCheckProtocolAndFailureStates/network_failure (0.00s)
+=== RUN   TestCandidateIntegerAndReferenceBoundariesAreAtomic
+=== RUN   TestCandidateIntegerAndReferenceBoundariesAreAtomic/negative_priority
+=== RUN   TestCandidateIntegerAndReferenceBoundariesAreAtomic/large_priority
+=== RUN   TestCandidateIntegerAndReferenceBoundariesAreAtomic/fraction_priority
+=== RUN   TestCandidateIntegerAndReferenceBoundariesAreAtomic/zero_weight
+=== RUN   TestCandidateIntegerAndReferenceBoundariesAreAtomic/large_weight
+=== RUN   TestCandidateIntegerAndReferenceBoundariesAreAtomic/fraction_weight
+=== RUN   TestCandidateIntegerAndReferenceBoundariesAreAtomic/empty_remote
+=== RUN   TestCandidateIntegerAndReferenceBoundariesAreAtomic/unknown_upstream
+=== RUN   TestCandidateIntegerAndReferenceBoundariesAreAtomic/missing_priority
+--- PASS: TestCandidateIntegerAndReferenceBoundariesAreAtomic (2.42s)
+    --- PASS: TestCandidateIntegerAndReferenceBoundariesAreAtomic/negative_priority (0.00s)
+    --- PASS: TestCandidateIntegerAndReferenceBoundariesAreAtomic/large_priority (0.00s)
+    --- PASS: TestCandidateIntegerAndReferenceBoundariesAreAtomic/fraction_priority (0.00s)
+    --- PASS: TestCandidateIntegerAndReferenceBoundariesAreAtomic/zero_weight (0.00s)
+    --- PASS: TestCandidateIntegerAndReferenceBoundariesAreAtomic/large_weight (0.00s)
+    --- PASS: TestCandidateIntegerAndReferenceBoundariesAreAtomic/fraction_weight (0.00s)
+    --- PASS: TestCandidateIntegerAndReferenceBoundariesAreAtomic/empty_remote (0.00s)
+    --- PASS: TestCandidateIntegerAndReferenceBoundariesAreAtomic/unknown_upstream (0.00s)
+    --- PASS: TestCandidateIntegerAndReferenceBoundariesAreAtomic/missing_priority (0.00s)
+=== RUN   TestRoutingHealthEpochSequenceDisableAndRestart
+--- PASS: TestRoutingHealthEpochSequenceDisableAndRestart (2.43s)
+=== RUN   TestSSEOverlongLineNeverSwitchesOrCools
+=== RUN   TestSSEOverlongLineNeverSwitchesOrCools/before_commit
+=== RUN   TestSSEOverlongLineNeverSwitchesOrCools/after_commit
+--- PASS: TestSSEOverlongLineNeverSwitchesOrCools (4.87s)
+    --- PASS: TestSSEOverlongLineNeverSwitchesOrCools/before_commit (2.44s)
+    --- PASS: TestSSEOverlongLineNeverSwitchesOrCools/after_commit (2.43s)
+=== RUN   TestSSEDoneTerminalAttribution
+=== RUN   TestSSEDoneTerminalAttribution/success
+=== RUN   TestSSEDoneTerminalAttribution/write_failure
+=== RUN   TestSSEDoneTerminalAttribution/cancel_with_error
+=== RUN   TestSSEDoneTerminalAttribution/cancel_after_write
+--- PASS: TestSSEDoneTerminalAttribution (9.74s)
+    --- PASS: TestSSEDoneTerminalAttribution/success (2.43s)
+    --- PASS: TestSSEDoneTerminalAttribution/write_failure (2.44s)
+    --- PASS: TestSSEDoneTerminalAttribution/cancel_with_error (2.43s)
+    --- PASS: TestSSEDoneTerminalAttribution/cancel_after_write (2.43s)
+PASS
+ok  	model-relay/internal/relay	28.424s
+
+actual_exit_code=0

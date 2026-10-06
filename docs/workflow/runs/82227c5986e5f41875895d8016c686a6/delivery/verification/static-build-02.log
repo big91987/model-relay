@@ -1,0 +1,5 @@
+Commands: make format-check; go mod verify; make vet; make build; node --check (product and browser drivers)
+all modules verified
+go vet ./...
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+exit_code=0

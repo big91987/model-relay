@@ -1,5 +1,18 @@
 # First-call console ownership
 
+## QA remediation: cancel and completed-task review (2026-10-06)
+
+### Scope and signatures
+`upstreamAction(token,callback)` still owns one AbortController and synchronous busy lock. `cancel-check.onclick` aborts this controller without changing upstream config or route health. `resetUpstream()` invalidates it on navigation, pagehide, signout and uncertain session. The check callback rejects completion after abort even when a mocked transport resolves late; catches only its own aborted work, not genuine network failures.
+
+### Contracts and errors
+Only `check-upstream` work exposes native button `cancel-check`; its cancellation text explains that reread is needed for final persisted state and no automatic retry occurs. Controls stay locked until settlement, then restored for the current operation only; a disabled/unselected upstream remains uncheckable. Hide cancellation before readback once the terminal POST succeeds. Do not let late readback or old finally unlock a new operation.
+
+`renderSetup(completed)` moves the original five numbered rows (and original buttons/IDs) between `setup-steps` and `completed-steps` inside native `details#completed-setup`. It never clones the evidence button or changes its Request ID handler. Incomplete rows remain current tasks; completed rows are collapsed by default and keyboard-reviewable. `setup-complete` is visible only after all five have facts. Refresh clears completion and disables the old evidence action before GET; failed reads stay unknown. Restart keeps saved first three steps but needs a new current-process generation observation for the last two.
+
+### Good, base, bad and required tests
+Good: cancel yields feedback, releases current ownership and allows explicit reread/recheck. Base: no upstream means check disabled; empty installation has all five tasks. Bad: leaving page while late success updates the next editor; all five completed rows still occupy current tasks; cloning nodes loses identity. VM regressions enforce cancel/dedup/late success/navigation/expiry and row identity/ordering/unknown/restart behavior. Real two-screen `routing.mjs` must prove outgoing GET cancellation, failure/edit recovery, total deadline, keyboard-only creation/edit/cancel/check/key/call/stop, folded evidence access and restart review. Tests may inspect inputValue/read APIs but must not set business DOM values or seed via API. Host evidence is required; VM is not a native-browser pass.
+
 ## Scenario: restore, submitted parameters and row focus
 
 ### Scope and signatures
@@ -26,7 +39,9 @@ Native `web/app.js` owns hash navigation, admin state, issued secrets, generatio
 `scheduleExpiry()` arms a separate session-epoch/deadline-owned timeout; `expireSession()` clears locally at a known deadline regardless of pending session fetch or page navigation. `scheduleSession()` owns only polling; check completion must never be the sole expiry trigger.
 
 ## 3. Contracts
-Only six safe page names enter hash; request IDs, credentials and conversation never enter URL/localStorage/sessionStorage/IndexedDB. Login restores the safe hash without replay. Visible test generation checks session every 30s or earlier known expiry; other confirmed sessions use 60s plus visibility/pageshow. Management 401 clears the session, application 401 does not. Session network/invalid-response failures invalidate async ownership, abort generation and clear secrets/output without calling them authentication failures. Disable generation and stop automatic checking until explicit recheck succeeds or login restores the session. Keep safe page/model/request ID. Health uses no management headers and the existing independent 5s timeout.
+Only safe page names enter hash; route-2 design additionally permits encoded public upstream ID/model alias for details, never request IDs, credentials or conversation in URL/localStorage/sessionStorage/IndexedDB. Login restores the safe hash without replay. Visible test generation checks session every 30s or earlier known expiry; other confirmed sessions use 60s plus visibility/pageshow. Management 401 clears the session, application 401 does not. Session network/invalid-response failures invalidate async ownership, abort generation and clear secrets/output without calling them authentication failures. Disable generation and stop automatic checking until explicit recheck succeeds or login restores the session. Keep safe page/model/request ID. Health uses no management headers and the existing independent 5s timeout.
+
+Route-2 target interaction (implementation pending): `docs/workflow/runs/82227c5986e5f41875895d8016c686a6/routing-interaction.md`. Scope busy identities by object/operation; whole model candidate edits are atomic, cancel is zero writes, conflict/unconfirmed writes require GET reconciliation before another explicit write. Explicit connection checks have independent state, 10s bound and cost notice, cannot clear generation cooldown, and are aborted on departure. Overview emphasizes unfinished tasks, scoped expandable evidence and separate account recovery. Preserve all baseline secret-clearing, stale-owner, expiry, exact-ID, keyboard-focus and no-replay tests while replacing singleton forms. Real continuous keyboard journeys must exercise both 1280px and 390px, not only static layout or API setup.
 
 Known expiry stays independently armed while checks hang, across safe page changes and during uncertain-state/manual recovery. Its ownership is session-wide, not navigation-bound. Stop both timers on logout/pagehide, re-arm the known deadline on pageshow. Same-session response metadata may shorten or first establish expiry, never extend a known deadline; check local expiry before accepting a response or error. Late responses cannot revive an expired/new session. Normal successful polling preserves current status, secrets, output and notices; only recovery from uncertainty tells the user to re-enter and manually send.
 
@@ -47,6 +62,29 @@ Good: canceled old JSON/stream resolves while a new request runs; no output, not
 
 ## 7. Wrong vs Correct
 Wrong: `await reader.read(); output.textContent += chunk` after cancel; `catch { signedOut(); }` for proxy 401. Correct: `ensure()` after each await checks operation plus session/navigation, while only current management 401 calls signedOut.
+
+## Route-2 native task ownership
+
+### 1. Scope / Trigger
+Multi-upstream/candidate editing and explanatory records in actual embedded app.js/index.html/style.css. Keep original session/secret/generation regression contracts; no framework or duplicated browser configuration source.
+
+### 2. Signatures
+`upstreamAction(token,callback)`, `resetUpstream()`, `modelCreateControls(disabled)`, `resetModelCreate()`, `renderCandidates(mode,values)`, `readCandidates(mode)`, `load(view,token,pageCursor)` and `findRecord(token)`. Save/check use plural management APIs and expected revision fields from the observed object. Create/edit candidate modes own separate fieldsets and drafts.
+
+### 3. Fields / State
+Native labeled fieldsets carry upstream_id/remote_model/enabled/priority/weight; server replaces whole set. Upstream and model creation lock sibling controls synchronously before await. Acknowledged write and readback are separate facts. Operation identity plus session/navigation epoch guards feedback/finally; signedOut, uncertain session, navigation and pagehide invalidate busy ownership. Token inputs clear on save/error/navigation; no automatic write replay. Candidate drafts stay editable after rejection, cancel explicitly discards draft. Account/recovery actions are grouped separately from business navigation. Overview short status links to exact evidence identity; folded details preserve time/revision/scope. Exact records show attempts/decisions/unknown partial totals, historical evidence remains unknown.
+
+### 4. Validation / Error Matrix
+Write rejection keeps public draft and shows safe error; upstream secrets clear. Write acknowledged then GET fails says saved but readback unconfirmed, never invites automatic recreate. Concurrent create ignored; stale operation cannot unlock or clear a newer owner's inputs. Management401 resets account; proxy401 remains business failure. Connection check can be unknown/failed/success/not applicable and explicitly warns list-query costs and non-generation semantics. Header/timeout/network/cancel never imply zero cost or automatic retry.
+
+### 5. Good / Base / Bad Cases
+Good: UI creates A/B, edits two candidates, cancels draft, compares actual target visits and same-ID attempt detail; keyboard reaches actions at both widths. Base: no configured upstream offers creation before candidate selection; unobserved generation health says unknown. Bad: SQL/API preseed of critical UI steps, only last-attempt token sum, stale readback overwriting fresh draft, technical stack text used as primary overview.
+
+### 6. Required Tests
+`ui.test.mjs` owns async fixtures, including creation busy lock/readback failure/account-reset late result. VM fixtures are not native focus/network evidence. Real `journey.mjs` retains old long-run/session/tool regressions; `routing.mjs` adds1280/390px native Tab/Enter creation/check/candidates/priority/3:1/disable/cooldown/SSE/cancel. `legacy.mjs` seeds exact old-version nonempty migration through real pages. Fixed `make verify` host execution and independent QA remain necessary; implementation alone is not an acceptance result.
+
+### 7. Wrong vs Correct
+Wrong: `await POST; message('connected')`, retaining old operation ownership on relogin or summing unknown as0. Correct: `await POST; saved=true; await load(...)`, safely report failed readback, reset ownership on account/page boundaries, display unknown and known partial, verify target counters using controlled external provider only.
 
 Wrong: accept tool-only responses by merely asserting “no text”, or retain secrets after a failed session check. Correct: valid ordinary/SSE tool fixtures assert count/name summary and no extra requests; deferred long-stream tests assert 30000ms, clearing, abort, late-result isolation and explicit recovery. Real Go journeys repeat valid tool responses and session-network fault injection on both viewports, without pre-filling first configuration through APIs.
 

@@ -1,0 +1,22 @@
+command=node --check internal/relay/web/app.js
+command=node --check tests/browser/journey.mjs
+command=node --check tests/browser/legacy.mjs
+command=node --check tests/browser/migration-after.mjs
+command=node --check tests/browser/routing.mjs
+command=node --check tests/browser/ui.test.mjs
+command=make format-check
+command=go mod verify
+all modules verified
+command=make vet
+go vet ./...
+command=go test -run ^$ ./...
+ok  	model-relay/cmd/model-relay	0.590s [no tests to run]
+ok  	model-relay/internal/relay	1.030s [no tests to run]
+?   	model-relay/tests/browser	[no test files]
+?   	model-relay/tests/browser/legacy	[no test files]
+?   	model-relay/tests/evidence	[no test files]
+ok  	model-relay/tests/health-history	(cached) [no tests to run]
+command=make build
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+command=git diff --check
+exit_code=0

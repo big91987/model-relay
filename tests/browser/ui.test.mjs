@@ -3,10 +3,12 @@ import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import vm from 'node:vm';
 import { createHash } from 'node:crypto';
+import { observeSelection } from './selection-trace.mjs';
+import { typeAheadCandidate } from './candidate-keyboard.mjs';
 
 const source = readFileSync(new URL('../../internal/relay/web/app.js', import.meta.url), 'utf8');
 const tick = () => new Promise(resolve => setImmediate(resolve));
-const snapshot = {upstream: {configured: false, enabled: false, credential_configured: false}, models: {total: 0, enabled: 0}, keys: {total: 0, enabled: 0}, call_evidence: null};
+const snapshot = {upstream: {configured: false, enabled: false, credential_configured: false, total: 0, enabled_count: 0}, models: {total: 0, enabled: 0}, keys: {total: 0, enabled: 0}, callable_models: 0, call_evidence: null};
 
 function fixture() {
   const clock = {now: Date.now()};
@@ -31,7 +33,7 @@ function fixture() {
     body: {tag: 'body'},
     getElementById: element,
     querySelectorAll: selector => selector === '.panel' ? panels : selector === '[data-view]' ? buttons : [...elements.values()],
-    createElement: tag => ({tag, dataset: {}, disabled: false, children: [], focus() { document.activeElement = this; }, querySelector(selector) { return selector === 'button' ? this.children.find(child => child.tag === 'button') : null; }, append(...children) { this.children.push(...children); }}),
+    createElement: tag => ({tag, tagName: tag.toUpperCase(), dataset: {}, classList: {toggle() {}}, disabled: false, children: [], set id(value) { this.identity = value; elements.set(value, this); }, get id() { return this.identity; }, focus() { document.activeElement = this; }, querySelector(selector) { return this.querySelectorAll(selector)[0] || null; }, querySelectorAll(selector) { const values = this.children.flatMap(child => [child, ...(child.querySelectorAll?.(selector) || [])]); return values.filter(child => selector === '[data-field]' ? child.dataset?.field : selector.split(',').includes(child.tag)); }, append(...children) { this.children.push(...children); }}),
     addEventListener: (name, callback) => events.set(name, callback),
   };
   document.activeElement = document.body;
@@ -48,9 +50,21 @@ function fixture() {
     clearTimeout: id => { timers.delete(id); sessionTimers.delete(id); timerDelays.delete(id); timerDue.delete(id); },
     fetch: (path, options) => new Promise((resolve, reject) => pending.push({path, options, resolve, reject}))});
   function respond(method, path, body, status = 200) {
-    const index = pending.findIndex(request => request.path === '/admin/api/' + path && request.options.method === method);
+    const index = pending.findIndex(request => {
+      const plain = request.path.split('?')[0];
+      if (path === 'upstream') return plain.startsWith('/admin/api/upstreams') && (method === 'PUT' ? ['POST', 'PATCH'].includes(request.options.method) : request.options.method === method);
+      return (path.includes('?') ? request.path : plain) === '/admin/api/' + path && request.options.method === method;
+    });
     assert.notEqual(index, -1, `expected ${method} ${path}`);
     const [request] = pending.splice(index, 1);
+    if (status < 400 && request.options.method === 'GET' && request.path.startsWith('/admin/api/upstreams') && !body.data) {
+      body = {data: body.url || body.enabled || body.credential_configured ? [{id: 1, name: 'isolated fixture upstream', revision: 1, execution_revision: 1, ...body}] : [], next_cursor: null};
+    }
+    if (status < 400 && request.options.method === 'GET' && request.path.startsWith('/admin/api/models') && Array.isArray(body)) {
+      body = {data: body.map(value => ({revision: 1, ...value, candidates: value.candidates || [{upstream_id: 1, remote_model: value.model || 'fixture model', enabled: true, priority: 0, weight: 1}]})), next_cursor: null};
+    }
+    if (status < 400 && request.options.method !== 'GET' && request.path.startsWith('/admin/api/upstreams') && !body.id) { body = {id: 1, name: 'isolated fixture upstream', revision: 2, execution_revision: 1, ...body}; }
+    if (status < 400 && request.path === '/admin/api/overview') { body = {...body, callable_models: body.callable_models || (body.upstream?.enabled && body.keys?.enabled ? 1 : body.models?.enabled || 0), upstream: {...body.upstream, total: body.upstream?.configured ? 1 : 0, enabled_count: body.upstream?.enabled ? 1 : 0}}; }
     request.resolve({ok: status < 400, status, json: async () => body});
     return request;
   }
@@ -177,7 +191,7 @@ test('upstream form is unavailable until GET completes, then saves entered value
   app.element('upstream-enabled').checked = true;
   app.element('upstream-form').onsubmit({preventDefault() {}, submitter: app.element('save')});
   const request = app.respond('PUT', 'upstream', {});
-  assert.deepEqual(JSON.parse(request.options.body), {url: 'https://controlled.example/v1', token: 'test-only-token', enabled: true});
+  assert.deepEqual(JSON.parse(request.options.body), {name: '', url: 'https://controlled.example/v1', token: 'test-only-token', enabled: true});
   await tick();
   app.respond('GET', 'upstream', {url: 'https://controlled.example/v1', enabled: true, credential_configured: true});
   await tick();
@@ -202,6 +216,138 @@ async function authenticated(ttl = 0) {
   return app;
 }
 
+test('connection cancellation aborts once, ignores late success and releases controls', async () => {
+  const app = await authenticated();
+  const navigation = app.navigate('upstream'); app.respond('GET', 'upstream', {enabled: true, credential_configured: true}); await navigation;
+  const pending = app.element('check-upstream').onclick();
+  assert.equal(app.element('cancel-check').hidden, false);
+  assert.equal(app.element('check-upstream').disabled, true);
+  await app.element('check-upstream').onclick();
+  assert.equal(app.pending.filter(request => request.path.endsWith('/check')).length, 1);
+  const request = app.pending.find(request => request.path.endsWith('/check'));
+  app.element('cancel-check').onclick();
+  assert.equal(request.options.signal.aborted, true);
+  assert.match(app.element('check-state').textContent, /核验已取消/);
+  app.respond('POST', 'upstreams/1/check', {state: 'success'}); await pending;
+  assert.equal(app.element('check-upstream').disabled, false);
+  assert.equal(app.element('cancel-check').hidden, true);
+  assert.equal(app.pending.filter(request => request.path.startsWith('/admin/api/upstreams')).length, 0);
+  assert.match(app.element('check-state').textContent, /核验已取消/);
+});
+
+test('connection navigation and expiry abort pending work without late state mutation', async () => {
+  for (const exit of ['navigation', 'expiry']) {
+    const app = await authenticated(10000);
+    const navigation = app.navigate('upstream'); app.respond('GET', 'upstream', {enabled: true, credential_configured: true}); await navigation;
+    const check = app.element('check-upstream').onclick();
+    const request = app.pending.find(request => request.path.endsWith('/check'));
+    if (exit === 'navigation') { const next = app.navigate('overview'); app.respond('GET', 'overview', snapshot); await next; }
+    else { app.clock.now += 10001; await app.fireNextSessionTimer(); }
+    assert.equal(request.options.signal.aborted, true);
+    assert.equal(app.element('cancel-check').hidden, true);
+    app.respond('POST', 'upstreams/1/check', {state: 'success'}); await check;
+    assert.notEqual(app.element('check-state').textContent, '连接核验成功（不是生成成功）');
+  }
+});
+
+test('completed setup moves original rows to review and unknown refresh restores tasks', async () => {
+  const app = await authenticated();
+  const lists = [app.element('setup-steps'), app.element('completed-steps')];
+  for (const list of lists) list.append = row => {
+    for (const parent of lists) parent.children = parent.children.filter(child => child !== row);
+    list.children.push(row);
+  };
+  const order = ['step-upstream', 'step-models', 'step-keys', 'step-test', 'overview-record'];
+  const rows = order.map(id => ({classList: {toggle() {}}, querySelector: selector => selector === '#' + id ? app.element(id) : null}));
+  lists[0].children = [...rows];
+  const done = {...snapshot, upstream: {configured: true, enabled: true}, models: {total: 1, enabled: 1}, keys: {total: 1, enabled: 1}, callable_models: 1, call_evidence: {request_id: 'safe-id', alias: 'alpha', time: 'safe-time', scope: 'current'}};
+  const navigation = app.navigate('overview'); app.respond('GET', 'overview', done); await navigation;
+  assert.equal(lists[0].children.length, 0); assert.deepEqual(lists[1].children, rows);
+  assert.equal(app.element('completed-setup').hidden, false); assert.equal(app.element('setup-complete').hidden, false);
+  assert.deepEqual(rows.map(row => row.value), [1, 2, 3, 4, 5]);
+  const refresh = app.element('refresh-overview').onclick();
+  assert.deepEqual(lists[0].children, rows); assert.equal(lists[1].children.length, 0);
+  app.respond('GET', 'overview', {error: {code: 'storage_unavailable'}}, 503); await refresh;
+  assert.equal(app.element('completed-setup').hidden, true); assert.equal(app.element('setup-complete').hidden, true);
+  const restart = app.navigate('overview'); app.respond('GET', 'overview', {...done, call_evidence: null}); await restart;
+  assert.deepEqual(lists[1].children, rows.slice(0, 3)); assert.deepEqual(lists[0].children, rows.slice(3));
+  const restored = app.navigate('overview'); app.respond('GET', 'overview', done); await restored;
+  const originalAction = app.element('overview-record');
+  assert.equal(lists[1].children[4].querySelector('#overview-record'), originalAction);
+  const review = originalAction.onclick();
+  app.respond('GET', 'requests', {data: [], next_cursor: null}); await tick();
+  assert.equal(app.element('find-request-id').value, 'safe-id');
+  app.respond('GET', 'requests/safe-id', {id: 'safe-id', time: 'safe-time', alias: 'alpha', state: 'success', evidence_version: 2, attempts_complete: true, config_revision: 1, attempts: [], selection_decisions: [], usage_summary: {total_tokens: {total: null, known_sum: 0, unknown_attempts: 1, completeness: 'unknown'}}}); await review;
+  assert.equal(app.element('record-detail').textContent.split('\n')[0], 'safe-id');
+  assert.match(app.element('record-status').textContent, /已定位同一请求 safe-id/);
+  assert.match(app.element('record-detail').textContent, /完整合计 未知/);
+});
+
+test('candidate selects have standalone exact labels and unique create/edit associations', async () => {
+  const app = await authenticated();
+  const model = {alias: 'label-regression', enabled: true, revision: 1, candidates: [1, 2].map(upstream_id => ({upstream_id, remote_model: 'controlled-model', enabled: true, priority: 0, weight: 1}))};
+  const navigation = app.navigate('models'); app.respond('GET', 'models', [model]); await tick();
+  app.respond('GET', 'upstream', {data: [1, 2].map(id => ({id, name: 'controlled-option-' + id, enabled: true})), next_cursor: null}); await navigation;
+  app.element('add-create-candidate').onclick();
+  app.element('model-list').children[0].children[2].onclick();
+  const identities = [];
+  for (const mode of ['create', 'edit']) {
+    const rows = app.element(mode + '-candidates').children;
+    assert.equal(rows.length, 2);
+    for (const [index, row] of rows.entries()) {
+      const label = row.children.find(child => child.tag === 'label' && child.textContent === '上游');
+      const select = row.children.find(child => child.tag === 'select');
+      assert.ok(label); assert.ok(select);
+      assert.equal(label.children.length, 0, 'option names must not become label text');
+      assert.equal(label.htmlFor, select.id);
+      assert.equal(select.id, mode + '-candidate-upstream-' + index);
+      identities.push(select.id);
+      assert.equal(select.children.length, 2);
+    }
+  }
+  assert.equal(new Set(identities).size, 4);
+});
+
+test('model creation locks draft and prevents duplicate submission while awaiting acknowledgement', async () => {
+  const app = await authenticated();
+  app.element('model-alias').value = 'new-public-model';
+  const first = app.element('model-form').onsubmit({submitter: app.element('create-model-submit'), preventDefault() {}});
+  assert.equal(app.element('model-alias').disabled, true);
+  await app.element('model-form').onsubmit({submitter: app.element('create-model-submit'), preventDefault() {}});
+  assert.equal(app.pending.filter(request => request.options.method === 'POST' && request.path === '/admin/api/models').length, 1);
+  app.respond('POST', 'models', {error: {code: 'invalid_request'}}, 400);
+  await first;
+  assert.equal(app.element('model-alias').disabled, false);
+  assert.equal(app.element('model-alias').value, 'new-public-model');
+  assert.notEqual(app.element('error').textContent, '');
+});
+
+test('model creation acknowledgement with failed readback never invites duplicate creation', async () => {
+  const app = await authenticated();
+  app.element('model-alias').value = 'saved-public-model';
+  const submit = app.element('model-form').onsubmit({submitter: app.element('create-model-submit'), preventDefault() {}});
+  app.respond('POST', 'models', {alias: 'saved-public-model'}, 201);
+  await tick();
+  app.respond('GET', 'models', {error: {code: 'storage_unavailable'}}, 503);
+  app.respond('GET', 'upstreams', []);
+  await submit;
+  assert.match(app.element('error').textContent, /模型已保存.*不会重复创建/);
+  assert.equal(app.element('model-alias').disabled, false);
+});
+
+test('model creation late result cannot relock inputs or publish feedback after account reset', async () => {
+  const app = await authenticated();
+  const submit = app.element('model-form').onsubmit({submitter: app.element('create-model-submit'), preventDefault() {}});
+  app.element('relogin').onclick();
+  assert.equal(app.element('model-alias').disabled, false);
+  const message = app.element('notice').textContent;
+  app.respond('POST', 'models', {alias: 'late-public-model'}, 201);
+  await submit;
+  assert.equal(app.element('notice').textContent, message);
+  assert.equal(app.element('login').hidden, false);
+  assert.equal(app.pending.some(request => request.path === '/admin/api/models' && request.options.method === 'GET'), false);
+});
+
 function health(app) {
   const index = app.pending.findIndex(request => request.path === '/healthz');
   assert.notEqual(index, -1);
@@ -218,13 +364,14 @@ test('overview distinguishes empty, saved and successful persisted configuration
   const saved = app.navigate('overview');
   app.respond('GET', 'overview', configured);
   await saved;
-  assert.equal(app.element('summary').textContent, '上游配置已保存；本次启动尚无当前配置成功证据，请显式调用核验。');
+  assert.equal(app.element('summary').textContent, '配置已保存；尚无当前配置的生成成功记录。');
   await app.navigate('test');
   const restored = app.navigate('overview');
   app.respond('GET', 'overview', {...configured, call_evidence: {request_id: 'controlled-success-id', alias: 'alpha-1280', time: '2001-02-03T04:05:06Z', upstream_revision: 17, scope: '本次服务启动、当前配置'}});
   await restored;
-  assert.equal(app.element('summary').textContent, '当前配置曾成功调用 · 请求 controlled-success-id · 模型 alpha-1280 · 调用时间 2001-02-03T04:05:06Z · 配置版本 17 · 本次服务启动、当前配置');
-  assert.equal(app.element('overview-upstream').textContent, '已启用 · 凭据已配置');
+  assert.equal(app.element('summary').textContent, '当前配置曾成功调用 · 模型 alpha-1280；请求身份、时间及适用范围可进入详情查看。');
+  assert.match(app.element('overview-evidence').textContent, /controlled-success-id/);
+  assert.equal(app.element('overview-upstream').textContent, '1 个 / 启用 1');
   assert.equal(app.element('overview-models').textContent, '2 个 / 启用 2');
   assert.equal(app.element('overview-keys').textContent, '2 个 / 启用 1');
 });
@@ -454,7 +601,7 @@ test('explicit upstream reread retains stale credential status until its own GET
   assert.equal(app.element('upstream-token').value, '');
   app.element('upstream-url').value = 'http://127.0.0.1:1/v1';
   const rejected = app.element('upstream-form').onsubmit({preventDefault() {}, submitter: app.element('save')});
-  const write = app.pending.find(request => request.options.method === 'PUT');
+  const write = app.pending.find(request => ['POST', 'PATCH'].includes(request.options.method));
   assert.equal(JSON.parse(write.options.body).url, 'http://127.0.0.1:1/v1');
   app.respond('PUT', 'upstream', {error: {code: 'invalid_destination'}}, 400);
   await rejected;
@@ -493,8 +640,8 @@ for (const failure of [false, true]) test('upstream restore immediately clears s
   for (const id of ['refresh-upstream', 'save-upstream', 'upstream-url', 'upstream-token', 'upstream-enabled']) assert.equal(app.element(id).disabled, true);
   await app.element('refresh-upstream').onclick();
   await app.element('upstream-form').onsubmit({preventDefault() {}, submitter: app.element('save-upstream')});
-  assert.equal(app.pending.filter(request => request.path === '/admin/api/upstream').length, 1);
-  assert.equal(app.pending.some(request => request.options.method === 'PUT'), false);
+  assert.equal(app.pending.filter(request => request.path === '/admin/api/upstreams').length, 1);
+  assert.equal(app.pending.some(request => ['POST', 'PATCH'].includes(request.options.method)), false);
   app.respond('GET', 'upstream', failure ? {error: {code: 'storage_unavailable'}} : {url: 'https://controlled.example/v1', enabled: true, credential_configured: true}, failure ? 503 : 200); await restored;
   assert.equal(app.element('upstream-url').value, failure ? 'https://draft.example/v1' : 'https://controlled.example/v1');
   assert.equal(app.element('upstream-enabled').checked, !failure);
@@ -510,11 +657,11 @@ test('upstream save owns both controls through its readback; restore and repeate
   await app.element('refresh-upstream').onclick();
   await app.element('upstream-form').onsubmit({preventDefault() {}, submitter: app.element('save-upstream')});
   assert.equal(app.pending.length, 2);
-  assert.equal(app.pending.filter(request => request.options.method === 'PUT').length, 1);
+  assert.equal(app.pending.filter(request => ['POST', 'PATCH'].includes(request.options.method)).length, 1);
   app.respond('PUT', 'upstream', {}); await tick();
   assert.equal(app.element('refresh-upstream').disabled, true);
   await app.element('refresh-upstream').onclick();
-  assert.equal(app.pending.filter(request => request.path === '/admin/api/upstream').length, 1);
+  assert.equal(app.pending.filter(request => request.path === '/admin/api/upstreams').length, 1);
   app.respond('GET', 'upstream', {error: {code: 'storage_unavailable'}}, 503); await saved;
   assert.match(app.element('error').textContent, /已保存，但最新读取未确认/);
   assert.equal(app.element('refresh-upstream').disabled, false);
@@ -522,7 +669,7 @@ test('upstream save owns both controls through its readback; restore and repeate
 
 test('late upstream restore cannot replace a new draft or unlock a newer operation', async () => {
   const app = await upstreamReady(); const old = app.element('refresh-upstream').onclick();
-  const oldRead = app.pending.splice(app.pending.findIndex(request => request.path === '/admin/api/upstream'), 1)[0];
+  const oldRead = app.pending.splice(app.pending.findIndex(request => request.path === '/admin/api/upstreams'), 1)[0];
   const reopened = app.navigate('upstream'); app.respond('GET', 'upstream', {url: 'https://controlled.example/v1', enabled: true}); await reopened;
   app.element('upstream-url').value = 'https://new.example/v1'; app.element('upstream-token').value = 'controlled-new';
   const saved = app.element('upstream-form').onsubmit({preventDefault() {}, submitter: app.element('save-upstream')});
@@ -613,7 +760,7 @@ for (const failure of ['rejected', 'network', 'refresh']) {
     app.element('upstream-url').value = 'https://changed.example/v1';
     app.element('upstream-token').value = 'fixture secret';
     const completed = app.element('upstream-form').onsubmit({preventDefault() {}, submitter: app.element('save')});
-    if (failure === 'network') app.pending.splice(app.pending.findIndex(request => request.options.method === 'PUT'), 1)[0].reject(new Error('network'));
+    if (failure === 'network') app.pending.splice(app.pending.findIndex(request => ['POST', 'PATCH'].includes(request.options.method)), 1)[0].reject(new Error('network'));
     else app.respond('PUT', 'upstream', failure === 'rejected' ? {error: {code: 'new_credential_required'}} : {}, failure === 'rejected' ? 400 : 200);
     if (failure === 'refresh') { await tick(); app.respond('GET', 'upstream', {error: {code: 'storage_unavailable'}}, 503); }
     await completed;
@@ -622,7 +769,7 @@ for (const failure of ['rejected', 'network', 'refresh']) {
     assert.equal(app.element('upstream-enabled').checked, true);
     assert.equal(app.element('error').textContent.includes('已保存'), failure === 'refresh');
     assert.match(app.element('error').textContent, failure === 'refresh' ? /最新读取未确认.*存储不可用/ : /凭据已清除.*请重新输入/);
-    assert.equal(app.pending.filter(request => request.options.method === 'PUT').length, 0, 'no automatic rewrite');
+    assert.equal(app.pending.filter(request => ['POST', 'PATCH'].includes(request.options.method)).length, 0, 'no automatic rewrite');
   });
 }
 
@@ -651,7 +798,8 @@ test('overview evidence action uses displayed ID, while generic records remains 
   const evidenceID = 'QAOnlyRecordIdentity01';
   app.respond('GET', 'overview', {...snapshot, upstream: {configured: true, enabled: true, credential_configured: true}, call_evidence: {request_id: evidenceID, alias: 'alpha', scope: '本次服务启动、当前配置'}});
   await navigation;
-  assert.match(app.element('summary').textContent, /模型 alpha.*本次服务启动/);
+  assert.match(app.element('summary').textContent, /模型 alpha/);
+  assert.match(app.element('overview-evidence').textContent, /本次服务启动/);
   const exact = app.element('overview-record').onclick();
   app.respond('GET', 'requests', {data: [], next_cursor: 'older'}); await tick();
   assert.equal(app.element('find-request-id').value, evidenceID);
@@ -685,7 +833,7 @@ for (const failure of ['rejected', 'refresh']) {
     app.element('upstream-token').value = 'old-fixture';
     const completed = app.element('upstream-form').onsubmit({preventDefault() {}, submitter: app.element('save')});
     let oldRead;
-    if (failure === 'refresh') { app.respond('PUT', 'upstream', {}); await tick(); oldRead = app.pending.splice(app.pending.findIndex(request => request.path === '/admin/api/upstream'), 1)[0]; }
+    if (failure === 'refresh') { app.respond('PUT', 'upstream', {}); await tick(); oldRead = app.pending.splice(app.pending.findIndex(request => request.path === '/admin/api/upstreams'), 1)[0]; }
     const newer = app.navigate('upstream'); app.respond('GET', 'upstream', {url: 'https://controlled.example/v1', enabled: true, credential_configured: true}); await newer;
     app.element('upstream-token').value = 'new-fixture'; app.element('notice').textContent = 'new owner notice';
     if (failure === 'rejected') app.respond('PUT', 'upstream', {error: {code: 'invalid_destination'}}, 400);
@@ -702,20 +850,20 @@ test('overview success metadata comes from the request evidence, never the clock
   const loaded = app.navigate('overview');
   app.respond('GET', 'overview', {...snapshot, upstream: {configured: true, revision: 900}, call_evidence: evidence});
   await loaded;
-  assert.equal(app.element('summary').textContent, '当前配置曾成功调用 · 请求 ' + evidence.request_id + ' · 模型 alpha · 调用时间 ' + evidence.time + ' · 配置版本 17 · ' + evidence.scope);
+  assert.equal(app.element('overview-evidence').textContent, '请求 ' + evidence.request_id + '\n调用时间 ' + evidence.time + '\n上游配置版本 17\n' + evidence.scope);
   const refreshed = app.element('refresh-overview').onclick();
   assert.equal(app.element('summary').textContent, '加载中');
   assert.equal(app.element('overview-record').disabled, true);
   app.respond('GET', 'overview', {...snapshot, upstream: {configured: true, revision: 901}, call_evidence: {...evidence, time: null, upstream_revision: null}});
   await refreshed;
-  assert.match(app.element('summary').textContent, /调用时间 未知 · 配置版本 未知/);
+  assert.match(app.element('overview-evidence').textContent, /调用时间 未知\n上游配置版本 未知/);
   assert.equal(app.element('summary').textContent.includes(evidence.time), false);
   assert.equal(app.element('summary').textContent.includes('901'), false);
   const changed = app.element('refresh-overview').onclick();
   app.respond('GET', 'overview', {...snapshot, upstream: {configured: true, revision: 902}, call_evidence: null});
   await changed;
   assert.equal(app.element('overview-record').disabled, true);
-  assert.match(app.element('summary').textContent, /尚无当前配置成功证据/);
+  assert.match(app.element('summary').textContent, /尚无当前配置的生成成功记录/);
   assert.equal(/调用时间|配置版本|EvidenceMetadataOnly01/.test(app.element('summary').textContent), false);
   const degraded = app.element('refresh-overview').onclick();
   app.respond('GET', 'overview', {...snapshot, upstream: {configured: true}, degraded: true, call_evidence: evidence});
@@ -732,11 +880,11 @@ test('late overview metadata cannot replace a newer response', async () => {
   const newer = app.navigate('overview');
   app.respond('GET', 'overview', {...snapshot, upstream: {configured: true}, call_evidence: {request_id: 'NewEvidenceMetadata01', alias: 'alpha', time: '2002-03-04T05:06:07Z', upstream_revision: 18, scope: 'current'}});
   await newer;
-  const expected = app.element('summary').textContent;
-  assert.match(expected, /调用时间 2002-03-04T05:06:07Z · 配置版本 18/);
+  const expected = app.element('overview-evidence').textContent;
+  assert.match(expected, /调用时间 2002-03-04T05:06:07Z\n上游配置版本 18/);
   oldRead.resolve({ok: true, status: 200, json: async () => ({...snapshot, upstream: {configured: true}, call_evidence: {request_id: 'OldEvidenceMetadata01', alias: 'old', time: '2001-02-03T04:05:06Z', upstream_revision: 17, scope: 'old'}})});
   await older;
-  assert.equal(app.element('summary').textContent, expected);
+  assert.equal(app.element('overview-evidence').textContent, expected);
 });
 
 test('failed overview refresh disables and discards the old precise evidence action', async () => {
@@ -1258,6 +1406,81 @@ test('model diagnostics distinguish pending response bodies, failed reads and lo
   assert.equal(snapshot.readsSettled, true);
   assert.equal(snapshot.reads.overview.finished, 0, 'settled does not mean successful');
   await diagnostic.context.end(diagnostic.page);
+});
+
+test('candidate selection trace retains boundaries, redacts values and cleans observers', () => {
+  const listeners = new Map();
+  let mutation;
+  let disconnected = 0;
+  const document = {activeElement: null, hasFocus: () => true, addEventListener(type, callback) { listeners.set(type, callback); }, removeEventListener(type, callback) { assert.equal(listeners.get(type), callback); listeners.delete(type); }, defaultView: {MutationObserver: class { constructor(callback) { mutation = callback; } observe() {} disconnect() { disconnected++; } }}};
+  const node = {ownerDocument: document, parentNode: {}, tagName: 'SELECT', options: [{label: 'private-sentinel', value: 'private-sentinel'}, {}], selectedIndex: 0, disabled: false, isConnected: true};
+  const trace = observeSelection(node);
+  trace.sample('before focus'); document.activeElement = node;
+  trace.sample('before Home');
+  listeners.get('keydown')({type: 'keydown', key: 'Home', target: node, defaultPrevented: false, isTrusted: true});
+  trace.sample('after Home'); node.selectedIndex = 1;
+  listeners.get('change')({type: 'change', target: node, defaultPrevented: false, isTrusted: true});
+  trace.sample('after ArrowDown'); node.selectedIndex = 0; document.activeElement = null;
+  mutation([{}, {}]); node.options[1] = {};
+  const result = trace.sample('after Tab');
+  assert.deepEqual(result.boundaries.map(state => state.selectedIndex), [0, 0, 0, 1, 0]);
+  assert.equal(result.sameOptions, false); assert.equal(result.mutationCount, 2);
+  assert.equal(result.events[0].target, 'original-select'); assert.equal(result.events[1].type, 'change');
+  assert.equal(JSON.stringify(result).includes('private-sentinel'), false);
+  assert.equal(trace.stop().boundaries.length, 5); trace.stop();
+  assert.equal(listeners.size, 0); assert.equal(disconnected, 1);
+});
+
+test('candidate selection trace bounds keyboard events and redacts printable input', () => {
+  const listeners = new Map();
+  const document = {activeElement: null, hasFocus: () => false, addEventListener(type, callback) { listeners.set(type, callback); }, removeEventListener(type) { listeners.delete(type); }, defaultView: {MutationObserver: class { observe() {} disconnect() {} }}};
+  const node = {ownerDocument: document, parentNode: {}, options: [{}], selectedIndex: 0, disabled: false, isConnected: true};
+  const trace = observeSelection(node);
+  for (let index = 0; index < 80; index++) {
+    listeners.get('keydown')({type: 'keydown', key: 'private-sentinel', target: node});
+    listeners.get('keydown')({type: 'keydown', key: 'Tab', target: {}, defaultPrevented: true, isTrusted: false});
+    trace.sample('after Tab');
+  }
+  const result = trace.sample('after Tab');
+  assert.equal(result.events.length, 24); assert.equal(result.eventCount, 80); assert.equal(result.omittedEvents, 56);
+  assert.equal(result.boundaries.length, 12);
+  assert.equal(result.events.every(event => event.key === 'Tab' && event.target === 'other' && event.prevented && !event.trusted), true);
+  assert.equal(JSON.stringify(result).includes('private-sentinel'), false);
+  listeners.get('keydown')({type: 'keydown', key: 'A', target: node, defaultPrevented: false, isTrusted: true});
+  const printable = trace.sample('after type-ahead').events.at(-1);
+  assert.equal(printable.key, 'printable'); assert.equal(printable.target, 'original-select');
+  assert.equal(JSON.stringify(printable).includes('"A"'), false);
+  trace.stop();
+  assert.equal(listeners.size, 0);
+});
+
+test('candidate type-ahead driver uses keyboard only and preserves boundary ordering', async () => {
+  const node = {disabled: false, options: [{label: '请选择上游'}, ...['A-1280', 'B-1280', 'A-390', 'B-390'].map(prefix => ({label: prefix + ' 受控'}))], selectedIndex: 0};
+  const actions = [];
+  const control = {evaluate: async (callback, target) => callback(node, target)};
+  const keyboard = {type: async value => actions.push(['type', value]), press: async key => actions.push(['press', key])};
+  for (const prefix of ['A-1280', 'B-1280', 'A-390', 'B-390']) {
+    actions.length = 0;
+    await typeAheadCandidate(control, keyboard, prefix + ' 受控', async boundary => actions.push(['sample', boundary]));
+    assert.deepEqual(actions, [['sample', 'before type-ahead'], ['type', prefix], ['sample', 'after type-ahead'], ['press', 'Tab'], ['sample', 'after Tab']]);
+    assert.equal(node.selectedIndex, 0);
+  }
+});
+
+test('candidate type-ahead driver rejects ambiguous disabled or non-ASCII fixture targets before keys', async () => {
+  for (const node of [
+    {options: [{label: 'A-1280 受控'}, {label: 'A-1280 另一个'}]},
+    {disabled: true, options: [{label: 'A-1280 受控'}]},
+    {options: [{label: 'A-1280 受控', disabled: true}]},
+    {options: [{label: 'Absent'}]},
+    {options: [{label: '受控 A'}]}
+  ]) {
+    const actions = [];
+    const control = {evaluate: async (callback, target) => callback(node, target)};
+    const keyboard = {type: async value => actions.push(value), press: async key => actions.push(key)};
+    await assert.rejects(typeAheadCandidate(control, keyboard, node.options[0].label === '受控 A' ? '受控 A' : 'A-1280 受控', async boundary => actions.push(boundary)), {name: 'AssertionError'});
+    assert.deepEqual(actions, []);
+  }
 });
 
 test('model diagnostic event trace is bounded and only records approved key and focus labels', async () => {

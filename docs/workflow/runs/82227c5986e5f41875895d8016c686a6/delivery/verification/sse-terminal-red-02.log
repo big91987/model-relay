@@ -1,0 +1,17 @@
+# model-relay/internal/relay.test
+ld: warning: '<temporary-link-object>' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+--- FAIL: TestSSEOverlongLineNeverSwitchesOrCools (4.81s)
+    --- FAIL: TestSSEOverlongLineNeverSwitchesOrCools/before_commit (2.40s)
+        sse_terminal_regression_test.go:61: protocol boundary calls=2 state=success code= success=0xc000114988 attempts=2
+    --- FAIL: TestSSEOverlongLineNeverSwitchesOrCools/after_commit (2.41s)
+        sse_terminal_regression_test.go:61: protocol boundary calls=1 state=stream_interrupted code=stream_interrupted success=<nil> attempts=1
+--- FAIL: TestSSEDoneTerminalAttribution (9.66s)
+    --- FAIL: TestSSEDoneTerminalAttribution/write_failure (2.41s)
+        sse_terminal_regression_test.go:129: non-success retained successful upstream or overview evidence
+    --- FAIL: TestSSEDoneTerminalAttribution/cancel_with_error (2.42s)
+        sse_terminal_regression_test.go:129: non-success retained successful upstream or overview evidence
+    --- FAIL: TestSSEDoneTerminalAttribution/cancel_after_write (2.43s)
+        sse_terminal_regression_test.go:117: DONE boundary calls=1 state=success code= attempts=1
+FAIL
+FAIL	model-relay/internal/relay	15.125s
+FAIL

@@ -1,0 +1,12 @@
+# model-relay/internal/relay.test
+ld: warning: '<temporary-path>' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestManagementResponseReleasesConfigurationLock
+--- PASS: TestManagementResponseReleasesConfigurationLock (2.31s)
+=== RUN   TestRoutingDeadlineAndCancellationNeverRestart
+--- PASS: TestRoutingDeadlineAndCancellationNeverRestart (4.55s)
+=== RUN   TestRoutingPrecommitTimeoutCanSwitchOnce
+--- PASS: TestRoutingPrecommitTimeoutCanSwitchOnce (2.29s)
+=== RUN   TestAttemptOutputStopsTimerOnFirstCommit
+--- PASS: TestAttemptOutputStopsTimerOnFirstCommit (0.03s)
+PASS
+ok  	model-relay/internal/relay	10.853s

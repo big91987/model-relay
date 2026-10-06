@@ -1,0 +1,207 @@
+✔ password toggle preserves the input node and value without requesting or submitting (6.634333ms)
+✔ login success, logout and rejected login reset password visibility (1.248166ms)
+✔ pending rejected login keeps the prior session error until its own 401 clears the password (0.666667ms)
+✔ session restoration resets an entered visible password (0.663083ms)
+✔ upstream form is unavailable until GET completes, then saves entered values (1.630083ms)
+✖ overview distinguishes empty, saved and successful persisted configuration on reentry (1.214833ms)
+✔ runtime version preserves raw strings including dev without blocking overview (1.323084ms)
+✔ runtime version missing degrades locally and reentry recovers (1.291625ms)
+✔ runtime version empty degrades locally and reentry recovers (0.815125ms)
+✔ runtime version whitespace degrades locally and reentry recovers (0.747917ms)
+✔ runtime version number degrades locally and reentry recovers (0.708958ms)
+✔ runtime version null version degrades locally and reentry recovers (0.660125ms)
+✔ runtime version null body degrades locally and reentry recovers (0.667459ms)
+✔ runtime version array degrades locally and reentry recovers (0.59875ms)
+✔ runtime version string body degrades locally and reentry recovers (0.585458ms)
+✔ runtime version 401 degrades locally and reentry recovers (0.576375ms)
+✔ runtime version 503 degrades locally and reentry recovers (0.728875ms)
+✔ runtime version network degrades locally and reentry recovers (0.863041ms)
+✔ runtime version invalid json degrades locally and reentry recovers (1.992834ms)
+✔ late success cannot clear a newer timer or version (0.645041ms)
+✔ late failure cannot clear a newer timer or version (0.569625ms)
+✔ 5 second timeout covers headers and ignores late resolution (0.567375ms)
+✔ 5 second timeout covers body and ignores late resolution (0.536958ms)
+✔ logout invalidates immediately and late success cannot contaminate a new login (0.609084ms)
+✔ real management 401 still logs out and invalidates runtime version (0.537ms)
+✔ older response after a newer completion cannot overwrite the current version (0.557292ms)
+✔ failed configuration load leaves an error and navigation can recover (0.529416ms)
+✔ a stale navigation cannot reveal a panel after the user leaves (0.514166ms)
+✔ rejected save recovers persisted configuration after navigation finishes (0.586083ms)
+✔ explicit upstream reread retains stale credential status until its own GET settles (0.6005ms)
+✔ upstream restore immediately clears secret, restores only confirmed public fields and performs zero writes: false (0.538167ms)
+✔ upstream restore immediately clears secret, restores only confirmed public fields and performs zero writes: true (0.467916ms)
+✔ upstream save owns both controls through its readback; restore and repeated save cannot overlap (0.591125ms)
+✔ late upstream restore cannot replace a new draft or unlock a newer operation (1.206625ms)
+✔ upstream busy controls release on owner invalidation without applying a late restore: pagehide (0.538417ms)
+✔ upstream busy controls release on owner invalidation without applying a late restore: uncertain session (0.545834ms)
+✔ in-flight submitted controls stay visible and disabled until current call terminates: complete (0.796583ms)
+✔ in-flight submitted controls stay visible and disabled until current call terminates: failed (0.661625ms)
+✔ in-flight submitted controls stay visible and disabled until current call terminates: cancel (0.68ms)
+✔ late canceled-call finally cannot unlock new submitted controls (0.595ms)
+✔ key list displays server created time and explicitly unknown, never a client timestamp (0.577458ms)
+✔ state-change replacement restores only same identity unless focus moved: models/false (1.572583ms)
+✔ state-change replacement restores only same identity unless focus moved: models/true (0.661208ms)
+✔ state-change replacement restores only same identity unless focus moved: keys/false (0.581708ms)
+✔ state-change replacement restores only same identity unless focus moved: keys/true (0.537375ms)
+✔ late state change on departed page cannot restore old row focus (0.569125ms)
+✔ upstream rejected clears credential, preserves public draft and distinguishes acknowledged write (0.585583ms)
+✔ upstream network clears credential, preserves public draft and distinguishes acknowledged write (0.475416ms)
+✔ upstream refresh clears credential, preserves public draft and distinguishes acknowledged write (0.574042ms)
+✔ generation application failure clears only sensitive inputs and keeps diagnosis and identity (0.550083ms)
+✔ generation provider failure clears only sensitive inputs and keeps diagnosis and identity (0.498208ms)
+✔ generation network failure clears only sensitive inputs and keeps diagnosis and identity (0.468125ms)
+✔ generation protocol failure clears only sensitive inputs and keeps diagnosis and identity (0.508584ms)
+✔ generation stream failure clears only sensitive inputs and keeps diagnosis and identity (0.602334ms)
+✖ overview evidence action uses displayed ID, while generic records remains unfiltered (0.933208ms)
+✔ overview precise evidence action survives session restore with no local generation identity (0.716834ms)
+✔ overview precise evidence action survives new login with no local generation identity (0.545166ms)
+✔ late upstream rejected failure cannot clear new-page credential or notice (0.626125ms)
+✔ late upstream refresh failure cannot clear new-page credential or notice (0.522542ms)
+✖ overview success metadata comes from the request evidence, never the clock or global revision (0.688541ms)
+✖ late overview metadata cannot replace a newer response (0.691584ms)
+✔ failed overview refresh disables and discards the old precise evidence action (0.831125ms)
+✔ model selection, placeholder example, readable text and request ID are independent of raw JSON (0.689208ms)
+✔ cancel isolates late headers, old finally cannot enable a new request (0.630792ms)
+✔ cancel isolates late json, old finally cannot enable a new request (0.57075ms)
+✔ cancel isolates late failure, old finally cannot enable a new request (0.618542ms)
+✔ SSE decodes split UTF8 and CRLF, presents increments before DONE and isolates canceled reads (1.705417ms)
+✔ tool-only output is not treated as network failure; unknown usage stays unknown and zero stays zero (0.648125ms)
+✔ late key issuance and management 401 cannot affect a new page or login (0.607458ms)
+✔ clipboard completion is isolated after closing, reissuing or leaving; failures have a manual path (0.633208ms)
+✔ SSE DONE succeeds, missing DONE and event error fail without a second request (1.436333ms)
+✔ overview query failure remains unknown rather than zero and retry recovers (0.536875ms)
+✔ creation cancellation preserves public drafts with zero writes (0.433917ms)
+✖ model edit keeps canceled draft and a pending save cannot be replaced by another editor (0.86025ms)
+✔ unknown navigation hashes normalize to a safe overview target (0.540916ms)
+✔ expired session clears current generation and restores safe hash target without replay (0.579458ms)
+✔ stream tool fragments summarize only after DONE without executing arguments (0.733375ms)
+✔ empty content remains distinct and tool names/count storage are bounded (1.269625ms)
+✔ visible long stream checks at 30s; network uncertainty clears secrets, isolates late output and requires manual recovery (1.317959ms)
+✔ known expiry cancels without a session fetch; relogin restores target without replay (1.792334ms)
+✔ uncertain session invalidates late issuance and explicit relogin clears and preserves safe target (0.786834ms)
+✔ known expiry also blocks submit before timer runs (1.550667ms)
+✔ hidden generation skips polling; visibility check is single flight and stale failure cannot clear a new page (0.621916ms)
+✔ known expiry survives a hanging one-shot session check and ignores late success (0.788167ms)
+✔ known expiry survives a hanging one-shot session check and ignores late network failure (0.679083ms)
+✔ known expiry survives a hanging one-shot session check and ignores late 401 (0.6415ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: success (0.830042ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: network failure (0.66275ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: 401 (0.61625ms)
+✔ uncertain session recovery may hang but the original known expiry still clears it (0.526916ms)
+✔ ordinary periodic session success does not tell an active call to re-enter or resend (0.719625ms)
+✔ pagehide stops timers and pageshow still enforces a known deadline before a hanging check can resume (0.553083ms)
+✔ visibility restore enforces known expiry even when uncertain-state timer delivery was suspended (0.565458ms)
+✔ closed model selection helper commits later viewport option: false (1.121334ms)
+✔ closed model selection helper commits later viewport option: true (0.455208ms)
+✔ closed model selection helper fails rather than accepting an unchanged first option (0.568667ms)
+✔ model selection diagnostic records type-ahead and Tab boundaries without assigning DOM values (0.399917ms)
+✔ closed model selection helper handles starting at end and disabled options: 0/false (0.398083ms)
+✔ closed model selection helper handles starting at end and disabled options: 3/false (0.375ms)
+✔ closed model selection helper handles starting at end and disabled options: 1/true (0.374416ms)
+✔ native model selection helper rejects unavailable target before activation: true (0.402833ms)
+✔ native model selection helper rejects unavailable target before activation: false (0.429458ms)
+✔ actual model diagnostic projection observes focus, option redraw and replacement without values (0.870125ms)
+✔ model diagnostics distinguish pending response bodies, failed reads and load-finally readiness (0.444042ms)
+✔ model diagnostic event trace is bounded and only records approved key and focus labels (0.536167ms)
+✔ model diagnostic printable keys are redacted and type-ahead boundaries survive compaction (0.633542ms)
+✔ failure model projection omits arbitrary fields and keeps the bounded boundary evidence (0.417958ms)
+✔ entire UTF-8 failure line fits host tail while retaining first and final key boundaries (0.784917ms)
+ℹ tests 108
+ℹ suites 0
+ℹ pass 103
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 161.239583
+
+✖ failing tests:
+
+test at tests/browser/ui.test.mjs:223:1
+✖ overview distinguishes empty, saved and successful persisted configuration on reentry (1.214833ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '配置已保存；尚无当前配置的生成成功记录。'
+  - '上游配置已保存；本次启动尚无当前配置成功证据，请显式调用核验。'
+  
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:233:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '配置已保存；尚无当前配置的生成成功记录。',
+    expected: '上游配置已保存；本次启动尚无当前配置成功证据，请显式调用核验。',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:660:1
+✖ overview evidence action uses displayed ID, while generic records remains unfiltered (0.933208ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /模型 alpha.*本次服务启动/. Input:
+  
+  '当前配置曾成功调用 · 模型 alpha；请求身份、时间及适用范围可进入详情查看。'
+  
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:667:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '当前配置曾成功调用 · 模型 alpha；请求身份、时间及适用范围可进入详情查看。',
+    expected: /模型 alpha.*本次服务启动/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:712:1
+✖ overview success metadata comes from the request evidence, never the clock or global revision (0.688541ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '当前配置曾成功调用 · 模型 alpha；请求身份、时间及适用范围可进入详情查看。'
+  - '当前配置曾成功调用 · 请求 EvidenceMetadataOnly01 · 模型 alpha · 调用时间 2001-02-03T04:05:06Z · 配置版本 17 · 本次服务启动、当前配置'
+  
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:718:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '当前配置曾成功调用 · 模型 alpha；请求身份、时间及适用范围可进入详情查看。',
+    expected: '当前配置曾成功调用 · 请求 EvidenceMetadataOnly01 · 模型 alpha · 调用时间 2001-02-03T04:05:06Z · 配置版本 17 · 本次服务启动、当前配置',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:741:1
+✖ late overview metadata cannot replace a newer response (0.691584ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /调用时间 2002-03-04T05:06:07Z · 配置版本 18/. Input:
+  
+  '当前配置曾成功调用 · 模型 alpha；请求身份、时间及适用范围可进入详情查看。'
+  
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:749:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '当前配置曾成功调用 · 模型 alpha；请求身份、时间及适用范围可进入详情查看。',
+    expected: /调用时间 2002-03-04T05:06:07Z · 配置版本 18/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:896:1
+✖ model edit keeps canceled draft and a pending save cannot be replaced by another editor (0.86025ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:908:64)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

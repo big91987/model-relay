@@ -1,0 +1,78 @@
+
+command=make format-check
+exit_code=0
+
+command=go mod verify
+all modules verified
+exit_code=0
+
+command=make vet
+go vet ./...
+exit_code=0
+
+command=go test -race -count=1 -v ./cmd/model-relay ./tests/health-history -run Test(CLIManagementConfigurationContract|DeploymentContractAndIdempotentUpgradeCLI|HistoryCommandOutput|HistoricalAssessment)
+# model-relay/cmd/model-relay.test
+ld: warning: '<temp>' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestDeploymentContractAndIdempotentUpgradeCLI
+--- PASS: TestDeploymentContractAndIdempotentUpgradeCLI (2.16s)
+=== RUN   TestCLIManagementConfigurationContract
+--- PASS: TestCLIManagementConfigurationContract (2.31s)
+PASS
+ok  	model-relay/cmd/model-relay	5.924s
+=== RUN   TestHistoryCommandOutput
+=== RUN   TestHistoryCommandOutput/expected_red
+=== RUN   TestHistoryCommandOutput/rejected
+=== RUN   TestHistoryCommandOutput/closed_stdout
+--- PASS: TestHistoryCommandOutput (2.52s)
+    --- PASS: TestHistoryCommandOutput/expected_red (1.81s)
+    --- PASS: TestHistoryCommandOutput/rejected (0.36s)
+    --- PASS: TestHistoryCommandOutput/closed_stdout (0.33s)
+=== RUN   TestHistoricalAssessment
+=== RUN   TestHistoricalAssessment/bind
+=== RUN   TestHistoricalAssessment/build
+=== RUN   TestHistoricalAssessment/warning_with_error
+=== RUN   TestHistoricalAssessment/timeout
+=== RUN   TestHistoricalAssessment/green
+=== RUN   TestHistoricalAssessment/missing_assertion
+=== RUN   TestHistoricalAssessment/extra_assertion
+=== RUN   TestHistoricalAssessment/race
+=== RUN   TestHistoricalAssessment/wrong_status
+=== RUN   TestHistoricalAssessment/query_failure
+=== RUN   TestHistoricalAssessment/skip
+=== RUN   TestHistoricalAssessment/duplicate
+=== RUN   TestHistoricalAssessment/missing_package
+=== RUN   TestHistoricalAssessment/invalid_json
+--- PASS: TestHistoricalAssessment (0.03s)
+    --- PASS: TestHistoricalAssessment/bind (0.00s)
+    --- PASS: TestHistoricalAssessment/build (0.00s)
+    --- PASS: TestHistoricalAssessment/warning_with_error (0.00s)
+    --- PASS: TestHistoricalAssessment/timeout (0.00s)
+    --- PASS: TestHistoricalAssessment/green (0.00s)
+    --- PASS: TestHistoricalAssessment/missing_assertion (0.00s)
+    --- PASS: TestHistoricalAssessment/extra_assertion (0.00s)
+    --- PASS: TestHistoricalAssessment/race (0.00s)
+    --- PASS: TestHistoricalAssessment/wrong_status (0.00s)
+    --- PASS: TestHistoricalAssessment/query_failure (0.00s)
+    --- PASS: TestHistoricalAssessment/skip (0.00s)
+    --- PASS: TestHistoricalAssessment/duplicate (0.00s)
+    --- PASS: TestHistoricalAssessment/missing_package (0.00s)
+    --- PASS: TestHistoricalAssessment/invalid_json (0.00s)
+PASS
+ok  	model-relay/tests/health-history	4.376s
+exit_code=0
+
+command=go test -run ^$ ./...
+ok  	model-relay/cmd/model-relay	0.468s [no tests to run]
+ok  	model-relay/internal/relay	(cached) [no tests to run]
+?   	model-relay/tests/browser	[no test files]
+?   	model-relay/tests/browser/legacy	[no test files]
+?   	model-relay/tests/evidence	[no test files]
+ok  	model-relay/tests/health-history	(cached) [no tests to run]
+exit_code=0
+
+command=make build
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+exit_code=0
+
+command=git diff --check
+exit_code=0

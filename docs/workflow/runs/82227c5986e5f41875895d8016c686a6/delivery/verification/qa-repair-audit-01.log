@@ -1,0 +1,14 @@
+{
+  "documents": 9,
+  "relative_links": 106,
+  "protected_QA_workflow_manifest": "unchanged",
+  "native_driver_static": "no value setting/click fallback",
+  "new_DOM_ids": "unique",
+  "errors": []
+}
+
+command=git diff --quiet HEAD -- Makefile tests/health-history
+exit_code=0
+baseline combined check including installer-managed workflow returned 1; expected prior authorized template update, not this QA repair. QA version-lock identities independently match.
+final_diff_exit=0
+{"final_source_sha256":"ff456d824299075fe8d98104a2cd51671ca41f08421f18cb1dd053d80efe93c8","final_log_bound":true,"commands":10,"failed_commands":0,"unredacted_local_paths":false,"vm_119":true}

@@ -1,0 +1,28 @@
+command=make format-check; go vet ./...; go test -run ^$ ./...; go test -race -count=1 -v -run ^TestSSE(OverlongLineNeverSwitchesOrCools|DoneTerminalAttribution)$ ./internal/relay
+ok  	model-relay/cmd/model-relay	(cached) [no tests to run]
+ok  	model-relay/internal/relay	(cached) [no tests to run]
+?   	model-relay/tests/browser	[no test files]
+?   	model-relay/tests/browser/legacy	[no test files]
+?   	model-relay/tests/evidence	[no test files]
+ok  	model-relay/tests/health-history	(cached) [no tests to run]
+# model-relay/internal/relay.test
+ld: warning: '<temporary-link-object> has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestSSEOverlongLineNeverSwitchesOrCools
+=== RUN   TestSSEOverlongLineNeverSwitchesOrCools/before_commit
+=== RUN   TestSSEOverlongLineNeverSwitchesOrCools/after_commit
+--- PASS: TestSSEOverlongLineNeverSwitchesOrCools (5.21s)
+    --- PASS: TestSSEOverlongLineNeverSwitchesOrCools/before_commit (2.65s)
+    --- PASS: TestSSEOverlongLineNeverSwitchesOrCools/after_commit (2.56s)
+=== RUN   TestSSEDoneTerminalAttribution
+=== RUN   TestSSEDoneTerminalAttribution/success
+=== RUN   TestSSEDoneTerminalAttribution/write_failure
+=== RUN   TestSSEDoneTerminalAttribution/cancel_with_error
+=== RUN   TestSSEDoneTerminalAttribution/cancel_after_write
+--- PASS: TestSSEDoneTerminalAttribution (10.00s)
+    --- PASS: TestSSEDoneTerminalAttribution/success (2.52s)
+    --- PASS: TestSSEDoneTerminalAttribution/write_failure (2.50s)
+    --- PASS: TestSSEDoneTerminalAttribution/cancel_with_error (2.49s)
+    --- PASS: TestSSEDoneTerminalAttribution/cancel_after_write (2.49s)
+PASS
+ok  	model-relay/internal/relay	16.840s
+exit_code=0

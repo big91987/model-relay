@@ -1,0 +1,7 @@
+Source: actual development tool output; local path redacted; not native acceptance.
+command=go run ./tests/evidence
+result=no valid JSON fingerprint generated
+open <user-home>/Library/Caches/go-build/a0/a04ed01f442d94183248801bd8445277da37f4080de113ff885b72b5dfbad782-d: operation not permitted
+The chained document audit then attempted to parse the empty fingerprint:
+SyntaxError: Unexpected end of JSON input
+Recovery: use the existing Makefile GOCACHE=.cache/go-build convention; retain this failure and audit-01, create audit-02. No privilege expansion.

@@ -1,0 +1,122 @@
+{
+  "date": "2026-10-06",
+  "actor": "independent QA",
+  "mode": "full remediation acceptance",
+  "repository": "big91987/model-relay",
+  "branch": "workflow/82227c5986e5f41875895d8016c686a6",
+  "source": {
+    "files": 85,
+    "go": "go1.25.6",
+    "head": "85f6d17c07c5fddeb2d6a39a5a067769a11bb4cc",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "852f7bfc90323b6253658c8b9c2167fa22c43a5f59389f0bbcb92539865120e7"
+  },
+  "host": {
+    "seq": 21,
+    "command": "make verify",
+    "exit_code": 0,
+    "timeout_seconds": 900,
+    "retained_log_bytes": 79939,
+    "truncated": false,
+    "go": "go1.25.6",
+    "node": "v26.0.0 (host receipt)"
+  },
+  "independent": {
+    "contract_exit_code": 0,
+    "contract_duration_seconds": 13.473,
+    "frontend_exit_code": 0,
+    "frontend_tests": 119,
+    "full_make_verify_rerun": false
+  },
+  "files": [
+    {
+      "path": ".github/workflows/deploy-local.yml",
+      "bytes": 3418,
+      "sha256": "a3d814fa47da0c74e6934ab46138f2b854c55cf1de177f7fba538b4365ab2f45"
+    },
+    {
+      "path": "deploy/platform-preview-source.json",
+      "bytes": 131,
+      "sha256": "731a67786f16a70c6c332b1c95278d51175e1896bd1f522dbf7135f8c9e3b130"
+    },
+    {
+      "path": "internal/relay/qa_connection_contract_test.go",
+      "bytes": 3581,
+      "sha256": "aafefad09c238b976b850c44eda7960f74ea2e5cb6b7bb96b36794cfddb4e9b4"
+    },
+    {
+      "path": "go.mod",
+      "bytes": 156,
+      "sha256": "43a61905ab453f007d88c21bd3066453570fb6d9bd533247b94b81612b615477"
+    },
+    {
+      "path": "go.sum",
+      "bytes": 489,
+      "sha256": "9afb7f3a178eab537ac50d13d8f518553386f2ebf4e0fce528cbc6b2f8be99d5"
+    },
+    {
+      "path": "package-lock.json",
+      "bytes": 1709,
+      "sha256": "05459652f98128ebcb6786e2d80bf694d23c437c0d4f7d45c56371da511bc688"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/acceptance/evidence/console-first-call-1280-02.png",
+      "bytes": 110746,
+      "sha256": "5eeee8344fc7449817f7729c2507c90ce17155f4d968c4528cd3b49b9ec2f934"
+    },
+    {
+      "path": "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/acceptance/evidence/console-first-call-390-02.png",
+      "bytes": 105893,
+      "sha256": "bdcd4178016f3912c8e06c37bb95cf490fd471c85db683862009c4a80a392745"
+    },
+    {
+      "path": "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/acceptance/evidence/routing-1280-02.png",
+      "bytes": 133015,
+      "sha256": "5209edfb9da5a51d2d745bee1e9d327aed542aa8a38fc7b2de0c4fccd78a40ff"
+    },
+    {
+      "path": "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/acceptance/evidence/routing-390-02.png",
+      "bytes": 125380,
+      "sha256": "628a9acd7168f2c86797ff213b617a00d9f1c70d8d3c82fe6072cb18ac313891"
+    },
+    {
+      "path": "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/acceptance/evidence/routing-selection-85660.jsonl",
+      "bytes": 1013586,
+      "sha256": "c194ebf6c77963a907a391f0aef8d3d0d4b22183e4d11609c32097c5be90328c"
+    },
+    {
+      "path": "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/acceptance/evidence/contract-retest-02.log",
+      "bytes": 4124,
+      "sha256": "e860d2455752239353210016d32f0a8b1d87e1cbd76b1554f43b7c1da24a50ed"
+    },
+    {
+      "path": "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/acceptance/evidence/frontend-retest-02.log",
+      "bytes": 11746,
+      "sha256": "5aed30517ccdf37b2219e2aa4624c9d91e5cb99befc180c4702cc29bd535dd80"
+    }
+  ],
+  "trace": {
+    "execution": 85660,
+    "rows": 156,
+    "stages": [
+      "candidate primary selection 1280",
+      "candidate secondary selection 1280",
+      "actual weighted selection 1280",
+      "completed review keyboard collapse 1280",
+      "failover and unknown consumption 1280",
+      "passive recovery 1280",
+      "committed stream no replay 1280",
+      "candidate primary selection 390",
+      "candidate secondary selection 390",
+      "actual weighted selection 390",
+      "completed review keyboard collapse 390",
+      "failover and unknown consumption 390",
+      "passive recovery 390",
+      "committed stream no replay 390"
+    ]
+  },
+  "artifact_provenance": "local files after host seq21; PID-correlated trace; screenshots not cryptographically stamped by Connector, supporting evidence only",
+  "scope_limit": "source command actual inventory does not hash acceptance/delivery receipts or Workflow/manifest; those are separately stamped; no production deployment identity asserted"
+}

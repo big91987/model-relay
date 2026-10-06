@@ -1,0 +1,8 @@
+Final audit: format-check; module verification; vet; build; all browser-driver syntax; source comparison; diff/link/history/privacy checks
+all modules verified
+go vet ./...
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+final-source-02 matches current source
+historical Run, Workflow, Makefile and health-history unchanged
+run_markdown_links=81 missing=0 local_paths=0
+exit_code=0

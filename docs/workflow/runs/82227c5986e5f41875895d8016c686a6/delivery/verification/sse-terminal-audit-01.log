@@ -1,0 +1,34 @@
+{
+  "documents": 9,
+  "relative_links": 129,
+  "qa_locked_files": 13,
+  "reviewed_head": "8ae4e5173aa0dc45c28ad61dbc64df20afe229a6",
+  "source": {
+    "files": 86,
+    "go": "go1.25.6",
+    "head": "8ae4e5173aa0dc45c28ad61dbc64df20afe229a6",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "753f988bba74ce316a820a764dc6cda792117df7796e9eedfff81cec12403329"
+  },
+  "tracked_changes": [
+    ".trellis/spec/backend/routing-contracts.md",
+    "docs/product-brief.md",
+    "docs/roadmap.md",
+    "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/delivery/README.md",
+    "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/delivery/tasks/D3-routing.md",
+    "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/delivery/tasks/D5-verification.md",
+    "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/delivery/verification/report.md",
+    "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/pr.md",
+    "internal/relay/proxy.go",
+    "internal/relay/routed_proxy.go"
+  ],
+  "unchanged": [
+    "Makefile",
+    "tests/health-history",
+    ".github/workflows/deploy-local.yml",
+    "deploy/platform-preview-source.json",
+    "acceptance/history"
+  ],
+  "issues": 0
+}
+exit_code=0

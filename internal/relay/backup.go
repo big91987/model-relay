@@ -22,7 +22,11 @@ func Backup(directory, output string) error {
 		return err
 	}
 	defer lock.Close()
-	if _, err = os.Stat(filepath.Join(directory, "relay.db")); err != nil {
+	return backupLocked(directory, output)
+}
+
+func backupLocked(directory, output string) error {
+	if _, err := os.Stat(filepath.Join(directory, "relay.db")); err != nil {
 		return errors.New("installation missing")
 	}
 	db, err := database(directory)
@@ -30,13 +34,14 @@ func Backup(directory, output string) error {
 		return err
 	}
 	var version int
-	if err = db.QueryRow("SELECT version FROM meta").Scan(&version); err != nil || version != 1 {
+	if err = db.QueryRow("SELECT version FROM meta").Scan(&version); err != nil || (version != 1 && version != 2) {
 		db.Close()
 		return errors.New("unsupported database version")
 	}
-	if _, err = db.Exec("PRAGMA wal_checkpoint(TRUNCATE)"); err != nil {
+	var busy, logFrames, checkpointed int
+	if err = db.QueryRow("PRAGMA wal_checkpoint(TRUNCATE)").Scan(&busy, &logFrames, &checkpointed); err != nil || busy != 0 {
 		db.Close()
-		return err
+		return errors.New("backup checkpoint incomplete")
 	}
 	if err = db.Close(); err != nil {
 		return err
@@ -57,7 +62,7 @@ func Backup(directory, output string) error {
 	if _, err = source.Seek(0, io.SeekStart); err != nil {
 		return err
 	}
-	metadata, _ := json.Marshal(manifest{Version: 1, SHA256: hex.EncodeToString(hash.Sum(nil))})
+	metadata, _ := json.Marshal(manifest{Version: version, SHA256: hex.EncodeToString(hash.Sum(nil))})
 	destination, err := os.OpenFile(output, os.O_CREATE|os.O_EXCL|os.O_WRONLY, 0600)
 	if err != nil {
 		return errors.New("backup destination must be new")
@@ -154,12 +159,16 @@ func Restore(input, directory, keyFile string) error {
 			return errors.New("unexpected backup entry")
 		}
 	}
-	if !seen["manifest.json"] || !seen["relay.db"] || metadata.Version != 1 || checksum != metadata.SHA256 {
+	if !seen["manifest.json"] || !seen["relay.db"] || (metadata.Version != 1 && metadata.Version != 2) || checksum != metadata.SHA256 {
 		return errors.New("backup checksum or version invalid")
 	}
-	store, err := Open(temporary, keyFile)
+	store, err := openInstallation(temporary, keyFile, true)
 	if err != nil {
 		return err
+	}
+	if store.Schema != metadata.Version {
+		store.Close()
+		return errors.New("backup schema mismatch")
 	}
 	if err = store.Close(); err != nil {
 		return err

@@ -77,11 +77,18 @@ func testHealthMethods(t *testing.T, realHTTP bool) {
 					return
 				}
 				if status == http.StatusOK {
-					var payload map[string]string
+					var payload map[string]any
 					if err := json.Unmarshal(body, &payload); err != nil {
 						t.Fatal(err)
 					}
-					if len(payload) != 2 || payload["status"] != "ok" || payload["version"] != "health-regression" {
+					fields := 2
+					if storage, ok := payload["storage_schema"]; ok {
+						fields = 3
+						if storage != float64(2) {
+							t.Error("health schema mismatch")
+						}
+					}
+					if len(payload) != fields || payload["status"] != "ok" || payload["version"] != "health-regression" {
 						t.Error("GET status/version contract changed")
 					}
 				} else {

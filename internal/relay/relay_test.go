@@ -94,9 +94,9 @@ func newFixture(t *testing.T, handler http.HandlerFunc) *fixture {
 		}
 	}
 	response = value.admin(t, "PUT", "upstream", map[string]any{"url": upstream.URL + "/v1", "token": "upstream-secret-sentinel", "enabled": true})
-	expect(t, response, 200)
+	expect(t, response, 201)
 	response = value.admin(t, "POST", "models", map[string]any{"alias": "alpha", "model": "provider-model", "enabled": true})
-	expect(t, response, 200)
+	expect(t, response, 201)
 	response = value.admin(t, "POST", "keys", map[string]any{"name": "first"})
 	var issued struct {
 		Key      string
@@ -109,6 +109,7 @@ func newFixture(t *testing.T, handler http.HandlerFunc) *fixture {
 }
 func (value *fixture) admin(t *testing.T, method, path string, body any) *http.Response {
 	t.Helper()
+	method, path, body = singleFixtureInput(value.store, method, path, body)
 	data, _ := json.Marshal(body)
 	request, err := http.NewRequest(method, value.http.URL+"/admin/api/"+path, bytes.NewReader(data))
 	if err != nil {
@@ -559,7 +560,7 @@ func TestUpstreamFailures(t *testing.T) {
 		state      string
 	}{
 		{"auth", 401, "sensitive provider diagnostic", "application/json", 502, "upstream_rejected"},
-		{"rate", 429, "sensitive provider diagnostic", "application/json", 429, "upstream_rejected"},
+		{"rate", 429, "sensitive provider diagnostic", "application/json", 502, "upstream_failed"},
 		{"server", 500, "sensitive provider diagnostic", "application/json", 502, "upstream_failed"},
 		{"bad_type", 200, "x", "text/html", 502, "upstream_failed"},
 		{"bad_json", 200, `{"error":{"message":"secret"}}`, "application/json", 502, "upstream_failed"},
@@ -628,7 +629,7 @@ func TestTimeoutRedirectAndNetwork(t *testing.T) {
 			data, _ := io.ReadAll(response.Body)
 			response.Body.Close()
 			record := lastRecord(t, value)
-			if mode == "header_timeout" || mode == "idle_timeout" {
+			if mode == "idle_timeout" {
 				if record.State != "timeout" {
 					t.Fatal("timeout state", record.State)
 				}

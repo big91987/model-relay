@@ -18,9 +18,10 @@ import (
 )
 
 type Store struct {
-	DB   *sql.DB
-	Key  []byte
-	lock *os.File
+	DB     *sql.DB
+	Key    []byte
+	Schema int
+	lock   *os.File
 }
 
 func lockDirectory(directory string) (*os.File, error) {
@@ -52,12 +53,34 @@ func database(directory string) (*sql.DB, error) {
 	return db, nil
 }
 
-const schema = `CREATE TABLE meta(version INTEGER NOT NULL, sentinel BLOB NOT NULL);
+const legacySchema = `CREATE TABLE meta(version INTEGER NOT NULL, sentinel BLOB NOT NULL);
 CREATE TABLE admin(salt BLOB NOT NULL, hash BLOB NOT NULL);
 CREATE TABLE upstream(id INTEGER PRIMARY KEY CHECK(id=1), url TEXT NOT NULL, token BLOB NOT NULL, enabled INTEGER NOT NULL, revision INTEGER NOT NULL);
 CREATE TABLE models(alias TEXT PRIMARY KEY, model TEXT NOT NULL, enabled INTEGER NOT NULL);
 CREATE TABLE app_keys(id TEXT PRIMARY KEY, name TEXT NOT NULL, digest BLOB UNIQUE NOT NULL, hint TEXT NOT NULL, enabled INTEGER NOT NULL, created TEXT NOT NULL);
 CREATE TABLE requests(id TEXT PRIMARY KEY, time TEXT NOT NULL, key_id TEXT, alias TEXT, model TEXT, stream INTEGER NOT NULL, revision INTEGER, state TEXT NOT NULL, error_code TEXT NOT NULL, upstream_status INTEGER, duration_ms INTEGER, prompt_tokens INTEGER, completion_tokens INTEGER, total_tokens INTEGER);`
+
+const configurationSchema = `CREATE TABLE upstream(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT UNIQUE NOT NULL, url TEXT NOT NULL, token BLOB NOT NULL, enabled INTEGER NOT NULL CHECK(enabled IN(0,1)), revision INTEGER NOT NULL, execution_revision INTEGER NOT NULL);
+CREATE TABLE models(alias TEXT PRIMARY KEY, enabled INTEGER NOT NULL CHECK(enabled IN(0,1)), revision INTEGER NOT NULL, legacy_remote_model TEXT);
+CREATE TABLE route_candidates(alias TEXT NOT NULL REFERENCES models(alias), upstream_id INTEGER NOT NULL REFERENCES upstream(id), remote_model TEXT NOT NULL, enabled INTEGER NOT NULL CHECK(enabled IN(0,1)), priority INTEGER NOT NULL CHECK(priority BETWEEN 0 AND 100), weight INTEGER NOT NULL CHECK(weight BETWEEN 1 AND 100), execution_revision INTEGER NOT NULL, PRIMARY KEY(alias,upstream_id));`
+
+const evidenceSchema = `CREATE TABLE upstream_checks(id INTEGER PRIMARY KEY AUTOINCREMENT, upstream_id INTEGER NOT NULL REFERENCES upstream(id), execution_revision INTEGER NOT NULL, state TEXT NOT NULL, started_at TEXT NOT NULL, finished_at TEXT, duration_ms INTEGER, error_code TEXT NOT NULL, upstream_status INTEGER);
+CREATE TABLE request_attempts(request_id TEXT NOT NULL REFERENCES requests(id), ordinal INTEGER NOT NULL CHECK(ordinal BETWEEN 1 AND 3), upstream_id INTEGER NOT NULL, upstream_name TEXT NOT NULL, remote_model TEXT NOT NULL, upstream_revision INTEGER NOT NULL, upstream_execution_revision INTEGER NOT NULL, candidate_execution_revision INTEGER NOT NULL, started_at TEXT NOT NULL, finished_at TEXT, duration_ms INTEGER, state TEXT NOT NULL, error_code TEXT NOT NULL, upstream_status INTEGER, prompt_tokens INTEGER, completion_tokens INTEGER, total_tokens INTEGER, PRIMARY KEY(request_id,ordinal));
+CREATE TABLE request_route_decisions(request_id TEXT NOT NULL REFERENCES requests(id), selection_round INTEGER NOT NULL, upstream_id INTEGER NOT NULL, snapshot_enabled INTEGER NOT NULL, snapshot_priority INTEGER NOT NULL, snapshot_weight INTEGER NOT NULL, reason TEXT NOT NULL, observed_at TEXT NOT NULL, cooldown_until TEXT, PRIMARY KEY(request_id,selection_round,upstream_id));
+CREATE INDEX attempts_upstream ON request_attempts(upstream_id,started_at);
+CREATE INDEX checks_upstream ON upstream_checks(upstream_id,id);`
+
+const requestUpgrade = `ALTER TABLE requests ADD COLUMN evidence_version INTEGER NOT NULL DEFAULT 1;
+ALTER TABLE requests ADD COLUMN config_revision INTEGER;
+ALTER TABLE requests ADD COLUMN model_revision INTEGER;
+ALTER TABLE requests ADD COLUMN committed_at TEXT;
+ALTER TABLE requests ADD COLUMN successful_upstream_id INTEGER;
+ALTER TABLE requests ADD COLUMN attempts_complete INTEGER NOT NULL DEFAULT 0;`
+
+const schema = `CREATE TABLE meta(version INTEGER NOT NULL, sentinel BLOB NOT NULL, config_revision INTEGER NOT NULL DEFAULT 1);
+CREATE TABLE admin(salt BLOB NOT NULL, hash BLOB NOT NULL);
+CREATE TABLE app_keys(id TEXT PRIMARY KEY, name TEXT NOT NULL, digest BLOB UNIQUE NOT NULL, hint TEXT NOT NULL, enabled INTEGER NOT NULL, created TEXT NOT NULL);
+CREATE TABLE requests(id TEXT PRIMARY KEY, time TEXT NOT NULL, key_id TEXT, alias TEXT, model TEXT, stream INTEGER NOT NULL, revision INTEGER, state TEXT NOT NULL, error_code TEXT NOT NULL, upstream_status INTEGER, duration_ms INTEGER, prompt_tokens INTEGER, completion_tokens INTEGER, total_tokens INTEGER);` + configurationSchema + requestUpgrade + evidenceSchema
 
 func Init(directory, keyFile string) (string, error) {
 	if filepath.Clean(keyFile) == filepath.Join(filepath.Clean(directory), "relay.db") {
@@ -112,7 +135,7 @@ func Init(directory, keyFile string) (string, error) {
 	password := randomSecret(32)
 	salt := digest(randomSecret(16))[:16]
 	hash := argon2.IDKey([]byte(password), salt, 3, 64*1024, 1, 32)
-	if _, err = transaction.Exec("INSERT INTO meta VALUES(1,?); INSERT INTO admin VALUES(?,?)", sentinel, salt, hash); err != nil {
+	if _, err = transaction.Exec("INSERT INTO meta(version,sentinel) VALUES(2,?); INSERT INTO admin VALUES(?,?)", sentinel, salt, hash); err != nil {
 		return "", err
 	}
 	if err = transaction.Commit(); err != nil {
@@ -124,6 +147,10 @@ func Init(directory, keyFile string) (string, error) {
 	return password, nil
 }
 func Open(directory, keyFile string) (*Store, error) {
+	return openInstallation(directory, keyFile, false)
+}
+
+func openInstallation(directory, keyFile string, allowLegacy bool) (*Store, error) {
 	if _, err := os.Stat(filepath.Join(directory, "relay.db")); err != nil {
 		return nil, errors.New("installation missing")
 	}
@@ -143,29 +170,32 @@ func Open(directory, keyFile string) (*Store, error) {
 	store := &Store{DB: db, Key: key, lock: lock}
 	var version int
 	var sentinel []byte
-	if err = db.QueryRow("SELECT version,sentinel FROM meta").Scan(&version, &sentinel); err != nil || version != 1 {
+	if err = db.QueryRow("SELECT version,sentinel FROM meta").Scan(&version, &sentinel); err != nil || (version != 1 && version != 2) {
 		store.Close()
 		return nil, errors.New("unsupported or invalid database version")
+	}
+	store.Schema = version
+	if version == 1 && !allowLegacy {
+		store.Close()
+		return nil, errors.New("storage schema 1 requires explicit upgrade --data-dir --key-file --output before serve")
 	}
 	plain, err := unseal(key, sentinel, "installation")
 	if err != nil || plain != "model-relay-v1" {
 		store.Close()
 		return nil, errors.New("incorrect encryption key")
 	}
-	var rawURL string
-	var token []byte
-	err = db.QueryRow("SELECT url,token FROM upstream WHERE id=1").Scan(&rawURL, &token)
-	if err != nil && err != sql.ErrNoRows {
+	if err = validateMaterial(db, key, version); err != nil {
 		store.Close()
 		return nil, err
 	}
-	if err == nil {
-		if _, err = unseal(key, token, "upstream:"+rawURL); err != nil {
-			store.Close()
-			return nil, errors.New("invalid upstream material")
-		}
+	if err = validateStorage(db, version); err != nil {
+		store.Close()
+		return nil, err
 	}
-	if _, err = db.Exec("UPDATE requests SET state='process_interrupted',error_code='process_interrupted',duration_ms=NULL WHERE state='started'"); err != nil {
+	if allowLegacy {
+		return store, nil
+	}
+	if _, err = db.Exec("UPDATE requests SET state='process_interrupted',error_code='process_interrupted',duration_ms=NULL,attempts_complete=0 WHERE state='started'; UPDATE request_attempts SET state='process_interrupted',error_code='process_interrupted' WHERE finished_at IS NULL; UPDATE upstream_checks SET state='unknown',error_code='process_interrupted' WHERE finished_at IS NULL"); err != nil {
 		store.Close()
 		return nil, err
 	}
@@ -236,17 +266,38 @@ type Record struct {
 	Status   *int   `json:"upstream_status"`
 	Duration *int64 `json:"duration_ms"`
 	Usage
+	ConfigRevision     int64                `json:"config_revision"`
+	ModelRevision      int64                `json:"model_revision"`
+	SuccessfulUpstream *int64               `json:"successful_upstream_id"`
+	CommittedAt        *string              `json:"committed_at"`
+	AttemptsComplete   bool                 `json:"attempts_complete"`
+	EvidenceVersion    int                  `json:"evidence_version"`
+	Attempts           []Attempt            `json:"attempts"`
+	Decisions          []RouteDecision      `json:"selection_decisions"`
+	UsageSummary       map[string]UsagePart `json:"usage_summary"`
 }
 
 func (store *Store) Start(record Record) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancel()
-	_, err := store.DB.ExecContext(ctx, "INSERT INTO requests(id,time,key_id,alias,model,stream,revision,state,error_code) VALUES(?,?,?,?,?,?,?,'started','')", record.ID, record.Time, record.KeyID, record.Alias, record.Model, record.Stream, record.Revision)
+	_, err := store.DB.ExecContext(ctx, "INSERT INTO requests(id,time,key_id,alias,model,stream,revision,state,error_code,evidence_version,config_revision,model_revision) VALUES(?,?,?,?,?,?,?,'started','',2,?,?)", record.ID, record.Time, record.KeyID, record.Alias, record.Model, record.Stream, record.Revision, record.ConfigRevision, record.ModelRevision)
 	return err
 }
 func (store *Store) Finish(record Record) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancel()
-	_, err := store.DB.ExecContext(ctx, "UPDATE requests SET state=?,error_code=?,upstream_status=?,duration_ms=?,prompt_tokens=?,completion_tokens=?,total_tokens=? WHERE id=?", record.State, record.Code, record.Status, record.Duration, record.Prompt, record.Completion, record.Total, record.ID)
-	return err
+	transaction, err := store.DB.BeginTx(ctx, nil)
+	if err != nil {
+		return err
+	}
+	defer transaction.Rollback()
+	usage, complete, err := aggregateUsage(transaction, record.ID)
+	if err != nil {
+		return err
+	}
+	_, err = transaction.ExecContext(ctx, "UPDATE requests SET state=?,error_code=?,model=?,revision=?,upstream_status=?,duration_ms=?,prompt_tokens=?,completion_tokens=?,total_tokens=?,successful_upstream_id=?,committed_at=?,attempts_complete=? WHERE id=?", record.State, record.Code, record.Model, record.Revision, record.Status, record.Duration, usage.Prompt, usage.Completion, usage.Total, record.SuccessfulUpstream, record.CommittedAt, complete, record.ID)
+	if err != nil {
+		return err
+	}
+	return transaction.Commit()
 }

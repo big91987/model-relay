@@ -23,6 +23,7 @@ func TestInProcessContract(t *testing.T) {
 	csrf := ""
 	key := ""
 	admin := func(method, path string, body any) *httptest.ResponseRecorder {
+		method, path, body = singleFixtureInput(store, method, path, body)
 		data, _ := json.Marshal(body)
 		request := httptest.NewRequest(method, "http://127.0.0.1:5544/admin/api/"+path, bytes.NewReader(data))
 		request.Header.Set("Content-Type", "application/json")
@@ -51,7 +52,7 @@ func TestInProcessContract(t *testing.T) {
 		{"POST", "models", map[string]any{"alias": "alpha", "model": "real-model", "enabled": true}},
 		{"POST", "models", map[string]any{"alias": "beta", "model": "second-model", "enabled": true}},
 	} {
-		if response := admin(step.method, step.path, step.body); response.Code != 200 {
+		if response := admin(step.method, step.path, step.body); response.Code != 201 {
 			t.Fatal("configuration contract", response.Code, response.Body.String())
 		}
 	}

@@ -16,7 +16,7 @@ import (
 
 func main() {
 	paths := []string{".gitignore", "Makefile", "README.md", "go.mod", "go.sum", "package.json", "package-lock.json", "docs/workflow/task.md", "docs/workflow/requirements.md", "docs/workflow/design.md", "docs/product-brief.md", "docs/roadmap.md", "docs/releases/v0.1.0.md", "docs/local-deployment.md"}
-	for _, name := range []string{"product-definition.md", "console-architecture.md", "console-interaction.md"} {
+	for _, name := range []string{"product-definition.md", "console-architecture.md", "console-interaction.md", "routing-architecture.md", "routing-interaction.md", "routing-validation.md", "adr-001-storage-upgrade.md", "deployment-upgrade-contract.md"} {
 		matches, err := filepath.Glob(filepath.Join("docs", "workflow", "runs", "*", name))
 		if err != nil {
 			fmt.Fprintln(os.Stderr, "contract inventory failed")

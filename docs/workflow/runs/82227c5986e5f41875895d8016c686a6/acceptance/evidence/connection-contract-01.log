@@ -1,0 +1,52 @@
+# model-relay/internal/relay.test
+ld: warning: '<temp>/go-link-2573592587/000023.o' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestQAConnectionCheckTenSecondBudget
+    qa_connection_contract_test.go:24: connection check budget = 30s, want at most 10 seconds
+--- FAIL: TestQAConnectionCheckTenSecondBudget (2.64s)
+=== RUN   TestQAConnectionCheckProtocolAndFailureStates
+=== RUN   TestQAConnectionCheckProtocolAndFailureStates/valid_empty_list
+=== RUN   TestQAConnectionCheckProtocolAndFailureStates/wrong_content_type
+    qa_connection_contract_test.go:77: connection check state = "success", want "failed"
+    qa_connection_contract_test.go:81: persisted connection check does not satisfy the contract
+=== RUN   TestQAConnectionCheckProtocolAndFailureStates/missing_list_object
+    qa_connection_contract_test.go:77: connection check state = "success", want "failed"
+    qa_connection_contract_test.go:81: persisted connection check does not satisfy the contract
+=== RUN   TestQAConnectionCheckProtocolAndFailureStates/wrong_list_object
+    qa_connection_contract_test.go:77: connection check state = "success", want "failed"
+    qa_connection_contract_test.go:81: persisted connection check does not satisfy the contract
+=== RUN   TestQAConnectionCheckProtocolAndFailureStates/missing_model_id
+    qa_connection_contract_test.go:77: connection check state = "success", want "failed"
+    qa_connection_contract_test.go:81: persisted connection check does not satisfy the contract
+=== RUN   TestQAConnectionCheckProtocolAndFailureStates/empty_model_id
+    qa_connection_contract_test.go:77: connection check state = "success", want "failed"
+    qa_connection_contract_test.go:81: persisted connection check does not satisfy the contract
+=== RUN   TestQAConnectionCheckProtocolAndFailureStates/malformed_json
+    qa_connection_contract_test.go:77: connection check state = "unknown", want "failed"
+    qa_connection_contract_test.go:81: persisted connection check does not satisfy the contract
+=== RUN   TestQAConnectionCheckProtocolAndFailureStates/authentication_failure
+=== RUN   TestQAConnectionCheckProtocolAndFailureStates/rate_limit_failure
+    qa_connection_contract_test.go:77: connection check state = "unknown", want "failed"
+    qa_connection_contract_test.go:81: persisted connection check does not satisfy the contract
+=== RUN   TestQAConnectionCheckProtocolAndFailureStates/server_failure
+    qa_connection_contract_test.go:77: connection check state = "unknown", want "failed"
+    qa_connection_contract_test.go:81: persisted connection check does not satisfy the contract
+=== RUN   TestQAConnectionCheckProtocolAndFailureStates/network_failure
+    qa_connection_contract_test.go:77: connection check state = "unknown", want "failed"
+    qa_connection_contract_test.go:81: persisted connection check does not satisfy the contract
+--- FAIL: TestQAConnectionCheckProtocolAndFailureStates (2.57s)
+    --- PASS: TestQAConnectionCheckProtocolAndFailureStates/valid_empty_list (0.00s)
+    --- FAIL: TestQAConnectionCheckProtocolAndFailureStates/wrong_content_type (0.00s)
+    --- FAIL: TestQAConnectionCheckProtocolAndFailureStates/missing_list_object (0.00s)
+    --- FAIL: TestQAConnectionCheckProtocolAndFailureStates/wrong_list_object (0.00s)
+    --- FAIL: TestQAConnectionCheckProtocolAndFailureStates/missing_model_id (0.00s)
+    --- FAIL: TestQAConnectionCheckProtocolAndFailureStates/empty_model_id (0.00s)
+    --- FAIL: TestQAConnectionCheckProtocolAndFailureStates/malformed_json (0.00s)
+    --- PASS: TestQAConnectionCheckProtocolAndFailureStates/authentication_failure (0.00s)
+    --- FAIL: TestQAConnectionCheckProtocolAndFailureStates/rate_limit_failure (0.00s)
+    --- FAIL: TestQAConnectionCheckProtocolAndFailureStates/server_failure (0.00s)
+    --- FAIL: TestQAConnectionCheckProtocolAndFailureStates/network_failure (0.00s)
+FAIL
+FAIL	model-relay/internal/relay	5.851s
+FAIL
+
+exit_code=1

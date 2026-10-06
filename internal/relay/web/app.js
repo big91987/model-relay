@@ -9,7 +9,16 @@ let editSaving = false;
 let sessionUncertain = false, sessionCheck = null;
 let sessionExpiryTimer = null, overviewEvidence = null;
 let upstreamOperation = null;
+let modelCreateOperation = null;
+let selectedUpstream = null, upstreamItems = [], upstreamCursor = null, modelCursor = null, modelItems = [];
 const errors = {
+  management_api_changed: '管理界面已升级，请刷新页面后继续。',
+  configuration_conflict: '配置已被其他操作修改，请重新读取后检查草稿；不会自动覆盖。',
+  name_conflict: '该上游名称已存在，请读取列表确认，不会自动重复创建。',
+  invalid_route_candidate: '请检查路由候选的上游、模型名称、优先级和权重。',
+  check_in_progress: '该上游正在核验，请等待结果后重新读取。',
+  upstream_attempts_exhausted: '可用上游的有限尝试已耗尽，请查看逐尝试记录；不会无限重发。',
+  request_timeout: '整个请求的时间预算已用尽，请查看记录；不会开始新的尝试。',
   unauthorized: '应用密钥缺失、无效或已停用，请前往应用密钥确认并重新输入。',
   invalid_destination: '上游地址不符合安全规则，请检查 HTTPS 地址和主机。',
   new_credential_required: '首次配置或地址变化时必须提供新的上游凭据。',
@@ -44,9 +53,9 @@ function owner() { return {session: sessionEpoch, navigation: navigationVersion}
 function current(token) { return token.session === sessionEpoch && token.navigation === navigationVersion && (token.load === undefined || token.load === loadSequence) && (token.find === undefined || token.find === findSequence); }
 function stale() { const error = new Error('stale'); error.stale = true; return error; }
 function assertCurrent(token) { if (!current(token)) throw stale(); }
-async function api(path, method = 'GET', body, token = owner()) {
+async function api(path, method = 'GET', body, token = owner(), signal) {
   let response, value;
-  try { response = await fetch('/admin/api/' + path, {method, headers: {'Content-Type': 'application/json', 'X-CSRF-Token': csrf}, body: body === undefined ? undefined : JSON.stringify(body)}); }
+  try { response = await fetch('/admin/api/' + path, {method, signal, headers: {'Content-Type': 'application/json', 'X-CSRF-Token': csrf}, body: body === undefined ? undefined : JSON.stringify(body)}); }
   catch { assertCurrent(token); throw new Error('无法连接网关，请检查服务后手动重试。'); }
   assertCurrent(token);
   if (response.status === 401) {
@@ -98,7 +107,7 @@ function stopCall(canceled = false) {
   if (canceled) element('test-status').textContent = '已取消；本地取消不代表服务端已记为取消，请核对记录。';
 }
 function signedOut() {
-  resetUpstream();
+  resetUpstream(); resetModelCreate();
   sessionEpoch++; navigationVersion++; clearTimeout(sessionTimer); clearTimeout(sessionExpiryTimer); clearVersion(); stopCall(); csrf = ''; expiry = 0; lastRequestID = ''; selectedModel = ''; overviewEvidence = null;
   element('find-request-id').value = ''; element('record-detail').textContent = ''; element('record-list').replaceChildren();
   element('test-request-id').textContent = ''; element('view-record').hidden = true;
@@ -150,7 +159,7 @@ async function checkSession() {
   catch (error) {
     if (!error.stale && current(token)) {
       if (expireSession()) return;
-      sessionUncertain = true; sessionEpoch++; resetUpstream(); stopCall(); clearTimeout(sessionTimer);
+      sessionUncertain = true; sessionEpoch++; resetUpstream(); resetModelCreate(); stopCall(); clearTimeout(sessionTimer);
       scheduleExpiry();
       element('test-status').textContent = '管理会话暂无法确认；调用已停止，敏感内容已清除。';
       message('管理会话暂无法确认，请检查服务连接后点击“重新检查会话”，或重新登录；网络异常不等于认证失效，不会自动重发。', true);
@@ -182,54 +191,150 @@ function callInputs(disabled) {
   for (const id of ['test-model', 'test-key', 'test-message', 'test-stream']) element(id).disabled = disabled;
 }
 function upstreamControls(disabled) {
-  for (const id of ['upstream-url', 'upstream-token', 'upstream-enabled', 'save-upstream', 'refresh-upstream']) element(id).disabled = disabled;
+  for (const id of ['upstream-name', 'upstream-url', 'upstream-token', 'upstream-enabled', 'save-upstream', 'refresh-upstream', 'new-upstream', 'cancel-upstream', 'check-upstream']) element(id).disabled = disabled;
+  for (const button of element('upstream-list').querySelectorAll('button')) button.disabled = disabled;
+  if (!disabled) element('check-upstream').disabled = !selectedUpstream?.enabled;
 }
-function resetUpstream() { upstreamOperation = null; upstreamControls(false); }
+function resetUpstream() { upstreamOperation?.controller.abort(); upstreamOperation = null; upstreamControls(false); element('cancel-check').hidden = true; }
+function modelCreateControls(disabled) { for (const id of ['model-alias', 'cancel-model-create', 'add-create-candidate']) element(id).disabled = disabled; for (const input of element('model-form').querySelectorAll('input,select,button')) input.disabled = disabled; }
+function resetModelCreate() { modelCreateOperation = null; modelCreateControls(false); }
 async function upstreamAction(token, callback) {
   if (upstreamOperation && current(upstreamOperation.token)) return;
-  const operation = {token}; upstreamOperation = operation; upstreamControls(true);
+  const operation = {token, controller: new AbortController()}; upstreamOperation = operation; upstreamControls(true);
   try { await callback(); }
-  finally { if (upstreamOperation === operation && current(token)) { upstreamOperation = null; upstreamControls(false); } }
+  finally { if (upstreamOperation === operation && current(token)) { upstreamOperation = null; upstreamControls(false); element('cancel-check').hidden = true; } }
 }
 function showEmpty(id, text) { const paragraph = document.createElement('p'); paragraph.textContent = text; element(id).replaceChildren(paragraph); }
-async function load(view, token = owner()) {
+const decisionReasons = {selected: '选中', disabled_model: '模型停用', disabled_upstream: '上游停用', disabled_candidate: '候选停用或移出', credential_missing: '凭据缺失', cooling: '暂时冷却', already_attempted: '本请求已尝试', lower_priority: '优先级较低', not_selected_same_priority: '同级轮转未选中'};
+async function allPages(path, token) {
+  const values = []; let cursor = null;
+  do { const page = await api(path + (cursor ? '?cursor=' + encodeURIComponent(cursor) : ''), 'GET', undefined, token); values.push(...page.data); cursor = page.next_cursor; } while (cursor);
+  return values;
+}
+function setUpstream(value) {
+  selectedUpstream = value;
+  element('upstream-name').value = value?.name || '';
+  element('upstream-url').value = value?.url || ''; element('upstream-enabled').checked = value ? value.enabled : true;
+  element('upstream-token').value = '';
+  element('upstream-editor-title').textContent = value ? '编辑上游 · ' + value.name : '新建上游';
+  element('credential-state').textContent = value?.credential_configured ? '凭据已配置（不返回原值）；保存不代表调用成功' : '尚无凭据，首次保存需输入';
+  element('check-state').textContent = value?.check ? (value.check.applicable ? '' : '历史配置 · ') + ({success: '连接核验成功（不是生成成功）', failed: '连接核验失败', unknown: '核验未知', canceled: '核验已取消', checking: '核验进行中'}[value.check.state] || '核验未知') + ' · ' + known(value.check.finished_at) + (value.check.error_code ? ' · ' + friendly(value.check.error_code) : '') : '未核验';
+  element('check-upstream').disabled = !value || !value.enabled;
+}
+function renderUpstreams(token) {
+  element('upstream-list').replaceChildren(...upstreamItems.map(value => {
+    const row = item(value.name + ' · ' + (value.enabled ? '启用' : '停用') + ' · 凭据' + (value.credential_configured ? '已配置' : '缺失'), '编辑上游 ' + value.name, own => upstreamAction(own, async () => { setUpstream(await api('upstreams/' + value.id, 'GET', undefined, own)); element('upstream-name').focus(); }), String(value.id));
+    return row;
+  }));
+  if (!upstreamItems.length) showEmpty('upstream-list', '尚无上游。新建真实接入配置；不会创建演示供应商。');
+  element('more-upstreams').hidden = !upstreamCursor;
+}
+function cleanCandidates(values) { return values.map(({upstream_id, remote_model, enabled, priority, weight}) => ({upstream_id, remote_model, enabled, priority, weight})); }
+function defaultCandidate() { return {upstream_id: upstreamItems[0]?.id || 0, remote_model: '', enabled: true, priority: 0, weight: 1}; }
+function candidateName(value) { return value.remote_model + ' · ' + (upstreamItems.find(source => source.id === value.upstream_id)?.name || '上游 ' + value.upstream_id) + ' · ' + (value.enabled ? '参与' : '停用') + ' · 优先级 ' + value.priority + ' / 权重 ' + value.weight + (value.generation_health ? ' · ' + value.generation_health : ' · 本次运行生成健康未知'); }
+function renderCandidates(mode, values) {
+  const root = element(mode === 'create' ? 'create-candidates' : 'edit-candidates');
+  root.replaceChildren(...values.map((value, index) => {
+    const row = document.createElement('fieldset'); const legend = document.createElement('legend'); legend.textContent = '路由候选 ' + (index + 1); row.append(legend);
+    const select = document.createElement('select'); select.dataset.field = 'upstream_id'; select.required = true;
+    for (const upstream of upstreamItems) { const option = document.createElement('option'); option.value = upstream.id; option.textContent = upstream.name + (upstream.enabled ? '' : '（停用）'); select.append(option); }
+    select.id = mode + '-candidate-upstream-' + index; select.value = value.upstream_id; const label = document.createElement('label'); label.textContent = '上游'; label.htmlFor = select.id; row.append(label, select);
+    for (const [field, title, type] of [['remote_model', '远端模型名称', 'text'], ['priority', '优先级（大数先用）', 'number'], ['weight', '同级权重', 'number']]) {
+      const input = document.createElement('input'); input.dataset.field = field; input.type = type; input.required = true; input.value = value[field];
+      if (field === 'remote_model') { input.maxLength = 128; if (!index) input.id = mode === 'create' ? 'model-real' : 'edit-real'; }
+      else { input.min = field === 'weight' ? '1' : '0'; input.max = '100'; input.step = '1'; }
+      const label = document.createElement('label'); label.textContent = title; label.append(input); row.append(label);
+    }
+    const enabled = document.createElement('input'); enabled.type = 'checkbox'; enabled.dataset.field = 'enabled'; enabled.checked = value.enabled;
+    const enabledLabel = document.createElement('label'); enabledLabel.className = 'check'; enabledLabel.textContent = '参与路由'; enabledLabel.append(enabled); row.append(enabledLabel);
+    row.append(action('移除此候选', () => { const next = readCandidates(mode); next.splice(index, 1); renderCandidates(mode, next); root.querySelector('input,select')?.focus(); }));
+    return row;
+  }));
+}
+function readCandidates(mode) {
+  return [...element(mode === 'create' ? 'create-candidates' : 'edit-candidates').children].map(row => {
+    const value = {}; for (const input of row.querySelectorAll('[data-field]')) value[input.dataset.field] = input.type === 'checkbox' ? input.checked : input.type === 'number' || input.tagName === 'SELECT' ? Number(input.value) : input.value; return value;
+  });
+}
+element('new-upstream').onclick = () => { if (upstreamOperation) return; setUpstream(null); element('upstream-name').focus(); };
+element('cancel-upstream').onclick = () => { if (upstreamOperation) return; element('upstream-token').value = ''; const identity = selectedUpstream?.id; if (selectedUpstream) setUpstream(selectedUpstream); else setUpstream(null); const row = [...element('upstream-list').children].find(value => value.dataset?.identity === String(identity)); (row?.querySelector('button') || element('new-upstream')).focus(); };
+element('check-upstream').onclick = () => guarded(element('check-upstream'), token => upstreamAction(token, async () => {
+  if (!selectedUpstream) return; const value = selectedUpstream; element('check-state').textContent = '核验进行中（不发起生成）';
+  const operation = upstreamOperation; element('cancel-check').hidden = false;
+  try {
+    await api('upstreams/' + value.id + '/check', 'POST', {expected_execution_revision: value.execution_revision}, token, operation.controller.signal);
+    if (operation.controller.signal.aborted || upstreamOperation !== operation) return;
+    element('cancel-check').hidden = true;
+    await load('upstream', token); message('连接核验已完成；实际生成及费用需另行核对。');
+  } catch (error) {
+    if (!operation.controller.signal.aborted) throw error;
+  }
+}));
+element('cancel-check').onclick = () => { if (!upstreamOperation) return; upstreamOperation.controller.abort(); element('cancel-check').hidden = true; element('check-state').textContent = '核验已取消；最终状态可重新读取，不会自动重试。'; };
+element('more-upstreams').onclick = () => guarded(element('more-upstreams'), token => load('upstream', token, upstreamCursor));
+element('more-models').onclick = () => guarded(element('more-models'), token => load('models', token, modelCursor));
+for (const mode of ['create', 'edit']) element('add-' + mode + '-candidate').onclick = () => { if (editSaving) return; if (!upstreamItems.length) { message('请先接入一个真实上游。', true); return; } const values = readCandidates(mode); values.push(defaultCandidate()); renderCandidates(mode, values); };
+function renderSetup(completed) {
+  const steps = [...element('setup-steps').children, ...element('completed-steps').children];
+  const order = ['step-upstream', 'step-models', 'step-keys', 'step-test', 'overview-record'];
+  for (let index = 0; index < order.length; index++) {
+    const row = steps.find(row => row.querySelector('#' + order[index]));
+    if (!row) continue;
+    row.value = index + 1; row.classList.toggle('completed', !!completed[index]);
+    element(completed[index] ? 'completed-steps' : 'setup-steps').append(row);
+  }
+  element('completed-setup').hidden = !completed.some(Boolean);
+  element('setup-complete').hidden = !completed.every(Boolean);
+}
+async function load(view, token = owner(), pageCursor = '') {
   token = {...token, load: ++loadSequence};
   if (view === 'overview') {
-    overviewEvidence = null;
+    overviewEvidence = null; renderSetup([false, false, false, false, false]);
+    element('overview-evidence').textContent = '';
     element('overview-record').disabled = true;
     element('summary').textContent = '加载中';
     for (const id of ['overview-upstream', 'overview-models', 'overview-keys']) element(id).textContent = '未知';
     for (const id of ['step-upstream', 'step-models', 'step-keys', 'step-test']) element(id).textContent = '状态待读取';
     const value = await api('overview', 'GET', undefined, token);
     const upstream = value.upstream;
-    element('overview-upstream').textContent = !upstream.configured ? '未配置' : upstream.enabled ? '已启用 · 凭据' + (upstream.credential_configured ? '已配置' : '缺失') : '已停用';
+    element('overview-upstream').textContent = !upstream.configured ? '未配置' : upstream.total + ' 个 / 启用 ' + upstream.enabled_count;
     element('overview-models').textContent = value.models.total + ' 个 / 启用 ' + value.models.enabled;
     element('overview-keys').textContent = value.keys.total + ' 个 / 启用 ' + value.keys.enabled;
     overviewEvidence = value.degraded ? null : value.call_evidence;
     element('overview-record').disabled = !overviewEvidence;
-    element('summary').textContent = value.degraded ? errors.storage_unavailable : !upstream.configured ? '待配置：从接入上游开始' : overviewEvidence ? '当前配置曾成功调用 · 请求 ' + overviewEvidence.request_id + ' · 模型 ' + overviewEvidence.alias + ' · 调用时间 ' + known(overviewEvidence.time) + ' · 配置版本 ' + known(overviewEvidence.upstream_revision) + ' · ' + overviewEvidence.scope : '上游配置已保存；本次启动尚无当前配置成功证据，请显式调用核验。';
+    element('summary').textContent = value.degraded ? errors.storage_unavailable : !upstream.configured ? '待配置：从接入上游开始' : overviewEvidence ? '当前配置曾成功调用 · 模型 ' + overviewEvidence.alias + '；请求身份、时间及适用范围可进入详情查看。' : '配置已保存；尚无当前配置的生成成功记录。';
+    element('overview-evidence').textContent = overviewEvidence ? '请求 ' + overviewEvidence.request_id + '\n调用时间 ' + known(overviewEvidence.time) + '\n上游配置版本 ' + known(overviewEvidence.upstream_revision) + '\n' + overviewEvidence.scope : '尚无当前配置的成功证据。';
     element('step-upstream').textContent = upstream.configured && upstream.enabled ? '已保存并启用（尚非健康证明）' : '下一步：配置或启用';
     element('step-models').textContent = value.models.enabled ? '已有启用模型，可继续' : '下一步：创建或启用模型';
     element('step-keys').textContent = value.keys.enabled ? '已有启用密钥；遗失需重新签发' : '下一步：签发应用密钥';
     element('step-test').textContent = value.call_evidence ? '曾成功，可核对记录' : '尚待核验';
+    const completed = [upstream.configured && upstream.enabled, value.callable_models > 0, value.keys.enabled > 0, !!overviewEvidence, !!overviewEvidence];
+    renderSetup(completed);
   }
   if (view === 'upstream') {
-    const value = await api('upstream', 'GET', undefined, token);
-    element('upstream-url').value = value.url; element('upstream-enabled').checked = value.enabled;
-    element('credential-state').textContent = value.credential_configured ? '凭据已配置（不返回原值）；保存不代表调用成功' : '尚无凭据，首次保存需输入';
+    const page = await api('upstreams' + (pageCursor ? '?cursor=' + encodeURIComponent(pageCursor) : ''), 'GET', undefined, token);
+    upstreamItems = page.data; upstreamCursor = page.next_cursor; renderUpstreams(token);
+    const selected = upstreamItems.find(value => value.id === selectedUpstream?.id);
+    if (selected) setUpstream(selected);
+    else if (selectedUpstream && pageCursor) setUpstream(await api('upstreams/' + selectedUpstream.id, 'GET', undefined, token));
+    else setUpstream(upstreamItems[0] || null);
   }
   if (view === 'models') {
-    const list = await api('models', 'GET', undefined, token);
+    const [page, sources] = await Promise.all([api('models' + (pageCursor ? '?cursor=' + encodeURIComponent(pageCursor) : ''), 'GET', undefined, token), allPages('upstreams', token)]);
+    upstreamItems = sources; modelItems = page.data; modelCursor = page.next_cursor;
+    const list = modelItems;
     element('model-list').replaceChildren(...list.map(value => {
-      const row = item(value.alias + ' → ' + value.model + (value.enabled ? ' · 启用' : ' · 停用'), (value.enabled ? '停用模型 ' : '启用模型 ') + value.alias, async (own, focused) => {
+      const row = item(value.alias + ' → ' + (value.candidates.length ? value.candidates.map(candidate => candidateName(candidate)).join('；') : '尚未关联上游' + (value.legacy_remote_model ? '（已保留原模型名 ' + value.legacy_remote_model + '）' : '')) + (value.enabled ? ' · 启用' : ' · 停用'), (value.enabled ? '停用模型 ' : '启用模型 ') + value.alias, async (own, focused) => {
         if (!confirm('确认变更模型状态？')) return;
-        await api('models/' + encodeURIComponent(value.alias), 'PATCH', {...value, enabled: !value.enabled}, own); await load('models', own); restoreRowFocus('model-list', value.alias, focused, own); message('模型状态已更新，需重新核验当前配置');
+        await api('models/' + encodeURIComponent(value.alias), 'PATCH', {expected_revision: value.revision, enabled: !value.enabled, candidates: cleanCandidates(value.candidates)}, own); await load('models', own); restoreRowFocus('model-list', value.alias, focused, own); message('模型状态已更新，需重新核验当前配置');
       }, value.alias);
-      row.append(action('编辑映射 ' + value.alias, () => { if (editSaving) { message('映射正在保存，请等待结果。'); return; } editModel = value; element('edit-alias').value = value.alias; element('edit-real').value = editDraft?.alias === value.alias ? editDraft.model : value.model; element('model-edit').hidden = false; element('edit-real').focus(); })); return row;
+      row.append(action('编辑映射 ' + value.alias, () => { if (editSaving) { message('映射正在保存，请等待结果。'); return; } editModel = value; element('edit-alias').value = value.alias; renderCandidates('edit', editDraft?.alias === value.alias ? editDraft.candidates : value.candidates); element('model-edit').hidden = false; element('edit-candidates').querySelector('input,select')?.focus(); })); return row;
     }));
     if (!list.length) showEmpty('model-list', '尚无模型。填写别名与供应商模型名称，创建首个映射；不会创建演示对象。');
-    const value = await api('upstream', 'GET', undefined, token);
-    element('models-dependency').textContent = value.credential_configured && value.enabled ? '上游已保存并启用，模型保存后可进入调用测试。' : '依赖尚缺：调用前请先配置并启用上游。可以保留模型草稿。';
+    if (!element('create-candidates').children.length) renderCandidates('create', upstreamItems.length ? [defaultCandidate()] : []);
+    else if (!modelCreateOperation) renderCandidates('create', readCandidates('create'));
+    element('more-models').hidden = !modelCursor;
+    element('models-dependency').textContent = sources.some(value => value.credential_configured && value.enabled) ? '上游已保存并启用，模型保存后可进入调用测试。' : '依赖尚缺：调用前请先配置并启用上游。可以保留模型草稿。';
   }
   if (view === 'keys') {
     const list = await api('keys', 'GET', undefined, token);
@@ -241,13 +346,13 @@ async function load(view, token = owner()) {
   }
   if (view === 'test') {
     testReady = false; element('send').disabled = true;
-    const [models, overview] = await Promise.all([api('models', 'GET', undefined, token), api('overview', 'GET', undefined, token)]);
+    const [models, overview] = await Promise.all([allPages('models', token), api('overview', 'GET', undefined, token)]);
     assertCurrent(token);
-    const enabled = models.filter(value => value.enabled);
-    element('test-model').replaceChildren(...enabled.map(value => { const option = document.createElement('option'); option.value = value.alias; option.textContent = value.alias + ' → ' + value.model; return option; }));
+    const enabled = models.filter(value => value.enabled && value.candidates.some(candidate => candidate.enabled));
+    element('test-model').replaceChildren(...enabled.map(value => { const option = document.createElement('option'); option.value = value.alias; option.textContent = value.alias; return option; }));
     if (enabled.some(value => value.alias === selectedModel)) element('test-model').value = selectedModel;
     else if (selectedModel) { const placeholder = document.createElement('option'); placeholder.value = ''; placeholder.textContent = '原选模型已不可用，请重新选择'; element('test-model').append(placeholder); element('test-model').value = ''; }
-    testReady = !!(enabled.length && overview.upstream.enabled && overview.upstream.credential_configured && overview.keys.enabled && !overview.degraded);
+    testReady = !!(overview.callable_models && enabled.length && overview.upstream.enabled && overview.upstream.credential_configured && overview.keys.enabled && !overview.degraded);
     element('send').disabled = !testReady || sessionUncertain;
     const missing = [];
     if (!overview.upstream.enabled || !overview.upstream.credential_configured) missing.push('配置并启用上游');
@@ -275,7 +380,14 @@ async function findRecord(token) {
   element('record-detail').textContent = ''; element('record-status').textContent = '正在定位同一请求…';
   try {
     const value = await api('requests/' + encodeURIComponent(id), 'GET', undefined, token);
-    element('record-detail').textContent = recordValues(value).join('\n'); element('record-status').textContent = '已定位同一请求 ' + value.id; element('record-detail').focus();
+    let evidence = '\n历史记录：没有逐尝试证据，不反推实际上游。';
+    if (value.evidence_version === 2) {
+      evidence = '\n尝试证据：' + (value.attempts_complete ? '终态已记录' : '尚不完整，登记不证明供应商已执行') + '\n响应提交：' + known(value.committed_at) + '\n配置适用版本：' + known(value.config_revision);
+      evidence += '\n' + value.attempts.map(attempt => '尝试 ' + attempt.ordinal + ' · ' + attempt.upstream_name + ' → ' + attempt.remote_model + ' · ' + (states[attempt.state] || attempt.state) + ' · ' + known(attempt.started_at) + ' · ' + known(attempt.duration_ms) + 'ms · ' + (attempt.error_code ? friendly(attempt.error_code) : '无错误') + ' · 用量 ' + [attempt.prompt_tokens, attempt.completion_tokens, attempt.total_tokens].map(known).join(' / ')).join('\n');
+      evidence += '\n选择说明（不计作生成尝试）：\n' + value.selection_decisions.map(decision => '第 ' + decision.selection_round + ' 轮 · 上游 ' + decision.upstream_id + ' · ' + (decisionReasons[decision.reason] || decision.reason) + (decision.cooldown_until ? ' · 冷却至 ' + decision.cooldown_until : '')).join('\n');
+      evidence += '\n用量合计：\n' + Object.entries(value.usage_summary).map(([field, part]) => field + '：完整合计 ' + known(part.total) + '；已知部分 ' + part.known_sum + '；未知尝试 ' + part.unknown_attempts + '；' + part.completeness).join('\n');
+    }
+    element('record-detail').textContent = recordValues(value).join('\n') + evidence; element('record-status').textContent = '已定位同一请求 ' + value.id; element('record-detail').focus();
   } catch (error) {
     if (error.stale || !current(token)) return;
     element('record-status').textContent = error.code === 'not_found' ? '暂未找到该 ID 记录：可能尚未落盘或未能记录。可手动再次定位；不代表未计费。' : error.message;
@@ -285,7 +397,7 @@ function hashView() { const value = location.hash.slice(1); return views.include
 async function navigate(view, updateHash = true, requestID = '') {
   if (!views.includes(view)) view = 'overview';
   selectedModel = element('test-model').value || selectedModel;
-  navigationVersion++; resetUpstream(); clearVersion(); stopCall(); active = view; nextCursor = null; editModel = null; editDraft = null; editSaving = false; element('model-edit').hidden = true;
+  navigationVersion++; resetUpstream(); resetModelCreate(); clearVersion(); stopCall(); active = view; nextCursor = null; editModel = null; editDraft = null; editSaving = false; element('model-edit').hidden = true;
   if (!views.includes(location.hash.slice(1))) history.replaceState(null, '', '#' + view);
   else if (updateHash && location.hash !== '#' + view) history.pushState(null, '', '#' + view);
   for (const panel of document.querySelectorAll('.panel')) panel.hidden = true;
@@ -306,7 +418,9 @@ form('login-form', async token => { const value = await api('login', 'POST', {pa
 form('upstream-form', async token => upstreamAction(token, async () => {
   let saved = false;
   try {
-    await api('upstream', 'PUT', {url: element('upstream-url').value, token: element('upstream-token').value, enabled: element('upstream-enabled').checked}, token);
+    const input = {name: element('upstream-name').value, url: element('upstream-url').value, token: element('upstream-token').value, enabled: element('upstream-enabled').checked};
+    if (selectedUpstream) input.expected_revision = selectedUpstream.revision;
+    selectedUpstream = await api(selectedUpstream ? 'upstreams/' + selectedUpstream.id : 'upstreams', selectedUpstream ? 'PATCH' : 'POST', input, token);
     saved = true; element('upstream-token').value = '';
     await load('upstream', token); message('上游已保存；不代表联调成功。');
   } catch (error) {
@@ -323,16 +437,18 @@ element('refresh-upstream').onclick = () => guarded(element('refresh-upstream'),
   try { await load('upstream', token); message('已重新读取上游状态；保存不代表调用成功。已撤销本页未保存修改。'); }
   catch (error) { if (!error.stale && current(token)) { element('credential-state').textContent = '恢复未确认，保留公开草稿；请重新读取服务器状态。'; error.message = '恢复未确认；输入凭据已清除，公开草稿保留。' + error.message; } throw error; }
 }));
-form('model-form', async token => { await api('models', 'POST', {alias: element('model-alias').value, model: element('model-real').value, enabled: true}, token); element('model-create').open = false; await load('models', token); message('模型已保存'); });
-element('cancel-model-create').onclick = () => { element('model-create').open = false; element('model-create').querySelector('summary')?.focus(); };
+form('model-form', async token => { if (modelCreateOperation && current(modelCreateOperation.token)) return; const operation = {token}; modelCreateOperation = operation; const input = {alias: element('model-alias').value, candidates: readCandidates('create'), enabled: true}; modelCreateControls(true); let saved = false; try { await api('models', 'POST', input, token); saved = true; element('model-create').open = false; await load('models', token); message('模型已保存；保存不代表生成成功'); } catch (error) { if (!error.stale && current(token) && saved) error.message = '模型已保存，但最新列表读取未确认；请重新读取，不会重复创建。' + error.message; throw error; } finally { if (modelCreateOperation === operation && current(token)) resetModelCreate(); } });
+element('cancel-model-create').onclick = () => { if (modelCreateOperation) return; element('model-create').open = false; element('model-create').querySelector('summary')?.focus(); };
 element('cancel-key-create').onclick = () => { element('key-create').open = false; element('key-create').querySelector('summary')?.focus(); };
 form('model-edit-form', async token => {
   if (!editModel || editSaving) return;
   editSaving = true; element('cancel-edit').disabled = true;
-  try { await api('models/' + encodeURIComponent(editModel.alias), 'PATCH', {...editModel, model: element('edit-real').value}, token); element('model-edit').hidden = true; editModel = null; editDraft = null; await load('models', token); message('映射已保存，需重新核验'); }
-  finally { if (current(token)) { editSaving = false; element('cancel-edit').disabled = false; } }
+  const editing = editModel;
+  for (const input of element('model-edit-form').querySelectorAll('input,select,button')) input.disabled = true;
+  try { await api('models/' + encodeURIComponent(editing.alias), 'PATCH', {expected_revision: editing.revision, enabled: editing.enabled, candidates: readCandidates('edit')}, token); element('model-edit').hidden = true; editModel = null; editDraft = null; await load('models', token); message('映射已保存，需重新核验'); }
+  finally { if (current(token)) { editSaving = false; element('cancel-edit').disabled = false; for (const input of element('model-edit-form').querySelectorAll('input,select,button')) input.disabled = false; } }
 });
-element('cancel-edit').onclick = () => { if (editSaving) return; const alias = editModel?.alias; if (alias) editDraft = {alias, model: element('edit-real').value}; editModel = null; element('model-edit').hidden = true; const button = [...element('model-list').querySelectorAll('button')].find(value => value.textContent === '编辑映射 ' + alias); if (button) button.focus(); };
+element('cancel-edit').onclick = () => { if (editSaving) return; const alias = editModel?.alias; if (alias) editDraft = {alias, candidates: readCandidates('edit')}; editModel = null; element('model-edit').hidden = true; const button = [...element('model-list').querySelectorAll('button')].find(value => value.textContent === '编辑映射 ' + alias); if (button) button.focus(); };
 form('key-form', async token => {
   closeKey(); let value; element('cancel-key-create').disabled = true;
   try { value = await api('keys', 'POST', {name: element('key-name').value}, token); }
@@ -432,7 +548,7 @@ element('test-form').onsubmit = event => {
   })();
 };
 window.addEventListener('hashchange', () => navigate(hashView(), false));
-window.addEventListener('pagehide', () => { navigationVersion++; resetUpstream(); clearVersion(); stopCall(); clearTimeout(sessionTimer); clearTimeout(sessionExpiryTimer); });
+window.addEventListener('pagehide', () => { navigationVersion++; resetUpstream(); resetModelCreate(); clearVersion(); stopCall(); clearTimeout(sessionTimer); clearTimeout(sessionExpiryTimer); });
 window.addEventListener('pageshow', () => { scheduleExpiry(); if (csrf && !sessionUncertain) checkSession(); });
 document.addEventListener('visibilitychange', () => {
   if (document.hidden || !csrf || expireSession()) return;

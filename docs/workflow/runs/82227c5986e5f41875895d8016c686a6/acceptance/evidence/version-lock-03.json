@@ -1,0 +1,101 @@
+{
+  "date": "2026-10-06",
+  "repository": "big91987/model-relay",
+  "branch": "workflow/82227c5986e5f41875895d8016c686a6",
+  "source": {
+    "files": 86,
+    "go": "go1.25.6",
+    "head": "8ae4e5173aa0dc45c28ad61dbc64df20afe229a6",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "e3cde10304e0bbce0dcebf671f9469ab7e5c494d8524cb9a7b7e04228d71d54f"
+  },
+  "host": {
+    "seq": 28,
+    "command": "make verify",
+    "exit_code": 0,
+    "timeout_seconds": 900,
+    "log_bytes": 81349,
+    "log_truncated": false
+  },
+  "files": [
+    {
+      "path": ".github/workflows/deploy-local.yml",
+      "bytes": 3418,
+      "sha256": "a3d814fa47da0c74e6934ab46138f2b854c55cf1de177f7fba538b4365ab2f45"
+    },
+    {
+      "path": "deploy/platform-preview-source.json",
+      "bytes": 131,
+      "sha256": "731a67786f16a70c6c332b1c95278d51175e1896bd1f522dbf7135f8c9e3b130"
+    },
+    {
+      "path": "internal/relay/qa_connection_contract_test.go",
+      "bytes": 3581,
+      "sha256": "aafefad09c238b976b850c44eda7960f74ea2e5cb6b7bb96b36794cfddb4e9b4"
+    },
+    {
+      "path": "go.mod",
+      "bytes": 156,
+      "sha256": "43a61905ab453f007d88c21bd3066453570fb6d9bd533247b94b81612b615477"
+    },
+    {
+      "path": "go.sum",
+      "bytes": 489,
+      "sha256": "9afb7f3a178eab537ac50d13d8f518553386f2ebf4e0fce528cbc6b2f8be99d5"
+    },
+    {
+      "path": "package-lock.json",
+      "bytes": 1709,
+      "sha256": "05459652f98128ebcb6786e2d80bf694d23c437c0d4f7d45c56371da511bc688"
+    },
+    {
+      "path": "internal/relay/proxy.go",
+      "bytes": 8389,
+      "sha256": "f6302151a1e602b311afa418f49698d22008be1ea8e2f67f7d954958c4cb7baa"
+    },
+    {
+      "path": "internal/relay/routed_proxy.go",
+      "bytes": 8682,
+      "sha256": "60034cff2d2e87b999172710d57b78a670c2173e93e08a117ca73d1f12fa7671"
+    },
+    {
+      "path": "internal/relay/sse_terminal_regression_test.go",
+      "bytes": 7459,
+      "sha256": "55e3cdd28858bd6adfc0d01a4b30368c6f83231f44a7ec577ca695a2adf4fac1"
+    },
+    {
+      "path": ".trellis/spec/backend/routing-contracts.md",
+      "bytes": 14070,
+      "sha256": "aa52ffd999c5a0856444d2c5cd6ee3ee601584616074d440bfad187c568bbc17"
+    }
+  ],
+  "original_qa_lock_13_files_unchanged": true,
+  "artifacts": [
+    {
+      "path": "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/acceptance/evidence/sse-retest-03.log",
+      "bytes": 5103,
+      "sha256": "7ad02e568aa8f7549b1a0a7152a3c25acd9fee83ae7ca2347963d312b87c2197"
+    },
+    {
+      "path": "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/acceptance/evidence/frontend-retest-03.log",
+      "bytes": 11753,
+      "sha256": "d288f88e996eac13c9fc9361a399771f87e8b290653b5c071647d1212bc8113f"
+    },
+    {
+      "path": "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/acceptance/evidence/routing-390-03.png",
+      "bytes": 125380,
+      "sha256": "628a9acd7168f2c86797ff213b617a00d9f1c70d8d3c82fe6072cb18ac313891"
+    },
+    {
+      "path": "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/acceptance/evidence/routing-selection-8419.jsonl",
+      "bytes": 1013430,
+      "sha256": "b27b3ca6aa8fee2d8fd333483b29dba02f88a2d27389794891951e2f8cea6cf3"
+    }
+  ],
+  "trace": {
+    "execution": 8419,
+    "rows": 156
+  },
+  "provenance": "QA source digest and file hashes; host receipt from Connector, local PID-correlated trace and screenshot supporting only, no production deployment or TCP fault identity asserted",
+  "scope_limit": "source command excludes acceptance/delivery receipts and Workflow/manifest; separately stamped file hashes bind original managed template and regression locks"
+}

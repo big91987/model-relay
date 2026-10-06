@@ -1,0 +1,8 @@
+command=go run ./tests/evidence (04 readback)
+{"files":80,"go":"go1.25.6","head":"85f6d17c07c5fddeb2d6a39a5a067769a11bb4cc","scope":"product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference","working_tree_sha256":"5b30123a1570e5cef7c1cf18ddf6243753d6e5518d2962523984f2cdef4743e0"}
+source_match=true
+command=git diff --check
+command=trusted_gate_diff
+trusted_gates_and_previous_run_unchanged=true
+changed_delivery_documents=4; relative_links=52; missing=0; local_paths=0
+exit_code=0

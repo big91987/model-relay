@@ -1,0 +1,41 @@
+{
+  "source": {
+    "files": 86,
+    "go": "go1.25.6",
+    "head": "8ae4e5173aa0dc45c28ad61dbc64df20afe229a6",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "e3cde10304e0bbce0dcebf671f9469ab7e5c494d8524cb9a7b7e04228d71d54f"
+  },
+  "documents": 9,
+  "relative_links": 132,
+  "qa_unchanged": 13,
+  "tracked_scope": [
+    ".trellis/spec/backend/routing-contracts.md",
+    "docs/product-brief.md",
+    "docs/roadmap.md",
+    "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/delivery/README.md",
+    "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/delivery/tasks/D3-routing.md",
+    "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/delivery/tasks/D5-verification.md",
+    "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/delivery/verification/report.md",
+    "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/pr.md",
+    "internal/relay/proxy.go",
+    "internal/relay/routed_proxy.go"
+  ],
+  "untracked_scope": [
+    "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/delivery/verification/final-source-12.json",
+    "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/delivery/verification/final-source-13.json",
+    "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/delivery/verification/premerge-sse-01.md",
+    "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/delivery/verification/sse-terminal-adjacent-01.log",
+    "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/delivery/verification/sse-terminal-audit-01.log",
+    "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/delivery/verification/sse-terminal-audit-02.log",
+    "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/delivery/verification/sse-terminal-green-01.log",
+    "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/delivery/verification/sse-terminal-green-02.log",
+    "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/delivery/verification/sse-terminal-green-03.log",
+    "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/delivery/verification/sse-terminal-red-01.log",
+    "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/delivery/verification/sse-terminal-red-02.log",
+    "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/delivery/verification/sse-terminal-validation-01.log",
+    "internal/relay/sse_terminal_regression_test.go"
+  ],
+  "issues": 0,
+  "exit_code": 0
+}
