@@ -1,0 +1,8 @@
+2026-10-06 report closure actual checks; no full make verify rerun
+{"files":56,"go":"go1.25.6","head":"d62cd51e8de2127548e1ac7469d349443d1bfe3d","scope":"product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference","working_tree_sha256":"abf372c5dbf156b61c4eb28a16a38b9b0cf5053047b06f5e8ca0d092354bf79b"}
+source_evidence_exit=0
+{"inventoryFiles":56,"changed":["README.md","docs/releases/v0.1.0.md","docs/roadmap.md"],"unchanged":53,"productTestsContractsGatesLocksUnchanged":true}
+{"documents":12,"localReferences":146,"missing":0,"trailingWhitespace":false,"machinePaths":false}
+current task/milestone states visible: PASS
+document_and_inventory_checks_exit=0
+git_diff_check_exit=0

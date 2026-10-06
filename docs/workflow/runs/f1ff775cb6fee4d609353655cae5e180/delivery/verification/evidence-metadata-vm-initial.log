@@ -1,0 +1,106 @@
+✔ password toggle preserves the input node and value without requesting or submitting (5.325709ms)
+✔ login success, logout and rejected login reset password visibility (1.257583ms)
+✔ pending rejected login keeps the prior session error until its own 401 clears the password (0.62975ms)
+✔ session restoration resets an entered visible password (0.583208ms)
+✔ upstream form is unavailable until GET completes, then saves entered values (1.311125ms)
+✖ overview distinguishes empty, saved and successful persisted configuration on reentry (1.328417ms)
+✔ runtime version preserves raw strings including dev without blocking overview (1.20425ms)
+✔ runtime version missing degrades locally and reentry recovers (0.686625ms)
+✔ runtime version empty degrades locally and reentry recovers (0.704625ms)
+✔ runtime version whitespace degrades locally and reentry recovers (0.740834ms)
+✔ runtime version number degrades locally and reentry recovers (0.604625ms)
+✔ runtime version null version degrades locally and reentry recovers (0.579125ms)
+✔ runtime version null body degrades locally and reentry recovers (1.23725ms)
+✔ runtime version array degrades locally and reentry recovers (0.611ms)
+✔ runtime version string body degrades locally and reentry recovers (0.542416ms)
+✔ runtime version 401 degrades locally and reentry recovers (0.561542ms)
+✔ runtime version 503 degrades locally and reentry recovers (0.671042ms)
+✔ runtime version network degrades locally and reentry recovers (0.678041ms)
+✔ runtime version invalid json degrades locally and reentry recovers (0.793417ms)
+✔ late success cannot clear a newer timer or version (1.641959ms)
+✔ late failure cannot clear a newer timer or version (0.549417ms)
+✔ 5 second timeout covers headers and ignores late resolution (0.535333ms)
+✔ 5 second timeout covers body and ignores late resolution (0.456125ms)
+✔ logout invalidates immediately and late success cannot contaminate a new login (0.5485ms)
+✔ real management 401 still logs out and invalidates runtime version (0.6955ms)
+✔ older response after a newer completion cannot overwrite the current version (0.734041ms)
+✔ failed configuration load leaves an error and navigation can recover (0.62175ms)
+✔ a stale navigation cannot reveal a panel after the user leaves (0.509125ms)
+✔ rejected save recovers persisted configuration after navigation finishes (0.571875ms)
+✔ explicit upstream reread retains stale credential status until its own GET settles (0.565417ms)
+✔ upstream rejected clears credential, preserves public draft and distinguishes acknowledged write (0.50825ms)
+✔ upstream network clears credential, preserves public draft and distinguishes acknowledged write (0.512084ms)
+✔ upstream refresh clears credential, preserves public draft and distinguishes acknowledged write (0.506042ms)
+✔ generation application failure clears only sensitive inputs and keeps diagnosis and identity (0.721458ms)
+✔ generation provider failure clears only sensitive inputs and keeps diagnosis and identity (0.448084ms)
+✔ generation network failure clears only sensitive inputs and keeps diagnosis and identity (0.471041ms)
+✔ generation protocol failure clears only sensitive inputs and keeps diagnosis and identity (0.465334ms)
+✔ generation stream failure clears only sensitive inputs and keeps diagnosis and identity (1.010209ms)
+✔ overview evidence action uses displayed ID, while generic records remains unfiltered (0.779208ms)
+✔ overview precise evidence action survives session restore with no local generation identity (0.515625ms)
+✔ overview precise evidence action survives new login with no local generation identity (0.615542ms)
+✔ late upstream rejected failure cannot clear new-page credential or notice (0.599667ms)
+✔ late upstream refresh failure cannot clear new-page credential or notice (0.521833ms)
+✔ overview success metadata comes from the request evidence, never the clock or global revision (0.556ms)
+✔ late overview metadata cannot replace a newer response (0.461292ms)
+✔ failed overview refresh disables and discards the old precise evidence action (0.592541ms)
+✔ model selection, placeholder example, readable text and request ID are independent of raw JSON (1.172208ms)
+✔ cancel isolates late headers, old finally cannot enable a new request (0.553958ms)
+✔ cancel isolates late json, old finally cannot enable a new request (0.560166ms)
+✔ cancel isolates late failure, old finally cannot enable a new request (0.579208ms)
+✔ SSE decodes split UTF8 and CRLF, presents increments before DONE and isolates canceled reads (0.828209ms)
+✔ tool-only output is not treated as network failure; unknown usage stays unknown and zero stays zero (0.599958ms)
+✔ late key issuance and management 401 cannot affect a new page or login (0.616041ms)
+✔ clipboard completion is isolated after closing, reissuing or leaving; failures have a manual path (0.605916ms)
+✔ SSE DONE succeeds, missing DONE and event error fail without a second request (1.340292ms)
+✔ overview query failure remains unknown rather than zero and retry recovers (0.442ms)
+✔ creation cancellation preserves public drafts with zero writes (0.435375ms)
+✔ model edit keeps canceled draft and a pending save cannot be replaced by another editor (0.741375ms)
+✔ unknown navigation hashes normalize to a safe overview target (0.449666ms)
+✔ expired session clears current generation and restores safe hash target without replay (0.60275ms)
+✔ stream tool fragments summarize only after DONE without executing arguments (0.696ms)
+✔ empty content remains distinct and tool names/count storage are bounded (1.317792ms)
+✔ visible long stream checks at 30s; network uncertainty clears secrets, isolates late output and requires manual recovery (1.298166ms)
+✔ known expiry cancels without a session fetch; relogin restores target without replay (0.719667ms)
+✔ uncertain session invalidates late issuance and explicit relogin clears and preserves safe target (0.584209ms)
+✔ known expiry also blocks submit before timer runs (0.47925ms)
+✔ hidden generation skips polling; visibility check is single flight and stale failure cannot clear a new page (0.535709ms)
+✔ known expiry survives a hanging one-shot session check and ignores late success (0.731ms)
+✔ known expiry survives a hanging one-shot session check and ignores late network failure (0.623042ms)
+✔ known expiry survives a hanging one-shot session check and ignores late 401 (0.619833ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: success (1.683208ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: network failure (0.858417ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: 401 (1.615875ms)
+✔ uncertain session recovery may hang but the original known expiry still clears it (0.620667ms)
+✔ ordinary periodic session success does not tell an active call to re-enter or resend (0.706042ms)
+✔ pagehide stops timers and pageshow still enforces a known deadline before a hanging check can resume (0.563375ms)
+✔ visibility restore enforces known expiry even when uncertain-state timer delivery was suspended (0.502584ms)
+ℹ tests 77
+ℹ suites 0
+ℹ pass 76
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 132.486125
+
+✖ failing tests:
+
+test at tests/browser/ui.test.mjs:208:1
+✖ overview distinguishes empty, saved and successful persisted configuration on reentry (1.328417ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '当前配置曾成功调用 · 请求 controlled-success-id · 模型 alpha-1280 · 调用时间 未知 · 配置版本 未知 · 本次服务启动、当前配置'
+  - '当前配置曾成功调用 · 请求 controlled-success-id · 模型 alpha-1280 · 本次服务启动、当前配置'
+  
+      at TestContext.<anonymous> (file:///Users/zhaojiuzhou/work/model-relay-workspaces/github-issue-5720490978/tests/browser/ui.test.mjs:223:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '当前配置曾成功调用 · 请求 controlled-success-id · 模型 alpha-1280 · 调用时间 未知 · 配置版本 未知 · 本次服务启动、当前配置',
+    expected: '当前配置曾成功调用 · 请求 controlled-success-id · 模型 alpha-1280 · 本次服务启动、当前配置',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

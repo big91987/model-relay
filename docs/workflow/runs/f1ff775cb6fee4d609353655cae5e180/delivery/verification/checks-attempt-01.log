@@ -1,0 +1,52 @@
+go vet ./...
+node --test tests/browser/ui.test.mjs
+✔ password toggle preserves the input node and value without requesting or submitting (5.277167ms)
+✔ login success, logout and rejected login reset password visibility (1.405417ms)
+✔ session restoration resets an entered visible password (0.567916ms)
+✔ upstream form is unavailable until GET completes, then saves entered values (1.410583ms)
+✔ runtime version preserves raw strings including dev without blocking overview (0.919875ms)
+✔ runtime version missing degrades locally and reentry recovers (0.668833ms)
+✔ runtime version empty degrades locally and reentry recovers (0.691542ms)
+✔ runtime version whitespace degrades locally and reentry recovers (0.639916ms)
+✔ runtime version number degrades locally and reentry recovers (0.775584ms)
+✔ runtime version null version degrades locally and reentry recovers (0.727375ms)
+✔ runtime version null body degrades locally and reentry recovers (0.696042ms)
+✔ runtime version array degrades locally and reentry recovers (0.730958ms)
+✔ runtime version string body degrades locally and reentry recovers (0.816917ms)
+✔ runtime version 401 degrades locally and reentry recovers (1.299416ms)
+✔ runtime version 503 degrades locally and reentry recovers (0.5965ms)
+✔ runtime version network degrades locally and reentry recovers (0.618083ms)
+✔ runtime version invalid json degrades locally and reentry recovers (0.692333ms)
+✔ late success cannot clear a newer timer or version (0.582667ms)
+✔ late failure cannot clear a newer timer or version (0.546167ms)
+✔ 5 second timeout covers headers and ignores late resolution (0.55975ms)
+✔ 5 second timeout covers body and ignores late resolution (0.496375ms)
+✔ logout invalidates immediately and late success cannot contaminate a new login (0.762ms)
+✔ real management 401 still logs out and invalidates runtime version (1.517417ms)
+✔ older response after a newer completion cannot overwrite the current version (0.573292ms)
+✔ failed configuration load leaves an error and navigation can recover (0.499ms)
+✔ a stale navigation cannot reveal a panel after the user leaves (0.518167ms)
+✔ rejected save recovers persisted configuration after navigation finishes (0.691708ms)
+✔ model selection, placeholder example, readable text and request ID are independent of raw JSON (0.734042ms)
+✔ cancel isolates late headers, old finally cannot enable a new request (0.512917ms)
+✔ cancel isolates late json, old finally cannot enable a new request (0.468625ms)
+✔ cancel isolates late failure, old finally cannot enable a new request (0.453792ms)
+✔ SSE decodes split UTF8 and CRLF, presents increments before DONE and isolates canceled reads (0.764958ms)
+✔ tool-only output is not treated as network failure; unknown usage stays unknown and zero stays zero (0.639042ms)
+✔ late key issuance and management 401 cannot affect a new page or login (0.863333ms)
+✔ clipboard completion is isolated after closing, reissuing or leaving; failures have a manual path (0.795625ms)
+✔ SSE DONE succeeds, missing DONE and event error fail without a second request (1.455542ms)
+✔ overview query failure remains unknown rather than zero and retry recovers (0.540167ms)
+✔ creation cancellation preserves public drafts with zero writes (1.125833ms)
+✔ expired session clears current generation and restores safe hash target without replay (0.698625ms)
+ℹ tests 39
+ℹ suites 0
+ℹ pass 39
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 109.932
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+
+COMMAND_EXIT_CODE=0

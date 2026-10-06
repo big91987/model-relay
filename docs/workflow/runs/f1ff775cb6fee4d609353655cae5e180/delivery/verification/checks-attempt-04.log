@@ -1,0 +1,60 @@
+UTC 2026-10-06T00:49:03Z
+COMMAND make format-check vet frontend-test build
+go vet ./...
+node --test tests/browser/ui.test.mjs
+✔ password toggle preserves the input node and value without requesting or submitting (4.722375ms)
+✔ login success, logout and rejected login reset password visibility (1.163042ms)
+✔ session restoration resets an entered visible password (0.501292ms)
+✔ upstream form is unavailable until GET completes, then saves entered values (1.291958ms)
+✔ runtime version preserves raw strings including dev without blocking overview (0.847875ms)
+✔ runtime version missing degrades locally and reentry recovers (0.769ms)
+✔ runtime version empty degrades locally and reentry recovers (0.733083ms)
+✔ runtime version whitespace degrades locally and reentry recovers (0.659125ms)
+✔ runtime version number degrades locally and reentry recovers (0.703584ms)
+✔ runtime version null version degrades locally and reentry recovers (0.827625ms)
+✔ runtime version null body degrades locally and reentry recovers (0.607959ms)
+✔ runtime version array degrades locally and reentry recovers (0.622084ms)
+✔ runtime version string body degrades locally and reentry recovers (1.112333ms)
+✔ runtime version 401 degrades locally and reentry recovers (0.583375ms)
+✔ runtime version 503 degrades locally and reentry recovers (0.636625ms)
+✔ runtime version network degrades locally and reentry recovers (0.599333ms)
+✔ runtime version invalid json degrades locally and reentry recovers (0.620709ms)
+✔ late success cannot clear a newer timer or version (0.57025ms)
+✔ late failure cannot clear a newer timer or version (0.503375ms)
+✔ 5 second timeout covers headers and ignores late resolution (0.527667ms)
+✔ 5 second timeout covers body and ignores late resolution (0.582625ms)
+✔ logout invalidates immediately and late success cannot contaminate a new login (1.604875ms)
+✔ real management 401 still logs out and invalidates runtime version (0.491333ms)
+✔ older response after a newer completion cannot overwrite the current version (0.497875ms)
+✔ failed configuration load leaves an error and navigation can recover (0.493125ms)
+✔ a stale navigation cannot reveal a panel after the user leaves (0.565458ms)
+✔ rejected save recovers persisted configuration after navigation finishes (0.605167ms)
+✔ model selection, placeholder example, readable text and request ID are independent of raw JSON (0.8085ms)
+✔ cancel isolates late headers, old finally cannot enable a new request (0.525167ms)
+✔ cancel isolates late json, old finally cannot enable a new request (0.507583ms)
+✔ cancel isolates late failure, old finally cannot enable a new request (0.513375ms)
+✔ SSE decodes split UTF8 and CRLF, presents increments before DONE and isolates canceled reads (1.011167ms)
+✔ tool-only output is not treated as network failure; unknown usage stays unknown and zero stays zero (0.656208ms)
+✔ late key issuance and management 401 cannot affect a new page or login (0.556334ms)
+✔ clipboard completion is isolated after closing, reissuing or leaving; failures have a manual path (0.71275ms)
+✔ SSE DONE succeeds, missing DONE and event error fail without a second request (1.45925ms)
+✔ overview query failure remains unknown rather than zero and retry recovers (1.093416ms)
+✔ creation cancellation preserves public drafts with zero writes (0.473417ms)
+✔ model edit keeps canceled draft and a pending save cannot be replaced by another editor (0.6945ms)
+✔ unknown navigation hashes normalize to a safe overview target (0.491ms)
+✔ expired session clears current generation and restores safe hash target without replay (0.594416ms)
+✔ stream tool fragments summarize only after DONE without executing arguments (0.653208ms)
+✔ empty content remains distinct and tool names/count storage are bounded (1.218458ms)
+✔ visible long stream checks at 30s; network uncertainty clears secrets, isolates late output and requires manual recovery (2.691208ms)
+✔ known expiry cancels without a session fetch; relogin restores target without replay (0.5945ms)
+✔ uncertain session invalidates late issuance and explicit relogin clears and preserves safe target (0.488042ms)
+ℹ tests 46
+ℹ suites 0
+ℹ pass 46
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 111.579333
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+EXIT_CODE=0

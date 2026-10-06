@@ -1,0 +1,83 @@
+✖ QA-01 rejected upstream save clears credential and preserves public draft (4.540875ms)
+✖ QA-02 successful save followed by failed refresh distinguishes committed write (1.23375ms)
+✖ QA-03 overview evidence can open its exact record after session restoration (1.450375ms)
+✖ QA-04 application rejection clears sensitive call input but retains public model choice (1.13025ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 0
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 81.99475
+
+✖ failing tests:
+
+test at docs/workflow/runs/f1ff775cb6fee4d609353655cae5e180/acceptance/evidence/independent-boundaries.mjs:29:1
+✖ QA-01 rejected upstream save clears credential and preserves public draft (4.540875ms)
+  AssertionError [ERR_ASSERTION]: failed save must clear the secret per interaction section 4
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file://<workspace>/docs/workflow/runs/f1ff775cb6fee4d609353655cae5e180/acceptance/evidence/independent-boundaries.mjs:39:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at docs/workflow/runs/f1ff775cb6fee4d609353655cae5e180/acceptance/evidence/independent-boundaries.mjs:42:1
+✖ QA-02 successful save followed by failed refresh distinguishes committed write (1.23375ms)
+  AssertionError [ERR_ASSERTION]: the committed write must be disclosed separately from refresh failure
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file://<workspace>/docs/workflow/runs/f1ff775cb6fee4d609353655cae5e180/acceptance/evidence/independent-boundaries.mjs:53:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at docs/workflow/runs/f1ff775cb6fee4d609353655cae5e180/acceptance/evidence/independent-boundaries.mjs:56:1
+✖ QA-03 overview evidence can open its exact record after session restoration (1.450375ms)
+  AssertionError [ERR_ASSERTION]: the overview evidence action must carry the displayed identity, not an absent previous local call
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file://<workspace>/docs/workflow/runs/f1ff775cb6fee4d609353655cae5e180/acceptance/evidence/independent-boundaries.mjs:70:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at docs/workflow/runs/f1ff775cb6fee4d609353655cae5e180/acceptance/evidence/independent-boundaries.mjs:74:1
+✖ QA-04 application rejection clears sensitive call input but retains public model choice (1.13025ms)
+  AssertionError [ERR_ASSERTION]: failure must clear key and input message per interaction section 7
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file://<workspace>/docs/workflow/runs/f1ff775cb6fee4d609353655cae5e180/acceptance/evidence/independent-boundaries.mjs:92:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+exit_code=1

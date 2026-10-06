@@ -1,0 +1,215 @@
+✖ native model selection helper commits later viewport option: false (3.191041ms)
+✖ native model selection helper commits later viewport option: true (0.564083ms)
+✖ native model selection helper rejects unavailable target before activation: true (0.657208ms)
+✖ native model selection helper rejects unavailable target before activation: false (0.619458ms)
+✔ password toggle preserves the input node and value without requesting or submitting (5.234292ms)
+✔ login success, logout and rejected login reset password visibility (1.317167ms)
+✔ pending rejected login keeps the prior session error until its own 401 clears the password (0.719417ms)
+✔ session restoration resets an entered visible password (0.651375ms)
+✔ upstream form is unavailable until GET completes, then saves entered values (0.834292ms)
+✔ overview distinguishes empty, saved and successful persisted configuration on reentry (0.653458ms)
+✔ runtime version preserves raw strings including dev without blocking overview (0.751083ms)
+✔ runtime version missing degrades locally and reentry recovers (0.629875ms)
+✔ runtime version empty degrades locally and reentry recovers (1.136709ms)
+✔ runtime version whitespace degrades locally and reentry recovers (0.63475ms)
+✔ runtime version number degrades locally and reentry recovers (0.543167ms)
+✔ runtime version null version degrades locally and reentry recovers (0.57475ms)
+✔ runtime version null body degrades locally and reentry recovers (0.653667ms)
+✔ runtime version array degrades locally and reentry recovers (0.547334ms)
+✔ runtime version string body degrades locally and reentry recovers (0.497125ms)
+✔ runtime version 401 degrades locally and reentry recovers (0.514416ms)
+✔ runtime version 503 degrades locally and reentry recovers (0.565917ms)
+✔ runtime version network degrades locally and reentry recovers (0.505041ms)
+✔ runtime version invalid json degrades locally and reentry recovers (1.081ms)
+✔ late success cannot clear a newer timer or version (1.256041ms)
+✔ late failure cannot clear a newer timer or version (0.556084ms)
+✔ 5 second timeout covers headers and ignores late resolution (0.575917ms)
+✔ 5 second timeout covers body and ignores late resolution (0.52525ms)
+✔ logout invalidates immediately and late success cannot contaminate a new login (0.620667ms)
+✔ real management 401 still logs out and invalidates runtime version (0.64075ms)
+✔ older response after a newer completion cannot overwrite the current version (0.710334ms)
+✔ failed configuration load leaves an error and navigation can recover (0.581834ms)
+✔ a stale navigation cannot reveal a panel after the user leaves (0.512958ms)
+✔ rejected save recovers persisted configuration after navigation finishes (0.565583ms)
+✔ explicit upstream reread retains stale credential status until its own GET settles (0.536625ms)
+✔ upstream rejected clears credential, preserves public draft and distinguishes acknowledged write (0.517458ms)
+✔ upstream network clears credential, preserves public draft and distinguishes acknowledged write (0.455625ms)
+✔ upstream refresh clears credential, preserves public draft and distinguishes acknowledged write (0.473959ms)
+✔ generation application failure clears only sensitive inputs and keeps diagnosis and identity (0.723208ms)
+✔ generation provider failure clears only sensitive inputs and keeps diagnosis and identity (0.463667ms)
+✔ generation network failure clears only sensitive inputs and keeps diagnosis and identity (0.447125ms)
+✔ generation protocol failure clears only sensitive inputs and keeps diagnosis and identity (0.474166ms)
+✔ generation stream failure clears only sensitive inputs and keeps diagnosis and identity (1.054208ms)
+✔ overview evidence action uses displayed ID, while generic records remains unfiltered (0.72875ms)
+✔ overview precise evidence action survives session restore with no local generation identity (0.510542ms)
+✔ overview precise evidence action survives new login with no local generation identity (0.533666ms)
+✔ late upstream rejected failure cannot clear new-page credential or notice (0.490791ms)
+✔ late upstream refresh failure cannot clear new-page credential or notice (0.470541ms)
+✔ overview success metadata comes from the request evidence, never the clock or global revision (0.561875ms)
+✔ late overview metadata cannot replace a newer response (0.515125ms)
+✔ failed overview refresh disables and discards the old precise evidence action (0.5665ms)
+✔ model selection, placeholder example, readable text and request ID are independent of raw JSON (0.521209ms)
+✔ cancel isolates late headers, old finally cannot enable a new request (0.577ms)
+✔ cancel isolates late json, old finally cannot enable a new request (0.57175ms)
+✔ cancel isolates late failure, old finally cannot enable a new request (0.484166ms)
+✔ SSE decodes split UTF8 and CRLF, presents increments before DONE and isolates canceled reads (0.728416ms)
+✔ tool-only output is not treated as network failure; unknown usage stays unknown and zero stays zero (0.612333ms)
+✔ late key issuance and management 401 cannot affect a new page or login (0.620458ms)
+✔ clipboard completion is isolated after closing, reissuing or leaving; failures have a manual path (1.03175ms)
+✔ SSE DONE succeeds, missing DONE and event error fail without a second request (1.418292ms)
+✔ overview query failure remains unknown rather than zero and retry recovers (0.50975ms)
+✔ creation cancellation preserves public drafts with zero writes (0.495875ms)
+✔ model edit keeps canceled draft and a pending save cannot be replaced by another editor (0.74475ms)
+✔ unknown navigation hashes normalize to a safe overview target (0.465792ms)
+✔ expired session clears current generation and restores safe hash target without replay (0.5915ms)
+✔ stream tool fragments summarize only after DONE without executing arguments (0.708083ms)
+✔ empty content remains distinct and tool names/count storage are bounded (2.276458ms)
+✔ visible long stream checks at 30s; network uncertainty clears secrets, isolates late output and requires manual recovery (1.681334ms)
+✔ known expiry cancels without a session fetch; relogin restores target without replay (0.601334ms)
+✔ uncertain session invalidates late issuance and explicit relogin clears and preserves safe target (0.5635ms)
+✔ known expiry also blocks submit before timer runs (0.475291ms)
+✔ hidden generation skips polling; visibility check is single flight and stale failure cannot clear a new page (0.553417ms)
+✔ known expiry survives a hanging one-shot session check and ignores late success (0.740208ms)
+✔ known expiry survives a hanging one-shot session check and ignores late network failure (0.642959ms)
+✔ known expiry survives a hanging one-shot session check and ignores late 401 (0.672125ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: success (0.751083ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: network failure (0.668958ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: 401 (0.620167ms)
+✔ uncertain session recovery may hang but the original known expiry still clears it (0.577958ms)
+✔ ordinary periodic session success does not tell an active call to re-enter or resend (0.645292ms)
+✔ pagehide stops timers and pageshow still enforces a known deadline before a hanging check can resume (0.515709ms)
+✔ visibility restore enforces known expiry even when uncertain-state timer delivery was suspended (0.543334ms)
+ℹ tests 81
+ℹ suites 0
+ℹ pass 77
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 139.24425
+
+✖ failing tests:
+
+test at tests/browser/ui.test.mjs:32:44
+✖ native model selection helper commits later viewport option: false (3.191041ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  -   'Space',
+      'Home',
+      'ArrowDown',
+  -   'Enter',
+  -   'Tab'
+    ]
+  
+      at TestContext.<anonymous> (file:///Users/zhaojiuzhou/work/model-relay-workspaces/github-issue-5720490978/tests/browser/ui.test.mjs:36:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'Home', 'ArrowDown' ],
+    expected: [ 'Space', 'Home', 'ArrowDown', 'Enter', 'Tab' ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:32:44
+✖ native model selection helper commits later viewport option: true (0.564083ms)
+  AssertionError [ERR_ASSERTION]: selection must be bounded by actual option count, not uncommitted inputValue polling
+      at Object.press (file:///Users/zhaojiuzhou/work/model-relay-workspaces/github-issue-5720490978/tests/browser/ui.test.mjs:22:12)
+      at Object.keyboardModel (evalmachine.<anonymous>:5:112)
+      at async TestContext.<anonymous> (file:///Users/zhaojiuzhou/work/model-relay-workspaces/github-issue-5720490978/tests/browser/ui.test.mjs:34:3)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:40:67
+✖ native model selection helper rejects unavailable target before activation: true (0.657208ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   'Home',
+  +   'ArrowDown',
+  +   'ArrowDown',
+  +   'ArrowDown',
+  +   'ArrowDown',
+  +   'ArrowDown',
+  +   'ArrowDown',
+  +   'ArrowDown',
+  +   'ArrowDown',
+  +   'ArrowDown',
+  +   'ArrowDown',
+  +   'ArrowDown',
+  +   'ArrowDown'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///Users/zhaojiuzhou/work/model-relay-workspaces/github-issue-5720490978/tests/browser/ui.test.mjs:43:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [
+      'Home',      'ArrowDown',
+      'ArrowDown', 'ArrowDown',
+      'ArrowDown', 'ArrowDown',
+      'ArrowDown', 'ArrowDown',
+      'ArrowDown', 'ArrowDown',
+      'ArrowDown', 'ArrowDown',
+      'ArrowDown'
+    ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:40:67
+✖ native model selection helper rejects unavailable target before activation: false (0.619458ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   'Home',
+  +   'ArrowDown',
+  +   'ArrowDown',
+  +   'ArrowDown',
+  +   'ArrowDown',
+  +   'ArrowDown',
+  +   'ArrowDown',
+  +   'ArrowDown',
+  +   'ArrowDown',
+  +   'ArrowDown',
+  +   'ArrowDown',
+  +   'ArrowDown',
+  +   'ArrowDown'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///Users/zhaojiuzhou/work/model-relay-workspaces/github-issue-5720490978/tests/browser/ui.test.mjs:43:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [
+      'Home',      'ArrowDown',
+      'ArrowDown', 'ArrowDown',
+      'ArrowDown', 'ArrowDown',
+      'ArrowDown', 'ArrowDown',
+      'ArrowDown', 'ArrowDown',
+      'ArrowDown', 'ArrowDown',
+      'ArrowDown'
+    ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+exit_code=1

@@ -1,0 +1,12 @@
+node syntax
+make format-check vet build
+go vet ./...
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+go mod verify
+all modules verified
+gate and lock diff
+git diff --check
+
+exit_code=0
+PASS 6 delivery documents / 84 local references
+reference_exit_code=0

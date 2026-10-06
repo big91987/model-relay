@@ -24,17 +24,14 @@ func (server *Server) generate(writer http.ResponseWriter, request *http.Request
 	started := time.Now()
 	record := Record{ID: id, Time: started.UTC().Format(time.RFC3339Nano)}
 	server.mu.RLock()
-	keyID, ok := server.appID(request)
+	keyID, ok := server.identifyKey(request)
 	server.mu.RUnlock()
-	if !ok {
-		failure(writer, 401, "unauthorized", id)
-		return
-	}
 	record.KeyID = keyID
 	if server.degraded.Load() {
 		failure(writer, 503, "storage_unavailable", id)
 		return
 	}
+	var configEpoch uint64
 	finish := func(state, code string) bool {
 		if request.Context().Err() != nil {
 			state = "canceled"
@@ -48,6 +45,13 @@ func (server *Server) generate(writer http.ResponseWriter, request *http.Request
 			server.storageFailure()
 			return false
 		}
+		server.mu.Lock()
+		if state == "success" && configEpoch == server.configEpoch {
+			server.successID = id
+		} else if server.successID == id {
+			server.successID = ""
+		}
+		server.mu.Unlock()
 		return true
 	}
 	reject := func(status int, code string) {
@@ -61,6 +65,23 @@ func (server *Server) generate(writer http.ResponseWriter, request *http.Request
 			return
 		}
 		failure(writer, status, code, id)
+	}
+	if !ok {
+		if keyID != "" {
+			controller := http.NewResponseController(writer)
+			_ = controller.SetReadDeadline(time.Now().Add(10 * time.Second))
+			data, readErr := io.ReadAll(http.MaxBytesReader(writer, request.Body, 1<<20))
+			_ = controller.SetReadDeadline(time.Time{})
+			if readErr == nil {
+				_, alias, stream, code := validateRequest(data)
+				if code == "" && validAlias(alias) {
+					record.Alias, record.Stream = alias, stream
+					_ = server.Store.DB.QueryRow("SELECT model FROM models WHERE alias=?", alias).Scan(&record.Model)
+				}
+			}
+		}
+		reject(401, "unauthorized")
+		return
 	}
 	kind, _, err := mime.ParseMediaType(request.Header.Get("Content-Type"))
 	if err != nil || kind != "application/json" {
@@ -81,7 +102,9 @@ func (server *Server) generate(writer http.ResponseWriter, request *http.Request
 		return
 	}
 	payload, alias, stream, code := validateRequest(data)
-	record.Alias = alias
+	if validAlias(alias) {
+		record.Alias = alias
+	}
 	record.Stream = stream
 	if code != "" {
 		reject(400, code)
@@ -91,7 +114,7 @@ func (server *Server) generate(writer http.ResponseWriter, request *http.Request
 	keyID, ok = server.appID(request)
 	if !ok {
 		server.mu.RUnlock()
-		failure(writer, 401, "unauthorized", id)
+		reject(401, "unauthorized")
 		return
 	}
 	var upstreamURL string
@@ -109,6 +132,7 @@ func (server *Server) generate(writer http.ResponseWriter, request *http.Request
 		reject(404, "model_unavailable")
 		return
 	}
+	configEpoch = server.configEpoch
 	server.mu.RUnlock()
 	token, err := unseal(server.Store.Key, encrypted, "upstream:"+upstreamURL)
 	if err != nil {

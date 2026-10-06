@@ -1,0 +1,19 @@
+node --check internal/relay/web/app.js
+node --check tests/browser/journey.mjs
+node --check tests/browser/ui.test.mjs
+make format-check
+go mod verify
+all modules verified
+make vet
+go vet ./...
+make build
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+git diff --check
+Fixed entry and locks compared to HEAD
+PASS syntax/format/modules/vet/build/diff; full make verify not executed under unchanged listener restriction
+exit_code=0
+Final handoff checks
+PASS 6 delivery documents / 100 relative references; 67 literal DOM IDs; 9 closure artifacts local-path scan
+git diff --check: exit_code=0
+go run ./tests/evidence with project Go cache: exit_code=0
+working_tree_sha256=475091a58b28ca779261cb8c1dd24a55118d9c74df1c4d1be8fb5aa4fc82c63a

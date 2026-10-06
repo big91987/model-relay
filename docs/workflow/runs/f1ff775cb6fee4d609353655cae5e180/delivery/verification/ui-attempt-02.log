@@ -1,0 +1,43 @@
+✔ password toggle preserves the input node and value without requesting or submitting (4.441875ms)
+✔ login success, logout and rejected login reset password visibility (1.642416ms)
+✔ session restoration resets an entered visible password (0.579167ms)
+✔ upstream form is unavailable until GET completes, then saves entered values (1.298542ms)
+✔ runtime version preserves raw strings including dev without blocking overview (0.801541ms)
+✔ runtime version missing degrades locally and reentry recovers (0.651917ms)
+✔ runtime version empty degrades locally and reentry recovers (0.583333ms)
+✔ runtime version whitespace degrades locally and reentry recovers (0.614125ms)
+✔ runtime version number degrades locally and reentry recovers (0.652708ms)
+✔ runtime version null version degrades locally and reentry recovers (0.883833ms)
+✔ runtime version null body degrades locally and reentry recovers (0.728875ms)
+✔ runtime version array degrades locally and reentry recovers (0.627791ms)
+✔ runtime version string body degrades locally and reentry recovers (0.655ms)
+✔ runtime version 401 degrades locally and reentry recovers (1.220875ms)
+✔ runtime version 503 degrades locally and reentry recovers (0.563958ms)
+✔ runtime version network degrades locally and reentry recovers (0.558709ms)
+✔ runtime version invalid json degrades locally and reentry recovers (0.679375ms)
+✔ late success cannot clear a newer timer or version (0.632167ms)
+✔ late failure cannot clear a newer timer or version (0.60375ms)
+✔ 5 second timeout covers headers and ignores late resolution (0.659958ms)
+✔ 5 second timeout covers body and ignores late resolution (0.556125ms)
+✔ logout invalidates immediately and late success cannot contaminate a new login (0.585083ms)
+✔ real management 401 still logs out and invalidates runtime version (0.615708ms)
+✔ older response after a newer completion cannot overwrite the current version (1.5355ms)
+✔ failed configuration load leaves an error and navigation can recover (0.626792ms)
+✔ a stale navigation cannot reveal a panel after the user leaves (0.543042ms)
+✔ rejected save recovers persisted configuration after navigation finishes (0.627542ms)
+✔ model selection, placeholder example, readable text and request ID are independent of raw JSON (0.723833ms)
+✔ cancel isolates late headers, old finally cannot enable a new request (0.535667ms)
+✔ cancel isolates late json, old finally cannot enable a new request (0.481167ms)
+✔ cancel isolates late failure, old finally cannot enable a new request (0.429542ms)
+✔ SSE decodes split UTF8 and CRLF, presents increments before DONE and isolates canceled reads (0.759333ms)
+✔ tool-only output is not treated as network failure; unknown usage stays unknown and zero stays zero (0.723666ms)
+✔ late key issuance, clipboard and management 401 cannot affect a new page or login (0.564292ms)
+✔ expired session clears current generation and restores safe hash target without replay (0.603458ms)
+ℹ tests 35
+ℹ suites 0
+ℹ pass 35
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 102.402084

@@ -1,0 +1,35 @@
+✔ password toggle preserves the input node and value without requesting or submitting (4.335125ms)
+✔ login success, logout and rejected login reset password visibility (1.74425ms)
+✔ session restoration resets an entered visible password (0.703292ms)
+✔ upstream form is unavailable until GET completes, then saves entered values (1.44675ms)
+✔ runtime version preserves raw strings including dev without blocking overview (0.997334ms)
+✔ runtime version missing degrades locally and reentry recovers (0.712875ms)
+✔ runtime version empty degrades locally and reentry recovers (0.686834ms)
+✔ runtime version whitespace degrades locally and reentry recovers (0.728834ms)
+✔ runtime version number degrades locally and reentry recovers (0.722083ms)
+✔ runtime version null version degrades locally and reentry recovers (0.741167ms)
+✔ runtime version null body degrades locally and reentry recovers (0.680458ms)
+✔ runtime version array degrades locally and reentry recovers (0.626875ms)
+✔ runtime version string body degrades locally and reentry recovers (0.594667ms)
+✔ runtime version 401 degrades locally and reentry recovers (0.613875ms)
+✔ runtime version 503 degrades locally and reentry recovers (1.181041ms)
+✔ runtime version network degrades locally and reentry recovers (0.517792ms)
+✔ runtime version invalid json degrades locally and reentry recovers (0.632167ms)
+✔ late success cannot clear a newer timer or version (0.739042ms)
+✔ late failure cannot clear a newer timer or version (0.783ms)
+✔ 5 second timeout covers headers and ignores late resolution (1.479667ms)
+✔ 5 second timeout covers body and ignores late resolution (0.620042ms)
+✔ logout invalidates immediately and late success cannot contaminate a new login (0.585625ms)
+✔ real management 401 still logs out and invalidates runtime version (0.519084ms)
+✔ older response after a newer completion cannot overwrite the current version (0.553ms)
+✔ failed configuration load leaves an error and navigation can recover (0.489416ms)
+✔ a stale navigation cannot reveal a panel after the user leaves (0.471ms)
+✔ rejected save recovers persisted configuration after navigation finishes (0.4955ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 109.719875

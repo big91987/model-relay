@@ -1,0 +1,250 @@
+✔ password toggle preserves the input node and value without requesting or submitting (6.316541ms)
+✔ login success, logout and rejected login reset password visibility (1.260792ms)
+✔ pending rejected login keeps the prior session error until its own 401 clears the password (0.60775ms)
+✔ session restoration resets an entered visible password (0.581375ms)
+✔ upstream form is unavailable until GET completes, then saves entered values (1.540125ms)
+✔ overview distinguishes empty, saved and successful persisted configuration on reentry (0.738583ms)
+✔ runtime version preserves raw strings including dev without blocking overview (0.885542ms)
+✔ runtime version missing degrades locally and reentry recovers (1.287041ms)
+✔ runtime version empty degrades locally and reentry recovers (0.752167ms)
+✔ runtime version whitespace degrades locally and reentry recovers (0.791166ms)
+✔ runtime version number degrades locally and reentry recovers (0.635167ms)
+✔ runtime version null version degrades locally and reentry recovers (0.540708ms)
+✔ runtime version null body degrades locally and reentry recovers (0.594875ms)
+✔ runtime version array degrades locally and reentry recovers (0.585209ms)
+✔ runtime version string body degrades locally and reentry recovers (0.567833ms)
+✔ runtime version 401 degrades locally and reentry recovers (0.542875ms)
+✔ runtime version 503 degrades locally and reentry recovers (0.657125ms)
+✔ runtime version network degrades locally and reentry recovers (1.436209ms)
+✔ runtime version invalid json degrades locally and reentry recovers (1.5635ms)
+✔ late success cannot clear a newer timer or version (0.686792ms)
+✔ late failure cannot clear a newer timer or version (0.577792ms)
+✔ 5 second timeout covers headers and ignores late resolution (0.679ms)
+✔ 5 second timeout covers body and ignores late resolution (0.558125ms)
+✔ logout invalidates immediately and late success cannot contaminate a new login (0.64925ms)
+✔ real management 401 still logs out and invalidates runtime version (0.51675ms)
+✔ older response after a newer completion cannot overwrite the current version (0.526416ms)
+✔ failed configuration load leaves an error and navigation can recover (0.491292ms)
+✔ a stale navigation cannot reveal a panel after the user leaves (0.483166ms)
+✔ rejected save recovers persisted configuration after navigation finishes (0.590333ms)
+✔ explicit upstream reread retains stale credential status until its own GET settles (0.540917ms)
+✔ upstream restore immediately clears secret, restores only confirmed public fields and performs zero writes: false (0.507584ms)
+✔ upstream restore immediately clears secret, restores only confirmed public fields and performs zero writes: true (0.454958ms)
+✔ upstream save owns both controls through its readback; restore and repeated save cannot overlap (0.526292ms)
+✔ late upstream restore cannot replace a new draft or unlock a newer operation (0.517959ms)
+✔ upstream busy controls release on owner invalidation without applying a late restore: pagehide (1.049458ms)
+✔ upstream busy controls release on owner invalidation without applying a late restore: uncertain session (0.617833ms)
+✔ in-flight submitted controls stay visible and disabled until current call terminates: complete (0.748792ms)
+✔ in-flight submitted controls stay visible and disabled until current call terminates: failed (0.525875ms)
+✔ in-flight submitted controls stay visible and disabled until current call terminates: cancel (0.601167ms)
+✔ late canceled-call finally cannot unlock new submitted controls (0.563833ms)
+✔ key list displays server created time and explicitly unknown, never a client timestamp (0.507708ms)
+✔ state-change replacement restores only same identity unless focus moved: models/false (0.696208ms)
+✔ state-change replacement restores only same identity unless focus moved: models/true (0.53475ms)
+✔ state-change replacement restores only same identity unless focus moved: keys/false (0.537583ms)
+✔ state-change replacement restores only same identity unless focus moved: keys/true (0.502125ms)
+✔ late state change on departed page cannot restore old row focus (0.529709ms)
+✔ upstream rejected clears credential, preserves public draft and distinguishes acknowledged write (0.606417ms)
+✔ upstream network clears credential, preserves public draft and distinguishes acknowledged write (0.501917ms)
+✔ upstream refresh clears credential, preserves public draft and distinguishes acknowledged write (0.506958ms)
+✔ generation application failure clears only sensitive inputs and keeps diagnosis and identity (0.5705ms)
+✔ generation provider failure clears only sensitive inputs and keeps diagnosis and identity (0.529292ms)
+✔ generation network failure clears only sensitive inputs and keeps diagnosis and identity (0.504084ms)
+✔ generation protocol failure clears only sensitive inputs and keeps diagnosis and identity (0.504125ms)
+✔ generation stream failure clears only sensitive inputs and keeps diagnosis and identity (0.694708ms)
+✔ overview evidence action uses displayed ID, while generic records remains unfiltered (0.785042ms)
+✔ overview precise evidence action survives session restore with no local generation identity (0.512291ms)
+✔ overview precise evidence action survives new login with no local generation identity (0.594167ms)
+✔ late upstream rejected failure cannot clear new-page credential or notice (0.703709ms)
+✔ late upstream refresh failure cannot clear new-page credential or notice (1.474125ms)
+✔ overview success metadata comes from the request evidence, never the clock or global revision (1.779083ms)
+✔ late overview metadata cannot replace a newer response (0.5185ms)
+✔ failed overview refresh disables and discards the old precise evidence action (0.498417ms)
+✔ model selection, placeholder example, readable text and request ID are independent of raw JSON (0.509667ms)
+✔ cancel isolates late headers, old finally cannot enable a new request (0.555ms)
+✔ cancel isolates late json, old finally cannot enable a new request (0.517708ms)
+✔ cancel isolates late failure, old finally cannot enable a new request (0.548208ms)
+✔ SSE decodes split UTF8 and CRLF, presents increments before DONE and isolates canceled reads (0.80175ms)
+✔ tool-only output is not treated as network failure; unknown usage stays unknown and zero stays zero (0.654417ms)
+✔ late key issuance and management 401 cannot affect a new page or login (0.610333ms)
+✔ clipboard completion is isolated after closing, reissuing or leaving; failures have a manual path (0.652834ms)
+✔ SSE DONE succeeds, missing DONE and event error fail without a second request (1.350542ms)
+✔ overview query failure remains unknown rather than zero and retry recovers (0.4585ms)
+✔ creation cancellation preserves public drafts with zero writes (0.43525ms)
+✔ model edit keeps canceled draft and a pending save cannot be replaced by another editor (0.645291ms)
+✔ unknown navigation hashes normalize to a safe overview target (0.599666ms)
+✔ expired session clears current generation and restores safe hash target without replay (0.553916ms)
+✔ stream tool fragments summarize only after DONE without executing arguments (0.767416ms)
+✔ empty content remains distinct and tool names/count storage are bounded (2.343917ms)
+✔ visible long stream checks at 30s; network uncertainty clears secrets, isolates late output and requires manual recovery (1.424625ms)
+✔ known expiry cancels without a session fetch; relogin restores target without replay (0.646167ms)
+✔ uncertain session invalidates late issuance and explicit relogin clears and preserves safe target (0.515209ms)
+✔ known expiry also blocks submit before timer runs (0.454041ms)
+✔ hidden generation skips polling; visibility check is single flight and stale failure cannot clear a new page (0.595291ms)
+✔ known expiry survives a hanging one-shot session check and ignores late success (0.777417ms)
+✔ known expiry survives a hanging one-shot session check and ignores late network failure (0.604708ms)
+✔ known expiry survives a hanging one-shot session check and ignores late 401 (0.735083ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: success (2.0695ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: network failure (0.739708ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: 401 (0.601416ms)
+✔ uncertain session recovery may hang but the original known expiry still clears it (0.560792ms)
+✔ ordinary periodic session success does not tell an active call to re-enter or resend (0.66175ms)
+✔ pagehide stops timers and pageshow still enforces a known deadline before a hanging check can resume (0.496542ms)
+✔ visibility restore enforces known expiry even when uncertain-state timer delivery was suspended (0.557ms)
+✖ closed model selection helper commits later viewport option: false (2.268541ms)
+✖ closed model selection helper commits later viewport option: true (0.475709ms)
+✖ closed model selection helper fails rather than accepting an unchanged first option (0.627625ms)
+✖ model selection diagnostic records type-ahead and Tab boundaries without assigning DOM values (0.422584ms)
+✖ closed model selection helper handles starting at end and disabled options: 0/false (0.458458ms)
+✖ closed model selection helper handles starting at end and disabled options: 3/false (0.436458ms)
+✖ closed model selection helper handles starting at end and disabled options: 1/true (0.416958ms)
+✔ native model selection helper rejects unavailable target before activation: true (0.397083ms)
+✔ native model selection helper rejects unavailable target before activation: false (0.453ms)
+✔ actual model diagnostic projection observes focus, option redraw and replacement without values (0.907542ms)
+✔ model diagnostics distinguish pending response bodies, failed reads and load-finally readiness (0.518292ms)
+✔ model diagnostic event trace is bounded and only records approved key and focus labels (0.544959ms)
+✔ failure model projection omits arbitrary fields and keeps the bounded boundary evidence (0.458875ms)
+✔ entire UTF-8 failure line fits host tail while retaining first and final key boundaries (0.841833ms)
+ℹ tests 107
+ℹ suites 0
+ℹ pass 100
+ℹ fail 7
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 160.546
+
+✖ failing tests:
+
+test at tests/browser/ui.test.mjs:1148:43
+✖ closed model selection helper commits later viewport option: false (2.268541ms)
+  AssertionError [ERR_ASSERTION]: type-ahead selection must not open an OS popup or submit the form
+  
+  'ArrowUp' !== 'Tab'
+  
+      at Object.press (file://<workspace>/tests/browser/ui.test.mjs:1133:12)
+      at Object.keyboardModel (evalmachine.<anonymous>:23:27)
+      at async TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:1150:3)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'ArrowUp',
+    expected: 'Tab',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:1148:43
+✖ closed model selection helper commits later viewport option: true (0.475709ms)
+  AssertionError [ERR_ASSERTION]: type-ahead selection must not open an OS popup or submit the form
+  
+  'ArrowUp' !== 'Tab'
+  
+      at Object.press (file://<workspace>/tests/browser/ui.test.mjs:1133:12)
+      at Object.keyboardModel (evalmachine.<anonymous>:23:27)
+      at async TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:1150:3)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'ArrowUp',
+    expected: 'Tab',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:1156:1
+✖ closed model selection helper fails rather than accepting an unchanged first option (0.627625ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'before ArrowUp'
+  - 'after commit'
+  
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:1159:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'before ArrowUp',
+    expected: 'after commit',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:1171:1
+✖ model selection diagnostic records type-ahead and Tab boundaries without assigning DOM values (0.422584ms)
+  AssertionError [ERR_ASSERTION]: type-ahead selection must not open an OS popup or submit the form
+  
+  'ArrowUp' !== 'Tab'
+  
+      at Object.press (file://<workspace>/tests/browser/ui.test.mjs:1133:12)
+      at Object.keyboardModel (evalmachine.<anonymous>:23:27)
+      at async TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:1173:3)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'ArrowUp',
+    expected: 'Tab',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:1181:130
+✖ closed model selection helper handles starting at end and disabled options: 0/false (0.458458ms)
+  AssertionError [ERR_ASSERTION]: type-ahead selection must not open an OS popup or submit the form
+  
+  'ArrowUp' !== 'Tab'
+  
+      at Object.press (file://<workspace>/tests/browser/ui.test.mjs:1133:12)
+      at Object.keyboardModel (evalmachine.<anonymous>:23:27)
+      at async TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:1183:3)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'ArrowUp',
+    expected: 'Tab',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:1181:130
+✖ closed model selection helper handles starting at end and disabled options: 3/false (0.436458ms)
+  AssertionError [ERR_ASSERTION]: type-ahead selection must not open an OS popup or submit the form
+  
+  'ArrowUp' !== 'Tab'
+  
+      at Object.press (file://<workspace>/tests/browser/ui.test.mjs:1133:12)
+      at Object.keyboardModel (evalmachine.<anonymous>:23:27)
+      at async TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:1183:3)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'ArrowUp',
+    expected: 'Tab',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:1181:130
+✖ closed model selection helper handles starting at end and disabled options: 1/true (0.416958ms)
+  AssertionError [ERR_ASSERTION]: type-ahead selection must not open an OS popup or submit the form
+  
+  'ArrowUp' !== 'Tab'
+  
+      at Object.press (file://<workspace>/tests/browser/ui.test.mjs:1133:12)
+      at Object.keyboardModel (evalmachine.<anonymous>:23:27)
+      at async TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:1183:3)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'ArrowUp',
+    expected: 'Tab',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -1,0 +1,123 @@
+✔ password toggle preserves the input node and value without requesting or submitting (5.459334ms)
+✔ login success, logout and rejected login reset password visibility (1.154667ms)
+✔ pending rejected login keeps the prior session error until its own 401 clears the password (0.551ms)
+✔ session restoration resets an entered visible password (0.559ms)
+✔ upstream form is unavailable until GET completes, then saves entered values (1.2515ms)
+✔ overview distinguishes empty, saved and successful persisted configuration on reentry (0.639792ms)
+✔ runtime version preserves raw strings including dev without blocking overview (0.897292ms)
+✔ runtime version missing degrades locally and reentry recovers (0.798625ms)
+✔ runtime version empty degrades locally and reentry recovers (0.800417ms)
+✔ runtime version whitespace degrades locally and reentry recovers (0.772333ms)
+✔ runtime version number degrades locally and reentry recovers (0.617125ms)
+✔ runtime version null version degrades locally and reentry recovers (1.110791ms)
+✔ runtime version null body degrades locally and reentry recovers (0.56875ms)
+✔ runtime version array degrades locally and reentry recovers (0.597792ms)
+✔ runtime version string body degrades locally and reentry recovers (0.692208ms)
+✔ runtime version 401 degrades locally and reentry recovers (0.584208ms)
+✔ runtime version 503 degrades locally and reentry recovers (0.576375ms)
+✔ runtime version network degrades locally and reentry recovers (0.588333ms)
+✔ runtime version invalid json degrades locally and reentry recovers (0.769458ms)
+✔ late success cannot clear a newer timer or version (1.393667ms)
+✔ late failure cannot clear a newer timer or version (0.585291ms)
+✔ 5 second timeout covers headers and ignores late resolution (0.545875ms)
+✔ 5 second timeout covers body and ignores late resolution (0.480708ms)
+✔ logout invalidates immediately and late success cannot contaminate a new login (0.562375ms)
+✔ real management 401 still logs out and invalidates runtime version (0.51675ms)
+✔ older response after a newer completion cannot overwrite the current version (0.81025ms)
+✔ failed configuration load leaves an error and navigation can recover (0.582625ms)
+✔ a stale navigation cannot reveal a panel after the user leaves (0.502583ms)
+✔ rejected save recovers persisted configuration after navigation finishes (0.605333ms)
+✔ explicit upstream reread retains stale credential status until its own GET settles (0.554583ms)
+✔ upstream rejected clears credential, preserves public draft and distinguishes acknowledged write (0.463083ms)
+✔ upstream network clears credential, preserves public draft and distinguishes acknowledged write (0.420916ms)
+✔ upstream refresh clears credential, preserves public draft and distinguishes acknowledged write (0.49275ms)
+✔ generation application failure clears only sensitive inputs and keeps diagnosis and identity (0.774708ms)
+✔ generation provider failure clears only sensitive inputs and keeps diagnosis and identity (0.48675ms)
+✔ generation network failure clears only sensitive inputs and keeps diagnosis and identity (0.992167ms)
+✔ generation protocol failure clears only sensitive inputs and keeps diagnosis and identity (0.538708ms)
+✔ generation stream failure clears only sensitive inputs and keeps diagnosis and identity (0.530042ms)
+✔ overview evidence action uses displayed ID, while generic records remains unfiltered (0.782125ms)
+✔ overview precise evidence action survives session restore with no local generation identity (0.484542ms)
+✔ overview precise evidence action survives new login with no local generation identity (0.476083ms)
+✔ late upstream rejected failure cannot clear new-page credential or notice (0.467459ms)
+✔ late upstream refresh failure cannot clear new-page credential or notice (0.4755ms)
+✖ overview success metadata comes from the request evidence, never the clock or global revision (1.229958ms)
+✖ late overview metadata cannot replace a newer response (1.757667ms)
+✔ failed overview refresh disables and discards the old precise evidence action (0.7795ms)
+✔ model selection, placeholder example, readable text and request ID are independent of raw JSON (0.643208ms)
+✔ cancel isolates late headers, old finally cannot enable a new request (0.585958ms)
+✔ cancel isolates late json, old finally cannot enable a new request (0.559667ms)
+✔ cancel isolates late failure, old finally cannot enable a new request (0.462917ms)
+✔ SSE decodes split UTF8 and CRLF, presents increments before DONE and isolates canceled reads (0.712666ms)
+✔ tool-only output is not treated as network failure; unknown usage stays unknown and zero stays zero (0.577875ms)
+✔ late key issuance and management 401 cannot affect a new page or login (0.564208ms)
+✔ clipboard completion is isolated after closing, reissuing or leaving; failures have a manual path (0.672625ms)
+✔ SSE DONE succeeds, missing DONE and event error fail without a second request (1.522167ms)
+✔ overview query failure remains unknown rather than zero and retry recovers (0.520917ms)
+✔ creation cancellation preserves public drafts with zero writes (0.441584ms)
+✔ model edit keeps canceled draft and a pending save cannot be replaced by another editor (1.811709ms)
+✔ unknown navigation hashes normalize to a safe overview target (0.504ms)
+✔ expired session clears current generation and restores safe hash target without replay (0.629417ms)
+✔ stream tool fragments summarize only after DONE without executing arguments (0.758208ms)
+✔ empty content remains distinct and tool names/count storage are bounded (1.433458ms)
+✔ visible long stream checks at 30s; network uncertainty clears secrets, isolates late output and requires manual recovery (1.489041ms)
+✔ known expiry cancels without a session fetch; relogin restores target without replay (0.728959ms)
+✔ uncertain session invalidates late issuance and explicit relogin clears and preserves safe target (0.579833ms)
+✔ known expiry also blocks submit before timer runs (0.491708ms)
+✔ hidden generation skips polling; visibility check is single flight and stale failure cannot clear a new page (0.535792ms)
+✔ known expiry survives a hanging one-shot session check and ignores late success (0.788166ms)
+✔ known expiry survives a hanging one-shot session check and ignores late network failure (1.861083ms)
+✔ known expiry survives a hanging one-shot session check and ignores late 401 (0.636042ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: success (0.872541ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: network failure (1.69525ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: 401 (0.640875ms)
+✔ uncertain session recovery may hang but the original known expiry still clears it (0.573167ms)
+✔ ordinary periodic session success does not tell an active call to re-enter or resend (0.622875ms)
+✔ pagehide stops timers and pageshow still enforces a known deadline before a hanging check can resume (0.492875ms)
+✔ visibility restore enforces known expiry even when uncertain-state timer delivery was suspended (0.478709ms)
+ℹ tests 77
+ℹ suites 0
+ℹ pass 75
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 133.975084
+
+✖ failing tests:
+
+test at tests/browser/ui.test.mjs:570:1
+✖ overview success metadata comes from the request evidence, never the clock or global revision (1.229958ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '当前配置曾成功调用 · 请求 EvidenceMetadataOnly01 · 模型 alpha · 本次服务启动、当前配置'
+  - '当前配置曾成功调用 · 请求 EvidenceMetadataOnly01 · 模型 alpha · 调用时间 2001-02-03T04:05:06Z · 配置版本 17 · 本次服务启动、当前配置'
+  
+      at TestContext.<anonymous> (file:///Users/zhaojiuzhou/work/model-relay-workspaces/github-issue-5720490978/tests/browser/ui.test.mjs:576:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '当前配置曾成功调用 · 请求 EvidenceMetadataOnly01 · 模型 alpha · 本次服务启动、当前配置',
+    expected: '当前配置曾成功调用 · 请求 EvidenceMetadataOnly01 · 模型 alpha · 调用时间 2001-02-03T04:05:06Z · 配置版本 17 · 本次服务启动、当前配置',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:599:1
+✖ late overview metadata cannot replace a newer response (1.757667ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /调用时间 2002-03-04T05:06:07Z · 配置版本 18/. Input:
+  
+  '当前配置曾成功调用 · 请求 NewEvidenceMetadata01 · 模型 alpha · current'
+  
+      at TestContext.<anonymous> (file:///Users/zhaojiuzhou/work/model-relay-workspaces/github-issue-5720490978/tests/browser/ui.test.mjs:607:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '当前配置曾成功调用 · 请求 NewEvidenceMetadata01 · 模型 alpha · current',
+    expected: /调用时间 2002-03-04T05:06:07Z · 配置版本 18/,
+    operator: 'match',
+    diff: 'simple'
+  }
