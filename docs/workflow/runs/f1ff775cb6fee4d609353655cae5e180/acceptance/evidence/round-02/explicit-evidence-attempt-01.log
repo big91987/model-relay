@@ -1,0 +1,30 @@
+✔ QA-D03 explicit overview action carries displayed identity and preserves metadata (3.81425ms)
+✔ QA-D03 generic records navigation stays unfiltered despite overview evidence (0.848291ms)
+✔ QA-D03 refresh failure disables stale success action before read completes (0.713875ms)
+✖ QA-D03 late precise record cannot repaint another page (1.579208ms)
+✔ QA-D03 absent metadata is unknown and absent evidence cannot open a stale record (1.078666ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 4
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 79.37
+
+✖ failing tests:
+
+test at docs/workflow/runs/f1ff775cb6fee4d609353655cae5e180/acceptance/evidence/round-02/explicit-evidence.mjs:67:1
+✖ QA-D03 late precise record cannot repaint another page (1.579208ms)
+  AssertionError [ERR_ASSERTION]: expected GET upstream
+      at Object.respond (eval at <anonymous> (file://<workspace>/docs/workflow/runs/f1ff775cb6fee4d609353655cae5e180/acceptance/evidence/round-02/explicit-evidence.mjs:10:17), <anonymous>:48:12)
+      at TestContext.<anonymous> (file://<workspace>/docs/workflow/runs/f1ff775cb6fee4d609353655cae5e180/acceptance/evidence/round-02/explicit-evidence.mjs:74:7)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }

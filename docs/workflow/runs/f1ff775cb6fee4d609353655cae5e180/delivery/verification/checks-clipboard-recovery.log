@@ -1,0 +1,10 @@
+journey_syntax_exit=0
+vm_syntax_exit=0
+go vet ./...
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+make_checks_exit=0
+all modules verified
+modules_exit=0
+diff_exit=0
+Local references PASS: 6 documents, 68 links
+Clipboard gates present; native execution Not Run

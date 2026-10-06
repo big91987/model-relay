@@ -38,6 +38,8 @@ type Server struct {
 	passwordSlots chan struct{}
 	degraded      atomic.Bool
 	client        *http.Client
+	configEpoch   uint64
+	successID     string
 }
 
 func New(store *Store, config Config) *Server {
@@ -176,7 +178,7 @@ func (server *Server) admin(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 	if request.URL.Path == "/admin/api/session" && request.Method == http.MethodGet {
-		reply(writer, 200, map[string]any{"csrf": current.CSRF, "degraded": server.degraded.Load()})
+		reply(writer, 200, map[string]any{"csrf": current.CSRF, "degraded": server.degraded.Load(), "expires_at": current.Expiry.UTC().Format(time.RFC3339)})
 		return
 	}
 	if request.URL.Path == "/admin/api/logout" && request.Method == http.MethodPost {
@@ -196,6 +198,8 @@ func (server *Server) admin(writer http.ResponseWriter, request *http.Request) {
 	server.mu.Lock()
 	defer server.mu.Unlock()
 	switch {
+	case request.URL.Path == "/admin/api/overview" && request.Method == http.MethodGet:
+		server.overview(writer, request)
 	case request.URL.Path == "/admin/api/upstream":
 		server.upstream(writer, request)
 	case request.URL.Path == "/admin/api/models" || strings.HasPrefix(request.URL.Path, "/admin/api/models/"):
@@ -204,6 +208,8 @@ func (server *Server) admin(writer http.ResponseWriter, request *http.Request) {
 		server.keys(writer, request)
 	case request.URL.Path == "/admin/api/requests" && request.Method == http.MethodGet:
 		server.records(writer, request)
+	case strings.HasPrefix(request.URL.Path, "/admin/api/requests/"):
+		server.record(writer, request)
 	default:
 		failure(writer, 404, "not_found", "")
 	}
@@ -261,7 +267,7 @@ func (server *Server) login(writer http.ResponseWriter, request *http.Request) {
 	server.sessions[string(digest(secret))] = session{CSRF: csrf, Expiry: now.Add(8 * time.Hour)}
 	server.authMu.Unlock()
 	http.SetCookie(writer, &http.Cookie{Name: "mr_session", Value: secret, Path: "/admin", HttpOnly: true, SameSite: http.SameSiteStrictMode, MaxAge: 8 * 3600})
-	reply(writer, 200, map[string]string{"csrf": csrf})
+	reply(writer, 200, map[string]string{"csrf": csrf, "expires_at": now.Add(8 * time.Hour).UTC().Format(time.RFC3339)})
 }
 func (server *Server) upstream(writer http.ResponseWriter, request *http.Request) {
 	var rawURL string
@@ -311,6 +317,7 @@ func (server *Server) upstream(writer http.ResponseWriter, request *http.Request
 		failure(writer, 503, "storage_unavailable", "")
 		return
 	}
+	server.configurationChanged()
 	reply(writer, 200, map[string]any{"ok": true, "revision": revision + 1})
 }
 
@@ -392,6 +399,7 @@ func (server *Server) models(writer http.ResponseWriter, request *http.Request) 
 		failure(writer, 404, "not_found", "")
 		return
 	}
+	server.configurationChanged()
 	reply(writer, 200, map[string]bool{"ok": true})
 }
 
@@ -441,6 +449,7 @@ func (server *Server) keys(writer http.ResponseWriter, request *http.Request) {
 			failure(writer, 503, "storage_unavailable", "")
 			return
 		}
+		server.configurationChanged()
 		reply(writer, 201, map[string]any{"key": secret, "metadata": key})
 		return
 	}
@@ -462,6 +471,7 @@ func (server *Server) keys(writer http.ResponseWriter, request *http.Request) {
 			failure(writer, 404, "not_found", "")
 			return
 		}
+		server.configurationChanged()
 		reply(writer, 200, map[string]bool{"ok": true})
 		return
 	}
@@ -486,7 +496,7 @@ func (server *Server) records(writer http.ResponseWriter, request *http.Request)
 		}
 		cursor = value
 	}
-	rows, err := server.Store.DB.Query("SELECT rowid,id,time,coalesce(key_id,''),coalesce(alias,''),coalesce(model,''),stream,coalesce(revision,0),state,error_code,upstream_status,duration_ms,prompt_tokens,completion_tokens,total_tokens FROM requests WHERE rowid<? ORDER BY rowid DESC LIMIT ?", cursor, limit+1)
+	rows, err := server.Store.DB.Query("SELECT rowid,"+recordColumns+" FROM requests WHERE rowid<? ORDER BY rowid DESC LIMIT ?", cursor, limit+1)
 	if err != nil {
 		failure(writer, 503, "storage_unavailable", "")
 		return

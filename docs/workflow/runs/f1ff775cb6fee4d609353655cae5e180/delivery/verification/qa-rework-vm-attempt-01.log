@@ -1,0 +1,147 @@
+✔ password toggle preserves the input node and value without requesting or submitting (5.260875ms)
+✔ login success, logout and rejected login reset password visibility (1.263208ms)
+✔ pending rejected login keeps the prior session error until its own 401 clears the password (0.588125ms)
+✔ session restoration resets an entered visible password (0.684417ms)
+✔ upstream form is unavailable until GET completes, then saves entered values (1.419417ms)
+✖ overview distinguishes empty, saved and successful persisted configuration on reentry (1.326875ms)
+✔ runtime version preserves raw strings including dev without blocking overview (1.268583ms)
+✔ runtime version missing degrades locally and reentry recovers (0.729666ms)
+✔ runtime version empty degrades locally and reentry recovers (0.816958ms)
+✔ runtime version whitespace degrades locally and reentry recovers (0.741833ms)
+✔ runtime version number degrades locally and reentry recovers (0.647709ms)
+✔ runtime version null version degrades locally and reentry recovers (1.12925ms)
+✔ runtime version null body degrades locally and reentry recovers (0.660834ms)
+✔ runtime version array degrades locally and reentry recovers (0.565542ms)
+✔ runtime version string body degrades locally and reentry recovers (0.523125ms)
+✔ runtime version 401 degrades locally and reentry recovers (0.540666ms)
+✔ runtime version 503 degrades locally and reentry recovers (0.57825ms)
+✔ runtime version network degrades locally and reentry recovers (0.607333ms)
+✔ runtime version invalid json degrades locally and reentry recovers (0.802292ms)
+✔ late success cannot clear a newer timer or version (1.448292ms)
+✔ late failure cannot clear a newer timer or version (0.506208ms)
+✔ 5 second timeout covers headers and ignores late resolution (0.54525ms)
+✔ 5 second timeout covers body and ignores late resolution (0.557167ms)
+✔ logout invalidates immediately and late success cannot contaminate a new login (0.636333ms)
+✔ real management 401 still logs out and invalidates runtime version (0.563958ms)
+✔ older response after a newer completion cannot overwrite the current version (0.576917ms)
+✔ failed configuration load leaves an error and navigation can recover (0.498125ms)
+✔ a stale navigation cannot reveal a panel after the user leaves (0.454042ms)
+✔ rejected save recovers persisted configuration after navigation finishes (0.554292ms)
+✔ upstream rejected clears credential, preserves public draft and distinguishes acknowledged write (0.477125ms)
+✖ upstream network clears credential, preserves public draft and distinguishes acknowledged write (0.607292ms)
+✔ upstream refresh clears credential, preserves public draft and distinguishes acknowledged write (0.6635ms)
+✔ generation application failure clears only sensitive inputs and keeps diagnosis and identity (0.789083ms)
+✔ generation provider failure clears only sensitive inputs and keeps diagnosis and identity (0.472083ms)
+✔ generation network failure clears only sensitive inputs and keeps diagnosis and identity (0.462958ms)
+✔ generation protocol failure clears only sensitive inputs and keeps diagnosis and identity (0.512125ms)
+✔ generation stream failure clears only sensitive inputs and keeps diagnosis and identity (0.609583ms)
+✖ overview evidence action uses displayed ID, while generic records remains unfiltered (1.500625ms)
+✔ model selection, placeholder example, readable text and request ID are independent of raw JSON (0.636ms)
+✔ cancel isolates late headers, old finally cannot enable a new request (0.540584ms)
+✔ cancel isolates late json, old finally cannot enable a new request (0.60425ms)
+✔ cancel isolates late failure, old finally cannot enable a new request (0.498917ms)
+✔ SSE decodes split UTF8 and CRLF, presents increments before DONE and isolates canceled reads (0.727541ms)
+✖ tool-only output is not treated as network failure; unknown usage stays unknown and zero stays zero (0.616458ms)
+✔ late key issuance and management 401 cannot affect a new page or login (0.812417ms)
+✔ clipboard completion is isolated after closing, reissuing or leaving; failures have a manual path (1.160625ms)
+✔ SSE DONE succeeds, missing DONE and event error fail without a second request (1.335125ms)
+✔ overview query failure remains unknown rather than zero and retry recovers (0.525958ms)
+✔ creation cancellation preserves public drafts with zero writes (0.453375ms)
+✔ model edit keeps canceled draft and a pending save cannot be replaced by another editor (0.711666ms)
+✔ unknown navigation hashes normalize to a safe overview target (0.433625ms)
+✔ expired session clears current generation and restores safe hash target without replay (0.548375ms)
+✔ stream tool fragments summarize only after DONE without executing arguments (0.6645ms)
+✔ empty content remains distinct and tool names/count storage are bounded (1.170459ms)
+✔ visible long stream checks at 30s; network uncertainty clears secrets, isolates late output and requires manual recovery (1.775416ms)
+✔ known expiry cancels without a session fetch; relogin restores target without replay (0.779083ms)
+✔ uncertain session invalidates late issuance and explicit relogin clears and preserves safe target (0.5825ms)
+✔ known expiry also blocks submit before timer runs (0.9725ms)
+✔ hidden generation skips polling; visibility check is single flight and stale failure cannot clear a new page (1.036417ms)
+✔ known expiry survives a hanging one-shot session check and ignores late success (0.813667ms)
+✔ known expiry survives a hanging one-shot session check and ignores late network failure (0.616375ms)
+✔ known expiry survives a hanging one-shot session check and ignores late 401 (0.615917ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: success (0.86575ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: network failure (0.690709ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: 401 (0.596292ms)
+✔ uncertain session recovery may hang but the original known expiry still clears it (0.627125ms)
+✔ ordinary periodic session success does not tell an active call to re-enter or resend (0.845375ms)
+✔ pagehide stops timers and pageshow still enforces a known deadline before a hanging check can resume (0.688333ms)
+✔ visibility restore enforces known expiry even when uncertain-state timer delivery was suspended (1.666375ms)
+ℹ tests 69
+ℹ suites 0
+ℹ pass 65
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 129.833208
+
+✖ failing tests:
+
+test at tests/browser/ui.test.mjs:208:1
+✖ overview distinguishes empty, saved and successful persisted configuration on reentry (1.326875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '当前配置曾成功调用 · 请求 controlled-success-id · 模型 alpha-1280 · undefined'
+  - '当前配置曾成功调用 · 请求 controlled-success-id'
+  
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:223:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '当前配置曾成功调用 · 请求 controlled-success-id · 模型 alpha-1280 · undefined',
+    expected: '当前配置曾成功调用 · 请求 controlled-success-id',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:450:3
+✖ upstream network clears credential, preserves public draft and distinguishes acknowledged write (0.607292ms)
+  AssertionError [ERR_ASSERTION]: no automatic rewrite
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:467:12)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:489:1
+✖ overview evidence action uses displayed ID, while generic records remains unfiltered (1.500625ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /模型 alpha.*本次服务启动/. Input:
+  
+  '待配置：从接入上游开始'
+  
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:496:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '待配置：从接入上游开始',
+    expected: /模型 alpha.*本次服务启动/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:564:1
+✖ tool-only output is not treated as network failure; unknown usage stays unknown and zero stays zero (0.616458ms)
+  AssertionError [ERR_ASSERTION]: expected GET requests/tool-id
+      at Object.respond (file://<workspace>/tests/browser/ui.test.mjs:49:12)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:570:7)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: -1,
+    expected: -1,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }

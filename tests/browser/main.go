@@ -66,7 +66,10 @@ func journey() error {
 		return fmt.Errorf("real browser upstream listener unavailable: %w", err)
 	}
 	var sensitiveFailures atomic.Int64
+	var upstreamRequests atomic.Int64
+	releaseStream := make(chan struct{}, 1)
 	upstream := &http.Server{ReadHeaderTimeout: 5 * time.Second, Handler: http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
+		upstreamRequests.Add(1)
 		if request.Header.Get("Authorization") != "Bearer controlled-browser-upstream" {
 			http.Error(writer, "fixture authentication failed", 401)
 			return
@@ -86,6 +89,39 @@ func journey() error {
 			http.Error(writer, "browser-sensitive-diagnostic-sentinel controlled-browser-upstream browser-error-prompt-sentinel controlled ordinary", 401)
 			return
 		}
+		if len(input.Messages) > 0 && input.Messages[0].Content == "protocol fixture" {
+			writer.Header().Set("Content-Type", "application/json")
+			fmt.Fprint(writer, `{"choices":`)
+			return
+		}
+		if len(input.Messages) > 0 && input.Messages[0].Content == "interrupt fixture" {
+			writer.Header().Set("Content-Type", "text/event-stream")
+			fmt.Fprint(writer, "data: {\"choices\":[{\"delta\":{\"content\":\"controlled partial\"}}]}\n\n")
+			writer.(http.Flusher).Flush()
+			return
+		}
+		if len(input.Messages) > 0 && input.Messages[0].Content == "unknown usage fixture" {
+			writer.Header().Set("Content-Type", "application/json")
+			fmt.Fprint(writer, `{"choices":[{"message":{"role":"assistant","content":"controlled unknown usage"}}]}`)
+			return
+		}
+		if len(input.Messages) > 0 && input.Messages[0].Content == "tool fixture" {
+			if input.Stream {
+				writer.Header().Set("Content-Type", "text/event-stream")
+				fmt.Fprint(writer, "data: {\"choices\":[{\"index\":0,\"delta\":{\"role\":\"assistant\",\"tool_calls\":[{\"index\":0,\"id\":\"call_weather\",\"type\":\"function\",\"function\":{\"name\":\"lookup_\",\"arguments\":\"\"}}]},\"finish_reason\":null}]}\n\n")
+				writer.(http.Flusher).Flush()
+				select {
+				case <-releaseStream:
+				case <-request.Context().Done():
+					return
+				}
+				fmt.Fprint(writer, "data: {\"choices\":[{\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"name\":\"weather\",\"arguments\":\"{}\"}}]},\"finish_reason\":null}]}\n\ndata: {\"choices\":[{\"index\":0,\"delta\":{},\"finish_reason\":\"tool_calls\"}]}\n\ndata: [DONE]\n\n")
+			} else {
+				writer.Header().Set("Content-Type", "application/json")
+				fmt.Fprint(writer, `{"choices":[{"index":0,"message":{"role":"assistant","content":null,"tool_calls":[{"id":"call_weather","type":"function","function":{"name":"lookup_weather","arguments":"{}"}}]},"finish_reason":"tool_calls"}]}`)
+			}
+			return
+		}
 		if input.Stream {
 			writer.Header().Set("Content-Type", "text/event-stream")
 			fmt.Fprint(writer, "data: {\"choices\":[{\"delta\":{\"content\":\"controlled first\"}}]}\n\n")
@@ -94,7 +130,13 @@ func journey() error {
 				<-request.Context().Done()
 				return
 			}
-			time.Sleep(100 * time.Millisecond)
+			if len(input.Messages) > 0 && input.Messages[0].Content == "stream fixture" {
+				select {
+				case <-releaseStream:
+				case <-request.Context().Done():
+					return
+				}
+			}
 			fmt.Fprint(writer, "data: {\"choices\":[],\"usage\":{\"prompt_tokens\":0,\"completion_tokens\":2,\"total_tokens\":2}}\n\ndata: [DONE]\n\n")
 			return
 		}
@@ -122,6 +164,16 @@ func journey() error {
 			return
 		}
 		switch request.URL.Path {
+		case "/upstream-count":
+			writer.Header().Set("X-Controlled-Upstream-Requests", fmt.Sprint(upstreamRequests.Load()))
+			writer.WriteHeader(204)
+		case "/release-stream":
+			select {
+			case releaseStream <- struct{}{}:
+				writer.WriteHeader(204)
+			default:
+				writer.WriteHeader(409)
+			}
 		case "/restart":
 			shutdown, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 			defer cancel()

@@ -1,0 +1,107 @@
+# model-relay/internal/relay.test
+ld: warning: '<local-path>' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestSpecialInstallationPath
+--- PASS: TestSpecialInstallationPath (2.44s)
+=== RUN   TestConsoleOverviewAndExactRecords
+--- PASS: TestConsoleOverviewAndExactRecords (2.39s)
+=== RUN   TestConsoleEvidenceConfigurationRace
+--- PASS: TestConsoleEvidenceConfigurationRace (2.43s)
+=== RUN   TestConsoleDeniedMetadataAndStorage
+2026/10/06 08:28:50 storage_write_failed
+--- PASS: TestConsoleDeniedMetadataAndStorage (2.38s)
+=== RUN   TestHealthMethodsHandler
+=== RUN   TestHealthMethodsHandler/healthy
+=== RUN   TestHealthMethodsHandler/healthy/GET
+=== RUN   TestHealthMethodsHandler/healthy/HEAD
+=== RUN   TestHealthMethodsHandler/healthy/POST
+=== RUN   TestHealthMethodsHandler/healthy/PUT
+=== RUN   TestHealthMethodsHandler/healthy/PATCH
+=== RUN   TestHealthMethodsHandler/healthy/DELETE
+=== RUN   TestHealthMethodsHandler/healthy/OPTIONS
+=== RUN   TestHealthMethodsHandler/healthy/TRACE
+=== RUN   TestHealthMethodsHandler/healthy/CUSTOM
+=== RUN   TestHealthMethodsHandler/healthy/recovered_GET
+=== RUN   TestHealthMethodsHandler/healthy/recovered_HEAD
+=== RUN   TestHealthMethodsHandler/degraded
+=== RUN   TestHealthMethodsHandler/degraded/GET
+=== RUN   TestHealthMethodsHandler/degraded/HEAD
+=== RUN   TestHealthMethodsHandler/degraded/POST
+=== RUN   TestHealthMethodsHandler/degraded/PUT
+=== RUN   TestHealthMethodsHandler/degraded/PATCH
+=== RUN   TestHealthMethodsHandler/degraded/DELETE
+=== RUN   TestHealthMethodsHandler/degraded/OPTIONS
+=== RUN   TestHealthMethodsHandler/degraded/TRACE
+=== RUN   TestHealthMethodsHandler/degraded/CUSTOM
+=== RUN   TestHealthMethodsHandler/degraded/recovered_GET
+=== RUN   TestHealthMethodsHandler/degraded/recovered_HEAD
+=== RUN   TestHealthMethodsHandler/database_closed
+=== RUN   TestHealthMethodsHandler/database_closed/GET
+=== RUN   TestHealthMethodsHandler/database_closed/HEAD
+=== RUN   TestHealthMethodsHandler/database_closed/POST
+=== RUN   TestHealthMethodsHandler/database_closed/PUT
+=== RUN   TestHealthMethodsHandler/database_closed/PATCH
+=== RUN   TestHealthMethodsHandler/database_closed/DELETE
+=== RUN   TestHealthMethodsHandler/database_closed/OPTIONS
+=== RUN   TestHealthMethodsHandler/database_closed/TRACE
+=== RUN   TestHealthMethodsHandler/database_closed/CUSTOM
+=== RUN   TestHealthMethodsHandler/database_closed/recovered_GET
+=== RUN   TestHealthMethodsHandler/database_closed/recovered_HEAD
+--- PASS: TestHealthMethodsHandler (3.66s)
+    --- PASS: TestHealthMethodsHandler/healthy (1.22s)
+        --- PASS: TestHealthMethodsHandler/healthy/GET (0.00s)
+        --- PASS: TestHealthMethodsHandler/healthy/HEAD (0.00s)
+        --- PASS: TestHealthMethodsHandler/healthy/POST (0.00s)
+        --- PASS: TestHealthMethodsHandler/healthy/PUT (0.00s)
+        --- PASS: TestHealthMethodsHandler/healthy/PATCH (0.00s)
+        --- PASS: TestHealthMethodsHandler/healthy/DELETE (0.00s)
+        --- PASS: TestHealthMethodsHandler/healthy/OPTIONS (0.00s)
+        --- PASS: TestHealthMethodsHandler/healthy/TRACE (0.00s)
+        --- PASS: TestHealthMethodsHandler/healthy/CUSTOM (0.00s)
+        --- PASS: TestHealthMethodsHandler/healthy/recovered_GET (0.00s)
+        --- PASS: TestHealthMethodsHandler/healthy/recovered_HEAD (0.00s)
+    --- PASS: TestHealthMethodsHandler/degraded (1.24s)
+        --- PASS: TestHealthMethodsHandler/degraded/GET (0.00s)
+        --- PASS: TestHealthMethodsHandler/degraded/HEAD (0.00s)
+        --- PASS: TestHealthMethodsHandler/degraded/POST (0.00s)
+        --- PASS: TestHealthMethodsHandler/degraded/PUT (0.00s)
+        --- PASS: TestHealthMethodsHandler/degraded/PATCH (0.00s)
+        --- PASS: TestHealthMethodsHandler/degraded/DELETE (0.00s)
+        --- PASS: TestHealthMethodsHandler/degraded/OPTIONS (0.00s)
+        --- PASS: TestHealthMethodsHandler/degraded/TRACE (0.00s)
+        --- PASS: TestHealthMethodsHandler/degraded/CUSTOM (0.00s)
+        --- PASS: TestHealthMethodsHandler/degraded/recovered_GET (0.00s)
+        --- PASS: TestHealthMethodsHandler/degraded/recovered_HEAD (0.00s)
+    --- PASS: TestHealthMethodsHandler/database_closed (1.20s)
+        --- PASS: TestHealthMethodsHandler/database_closed/GET (0.00s)
+        --- PASS: TestHealthMethodsHandler/database_closed/HEAD (0.00s)
+        --- PASS: TestHealthMethodsHandler/database_closed/POST (0.00s)
+        --- PASS: TestHealthMethodsHandler/database_closed/PUT (0.00s)
+        --- PASS: TestHealthMethodsHandler/database_closed/PATCH (0.00s)
+        --- PASS: TestHealthMethodsHandler/database_closed/DELETE (0.00s)
+        --- PASS: TestHealthMethodsHandler/database_closed/OPTIONS (0.00s)
+        --- PASS: TestHealthMethodsHandler/database_closed/TRACE (0.00s)
+        --- PASS: TestHealthMethodsHandler/database_closed/CUSTOM (0.00s)
+        --- PASS: TestHealthMethodsHandler/database_closed/recovered_GET (0.00s)
+        --- PASS: TestHealthMethodsHandler/database_closed/recovered_HEAD (0.00s)
+=== RUN   TestInProcessContract
+--- PASS: TestInProcessContract (2.40s)
+=== RUN   TestUsageSnapshots
+--- PASS: TestUsageSnapshots (0.00s)
+=== RUN   TestInstallationRecovery
+--- PASS: TestInstallationRecovery (4.84s)
+=== RUN   TestInterruptedAndVersion
+--- PASS: TestInterruptedAndVersion (1.24s)
+=== RUN   TestDestinationAndProtocol
+--- PASS: TestDestinationAndProtocol (0.00s)
+=== RUN   TestHealthVersionContract
+=== RUN   TestHealthVersionContract/dev
+=== RUN   TestHealthVersionContract/v1.2.3-build
+=== RUN   TestHealthVersionContract/__raw-version__
+--- PASS: TestHealthVersionContract (3.70s)
+    --- PASS: TestHealthVersionContract/dev (1.21s)
+    --- PASS: TestHealthVersionContract/v1.2.3-build (1.22s)
+    --- PASS: TestHealthVersionContract/__raw-version__ (1.27s)
+PASS
+ok  	model-relay/internal/relay	27.136s
+
+COMMAND_EXIT_CODE=0

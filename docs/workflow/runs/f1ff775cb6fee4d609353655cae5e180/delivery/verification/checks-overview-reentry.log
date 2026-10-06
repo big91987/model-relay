@@ -1,0 +1,31 @@
+command=node --check tests/browser/journey.mjs
+exit_code=0
+command=node --check tests/browser/ui.test.mjs
+exit_code=0
+command=make format-check
+exit_code=0
+command=make vet
+go vet ./...
+exit_code=0
+command=make build
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+exit_code=0
+command=go mod verify
+all modules verified
+exit_code=0
+command=git diff --check
+exit_code=0
+command=git diff --exit-code -- Makefile go.mod go.sum package.json package-lock.json
+exit_code=0
+command=go run ./tests/evidence (without Makefile GOCACHE)
+exit_code=1
+result=default user Go cache read denied by sandbox; retry with project Makefile cache
+command=GOCACHE=$PWD/.cache/go-build CGO_ENABLED=1 GOTOOLCHAIN=local go run ./tests/evidence
+exit_code=0
+command=public delivery local reference checks
+PASS 5 delivery documents, 48 local references
+exit_code=0
+command=git diff --check
+exit_code=0
+command=source fingerprint consistency
+exit_code=0

@@ -1,0 +1,75 @@
+UTC 2026-10-06T00:59:20Z
+COMMAND make format-check vet frontend-test build
+go vet ./...
+node --test tests/browser/ui.test.mjs
+✔ password toggle preserves the input node and value without requesting or submitting (5.034875ms)
+✔ login success, logout and rejected login reset password visibility (1.146709ms)
+✔ session restoration resets an entered visible password (0.576584ms)
+✔ upstream form is unavailable until GET completes, then saves entered values (1.399875ms)
+✔ runtime version preserves raw strings including dev without blocking overview (0.8975ms)
+✔ runtime version missing degrades locally and reentry recovers (0.711084ms)
+✔ runtime version empty degrades locally and reentry recovers (0.825042ms)
+✔ runtime version whitespace degrades locally and reentry recovers (1.063417ms)
+✔ runtime version number degrades locally and reentry recovers (0.84175ms)
+✔ runtime version null version degrades locally and reentry recovers (0.740333ms)
+✔ runtime version null body degrades locally and reentry recovers (0.704458ms)
+✔ runtime version array degrades locally and reentry recovers (0.773209ms)
+✔ runtime version string body degrades locally and reentry recovers (1.22775ms)
+✔ runtime version 401 degrades locally and reentry recovers (0.631208ms)
+✔ runtime version 503 degrades locally and reentry recovers (0.650125ms)
+✔ runtime version network degrades locally and reentry recovers (0.73925ms)
+✔ runtime version invalid json degrades locally and reentry recovers (0.891166ms)
+✔ late success cannot clear a newer timer or version (0.658416ms)
+✔ late failure cannot clear a newer timer or version (0.523542ms)
+✔ 5 second timeout covers headers and ignores late resolution (0.581333ms)
+✔ 5 second timeout covers body and ignores late resolution (0.643041ms)
+✔ logout invalidates immediately and late success cannot contaminate a new login (1.537708ms)
+✔ real management 401 still logs out and invalidates runtime version (0.558ms)
+✔ older response after a newer completion cannot overwrite the current version (0.521375ms)
+✔ failed configuration load leaves an error and navigation can recover (0.487958ms)
+✔ a stale navigation cannot reveal a panel after the user leaves (0.515583ms)
+✔ rejected save recovers persisted configuration after navigation finishes (0.60175ms)
+✔ model selection, placeholder example, readable text and request ID are independent of raw JSON (0.790167ms)
+✔ cancel isolates late headers, old finally cannot enable a new request (0.561291ms)
+✔ cancel isolates late json, old finally cannot enable a new request (0.512875ms)
+✔ cancel isolates late failure, old finally cannot enable a new request (0.548ms)
+✔ SSE decodes split UTF8 and CRLF, presents increments before DONE and isolates canceled reads (0.921292ms)
+✔ tool-only output is not treated as network failure; unknown usage stays unknown and zero stays zero (0.7205ms)
+✔ late key issuance and management 401 cannot affect a new page or login (0.655958ms)
+✔ clipboard completion is isolated after closing, reissuing or leaving; failures have a manual path (0.649166ms)
+✔ SSE DONE succeeds, missing DONE and event error fail without a second request (2.083666ms)
+✔ overview query failure remains unknown rather than zero and retry recovers (0.563167ms)
+✔ creation cancellation preserves public drafts with zero writes (0.486458ms)
+✔ model edit keeps canceled draft and a pending save cannot be replaced by another editor (0.780917ms)
+✔ unknown navigation hashes normalize to a safe overview target (0.463291ms)
+✔ expired session clears current generation and restores safe hash target without replay (0.591333ms)
+✔ stream tool fragments summarize only after DONE without executing arguments (0.666666ms)
+✔ empty content remains distinct and tool names/count storage are bounded (1.237ms)
+✔ visible long stream checks at 30s; network uncertainty clears secrets, isolates late output and requires manual recovery (2.401959ms)
+✔ known expiry cancels without a session fetch; relogin restores target without replay (0.834833ms)
+✔ uncertain session invalidates late issuance and explicit relogin clears and preserves safe target (0.71725ms)
+✔ known expiry also blocks submit before timer runs (0.61175ms)
+✔ hidden generation skips polling; visibility check is single flight and stale failure cannot clear a new page (0.796708ms)
+✔ known expiry survives a hanging one-shot session check and ignores late success (0.912542ms)
+✔ known expiry survives a hanging one-shot session check and ignores late network failure (0.650291ms)
+✔ known expiry survives a hanging one-shot session check and ignores late 401 (0.658416ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: success (0.818958ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: network failure (0.724083ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: 401 (0.730416ms)
+✔ uncertain session recovery may hang but the original known expiry still clears it (0.6345ms)
+✔ ordinary periodic session success does not tell an active call to re-enter or resend (0.811875ms)
+✔ pagehide stops timers and pageshow still enforces a known deadline before a hanging check can resume (1.184375ms)
+✔ visibility restore enforces known expiry even when uncertain-state timer delivery was suspended (0.712125ms)
+ℹ tests 58
+ℹ suites 0
+ℹ pass 58
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 125.509042
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+EXIT_CODE=0
+JOURNEY_SYNTAX_EXIT_CODE=0
+APP_SYNTAX_EXIT_CODE=0
+DIFF_EXIT_CODE=0

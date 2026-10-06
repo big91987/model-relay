@@ -1,0 +1,12 @@
+# model-relay/internal/relay.test
+ld: warning: '<temp> has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestConsoleOverviewAndExactRecords
+--- PASS: TestConsoleOverviewAndExactRecords (2.32s)
+=== RUN   TestConsoleEvidenceConfigurationRace
+--- PASS: TestConsoleEvidenceConfigurationRace (2.30s)
+=== RUN   TestConsoleDeniedMetadataAndStorage
+2026/10/06 12:27:38 storage_write_failed
+--- PASS: TestConsoleDeniedMetadataAndStorage (2.29s)
+PASS
+ok  	model-relay/internal/relay	8.582s
+exit_code=0

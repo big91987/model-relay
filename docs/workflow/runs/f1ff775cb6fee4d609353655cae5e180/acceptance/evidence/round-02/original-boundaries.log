@@ -1,0 +1,32 @@
+✔ QA-01 rejected upstream save clears credential and preserves public draft (3.750291ms)
+✔ QA-02 successful save followed by failed refresh distinguishes committed write (0.940792ms)
+✖ QA-03 overview evidence can open its exact record after session restoration (1.267625ms)
+✔ QA-04 application rejection clears sensitive call input but retains public model choice (1.703167ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 79.075
+
+✖ failing tests:
+
+test at docs/workflow/runs/f1ff775cb6fee4d609353655cae5e180/acceptance/evidence/independent-boundaries.mjs:56:1
+✖ QA-03 overview evidence can open its exact record after session restoration (1.267625ms)
+  AssertionError [ERR_ASSERTION]: the overview evidence action must carry the displayed identity, not an absent previous local call
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file://<workspace>/docs/workflow/runs/f1ff775cb6fee4d609353655cae5e180/acceptance/evidence/independent-boundaries.mjs:70:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+exit_code=1

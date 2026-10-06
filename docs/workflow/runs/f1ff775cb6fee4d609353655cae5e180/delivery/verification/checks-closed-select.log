@@ -1,0 +1,15 @@
+node --check tests/browser/journey.mjs
+node --check tests/browser/ui.test.mjs
+make format-check
+go mod verify
+all modules verified
+make vet
+go vet ./...
+make build
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+git diff --check
+Makefile/package locks compared to HEAD
+PASS checks; full make verify remains host-only
+exit_code=0
+PASS public document links: 6 files / 90 references
+PASS new evidence contains no absolute workspace path

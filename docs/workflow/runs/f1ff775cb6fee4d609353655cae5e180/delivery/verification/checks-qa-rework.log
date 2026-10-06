@@ -1,0 +1,29 @@
+command=node --check internal/relay/web/app.js
+exit_code=0
+command=node --check tests/browser/journey.mjs
+exit_code=0
+command=node --check tests/browser/ui.test.mjs
+exit_code=0
+command=make format-check
+exit_code=0
+command=go mod verify
+all modules verified
+exit_code=0
+command=make vet
+go vet ./...
+exit_code=0
+command=make build
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+exit_code=0
+command=git diff --check
+exit_code=0
+command=git diff --exit-code -- Makefile go.mod go.sum package.json package-lock.json
+exit_code=0
+go vet ./...
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+PASS 6 public documents, 74 local references; 83 unique DOM IDs and source bindings
+exit_code=0
+command=post-fixture JS syntax, format, vet/build, fixed entry/locks and diff checks
+exit_code=0
+command=make format-check (final)
+exit_code=0

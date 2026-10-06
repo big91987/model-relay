@@ -1,0 +1,20 @@
+command=node --check tests/browser/journey.mjs
+exit_code=0
+command=node --check tests/browser/ui.test.mjs
+exit_code=0
+command=make format-check vet build
+go vet ./...
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+exit_code=0
+command=go mod verify
+all modules verified
+exit_code=0
+command=git diff --check
+exit_code=0
+command=git diff -- Makefile package.json package-lock.json
+exit_code=0
+command=public document local reference check
+PASS 5 public documents, 45 local references
+exit_code=0
+command=git diff --check after public documentation changes
+exit_code=0

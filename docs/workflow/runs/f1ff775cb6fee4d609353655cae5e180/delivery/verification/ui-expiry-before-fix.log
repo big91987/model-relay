@@ -1,0 +1,133 @@
+UTC 2026-10-06T00:55:05Z
+COMMAND node --test tests/browser/ui.test.mjs (one-shot hanging-session reproduction, before product fix)
+✔ password toggle preserves the input node and value without requesting or submitting (4.877084ms)
+✔ login success, logout and rejected login reset password visibility (1.156ms)
+✔ session restoration resets an entered visible password (0.526791ms)
+✔ upstream form is unavailable until GET completes, then saves entered values (1.296917ms)
+✔ runtime version preserves raw strings including dev without blocking overview (0.870333ms)
+✔ runtime version missing degrades locally and reentry recovers (0.6645ms)
+✔ runtime version empty degrades locally and reentry recovers (0.610125ms)
+✔ runtime version whitespace degrades locally and reentry recovers (0.61175ms)
+✔ runtime version number degrades locally and reentry recovers (0.735958ms)
+✔ runtime version null version degrades locally and reentry recovers (0.701042ms)
+✔ runtime version null body degrades locally and reentry recovers (0.628125ms)
+✔ runtime version array degrades locally and reentry recovers (0.600792ms)
+✔ runtime version string body degrades locally and reentry recovers (1.275458ms)
+✔ runtime version 401 degrades locally and reentry recovers (0.637708ms)
+✔ runtime version 503 degrades locally and reentry recovers (0.663334ms)
+✔ runtime version network degrades locally and reentry recovers (0.683875ms)
+✔ runtime version invalid json degrades locally and reentry recovers (0.700292ms)
+✔ late success cannot clear a newer timer or version (0.7035ms)
+✔ late failure cannot clear a newer timer or version (0.542ms)
+✔ 5 second timeout covers headers and ignores late resolution (0.574334ms)
+✔ 5 second timeout covers body and ignores late resolution (0.605708ms)
+✔ logout invalidates immediately and late success cannot contaminate a new login (1.535458ms)
+✔ real management 401 still logs out and invalidates runtime version (0.504333ms)
+✔ older response after a newer completion cannot overwrite the current version (0.495125ms)
+✔ failed configuration load leaves an error and navigation can recover (0.472833ms)
+✔ a stale navigation cannot reveal a panel after the user leaves (0.494166ms)
+✔ rejected save recovers persisted configuration after navigation finishes (0.51925ms)
+✔ model selection, placeholder example, readable text and request ID are independent of raw JSON (0.813958ms)
+✔ cancel isolates late headers, old finally cannot enable a new request (0.567208ms)
+✔ cancel isolates late json, old finally cannot enable a new request (0.492167ms)
+✔ cancel isolates late failure, old finally cannot enable a new request (0.499875ms)
+✔ SSE decodes split UTF8 and CRLF, presents increments before DONE and isolates canceled reads (0.793375ms)
+✔ tool-only output is not treated as network failure; unknown usage stays unknown and zero stays zero (0.641958ms)
+✔ late key issuance and management 401 cannot affect a new page or login (0.571667ms)
+✔ clipboard completion is isolated after closing, reissuing or leaving; failures have a manual path (0.658333ms)
+✔ SSE DONE succeeds, missing DONE and event error fail without a second request (1.834167ms)
+✔ overview query failure remains unknown rather than zero and retry recovers (0.468042ms)
+✔ creation cancellation preserves public drafts with zero writes (0.4445ms)
+✔ model edit keeps canceled draft and a pending save cannot be replaced by another editor (0.771875ms)
+✔ unknown navigation hashes normalize to a safe overview target (0.5425ms)
+✔ expired session clears current generation and restores safe hash target without replay (0.633958ms)
+✔ stream tool fragments summarize only after DONE without executing arguments (0.730917ms)
+✔ empty content remains distinct and tool names/count storage are bounded (1.234ms)
+✔ visible long stream checks at 30s; network uncertainty clears secrets, isolates late output and requires manual recovery (1.962459ms)
+✔ known expiry cancels without a session fetch; relogin restores target without replay (0.634667ms)
+✔ uncertain session invalidates late issuance and explicit relogin clears and preserves safe target (0.499ms)
+✔ known expiry also blocks submit before timer runs (0.505625ms)
+✔ hidden generation skips polling; visibility check is single flight and stale failure cannot clear a new page (0.563042ms)
+✖ known expiry survives a hanging one-shot session check and ignores late success (1.067958ms)
+✖ known expiry survives a hanging one-shot session check and ignores late network failure (0.921583ms)
+✖ known expiry survives a hanging one-shot session check and ignores late 401 (0.633458ms)
+✖ ordinary periodic session success does not tell an active call to re-enter or resend (1.077541ms)
+ℹ tests 52
+ℹ suites 0
+ℹ pass 48
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 117.245375
+
+✖ failing tests:
+
+test at tests/browser/ui.test.mjs:656:3
+✖ known expiry survives a hanging one-shot session check and ignores late success (1.067958ms)
+  AssertionError [ERR_ASSERTION]: known expiry stays armed while GET session is pending
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:662:12)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:656:3
+✖ known expiry survives a hanging one-shot session check and ignores late network failure (0.921583ms)
+  AssertionError [ERR_ASSERTION]: known expiry stays armed while GET session is pending
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:662:12)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:656:3
+✖ known expiry survives a hanging one-shot session check and ignores late 401 (0.633458ms)
+  AssertionError [ERR_ASSERTION]: known expiry stays armed while GET session is pending
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:662:12)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/ui.test.mjs:678:1
+✖ ordinary periodic session success does not tell an active call to re-enter or resend (1.077541ms)
+  AssertionError [ERR_ASSERTION]: The input was expected to not match the regular expression /重新输入|手动发送/. Input:
+  
+  '管理会话已确认；需要重新输入调用内容并手动发送，不会自动重发。'
+  
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/ui.test.mjs:683:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '管理会话已确认；需要重新输入调用内容并手动发送，不会自动重发。',
+    expected: /重新输入|手动发送/,
+    operator: 'doesNotMatch',
+    diff: 'simple'
+  }
+EXIT_CODE=1
