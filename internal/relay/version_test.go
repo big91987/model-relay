@@ -16,9 +16,12 @@ func TestHealthVersionContract(t *testing.T) {
 			if recorder.Code != http.StatusOK {
 				t.Fatalf("health status %d", recorder.Code)
 			}
-			var body struct{ Status, Version string }
+			var body struct {
+				Status, Version string
+				Schema          int `json:"storage_schema"`
+			}
 			decode(t, recorder.Result(), &body)
-			if body.Status != "ok" || body.Version != version {
+			if body.Status != "ok" || body.Version != version || body.Schema != 2 {
 				t.Fatalf("health contract mismatch: %#v", body)
 			}
 		})

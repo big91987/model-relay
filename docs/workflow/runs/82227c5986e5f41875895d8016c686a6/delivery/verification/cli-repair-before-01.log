@@ -1,0 +1,14 @@
+# model-relay/cmd/model-relay.test
+ld: warning: '<temp>' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestDeploymentContractAndIdempotentUpgradeCLI
+--- PASS: TestDeploymentContractAndIdempotentUpgradeCLI (1.93s)
+=== RUN   TestCLIInstallationCommands
+    main_test.go:59: CLI port occupancy verification unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+--- FAIL: TestCLIInstallationCommands (1.64s)
+FAIL
+
+command=go test -race -count=1 -v ./cmd/model-relay
+exit_code=1
+source_snapshot=final-source-03.json
+FAIL	model-relay/cmd/model-relay	3.984s
+FAIL

@@ -1,0 +1,6 @@
+✔ password toggle preserves the input node and value without requesting or submitting (6.766375ms)
+✔ login success, logout and rejected login reset password visibility (1.549875ms)
+✔ pending rejected login keeps the prior session error until its own 401 clears the password (0.846334ms)
+✔ session restoration resets an entered visible password (0.6915ms)
+✖ upstream form is unavailable until GET completes, then saves entered values (1.018792ms)
+✖ overview distinguishes empty, saved and successful persisted configuration on reentry (1.364125ms)

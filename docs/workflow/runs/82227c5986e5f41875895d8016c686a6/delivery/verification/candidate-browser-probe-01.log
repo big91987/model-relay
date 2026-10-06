@@ -1,0 +1,7 @@
+2026-10-06 local minimal native browser probe; sanitized summary of actual tool receipt
+command=node --input-type=module (chromium.launch({headless:true}); page.setContent('<label>上游<select><option>受控 A</option><option>受控 B</option></select></label>'); count exact/partial labels; browser.close in finally)
+exit_code=1
+browserType.launch: Target page, context or browser has been closed
+FATAL:base/apple/mach_port_rendezvous_mac.cc:159 Check failed: kr == KERN_SUCCESS. bootstrap_check_in org.chromium.Chromium.MachPortRendezvousServer: Permission denied (1100)
+process did exit: exitCode=null, signal=SIGTRAP
+DOM and label counts not executed; no native assertion result. This local environment restriction does not explain the host seq10 browser failure, where Chromium ran successfully.

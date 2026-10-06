@@ -17,11 +17,11 @@
 - [当前阶段：v0.1.0 基础中转](docs/releases/v0.1.0.md)
 - [产品委托](docs/product-brief.md)
 
-## 当前演进：首次配置、调用与诊断
+## 当前演进：多上游路由与调用诊断
 
-Issue #16 仅实现公共路线第 1 项控制台纵向增强：从空配置通过 UI 完成唯一上游、模型别名、应用密钥、普通／SSE 调用与同请求记录核对。导航深链／刷新、390px 与键盘、真实概览、依赖引导、一次性凭据、占位符客户端示例、可读输出、取消与中文恢复反馈均纳入 [本轮需求与 AC](docs/workflow/runs/f1ff775cb6fee4d609353655cae5e180/product-definition.md)。2026-10-06 宿主 seq33 固定 `make verify` 退出 0，第二轮独立 QA 对该快照给出 **Go，仅本切片**；T001–T003 Done、M01–M03 Accepted。证据与限制见 [验收报告](docs/workflow/runs/f1ff775cb6fee4d609353655cae5e180/acceptance/report-02.md)及 [交付计划](docs/workflow/runs/f1ff775cb6fee4d609353655cae5e180/delivery/README.md)。本轮新 PR、合并、正式测试部署和部署后体验尚未发生，供应商联调未测，不是全产品已发布。
+第 1 项首次配置与诊断已通过独立 QA，经 Issue #16 / PR #17 合并至 `85f6d17c07c5fddeb2d6a39a5a067769a11bb4cc` 并正式测试部署（用户提供 Deployment 6876076706 success）。这是上一切片的发布事实，不覆盖其 [历史验收报告](docs/workflow/runs/f1ff775cb6fee4d609353655cae5e180/acceptance/report-02.md)。当前 Issue #18 实现路线第 2 项：[多上游需求](docs/workflow/runs/82227c5986e5f41875895d8016c686a6/product-definition.md)、[架构](docs/workflow/runs/82227c5986e5f41875895d8016c686a6/routing-architecture.md)、[研发交付与验证状态](docs/workflow/runs/82227c5986e5f41875895d8016c686a6/delivery/README.md)。当前实现待宿主完整门禁与独立 QA，不代表本轮已合并或发布；真实供应商仍未测。
 
-允许参考 New API 与 LiteLLM 的公开产品交互，禁止复制实现、资产及读取本机 New API 数据／凭据。[唯一公共路线](docs/roadmap.md) 第 2–4 项为已授权持续目标，依赖前一切片完成后由目标维护者以新 Issue 接续，不等待用户再次发起、不提前进入本 Run；成员角色和额外协议扩展按实际场景选择。第 1 项通过不等于产品全量通过。
+允许参考 New API 与 LiteLLM 的公开产品交互，禁止复制实现、资产及读取本机 New API 数据／凭据。[唯一公共路线](docs/roadmap.md) 第 3–4 项仍以独立 Issue 接续，本轮不提前实现应用治理或分布式设施。第 1 项通过不等于产品全量通过。
 
 本轮研发须扩展固定 `make verify`，首次配置中间步骤全程 UI 操作，不能 API／SQL 预填；实际 Go 服务、受控上游夹具与真实供应商证据分开。需求、设计、项目测试、独立 QA、PR、合并、正式部署与部署后浏览器核验各按真实回执报告，历史发布不证明本轮交付。
 
@@ -90,7 +90,22 @@ bin/model-relay serve --data-dir ../relay-restored --key-file ../relay.key --lis
 
 默认拒绝 HTTP、私网/loopback/特殊地址、环境代理、所有重定向；配置和实际 Dial 均复验 DNS。管理写操作须精确 Origin，登录后的写操作还需会话 CSRF；管理会话与应用 Bearer 隔离。上游 token AES-GCM 加密，管理员密码 Argon2id，随机应用密钥仅存 SHA-256 摘要。本版只支持 loopback，无公网 TLS/生产部署承诺，同机特权进程不在秘密保护边界内。
 
-生成请求最大 1 MiB、管理 JSON 64 KiB、普通响应 8 MiB、SSE 事件 256 KiB/全流 32 MiB；响应头 30 秒、整个请求 300 秒、有效 SSE 事件空闲 60 秒；逐次下游写 10 秒。全局登录 10 次/分钟，最多两个并行口令验证。每次生成至多一次供应商 POST，不做重试。SSE 只有记录落盘后才发送 `[DONE]`；`event: error` 或缺少 `[DONE]` 均为不完整，不以 finish_reason 代替结束。取消不能保证供应商撤销费用。
+生成请求最大 1 MiB、管理 JSON 64 KiB、普通响应 8 MiB、SSE 事件 256 KiB/全流 32 MiB；响应头 30 秒、整个请求 300 秒、提交前每次尝试 60 秒、有效 SSE 事件空闲 60 秒；逐次下游写 10 秒。全局登录 10 次/分钟，最多两个并行口令验证。同请求最多尝试 3 个不同上游，不重复同一上游；优先级大数先用，同级平滑加权轮转。只有 HTTP 408/429/500/502/503/504、暂时网络或 TLS/传输失败可在响应提交前切换；暂时失败冷却 30 秒后被动恢复。协议/授权/存储失败、整体超时、取消或已向客户端提交响应均停止切换。SSE 只有记录落盘后才发送 `[DONE]`；`event: error` 或缺少 `[DONE]` 均为不完整，不以 finish_reason 代替结束。取消不能保证供应商撤销费用，多次尝试可能产生重复消耗；未知用量保留未知并展示已知部分。
+
+上游与候选由控制台或同一管理 API 持久维护：`/admin/api/upstreams` 支持分页、创建、按 ID 编辑；编辑需 `expected_revision`。模型写入整个 `candidates` 集合（上游 ID、远端名、启用、0–100 优先级、1–100 权重），更新也需 `expected_revision`。旧单上游管理入口返回 410，无配置双写。连接核验显式调用 `POST /admin/api/upstreams/{id}/check`，携带 `expected_execution_revision`；仅查询上游模型列表，不生成，不保证供应商不收取查询费用，也不证明生成健康。
+
+## 从旧安装升级
+
+新安装使用 schema 2；`serve` 不会隐式升级 schema 1。停止旧服务、保留独立主密钥并先由旧 binary 备份，使用候选 binary 执行：
+
+```sh
+bin/model-relay deployment-contract
+bin/model-relay upgrade --data-dir <data-directory> --key-file <key-file> --output <new-migration-backup.tar>
+```
+
+`upgrade` 在独占安装锁内校验凭据、创建新的升级前备份，再原子迁移；返回 JSON `migrated` 或 `already_current`。已是 schema 2 时不重复备份/迁移，仍必须提供 `--output`。保留旧安装身份、管理员、应用密钥、模型及历史记录；历史尝试未知不补造，无上游的遗留映射保留远端名待管理员关联。健康检查报告实际打开的 `storage_schema`。
+
+回退只承诺升级前完整快照：停止新服务，用旧 binary 的 `restore` 将旧归档恢复到空目标并配原主密钥，不合并升级后新增数据。不要把本机手动升级当正式发布；平台正式 activate 需完成旧 binary 备份→候选升级→切换启动/实际 schema 核对及失败恢复，用户已报告平台固定源d0564d05的接缝实现、隔离回归和标准安装升级；这不代替真实新旧Go联调及正式 Actions 非空升级/失败恢复复验，后两层仍是发布依赖。详见 [升级与发布契约](docs/workflow/runs/82227c5986e5f41875895d8016c686a6/deployment-upgrade-contract.md)。
 
 ## 验证
 
@@ -110,4 +125,4 @@ make verify
 
 配置生命周期回归包括不同模型编辑、新地址/新凭据及旧目标计数、上游禁用无消耗后恢复。两屏网页旅程创建两个不同映射、编辑后正常停止 HTTP 服务并关闭存储、重新打开同一临时安装和启动 Go 服务，再登录核对管理响应与恢复网页；同时检查调用记录及捕获的服务日志不含完整凭据、哨兵对话或敏感上游错误。浏览器 runner 的独立 loopback 生命周期/日志检查服务仅在测试内存在，不是产品 API，也不修改数据库记录。实际进程 SIGTERM/崩溃恢复另由原 Go/CLI 测试覆盖。
 
-研发环境监听受沙箱限制，完整通过回执需已配置 host-only 项目测试节点实际执行；参见 `docs/workflow/delivery.md` 的失败与待核验清单。真实供应商联调未测，受控测试、构建成功及草稿 PR 都不代替独立 QA 或获授权目标维护者的最终验收。
+研发环境监听受沙箱限制，完整通过回执需已配置 host-only 项目测试节点实际执行；参见本轮 [验证记录](docs/workflow/runs/82227c5986e5f41875895d8016c686a6/delivery/verification/report.md) 的失败与待核验清单。固定入口新增双上游真实路由旅程与精确旧 main 的非空用户页面→backup→upgrade→旧 binary restore 旅程；这些实现不等于已运行通过。真实供应商联调未测，受控测试、构建成功及草稿 PR 都不代替独立 QA 或获授权目标维护者的最终验收。

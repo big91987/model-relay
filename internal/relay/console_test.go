@@ -46,6 +46,7 @@ func newConsoleFixture(t *testing.T) *consoleFixture {
 }
 
 func (value *consoleFixture) admin(method, path string, body any) *httptest.ResponseRecorder {
+	method, path, body = singleFixtureInput(value.server.Store, method, path, body)
 	data, _ := json.Marshal(body)
 	request := httptest.NewRequest(method, "http://console.test/admin/api/"+path, bytes.NewReader(data))
 	request.Header.Set("Content-Type", "application/json")
@@ -68,7 +69,7 @@ func (value *consoleFixture) configure(t *testing.T) {
 		{"PUT", "upstream", map[string]any{"url": "https://public.example/v1", "token": "isolated-upstream", "enabled": true}},
 		{"POST", "models", map[string]any{"alias": "alpha", "model": "provider-model", "enabled": true}},
 	} {
-		if response := value.admin(step.method, step.path, step.body); response.Code != 200 {
+		if response := value.admin(step.method, step.path, step.body); response.Code != 201 {
 			t.Fatal("configure", response.Code)
 		}
 	}
@@ -114,7 +115,7 @@ func TestConsoleOverviewAndExactRecords(t *testing.T) {
 		t.Fatal(err)
 	}
 	for index := 0; index < 1005; index++ {
-		if _, err = transaction.Exec("INSERT INTO models VALUES(?,?,?)", fmt.Sprintf("bulk-%04d", index), "provider", index%2 == 0); err != nil {
+		if _, err = transaction.Exec("INSERT INTO models(alias,enabled,revision,legacy_remote_model) VALUES(?,?,1,?)", fmt.Sprintf("bulk-%04d", index), index%2 == 0, "provider"); err != nil {
 			t.Fatal(err)
 		}
 		if _, err = transaction.Exec("INSERT INTO app_keys VALUES(?,?,?,?,?,?)", fmt.Sprintf("bulk-%04d", index), "bulk", digest(fmt.Sprintf("isolated-%d", index)), "safe-hint", index%2 == 0, time.Now().UTC().Format(time.RFC3339)); err != nil {

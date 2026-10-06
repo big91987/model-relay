@@ -7,6 +7,7 @@ import (
 	"io"
 	"net"
 	"net/http"
+	"net/http/httptest"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -14,7 +15,90 @@ import (
 	"syscall"
 	"testing"
 	"time"
+
+	"model-relay/internal/relay"
 )
+
+func configureCLIInstallation(t *testing.T, admin func(string, string, any) *http.Response) {
+	t.Helper()
+	response := admin("GET", "upstreams", nil)
+	var initial struct {
+		Data []struct{ ID int64 }
+		Next json.RawMessage `json:"next_cursor"`
+	}
+	err := json.NewDecoder(response.Body).Decode(&initial)
+	response.Body.Close()
+	if response.StatusCode != 200 || err != nil || initial.Data == nil || len(initial.Data) != 0 || string(initial.Next) != "null" {
+		t.Fatal("CLI empty installation contains invented configuration or invalid envelope")
+	}
+	response = admin("POST", "upstreams", map[string]any{"name": "isolated CLI metadata only", "url": "https://8.8.8.8/v1", "token": "isolated-cli-sentinel", "enabled": true})
+	var upstream struct {
+		ID                   int64
+		CredentialConfigured bool `json:"credential_configured"`
+	}
+	err = json.NewDecoder(response.Body).Decode(&upstream)
+	response.Body.Close()
+	if response.StatusCode != 201 || err != nil || upstream.ID < 1 || !upstream.CredentialConfigured {
+		t.Fatal("CLI upstream creation contract failed")
+	}
+	response = admin("POST", "models", map[string]any{"alias": "alpha", "enabled": true, "candidates": []map[string]any{{"upstream_id": upstream.ID, "remote_model": "real", "enabled": true, "priority": 0, "weight": 1}}})
+	response.Body.Close()
+	if response.StatusCode != 201 {
+		t.Fatalf("CLI model creation status %d, wanted 201", response.StatusCode)
+	}
+}
+
+func TestCLIManagementConfigurationContract(t *testing.T) {
+	root := t.TempDir()
+	directory, keyFile := filepath.Join(root, "data"), filepath.Join(root, "material")
+	password, err := relay.Init(directory, keyFile)
+	if err != nil {
+		t.Fatal("init failed")
+	}
+	store, err := relay.Open(directory, keyFile)
+	if err != nil {
+		t.Fatal("open failed")
+	}
+	defer store.Close()
+	server := relay.New(store, relay.Config{Authority: "cli.test"})
+	var cookie *http.Cookie
+	csrf := ""
+	admin := func(method, path string, body any) *http.Response {
+		data, err := json.Marshal(body)
+		if err != nil {
+			t.Fatal("invalid test input")
+		}
+		request := httptest.NewRequest(method, "http://cli.test/admin/api/"+path, bytes.NewReader(data))
+		request.Header.Set("Content-Type", "application/json")
+		request.Header.Set("Origin", "http://cli.test")
+		request.Header.Set("X-CSRF-Token", csrf)
+		if cookie != nil {
+			request.AddCookie(cookie)
+		}
+		response := httptest.NewRecorder()
+		server.ServeHTTP(response, request)
+		return response.Result()
+	}
+	response := admin("POST", "login", map[string]string{"password": password})
+	var login struct{ CSRF string }
+	err = json.NewDecoder(response.Body).Decode(&login)
+	response.Body.Close()
+	if response.StatusCode != 200 || err != nil || len(response.Cookies()) != 1 {
+		t.Fatal("login failed")
+	}
+	cookie, csrf = response.Cookies()[0], login.CSRF
+	response = admin("GET", "upstream", nil)
+	response.Body.Close()
+	if response.StatusCode != 410 {
+		t.Fatal("singleton endpoint did not report contract change")
+	}
+	response = admin("POST", "models", map[string]any{"alias": "alpha", "model": "real", "enabled": true})
+	response.Body.Close()
+	if response.StatusCode != 400 {
+		t.Fatal("legacy model payload accepted")
+	}
+	configureCLIInstallation(t, admin)
+}
 
 func TestCLIInstallationCommands(t *testing.T) {
 	root := t.TempDir()
@@ -141,10 +225,11 @@ func TestCLIInstallationCommands(t *testing.T) {
 		t.Fatal("CLI health failed")
 	}
 	var health struct {
-		Status  string
-		Version string
+		Status        string
+		Version       string
+		StorageSchema int `json:"storage_schema"`
 	}
-	if response.StatusCode != 200 || json.NewDecoder(response.Body).Decode(&health) != nil || health.Status != "ok" || health.Version != buildVersion {
+	if response.StatusCode != 200 || json.NewDecoder(response.Body).Decode(&health) != nil || health.Status != "ok" || health.Version != buildVersion || health.StorageSchema != 2 {
 		t.Fatal("CLI health did not report the running version")
 	}
 	response.Body.Close()
@@ -162,15 +247,7 @@ func TestCLIInstallationCommands(t *testing.T) {
 		cookie = response.Cookies()[0]
 	}
 	login()
-	response = admin("GET", "upstream", nil)
-	var initial struct {
-		CredentialConfigured bool `json:"credential_configured"`
-	}
-	if json.NewDecoder(response.Body).Decode(&initial) != nil || initial.CredentialConfigured {
-		t.Fatal("CLI empty installation contains invented configuration")
-	}
-	response.Body.Close()
-	check(admin("POST", "models", map[string]any{"alias": "alpha", "model": "real", "enabled": true}), 200)
+	configureCLIInstallation(t, admin)
 	keys := []string{}
 	for _, name := range []string{"first", "second"} {
 		response = admin("POST", "keys", map[string]string{"name": name})
@@ -223,9 +300,29 @@ func TestCLIInstallationCommands(t *testing.T) {
 	password = "admin"
 	login()
 	response = admin("GET", "models", nil)
-	var models []struct{ Alias string }
-	if json.NewDecoder(response.Body).Decode(&models) != nil || len(models) != 1 || models[0].Alias != "alpha" {
+	var models struct {
+		Data []struct {
+			Alias      string
+			Candidates []struct {
+				UpstreamID  int64  `json:"upstream_id"`
+				RemoteModel string `json:"remote_model"`
+			}
+		}
+	}
+	if response.StatusCode != 200 || json.NewDecoder(response.Body).Decode(&models) != nil || len(models.Data) != 1 || models.Data[0].Alias != "alpha" || len(models.Data[0].Candidates) != 1 || models.Data[0].Candidates[0].RemoteModel != "real" {
 		t.Fatal("CLI restart lost mapping")
+	}
+	response.Body.Close()
+	response = admin("GET", "upstreams", nil)
+	var upstreams struct {
+		Data []struct {
+			ID                   int64
+			Enabled              bool
+			CredentialConfigured bool `json:"credential_configured"`
+		}
+	}
+	if response.StatusCode != 200 || json.NewDecoder(response.Body).Decode(&upstreams) != nil || len(upstreams.Data) != 1 || upstreams.Data[0].ID != models.Data[0].Candidates[0].UpstreamID || !upstreams.Data[0].Enabled || !upstreams.Data[0].CredentialConfigured {
+		t.Fatal("CLI restart lost upstream or candidate identity")
 	}
 	response.Body.Close()
 	for index, key := range keys {

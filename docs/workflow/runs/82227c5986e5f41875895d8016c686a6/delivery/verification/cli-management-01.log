@@ -1,0 +1,9 @@
+# model-relay/cmd/model-relay.test
+ld: warning: '<temp>' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestCLIManagementConfigurationContract
+--- PASS: TestCLIManagementConfigurationContract (2.30s)
+PASS
+ok  	model-relay/cmd/model-relay	3.954s
+
+command=go test -race -count=1 -v ./cmd/model-relay -run ^TestCLIManagementConfigurationContract$
+exit_code=0

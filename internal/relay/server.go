@@ -2,7 +2,6 @@ package relay
 
 import (
 	"crypto/subtle"
-	"database/sql"
 	"encoding/json"
 	"errors"
 	"io"
@@ -17,29 +16,35 @@ import (
 )
 
 type Config struct {
-	Authority     string
-	Version       string
-	Policy        Policy
-	TotalTimeout  time.Duration
-	IdleTimeout   time.Duration
-	HeaderTimeout time.Duration
+	Authority      string
+	Version        string
+	Policy         Policy
+	TotalTimeout   time.Duration
+	IdleTimeout    time.Duration
+	HeaderTimeout  time.Duration
+	AttemptTimeout time.Duration
+	Cooldown       time.Duration
 }
 type session struct {
 	CSRF   string
 	Expiry time.Time
 }
 type Server struct {
-	Store         *Store
-	Config        Config
-	mu            sync.RWMutex
-	authMu        sync.Mutex
-	sessions      map[string]session
-	attempts      []time.Time
-	passwordSlots chan struct{}
-	degraded      atomic.Bool
-	client        *http.Client
-	configEpoch   uint64
-	successID     string
+	Store            *Store
+	Config           Config
+	mu               sync.RWMutex
+	authMu           sync.Mutex
+	sessions         map[string]session
+	attempts         []time.Time
+	passwordSlots    chan struct{}
+	degraded         atomic.Bool
+	client           *http.Client
+	configEpoch      uint64
+	successID        string
+	routing          map[string]*routeRuntime
+	checking         map[int64]bool
+	health           map[string]*routeHealth
+	dispatchSequence int64
 }
 
 func New(store *Store, config Config) *Server {
@@ -52,8 +57,14 @@ func New(store *Store, config Config) *Server {
 	if config.HeaderTimeout == 0 {
 		config.HeaderTimeout = 30 * time.Second
 	}
+	if config.AttemptTimeout == 0 {
+		config.AttemptTimeout = 60 * time.Second
+	}
+	if config.Cooldown == 0 {
+		config.Cooldown = 30 * time.Second
+	}
 	transport := &http.Transport{Proxy: nil, DialContext: config.Policy.Dial, DisableKeepAlives: true, ForceAttemptHTTP2: false, TLSHandshakeTimeout: 5 * time.Second, ResponseHeaderTimeout: config.HeaderTimeout}
-	return &Server{Store: store, Config: config, sessions: make(map[string]session), passwordSlots: make(chan struct{}, 2), client: &http.Client{Transport: transport, CheckRedirect: func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse }}}
+	return &Server{Store: store, Config: config, sessions: make(map[string]session), routing: make(map[string]*routeRuntime), health: make(map[string]*routeHealth), checking: make(map[int64]bool), passwordSlots: make(chan struct{}, 2), client: &http.Client{Transport: transport, CheckRedirect: func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse }}}
 }
 func reply(writer http.ResponseWriter, status int, value any) {
 	writer.Header().Set("Content-Type", "application/json")
@@ -130,7 +141,7 @@ func (server *Server) ServeHTTP(writer http.ResponseWriter, request *http.Reques
 			failure(writer, 503, "storage_unavailable", "")
 			return
 		}
-		reply(writer, 200, map[string]string{"status": "ok", "version": server.Config.Version})
+		reply(writer, 200, map[string]any{"status": "ok", "version": server.Config.Version, "storage_schema": server.Store.Schema})
 	case strings.HasPrefix(request.URL.Path, "/admin/api/"):
 		server.admin(writer, request)
 	case request.URL.Path == "/v1/models" && request.Method == http.MethodGet:
@@ -195,15 +206,26 @@ func (server *Server) admin(writer http.ResponseWriter, request *http.Request) {
 		reply(writer, 200, map[string]bool{"ok": true})
 		return
 	}
+	if request.URL.Path == "/admin/api/upstream" {
+		failure(writer, 410, "management_api_changed", "")
+		return
+	}
+	response := newAdminResponse(writer)
+	defer response.flush()
+	writer = response
+	if request.URL.Path == "/admin/api/upstreams" || strings.HasPrefix(request.URL.Path, "/admin/api/upstreams/") {
+		server.upstreams(writer, request)
+		return
+	}
+	if request.URL.Path == "/admin/api/models" || strings.HasPrefix(request.URL.Path, "/admin/api/models/") {
+		server.routeModels(writer, request)
+		return
+	}
 	server.mu.Lock()
 	defer server.mu.Unlock()
 	switch {
 	case request.URL.Path == "/admin/api/overview" && request.Method == http.MethodGet:
 		server.overview(writer, request)
-	case request.URL.Path == "/admin/api/upstream":
-		server.upstream(writer, request)
-	case request.URL.Path == "/admin/api/models" || strings.HasPrefix(request.URL.Path, "/admin/api/models/"):
-		server.models(writer, request)
 	case request.URL.Path == "/admin/api/keys" || strings.HasPrefix(request.URL.Path, "/admin/api/keys/"):
 		server.keys(writer, request)
 	case request.URL.Path == "/admin/api/requests" && request.Method == http.MethodGet:
@@ -269,138 +291,11 @@ func (server *Server) login(writer http.ResponseWriter, request *http.Request) {
 	http.SetCookie(writer, &http.Cookie{Name: "mr_session", Value: secret, Path: "/admin", HttpOnly: true, SameSite: http.SameSiteStrictMode, MaxAge: 8 * 3600})
 	reply(writer, 200, map[string]string{"csrf": csrf, "expires_at": now.Add(8 * time.Hour).UTC().Format(time.RFC3339)})
 }
-func (server *Server) upstream(writer http.ResponseWriter, request *http.Request) {
-	var rawURL string
-	var encrypted []byte
-	var enabled bool
-	var revision int64
-	err := server.Store.DB.QueryRow("SELECT url,token,enabled,revision FROM upstream WHERE id=1").Scan(&rawURL, &encrypted, &enabled, &revision)
-	if err != nil && err != sql.ErrNoRows {
-		failure(writer, 503, "storage_unavailable", "")
-		return
-	}
-	if request.Method == http.MethodGet {
-		reply(writer, 200, map[string]any{"url": rawURL, "enabled": enabled, "revision": revision, "credential_configured": len(encrypted) > 0})
-		return
-	}
-	if request.Method != http.MethodPut {
-		failure(writer, 405, "method_not_allowed", "")
-		return
-	}
-	var input struct {
-		URL     string `json:"url"`
-		Token   string `json:"token"`
-		Enabled *bool  `json:"enabled"`
-	}
-	if jsonInput(writer, request, &input) != nil || input.Enabled == nil || len(input.Token) > 8192 || strings.ContainsAny(input.Token, "\r\n\x00") {
-		failure(writer, 400, "invalid_request", "")
-		return
-	}
-	normalized, err := server.Config.Policy.URL(request.Context(), input.URL)
-	if err != nil {
-		failure(writer, 400, "invalid_destination", "")
-		return
-	}
-	if (normalized != rawURL || len(encrypted) == 0) && input.Token == "" {
-		failure(writer, 400, "new_credential_required", "")
-		return
-	}
-	if input.Token != "" {
-		encrypted, err = seal(server.Store.Key, input.Token, "upstream:"+normalized)
-		if err != nil {
-			failure(writer, 503, "storage_unavailable", "")
-			return
-		}
-	}
-	_, err = server.Store.DB.Exec("INSERT INTO upstream VALUES(1,?,?,?,?) ON CONFLICT(id) DO UPDATE SET url=excluded.url,token=excluded.token,enabled=excluded.enabled,revision=excluded.revision", normalized, encrypted, *input.Enabled, revision+1)
-	if err != nil {
-		failure(writer, 503, "storage_unavailable", "")
-		return
-	}
-	server.configurationChanged()
-	reply(writer, 200, map[string]any{"ok": true, "revision": revision + 1})
-}
 
 type Model struct {
 	Alias   string `json:"alias"`
 	Model   string `json:"model"`
 	Enabled bool   `json:"enabled"`
-}
-
-func (server *Server) models(writer http.ResponseWriter, request *http.Request) {
-	if request.Method == http.MethodGet && request.URL.Path == "/admin/api/models" {
-		rows, err := server.Store.DB.Query("SELECT alias,model,enabled FROM models ORDER BY alias LIMIT 1000")
-		if err != nil {
-			failure(writer, 503, "storage_unavailable", "")
-			return
-		}
-		defer rows.Close()
-		list := []Model{}
-		for rows.Next() {
-			var value Model
-			if rows.Scan(&value.Alias, &value.Model, &value.Enabled) != nil {
-				failure(writer, 503, "storage_unavailable", "")
-				return
-			}
-			list = append(list, value)
-		}
-		if rows.Err() != nil {
-			failure(writer, 503, "storage_unavailable", "")
-			return
-		}
-		reply(writer, 200, list)
-		return
-	}
-	if request.Method != http.MethodPost && request.Method != http.MethodPatch {
-		failure(writer, 405, "method_not_allowed", "")
-		return
-	}
-	var body struct {
-		Alias   string `json:"alias"`
-		Model   string `json:"model"`
-		Enabled *bool  `json:"enabled"`
-	}
-	if jsonInput(writer, request, &body) != nil || body.Enabled == nil {
-		failure(writer, 400, "invalid_request", "")
-		return
-	}
-	input := Model{Alias: body.Alias, Model: body.Model, Enabled: *body.Enabled}
-	if request.Method == http.MethodPatch {
-		alias := strings.TrimPrefix(request.URL.Path, "/admin/api/models/")
-		if alias == request.URL.Path || input.Alias != "" && input.Alias != alias {
-			failure(writer, 400, "invalid_request", "")
-			return
-		}
-		input.Alias = alias
-	}
-	if !validAlias(input.Alias) || !validName(input.Model) {
-		failure(writer, 400, "invalid_model", "")
-		return
-	}
-	var result sql.Result
-	var err error
-	if request.Method == http.MethodPost {
-		result, err = server.Store.DB.Exec("INSERT INTO models VALUES(?,?,?)", input.Alias, input.Model, input.Enabled)
-	} else {
-		result, err = server.Store.DB.Exec("UPDATE models SET model=?,enabled=? WHERE alias=?", input.Model, input.Enabled, input.Alias)
-	}
-	if err != nil {
-		var exists int
-		server.Store.DB.QueryRow("SELECT count(*) FROM models WHERE alias=?", input.Alias).Scan(&exists)
-		if exists > 0 && request.Method == http.MethodPost {
-			failure(writer, 409, "alias_conflict", "")
-		} else {
-			failure(writer, 503, "storage_unavailable", "")
-		}
-		return
-	}
-	count, _ := result.RowsAffected()
-	if count == 0 {
-		failure(writer, 404, "not_found", "")
-		return
-	}
-	server.configurationChanged()
-	reply(writer, 200, map[string]bool{"ok": true})
 }
 
 type AppKey struct {
@@ -445,7 +340,17 @@ func (server *Server) keys(writer http.ResponseWriter, request *http.Request) {
 		}
 		secret := "mr_" + randomSecret(32)
 		key := AppKey{ID: randomSecret(16), Name: input.Name, Hint: secret[:11], Enabled: true, Created: time.Now().UTC().Format(time.RFC3339Nano)}
-		if _, err := server.Store.DB.Exec("INSERT INTO app_keys VALUES(?,?,?,?,1,?)", key.ID, key.Name, digest(secret), key.Hint, key.Created); err != nil {
+		transaction, err := server.Store.DB.Begin()
+		if err != nil {
+			failure(writer, 503, "storage_unavailable", "")
+			return
+		}
+		defer transaction.Rollback()
+		if _, err := transaction.Exec("INSERT INTO app_keys VALUES(?,?,?,?,1,?)", key.ID, key.Name, digest(secret), key.Hint, key.Created); err != nil {
+			failure(writer, 503, "storage_unavailable", "")
+			return
+		}
+		if configChanged(transaction) != nil || transaction.Commit() != nil {
 			failure(writer, 503, "storage_unavailable", "")
 			return
 		}
@@ -461,7 +366,13 @@ func (server *Server) keys(writer http.ResponseWriter, request *http.Request) {
 			failure(writer, 400, "invalid_request", "")
 			return
 		}
-		result, err := server.Store.DB.Exec("UPDATE app_keys SET enabled=? WHERE id=?", *input.Enabled, strings.TrimPrefix(request.URL.Path, "/admin/api/keys/"))
+		transaction, err := server.Store.DB.Begin()
+		if err != nil {
+			failure(writer, 503, "storage_unavailable", "")
+			return
+		}
+		defer transaction.Rollback()
+		result, err := transaction.Exec("UPDATE app_keys SET enabled=? WHERE id=?", *input.Enabled, strings.TrimPrefix(request.URL.Path, "/admin/api/keys/"))
 		if err != nil {
 			failure(writer, 503, "storage_unavailable", "")
 			return
@@ -469,6 +380,10 @@ func (server *Server) keys(writer http.ResponseWriter, request *http.Request) {
 		count, _ := result.RowsAffected()
 		if count == 0 {
 			failure(writer, 404, "not_found", "")
+			return
+		}
+		if configChanged(transaction) != nil || transaction.Commit() != nil {
+			failure(writer, 503, "storage_unavailable", "")
 			return
 		}
 		server.configurationChanged()
@@ -542,7 +457,7 @@ func (server *Server) listModels(writer http.ResponseWriter, request *http.Reque
 		failure(writer, 401, "unauthorized", "")
 		return
 	}
-	rows, err := server.Store.DB.Query("SELECT alias FROM models WHERE enabled=1 AND EXISTS(SELECT 1 FROM upstream WHERE enabled=1) ORDER BY alias LIMIT 1000")
+	rows, err := server.Store.DB.Query("SELECT alias FROM models WHERE enabled=1 AND EXISTS(SELECT 1 FROM route_candidates c JOIN upstream u ON u.id=c.upstream_id WHERE c.alias=models.alias AND c.enabled=1 AND u.enabled=1 AND length(u.token)>0) ORDER BY alias LIMIT 1000")
 	if err != nil {
 		failure(writer, 503, "storage_unavailable", "")
 		return

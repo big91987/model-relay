@@ -1,0 +1,51 @@
+{
+  "date": "2026-10-06",
+  "actor": "independent QA",
+  "head": "85f6d17c07c5fddeb2d6a39a5a067769a11bb4cc",
+  "branch": "workflow/82227c5986e5f41875895d8016c686a6",
+  "product_files": 82,
+  "product_sha256_excluding_new_QA_test": "c340664b231d83d153f0d2569065db08c8be34661a314f51e7831f74f808b27e",
+  "new_QA_test": {
+    "path": "internal/relay/qa_connection_contract_test.go",
+    "bytes": 3581,
+    "sha256": "aafefad09c238b976b850c44eda7960f74ea2e5cb6b7bb96b36794cfddb4e9b4"
+  },
+  "workflow": {
+    "path": ".github/workflows/deploy-local.yml",
+    "bytes": 3418,
+    "sha256": "a3d814fa47da0c74e6934ab46138f2b854c55cf1de177f7fba538b4365ab2f45"
+  },
+  "manifest": {
+    "path": "deploy/platform-preview-source.json",
+    "bytes": 131,
+    "sha256": "731a67786f16a70c6c332b1c95278d51175e1896bd1f522dbf7135f8c9e3b130"
+  },
+  "source_of_browser_evidence": "local artifacts after host Connector seq16; no independent browser rerun; screenshot hashes not included in original Connector receipt",
+  "artifacts": [
+    {
+      "path": "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/acceptance/evidence/console-first-call-1280.png",
+      "bytes": 117745,
+      "sha256": "13a92e468969431c3feb08a5703eb5a31015cd2c4a8f84da061b0a520f6f6708"
+    },
+    {
+      "path": "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/acceptance/evidence/console-first-call-390.png",
+      "bytes": 111387,
+      "sha256": "501cbaf9919319f035ddbfbf8586a864123875a9fc59d5bce8b64872a3fb2f99"
+    },
+    {
+      "path": "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/acceptance/evidence/routing-1280.png",
+      "bytes": 1213827,
+      "sha256": "fbbf3fb38804a7f66ef35a2fbf4474ace0f922cb71104f146e1239f4e529f1df"
+    },
+    {
+      "path": "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/acceptance/evidence/routing-390.png",
+      "bytes": 842551,
+      "sha256": "093865f4835ddfd2fcd62b9c6f6f7e95bb6094f4aa97348cfdcd940fcb3cc9c8"
+    },
+    {
+      "path": "docs/workflow/runs/82227c5986e5f41875895d8016c686a6/acceptance/evidence/routing-selection-75584.jsonl",
+      "bytes": 24102,
+      "sha256": "8b06b4ec208d1190b6a91012e5bc1f09e66126501a420568920b9006848d4d3b"
+    }
+  ]
+}

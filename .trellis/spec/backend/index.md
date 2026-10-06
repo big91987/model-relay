@@ -3,7 +3,7 @@
 Single Go module; no package map is needed. Runtime ownership is cmd/model-relay (CLI) and internal/relay (HTTP, persistence, proxy). Node is test-only.
 
 ## Pre-Development Checklist
-Read [runtime contracts](runtime-contracts.md) and [console contracts](console-contracts.md), then the relevant source and HTTP tests. Read ../guides/index.md. Do not change authentication or storage for DOM-only features.
+Read [runtime contracts](runtime-contracts.md), [console contracts](console-contracts.md) and [multi-upstream contracts](routing-contracts.md), then the relevant source and HTTP tests. Read ../guides/index.md. Do not change authentication or storage for DOM-only features.
 
 ## Quality Check
 Run make verify unchanged. Review HTTP methods, authorization, CSRF, persistence and secret redaction if those paths change. Review [console contracts](console-contracts.md) for counts, configuration epochs and safe rejection. See [runtime contracts](runtime-contracts.md) for trusted examples.

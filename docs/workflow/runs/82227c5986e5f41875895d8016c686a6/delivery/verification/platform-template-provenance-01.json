@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-06",
+  "fixed_platform_source": "294ddb33a18a02d413af9e790e4d5caaf26eca51",
+  "observed_platform_head": "e999c011325a8d1591dfc91640e7fde9382524fb",
+  "source_subtree_clean": true,
+  "source_subtree_matches_fixed": true,
+  "source_hashes": {
+    "deploy-local.yml": "a3d814fa47da0c74e6934ab46138f2b854c55cf1de177f7fba538b4365ab2f45",
+    "install_workflow.py": "1d09d8bd6069781fb2b33cfd9c998a35577906077dfe851d8242c81ba3b85da8"
+  },
+  "installed_workflow_path": ".github/workflows/deploy-local.yml",
+  "installed_manifest_path": "deploy/platform-preview-source.json",
+  "installed_workflow_matches_fixed": true,
+  "manifest_matches_installed": true,
+  "first_install": {
+    "result": "Workflow installed",
+    "exit_code": 0,
+    "log": "platform-template-install-01.log"
+  },
+  "repeat_install": {
+    "result": "Workflow unchanged",
+    "exit_code": 0,
+    "log": "platform-template-repeat-01.log"
+  },
+  "scope": "standard managed-file installation only; no controller copy, deployment, Actions run or product migration evidence"
+}

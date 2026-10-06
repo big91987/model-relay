@@ -126,6 +126,7 @@ function serializeFailure(summary) {
 const responses = [];
 const origin = process.env.RELAY_BROWSER_URL;
 async function visibleText(page, selector, text) {
+  if (selector === '#overview-evidence') { const detail = page.locator('#overview-evidence').locator('..'); if (!await detail.evaluate(node => node.open)) await detail.locator('summary').click(); }
   checkpoint = `visible ${selector} contains ${text}`;
   await page.locator(selector).filter({hasText: text}).waitFor({state: 'visible', timeout: 10000});
 }
@@ -137,7 +138,7 @@ async function evidenceSummary(page, value, expectedID) {
   const evidence = value.degraded ? null : value.call_evidence;
   if (!evidence) {
     assert.equal(expectedID == null, true, 'expected absence of current success evidence');
-    await visibleText(page, '#summary', value.degraded ? '存储不可用' : value.upstream.configured ? '尚无当前配置成功证据' : '待配置：从接入上游开始');
+    await visibleText(page, '#summary', value.degraded ? '存储不可用' : value.upstream.configured ? '尚无当前配置的生成成功记录' : '待配置：从接入上游开始');
     assert.equal(await page.locator('#overview-record').isDisabled(), true);
     assert.equal(await page.locator('#summary').evaluate(node => /调用时间|配置版本/.test(node.textContent)), false, 'no old metadata without evidence');
     return null;
@@ -145,7 +146,8 @@ async function evidenceSummary(page, value, expectedID) {
   if (expectedID) assert.equal(evidence.request_id, expectedID);
   assert.equal(typeof evidence.time === 'string' && evidence.time.length > 0, true);
   assert.equal(Number.isSafeInteger(evidence.upstream_revision) && evidence.upstream_revision > 0, true);
-  await visibleText(page, '#summary', '当前配置曾成功调用 · 请求 ' + evidence.request_id + ' · 模型 ' + evidence.alias + ' · 调用时间 ' + evidence.time + ' · 配置版本 ' + evidence.upstream_revision + ' · ' + evidence.scope);
+  await visibleText(page, '#summary', '当前配置曾成功调用 · 模型 ' + evidence.alias);
+  await visibleText(page, '#overview-evidence', '请求 ' + evidence.request_id + '\n调用时间 ' + evidence.time + '\n上游配置版本 ' + evidence.upstream_revision + '\n' + evidence.scope);
   assert.equal(await page.locator('#overview-record').isEnabled(), true);
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, 'evidence metadata fits viewport');
   return evidence;
@@ -175,14 +177,15 @@ async function loginOverview(page, completed, width) {
   } else {
     assert.ok(value.call_evidence?.request_id);
     assert.equal(value.call_evidence.alias, 'alpha-1280');
-    await visibleText(page, '#summary', '当前配置曾成功调用 · 请求 ' + value.call_evidence.request_id);
-    await visibleText(page, '#overview-upstream', '已启用 · 凭据已配置');
+    await visibleText(page, '#overview-evidence', value.call_evidence.request_id);
+    await visibleText(page, '#overview-upstream', '1 个 / 启用 1');
   }
   await visibleText(page, '#overview-models', value.models.total + ' 个 / 启用 ' + value.models.enabled);
   await visibleText(page, '#overview-keys', value.keys.total + ' 个 / 启用 ' + value.keys.enabled);
   await evidenceSummary(page, value, width === 390 ? value.call_evidence.request_id : null);
 }
 async function navigate(page, name) {
+  await revealAccount(page, name);
   checkpoint = `click ${name}`;
   const completed = name === '退出' ? page.waitForResponse(response => new URL(response.url()).pathname === '/admin/api/logout') : null;
   await page.getByRole('button', {name, exact: true}).click();
@@ -310,7 +313,8 @@ async function keyboardModel(page, alias) {
   }
   modelProbe = null;
 }
-async function keyboardButton(page, name) { await keyboardAction(page, page.getByRole('button', {name, exact: true})); }
+async function revealAccount(page, name) { if (['退出', '重新登录', '重新检查会话'].includes(name) && !await page.locator('#account-actions').evaluate(node => node.open)) await page.locator('#account-actions summary').click(); }
+async function keyboardButton(page, name) { await revealAccount(page, name); await keyboardAction(page, page.getByRole('button', {name, exact: true})); }
 async function keyboardExpand(page, id) { if (!await page.locator(id).evaluate(node => node.open)) await keyboardAction(page, page.locator(id + ' summary')); }
 async function keyboardStateChange(page, name, entity) {
   const path = entity === '模型' ? 'models' : 'keys';
@@ -327,25 +331,25 @@ async function keyboardStateChange(page, name, entity) {
 async function keyboardSaveUpstream(page) {
   let releaseWrite;
   const gate = new Promise(resolve => { releaseWrite = resolve; });
-  const heldWrite = async route => { if (route.request().method() === 'PUT') await gate; await route.continue(); };
+  const heldWrite = async route => { if (['POST', 'PATCH'].includes(route.request().method())) await gate; await route.continue(); };
   let writeCount = 0;
-  const countWrites = request => { if (new URL(request.url()).pathname === '/admin/api/upstream' && request.method() === 'PUT') writeCount++; };
+  const countWrites = request => { if (new URL(request.url()).pathname.startsWith('/admin/api/upstreams') && ['POST', 'PATCH'].includes(request.method())) writeCount++; };
   page.on('request', countWrites);
-  await page.route('**/admin/api/upstream', heldWrite);
-  const started = page.waitForRequest(request => new URL(request.url()).pathname === '/admin/api/upstream' && request.method() === 'PUT');
-  const written = page.waitForResponse(response => new URL(response.url()).pathname === '/admin/api/upstream' && response.request().method() === 'PUT');
-  const reread = page.waitForResponse(response => new URL(response.url()).pathname === '/admin/api/upstream' && response.request().method() === 'GET');
+  await page.route('**/admin/api/upstreams**', heldWrite);
+  const started = page.waitForRequest(request => new URL(request.url()).pathname.startsWith('/admin/api/upstreams') && ['POST', 'PATCH'].includes(request.method()));
+  const written = page.waitForResponse(response => new URL(response.url()).pathname.startsWith('/admin/api/upstreams') && ['POST', 'PATCH'].includes(response.request().method()));
+  const reread = page.waitForResponse(response => new URL(response.url()).pathname === '/admin/api/upstreams' && response.request().method() === 'GET');
   try {
     await keyboardButton(page, '保存上游'); await started;
     for (const id of ['upstream-url', 'upstream-token', 'upstream-enabled', 'save-upstream', 'refresh-upstream']) assert.equal(await page.locator('#' + id).isDisabled(), true);
     await page.locator('#upstream-form').evaluate(form => { form.requestSubmit(); form.requestSubmit(); });
     assert.equal(writeCount, 1, 'shared save/restore busy ownership prevents repeated writes');
     releaseWrite();
-    assert.equal((await written).status(), 200); assert.equal((await reread).status(), 200);
+    const receipt = await written; assert.equal(receipt.status(), receipt.request().method() === 'POST' ? 201 : 200); assert.equal((await reread).status(), 200);
     await visibleText(page, '#notice', '上游已保存');
     assert.equal(writeCount, 1);
     assert.equal(await page.locator('#refresh-upstream').isDisabled(), false);
-  } finally { releaseWrite(); page.off('request', countWrites); await page.unroute('**/admin/api/upstream', heldWrite); }
+  } finally { releaseWrite(); page.off('request', countWrites); await page.unroute('**/admin/api/upstreams**', heldWrite); }
 }
 async function callControlState(page, disabled) {
   checkpoint = 'submitted parameter controls preserve current-call ownership';
@@ -364,7 +368,7 @@ async function keyboardReloadUpstream(page) {
   await keyboardCheck(page, page.getByLabel('启用上游'), false);
   checkpoint = 'upstream explicit reread completion barrier';
   let writes = 0;
-  const countWrites = request => { if (new URL(request.url()).pathname === '/admin/api/upstream' && request.method() === 'PUT') writes++; };
+  const countWrites = request => { if (new URL(request.url()).pathname.startsWith('/admin/api/upstreams') && ['POST', 'PATCH'].includes(request.method())) writes++; };
   page.on('request', countWrites);
   let releaseRead;
   const gate = new Promise(resolve => { releaseRead = resolve; });
@@ -372,9 +376,9 @@ async function keyboardReloadUpstream(page) {
     if (route.request().method() === 'GET') await gate;
     await route.continue();
   };
-  const started = page.waitForRequest(request => new URL(request.url()).pathname === '/admin/api/upstream' && request.method() === 'GET');
-  const completed = page.waitForResponse(response => new URL(response.url()).pathname === '/admin/api/upstream' && response.request().method() === 'GET');
-  await page.route('**/admin/api/upstream', heldRead);
+  const started = page.waitForRequest(request => new URL(request.url()).pathname === '/admin/api/upstreams' && request.method() === 'GET');
+  const completed = page.waitForResponse(response => new URL(response.url()).pathname === '/admin/api/upstreams' && response.request().method() === 'GET');
+  await page.route('**/admin/api/upstreams**', heldRead);
   try {
     await keyboardButton(page, '重新读取上游');
     await started;
@@ -395,12 +399,12 @@ async function keyboardReloadUpstream(page) {
   } finally {
     page.off('request', countWrites);
     releaseRead();
-    await page.unroute('**/admin/api/upstream', heldRead);
+    await page.unroute('**/admin/api/upstreams**', heldRead);
   }
 }
 async function upstreamFailureJourney(page) {
   const save = async () => {
-    const completed = page.waitForResponse(response => new URL(response.url()).pathname === '/admin/api/upstream' && response.request().method() === 'PUT');
+    const completed = page.waitForResponse(response => new URL(response.url()).pathname.startsWith('/admin/api/upstreams') && ['POST', 'PATCH'].includes(response.request().method()));
     await keyboardButton(page, '保存上游');
     return completed;
   };
@@ -421,10 +425,10 @@ async function upstreamFailureJourney(page) {
   let reads = 0, writes = 0;
   const failedRead = route => {
     if (route.request().method() === 'GET' && ++reads === 1) return route.fulfill({status: 503, contentType: 'application/json', body: JSON.stringify({error: {code: 'storage_unavailable'}})});
-    if (route.request().method() === 'PUT') writes++;
+    if (['POST', 'PATCH'].includes(route.request().method())) writes++;
     return route.continue();
   };
-  await page.route('**/admin/api/upstream', failedRead);
+  await page.route('**/admin/api/upstreams**', failedRead);
   try {
     await keyboardInput(page, page.getByLabel('上游凭据'), 'controlled-browser-upstream');
     assert.equal((await save()).status(), 200);
@@ -433,22 +437,22 @@ async function upstreamFailureJourney(page) {
     assert.equal(await page.getByLabel('上游凭据').inputValue(), '');
     assert.equal(await page.getByLabel('上游地址').inputValue(), process.env.RELAY_BROWSER_UPSTREAM);
     assert.equal(writes, 1, 'read failure never rewrites');
-  } finally { await page.unroute('**/admin/api/upstream', failedRead); }
+  } finally { await page.unroute('**/admin/api/upstreams**', failedRead); }
   await keyboardReloadUpstream(page);
-  const failedWrite = route => route.request().method() === 'PUT' ? route.abort('failed') : route.continue();
-  await page.route('**/admin/api/upstream', failedWrite);
+  const failedWrite = route => ['POST', 'PATCH'].includes(route.request().method()) ? route.abort('failed') : route.continue();
+  await page.route('**/admin/api/upstreams**', failedWrite);
   try {
     await keyboardInput(page, page.getByLabel('上游凭据'), 'controlled-network-secret');
     await keyboardButton(page, '保存上游');
     await visibleText(page, '#error', '保存未确认');
     assert.equal(await page.getByLabel('上游凭据').inputValue(), '');
     assert.equal(await page.getByLabel('上游地址').inputValue(), process.env.RELAY_BROWSER_UPSTREAM);
-  } finally { await page.unroute('**/admin/api/upstream', failedWrite); }
+  } finally { await page.unroute('**/admin/api/upstreams**', failedWrite); }
   await keyboardReloadUpstream(page);
   const failedRestore = route => route.request().method() === 'GET' ? route.fulfill({status: 503, contentType: 'application/json', body: JSON.stringify({error: {code: 'storage_unavailable'}})}) : route.continue();
-  await page.route('**/admin/api/upstream', failedRestore);
+  await page.route('**/admin/api/upstreams**', failedRestore);
   let restoreWrites = 0;
-  const countRestoreWrites = request => { if (new URL(request.url()).pathname === '/admin/api/upstream' && request.method() === 'PUT') restoreWrites++; };
+  const countRestoreWrites = request => { if (new URL(request.url()).pathname.startsWith('/admin/api/upstreams') && ['POST', 'PATCH'].includes(request.method())) restoreWrites++; };
   page.on('request', countRestoreWrites);
   try {
     await keyboardInput(page, page.getByLabel('上游地址'), 'https://controlled-failed-restore.example/v1');
@@ -460,7 +464,7 @@ async function upstreamFailureJourney(page) {
     assert.equal(await page.getByLabel('启用上游').isChecked(), false);
     assert.equal(restoreWrites, 0);
     assert.equal(await page.locator('#save-upstream').isDisabled(), false);
-  } finally { page.off('request', countRestoreWrites); await page.unroute('**/admin/api/upstream', failedRestore); }
+  } finally { page.off('request', countRestoreWrites); await page.unroute('**/admin/api/upstreams**', failedRestore); }
   await keyboardReloadUpstream(page);
 }
 async function dependencyJourney(page, width, keys, keyIDs, fillCall) {
@@ -632,9 +636,12 @@ async function recordsBoundaryJourney(page, context, width, key, keyID, fillCall
         assert.equal(response.status(), 200);
         currentEvidence = await evidenceSummary(page, await response.json(), evidenceID);
       }
-      await visibleText(page, '#summary', evidenceID); await visibleText(page, '#summary', '模型 alpha-' + width);
+      await visibleText(page, '#overview-evidence', evidenceID); await visibleText(page, '#summary', '模型 alpha-' + width);
       const exact = page.waitForResponse(response => new URL(response.url()).pathname === '/admin/api/requests/' + evidenceID);
-      await keyboardButton(page, '5 · 核对概览成功请求记录');
+      if (!await page.locator('#completed-setup').evaluate(node => node.open)) {
+        await keyboardFocus(page, page.locator('#completed-setup summary')); await page.keyboard.press('Enter');
+      }
+      await keyboardButton(page, '查看成功请求详情');
       const exactResponse = await exact;
       assert.equal(exactResponse.status(), 200);
       const record = await exactResponse.json();
@@ -782,9 +789,9 @@ async function rejectedLoginJourney(page) {
 async function loadUpstreamPanel(page) {
   let releaseLoad;
   const loadReleased = new Promise(resolve => { releaseLoad = resolve; });
-  const loadStarted = page.waitForRequest('**/admin/api/upstream', {timeout: 10000});
+  const loadStarted = page.waitForRequest('**/admin/api/upstreams**', {timeout: 10000});
   const delayedLoad = async route => { await loadReleased; await route.continue(); };
-  await page.route('**/admin/api/upstream', delayedLoad);
+  await page.route('**/admin/api/upstreams**', delayedLoad);
   try {
     await navigate(page, '上游');
     checkpoint = 'upstream load barrier';
@@ -795,7 +802,7 @@ async function loadUpstreamPanel(page) {
     await page.getByLabel('上游地址').waitFor({state: 'visible', timeout: 10000});
   } finally {
     releaseLoad();
-    await page.unroute('**/admin/api/upstream', delayedLoad);
+    await page.unroute('**/admin/api/upstreams**', delayedLoad);
   }
 }
 async function runtimeVersionJourney(page, context, width, healthRequests) {
@@ -888,7 +895,7 @@ try {
     page.on('pageerror', error => errors.push(error.message));
     page.on('response', response => {
       const pathname = new URL(response.url()).pathname;
-      if (!['/admin/api/overview', '/admin/api/session', '/admin/api/login', '/admin/api/upstream', '/admin/api/models', '/admin/api/keys', '/admin/api/requests', '/admin/api/logout', '/v1/chat/completions'].includes(pathname)) return;
+      if (!['/admin/api/overview', '/admin/api/session', '/admin/api/login', '/admin/api/upstreams', '/admin/api/models', '/admin/api/keys', '/admin/api/requests', '/admin/api/logout', '/v1/chat/completions'].includes(pathname)) return;
       responses.push({method: response.request().method(), path: pathname, status: response.status()});
       if (responses.length > 12) responses.shift();
     });
@@ -930,6 +937,7 @@ try {
     assert.equal((await page.locator('#password').inputValue()) === '', true, 'session restoration clears password');
     assert.equal(await page.locator('#password').getAttribute('type'), 'password');
     await loadUpstreamPanel(page);
+    await keyboardInput(page, page.getByLabel('上游名称', {exact: true}), '受控主上游');
     await keyboardInput(page, page.getByLabel('上游地址'), process.env.RELAY_BROWSER_UPSTREAM);
     await keyboardInput(page, page.getByLabel('上游凭据'), 'controlled-browser-upstream');
     await keyboardCheck(page, page.getByLabel('启用上游'), true);
@@ -937,7 +945,7 @@ try {
     await visibleText(page, '#notice', '上游已保存');
     await upstreamFailureJourney(page);
     await page.getByLabel('上游地址').fill('http://127.0.0.1:1/v1');
-    const invalidSave = page.waitForResponse(response => new URL(response.url()).pathname === '/admin/api/upstream' && response.request().method() === 'PUT');
+    const invalidSave = page.waitForResponse(response => new URL(response.url()).pathname.startsWith('/admin/api/upstreams') && ['POST', 'PATCH'].includes(response.request().method()));
     await navigate(page, '保存上游');
     assert.equal((await invalidSave).status(), 400, 'invalid address remains rejected after settled reread');
     await visibleText(page, '#error', '上游地址不符合');
@@ -959,7 +967,7 @@ try {
     for (const alias of ['alpha-' + width, 'beta-' + width]) {
       await keyboardExpand(page, '#model-create');
       await keyboardInput(page, page.getByLabel('模型别名', {exact: true}), alias);
-      await keyboardInput(page, page.getByLabel('真实模型', {exact: true}), alias.startsWith('alpha-') ? 'controlled-model' : 'controlled-beta-model');
+      await keyboardInput(page, page.locator('#model-create').getByLabel('远端模型名称', {exact: true}), alias.startsWith('alpha-') ? 'controlled-model' : 'controlled-beta-model');
       await keyboardButton(page, '创建模型');
       await visibleText(page, '#model-list', alias);
     }
@@ -970,12 +978,12 @@ try {
     page.on('dialog', dialog => dialog.type() === 'prompt' ? dialog.accept('edited-controlled-model') : dialog.accept());
     await keyboardButton(page, '编辑映射 alpha-' + width);
     const writesBeforeCancel = responses.filter(value => value.method === 'PATCH').length;
-    await keyboardInput(page, page.getByLabel('新的真实模型'), 'discarded-edit');
+    await keyboardInput(page, page.locator('#model-edit').getByLabel('远端模型名称', {exact: true}), 'discarded-edit');
     await keyboardAction(page, page.getByRole('button', {name: '取消编辑', exact: true}));
     assert.equal(responses.filter(value => value.method === 'PATCH').length, writesBeforeCancel);
     await visibleText(page, '#model-list', 'alpha-' + width + ' → controlled-model');
     await keyboardButton(page, '编辑映射 alpha-' + width);
-    await keyboardInput(page, page.getByLabel('新的真实模型'), 'edited-controlled-model');
+    await keyboardInput(page, page.locator('#model-edit').getByLabel('远端模型名称', {exact: true}), 'edited-controlled-model');
     await keyboardButton(page, '保存映射');
     await visibleText(page, '#notice', '映射已保存');
     await visibleText(page, '#model-list', 'alpha-' + width + ' → edited-controlled-model');
@@ -1017,7 +1025,7 @@ try {
     await page.locator('#keys').waitFor({state: 'visible'});
     assert.equal(new URL(page.url()).hash, '#keys');
     await navigate(page, '概览');
-    await visibleText(page, '#summary', '上游');
+    await visibleText(page, '#summary', '配置已保存');
     await navigate(page, '模型');
     await visibleText(page, '#model-list', 'alpha-' + width + ' → edited-controlled-model');
     await visibleText(page, '#model-list', 'beta-' + width + ' → controlled-beta-model');
@@ -1034,13 +1042,13 @@ try {
     await page.locator('#models').waitFor({state: 'visible'});
     assert.equal(new URL(page.url()).hash, '#models');
     await navigate(page, '概览');
-    await visibleText(page, '#summary', '上游');
+    await visibleText(page, '#summary', '配置已保存');
     const restoredModels = await context.request.get(origin + '/admin/api/models');
     assert.equal(restoredModels.status(), 200);
-    const mappings = await restoredModels.json();
+    const mappings = (await restoredModels.json()).data;
     checkpoint = 'two persisted mappings from real management API';
-    assert.equal(mappings.some(value => value.alias === 'alpha-' + width && value.model === 'edited-controlled-model' && value.enabled), true);
-    assert.equal(mappings.some(value => value.alias === 'beta-' + width && value.model === 'controlled-beta-model' && value.enabled), true);
+    assert.equal(mappings.some(value => value.alias === 'alpha-' + width && value.candidates.some(candidate => candidate.remote_model === 'edited-controlled-model') && value.enabled), true);
+    assert.equal(mappings.some(value => value.alias === 'beta-' + width && value.candidates.some(candidate => candidate.remote_model === 'controlled-beta-model') && value.enabled), true);
     await navigate(page, '模型');
     await visibleText(page, '#model-list', 'alpha-' + width + ' → edited-controlled-model');
     await visibleText(page, '#model-list', 'beta-' + width + ' → controlled-beta-model');

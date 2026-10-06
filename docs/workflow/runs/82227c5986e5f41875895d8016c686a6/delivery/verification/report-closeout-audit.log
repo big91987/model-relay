@@ -1,0 +1,8 @@
+date=2026-10-06; actor=report closeout; scope=static audit, not make verify or independent QA
+starting_inventory_files=544; changed_existing_files=11; document_files_checked=13
+relative_links_checked=169; PR_repository_branch_target_URLs_checked=12; remote_availability=not checked, pending Connector push
+QA_locked_files_and_artifacts_checked=13; current_and_historical_acceptance_unchanged=true; product_tests_locks_specs_workflow_unchanged=true
+accepted_product_milestones=3; Done_product_tasks=5; formal_release=not occurred; DEP02-04/06-07_and_supplier=Not Run
+post_report_source={"files":85,"go":"go1.25.6","head":"85f6d17c07c5fddeb2d6a39a5a067769a11bb4cc","scope":"product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference","working_tree_sha256":"d8b32e22632d09a68466181e1bcc026c7eb62d10d6c8115104a124891bc0f5dc"}
+git_diff_check=passed; errors=0
+exit_code=0

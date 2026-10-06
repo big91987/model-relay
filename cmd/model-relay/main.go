@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"flag"
 	"fmt"
@@ -21,7 +22,7 @@ var buildVersion = "dev"
 
 func run(args []string) error {
 	if len(args) == 0 {
-		return errors.New("usage: model-relay init|serve|backup|restore|reset-password")
+		return errors.New("usage: model-relay init|serve|backup|restore|upgrade|deployment-contract|reset-password")
 	}
 	flags := flag.NewFlagSet(args[0], flag.ContinueOnError)
 	directory := flags.String("data-dir", "data", "installation directory")
@@ -37,6 +38,17 @@ func run(args []string) error {
 		return errors.New("unexpected arguments")
 	}
 	switch args[0] {
+	case "deployment-contract":
+		if len(args) != 1 {
+			return errors.New("deployment-contract accepts no flags")
+		}
+		return json.NewEncoder(os.Stdout).Encode(map[string]any{"contract_version": 1, "binary_version": buildVersion, "storage": map[string]any{"init_schema": 2, "serve_schemas": []int{2}, "upgrade_from": []int{1}, "explicit_upgrade": true, "backup_schemas": []int{1, 2}, "restore_schemas": []int{1, 2}}})
+	case "upgrade":
+		result, err := relay.Upgrade(*directory, *keyFile, *output)
+		if err != nil {
+			return err
+		}
+		return json.NewEncoder(os.Stdout).Encode(map[string]any{"binary_version": buildVersion, "result": result.Result, "from_schema": result.FromSchema, "schema": result.Schema})
 	case "init":
 		password, err := relay.Init(*directory, *keyFile)
 		if err != nil {

@@ -57,10 +57,10 @@ func TestHeaderBoundaryAndFailureContract(t *testing.T) {
 	if !store.Password(password) {
 		t.Fatal("identity invalid")
 	}
-	if response := admin("PUT", "upstream", `{"url":"https://public.example/v1","token":"secret-boundary","enabled":true}`); response.Code != 200 {
+	if response := admin("POST", "upstreams", `{"name":"boundary fixture","url":"https://public.example/v1","token":"secret-boundary","enabled":true}`); response.Code != 201 {
 		t.Fatal("config failed")
 	}
-	if response := admin("POST", "models", `{"alias":"alpha","model":"real","enabled":true}`); response.Code != 200 {
+	if response := admin("POST", "models", `{"alias":"alpha","candidates":[{"upstream_id":1,"remote_model":"real","enabled":true,"priority":0,"weight":1}],"enabled":true}`); response.Code != 201 {
 		t.Fatal("model failed")
 	}
 	var issued struct {

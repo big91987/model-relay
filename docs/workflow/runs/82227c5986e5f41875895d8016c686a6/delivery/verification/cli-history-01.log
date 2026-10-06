@@ -1,0 +1,52 @@
+# model-relay/cmd/model-relay.test
+ld: warning: '<temporary-path>' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestDeploymentContractAndIdempotentUpgradeCLI
+--- PASS: TestDeploymentContractAndIdempotentUpgradeCLI (2.42s)
+=== RUN   TestCLIInstallationCommands
+    main_test.go:59: CLI port occupancy verification unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+--- FAIL: TestCLIInstallationCommands (1.64s)
+FAIL
+FAIL	model-relay/cmd/model-relay	4.660s
+=== RUN   TestHistoryCommandHelper
+--- PASS: TestHistoryCommandHelper (0.00s)
+=== RUN   TestHistoryCommandOutput
+=== RUN   TestHistoryCommandOutput/expected_red
+=== RUN   TestHistoryCommandOutput/rejected
+=== RUN   TestHistoryCommandOutput/closed_stdout
+--- PASS: TestHistoryCommandOutput (2.54s)
+    --- PASS: TestHistoryCommandOutput/expected_red (1.83s)
+    --- PASS: TestHistoryCommandOutput/rejected (0.35s)
+    --- PASS: TestHistoryCommandOutput/closed_stdout (0.34s)
+=== RUN   TestHistoricalAssessment
+=== RUN   TestHistoricalAssessment/bind
+=== RUN   TestHistoricalAssessment/build
+=== RUN   TestHistoricalAssessment/warning_with_error
+=== RUN   TestHistoricalAssessment/timeout
+=== RUN   TestHistoricalAssessment/green
+=== RUN   TestHistoricalAssessment/missing_assertion
+=== RUN   TestHistoricalAssessment/extra_assertion
+=== RUN   TestHistoricalAssessment/race
+=== RUN   TestHistoricalAssessment/wrong_status
+=== RUN   TestHistoricalAssessment/query_failure
+=== RUN   TestHistoricalAssessment/skip
+=== RUN   TestHistoricalAssessment/duplicate
+=== RUN   TestHistoricalAssessment/missing_package
+=== RUN   TestHistoricalAssessment/invalid_json
+--- PASS: TestHistoricalAssessment (0.03s)
+    --- PASS: TestHistoricalAssessment/bind (0.00s)
+    --- PASS: TestHistoricalAssessment/build (0.00s)
+    --- PASS: TestHistoricalAssessment/warning_with_error (0.00s)
+    --- PASS: TestHistoricalAssessment/timeout (0.00s)
+    --- PASS: TestHistoricalAssessment/green (0.00s)
+    --- PASS: TestHistoricalAssessment/missing_assertion (0.00s)
+    --- PASS: TestHistoricalAssessment/extra_assertion (0.00s)
+    --- PASS: TestHistoricalAssessment/race (0.00s)
+    --- PASS: TestHistoricalAssessment/wrong_status (0.00s)
+    --- PASS: TestHistoricalAssessment/query_failure (0.00s)
+    --- PASS: TestHistoricalAssessment/skip (0.00s)
+    --- PASS: TestHistoricalAssessment/duplicate (0.00s)
+    --- PASS: TestHistoricalAssessment/missing_package (0.00s)
+    --- PASS: TestHistoricalAssessment/invalid_json (0.00s)
+PASS
+ok  	model-relay/tests/health-history	4.568s
+FAIL

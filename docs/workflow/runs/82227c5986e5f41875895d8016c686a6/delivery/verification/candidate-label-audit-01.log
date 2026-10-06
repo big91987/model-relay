@@ -1,0 +1,4 @@
+{"documents":6,"relative_links":56,"source_files":80,"working_tree_sha256":"f251735964e9fcc330e4f70387e3a3b073fd63537f3960e6cbd8a4daca560510","problems":0}
+command=git diff --check
+command=git diff --exit-code HEAD -- Makefile .github tests/health-history docs/workflow/runs/f1ff775cb6fee4d609353655cae5e180
+exit_code=0

@@ -1,0 +1,11 @@
+command=node --check browser modules; make format-check; go mod verify; make vet; go test -run ^$ ./...; make build; git diff --check
+all modules verified
+go vet ./...
+ok  	model-relay/cmd/model-relay	(cached) [no tests to run]
+ok  	model-relay/internal/relay	(cached) [no tests to run]
+?   	model-relay/tests/browser	[no test files]
+?   	model-relay/tests/browser/legacy	[no test files]
+?   	model-relay/tests/evidence	[no test files]
+ok  	model-relay/tests/health-history	(cached) [no tests to run]
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+exit_code=0
