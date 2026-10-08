@@ -1,5 +1,27 @@
 # Schema 3 console contracts
 
+## Scenario: zero soft budget and durable shared UTC clock
+
+### Scope / Trigger
+Merge review found budget=0/hard=false bypassed the dual-scope budget branch, and expired-but-unretired generations could revive when raw wall time rolled back. Frozen PRD says zero denies; implementation-contract section4 says all deadlines and windows share persistent effective UTC.
+
+### Signatures / Storage
+`Store.advanceClock() error` runs before schema3 HTTP handlers, admission and every dispatch gate. Re-sample after acquiring the configuration lock, before opening a business transaction, in console/identity/invitation handlers, models listing and dispatch: a pre-lock sample may become stale during lock queueing. It commits `console_clock(id=1,effective RFC3339Nano UTC)` in a short SQLite transaction; `Store.now() time.Time` reads only committed effective time, never samples raw schema3 wall time inside a business transaction. Schema1/2 retain their existing clock behavior. Normal schema3 initialization/Open recovery creates the compatible clock table if absent, seeds the maximum precisely parsed admission timestamp, and restores it before service. Backup/restore naturally carries the table; do not clear it on restart or modify ledger rows. An older binary never persisted rejected-expiry observations; those cannot be reconstructed retroactively.
+
+### Contracts / Error Matrix
+`PUT tenants/T/keys/K/limits` and tenant limits preserve revision validation and distinguish null/unlimited, 0/deny, positive soft/continue-with-warning, positive hard/pre-reserve. Budget0 rejects429 including free calls, for either tenant or Key, without admission/dispatch/fees/reservations. A failed high-water transaction returns503 before authorization/dispatch; storage failure is not a clock reset. `effective=max(wall,persisted)` including401 and invitation rejection; nanosecond deadline is exclusive, and UTC minute/month never regress. Rollback >1minute logs one non-sensitive synchronization warning per Store. Recheck before dispatch to include elapsed request time. No SQLite transaction spans upstream network IO.
+
+### Good / Base / Bad Cases
+Good: deadline old-Key401, then rollback old-Key401 with no rotation or retirement, also after separate-process restart/official backup restore. Base: no wall progress retains exact persisted time; advance month retires previous window, while pending reservations still carry. Bad: derive the only high water from accepted requests after authentication; allow budget0 because no fee is reserved; turn all positive soft budgets into hard limits.
+
+### Required Tests
+`TestConsoleReviewZeroSoftBudget{InProcess,ActualHTTP}` asserts both scopes, free/paid/null/positive soft and exact fee/reservation conservation/warning. `TestConsoleReviewClockRollback{InProcess,ActualHTTP}` keeps the old expired generation unretired. `TestConsoleClockRecovery{InProcess,ActualHTTP}` covers deadline-minus1ns/exact, current Key expiry/invite, month/minute, separate-process reopen and official backup/restore with no expired dispatch. `tests/review-history` reconstructs only exact PR27 head in an isolated temp checkout and requires the specific actual HTTP red assertions; unrelated failures/race/listener/build failures cannot satisfy it. All enter original make verify. Inner-handler evidence is not actual HTTP evidence; host full verification and independent QA remain necessary.
+
+`TestConsoleClockQueuedDeadline{InProcess,ActualHTTP}` holds the actual configuration lock, observes the first clock sample, crosses the exact deadline before releasing the queue, then requires401 for model listing/400 for invitation acceptance and zero dispatch/admission. This is not simulated lock/clock behavior.
+
+### Wrong vs Correct
+Wrong: `if limits.Hard && overLimit(limits.Budget, used, reserve)` alone; `generationIdentity(db, secret, rawWall)`. Correct: `limits.Budget != nil && (*limits.Budget == 0 || limits.Hard && overLimit(limits.Budget, used, reserve))`; commit `advanceClock()` before decisions, then use shared `now()`.
+
 ## Scenario: authoritative management summaries and reconciled Token meaning
 
 ### 1. Scope / Trigger

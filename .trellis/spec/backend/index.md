@@ -7,5 +7,7 @@ Read [runtime contracts](runtime-contracts.md), [console contracts](console-cont
 
 For schema3 personnel, tenancy, application governance or finance, also read [multi-tenant contracts](multitenant-contracts.md). This is the production console; schema2 remains a compatibility test surface.
 
+For deadline/window/budget changes, read its durable shared UTC and zero-soft-budget scenario. Preserve actual HTTP historical red reconstruction and current regression tests in make verify.
+
 ## Quality Check
 Run make verify unchanged. Review HTTP methods, authorization, CSRF, persistence and secret redaction if those paths change. Review [console contracts](console-contracts.md) for counts, configuration epochs and safe rejection. See [runtime contracts](runtime-contracts.md) for trusted examples.

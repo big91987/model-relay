@@ -1,0 +1,61 @@
+# model-relay/internal/relay.test
+ld: warning: '<temp>' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestConsoleClockRecoveryInProcess
+2026/10/08 22:19:13 effective_clock_rollback: UTC high water retained; verify host time synchronization; do not reset database windows
+--- PASS: TestConsoleClockRecoveryInProcess (4.63s)
+=== RUN   TestConsoleGovernanceInProcess
+2026/10/08 22:19:17 effective_clock_rollback: UTC high water retained; verify host time synchronization; do not reset database windows
+--- PASS: TestConsoleGovernanceInProcess (2.51s)
+=== RUN   TestConsoleGenerationExactDeadline
+--- PASS: TestConsoleGenerationExactDeadline (2.49s)
+=== RUN   TestConsoleResourceDimensionsInProcess
+--- PASS: TestConsoleResourceDimensionsInProcess (2.51s)
+=== RUN   TestConsolePeopleScopeInProcess
+--- PASS: TestConsolePeopleScopeInProcess (9.91s)
+=== RUN   TestConsolePauseUsageInProcess
+--- PASS: TestConsolePauseUsageInProcess (2.51s)
+=== RUN   TestConsoleAccountingInProcess
+--- PASS: TestConsoleAccountingInProcess (2.49s)
+=== RUN   TestConsoleResourceMatrixInProcess
+=== RUN   TestConsoleResourceMatrixInProcess/tenant/calls
+=== RUN   TestConsoleResourceMatrixInProcess/tenant/rpm
+=== RUN   TestConsoleResourceMatrixInProcess/tenant/tpm
+=== RUN   TestConsoleResourceMatrixInProcess/tenant/concurrency
+=== RUN   TestConsoleResourceMatrixInProcess/tenant/budget
+=== RUN   TestConsoleResourceMatrixInProcess/key/calls
+=== RUN   TestConsoleResourceMatrixInProcess/key/rpm
+=== RUN   TestConsoleResourceMatrixInProcess/key/tpm
+=== RUN   TestConsoleResourceMatrixInProcess/key/concurrency
+=== RUN   TestConsoleResourceMatrixInProcess/key/budget
+--- PASS: TestConsoleResourceMatrixInProcess (25.10s)
+    --- PASS: TestConsoleResourceMatrixInProcess/tenant/calls (2.54s)
+    --- PASS: TestConsoleResourceMatrixInProcess/tenant/rpm (2.50s)
+    --- PASS: TestConsoleResourceMatrixInProcess/tenant/tpm (2.48s)
+    --- PASS: TestConsoleResourceMatrixInProcess/tenant/concurrency (2.51s)
+    --- PASS: TestConsoleResourceMatrixInProcess/tenant/budget (2.52s)
+    --- PASS: TestConsoleResourceMatrixInProcess/key/calls (2.51s)
+    --- PASS: TestConsoleResourceMatrixInProcess/key/rpm (2.51s)
+    --- PASS: TestConsoleResourceMatrixInProcess/key/tpm (2.51s)
+    --- PASS: TestConsoleResourceMatrixInProcess/key/concurrency (2.53s)
+    --- PASS: TestConsoleResourceMatrixInProcess/key/budget (2.49s)
+=== RUN   TestConsoleSharedResourcesInProcess
+=== RUN   TestConsoleSharedResourcesInProcess/multi_key
+    console_resource_matrix_test.go:285: scope=multi_key contenders=8 accepted=2 denied=6 other_tenant=1 real_http=false
+=== RUN   TestConsoleSharedResourcesInProcess/old_new_generation
+    console_resource_matrix_test.go:285: scope=old_new_generation contenders=8 accepted=2 denied=6 other_tenant=1 real_http=false
+--- PASS: TestConsoleSharedResourcesInProcess (5.03s)
+    --- PASS: TestConsoleSharedResourcesInProcess/multi_key (2.52s)
+    --- PASS: TestConsoleSharedResourcesInProcess/old_new_generation (2.51s)
+=== RUN   TestConsoleReviewZeroSoftBudgetInProcess
+=== RUN   TestConsoleReviewZeroSoftBudgetInProcess/tenant
+=== RUN   TestConsoleReviewZeroSoftBudgetInProcess/key
+--- PASS: TestConsoleReviewZeroSoftBudgetInProcess (5.02s)
+    --- PASS: TestConsoleReviewZeroSoftBudgetInProcess/tenant (2.52s)
+    --- PASS: TestConsoleReviewZeroSoftBudgetInProcess/key (2.50s)
+=== RUN   TestConsoleReviewClockRollbackInProcess
+2026/10/08 22:20:15 effective_clock_rollback: UTC high water retained; verify host time synchronization; do not reset database windows
+--- PASS: TestConsoleReviewClockRollbackInProcess (2.52s)
+=== RUN   TestConsoleSummariesInProcess
+--- PASS: TestConsoleSummariesInProcess (9.98s)
+PASS
+ok  	model-relay/internal/relay	76.411s

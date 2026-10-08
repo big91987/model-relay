@@ -222,7 +222,7 @@ func governanceScenario(test *testing.T, actual bool) {
 	}
 	fixture.clock.Store(time.Date(2026, 9, 1, 0, 0, 0, 0, time.UTC).UnixNano())
 	status, limits = admin.call("GET", "tenants/"+fixture.tenant+"/limits", nil, "")
-	if status != 200 || limits["period"] != "2026-09" || limits["usage"].(map[string]any)["calls"] != float64(1) {
+	if status != 200 || limits["period"] != "2026-10" || limits["usage"].(map[string]any)["calls"] != float64(0) {
 		test.Fatal("clock rollback conserves", status)
 	}
 	fixture.clock.Store(time.Date(2026, 10, 1, 0, 0, 0, 0, time.UTC).UnixNano())
@@ -325,6 +325,9 @@ func TestConsoleGenerationExactDeadline(test *testing.T) {
 	}
 	deadline := start.Add(24 * time.Hour)
 	fixture.clock.Store(deadline.Add(-time.Nanosecond).UnixNano())
+	if err := fixture.store.advanceClock(); err != nil {
+		test.Fatal(err)
+	}
 	if _, valid := generationIdentity(fixture.store.DB, old, fixture.store.now()); !valid {
 		test.Fatal("early expiry")
 	}
@@ -332,6 +335,9 @@ func TestConsoleGenerationExactDeadline(test *testing.T) {
 		test.Fatal("nanosecond grace overlap", status)
 	}
 	fixture.clock.Store(deadline.UnixNano())
+	if err := fixture.store.advanceClock(); err != nil {
+		test.Fatal(err)
+	}
 	if _, valid := generationIdentity(fixture.store.DB, old, fixture.store.now()); valid {
 		test.Fatal("deadline inclusive auth")
 	}

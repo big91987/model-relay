@@ -129,6 +129,9 @@ func (server *Server) identityAPI(writer http.ResponseWriter, request *http.Requ
 	}
 	server.mu.Lock()
 	defer server.mu.Unlock()
+	if !server.advanceClock(writer) {
+		return true
+	}
 	transaction, err := server.Store.DB.BeginTx(request.Context(), nil)
 	if err != nil {
 		failure(writer, 503, "storage_unavailable", "")
@@ -433,6 +436,9 @@ func (server *Server) acceptInvitation(writer http.ResponseWriter, request *http
 	}
 	server.mu.Lock()
 	defer server.mu.Unlock()
+	if !server.advanceClock(writer) {
+		return
+	}
 	transaction, err := server.Store.DB.BeginTx(request.Context(), nil)
 	if err != nil {
 		failure(writer, 503, "storage_unavailable", "")

@@ -125,6 +125,9 @@ func admissionClock(transaction *sql.Tx, now time.Time) time.Time {
 }
 
 func (store *Store) admit(record Record, snapshot routeSnapshot, payload map[string]json.RawMessage, request *http.Request) (string, int, string) {
+	if store.advanceClock() != nil {
+		return "storage_unavailable", 503, ""
+	}
 	transaction, err := store.DB.Begin()
 	if err != nil {
 		return "storage_unavailable", 503, ""
@@ -287,7 +290,7 @@ func (store *Store) admit(record Record, snapshot routeSnapshot, payload map[str
 		if overLimit(owner.limits.Concurrency, used.Concurrency, 1) {
 			return owner.kind + "_concurrency_exceeded", 429, ""
 		}
-		if owner.limits.Hard && overLimit(owner.limits.Budget, used.Fee+used.Reserved, feeReserved) {
+		if owner.limits.Budget != nil && (*owner.limits.Budget == 0 || owner.limits.Hard && overLimit(owner.limits.Budget, used.Fee+used.Reserved, feeReserved)) {
 			return owner.kind + "_budget_exceeded", 429, ""
 		}
 	}

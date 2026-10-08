@@ -7,6 +7,7 @@ export GOTOOLCHAIN := local
 .PHONY: verify format-check vet test build browser frontend-test health-history
 verify:
 	go run ./tests/evidence
+	go run ./tests/review-history
 	$(MAKE) health-history
 	$(MAKE) format-check
 	go mod verify

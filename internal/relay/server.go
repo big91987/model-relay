@@ -127,6 +127,9 @@ func (server *Server) ServeHTTP(writer http.ResponseWriter, request *http.Reques
 		failure(writer, 403, "invalid_host", "")
 		return
 	}
+	if request.URL.Path != "/healthz" && !server.advanceClock(writer) {
+		return
+	}
 	switch {
 	case request.URL.Path == "/healthz":
 		if request.Method != http.MethodGet && request.Method != http.MethodHead {
@@ -506,6 +509,9 @@ func (server *Server) appID(request *http.Request) (string, bool) {
 func (server *Server) listModels(writer http.ResponseWriter, request *http.Request) {
 	server.mu.RLock()
 	defer server.mu.RUnlock()
+	if !server.advanceClock(writer) {
+		return
+	}
 	keyID, ok := server.appID(request)
 	if !ok {
 		failure(writer, 401, "unauthorized", "")

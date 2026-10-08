@@ -9,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"sync"
 	"syscall"
 	"time"
 	"unicode/utf8"
@@ -18,14 +19,26 @@ import (
 )
 
 type Store struct {
-	DB     *sql.DB
-	Key    []byte
-	Schema int
-	lock   *os.File
-	clock  func() time.Time
+	DB            *sql.DB
+	Key           []byte
+	Schema        int
+	lock          *os.File
+	clock         func() time.Time
+	clockMu       sync.RWMutex
+	effectiveTime time.Time
+	clockWarned   bool
 }
 
 func (store *Store) now() time.Time {
+	if store.Schema == 3 {
+		store.clockMu.RLock()
+		defer store.clockMu.RUnlock()
+		return store.effectiveTime
+	}
+	return store.wallTime()
+}
+
+func (store *Store) wallTime() time.Time {
 	if store.clock != nil {
 		return store.clock().UTC()
 	}

@@ -1,9 +1,10 @@
 # 当前独立验收索引
 
-- 当前版本：visual-editor-owner-r1 / HEAD98511771871cf0951ecef716bbb55deb13e18da5 / 129文件SHA2567e0b20ddbdea4585959365d8ad3b6121abaa91cd3f450fa2c6c21f7afc05a9ab。
-- 当前报告：acceptance-report-47.md；当前逐项矩阵：acceptance-matrix-47.md。
-- 连续旅程：user-journeys-47.md；实际设计对照：visual-review-47.md。
-- 结论：No-Go；QA47-01 P1 Open，QA47-02 P2 Open（不单独阻断）；QA38-01仅采集缺口Closed。
-- 当前宿主：seq46原完整make verify exit0，104299bytes/truncated=false；source-before/after及artifact-index、material-integrity在evidence/attempt-47/。
-- 返回研发：remediation-handoff-47.md；保留旧QA22/35/38和development各attempt失败，不以历史报告为新版本放行依据。
-- 下一轮需新指纹完整固定入口与原层回归；H/真实供应商/发布未执行项见当前矩阵，不因索引更新变Pass。
+- 当前版本：budget-clock-r1 / HEAD66f1328ada75ea90e5638fbf2bd58663ac86347e + 工作树 / 140文件SHA256ca8ec50aa168cf16ac2e24edfe214aa44d06a05846c34deadbc3c7cb6c02904a。
+- 当前报告：acceptance-report-65.md；权威矩阵及连续旅程：acceptance-matrix-65.md。
+- 来源与页面审查：evidence/attempt-65/host-seq64-review.md、ui-artifact-index.json；版本与19材料重核：integrity.json。
+- 结论：产品Go with known issues；P1-1零软预算/P1-2时钟回拨Closed，QA58-01 P3 Open非阻断；完整平台/发布未完成。
+- 当前宿主：seq64原完整make verify exit0，110897bytes/truncated=false，恢复到eof；QA独立六组race24.750s及193Node exit0。
+- 交report：report-handoff-65.md；更新同一个PR27，不能以旧已推送HEAD冒充含修复。
+- QA58/47及全部历史失败仍保留；原生独立UI Blocked、self_hosted首次分支/真实供应商/平台及部署未执行项见矩阵，不因索引更新变Pass。
+- QA68仅纠正seq67目录artifact失败：handoff-correction-68.md、artifact-files-68.json及evidence/recheck-68.json；当前产品验收仍QA65，同版结论不变，交report后重试同PR27发布。

@@ -168,6 +168,9 @@ func healthKey(alias string, candidate Candidate, upstream Upstream) string {
 func (server *Server) beginAttempt(ctx context.Context, request *http.Request, record *Record, snapshot routeSnapshot, tried map[int64]bool, round int) (*Candidate, *Attempt, string) {
 	server.mu.Lock()
 	defer server.mu.Unlock()
+	if server.Store.advanceClock() != nil {
+		return nil, nil, "storage_unavailable"
+	}
 	if ctx.Err() != nil {
 		return nil, nil, "request_timeout"
 	}

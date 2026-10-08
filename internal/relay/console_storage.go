@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"time"
 )
 
 const consoleSchema = `CREATE TABLE service_profiles(upstream_id INTEGER PRIMARY KEY REFERENCES upstream(id),source_kind TEXT NOT NULL CHECK(source_kind IN('provider','self_hosted','unspecified')));
@@ -46,8 +47,10 @@ func createConsole(transaction *sql.Tx) error {
 	if err := createIdentity(transaction); err != nil {
 		return err
 	}
-	_, err := transaction.Exec(consoleSchema + legacyPendingMigration)
-	return err
+	if _, err := transaction.Exec(consoleSchema + legacyPendingMigration); err != nil {
+		return err
+	}
+	return initializeConsoleClock(transaction)
 }
 
 func validateConsole(transaction *sql.Tx) error {
@@ -94,6 +97,9 @@ func (store *Store) recoverConsole() error {
 		return err
 	}
 	defer transaction.Rollback()
+	if err := initializeConsoleClock(transaction); err != nil {
+		return err
+	}
 	rows, err := transaction.Query("SELECT request_id,tenant_id FROM admissions WHERE running=1")
 	if err != nil {
 		return err
@@ -121,5 +127,17 @@ func (store *Store) recoverConsole() error {
 			return err
 		}
 	}
-	return transaction.Commit()
+	var text string
+	if err := transaction.QueryRow("SELECT effective FROM console_clock WHERE id=1").Scan(&text); err != nil {
+		return err
+	}
+	observed, err := time.Parse(time.RFC3339Nano, text)
+	if err != nil {
+		return errors.New("invalid effective clock")
+	}
+	if err := transaction.Commit(); err != nil {
+		return err
+	}
+	store.effectiveTime = observed
+	return nil
 }

@@ -1,38 +1,52 @@
 # implementation-r1 研发验证与交接记录
 
-## 当前独立QA索引：执行58
+## 当前交付索引：report69
+
+budget-clock-r1，HEAD66f1328ada75ea90e5638fbf2bd58663ac86347e + 未提交修复；140件源戳ca8ec50aa168cf16ac2e24edfe214aa44d06a05846c34deadbc3c7cb6c02904a。tests64完整make verify exit0/110897bytes/truncated=false及独立QA65已完成，两项P1 Closed，受控产品候选Go with known issues。seq67发布因目录artifact失败，exit1/978bytes/truncated=false，未提交推送；QA68与report69仅纠正文件级交接，源戳不变，无新产品测试。下一责任publish正式重试→pr更新同PR27→协调者核验后正式verified-main合并部署；不是继续等待已经完成的tests/QA。公共状态为Verifying/T001 In Review/M01 Ready for Review，完整平台退出、正式最新页面仍未完成。当前事实源：[QA65报告](../acceptance/acceptance-report-65.md)、[矩阵](../acceptance/acceptance-matrix-65.md)、[QA68纠正](../acceptance/handoff-correction-68.md)、[report69复核](../delivery/verification/report-69.md)、[文件级清单](../delivery/verification/artifact-files-69.json)、[交付总览](../delivery/README.md)及[PR正文](../pr.md)。report66原位保留为上次交付复核。
+
+下方全部为历次当时记录，包括旧“当前/待验/下一步”文字，保留失败、限制和引用，不作为现阶段状态。
+
+## 历史独立QA索引：执行65
+
+budget-clock-r1 / HEAD66f1328ada75ea90e5638fbf2bd58663ac86347e + 工作树；140件源戳ca8ec50aa168cf16ac2e24edfe214aa44d06a05846c34deadbc3c7cb6c02904a。tests64原完整make verify exit0、110897bytes/truncated=false，QA实际读取到eof并独立重算一致。两项合并前P1原层HTTP红转绿Closed；QA独立非监听race24.750s/193Node均exit0。产品Go with known issues → report，QA58-01 P3非阻断，外部/H/部署未验保留。当前权威[报告](../acceptance/acceptance-report-65.md)、[矩阵/连续旅程](../acceptance/acceptance-matrix-65.md)、[来源核对](../acceptance/evidence/attempt-65/host-seq64-review.md)、[交接](../acceptance/report-handoff-65.md)。下文研发63“待验”和QA58/47“当前”仅是当时事实，不覆盖本轮结论。继续同PR27，不重复创建，不把5545目标当已部署。
+
+## 历史研发索引：执行63
+
+候选budget-clock-r1，PR27 head66f1328ada75ea90e5638fbf2bd58663ac86347e+工作树；两项合并前P1经生产handler/SQLite内进程红灯确认后修复。完整宿主HTTP红→绿、make verify及独立QA待重新执行；QA58/seq57仅为历史。详细边界和真实局部证据见[attempt63](attempt-63/checks.md)，交接[development63](../delivery/verification/development-63.md)。同PR27更新、正式Actions及最新页面交付责任保持，未发布。以下历次“当前”是当时记录，不覆盖执行63。
+
+## 历史独立QA索引：执行58
 
 records-detail-entry-r1的seq57原make verify exit0（106669 bytes/truncated=false），134件指纹fb4066fa37d1e7865d3a18f72dd78fef98ae79bde17e20875af373b24771c3a6与QA独立重算一致。QA47-01 P1及QA47-02 P2原层复验Closed；产品Go with known issues（P3技术枚举/断词Open），交report。当前权威[QA报告](../acceptance/acceptance-report-58.md)、[逐项矩阵](../acceptance/acceptance-matrix-58.md)、[证据索引](../acceptance/evidence/attempt-58/integrity.json)、[正式交接](../acceptance/report-handoff-58.md)。以下研发Pending及旧Fail为当时历史，不是当前QA结论；H/PR/正式最新页面部署仍Not Run，不能声称整套最终Go。
 
-## 当前研发索引：执行56
+## 历史研发索引：执行56
 
 候选records-detail-entry-r1。seq55原make verify exit2，三视口中断清理/console通过，continuous1280停J06日志详情误用call页动作；并非监听或重复route错误。实际helper回归17/20红→20/20绿，193Node及静态检查exit0，产品/门禁不改。当前完整宿主/独立QA Pending，QA47两项Open/AC01 Fail、未发布。见[检查](attempt-56/checks.md)、[原失败](attempt-56/host-seq55-summary.md)、[最终源戳](attempt-56/source-evidence.json)；旧局部或完整通过不移植本候选。继续同Run正式Actions部署实际页面交付责任。
 
-## 当前研发索引：执行54
+## 历史研发索引：执行54
 
 候选editor-route-cleanup-r1；seq53原入口exit2，1280中断断言之后并行清理重复继续失败。锁定Playwright实际Route方法诊断及源码归因后，顺序完成continuation再精确unroute，清理失败不报成功分段；189Node/静态检查exit0。当前完整宿主、独立QA均Pending、QA47两项Open、未发布。见[attempt54](attempt-54/checks.md)、[原失败](attempt-54/host-seq53-summary.md)、[最终源戳](attempt-54/source-evidence.json)。旧局部PASS不移植到新工作树；2026-10-08正式部署实际页面要求继续向下交接。
 
-## 当前研发索引：执行52
+## 历史研发索引：执行52
 
 候选editor-readback-route-r1；seq51同上一候选完整make verify exit2，console1280受控GET检查点未到。最小Playwright matcher实测证明tenant分页查询未匹配，已修驱动且保留原门禁/产品save-lock修复。187Node与静态检查exit0，当前完整宿主Pending、QA47-01/02 Open、未发布。证据及原失败边界见[attempt52](attempt-52/checks.md)、[source](attempt-52/source-evidence.json)。旧通过不能移植当前候选；正式页面交付要求沿原链传递。
 
-## 当前研发索引：执行50
+## 历史研发索引：执行50
 
 当前editor-lock-r1，HEAD不变，[源戳](attempt-50/source-evidence.json)绑定当前候选。seq49同attempt48指纹原make verify exit2；[原失败](attempt-50/host-seq49-summary.md)保留。修复已证跨导航编辑锁遗留，187Node/静态检查exit0，[检查与宿主复验](attempt-50/checks.md)。当前完整宿主、三视口新editor/management-summary、原全套旅程与独立QA仍Pending，QA47 No-Go不变；不继承旧seq46的绿灯。以下旧“当前”均历史。
 
 执行48当前候选management-summaries-r1的新增摘要/Token整改与真实局部结果见[attempt48 checks](attempt-48/checks.md)，源指纹见[本候选](attempt-48/source-evidence.json)。本轮没有原生监听/Chromium通过声明；seq46通过属于旧visual-editor-owner-r1指纹，不跨版本复用。QA47-01 P1及QA47-02 P2须新宿主门禁和独立QA关闭。本文件以下所有既有attempt、红/绿回执和范围说明原位保留。
 
-## 当前独立QA索引：执行38
+## 历史独立QA索引：执行38
 
 safe-readback-resource-matrix-r1，127文件`3ee2122eadac33a67342523a082f791d8a81154cc86b7321d53de856866a15ef`，HEAD`98511771871cf0951ecef716bbb55deb13e18da5`；宿主seq37原完整make verify真实exit0/101748 bytes/truncated=false，QA独立源戳/19件材料/63件实际产物一致，169 Node、七项InProcess/精度/期限Go race及format/modules/vet/build通过。QA35-01、QA22-01原列明故障/资源/主链范围Closed，QA22-02保持Closed。
 
 **当前No-Go不是门禁或既有缺陷仍失败：AC01完整十页批准原型的实际页面设计对照仍Not Run（QA38-01强制证据门槛）；十页h1/宽度烟测和Key/账单截图不能代替。** 权威报告为[acceptance-report-38](../acceptance/acceptance-report-38.md)，矩阵[acceptance-matrix-38](../acceptance/acceptance-matrix-38.md)，旅程[user-journeys-38](../acceptance/user-journeys-38.md)，具体对照[visual-review-38](../acceptance/visual-review-38.md)，返研包[remediation-handoff-38](../acceptance/remediation-handoff-38.md)，版本/材料/产物[artifact-index](../acceptance/evidence/attempt-38/artifact-index.json)。返回development最小补证，不重写已通过功能/账本，不让研发补平台/供应商权限。H/真实外部/正式发布未验证项保持Not Run；没有整套Go或已发布。下列“当前”是其执行时的历史，不覆盖本段。
 
-## 执行36整改候选（待新宿主与独立QA）
+## 历史执行36整改候选（当时待新宿主与独立QA）
 
 当前safe-readback-resource-matrix-r1；127文件3ee2122eadac33a67342523a082f791d8a81154cc86b7321d53de856866a15ef，HEAD不变。真实研发记录见[attempt36检查](attempt-36/checks.md)、[源戳](attempt-36/source-evidence.json)、[宿主复验](attempt-36/host-retest.md)。QA35-01生产editor重试/reference及未知锁已修；新AC08/09/16fault/资源竞争加入原入口。169Node、新12分例及原6项Go race/static/build exit0；保留原Contract red和两次新driver/fixture red，当前真实HTTP/三视口fault、原全量make verify及独立QA仍Pending。QA35 No-Go继续有效，不跨版本复用下方seq34绿。
 
-## 当前独立QA索引：执行35
+## 历史独立QA索引：执行35
 
 当前候选reconciliation-ledger-r1，HEAD98511771871cf0951ecef716bbb55deb13e18da5，124文件指纹50fb764aac5443687e376c18906b36b765f02e9b05788fa4d5ac73617cbc98a4。宿主seq34完整make verify exit0/94335 bytes/truncated=false，三视口J01–J07共21检查点绿；QA独立同版165Node/七项定向Go race/static/build绿，19材料摘要一致。**No-Go**：新增QA35-01 P1，未知写入第一次安全读回失败后重试入口被删除且无操作标识；真实生产handler契约exit1。QA22-01主链覆盖部分闭合，但AC08/09/16指定异常/竞争用例仍缺；QA22-02列表状态与摘要P2已Closed。
 
@@ -48,11 +62,11 @@ safe-readback-resource-matrix-r1，127文件`3ee2122eadac33a67342523a082f791d8a8
 
 执行25当前：fresh-install-driver-r1。seq24同attempt23指纹make verify exit2，旧三视口console通过但新增continuous 1280/J01空态失败、checkpoints空，非环境限制。已修确定的新安装/legacy迁移契约错配，不改产品；新增actual-init/handler/SQLite及actual-driver回归和有界collection/status诊断。158 Node/定向race/static通过，不代表新UI Pass。见 [seq24](attempt-25/host-seq24-summary.md)、[attempt25](attempt-25/checks.md)和当前来源attempt-25/source-evidence.json。完整当前宿主/独立QA/发布待验；QA22-01/02未Closed，AC/H及五层商用状态不提升。以下旧“当前”皆历史。
 
-## 当前研发整改：执行23
+## 历史研发整改：执行23
 
 候选continuous-journeys-r1；QA22-01/QA22-02待新指纹完整宿主及独立QA复验，No-Go尚未撤销。新增J01–J07真实连续UI脚本/独立Go runner已接入原make verify；Key列表改为真实状态/授权/预算用量，并修正无scope空态和请求详情日志入口。研发局部证据、明确裁剪和宿主证据契约见 [attempt23](attempt-23/checks.md)，当前来源见attempt-23/source-evidence.json。下面seq21/QA22是原候选历史事实，不跨版本转成当前Pass。没有重复本沙箱监听测试或平台/供应商/发布声明。
 
-## 当前独立QA索引：执行22
+## 历史独立QA索引：执行22
 
 当前候选119文件指纹`71be54206d9850fa442f33c18ddd3c7aaba5590019543a78498a128ae0ab8350`；宿主seq21完整make verify exit0/88327 bytes/truncated=false，新控制台三视口现有断言通过。独立QA结论仍**No-Go**：QA22-01强制连续UI覆盖缺口P1、QA22-02列表状态偏差P2尚未关闭；不将固定门禁绿等同完整验收或发布。当前权威独立报告为 [acceptance-report](../acceptance/acceptance-report.md)，分层矩阵为 [acceptance-matrix](../acceptance/acceptance-matrix.md)，核心旅程为 [user-journeys](../acceptance/user-journeys.md)，返研包为 [remediation-handoff](../acceptance/remediation-handoff.md)。QA本地监听失败与独立非监听检查分别保留；容量中断后正式原会话恢复，不重跑已完成副作用、不切模型。下列研发“当前候选”措辞保留为历史记录，不作为独立QA或发布通过。
 
@@ -60,7 +74,7 @@ safe-readback-resource-matrix-r1，127文件`3ee2122eadac33a67342523a082f791d8a8
 
 执行18当前候选：key-transfer-r1。宿主seq17完整make verify exit2，Key签发与一次展示成功但转交后的调用Key为空；失败事实及界限见 [seq17](attempt-18/host-seq17-summary.md)。已修editor关闭事件的跨页面全局秘密清理，加入转交epoch归属；四项实际handler回归、旧源码两项EXPECTED RED、145 Node及非监听检查exit0，见 [attempt18](attempt-18/checks.md)。当前指纹以attempt18/source-evidence.json为准。新候选完整make verify/三视口/独立QA/发布仍待验，不把旧部分成功或VM测试当完整交付。全部AC/H和商用功能/J01–J07五层矩阵保留，真实供应商/外部身份/支付Not Run；以下为历次证据。
 
-## 当前追加结论：development执行16
+## 历史追加结论：development执行16
 
 当前版本增加key-diagnostic-r1，**仅诊断候选，不是Key已修复或整套交付**。seq15对attempt14工作树`34f3a82f0c7687194a60e0cbce6af66e6badff55b0b50a373a0690764e6e7fa3`完整make verify exit2；新控制台模型已推进，后续宽泛key-1280 TimeoutError不能区分签发、转交、调用或详情。末段offset80000→86806/eof/truncated=false已恢复，见 [seq15失败边界](attempt-16/host-seq15-summary.md)。旧Go/迁移/旧UI/路由通过不是当前完整Pass。
 
@@ -78,23 +92,27 @@ safe-readback-resource-matrix-r1，127文件`3ee2122eadac33a67342523a082f791d8a8
 
 下游必须对该最终指纹完整make verify保存前后证据；仅exit0后交独立QA，携同材料manifest、完整AC01–AC18/H01–H08与八类功能/J01–J07五层matrix、历次失败及本次诊断。完整新控制台后续旅程、三视口、秘密/焦点/更正/隔离及真实迁移不能跳过。真实供应商、外部身份、支付Not Run；独立QA/发布未通过，实际原生模型由平台核对。无需澄清或requirements/design返工。
 
-## 当前追加结论：development执行12
+## 历史追加结论：development执行12
 
 当前 implementation-r1 + commercial-comparison-r1 + migration-driver-r3 + service-check-r1。宿主seq11对attempt10工作树make verify exit2，新控制台service-1280失败；Go race/build、正式schema1/2→3及兼容迁移、原生旧控制台/路由通过仅对应旧指纹。服务核验漏传execution_revision已证、已修；受控上游列表缺object=list已按后台原协议修正，native新断言不再把任意200当成功。原Go协议/鉴权/数据库/Makefile/依赖未放宽。见 [失败边界](attempt-12/host-seq11-summary.md)、[检查与变更边界](attempt-12/checks.md)、[VM修复前失败](attempt-12/red-workspace.log)、[受控fixture失败](attempt-12/red-go-check.log)及 [补充检查](attempt-12/non-listening-checks.log)。137 Node、定向race、format/module/vet/build/JS exit0，完整宿主和独立QA仍待验；不能从最初粗粒度异常认定唯一原因。当前来源绑定attempt12/source-evidence.json，下文全部旧指纹/局部结果保留为历史，不是当前Pass。
 
 tests必须对同候选完整make verify保存前后指纹。新服务诊断仅输出write/check数值状态和核验/版本布尔事实、service-create/check-http/check-contract/check-dialog分段；不输出响应正文、秘密、任意DOM或原错误。只有完整exit0后按本Run完整AC01–AC18/H01–H08、商用八类功能/J01–J07五层matrix及同manifest交独立QA。真实供应商/外部身份/支付、发布仍Not Run；原生实际模型待平台核对，不自证。当前不存在需用户澄清或需求/设计返工的阻塞。
 
-## 当前追加结论：development执行10
+## 历史追加结论：development执行10
 
 当前 implementation-r1 + commercial-comparison-r1 + migration-driver-r3。宿主seq9对attempt09指纹make verify exit2：兼容迁移通过，正式控制台停于keys-1280，后续native未通过。确定的驱动包络错配（data vs items）已修，增加实际Go handler/SQLite契约及8项Node回归、视口分段安全诊断；不能从旧粗粒度失败证明唯一原因。见 [宿主失败边界](attempt-10/host-seq09-summary.md)和 [本轮检查](attempt-10/checks.md)。当前135 Node、定向race守恒/包络、format/module/vet/build/JS检查exit0；完整宿主和独立QA待验，未交付。当前指纹见attempt10/source-evidence.json，以下执行8/6及旧部分成功均为历史，不能挪作当前全量Pass。原Makefile、旧断言及冻结范围不变。
 
-## 当前追加结论：development执行8
+## 历史追加结论：development执行8
 
 版本implementation-r1 + commercial-comparison-r1 + migration-driver-r2，仍可交tests，不是完整验收或交付。tests执行7旧候选完整make verify exit2，Go race包/build通过但迁移浏览器目标契约失败，后续native未到达。真实失败归因见 [seq7摘要](attempt-09/host-seq07-summary.md)；不能将它混为原生bind限制。已保留原schema2断言并追加正式schema1/2→3旅程；当前补充检查exit0见 [attempt09检查](attempt-09/checks.md)和 [完整局部输出](attempt-09/non-listening-checks.log)。新源码版本绑定attempt09/source-evidence.json；旧attempt04/08仅历史。以下执行6记录保留，不是当前指纹或当前完整测试通过事实。
 
 宿主继续同一材料manifest及新工作树完整运行make verify，保留migration两目标、真实HTTP/SSE/kill-restart、1280/1440/390 native旅程以及前后指纹。仅exit0后独立QA按本Run矩阵和原材料裁决。产品代码未因本修复改动；固定Makefile及原断言没有删减。需求/设计无需返工，无须用户澄清。供应商/外部身份/支付/发布/原生模型事实边界不变。
 
 2026-10-08；Run `4cd62ced6a4f98f50e3cca6f7596eb06`；development执行6。结论：研发候选可交宿主tests，**不是完整验收通过或版本交付**。T001 In Review，M01 Ready for Review；完整交付门槛 Blocked by Validation。基线HEAD `98511771871cf0951ecef716bbb55deb13e18da5`，未提交/推送；候选必须用工作树SHA而非HEAD单独识别。
+
+## 历史：implementation-r1原开发记录
+
+以下为原开发时的范围、命令和待验描述，保留原文；不覆盖上方唯一当前索引与QA65结论。
 
 ## 来源与范围
 
