@@ -1,0 +1,34 @@
+=== RUN   TestCleanVerificationDependencyOrder
+=== RUN   TestCleanVerificationDependencyOrder/frontend-test
+    dependencies_test.go:38: locked dependencies must precede node --test tests/browser/*.test.mjs in clean frontend-test plan:
+        node --test tests/browser/*.test.mjs
+=== RUN   TestCleanVerificationDependencyOrder/browser
+=== RUN   TestCleanVerificationDependencyOrder/verify
+    dependencies_test.go:38: locked dependencies must precede node --test tests/browser/*.test.mjs in clean verify plan:
+        go run ./tests/evidence
+        go run ./tests/review-history
+        /Library/Developer/CommandLineTools/usr/bin/make health-history
+        go run ./tests/health-history
+        /Library/Developer/CommandLineTools/usr/bin/make format-check
+        test -z "$(gofmt -l cmd internal tests)" || { gofmt -l cmd internal tests; exit 1; }
+        go mod verify
+        /Library/Developer/CommandLineTools/usr/bin/make vet
+        go vet ./...
+        /Library/Developer/CommandLineTools/usr/bin/make frontend-test
+        node --test tests/browser/*.test.mjs
+        /Library/Developer/CommandLineTools/usr/bin/make test
+        go test -race -count=1 -v ./...
+        /Library/Developer/CommandLineTools/usr/bin/make build
+        mkdir -p bin
+        go build -trimpath -o bin/model-relay ./cmd/model-relay
+        /Library/Developer/CommandLineTools/usr/bin/make browser
+        npm ci --ignore-scripts --omit=optional --no-audit --no-fund --cache .cache/npm
+        go run ./tests/browser
+--- FAIL: TestCleanVerificationDependencyOrder (0.06s)
+    --- FAIL: TestCleanVerificationDependencyOrder/frontend-test (0.02s)
+    --- PASS: TestCleanVerificationDependencyOrder/browser (0.01s)
+    --- FAIL: TestCleanVerificationDependencyOrder/verify (0.03s)
+FAIL
+FAIL	model-relay/tests/verification	0.662s
+FAIL
+exit_code=1

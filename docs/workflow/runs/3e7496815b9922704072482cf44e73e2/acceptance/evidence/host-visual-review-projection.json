@@ -1,0 +1,434 @@
+{
+  "kind": "QA whitelist projection of existing Connector artifacts, not a new browser execution",
+  "reviews": [
+    {
+      "origin": "test-results/visual-1280/review.json",
+      "sha256": "0de3879bdd6d04b9de86be92533ceae36f49426f6944e636a3d1d337e6e422d2",
+      "suite": "console-visual",
+      "width": 1280,
+      "role": "platform_administrator",
+      "scope_kind": "tenant",
+      "provider": "controlled_http_not_supplier",
+      "scenario": "continuous_J01-J07",
+      "clock": "explicit_test_clock_no_database_edits",
+      "pages": [
+        {
+          "page": "overview",
+          "title": "工作台",
+          "state": "nonempty_or_unused_call_form",
+          "ready": true,
+          "scope": true,
+          "role": true,
+          "dimensions": {
+            "root_scroll_width": 1280,
+            "viewport_width": 1280,
+            "content_width": 990
+          }
+        },
+        {
+          "page": "models",
+          "title": "模型托管",
+          "state": "nonempty_or_unused_call_form",
+          "ready": true,
+          "scope": true,
+          "role": true,
+          "dimensions": {
+            "root_scroll_width": 1280,
+            "viewport_width": 1280,
+            "content_width": 990
+          }
+        },
+        {
+          "page": "services",
+          "title": "供应商与服务",
+          "state": "nonempty_or_unused_call_form",
+          "ready": true,
+          "scope": true,
+          "role": true,
+          "dimensions": {
+            "root_scroll_width": 1280,
+            "viewport_width": 1280,
+            "content_width": 990
+          }
+        },
+        {
+          "page": "keys",
+          "title": "API Keys",
+          "state": "nonempty_or_unused_call_form",
+          "ready": true,
+          "scope": true,
+          "role": true,
+          "dimensions": {
+            "root_scroll_width": 1280,
+            "viewport_width": 1280,
+            "content_width": 990
+          }
+        },
+        {
+          "page": "tenants",
+          "title": "租户与成员",
+          "state": "nonempty_or_unused_call_form",
+          "ready": true,
+          "scope": true,
+          "role": true,
+          "dimensions": {
+            "root_scroll_width": 1280,
+            "viewport_width": 1280,
+            "content_width": 990
+          }
+        },
+        {
+          "page": "limits",
+          "title": "配额与预算",
+          "state": "nonempty_or_unused_call_form",
+          "ready": true,
+          "scope": true,
+          "role": true,
+          "dimensions": {
+            "root_scroll_width": 1280,
+            "viewport_width": 1280,
+            "content_width": 990
+          }
+        },
+        {
+          "page": "usage",
+          "title": "用量分析",
+          "state": "nonempty_or_unused_call_form",
+          "ready": true,
+          "scope": true,
+          "role": true,
+          "dimensions": {
+            "root_scroll_width": 1280,
+            "viewport_width": 1280,
+            "content_width": 990
+          }
+        },
+        {
+          "page": "billing",
+          "title": "定价与账单",
+          "state": "nonempty_or_unused_call_form",
+          "ready": true,
+          "scope": true,
+          "role": true,
+          "dimensions": {
+            "root_scroll_width": 1280,
+            "viewport_width": 1280,
+            "content_width": 990
+          }
+        },
+        {
+          "page": "records",
+          "title": "调用日志",
+          "state": "nonempty_or_unused_call_form",
+          "ready": true,
+          "scope": true,
+          "role": true,
+          "dimensions": {
+            "root_scroll_width": 1280,
+            "viewport_width": 1280,
+            "content_width": 990
+          }
+        },
+        {
+          "page": "playground",
+          "title": "调用测试",
+          "state": "nonempty_or_unused_call_form",
+          "ready": true,
+          "scope": true,
+          "role": true,
+          "dimensions": {
+            "root_scroll_width": 1280,
+            "viewport_width": 1280,
+            "content_width": 990
+          }
+        }
+      ]
+    },
+    {
+      "origin": "test-results/visual-1440/review.json",
+      "sha256": "87c4b35bb7e6d3457a6563f1dcce0ad8c9ed4f3d9482d199c91cf7f1afa8331f",
+      "suite": "console-visual",
+      "width": 1440,
+      "role": "platform_administrator",
+      "scope_kind": "tenant",
+      "provider": "controlled_http_not_supplier",
+      "scenario": "continuous_J01-J07",
+      "clock": "explicit_test_clock_no_database_edits",
+      "pages": [
+        {
+          "page": "overview",
+          "title": "工作台",
+          "state": "nonempty_or_unused_call_form",
+          "ready": true,
+          "scope": true,
+          "role": true,
+          "dimensions": {
+            "root_scroll_width": 1440,
+            "viewport_width": 1440,
+            "content_width": 1150
+          }
+        },
+        {
+          "page": "models",
+          "title": "模型托管",
+          "state": "nonempty_or_unused_call_form",
+          "ready": true,
+          "scope": true,
+          "role": true,
+          "dimensions": {
+            "root_scroll_width": 1440,
+            "viewport_width": 1440,
+            "content_width": 1150
+          }
+        },
+        {
+          "page": "services",
+          "title": "供应商与服务",
+          "state": "nonempty_or_unused_call_form",
+          "ready": true,
+          "scope": true,
+          "role": true,
+          "dimensions": {
+            "root_scroll_width": 1440,
+            "viewport_width": 1440,
+            "content_width": 1150
+          }
+        },
+        {
+          "page": "keys",
+          "title": "API Keys",
+          "state": "nonempty_or_unused_call_form",
+          "ready": true,
+          "scope": true,
+          "role": true,
+          "dimensions": {
+            "root_scroll_width": 1440,
+            "viewport_width": 1440,
+            "content_width": 1150
+          }
+        },
+        {
+          "page": "tenants",
+          "title": "租户与成员",
+          "state": "nonempty_or_unused_call_form",
+          "ready": true,
+          "scope": true,
+          "role": true,
+          "dimensions": {
+            "root_scroll_width": 1440,
+            "viewport_width": 1440,
+            "content_width": 1150
+          }
+        },
+        {
+          "page": "limits",
+          "title": "配额与预算",
+          "state": "nonempty_or_unused_call_form",
+          "ready": true,
+          "scope": true,
+          "role": true,
+          "dimensions": {
+            "root_scroll_width": 1440,
+            "viewport_width": 1440,
+            "content_width": 1150
+          }
+        },
+        {
+          "page": "usage",
+          "title": "用量分析",
+          "state": "nonempty_or_unused_call_form",
+          "ready": true,
+          "scope": true,
+          "role": true,
+          "dimensions": {
+            "root_scroll_width": 1440,
+            "viewport_width": 1440,
+            "content_width": 1150
+          }
+        },
+        {
+          "page": "billing",
+          "title": "定价与账单",
+          "state": "nonempty_or_unused_call_form",
+          "ready": true,
+          "scope": true,
+          "role": true,
+          "dimensions": {
+            "root_scroll_width": 1440,
+            "viewport_width": 1440,
+            "content_width": 1150
+          }
+        },
+        {
+          "page": "records",
+          "title": "调用日志",
+          "state": "nonempty_or_unused_call_form",
+          "ready": true,
+          "scope": true,
+          "role": true,
+          "dimensions": {
+            "root_scroll_width": 1440,
+            "viewport_width": 1440,
+            "content_width": 1150
+          }
+        },
+        {
+          "page": "playground",
+          "title": "调用测试",
+          "state": "nonempty_or_unused_call_form",
+          "ready": true,
+          "scope": true,
+          "role": true,
+          "dimensions": {
+            "root_scroll_width": 1440,
+            "viewport_width": 1440,
+            "content_width": 1150
+          }
+        }
+      ]
+    },
+    {
+      "origin": "test-results/visual-390/review.json",
+      "sha256": "4b11fe0658f0007a8477020cc7809064689ef5482eec73cba572c94ffedb76ac",
+      "suite": "console-visual",
+      "width": 390,
+      "role": "platform_administrator",
+      "scope_kind": "tenant",
+      "provider": "controlled_http_not_supplier",
+      "scenario": "continuous_J01-J07",
+      "clock": "explicit_test_clock_no_database_edits",
+      "pages": [
+        {
+          "page": "overview",
+          "title": "工作台",
+          "state": "nonempty_or_unused_call_form",
+          "ready": true,
+          "scope": true,
+          "role": true,
+          "dimensions": {
+            "root_scroll_width": 390,
+            "viewport_width": 390,
+            "content_width": 358
+          }
+        },
+        {
+          "page": "models",
+          "title": "模型托管",
+          "state": "nonempty_or_unused_call_form",
+          "ready": true,
+          "scope": true,
+          "role": true,
+          "dimensions": {
+            "root_scroll_width": 390,
+            "viewport_width": 390,
+            "content_width": 358
+          }
+        },
+        {
+          "page": "services",
+          "title": "供应商与服务",
+          "state": "nonempty_or_unused_call_form",
+          "ready": true,
+          "scope": true,
+          "role": true,
+          "dimensions": {
+            "root_scroll_width": 390,
+            "viewport_width": 390,
+            "content_width": 358
+          }
+        },
+        {
+          "page": "keys",
+          "title": "API Keys",
+          "state": "nonempty_or_unused_call_form",
+          "ready": true,
+          "scope": true,
+          "role": true,
+          "dimensions": {
+            "root_scroll_width": 390,
+            "viewport_width": 390,
+            "content_width": 358
+          }
+        },
+        {
+          "page": "tenants",
+          "title": "租户与成员",
+          "state": "nonempty_or_unused_call_form",
+          "ready": true,
+          "scope": true,
+          "role": true,
+          "dimensions": {
+            "root_scroll_width": 390,
+            "viewport_width": 390,
+            "content_width": 358
+          }
+        },
+        {
+          "page": "limits",
+          "title": "配额与预算",
+          "state": "nonempty_or_unused_call_form",
+          "ready": true,
+          "scope": true,
+          "role": true,
+          "dimensions": {
+            "root_scroll_width": 390,
+            "viewport_width": 390,
+            "content_width": 358
+          }
+        },
+        {
+          "page": "usage",
+          "title": "用量分析",
+          "state": "nonempty_or_unused_call_form",
+          "ready": true,
+          "scope": true,
+          "role": true,
+          "dimensions": {
+            "root_scroll_width": 390,
+            "viewport_width": 390,
+            "content_width": 358
+          }
+        },
+        {
+          "page": "billing",
+          "title": "定价与账单",
+          "state": "nonempty_or_unused_call_form",
+          "ready": true,
+          "scope": true,
+          "role": true,
+          "dimensions": {
+            "root_scroll_width": 390,
+            "viewport_width": 390,
+            "content_width": 358
+          }
+        },
+        {
+          "page": "records",
+          "title": "调用日志",
+          "state": "nonempty_or_unused_call_form",
+          "ready": true,
+          "scope": true,
+          "role": true,
+          "dimensions": {
+            "root_scroll_width": 390,
+            "viewport_width": 390,
+            "content_width": 358
+          }
+        },
+        {
+          "page": "playground",
+          "title": "调用测试",
+          "state": "nonempty_or_unused_call_form",
+          "ready": true,
+          "scope": true,
+          "role": true,
+          "dimensions": {
+            "root_scroll_width": 390,
+            "viewport_width": 390,
+            "content_width": 358
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -102,6 +102,7 @@ func resourceMatrixScenario(test *testing.T, actual bool) {
 	for _, scope := range []string{"tenant", "key"} {
 		for _, dimension := range []string{"calls", "rpm", "tpm", "concurrency", "budget"} {
 			test.Run(scope+"/"+dimension, func(test *testing.T) {
+				test.Parallel()
 				fixture := singleResourceInstallation(test, actual)
 				tenantPath := "tenants/" + fixture.tenant
 				keyPath := tenantPath + "/keys/" + fixture.keyID

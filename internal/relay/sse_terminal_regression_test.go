@@ -129,6 +129,7 @@ func TestSSEOverlongLineNeverSwitchesOrCools(testContext *testing.T) {
 func TestSSEDoneTerminalAttribution(testContext *testing.T) {
 	for _, mode := range []string{"success", "write_failure", "cancel_with_error", "cancel_after_write"} {
 		testContext.Run(mode, func(testContext *testing.T) {
+			testContext.Parallel()
 			value := newConsoleFixture(testContext)
 			multiConfiguration(testContext, value, 2, nil)
 			calls := 0

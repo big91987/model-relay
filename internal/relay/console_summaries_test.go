@@ -15,6 +15,7 @@ func TestConsoleSummariesInProcess(test *testing.T)  { summariesScenario(test, f
 func TestConsoleSummariesActualHTTP(test *testing.T) { summariesScenario(test, true) }
 
 func summariesScenario(test *testing.T, actual bool) {
+	test.Parallel()
 	fixture := governedInstallation(test, actual)
 	admin := &fixture.admin
 	var developer *consoleClient

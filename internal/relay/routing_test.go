@@ -101,6 +101,7 @@ func cleanTestCandidates(values []Candidate) []map[string]any {
 func TestRoutingTemporaryAllowlistAndUnknownTotals(t *testing.T) {
 	for _, status := range []int{301, 400, 401, 403, 404, 408, 429, 500, 501, 502, 503, 504, 505} {
 		t.Run(http.StatusText(status), func(t *testing.T) {
+			t.Parallel()
 			value := newConsoleFixture(t)
 			multiConfiguration(t, value, 2, nil)
 			calls := 0

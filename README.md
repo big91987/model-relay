@@ -119,19 +119,25 @@ bin/model-relay upgrade --data-dir <data-directory> --key-file <key-file> --outp
 
 ## 验证
 
-当前完整范围、AC映射和真实执行结果见[本Run验证记录](docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/report.md)。原生沙箱已实测不能监听；完整`make verify`仍交宿主固定项目Connector，不将定向单测/构建当全量通过。新门禁包含真实HTTP/SSE、人员范围、独立资源/费用、多尝试核对、schema1/2→3与崩溃重启、1280/1440/390实际Go UI；原可信历史/浏览器门禁保留。
+产品范围、AC映射与历史执行结果见[历史验证记录](docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/report.md)，不代替新候选验收。本次干净安装修复与宿主待验状态见[Issue28研发检查](docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-check.md)。原生沙箱已实测不能监听；完整`make verify`仍交宿主固定项目Connector，不将定向单测/构建当全量通过。门禁包含真实HTTP/SSE、人员范围、独立资源/费用、多尝试核对、schema1/2→3与崩溃重启、1280/1440/390实际Go UI；原可信历史/浏览器门禁保留。
 
-前提：上述 Go/C 工具链，以及 Node 18+、npm、Playwright Chromium（仅测试依赖）。
+前提：上述 Go/C 工具链，以及 Node 18+、npm、Playwright Chromium（仅测试依赖）。首次准备浏览器可使用以下命令；已提供匹配 Chromium 的干净 clone/worktree 直接执行 `make verify` 即可，无需预装 `node_modules`。`make frontend-test` 和 `make browser` 都先通过共享 `verification-deps` 执行锁定的 `npm ci --ignore-scripts --omit=optional --no-audit --no-fund --cache .cache/npm`，安装失败即停止，不使用全局模块或 `NODE_PATH`。完整入口分别进入这两个独立目标时会重新校验安装；npm 缓存只加速下载，不替代 lockfile。Chromium 二进制和其系统库仍是宿主前置条件，不能将缺失浏览器算作通过。
 
 ```sh
-npm ci --ignore-scripts --omit=optional --no-audit --no-fund --cache .cache/npm
-npx playwright install chromium
+make verification-deps
+./node_modules/.bin/playwright install chromium
 make verify
 ```
 
 固定 `make verify` 顺序执行工作树代码摘要/HEAD、旧版健康方法真实 HTTP 红灯重建与精确分类、格式、module 校验、vet、前端异步状态回归、race 单元与真实 HTTP/CLI 测试、构建、实际 Go 服务浏览器旅程（1280/390px，包含延迟配置加载屏障）。`make frontend-test` 可单独运行实际 app.js 的隔离状态测试，不代替真实浏览器验收。任何失败都会非零退出，HTTP 或浏览器不可用不算通过。浏览器依赖锁在 package-lock 中，不用于产品后端；受控上游只在测试程序内以指定 authority 放行，正式 CLI 没有测试开关、没有默认假供应商。测试拥有临时数据及随机端口，不使用用户安装或付费凭据。
 
-验证默认只把本次日志输出到 stdout/stderr，不改写已跟踪的历史任务文档或日志。`make health-history` 同样只输出当前重建回执；其成功表示旧版的 21 个方法断言失败与 12 个查询/恢复通过被精确识别，不表示旧版全绿。分类异常或 stdout 写入失败均非零退出，诊断位于 stderr。需要保存时由调用方选择一个新的独立证据位置，例如先设置 `VERIFY_LOG` 为本次新日志路径，再执行 `make verify > "$VERIFY_LOG" 2>&1`；直接重定向保留 make 退出码，不用未启用 pipefail 的 `tee` 管道，不指向旧日志。验证程序没有硬编码本次 Issue、Run 或机器路径；调用方负责目录存在、可写及不覆盖旧证据。
+固定 `make verify` 调用项目 Go 执行器 `tests/verify`，按 Git tracked/unignored inventory 复制当前候选到新临时目录（不复制 ignored 的依赖、cache或运行数据），复用原仓库只读历史并核对源码摘要，再执行保留全部原顺序的内部 `make verify-gates`。清除 NODE_PATH/NODE_OPTIONS、继承的 npm 配置变量和 Make 控制参数；npm 用户/全局配置分别指向副本内两个空文件，不共用 `/dev/null`（npm 会拒绝同文件重复加载）。副本内 npm cache与Go build cache从空开始。原工作区已有node_modules保持不动，不作为冷安装证明；`verify-gates` 不是独立验收替代入口。工具版本前置失败时，原始 stdout/stderr 也进入脱敏日志供归因。
+
+入口自动打印 `test-results/verification/<UTC>-<unique>/`，流式输出并保存完整脱敏 `verify.log` 和原子更新的 `state.json`：实际干净起点、工具版本、原树/副本前后摘要、结束依赖状态、锁定Playwright/core本地解析及Chromium版本、退出码、日志字节数/SHA256、清理范围。每次新建目录，不覆盖历史，不硬编码Run、候选摘要或机器路径。SIGINT/SIGTERM只终止本次创建的进程组并清理自己的临时副本；强制杀死执行器可能留下未完成state，缺少最终finished_utc/exit0不算通过。原始浏览器产物保存在本次 `browser/`，仍为ignored本地产物，QA须审查隐私与同版后选取实际文件归档当前Run，不能直接提交整目录。
+
+`make health-history` 仍只输出当前重建回执；其成功表示旧版21个方法断言失败与12个查询/恢复通过被精确识别，不表示旧版全绿。原门禁、摘要不一致、日志/回执写入失败均非零退出。新增执行器回归进入原race测试；夹具绿灯只证明隔离/采集/失败传播机制，不代替正式宿主完整冷 npm、HTTP与浏览器验证。
+
+Go 门禁保留 `-race -count=1 -v ./...`，以 `-parallel=4` 有界执行显式标记 `testing.T.Parallel` 的独立场景。路由状态码、上游失败、连接阶段、资源维度、终端归属及人员/汇总测试各自创建临时安装和受控上游；共享同一安装的步骤仍顺序执行。未降低口令成本、缩短真实等待、调整时钟或删改断言。并行父测试显示的 `0.00s` 不包含子测试墙钟时间，分析总耗时应使用包级结果；完整冷入口仍须实际通过全部 HTTP/浏览器门禁。
 
 登录后概览的「运行版本」读取当前服务 `/healthz.version` 原始值（包括 `dev`），与静态品牌标签无关。健康请求失败、版本缺失/为空或等待超过 5 秒时显示「版本未知」，不阻塞管理操作；离开再进入概览或刷新页面会重新获取。该显示不证明供应商联调或多实例版本一致。版本回归已纳入同一 `make verify`，无需新运行命令。
 

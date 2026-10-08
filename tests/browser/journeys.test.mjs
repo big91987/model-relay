@@ -8,6 +8,19 @@ const journey=readFileSync('tests/browser/journeys.mjs','utf8');
 const html=readFileSync('internal/relay/web/workspace.html','utf8');
 const backend=readFileSync('internal/relay/console_keys.go','utf8');
 
+test('journey failure boundary includes summary assertion source but never raw stack paths or errors',()=>{
+  const helper=journey.slice(journey.indexOf('function failureBoundary('),journey.indexOf('function conservationFacts('));
+  const context=vm.createContext({});
+  const boundary=vm.runInContext(helper+'failureBoundary;',context);
+  for(const source of ['journeys','console-summary']) {
+    const value=boundary({stack:`AssertionError: private-error\n    at summaryCell (file:///private/local/tests/browser/${source}.mjs:37:12)\n`});
+    assert.deepEqual(JSON.parse(JSON.stringify(value)),{source:`tests/browser/${source}.mjs`,line:37,column:12});
+  }
+  for(const error of [{},{stack:'private-error'},{stack:'Error\n    at file:///private/local/tests/browser/private-module.mjs:1:2\n'}])assert.deepEqual(JSON.parse(JSON.stringify(boundary(error))),{available:false});
+  assert.ok(journey.includes('summary_cell:summaryFailureFacts(error)'));
+  assert.ok(journey.includes('content_loading:'));
+});
+
 async function requestDetailContract(entry='call',clickFailure=false) {
   const events=[];
   const response={url:()=> 'http://controlled.test/admin/api/workspace/requests/controlled-request?tenant=controlled',status:()=>200,json:async()=>({id:'controlled-request'})};

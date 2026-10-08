@@ -571,6 +571,7 @@ func TestUpstreamFailures(t *testing.T) {
 	}
 	for _, test := range cases {
 		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
 			var count atomic.Int32
 			value := newFixture(t, func(writer http.ResponseWriter, request *http.Request) {
 				count.Add(1)
@@ -601,6 +602,7 @@ func TestUpstreamFailures(t *testing.T) {
 func TestTimeoutRedirectAndNetwork(t *testing.T) {
 	for _, mode := range []string{"header_timeout", "idle_timeout", "redirect", "network"} {
 		t.Run(mode, func(t *testing.T) {
+			t.Parallel()
 			var targetCount atomic.Int32
 			target := localServer(t, http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) { targetCount.Add(1) }))
 			var count atomic.Int32

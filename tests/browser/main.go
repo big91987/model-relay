@@ -306,17 +306,26 @@ func journey() error {
 	command.Env = append(os.Environ(), "RELAY_BROWSER_URL=http://"+address, "RELAY_BROWSER_PASSWORD="+password, "RELAY_BROWSER_UPSTREAM=http://"+upstreamListener.Addr().String()+"/v1", "RELAY_BROWSER_CONTROL=http://"+controlListener.Addr().String())
 	command.Stdout = os.Stdout
 	command.Stderr = os.Stderr
-	if err = command.Run(); err != nil {
+	if err = browserPhase(os.Stdout, "legacy-ui", command.Run); err != nil {
 		return err
 	}
 	routes := exec.Command("node", "tests/browser/routing.mjs")
 	routes.Env = command.Env
 	routes.Stdout = os.Stdout
 	routes.Stderr = os.Stderr
-	return routes.Run()
+	return browserPhase(os.Stdout, "routing", routes.Run)
 }
+
+func browserPhase(output io.Writer, name string, action func() error) error {
+	started := time.Now()
+	fmt.Fprintf(output, "BROWSER_PHASE name=%s state=start utc=%s\n", name, started.UTC().Format(time.RFC3339Nano))
+	err := action()
+	fmt.Fprintf(output, "BROWSER_PHASE name=%s state=end utc=%s elapsed_ms=%d ok=%t\n", name, time.Now().UTC().Format(time.RFC3339Nano), time.Since(started).Milliseconds(), err == nil)
+	return err
+}
+
 func main() {
-	if err := migrationJourney(); err != nil {
+	if err := browserPhase(os.Stdout, "migration", func() error { return migrationJourney() }); err != nil {
 		fmt.Fprintln(os.Stderr, "migration browser verification failed:", err)
 		os.Exit(1)
 	}
@@ -324,11 +333,11 @@ func main() {
 		fmt.Fprintln(os.Stderr, strings.ReplaceAll(err.Error(), "\n", " "))
 		os.Exit(1)
 	}
-	if err := consoleJourney(); err != nil {
+	if err := browserPhase(os.Stdout, "console", func() error { return consoleJourney() }); err != nil {
 		fmt.Fprintln(os.Stderr, "console browser verification failed:", err)
 		os.Exit(1)
 	}
-	if err := fullConsoleJourneys(); err != nil {
+	if err := browserPhase(os.Stdout, "full-console", func() error { return fullConsoleJourneys() }); err != nil {
 		fmt.Fprintln(os.Stderr, "continuous console browser verification failed:", err)
 		os.Exit(1)
 	}

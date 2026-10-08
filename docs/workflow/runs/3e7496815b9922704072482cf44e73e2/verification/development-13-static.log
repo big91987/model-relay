@@ -1,0 +1,27 @@
+
+CHECK=format-check
+exit_code=0
+
+CHECK=module
+all modules verified
+exit_code=0
+
+CHECK=vet
+go vet ./...
+exit_code=0
+
+CHECK=build
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+exit_code=0
+
+CHECK=diff
+exit_code=0
+CHECK=final_diff
+exit_code=0
+CHECK=final_format
+exit_code=0
+CHECK=final_source_identity
+exit_code=0
+{"files":144,"go":"go1.25.6","head":"cd413b5aa24a372a19c19af999a6ef61b5c41572","scope":"product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference","working_tree_sha256":"dc73ac404db4daaf7e264552c0940abb294b2b1b48684e792eec90822b6eb665"}
+CHECK=lock_changes
+exit_code=0

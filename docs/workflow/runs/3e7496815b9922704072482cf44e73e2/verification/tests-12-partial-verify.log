@@ -1,0 +1,447 @@
+PREREQUISITE tool=go output=go version go1.25.6 darwin/arm64
+PREREQUISITE tool=node output=v26.0.0
+PREREQUISITE tool=npm output=11.12.1
+CLEAN_START {"started_utc":"2026-10-08T17:43:28.660268Z","finished_utc":"","command":"make verify -\u003e isolated make verify-gates","isolation":"new private candidate; git history read-only","node_modules_before":false,"clean_start_measured":true,"npm_cache_before":false,"node_modules_after":false,"npm_cache_after":false,"source_unchanged":false,"candidate_unchanged":false,"NODE_PATH":"unset","manual_preinstall":"none","source_before":{"files":144,"go":"go1.25.6","head":"cd413b5aa24a372a19c19af999a6ef61b5c41572","scope":"product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference","working_tree_sha256":"4d484086e12d71308e42b963ec0266f5f756924f8073defd1c5622a6260c9025"},"versions":{"go":"go version go1.25.6 darwin/arm64","node":"v26.0.0","npm":"11.12.1"},"gate_exit":-1,"exit_code":1,"log_sha256":"","log_bytes":0,"cleanup":"not_started"}
+go run ./tests/evidence
+{"files":144,"go":"go1.25.6","head":"cd413b5aa24a372a19c19af999a6ef61b5c41572","scope":"product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference","working_tree_sha256":"4d484086e12d71308e42b963ec0266f5f756924f8073defd1c5622a6260c9025"}
+go run ./tests/review-history
+historical controlled actual HTTP reconstruction (not original development-time receipt) baseline=66f1328ada75ea90e5638fbf2bd58663ac86347e archive_sha256=4b9b3e1b583d0ee0f9e17e007085389ac20414dc5b360cdb2416bb0a48e1e3b1 regression_sha256=11e3253c5465c2245841bf2cfdcece1eb83170fe45c5a5a5a10ba1bd7b3c49f3 exit_code=1
+{"historical_actual_http_assertions":[{"actual_assertion_output":"console_review_regression_test.go:33: zero soft budget: status=200 dispatch_delta=1 error=\u003cnil\u003e","test":"TestConsoleReviewZeroSoftBudgetActualHTTP/tenant"},{"actual_assertion_output":"console_review_regression_test.go:33: zero soft budget: status=200 dispatch_delta=1 error=\u003cnil\u003e","test":"TestConsoleReviewZeroSoftBudgetActualHTTP/key"},{"actual_assertion_output":"console_review_regression_test.go:90: expired unretired generation revived after rollback {200 gctMAPdirbVAwib8Z9-C2A \u003cnil\u003e} 1","test":"TestConsoleReviewClockRollbackActualHTTP"}]}
+P1-1 tenant/key budget=0 hard=false: status=200 dispatch_delta=1; P1-2 expired unretired old generation after deadline401 and clock rollback: status=200 dispatch=1. Exact historical assertions observed; current HTTP green still required.
+<make> health-history
+go run ./tests/health-history
+修复后隔离重建旧版网络复现（非原开发时成功记录）
+baseline=9b6994ed80de2bdba79ff267419150dccaac1360
+baseline_archive_sha256=e8307563c976a77940851da8254d70b8255fa4caa690d898a6452ee15de4eaaf
+server_sha256=d61e4e747231654aa7895404b94c2539497cef2074186b3bbe05b90a94252383
+final_test_sha256=1c18e010c49f4ebedf67ef2e40c1f06087ddc7b18c79b4e988bb535626df051a
+command=go test -json -race -count=1 -run ^TestHealthMethodsHTTP$ ./internal/relay
+exit_code=1
+{"ImportPath":"model-relay/internal/relay.test","Action":"build-output","Output":"# model-relay/internal/relay.test\nld: warning: '<temp>/go-link-3579298941/000023.o' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626\n"}
+{"Time":"2026-10-09T01:43:58.784906+08:00","Action":"start","Package":"model-relay/internal/relay"}
+{"Time":"2026-10-09T01:43:59.303873+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP"}
+{"Time":"2026-10-09T01:43:59.303958+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP","Output":"=== RUN   TestHealthMethodsHTTP\n"}
+{"Time":"2026-10-09T01:43:59.304056+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy"}
+{"Time":"2026-10-09T01:43:59.304061+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy","Output":"=== RUN   TestHealthMethodsHTTP/healthy\n"}
+{"Time":"2026-10-09T01:44:00.49701+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/GET"}
+{"Time":"2026-10-09T01:44:00.497022+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/GET","Output":"=== RUN   TestHealthMethodsHTTP/healthy/GET\n"}
+{"Time":"2026-10-09T01:44:00.498329+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/GET","Output":"--- PASS: TestHealthMethodsHTTP/healthy/GET (0.00s)\n"}
+{"Time":"2026-10-09T01:44:00.498341+08:00","Action":"pass","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/GET","Elapsed":0}
+{"Time":"2026-10-09T01:44:00.498349+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/HEAD"}
+{"Time":"2026-10-09T01:44:00.49835+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/HEAD","Output":"=== RUN   TestHealthMethodsHTTP/healthy/HEAD\n"}
+{"Time":"2026-10-09T01:44:00.498715+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/HEAD","Output":"--- PASS: TestHealthMethodsHTTP/healthy/HEAD (0.00s)\n"}
+{"Time":"2026-10-09T01:44:00.498721+08:00","Action":"pass","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/HEAD","Elapsed":0}
+{"Time":"2026-10-09T01:44:00.498741+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/POST"}
+{"Time":"2026-10-09T01:44:00.498743+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/POST","Output":"=== RUN   TestHealthMethodsHTTP/healthy/POST\n"}
+{"Time":"2026-10-09T01:44:00.499023+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/POST","Output":"    health_test.go:116: POST status = 200, want 405\n"}
+{"Time":"2026-10-09T01:44:00.499039+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/POST","Output":"    health_test.go:116: POST Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-09T01:44:00.499063+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/POST","Output":"--- FAIL: TestHealthMethodsHTTP/healthy/POST (0.00s)\n"}
+{"Time":"2026-10-09T01:44:00.499075+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/POST","Elapsed":0}
+{"Time":"2026-10-09T01:44:00.499085+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/PUT"}
+{"Time":"2026-10-09T01:44:00.499086+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/PUT","Output":"=== RUN   TestHealthMethodsHTTP/healthy/PUT\n"}
+{"Time":"2026-10-09T01:44:00.499314+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/PUT","Output":"    health_test.go:116: PUT status = 200, want 405\n"}
+{"Time":"2026-10-09T01:44:00.499329+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/PUT","Output":"    health_test.go:116: PUT Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-09T01:44:00.499356+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/PUT","Output":"--- FAIL: TestHealthMethodsHTTP/healthy/PUT (0.00s)\n"}
+{"Time":"2026-10-09T01:44:00.499367+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/PUT","Elapsed":0}
+{"Time":"2026-10-09T01:44:00.499376+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/PATCH"}
+{"Time":"2026-10-09T01:44:00.499377+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/PATCH","Output":"=== RUN   TestHealthMethodsHTTP/healthy/PATCH\n"}
+{"Time":"2026-10-09T01:44:00.499613+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/PATCH","Output":"    health_test.go:116: PATCH status = 200, want 405\n"}
+{"Time":"2026-10-09T01:44:00.499632+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/PATCH","Output":"    health_test.go:116: PATCH Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-09T01:44:00.49966+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/PATCH","Output":"--- FAIL: TestHealthMethodsHTTP/healthy/PATCH (0.00s)\n"}
+{"Time":"2026-10-09T01:44:00.49967+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/PATCH","Elapsed":0}
+{"Time":"2026-10-09T01:44:00.499685+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/DELETE"}
+{"Time":"2026-10-09T01:44:00.499686+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/DELETE","Output":"=== RUN   TestHealthMethodsHTTP/healthy/DELETE\n"}
+{"Time":"2026-10-09T01:44:00.499945+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/DELETE","Output":"    health_test.go:116: DELETE status = 200, want 405\n"}
+{"Time":"2026-10-09T01:44:00.49996+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/DELETE","Output":"    health_test.go:116: DELETE Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-09T01:44:00.499983+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/DELETE","Output":"--- FAIL: TestHealthMethodsHTTP/healthy/DELETE (0.00s)\n"}
+{"Time":"2026-10-09T01:44:00.499993+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/DELETE","Elapsed":0}
+{"Time":"2026-10-09T01:44:00.500003+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/OPTIONS"}
+{"Time":"2026-10-09T01:44:00.500011+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/OPTIONS","Output":"=== RUN   TestHealthMethodsHTTP/healthy/OPTIONS\n"}
+{"Time":"2026-10-09T01:44:00.500235+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/OPTIONS","Output":"    health_test.go:116: OPTIONS status = 200, want 405\n"}
+{"Time":"2026-10-09T01:44:00.500252+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/OPTIONS","Output":"    health_test.go:116: OPTIONS Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-09T01:44:00.500276+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/OPTIONS","Output":"--- FAIL: TestHealthMethodsHTTP/healthy/OPTIONS (0.00s)\n"}
+{"Time":"2026-10-09T01:44:00.500284+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/OPTIONS","Elapsed":0}
+{"Time":"2026-10-09T01:44:00.500298+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/TRACE"}
+{"Time":"2026-10-09T01:44:00.500299+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/TRACE","Output":"=== RUN   TestHealthMethodsHTTP/healthy/TRACE\n"}
+{"Time":"2026-10-09T01:44:00.500524+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/TRACE","Output":"    health_test.go:116: TRACE status = 200, want 405\n"}
+{"Time":"2026-10-09T01:44:00.500539+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/TRACE","Output":"    health_test.go:116: TRACE Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-09T01:44:00.500563+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/TRACE","Output":"--- FAIL: TestHealthMethodsHTTP/healthy/TRACE (0.00s)\n"}
+{"Time":"2026-10-09T01:44:00.500573+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/TRACE","Elapsed":0}
+{"Time":"2026-10-09T01:44:00.500583+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/CUSTOM"}
+{"Time":"2026-10-09T01:44:00.500584+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/CUSTOM","Output":"=== RUN   TestHealthMethodsHTTP/healthy/CUSTOM\n"}
+{"Time":"2026-10-09T01:44:00.500814+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/CUSTOM","Output":"    health_test.go:116: CUSTOM status = 200, want 405\n"}
+{"Time":"2026-10-09T01:44:00.500828+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/CUSTOM","Output":"    health_test.go:116: CUSTOM Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-09T01:44:00.500858+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/CUSTOM","Output":"--- FAIL: TestHealthMethodsHTTP/healthy/CUSTOM (0.00s)\n"}
+{"Time":"2026-10-09T01:44:00.500873+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/CUSTOM","Elapsed":0}
+{"Time":"2026-10-09T01:44:00.500875+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/recovered_GET"}
+{"Time":"2026-10-09T01:44:00.500877+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/recovered_GET","Output":"=== RUN   TestHealthMethodsHTTP/healthy/recovered_GET\n"}
+{"Time":"2026-10-09T01:44:00.50112+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/recovered_GET","Output":"--- PASS: TestHealthMethodsHTTP/healthy/recovered_GET (0.00s)\n"}
+{"Time":"2026-10-09T01:44:00.501133+08:00","Action":"pass","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/recovered_GET","Elapsed":0}
+{"Time":"2026-10-09T01:44:00.501136+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/recovered_HEAD"}
+{"Time":"2026-10-09T01:44:00.501137+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/recovered_HEAD","Output":"=== RUN   TestHealthMethodsHTTP/healthy/recovered_HEAD\n"}
+{"Time":"2026-10-09T01:44:00.501356+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/recovered_HEAD","Output":"--- PASS: TestHealthMethodsHTTP/healthy/recovered_HEAD (0.00s)\n"}
+{"Time":"2026-10-09T01:44:00.501362+08:00","Action":"pass","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy/recovered_HEAD","Elapsed":0}
+{"Time":"2026-10-09T01:44:00.502229+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy","Output":"--- FAIL: TestHealthMethodsHTTP/healthy (1.20s)\n"}
+{"Time":"2026-10-09T01:44:00.502243+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/healthy","Elapsed":1.2}
+{"Time":"2026-10-09T01:44:00.502255+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded"}
+{"Time":"2026-10-09T01:44:00.50226+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded","Output":"=== RUN   TestHealthMethodsHTTP/degraded\n"}
+{"Time":"2026-10-09T01:44:01.684642+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/GET"}
+{"Time":"2026-10-09T01:44:01.684664+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/GET","Output":"=== RUN   TestHealthMethodsHTTP/degraded/GET\n"}
+{"Time":"2026-10-09T01:44:01.685454+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/GET","Output":"--- PASS: TestHealthMethodsHTTP/degraded/GET (0.00s)\n"}
+{"Time":"2026-10-09T01:44:01.685463+08:00","Action":"pass","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/GET","Elapsed":0}
+{"Time":"2026-10-09T01:44:01.685476+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/HEAD"}
+{"Time":"2026-10-09T01:44:01.685479+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/HEAD","Output":"=== RUN   TestHealthMethodsHTTP/degraded/HEAD\n"}
+{"Time":"2026-10-09T01:44:01.685819+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/HEAD","Output":"--- PASS: TestHealthMethodsHTTP/degraded/HEAD (0.00s)\n"}
+{"Time":"2026-10-09T01:44:01.685847+08:00","Action":"pass","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/HEAD","Elapsed":0}
+{"Time":"2026-10-09T01:44:01.685854+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/POST"}
+{"Time":"2026-10-09T01:44:01.68586+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/POST","Output":"=== RUN   TestHealthMethodsHTTP/degraded/POST\n"}
+{"Time":"2026-10-09T01:44:01.686131+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/POST","Output":"    health_test.go:116: POST status = 503, want 405\n"}
+{"Time":"2026-10-09T01:44:01.686136+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/POST","Output":"    health_test.go:116: POST Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-09T01:44:01.686189+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/POST","Output":"--- FAIL: TestHealthMethodsHTTP/degraded/POST (0.00s)\n"}
+{"Time":"2026-10-09T01:44:01.686208+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/POST","Elapsed":0}
+{"Time":"2026-10-09T01:44:01.686223+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/PUT"}
+{"Time":"2026-10-09T01:44:01.686229+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/PUT","Output":"=== RUN   TestHealthMethodsHTTP/degraded/PUT\n"}
+{"Time":"2026-10-09T01:44:01.686514+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/PUT","Output":"    health_test.go:116: PUT status = 503, want 405\n"}
+{"Time":"2026-10-09T01:44:01.686531+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/PUT","Output":"    health_test.go:116: PUT Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-09T01:44:01.68656+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/PUT","Output":"--- FAIL: TestHealthMethodsHTTP/degraded/PUT (0.00s)\n"}
+{"Time":"2026-10-09T01:44:01.686568+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/PUT","Elapsed":0}
+{"Time":"2026-10-09T01:44:01.686577+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/PATCH"}
+{"Time":"2026-10-09T01:44:01.68658+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/PATCH","Output":"=== RUN   TestHealthMethodsHTTP/degraded/PATCH\n"}
+{"Time":"2026-10-09T01:44:01.686868+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/PATCH","Output":"    health_test.go:116: PATCH status = 503, want 405\n"}
+{"Time":"2026-10-09T01:44:01.686882+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/PATCH","Output":"    health_test.go:116: PATCH Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-09T01:44:01.686908+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/PATCH","Output":"--- FAIL: TestHealthMethodsHTTP/degraded/PATCH (0.00s)\n"}
+{"Time":"2026-10-09T01:44:01.686941+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/PATCH","Elapsed":0}
+{"Time":"2026-10-09T01:44:01.686959+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/DELETE"}
+{"Time":"2026-10-09T01:44:01.686966+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/DELETE","Output":"=== RUN   TestHealthMethodsHTTP/degraded/DELETE\n"}
+{"Time":"2026-10-09T01:44:01.687162+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/DELETE","Output":"    health_test.go:116: DELETE status = 503, want 405\n"}
+{"Time":"2026-10-09T01:44:01.687176+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/DELETE","Output":"    health_test.go:116: DELETE Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-09T01:44:01.6872+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/DELETE","Output":"--- FAIL: TestHealthMethodsHTTP/degraded/DELETE (0.00s)\n"}
+{"Time":"2026-10-09T01:44:01.687216+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/DELETE","Elapsed":0}
+{"Time":"2026-10-09T01:44:01.68723+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/OPTIONS"}
+{"Time":"2026-10-09T01:44:01.687239+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/OPTIONS","Output":"=== RUN   TestHealthMethodsHTTP/degraded/OPTIONS\n"}
+{"Time":"2026-10-09T01:44:01.687475+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/OPTIONS","Output":"    health_test.go:116: OPTIONS status = 503, want 405\n"}
+{"Time":"2026-10-09T01:44:01.68749+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/OPTIONS","Output":"    health_test.go:116: OPTIONS Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-09T01:44:01.687514+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/OPTIONS","Output":"--- FAIL: TestHealthMethodsHTTP/degraded/OPTIONS (0.00s)\n"}
+{"Time":"2026-10-09T01:44:01.687527+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/OPTIONS","Elapsed":0}
+{"Time":"2026-10-09T01:44:01.687531+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/TRACE"}
+{"Time":"2026-10-09T01:44:01.687532+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/TRACE","Output":"=== RUN   TestHealthMethodsHTTP/degraded/TRACE\n"}
+{"Time":"2026-10-09T01:44:01.687765+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/TRACE","Output":"    health_test.go:116: TRACE status = 503, want 405\n"}
+{"Time":"2026-10-09T01:44:01.687782+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/TRACE","Output":"    health_test.go:116: TRACE Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-09T01:44:01.68781+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/TRACE","Output":"--- FAIL: TestHealthMethodsHTTP/degraded/TRACE (0.00s)\n"}
+{"Time":"2026-10-09T01:44:01.687821+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/TRACE","Elapsed":0}
+{"Time":"2026-10-09T01:44:01.687832+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/CUSTOM"}
+{"Time":"2026-10-09T01:44:01.687845+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/CUSTOM","Output":"=== RUN   TestHealthMethodsHTTP/degraded/CUSTOM\n"}
+{"Time":"2026-10-09T01:44:01.688051+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/CUSTOM","Output":"    health_test.go:116: CUSTOM status = 503, want 405\n"}
+{"Time":"2026-10-09T01:44:01.688066+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/CUSTOM","Output":"    health_test.go:116: CUSTOM Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-09T01:44:01.688095+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/CUSTOM","Output":"--- FAIL: TestHealthMethodsHTTP/degraded/CUSTOM (0.00s)\n"}
+{"Time":"2026-10-09T01:44:01.688099+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/CUSTOM","Elapsed":0}
+{"Time":"2026-10-09T01:44:01.688113+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/recovered_GET"}
+{"Time":"2026-10-09T01:44:01.688115+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/recovered_GET","Output":"=== RUN   TestHealthMethodsHTTP/degraded/recovered_GET\n"}
+{"Time":"2026-10-09T01:44:01.68835+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/recovered_GET","Output":"--- PASS: TestHealthMethodsHTTP/degraded/recovered_GET (0.00s)\n"}
+{"Time":"2026-10-09T01:44:01.688357+08:00","Action":"pass","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/recovered_GET","Elapsed":0}
+{"Time":"2026-10-09T01:44:01.688367+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/recovered_HEAD"}
+{"Time":"2026-10-09T01:44:01.688373+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/recovered_HEAD","Output":"=== RUN   TestHealthMethodsHTTP/degraded/recovered_HEAD\n"}
+{"Time":"2026-10-09T01:44:01.688573+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/recovered_HEAD","Output":"--- PASS: TestHealthMethodsHTTP/degraded/recovered_HEAD (0.00s)\n"}
+{"Time":"2026-10-09T01:44:01.688582+08:00","Action":"pass","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded/recovered_HEAD","Elapsed":0}
+{"Time":"2026-10-09T01:44:01.689305+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded","Output":"--- FAIL: TestHealthMethodsHTTP/degraded (1.19s)\n"}
+{"Time":"2026-10-09T01:44:01.689307+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/degraded","Elapsed":1.19}
+{"Time":"2026-10-09T01:44:01.689365+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed"}
+{"Time":"2026-10-09T01:44:01.689367+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed","Output":"=== RUN   TestHealthMethodsHTTP/database_closed\n"}
+{"Time":"2026-10-09T01:44:02.878684+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/GET"}
+{"Time":"2026-10-09T01:44:02.878698+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/GET","Output":"=== RUN   TestHealthMethodsHTTP/database_closed/GET\n"}
+{"Time":"2026-10-09T01:44:02.879303+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/GET","Output":"--- PASS: TestHealthMethodsHTTP/database_closed/GET (0.00s)\n"}
+{"Time":"2026-10-09T01:44:02.879312+08:00","Action":"pass","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/GET","Elapsed":0}
+{"Time":"2026-10-09T01:44:02.879329+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/HEAD"}
+{"Time":"2026-10-09T01:44:02.87933+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/HEAD","Output":"=== RUN   TestHealthMethodsHTTP/database_closed/HEAD\n"}
+{"Time":"2026-10-09T01:44:02.879565+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/HEAD","Output":"--- PASS: TestHealthMethodsHTTP/database_closed/HEAD (0.00s)\n"}
+{"Time":"2026-10-09T01:44:02.879579+08:00","Action":"pass","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/HEAD","Elapsed":0}
+{"Time":"2026-10-09T01:44:02.879596+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/POST"}
+{"Time":"2026-10-09T01:44:02.879598+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/POST","Output":"=== RUN   TestHealthMethodsHTTP/database_closed/POST\n"}
+{"Time":"2026-10-09T01:44:02.879907+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/POST","Output":"    health_test.go:116: POST status = 503, want 405\n"}
+{"Time":"2026-10-09T01:44:02.879923+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/POST","Output":"    health_test.go:116: POST Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-09T01:44:02.879947+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/POST","Output":"--- FAIL: TestHealthMethodsHTTP/database_closed/POST (0.00s)\n"}
+{"Time":"2026-10-09T01:44:02.879958+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/POST","Elapsed":0}
+{"Time":"2026-10-09T01:44:02.87997+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/PUT"}
+{"Time":"2026-10-09T01:44:02.879973+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/PUT","Output":"=== RUN   TestHealthMethodsHTTP/database_closed/PUT\n"}
+{"Time":"2026-10-09T01:44:02.880218+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/PUT","Output":"    health_test.go:116: PUT status = 503, want 405\n"}
+{"Time":"2026-10-09T01:44:02.880234+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/PUT","Output":"    health_test.go:116: PUT Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-09T01:44:02.880261+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/PUT","Output":"--- FAIL: TestHealthMethodsHTTP/database_closed/PUT (0.00s)\n"}
+{"Time":"2026-10-09T01:44:02.880272+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/PUT","Elapsed":0}
+{"Time":"2026-10-09T01:44:02.880283+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/PATCH"}
+{"Time":"2026-10-09T01:44:02.880285+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/PATCH","Output":"=== RUN   TestHealthMethodsHTTP/database_closed/PATCH\n"}
+{"Time":"2026-10-09T01:44:02.880536+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/PATCH","Output":"    health_test.go:116: PATCH status = 503, want 405\n"}
+{"Time":"2026-10-09T01:44:02.880548+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/PATCH","Output":"    health_test.go:116: PATCH Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-09T01:44:02.88057+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/PATCH","Output":"--- FAIL: TestHealthMethodsHTTP/database_closed/PATCH (0.00s)\n"}
+{"Time":"2026-10-09T01:44:02.880578+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/PATCH","Elapsed":0}
+{"Time":"2026-10-09T01:44:02.880588+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/DELETE"}
+{"Time":"2026-10-09T01:44:02.88059+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/DELETE","Output":"=== RUN   TestHealthMethodsHTTP/database_closed/DELETE\n"}
+{"Time":"2026-10-09T01:44:02.880824+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/DELETE","Output":"    health_test.go:116: DELETE status = 503, want 405\n"}
+{"Time":"2026-10-09T01:44:02.880838+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/DELETE","Output":"    health_test.go:116: DELETE Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-09T01:44:02.880861+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/DELETE","Output":"--- FAIL: TestHealthMethodsHTTP/database_closed/DELETE (0.00s)\n"}
+{"Time":"2026-10-09T01:44:02.880869+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/DELETE","Elapsed":0}
+{"Time":"2026-10-09T01:44:02.880878+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/OPTIONS"}
+{"Time":"2026-10-09T01:44:02.880883+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/OPTIONS","Output":"=== RUN   TestHealthMethodsHTTP/database_closed/OPTIONS\n"}
+{"Time":"2026-10-09T01:44:02.88114+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/OPTIONS","Output":"    health_test.go:116: OPTIONS status = 503, want 405\n"}
+{"Time":"2026-10-09T01:44:02.881155+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/OPTIONS","Output":"    health_test.go:116: OPTIONS Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-09T01:44:02.88119+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/OPTIONS","Output":"--- FAIL: TestHealthMethodsHTTP/database_closed/OPTIONS (0.00s)\n"}
+{"Time":"2026-10-09T01:44:02.881201+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/OPTIONS","Elapsed":0}
+{"Time":"2026-10-09T01:44:02.881214+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/TRACE"}
+{"Time":"2026-10-09T01:44:02.881216+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/TRACE","Output":"=== RUN   TestHealthMethodsHTTP/database_closed/TRACE\n"}
+{"Time":"2026-10-09T01:44:02.881467+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/TRACE","Output":"    health_test.go:116: TRACE status = 503, want 405\n"}
+{"Time":"2026-10-09T01:44:02.881482+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/TRACE","Output":"    health_test.go:116: TRACE Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-09T01:44:02.881507+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/TRACE","Output":"--- FAIL: TestHealthMethodsHTTP/database_closed/TRACE (0.00s)\n"}
+{"Time":"2026-10-09T01:44:02.881521+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/TRACE","Elapsed":0}
+{"Time":"2026-10-09T01:44:02.881532+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/CUSTOM"}
+{"Time":"2026-10-09T01:44:02.881534+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/CUSTOM","Output":"=== RUN   TestHealthMethodsHTTP/database_closed/CUSTOM\n"}
+{"Time":"2026-10-09T01:44:02.881778+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/CUSTOM","Output":"    health_test.go:116: CUSTOM status = 503, want 405\n"}
+{"Time":"2026-10-09T01:44:02.881793+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/CUSTOM","Output":"    health_test.go:116: CUSTOM Allow = \"\", want GET, HEAD\n"}
+{"Time":"2026-10-09T01:44:02.881819+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/CUSTOM","Output":"--- FAIL: TestHealthMethodsHTTP/database_closed/CUSTOM (0.00s)\n"}
+{"Time":"2026-10-09T01:44:02.881822+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/CUSTOM","Elapsed":0}
+{"Time":"2026-10-09T01:44:02.882351+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/recovered_GET"}
+{"Time":"2026-10-09T01:44:02.882353+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/recovered_GET","Output":"=== RUN   TestHealthMethodsHTTP/database_closed/recovered_GET\n"}
+{"Time":"2026-10-09T01:44:02.882619+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/recovered_GET","Output":"--- PASS: TestHealthMethodsHTTP/database_closed/recovered_GET (0.00s)\n"}
+{"Time":"2026-10-09T01:44:02.882629+08:00","Action":"pass","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/recovered_GET","Elapsed":0}
+{"Time":"2026-10-09T01:44:02.882641+08:00","Action":"run","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/recovered_HEAD"}
+{"Time":"2026-10-09T01:44:02.882643+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/recovered_HEAD","Output":"=== RUN   TestHealthMethodsHTTP/database_closed/recovered_HEAD\n"}
+{"Time":"2026-10-09T01:44:02.882865+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/recovered_HEAD","Output":"--- PASS: TestHealthMethodsHTTP/database_closed/recovered_HEAD (0.00s)\n"}
+{"Time":"2026-10-09T01:44:02.882878+08:00","Action":"pass","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed/recovered_HEAD","Elapsed":0}
+{"Time":"2026-10-09T01:44:02.883606+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed","Output":"--- FAIL: TestHealthMethodsHTTP/database_closed (1.19s)\n"}
+{"Time":"2026-10-09T01:44:02.88361+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP/database_closed","Elapsed":1.19}
+{"Time":"2026-10-09T01:44:02.883628+08:00","Action":"output","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP","Output":"--- FAIL: TestHealthMethodsHTTP (3.58s)\n"}
+{"Time":"2026-10-09T01:44:02.88364+08:00","Action":"fail","Package":"model-relay/internal/relay","Test":"TestHealthMethodsHTTP","Elapsed":3.58}
+{"Time":"2026-10-09T01:44:02.883704+08:00","Action":"output","Package":"model-relay/internal/relay","Output":"FAIL\n"}
+{"Time":"2026-10-09T01:44:02.891272+08:00","Action":"output","Package":"model-relay/internal/relay","Output":"FAIL\tmodel-relay/internal/relay\t4.106s\n"}
+{"Time":"2026-10-09T01:44:02.891288+08:00","Action":"fail","Package":"model-relay/internal/relay","Elapsed":4.106}
+PASS expected historical HTTP red: 21 method failures with exact status/Allow diagnostics; 12 query/recovery passes
+<make> format-check
+go mod verify
+all modules verified
+<make> vet
+go vet ./...
+<make> frontend-test
+npm ci --ignore-scripts --omit=optional --no-audit --no-fund --cache .cache/npm
+
+added 2 packages in 1s
+npm notice
+npm notice New major version of npm available! 11.12.1 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
+node --test tests/browser/*.test.mjs
+✔ summary money preserves exact decimal precision and distinguishes unknown from zero (0.684542ms)
+✔ live summary assertion rejects absent columns, wrong values and ambiguous rows (0.975375ms)
+✔ visual contract names exactly all ten approved pages with substantive checks (1.3495ms)
+✔ capture contract rejects title-only, failure, wrong role/scope, overflow and secrets (1.066583ms)
+✔ limits visual editor targets its heading action outside content (2.696041ms)
+✔ all other visual editors retain exact current row or content ownership (0.136875ms)
+✔ missing heading editor has no content or page-wide fallback (0.072375ms)
+✔ visual read diagnostic keeps only current overview GET status and scope match (0.286625ms)
+✔ failed visual capture persists facts before assertion without relaxing empty gate (5.875833ms)
+✔ navigation failure retains null facts and omits arbitrary error text (2.134916ms)
+✔ request detail uses the call action on the call page (2.125417ms)
+✔ request detail uses the exact request row on the records page (0.394958ms)
+✔ request detail retains a failed native activation (0.537791ms)
+✔ J06 reconciled detail activates the records entry (0.076333ms)
+✔ current-period visual preparation uses the existing native call and conserves the closed bill (0.590417ms)
+✔ visual preparation rejects stale or missing current-period activity (2.7355ms)
+✔ visual preparation rejects changes to closed bill amount or corrections (2.099083ms)
+✔ J06 reconciliation reads append-only cumulative charges, not the first revision (7.935667ms)
+✔ scope refresh cannot complete on old content before asynchronous tenant removal settles (2.804667ms)
+✔ failure boundary projects only the owning source position, never assertion values or host paths (0.527375ms)
+✔ J05 member transitions have independent attribution without removing scope assertions (0.169042ms)
+✔ pause conservation evidence only projects exact amounts and safe counters (1.034625ms)
+✔ J05 retains original resume fee assertion and checks each independent rejection boundary (0.07825ms)
+✔ completion failure evidence is a bounded whitelist, never raw provider or request data (0.407625ms)
+✔ actual fresh-install driver requires zero collections, not migrated legacy tenants (1.257375ms)
+✔ production Key formatter distinguishes safe states and precise grace/expiry boundaries (2.915583ms)
+✔ continuous driver uses actual product labels and rotation receipt contract (0.09625ms)
+✔ scope-required empty state replaces loading instead of leaving a perpetual loading placeholder (0.353542ms)
+✔ request-detail log navigation keeps tenant and existing safe filters (0.3465ms)
+✔ full suite stays additive to make verify with every frozen journey and all viewports (0.308708ms)
+✔ migration driver consumes schema3 paginated Key contract (0.750459ms)
+✔ migration driver rejects obsolete_data without exposing collection values (0.564292ms)
+✔ migration driver rejects missing_key without exposing collection values (0.370167ms)
+✔ migration driver rejects additional_key without exposing collection values (0.081125ms)
+✔ migration driver rejects wrong_total without exposing collection values (0.0815ms)
+✔ migration driver rejects disabled_changed without exposing collection values (0.065583ms)
+✔ migration driver rejects enabled_changed without exposing collection values (0.066083ms)
+✔ migration driver rejects missing_identity without exposing collection values (0.467375ms)
+✔ unknown mutation retains operation reference and retry through read failure and recovery (2.304541ms)
+✔ safe reads deduplicate concurrent clicks and ignore scope-late results (0.399416ms)
+✔ closing unknown editor isolates its late recovery detail (0.367792ms)
+✔ isolated previous-editor reconstruction reproduces the QA35 DOM retry deletion (1.1535ms)
+✔ locked Playwright removal continues its current in-flight handler before a late explicit continue (2.81725ms)
+✔ locked Playwright explicit continue settles before removing its handler without a second dispatch (0.36425ms)
+✔ password toggle preserves the input node and value without requesting or submitting (7.135417ms)
+✔ login success, logout and rejected login reset password visibility (1.711292ms)
+✔ pending rejected login keeps the prior session error until its own 401 clears the password (0.784375ms)
+✔ session restoration resets an entered visible password (0.628667ms)
+✔ upstream form is unavailable until GET completes, then saves entered values (1.827458ms)
+✔ connection cancellation aborts once, ignores late success and releases controls (0.910209ms)
+✔ connection navigation and expiry abort pending work without late state mutation (2.700375ms)
+✔ completed setup moves original rows to review and unknown refresh restores tasks (1.121083ms)
+✔ candidate selects have standalone exact labels and unique create/edit associations (1.111417ms)
+✔ model creation locks draft and prevents duplicate submission while awaiting acknowledgement (0.671208ms)
+✔ model creation acknowledgement with failed readback never invites duplicate creation (0.647917ms)
+✔ model creation late result cannot relock inputs or publish feedback after account reset (0.619458ms)
+✔ overview distinguishes empty, saved and successful persisted configuration on reentry (0.90025ms)
+✔ runtime version preserves raw strings including dev without blocking overview (2.110833ms)
+✔ runtime version missing degrades locally and reentry recovers (1.029583ms)
+✔ runtime version empty degrades locally and reentry recovers (0.822666ms)
+✔ runtime version whitespace degrades locally and reentry recovers (0.738333ms)
+✔ runtime version number degrades locally and reentry recovers (0.849958ms)
+✔ runtime version null version degrades locally and reentry recovers (0.809916ms)
+✔ runtime version null body degrades locally and reentry recovers (0.660958ms)
+✔ runtime version array degrades locally and reentry recovers (0.666541ms)
+✔ runtime version string body degrades locally and reentry recovers (0.621583ms)
+✔ runtime version 401 degrades locally and reentry recovers (0.672708ms)
+✔ runtime version 503 degrades locally and reentry recovers (0.627583ms)
+✔ runtime version network degrades locally and reentry recovers (0.818417ms)
+✔ runtime version invalid json degrades locally and reentry recovers (1.292542ms)
+✔ late success cannot clear a newer timer or version (0.747583ms)
+✔ late failure cannot clear a newer timer or version (0.597334ms)
+✔ 5 second timeout covers headers and ignores late resolution (0.703ms)
+✔ 5 second timeout covers body and ignores late resolution (0.675792ms)
+✔ logout invalidates immediately and late success cannot contaminate a new login (0.717209ms)
+✔ real management 401 still logs out and invalidates runtime version (0.615708ms)
+✔ older response after a newer completion cannot overwrite the current version (0.934084ms)
+✔ failed configuration load leaves an error and navigation can recover (0.797125ms)
+✔ a stale navigation cannot reveal a panel after the user leaves (1.402541ms)
+✔ rejected save recovers persisted configuration after navigation finishes (1.105125ms)
+✔ explicit upstream reread retains stale credential status until its own GET settles (0.82175ms)
+✔ upstream restore immediately clears secret, restores only confirmed public fields and performs zero writes: false (0.740833ms)
+✔ upstream restore immediately clears secret, restores only confirmed public fields and performs zero writes: true (0.649208ms)
+✔ upstream save owns both controls through its readback; restore and repeated save cannot overlap (0.803792ms)
+✔ late upstream restore cannot replace a new draft or unlock a newer operation (0.713041ms)
+✔ upstream busy controls release on owner invalidation without applying a late restore: pagehide (0.577ms)
+✔ upstream busy controls release on owner invalidation without applying a late restore: uncertain session (0.650917ms)
+✔ in-flight submitted controls stay visible and disabled until current call terminates: complete (0.910875ms)
+✔ in-flight submitted controls stay visible and disabled until current call terminates: failed (0.567541ms)
+✔ in-flight submitted controls stay visible and disabled until current call terminates: cancel (0.622958ms)
+✔ late canceled-call finally cannot unlock new submitted controls (0.608ms)
+✔ key list displays server created time and explicitly unknown, never a client timestamp (0.606459ms)
+✔ state-change replacement restores only same identity unless focus moved: models/false (0.958917ms)
+✔ state-change replacement restores only same identity unless focus moved: models/true (0.760833ms)
+✔ state-change replacement restores only same identity unless focus moved: keys/false (0.688542ms)
+✔ state-change replacement restores only same identity unless focus moved: keys/true (0.610042ms)
+✔ late state change on departed page cannot restore old row focus (0.636125ms)
+✔ upstream rejected clears credential, preserves public draft and distinguishes acknowledged write (0.677083ms)
+✔ upstream network clears credential, preserves public draft and distinguishes acknowledged write (0.668334ms)
+✔ upstream refresh clears credential, preserves public draft and distinguishes acknowledged write (0.638875ms)
+✔ generation application failure clears only sensitive inputs and keeps diagnosis and identity (0.719958ms)
+✔ generation provider failure clears only sensitive inputs and keeps diagnosis and identity (1.874625ms)
+✔ generation network failure clears only sensitive inputs and keeps diagnosis and identity (0.651ms)
+✔ generation protocol failure clears only sensitive inputs and keeps diagnosis and identity (0.614458ms)
+✔ generation stream failure clears only sensitive inputs and keeps diagnosis and identity (0.610709ms)
+✔ overview evidence action uses displayed ID, while generic records remains unfiltered (0.792167ms)
+✔ overview precise evidence action survives session restore with no local generation identity (0.592542ms)
+✔ overview precise evidence action survives new login with no local generation identity (0.62375ms)
+✔ late upstream rejected failure cannot clear new-page credential or notice (0.650042ms)
+✔ late upstream refresh failure cannot clear new-page credential or notice (0.662958ms)
+✔ overview success metadata comes from the request evidence, never the clock or global revision (0.720208ms)
+✔ late overview metadata cannot replace a newer response (0.597458ms)
+✔ failed overview refresh disables and discards the old precise evidence action (0.601ms)
+✔ model selection, placeholder example, readable text and request ID are independent of raw JSON (0.5885ms)
+✔ cancel isolates late headers, old finally cannot enable a new request (0.608959ms)
+✔ cancel isolates late json, old finally cannot enable a new request (0.636791ms)
+✔ cancel isolates late failure, old finally cannot enable a new request (0.620459ms)
+✔ SSE decodes split UTF8 and CRLF, presents increments before DONE and isolates canceled reads (0.910833ms)
+✔ tool-only output is not treated as network failure; unknown usage stays unknown and zero stays zero (1.975959ms)
+✔ late key issuance and management 401 cannot affect a new page or login (1.030792ms)
+✔ clipboard completion is isolated after closing, reissuing or leaving; failures have a manual path (2.002459ms)
+✔ SSE DONE succeeds, missing DONE and event error fail without a second request (1.847958ms)
+✔ overview query failure remains unknown rather than zero and retry recovers (0.612583ms)
+✔ creation cancellation preserves public drafts with zero writes (0.497792ms)
+✔ model edit keeps canceled draft and a pending save cannot be replaced by another editor (0.831375ms)
+✔ unknown navigation hashes normalize to a safe overview target (0.497292ms)
+✔ expired session clears current generation and restores safe hash target without replay (0.599583ms)
+✔ stream tool fragments summarize only after DONE without executing arguments (0.736833ms)
+✔ empty content remains distinct and tool names/count storage are bounded (1.431417ms)
+✔ visible long stream checks at 30s; network uncertainty clears secrets, isolates late output and requires manual recovery (0.913917ms)
+✔ known expiry cancels without a session fetch; relogin restores target without replay (0.700917ms)
+✔ uncertain session invalidates late issuance and explicit relogin clears and preserves safe target (0.656167ms)
+✔ known expiry also blocks submit before timer runs (0.718583ms)
+✔ hidden generation skips polling; visibility check is single flight and stale failure cannot clear a new page (0.794209ms)
+✔ known expiry survives a hanging one-shot session check and ignores late success (0.817791ms)
+✔ known expiry survives a hanging one-shot session check and ignores late network failure (0.671083ms)
+✔ known expiry survives a hanging one-shot session check and ignores late 401 (0.684292ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: success (0.892666ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: network failure (0.820125ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: 401 (0.821625ms)
+✔ uncertain session recovery may hang but the original known expiry still clears it (0.659917ms)
+✔ ordinary periodic session success does not tell an active call to re-enter or resend (1.574042ms)
+✔ pagehide stops timers and pageshow still enforces a known deadline before a hanging check can resume (0.68475ms)
+✔ visibility restore enforces known expiry even when uncertain-state timer delivery was suspended (0.685917ms)
+✔ closed model selection helper commits later viewport option: false (3.063583ms)
+✔ closed model selection helper commits later viewport option: true (0.470666ms)
+✔ closed model selection helper fails rather than accepting an unchanged first option (1.054167ms)
+✔ model selection diagnostic records type-ahead and Tab boundaries without assigning DOM values (0.42125ms)
+✔ closed model selection helper handles starting at end and disabled options: 0/false (0.406833ms)
+✔ closed model selection helper handles starting at end and disabled options: 3/false (0.397625ms)
+✔ closed model selection helper handles starting at end and disabled options: 1/true (0.393208ms)
+✔ native model selection helper rejects unavailable target before activation: true (0.42525ms)
+✔ native model selection helper rejects unavailable target before activation: false (0.408708ms)
+✔ actual model diagnostic projection observes focus, option redraw and replacement without values (0.89375ms)
+✔ model diagnostics distinguish pending response bodies, failed reads and load-finally readiness (0.504583ms)
+✔ candidate selection trace retains boundaries, redacts values and cleans observers (0.294167ms)
+✔ candidate selection trace bounds keyboard events and redacts printable input (0.296334ms)
+✔ candidate type-ahead driver uses keyboard only and preserves boundary ordering (0.216792ms)
+✔ candidate type-ahead driver rejects ambiguous disabled or non-ASCII fixture targets before keys (0.307083ms)
+✔ model diagnostic event trace is bounded and only records approved key and focus labels (0.593834ms)
+✔ model diagnostic printable keys are redacted and type-ahead boundaries survive compaction (0.677083ms)
+✔ failure model projection omits arbitrary fields and keeps the bounded boundary evidence (0.468583ms)
+✔ entire UTF-8 failure line fits host tail while retaining first and final key boundaries (0.801541ms)
+✔ a new editor owns its save lock after navigation interrupts acknowledged-write readback (1.728875ms)
+✔ save driver observes one acknowledged write and rejects a locked editor before arming a waiter (1.951667ms)
+✔ interrupted editor driver releases only its controlled GET and retains the unlocked/cancel/no-extra-write assertions (6.391333ms)
+✔ editor queued close clears its own issued value without erasing a transferred call key (0.599375ms)
+✔ editor close before transfer settlement still permits the explicitly owned destination (0.331792ms)
+✔ superseded navigation cannot restore an issued secret even on another playground epoch (0.312708ms)
+✔ old editor close event cannot erase a reopened one-time dialog (0.295417ms)
+✔ workspace service detail renders facts without requiring limit fields (0.471291ms)
+✔ workspace key detail renders facts without requiring limit fields (0.446084ms)
+✔ workspace request detail renders facts without requiring limit fields (0.352125ms)
+✔ workspace operation detail renders facts without requiring limit fields (0.26625ms)
+✔ workspace bill detail renders facts without requiring limit fields (0.250458ms)
+✔ workspace detail null remains explicitly unknown (0.240125ms)
+✔ workspace limits retain their independent dimensions and warning (0.325166ms)
+✔ workspace request and price details label actual API fields without changing amounts (0.304167ms)
+✔ workspace Key budget cards render the shared resource contract instead of raw JSON (0.936042ms)
+✔ workspace local list search spans fetched groups and recovers after clearing (0.635375ms)
+✔ workspace service check sends execution revision, not management revision or empty input (0.476834ms)
+✔ workspace stale service check exposes rejection without detail or automatic retry (0.399375ms)
+✔ console model driver uniquely targets actual editor labels without editing additional routes (0.846292ms)
+✔ console failure snapshot projects only safe enums, counts and booleans (0.51775ms)
+✔ console failure snapshot tolerates missing controls without inventing facts (0.3665ms)
+✔ console response diagnostics retain route statuses without URLs, bodies or errors (0.583416ms)
+✔ keyboard driver retains native actions and all original boundary assertions (0.736416ms)
+✔ keyboard driver waits for asynchronous editor visibility before its first native Tab (0.461208ms)
+✔ keyboard driver preserves first-tab rejection and distinguishes its stage (4.599833ms)
+✔ keyboard driver preserves cycle rejection and distinguishes its stage (0.680833ms)
+✔ keyboard driver preserves escape rejection and distinguishes its stage (0.539625ms)
+✔ keyboard driver preserves return rejection and distinguishes its stage (0.497375ms)
+✔ keyboard projection emits only fixed booleans for editor, body, root and missing focus (1.138417ms)
+ℹ tests 193
+ℹ suites 0
+ℹ pass 193
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 194.473083
+<make> test
+go test -race -count=1 -v ./...
+# model-relay/cmd/model-relay.test
+ld: warning: '<temp>go-link-2375093286/000023.o' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+# model-relay/tests/browser.test
+ld: warning: '<temp>go-link-452163175/000023.o' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+# model-relay/internal/relay.test
+ld: warning: '<temp>go-link-3960051503/000023.o' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestDeploymentContractAndIdempotentUpgradeCLI
+--- PASS: TestDeploymentContractAndIdempotentUpgradeCLI (3.62s)
+=== RUN   TestCLIManagementConfigurationContract
+--- PASS: TestCLIManagementConfigurationContract (2.53s)
+=== RUN   TestCLIInstallationCommands
+--- PASS: TestCLIInstallationCommands (2.24s)
+PASS
+ok  	model-relay/cmd/model-relay	9.879s

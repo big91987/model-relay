@@ -148,6 +148,7 @@ func TestRoutingRealHTTPSelectionFailoverAndRecovery(t *testing.T) {
 func TestRoutingRealHTTPTemporaryAllowlist(t *testing.T) {
 	for _, status := range []int{301, 400, 401, 403, 404, 408, 429, 500, 501, 502, 503, 504, 505} {
 		t.Run(http.StatusText(status), func(t *testing.T) {
+			t.Parallel()
 			var primary, secondary atomic.Int64
 			value := newFixture(t, func(writer http.ResponseWriter, request *http.Request) {
 				if strings.HasPrefix(request.URL.Path, "/secondary/") {

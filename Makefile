@@ -4,8 +4,11 @@ export GOCACHE := $(CURDIR)/.cache/go-build
 export CGO_ENABLED := 1
 export GOTOOLCHAIN := local
 
-.PHONY: verify format-check vet test build browser frontend-test health-history
+.PHONY: verify verify-gates format-check vet test build browser frontend-test verification-deps health-history
 verify:
+	go run ./tests/verify
+
+verify-gates:
 	go run ./tests/evidence
 	go run ./tests/review-history
 	$(MAKE) health-history
@@ -27,15 +30,17 @@ vet:
 	go vet ./...
 
 test:
-	go test -race -count=1 -v ./...
+	go test -race -count=1 -v ./... -parallel=4
 
-frontend-test:
+verification-deps:
+	npm ci --ignore-scripts --omit=optional --no-audit --no-fund --cache .cache/npm
+
+frontend-test: verification-deps
 	node --test tests/browser/*.test.mjs
 
 build:
 	@mkdir -p bin
 	go build -trimpath -o bin/model-relay ./cmd/model-relay
 
-browser:
-	npm ci --ignore-scripts --omit=optional --no-audit --no-fund --cache .cache/npm
+browser: verification-deps
 	go run ./tests/browser

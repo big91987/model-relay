@@ -1,0 +1,127 @@
+# model-relay/internal/relay.test
+ld: warning: '<temp>/go-link-2432186348/000023.o' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestConsolePeopleScopeInProcess
+=== PAUSE TestConsolePeopleScopeInProcess
+=== RUN   TestConsoleResourceMatrixInProcess
+=== RUN   TestConsoleResourceMatrixInProcess/tenant/calls
+=== PAUSE TestConsoleResourceMatrixInProcess/tenant/calls
+=== RUN   TestConsoleResourceMatrixInProcess/tenant/rpm
+=== PAUSE TestConsoleResourceMatrixInProcess/tenant/rpm
+=== RUN   TestConsoleResourceMatrixInProcess/tenant/tpm
+=== PAUSE TestConsoleResourceMatrixInProcess/tenant/tpm
+=== RUN   TestConsoleResourceMatrixInProcess/tenant/concurrency
+=== PAUSE TestConsoleResourceMatrixInProcess/tenant/concurrency
+=== RUN   TestConsoleResourceMatrixInProcess/tenant/budget
+=== PAUSE TestConsoleResourceMatrixInProcess/tenant/budget
+=== RUN   TestConsoleResourceMatrixInProcess/key/calls
+=== PAUSE TestConsoleResourceMatrixInProcess/key/calls
+=== RUN   TestConsoleResourceMatrixInProcess/key/rpm
+=== PAUSE TestConsoleResourceMatrixInProcess/key/rpm
+=== RUN   TestConsoleResourceMatrixInProcess/key/tpm
+=== PAUSE TestConsoleResourceMatrixInProcess/key/tpm
+=== RUN   TestConsoleResourceMatrixInProcess/key/concurrency
+=== PAUSE TestConsoleResourceMatrixInProcess/key/concurrency
+=== RUN   TestConsoleResourceMatrixInProcess/key/budget
+=== PAUSE TestConsoleResourceMatrixInProcess/key/budget
+=== CONT  TestConsoleResourceMatrixInProcess/tenant/calls
+=== CONT  TestConsoleResourceMatrixInProcess/tenant/budget
+=== CONT  TestConsoleResourceMatrixInProcess/tenant/concurrency
+=== CONT  TestConsoleResourceMatrixInProcess/key/concurrency
+=== CONT  TestConsoleResourceMatrixInProcess/tenant/tpm
+=== CONT  TestConsoleResourceMatrixInProcess/tenant/rpm
+=== CONT  TestConsoleResourceMatrixInProcess/key/budget
+=== CONT  TestConsoleResourceMatrixInProcess/key/tpm
+=== CONT  TestConsoleResourceMatrixInProcess/key/rpm
+=== CONT  TestConsoleResourceMatrixInProcess/key/calls
+--- PASS: TestConsoleResourceMatrixInProcess (0.00s)
+    --- PASS: TestConsoleResourceMatrixInProcess/tenant/concurrency (2.57s)
+    --- PASS: TestConsoleResourceMatrixInProcess/tenant/calls (2.57s)
+    --- PASS: TestConsoleResourceMatrixInProcess/key/concurrency (2.57s)
+    --- PASS: TestConsoleResourceMatrixInProcess/tenant/budget (2.57s)
+    --- PASS: TestConsoleResourceMatrixInProcess/tenant/tpm (2.54s)
+    --- PASS: TestConsoleResourceMatrixInProcess/key/tpm (2.54s)
+    --- PASS: TestConsoleResourceMatrixInProcess/tenant/rpm (2.55s)
+    --- PASS: TestConsoleResourceMatrixInProcess/key/budget (2.55s)
+    --- PASS: TestConsoleResourceMatrixInProcess/key/rpm (2.47s)
+    --- PASS: TestConsoleResourceMatrixInProcess/key/calls (2.49s)
+=== RUN   TestConsoleSummariesInProcess
+=== PAUSE TestConsoleSummariesInProcess
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Moved_Permanently
+=== PAUSE TestRoutingTemporaryAllowlistAndUnknownTotals/Moved_Permanently
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Bad_Request
+=== PAUSE TestRoutingTemporaryAllowlistAndUnknownTotals/Bad_Request
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Unauthorized
+=== PAUSE TestRoutingTemporaryAllowlistAndUnknownTotals/Unauthorized
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Forbidden
+=== PAUSE TestRoutingTemporaryAllowlistAndUnknownTotals/Forbidden
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Not_Found
+=== PAUSE TestRoutingTemporaryAllowlistAndUnknownTotals/Not_Found
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Request_Timeout
+=== PAUSE TestRoutingTemporaryAllowlistAndUnknownTotals/Request_Timeout
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Too_Many_Requests
+=== PAUSE TestRoutingTemporaryAllowlistAndUnknownTotals/Too_Many_Requests
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Internal_Server_Error
+=== PAUSE TestRoutingTemporaryAllowlistAndUnknownTotals/Internal_Server_Error
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Not_Implemented
+=== PAUSE TestRoutingTemporaryAllowlistAndUnknownTotals/Not_Implemented
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Bad_Gateway
+=== PAUSE TestRoutingTemporaryAllowlistAndUnknownTotals/Bad_Gateway
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Service_Unavailable
+=== PAUSE TestRoutingTemporaryAllowlistAndUnknownTotals/Service_Unavailable
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Gateway_Timeout
+=== PAUSE TestRoutingTemporaryAllowlistAndUnknownTotals/Gateway_Timeout
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/HTTP_Version_Not_Supported
+=== PAUSE TestRoutingTemporaryAllowlistAndUnknownTotals/HTTP_Version_Not_Supported
+=== CONT  TestRoutingTemporaryAllowlistAndUnknownTotals/Bad_Request
+=== CONT  TestRoutingTemporaryAllowlistAndUnknownTotals/Bad_Gateway
+=== CONT  TestRoutingTemporaryAllowlistAndUnknownTotals/Not_Implemented
+=== CONT  TestRoutingTemporaryAllowlistAndUnknownTotals/Service_Unavailable
+=== CONT  TestRoutingTemporaryAllowlistAndUnknownTotals/HTTP_Version_Not_Supported
+=== CONT  TestRoutingTemporaryAllowlistAndUnknownTotals/Internal_Server_Error
+=== CONT  TestRoutingTemporaryAllowlistAndUnknownTotals/Too_Many_Requests
+=== CONT  TestRoutingTemporaryAllowlistAndUnknownTotals/Request_Timeout
+=== CONT  TestRoutingTemporaryAllowlistAndUnknownTotals/Gateway_Timeout
+=== CONT  TestRoutingTemporaryAllowlistAndUnknownTotals/Unauthorized
+=== CONT  TestRoutingTemporaryAllowlistAndUnknownTotals/Not_Found
+=== CONT  TestRoutingTemporaryAllowlistAndUnknownTotals/Moved_Permanently
+=== CONT  TestRoutingTemporaryAllowlistAndUnknownTotals/Forbidden
+--- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals (0.00s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Service_Unavailable (2.52s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Not_Implemented (2.53s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Bad_Request (2.53s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Bad_Gateway (2.54s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/HTTP_Version_Not_Supported (2.50s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Too_Many_Requests (2.51s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Internal_Server_Error (2.52s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Request_Timeout (2.52s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Gateway_Timeout (2.51s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Unauthorized (2.51s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Not_Found (2.52s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Moved_Permanently (2.51s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Forbidden (2.40s)
+=== RUN   TestSSEDoneTerminalAttribution
+=== RUN   TestSSEDoneTerminalAttribution/success
+=== PAUSE TestSSEDoneTerminalAttribution/success
+=== RUN   TestSSEDoneTerminalAttribution/write_failure
+=== PAUSE TestSSEDoneTerminalAttribution/write_failure
+=== RUN   TestSSEDoneTerminalAttribution/cancel_with_error
+=== PAUSE TestSSEDoneTerminalAttribution/cancel_with_error
+=== RUN   TestSSEDoneTerminalAttribution/cancel_after_write
+=== PAUSE TestSSEDoneTerminalAttribution/cancel_after_write
+=== CONT  TestSSEDoneTerminalAttribution/success
+=== CONT  TestSSEDoneTerminalAttribution/cancel_after_write
+=== CONT  TestSSEDoneTerminalAttribution/cancel_with_error
+=== CONT  TestSSEDoneTerminalAttribution/write_failure
+--- PASS: TestSSEDoneTerminalAttribution (0.00s)
+    --- PASS: TestSSEDoneTerminalAttribution/success (2.51s)
+    --- PASS: TestSSEDoneTerminalAttribution/write_failure (2.52s)
+    --- PASS: TestSSEDoneTerminalAttribution/cancel_after_write (2.53s)
+    --- PASS: TestSSEDoneTerminalAttribution/cancel_with_error (2.53s)
+=== CONT  TestConsoleSummariesInProcess
+=== CONT  TestConsolePeopleScopeInProcess
+--- PASS: TestConsoleSummariesInProcess (9.93s)
+--- PASS: TestConsolePeopleScopeInProcess (9.95s)
+PASS
+ok  	model-relay/internal/relay	31.548s
+EXIT_CODE=0

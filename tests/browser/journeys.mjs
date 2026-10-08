@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {mkdir, readFile, writeFile} from 'node:fs/promises';
 import {chromium} from 'playwright';
 import {consoleVisualReview} from './console-visual.mjs';
-import {managementSummaryJourney,summaryCell} from './console-summary.mjs';
+import {managementSummaryJourney,summaryCell,summaryFailureFacts} from './console-summary.mjs';
 
 const origin=process.env.RELAY_JOURNEY_ORIGIN;
 const width=Number(process.env.RELAY_JOURNEY_WIDTH);
@@ -92,8 +92,8 @@ async function read(page,path,status=200) {
   return response.json();
 }
 function failureBoundary(error) {
-  const match=typeof error.stack==='string'?error.stack.match(/\n\s+at (?:[^\n]* \()?file:\/\/[^\n]*\/tests\/browser\/journeys\.mjs:(\d{1,6}):(\d{1,6})\)?(?:\n|$)/):null;
-  return match?{source:'tests/browser/journeys.mjs',line:Number(match[1]),column:Number(match[2])}:{available:false};
+  const match=typeof error.stack==='string'?error.stack.match(/\n\s+at (?:[^\n]* \()?file:\/\/[^\n]*\/tests\/browser\/(journeys|console-summary)\.mjs:(\d{1,6}):(\d{1,6})\)?(?:\n|$)/):null;
+  return match?{source:'tests/browser/'+match[1]+'.mjs',line:Number(match[2]),column:Number(match[3])}:{available:false};
 }
 function conservationFacts(before,after) {
   const amount=value=>typeof value==='string'&&/^-?\d{1,19}$/.test(value)?value:null;
@@ -500,7 +500,7 @@ try {
   await safeScreenshot(admin,'final');assert.equal(checkpoints.length,7);
   await writeFile(`test-results/continuous-${width}-${process.pid}.json`,JSON.stringify({suite:'continuous-console',width,result:'passed',checkpoints,provider:'controlled_http_not_supplier',clock:'explicit_test_clock_no_database_edits',cleanup:'isolated_directory_servers_contexts'},null,2)+'\n');
 } catch(error) {
-  const snapshot=activePage?await activePage.evaluate(()=>({editor_open:document.getElementById('editor')?.open===true,editor_invalid:document.getElementById('editor')?.querySelectorAll(':invalid').length??0,editor_failure:document.getElementById('editor-error')?.textContent.startsWith('操作失败：')===true,workspace_visible:document.getElementById('workspace')?.hidden===false,secret_present:[...document.querySelectorAll('input[type=password],.secret')].some(element=>element.value!=='')})).catch(()=>({snapshot_available:false})):{};
-  const receipt={suite:'continuous-console',width,result:'failed',stage,action,last_status:lastStatus,initial_counts:initialCounts,call_facts:callFacts,usage_facts:usageFacts,read_facts:readFacts,membership_facts:membershipFacts,ledger_facts:ledgerFacts,failure_boundary:failureBoundary(error),checkpoints,error_kind:error.name==='TimeoutError'?'timeout':error.name==='AssertionError'?'assertion':'other',...snapshot};
+  const snapshot=activePage?await activePage.evaluate(()=>({editor_open:document.getElementById('editor')?.open===true,editor_invalid:document.getElementById('editor')?.querySelectorAll(':invalid').length??0,editor_failure:document.getElementById('editor-error')?.textContent.startsWith('操作失败：')===true,content_loading:document.getElementById('content')?.textContent.includes('正在读取当前范围…')===true,workspace_visible:document.getElementById('workspace')?.hidden===false,secret_present:[...document.querySelectorAll('input[type=password],.secret')].some(element=>element.value!=='')})).catch(()=>({snapshot_available:false})):{};
+  const receipt={suite:'continuous-console',width,result:'failed',stage,action,last_status:lastStatus,initial_counts:initialCounts,call_facts:callFacts,usage_facts:usageFacts,read_facts:readFacts,membership_facts:membershipFacts,ledger_facts:ledgerFacts,failure_boundary:failureBoundary(error),summary_cell:summaryFailureFacts(error),checkpoints,error_kind:error.name==='TimeoutError'?'timeout':error.name==='AssertionError'?'assertion':'other',...snapshot};
   console.error(JSON.stringify(receipt));await writeFile(`test-results/continuous-${width}-${process.pid}.json`,JSON.stringify(receipt,null,2)+'\n');process.exitCode=1;
 } finally {for(const context of contexts)await context.close();await browser.close();}

@@ -1,0 +1,31 @@
+{
+  "started_utc": "2026-10-08T17:33:46.760856Z",
+  "finished_utc": "2026-10-08T17:33:49.789155Z",
+  "command": "make verify -\u003e isolated make verify-gates",
+  "isolation": "new private candidate; git history read-only",
+  "node_modules_before": false,
+  "clean_start_measured": true,
+  "npm_cache_before": false,
+  "node_modules_after": false,
+  "npm_cache_after": false,
+  "source_unchanged": false,
+  "candidate_unchanged": false,
+  "NODE_PATH": "unset",
+  "manual_preinstall": "none",
+  "source_before": {
+    "files": 144,
+    "go": "go1.25.6",
+    "head": "cd413b5aa24a372a19c19af999a6ef61b5c41572",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "af09459112ac061976688f434891d3f859e476c0efdfd285b645f504e9759ca3"
+  },
+  "versions": {
+    "go": "go version go1.25.6 darwin/arm64",
+    "node": "v26.0.0"
+  },
+  "gate_exit": -1,
+  "exit_code": 1,
+  "log_sha256": "5e6ca2ab71099bfc2923c05fe4c383f93c6965809cc8da7470c58291041a87e8",
+  "log_bytes": 40,
+  "cleanup": "not_started; candidate_removed"
+}

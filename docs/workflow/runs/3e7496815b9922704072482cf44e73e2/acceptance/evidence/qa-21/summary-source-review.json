@@ -1,0 +1,38 @@
+{
+  "kind": "Static Review; not browser reproduction",
+  "current_source": {
+    "files": 147,
+    "go": "go1.25.6",
+    "head": "cd413b5aa24a372a19c19af999a6ef61b5c41572",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "f8befd158a543afeb1ba77778e4caf72e876f6e4b0b988dd4e6ab73de5e5eaab"
+  },
+  "source_files": [
+    {
+      "path": "tests/browser/console-summary.mjs",
+      "sha256": "187a7df473957652dfbcd935ea412e73d5275dcacbe9793315995ecf5964b50c"
+    },
+    {
+      "path": "tests/browser/journeys.mjs",
+      "sha256": "e3316d1f2698318368d43fd8afb71ed50b159d9d6528dda096c7532d4d1e19a5"
+    },
+    {
+      "path": "internal/relay/web/workspace.js",
+      "sha256": "44b06466c2ffede25b4f37483ffef94b6b525d922248acbde26dc182d2cfd40c",
+      "runtime_unchanged_from_base": true
+    }
+  ],
+  "original_assertions_preserved": true,
+  "toggle_path_unchanged_from_base": true,
+  "excerpts": {
+    "baseline_summary_assertion": "export async function summaryCell(row,label,expected) {\n  assert.equal(await row.count(),1,'one exact live object row');\n  const headings=await row.locator('xpath=ancestor::table').locator('thead th').allTextContents();\n  const index=headings.indexOf(label);\n  assert.ok(index>=0,'required summary column: '+label);\n  assert.equal((await row.getByRole('cell').nth(index).textContent()).trim(),String(expected),'live summary value: '+label);\n}\n\n",
+    "current_summary_assertion": "export async function summaryCell(row,label,expected) {\n  const facts={available:true,check:'row-count',column:label==='状态'?'model-status':'other'};\n  try {\n    facts.row_count=await row.count();\n    assert.equal(facts.row_count,1,'one exact live object row');\n    facts.check='column-present';\n    const headings=await row.locator('xpath=ancestor::table').locator('thead th').allTextContents();\n    const index=headings.indexOf(label);\n    facts.column_count=headings.length;facts.column_present=index>=0;\n    assert.ok(index>=0,'required summary column: '+label);\n    facts.check='cell-value';\n    const actual=(await row.getByRole('cell').nth(index).textContent()).trim();\n    facts.value_matches=actual===String(expected);\n    if(label==='状态') {\n      facts.expected_status=['启用','停用'].includes(String(expected))?String(expected):'other';\n      facts.observed_status=['启用','停用'].includes(actual)?actual:'other';\n    }\n    assert.equal(actual,String(expected),'live summary value: '+label);\n  } catch(error) {\n    summaryFailures.set(error,facts);\n    throw error;\n  }\n}\n\n",
+    "unchanged_toggle_path": "  for(const enabled of [false,true]) {\n    mark('summary-model-context-toggle');\n    await exactRow(models[1]).getByRole('button',{name:'启停',exact:true}).click();\n    await page.getByLabel('启用',{exact:true}).setChecked(enabled);\n    await save(`models/${models[1]}`);\n    await summaryCell(exactRow(models[1]),'状态',enabled?'启用':'停用');\n  }\n",
+    "driver_ready": "async function ready(page) {\n  await page.locator('#content').getByText('正在读取当前范围…',{exact:true}).waitFor({state:'hidden'});\n}\n",
+    "driver_save": "async function save(page,path,method='POST',status=201,keyboard=false) {\n  action='form-submit';\n  const receipt=page.waitForResponse(response=>new URL(response.url()).pathname===path&&response.request().method()===method);\n  if(keyboard){await tabTo(page,'editor-save');await page.keyboard.press('Enter');}else await button(page,'保存').click();\n  const response=await receipt;lastStatus=response.status();assert.equal(lastStatus,status);\n  const value=await response.json();\n  if(status>=400){await page.locator('#editor-error').filter({hasText:'操作失败：'}).waitFor();}\n  else if(value.key||value.acceptance_token)await page.getByLabel('一次性API Key').waitFor();\n  else {await page.locator('#editor').waitFor({state:'hidden'});await ready(page);}\n  return value;\n}\n",
+    "product_sync_tenants": "async function syncTenants() {\n  const tenants=await collection('tenants');state.tenants=tenants;const select=byId('tenant');select.replaceChildren();\n  if(state.user.platform){const option=node('option','全部租户');option.value='';select.append(option);}\n  for(const tenant of tenants){const option=node('option',tenant.name+(tenant.active?'':' · 已暂停'));option.value=tenant.id;select.append(option);}\n  if(state.tenant&&!tenants.some(tenant=>tenant.id===state.tenant))state.tenant='';\n  if(!state.user.platform&&!state.tenant)state.tenant=tenants[0]?.id??'';select.value=state.tenant;\n}\n",
+    "product_submit_order": "    try { const result=await submit(values,operation); if(epoch!==state.epoch) return; state.busy=false; dialog.close(); if(result?.key) secretDialog(result); else if(result?.acceptance_token) invitationDialog(result); else { notice('写入已确认；正在读取当前事实。'); await syncTenants();await renderPage(); } }",
+    "product_render_start": "  const epoch=state.epoch, page=state.page, content=byId('content'); content.replaceChildren(node('p','正在读取当前范围…')); byId('page-action').hidden=true; byId('page-title').textContent=pages[page][0];byId('page-description').textContent=pages[page][1];byId('breadcrumb').textContent=pages[page][0];",
+    "product_render_commit": "    if(epoch!==state.epoch)return;content.replaceChildren(section);"
+  }
+}

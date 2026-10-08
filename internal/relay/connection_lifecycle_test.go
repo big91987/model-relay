@@ -71,6 +71,7 @@ func TestConnectionCancelDeduplicatesAndPreservesRouting(testContext *testing.T)
 func TestConnectionRealHTTPHeaderAndBodyBudget(testContext *testing.T) {
 	for _, phase := range []string{"headers", "body"} {
 		testContext.Run(phase, func(testContext *testing.T) {
+			testContext.Parallel()
 			canceled := make(chan struct{})
 			value := newFixture(testContext, func(writer http.ResponseWriter, request *http.Request) {
 				if request.Method != "GET" || !strings.HasSuffix(request.URL.Path, "/models") {
