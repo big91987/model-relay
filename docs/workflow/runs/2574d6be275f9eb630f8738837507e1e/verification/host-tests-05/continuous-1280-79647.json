@@ -1,0 +1,45 @@
+{
+  "suite": "continuous-console",
+  "width": 1280,
+  "result": "failed",
+  "stage": "model-save-readback-enable",
+  "action": "form-submit",
+  "last_status": 200,
+  "initial_counts": {
+    "upstreams": 0,
+    "models": 0,
+    "tenants": 0
+  },
+  "call_facts": {},
+  "usage_facts": {},
+  "read_facts": {
+    "expected_status": 200,
+    "actual_status": 200
+  },
+  "membership_facts": {},
+  "ledger_facts": {},
+  "failure_boundary": {
+    "source": "tests/browser/console-summary.mjs",
+    "line": 32,
+    "column": 12
+  },
+  "summary_cell": {
+    "available": true,
+    "check": "cell-value",
+    "column": "model-status",
+    "row_count": 1,
+    "column_count": 8,
+    "column_present": true,
+    "value_matches": false,
+    "expected_status": "停用",
+    "observed_status": "启用"
+  },
+  "checkpoints": [],
+  "error_kind": "assertion",
+  "editor_open": false,
+  "editor_invalid": 0,
+  "editor_failure": false,
+  "content_loading": false,
+  "workspace_visible": true,
+  "secret_present": false
+}

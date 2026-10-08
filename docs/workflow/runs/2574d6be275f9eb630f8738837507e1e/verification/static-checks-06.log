@@ -1,0 +1,11 @@
+started_utc=2026-10-08T22:09:02Z
+go vet ./...
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+checks_exit=0
+all modules verified
+module_verify_exit=0
+workspace_syntax_exit=0
+readback_syntax_exit=0
+journeys_syntax_exit=0
+diff_check_exit=0
+finished_utc=2026-10-08T22:09:31Z

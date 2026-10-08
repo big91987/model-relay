@@ -7,8 +7,8 @@ const source = readFileSync(new URL('../../internal/relay/web/workspace.js', imp
 
 test('a new editor owns its save lock after navigation interrupts acknowledged-write readback', async () => {
   const elements = new Map();
-  const control = () => ({textContent:'',value:'',hidden:false,disabled:false,append(){},replaceChildren(){},querySelector(){return null;},focus(){}});
-  for (const id of ['editor','editor-fields','editor-title','editor-error','editor-save','editor-form']) elements.set(id, control());
+  const control = () => ({textContent:'',value:'',hidden:false,disabled:false,dataset:{},append(){},replaceChildren(){},querySelector(){return null;},focus(){}});
+  for (const id of ['editor','editor-fields','editor-title','editor-error','editor-save','editor-form','content','page-action']) elements.set(id, control());
   const dialog = elements.get('editor');
   dialog.showModal = () => { dialog.open = true; };
   dialog.close = () => { dialog.open = false; };
@@ -16,7 +16,7 @@ test('a new editor owns its save lock after navigation interrupts acknowledged-w
   const state = {epoch:1,busy:false};
   const context = vm.createContext({
     state,crypto:{randomUUID:()=> 'controlled-operation'},byId:id=>elements.get(id),
-    notice(){},clearSensitive(){},syncTenants:()=>new Promise(resolve=>{releaseReadback=resolve;}),renderPage:async()=>{}
+    notice(){},clearSensitive(){},node:()=>control(),syncTenants:()=>new Promise(resolve=>{releaseReadback=resolve;}),renderPage:async()=>true
   });
   vm.runInContext(source.slice(source.indexOf('function edit('),source.indexOf('function secretDialog(')),context);
   vm.runInContext("edit('first',[],async()=>({}));",context);

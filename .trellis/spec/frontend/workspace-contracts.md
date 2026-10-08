@@ -1,5 +1,36 @@
 # Native schema3 A workspace
 
+## Scenario: operation-owned post-write page completion
+
+Issue30 tests5 actually measured four UI toggles (false/true at1280/390) on source `ba8816e8f4cb38bb3b6c782195da2324bd16964f98cc2ff00448d91e78940d6f`: baseline save returned while both real post-PATCH reads were held; released final strict DOM assertions passed. This proves this execution's premature observation, not the root cause of old tests18 or a persistent final-state defect. Preserve that Run's failed receipt.
+
+### Signatures and ownership
+`edit(title,fields,submit)` reuses its existing idempotency operation UUID and scope epoch. The editor form carries `dataset.operation` and `dataset.readback` (`idle`, `pending`, `complete`, `failed`, `interrupted`); these are internal DOM lifecycle facts, not an HTTP/public refresh protocol. `renderPage()` returns true only after current-epoch `content.replaceChildren(section)`, false on stale/failed reads. `syncTenants()` checks its captured epoch after the collection settles before mutating selectors/state. No API payload, DB, CSRF, module or dependency changes.
+
+### Contract and error matrix
+- Non-secret acknowledged write: close editor, mark pending and replace old content with the existing loading view before tenants GET. Keep busy/save disabled through tenants → current-page reads → DOM commit; ignore replacement edit attempts while this lock is owned. Mark complete only on successful current-epoch commit; then release the lock in its epoch-owned finally.
+- Tenants GET failure: replace old content with error and GET-only retry; mark failed, explain confirmed write versus failed reread. Catalog/render failure: existing error view, failed marker. Neither failure is an unknown mutation, a success, an automatic write retry or a later completion of the old save.
+- Navigation/logout/scope change: invalidate pending marker and abort existing requests. Old sync/renderer/catch/finally cannot commit into, render for or unlock a new editor/scope. A new editor replaces its operation identity.
+- Secret/invitation result: preserve the separate one-time-secret lifecycle, masking, cleanup and no-replay contracts; no ordinary page-read completion is claimed. Unknown writes retain their original operation readback/GET recovery logic.
+- `waitForSaveReadback(page,expected)` waits only for the captured operation's terminal DOM lifecycle or scope/editor replacement, then asserts operation identity, scope/page identity and complete exactly once. Dialog hidden, HTTP200, old loading hidden or an identical notice alone are not save completion. Failed/interrupted/replaced operations reject, not silently succeed.
+
+### Required tests and examples
+`save-lifecycle.test.mjs` executes the actual editor, sync and renderer functions with explicit dependency checkpoints; `model-save-readback.test.mjs` covers terminal predicates. These prove contracts only. Original summary negatives still reject wrong status, missing columns and duplicate rows with original error identity.
+
+Host `make verify` additionally holds each real same-role/scope tenants and catalog response, checks loading/pending/save-lock/noncompletion at both widths and directions, forwards unchanged responses and requires final strict unique row/column/status. Explicit injected GET503 cases require save rejection/no old rows and user GET-only recovery. A real held catalog snapshot spans UI switch to all-tenant scope, back to original scope and a second opposite UI save; release must not overwrite the second DOM/lock. Keep finite original request deadlines and ordered route cleanup, not sleeps, global network-idle, assertion retries or API/SQL writes. Receipts whitelist UTC/status/boolean facts and actual `browser.version()`, never identifiers or secrets.
+
+Wrong: `await PATCH; await dialogHidden; await loadingHidden; assertRow()`. Correct: await the same operation's successful current-scope read/render commit, then assert the row once. A later user retry may restore visible facts but does not turn the already failed original save into a success.
+
+## Scenario: pre-repair post-write model readback attribution
+
+`tests/browser/model-save-readback.mjs` runs from the existing `journeys.mjs` immediately after real UI model/price/grant preparation. `readbackPhase(request,tenant,acknowledged)` excludes reads before the current PATCH200, non-GETs, tenant detail routes and catalogs without the written tenant and `include_ungranted=true`. One temporary authenticated page owns the write and both read barriers. No API/SQL mutation seeds the model status.
+
+The diagnostic holds each real `route.fetch()` response, forwards it unchanged with `route.fulfill({response})`, first for the tenants collection, then for the catalog. Record PATCH/read/measurement/release/save/final UTC, direction, viewport, current-scope/page booleans, editor/loading/notice/lock booleans and `summaryFailureFacts`; never serialize IDs, URLs, bodies, headers, secrets or error text. Release and await each claimed handler before removing only its registered route. Request waits and actual forwarding retain the existing Playwright deadlines; no sleep, deadline expansion, retry or global network-idle wait.
+
+This is a **pre-repair diagnostic**, not the final save driver: while tenants are held it deliberately awaits the baseline `save`, which closes on dialog-hidden/loading-hidden. An early return records the original strict stale/absent row assertion; all four UI toggles (false/true at the current width and 390px) finish real forwarding and strict final DOM checks before rethrowing that same first error. If baseline save does not return, retain the existing timeout and partial held-stage receipt; do not assume the candidate mechanism reproduced. On a later repair, replace this deliberate legacy-await with an operation-associated completion barrier based on the host evidence, rather than disabling the diagnostic or making the strict assertion retry until green.
+
+Good: new host receipt distinguishes early observation from a final DOM error. Base: local matcher/summary tests validate only whitelist and assertion contracts. Bad: treat controlled locators as Chromium evidence, close historical R28-04 based on this different execution, or classify final wrong data as a harmless race. The fixed host `make verify` must run this slice and return the actual receipt before selecting a driver/product repair; full journeys, negative summaries, race, UTC, migration, visual and independent QA remain subsequent exit gates.
+
 ## Scenario: controlled route cleanup has one continuation owner
 
 The interrupted-editor driver releases its barrier, awaits the held route's continuation, then removes only that handler with `page.unroute(pattern,handler)` in a nested finally. Never run continuation and unroute in `Promise.all`: locked Playwright 1.59.1 server `Page.removeRequestInterceptor` notifies in-flight routes, and `Route.removeHandler` automatically continues the current handler. Removal racing an explicit continuation can produce `Route is already handled!`. Do not catch/ignore this error or use `unrouteAll({behavior:'ignoreErrors'})` to turn a broken gate green.

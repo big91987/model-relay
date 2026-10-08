@@ -8,7 +8,7 @@ const source=readFileSync('internal/relay/web/workspace.js','utf8');
 const handler=source.slice(source.indexOf('function edit('),source.indexOf('function secretDialog('));
 function element() {
   return {
-    children:[],open:false,hidden:false,disabled:false,
+    children:[],open:false,hidden:false,disabled:false,dataset:{},
     get textContent(){return (this.text??'')+this.children.map(child=>child.textContent).join('');},
     set textContent(value){this.text=String(value);this.children=[];},
     append(...values){this.children.push(...values);},replaceChildren(...values){this.children=[...values];},

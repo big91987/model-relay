@@ -36,10 +36,10 @@ const scoped = path => path+(path.includes('?')?'&':'?')+scope();
 const tenantPath = resource => `tenants/${encodeURIComponent(state.tenant)}/${resource}`;
 function notice(text) { byId('notice').textContent=text; }
 function clearSensitive() { for(const element of document.querySelectorAll('input[type=password],.secret,textarea[data-sensitive]')) element.value=''; byId('detail-content').replaceChildren(); if(byId('call-output')) byId('call-output').textContent=''; }
-function invalidate() { state.epoch++; for(const controller of state.controllers) controller.abort(); state.controllers.clear(); if(state.call) state.call.abort(); state.call=null; state.busy=false; if(byId('editor').open) byId('editor').close(); if(byId('detail').open) byId('detail').close(); clearSensitive(); }
+function invalidate() { state.epoch++; if(byId('editor-form').dataset.readback==='pending')byId('editor-form').dataset.readback='interrupted'; for(const controller of state.controllers) controller.abort(); state.controllers.clear(); if(state.call) state.call.abort(); state.call=null; state.busy=false; if(byId('editor').open) byId('editor').close(); if(byId('detail').open) byId('detail').close(); clearSensitive(); }
 function signedOut() { invalidate(); state.user=null; state.csrf=''; state.tenant=''; state.tenants=[]; byId('content').replaceChildren(); byId('tenant').replaceChildren(); byId('identity').textContent=''; byId('workspace').hidden=true; byId('login-panel').hidden=false; }
 async function syncTenants() {
-  const tenants=await collection('tenants');state.tenants=tenants;const select=byId('tenant');select.replaceChildren();
+  const epoch=state.epoch,tenants=await collection('tenants');if(epoch!==state.epoch)return;state.tenants=tenants;const select=byId('tenant');select.replaceChildren();
   if(state.user.platform){const option=node('option','全部租户');option.value='';select.append(option);}
   for(const tenant of tenants){const option=node('option',tenant.name+(tenant.active?'':' · 已暂停'));option.value=tenant.id;select.append(option);}
   if(state.tenant&&!tenants.some(tenant=>tenant.id===state.tenant))state.tenant='';
@@ -75,6 +75,7 @@ byId('editor-close').onclick=closeEditor; byId('editor-cancel').onclick=closeEdi
 byId('editor').addEventListener('cancel',event=>{if(state.busy) event.preventDefault();});
 byId('editor').addEventListener('close',()=>{ if(byId('editor').open)return;for(const element of byId('editor-fields').querySelectorAll('input[type=password],.secret,textarea[data-sensitive]')) element.value=''; byId('editor-fields').replaceChildren(); byId('editor-error').replaceChildren(); byId('editor-form').onsubmit=null; });
 function edit(title,fields,submit) {
+  if(state.busy)return;
   const dialog=byId('editor'), container=byId('editor-fields'); container.replaceChildren(); byId('editor-title').textContent=title; byId('editor-error').textContent=''; byId('editor-save').hidden=false; byId('editor-save').disabled=false;
   for(const field of fields) {
     const group=node('div','','field'), id='field-'+field.name, label=node('label',field.label); label.htmlFor=id;
@@ -87,11 +88,31 @@ function edit(title,fields,submit) {
     group.append(label,input); if(field.help) group.append(node('small',field.help)); container.append(group);
   }
   const operation=crypto.randomUUID(), epoch=state.epoch;
+  const form=byId('editor-form');form.dataset.operation=operation;form.dataset.readback='idle';
   let unknown=false;
   byId('editor-form').onsubmit=async event=>{
     event.preventDefault(); if(state.busy||unknown) return; state.busy=true; byId('editor-save').disabled=true; byId('editor-error').textContent='';
     const values={}; for(const field of fields) { const input=byId('field-'+field.name); values[field.name]=field.multiple?Array.from(input.selectedOptions,option=>option.value):field.type==='checkbox'?input.checked:input.value; }
-    try { const result=await submit(values,operation); if(epoch!==state.epoch) return; state.busy=false; dialog.close(); if(result?.key) secretDialog(result); else if(result?.acceptance_token) invitationDialog(result); else { notice('写入已确认；正在读取当前事实。'); await syncTenants();await renderPage(); } }
+    try {
+      const result=await submit(values,operation); if(epoch!==state.epoch) return;
+      dialog.close();
+      if(result?.key){state.busy=false;secretDialog(result);}
+      else if(result?.acceptance_token){state.busy=false;invitationDialog(result);}
+      else {
+        form.dataset.readback='pending';notice('写入已确认；正在读取当前事实。');
+        byId('content').replaceChildren(node('p','正在读取当前范围…'));byId('page-action').hidden=true;
+        try {
+          await syncTenants();if(epoch!==state.epoch)return;
+          const committed=await renderPage();if(epoch!==state.epoch)return;
+          form.dataset.readback=committed?'complete':'failed';
+          notice(committed?'写入已确认；当前范围已更新。':'写入已确认，但读取失败；请重试读取，不要重复写入。');
+        } catch(error) {
+          if(epoch!==state.epoch)return;
+          form.dataset.readback='failed';notice('写入已确认，但读取失败；请重试读取，不要重复写入。');
+          byId('content').replaceChildren(node('div','读取失败：'+error.message+'。旧数据未作为当前事实展示。','error'),button('重试读取',async()=>{await syncTenants();if(epoch===state.epoch)await renderPage();}));
+        }
+      }
+    }
     catch(error) {
       if(epoch!==state.epoch) return;
       state.busy=false; clearSensitive();
@@ -113,7 +134,7 @@ function edit(title,fields,submit) {
         output.append(reference,status,retry);
       }
     }
-    finally { if(epoch===state.epoch) byId('editor-save').disabled=false; }
+    finally { if(epoch===state.epoch){state.busy=false;byId('editor-save').disabled=false;} }
   };
   dialog.showModal(); container.querySelector('input,select,textarea')?.focus();
 }
@@ -198,8 +219,8 @@ async function renderPage() {
     else if(page==='billing') {const models=await collection(scoped('catalog'));section.append(node('h2','模型价格（USD测试价）'),table([column('模型','alias'),column('租户输入 USD/百万Token','tenant_input_rate',money),column('租户输出 USD/百万Token','tenant_output_rate',money),{label:'操作',render:row=>state.user.platform?actions([['版本',async()=>detail('历史价格版本',await api('models/'+encodeURIComponent(row.alias)+'/prices'))],['发布新价',()=>priceEditor(row.alias)]]):'价格随授权目录展示'}],models));if(state.tenant){const bills=await collection(tenantPath('bills'));section.append(node('h2','租户周期账单 · 外部支付未接通'),table([column('周期','period'),column('原 / 已确认费用','fee_micro_usd',money),column('成本','cost_micro_usd',money),column('待确认','pending'),{label:'操作',render:row=>actions(row.bill_id?[['详情 / 更正',async()=>{const value=await api('bills/'+row.bill_id),controls=[button('导出周期完整账单',()=>exportData('bills/'+row.bill_id+'/export'))];if(state.user.platform)controls.push(button('追加更正',()=>{byId('detail').close();edit('追加账单更正',[{name:'amount_micro_usd',label:'有符号更正金额（微美元）',type:'number',required:true},{name:'adjustment_period',label:'开放调整周期（UTC月）',value:new Date().toISOString().slice(0,7)},{name:'reason',label:'原因',required:true}],(values,operation)=>api('bills/'+row.bill_id+'/corrections','POST',{...values,amount_micro_usd:Number(values.amount_micro_usd)},operation));}));detail('已结账，原金额不可覆写（调整仅计入各调整周期一次）',value,controls);}]]:state.user.platform?[['结账',()=>edit('结束且无待确认才可结账',[],(values,operation)=>api(tenantPath('bills'),'POST',{period:row.period},operation))]]:[]) }],bills));} }
     else if(page==='records') {section.append(filters(),node('p','Token总量为原始上游响应，未知保持未知；已确认计费Token累计全部尝试及核对差额，待确认不视为零用量。'));if(state.user.platform||role()==='administrator')section.append(button('管理审计',async()=>{const report=await api(scoped('audit'));detail('人员与配置审计（最近100条）',report);}));const query=new URLSearchParams({...state.filters,page:String(state.pageNumber)}).toString(),report=await api(scoped('workspace/requests?'+query));section.append(table([column('时间','time'),column('Request ID','id'),column('公共模型','alias'),column('状态','state'),column('Token总量','total_tokens'),{label:'已确认计费Token（输入 / 输出）',render:row=>row.confirmed_input_tokens+' / '+row.confirmed_output_tokens},column('已确认租户费','fee_micro_usd',money),column('已确认供应商成本','cost_micro_usd',money),column('耗时ms','duration_ms'),column('待确认','pending'),{label:'操作',render:row=>button('详情 / 核对',()=>requestDetail(row.id))}],list(report)));const toolbar=node('div','','toolbar'),previous=button('上一页',()=>{state.pageNumber--;navigate('records',true);}),next=button('下一页',()=>{state.pageNumber++;navigate('records',true);});previous.disabled=state.pageNumber<=1;next.disabled=state.pageNumber*report.page_size>=report.total;toolbar.append(previous,node('span',`第${state.pageNumber}页 · ${report.total}条`),next);section.append(toolbar);mainAction('导出筛选',()=>exportData('workspace/requests/export?'+new URLSearchParams(state.filters)));}
     else if(page==='playground') {section.append(callForm());}
-    if(epoch!==state.epoch)return;content.replaceChildren(section);
-  } catch(error) { if(epoch!==state.epoch||error.name==='AbortError')return;content.replaceChildren(node('div','读取失败：'+error.message+'。旧数据未作为当前事实展示。','error'),button('重试读取',()=>renderPage())); }
+    if(epoch!==state.epoch)return false;content.replaceChildren(section);return true;
+  } catch(error) { if(epoch!==state.epoch||error.name==='AbortError')return false;content.replaceChildren(node('div','读取失败：'+error.message+'。旧数据未作为当前事实展示。','error'),button('重试读取',()=>renderPage()));return false; }
 }
 function callForm() {
   const form=node('form','','card');form.id='call-form';
