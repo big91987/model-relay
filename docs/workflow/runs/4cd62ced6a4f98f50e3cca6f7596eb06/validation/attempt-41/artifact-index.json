@@ -1,0 +1,20 @@
+{
+  "candidate": "visual-boundary-r1",
+  "stage": "development",
+  "execution": 41,
+  "head": "98511771871cf0951ecef716bbb55deb13e18da5",
+  "working_tree_sha256": "fb766c0aca5f33fbb0960e13286a13461d20999485e93a19a841eb51114f92a4",
+  "files": 129,
+  "material_version": "design-v0.2.0",
+  "material_sha256": "5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7",
+  "verification_entry": "make verify",
+  "local_checks": "176 Node, JS syntax, format, modules, vet, build, diff-check exit0; not host/browser facts",
+  "host_current": "Not Run",
+  "qa": "QA38-01 Open / No-Go",
+  "root_cause": "Unproved; only missing pre-assertion diagnostics repaired. Original empty-state gate retained.",
+  "previous_host": {"seq":40,"exit_code":2,"bytes":101576,"truncated":false,"eof":true,"offsets":[0,32768,65536,98304,101576],"working_tree_sha256":"bb30f8179c08e5e9dad248382132ec1018959c934efcd5951b1cab55e5b486da"},
+  "code": ["tests/browser/console-visual.mjs","tests/browser/console-visual.test.mjs",".trellis/spec/frontend/workspace-contracts.md"],
+  "evidence_paths_relative_to_this_index": ["checks.md","host-retest.md","host-seq40-source.json","host-seq40-visual-1280.json","host-seq40-continuous-1280.json","material-integrity.json","source-evidence.json","source-after.json","frontend-check.log","frontend-check-final.log","static-check.log","static-check-final.log"],
+  "task": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/delivery/tasks/T001-console.md",
+  "unverified": ["actual visual-overview failure field and root cause","current full host verification","current three-viewport ten-page captures","independent AC01 comparison","supplier/external identity/payment/platform publication facts"]
+}

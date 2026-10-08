@@ -1,0 +1,91 @@
+{
+  "execution": 52,
+  "candidate": "editor-readback-route-r1",
+  "files": 133,
+  "go": "go1.25.6",
+  "head": "98511771871cf0951ecef716bbb55deb13e18da5",
+  "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+  "working_tree_sha256": "6b6564c93b0c15bfefcd33955c3affd852fb8716963dea08e9600004a67b4bab",
+  "material_version": "design-v0.2.0",
+  "material_sha256": "5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7",
+  "result": "local_regressions_passed_full_host_pending_independent_qa_open",
+  "open_gates": [
+    "Current complete make verify Pending; seq51 previous candidate exit2",
+    "QA47-01 P1 Open / AC01 Fail",
+    "QA47-02 P2 Open",
+    "Publication Not Run"
+  ],
+  "log_secret_scan": "no_private_key_token_or_absolute_home_path_found",
+  "artifacts": [
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-52/checks.md",
+      "bytes": 4885,
+      "sha256": "a08a77d0ba56b5daeb28e63fce1be95fb3d3ece6a4baa1d28a2e2b0376e6c7d2"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-52/host-seq51-summary.md",
+      "bytes": 1647,
+      "sha256": "a4941ff23d8dd3a33aa4c882b84590f27b03d76968fe98a89dd7f8ea63be0d11"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-52/source-evidence.json",
+      "bytes": 336,
+      "sha256": "7bdebb750519655bcadf48d49761e68a7174e0bf606f3b292149ca10ac24efd2"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-52/material-integrity.json",
+      "bytes": 6979,
+      "sha256": "05e8007ae02543cf91d551d6369aab459028dd0dd8c8e3315d77315742caffb6"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-52/route-diagnostic.log",
+      "bytes": 827,
+      "sha256": "1eadf8ce3716cb46243ee2bc03a3f2cfb6016299265257235275be94b3c4dadb"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-52/frontend.log",
+      "bytes": 18224,
+      "sha256": "8e991e04986af8efc5c1f19aa6c2afd996be376eb206dc8f406c82f8faa924b7"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-52/static.log",
+      "bytes": 90,
+      "sha256": "6d16006e9b37eb1e9e066a287387cdbaa80a3c5acb3588eab78d09ad32639df6"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/delivery/tasks/T001-console.md",
+      "bytes": 27264,
+      "sha256": "81dd74e0c771431b963906931f6d7873a8360eac2a3375c3051c959a4eabe99e"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/delivery/README.md",
+      "bytes": 17848,
+      "sha256": "c0b8924db789a42b3d1de6e2fb830f2c6c62a5e2adeb0cec28bdf7bf1e58ac13"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/report.md",
+      "bytes": 33028,
+      "sha256": "e3fe29a6820f689aae0158383cb83e7930f8d2f314080f9ba258a1efdbe11f65"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance-matrix.md",
+      "bytes": 34806,
+      "sha256": "4e8e54999e91f7b2dfd692751aa7de123826cbba054836633c3048dda094d21c"
+    },
+    {
+      "path": ".trellis/spec/frontend/workspace-contracts.md",
+      "bytes": 53156,
+      "sha256": "bbfa91ef5a86ba2f1e725a2a581d4e92b8bd113c85378ae3d55f0f5a15f3c4a5"
+    },
+    {
+      "path": "tests/browser/console.mjs",
+      "bytes": 21828,
+      "sha256": "cd148958b2023bb8fc5c53b0ce6fba2d2eca489160d53bb956d6ec005c369037"
+    },
+    {
+      "path": "tests/browser/workspace.test.mjs",
+      "bytes": 29684,
+      "sha256": "9bf7105356d8c7a4a71b53e0d020917068f0f0013e883653a24f4bd7d98c370c"
+    }
+  ]
+}

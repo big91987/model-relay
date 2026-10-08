@@ -1,0 +1,42 @@
+[
+  {
+    "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-36/existing-regressions.log",
+    "raw_sha256": "e6f3e34ce9b6fce5c7fb48a684dd33caa55416e060850418fd5c0babe15e7b2c",
+    "raw_bytes": 1316,
+    "redacted_sha256": "1e1a4b72e25699aa98de337328170e591e4cdec14a6da17c11d7b39f0b37f78a",
+    "redacted_bytes": 1266,
+    "redaction": "only host directories replaced; assertions and result retained"
+  },
+  {
+    "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-36/readback-red.log",
+    "raw_sha256": "d5c7727b596639a69651dc3c5da65354c2b61f4b48d80912239056ea8979a732",
+    "raw_bytes": 1387,
+    "redacted_sha256": "e2afec9c6c1139790a6450ca71bc0964d8af5902b6d239b9a8a109a7b1f45c2b",
+    "redacted_bytes": 1298,
+    "redaction": "only host directories replaced; assertions and result retained"
+  },
+  {
+    "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-36/resource-check.log",
+    "raw_sha256": "743a656233df28383b7df8363241b162dfc71e8e94a35998ef9a832d82055201",
+    "raw_bytes": 2288,
+    "redacted_sha256": "655a10cb987edfaf1ebe28f86eabacd19f9c2523898f4add5b1b509bc6d2c7a2",
+    "redacted_bytes": 2238,
+    "redaction": "only host directories replaced; assertions and result retained"
+  },
+  {
+    "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-36/resource-driver-red.log",
+    "raw_sha256": "4a8445192143a714e178dccc3c377b900bcf031342decea1a58fc4a35766d9c5",
+    "raw_bytes": 2147,
+    "redacted_sha256": "9ab1d56c80244be4bbb4e8eaecc14e2ac6dcb6903dcd35fadb688c9334450abe",
+    "redacted_bytes": 2097,
+    "redaction": "only host directories replaced; assertions and result retained"
+  },
+  {
+    "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-36/resource-unbounded-fixture-red.log",
+    "raw_sha256": "a076a53fac118a6e111a5f3938e59395e1de56009c81cccc7ecaedee969dac99",
+    "raw_bytes": 3661,
+    "redacted_sha256": "dbaf36ab60e682de97eebc787c43ffb3b5c3aeccdd9f3acb7c0bc167f8d77cf9",
+    "redacted_bytes": 3611,
+    "redaction": "only host directories replaced; assertions and result retained"
+  }
+]

@@ -1,0 +1,47 @@
+{
+  "policy": "workspace and temporary compiler paths only; preserve errors, tests, boundary locations and results; raw logs remain ignored cache, not delivery artifacts",
+  "logs": [
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-48/frontend-first.log",
+      "raw_sha256": "a1d403ea4941533ff793d5256e9b5eb1e27f0ad580a19a33d9acad363f967a1b",
+      "redacted_sha256": "d40f633714cdf931170b01a8e6d5af0ee9fa4f99297a4d688b0c67ebddc2ac11",
+      "paths_removed": true
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-48/frontend-second.log",
+      "raw_sha256": "de2677eb77c18c81017e74bb6980583bfc58e892bfeff0d47e0018c6999840bf",
+      "redacted_sha256": "de2677eb77c18c81017e74bb6980583bfc58e892bfeff0d47e0018c6999840bf",
+      "paths_removed": false
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-48/go-final.log",
+      "raw_sha256": "37c4969ed6725e04f989eb8fb6d51658fa41b7271f98c1a37422cff67537b040",
+      "redacted_sha256": "cc3e66659daa32def068c24cdd01d0c69978f1e80d0f71c3307efb4c4e4f27f9",
+      "paths_removed": true
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-48/go-regression.log",
+      "raw_sha256": "161849aab786a1ea29038eb363c531095a59c84349eceab2548cdd037f04d627",
+      "redacted_sha256": "3ec64287fcc60b88ec47d5d56cb40cdcb8be8fc0711769d79c4d6eb799ca131b",
+      "paths_removed": true
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-48/static-final.log",
+      "raw_sha256": "7e46bc26d047abac31c026ff78738b7c1bf81267feb4798c6f1d9417619886a4",
+      "redacted_sha256": "7e46bc26d047abac31c026ff78738b7c1bf81267feb4798c6f1d9417619886a4",
+      "paths_removed": false
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-48/static-first.log",
+      "raw_sha256": "6d16006e9b37eb1e9e066a287387cdbaa80a3c5acb3588eab78d09ad32639df6",
+      "redacted_sha256": "6d16006e9b37eb1e9e066a287387cdbaa80a3c5acb3588eab78d09ad32639df6",
+      "paths_removed": false
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-48/summary-first.log",
+      "raw_sha256": "e6671969b78fa17e7ed998fd655cff10ebb3b6c62bcd631806d44eb512958718",
+      "redacted_sha256": "2f5ca1a7a5fa946e991c1aa3c78c52f99354c6d72d3a3ffbd29a0b1de02cde6f",
+      "paths_removed": true
+    }
+  ]
+}

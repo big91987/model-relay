@@ -1,0 +1,21 @@
+{
+  "version": "1.59.1",
+  "scope": "locked dependency source methods with isolated delegate; no browser/network proof",
+  "sources": [
+    {
+      "path": "node_modules/playwright-core/lib/server/network.js",
+      "sha256": "44974998a335fb0ae5b5cececb0c0d80d817803d243315707ed2137159bd66cd"
+    },
+    {
+      "path": "node_modules/playwright-core/lib/server/page.js",
+      "sha256": "3d236ad57de9eebdf4d165e3943522c041cafb0e136d479c9c0e9aeedeb0692a"
+    },
+    {
+      "path": "node_modules/playwright-core/lib/server/dispatchers/pageDispatcher.js",
+      "sha256": "eccc0ce018eb6c8dc04b9ba495303fa88f6f1f7d560bec14082a7c06d7a526ba"
+    }
+  ],
+  "mechanism": "page unroute removes request interceptor; removeHandler continues current in-flight Route; racing explicit continue rejects already-handled route",
+  "regression": "tests/browser/route-cleanup.test.mjs",
+  "output": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-54/route-diagnostic.log"
+}

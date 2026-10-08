@@ -1,0 +1,130 @@
+{
+  "run_id": "4cd62ced6a4f98f50e3cca6f7596eb06",
+  "node": "qa",
+  "execution": 22,
+  "conclusion": "No-Go",
+  "source_before": {
+    "files": 119,
+    "go": "go1.25.6",
+    "head": "98511771871cf0951ecef716bbb55deb13e18da5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "71be54206d9850fa442f33c18ddd3c7aaba5590019543a78498a128ae0ab8350"
+  },
+  "source_after": {
+    "files": 119,
+    "go": "go1.25.6",
+    "head": "98511771871cf0951ecef716bbb55deb13e18da5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "71be54206d9850fa442f33c18ddd3c7aaba5590019543a78498a128ae0ab8350"
+  },
+  "source_unchanged": true,
+  "host_connector": {
+    "sequence": 21,
+    "command": "make verify",
+    "exit_code": 0,
+    "log_bytes": 88327,
+    "truncated": false,
+    "ownership": "host Connector, not independently executed by QA"
+  },
+  "qa_local": {
+    "command": "make verify",
+    "exit_code": 2,
+    "result": "Blocked",
+    "reason": "sandbox bind operation not permitted",
+    "rerun_after_resume": false
+  },
+  "qa_non_listening": {
+    "exit_code": 0,
+    "node_tests": 152,
+    "go_tests": 6,
+    "result": "Pass for scoped checks only"
+  },
+  "model": {
+    "requested": "Codex/gpt-6.1-sol",
+    "changed_by_qa": false,
+    "actual_process_model": "Not independently evidenced"
+  },
+  "visuals": {
+    "source": [
+      "test-results/console-1280.png",
+      "test-results/console-390.png"
+    ],
+    "use": "copied existing workspace snapshots, auxiliary observation only; no immutable per-image version binding"
+  },
+  "redaction": {
+    "file": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/qa-independent-checks.log",
+    "change": "one temporary absolute linker path replaced by <temporary-go-link>; statuses/assertions unchanged"
+  },
+  "artifacts": [
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/acceptance-matrix.md",
+      "sha256": "120b17cb6d6bd5e62dad81f9e0692f6d1db306def517675dbac5179678b2bbd1",
+      "bytes": 13466
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/acceptance-report.md",
+      "sha256": "2baf1dfc60375a1e1eeb84f16c2c603a31e7efecac0adc3e98e576c2bf844848",
+      "bytes": 11915
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/remediation-handoff.md",
+      "sha256": "b3754dbaac47fa69f726393eafb1c9420d98439686b92ec366dc82199c39f35f",
+      "bytes": 4981
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/user-journeys.md",
+      "sha256": "0f9bc164b1ec055af39a760fb74fd092d2a89906e589572ab60c31d1f8c16872",
+      "bytes": 4262
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/console-1280-observed.png",
+      "sha256": "f486619e4d0e8b5fc656074cd0327dfa8442fcead78606d89f69eb8d1b686c55",
+      "bytes": 96213
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/console-390-observed.png",
+      "sha256": "8f31c5792eb4856898c80012f6288e45375aee33707c315d4e0a53bf31ea22a2",
+      "bytes": 48567
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/host-seq21-review.md",
+      "sha256": "d5bceb7deb7ebc7d4f71a1bb59198cbf25d953253fb6d3dbde83dd016e54f8d2",
+      "bytes": 2826
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/key-status-review.json",
+      "sha256": "d836bafd39e4ac3e29e0afc53263af396d917a4a5cf17f1bde413b3a036505a8",
+      "bytes": 597
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/key-status-review.mjs",
+      "sha256": "c5d5beea9baeddc4dc31ffd1820919b93f463ec8a00b4899a2977c2c6ed902da",
+      "bytes": 1138
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/material-integrity.json",
+      "sha256": "5e2399c19c7a4f935e119a3f8118a6f0a06f2d3df461669cd358b0305f7c8091",
+      "bytes": 5454
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/qa-independent-checks.log",
+      "sha256": "78a7178007c40225d6094aa9a21aa367fd54dd3662d449aedc06edf5c7362ab6",
+      "bytes": 15757
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/qa-make-verify.log",
+      "sha256": "c6cdaeb35e8c34d52fe3e234f6ba5146498257229882c27b9796b4099e8b47d3",
+      "bytes": 5685
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/source-after.json",
+      "sha256": "3d49809ee6233bc19d7b801004f8aec423b484373e39cb2df3dc9b6f3f3b42c4",
+      "bytes": 336
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/source-before.json",
+      "sha256": "3d49809ee6233bc19d7b801004f8aec423b484373e39cb2df3dc9b6f3f3b42c4",
+      "bytes": 336
+    }
+  ]
+}

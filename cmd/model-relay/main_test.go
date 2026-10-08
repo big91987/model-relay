@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net"
 	"net/http"
@@ -72,6 +73,7 @@ func TestCLIManagementConfigurationContract(t *testing.T) {
 		request.Header.Set("Content-Type", "application/json")
 		request.Header.Set("Origin", "http://cli.test")
 		request.Header.Set("X-CSRF-Token", csrf)
+		request.Header.Set("Idempotency-Key", fmt.Sprintf("cli-%d", time.Now().UnixNano()))
 		if cookie != nil {
 			request.AddCookie(cookie)
 		}
@@ -204,6 +206,7 @@ func TestCLIInstallationCommands(t *testing.T) {
 		request.Header.Set("Content-Type", "application/json")
 		request.Header.Set("Origin", address)
 		request.Header.Set("X-CSRF-Token", csrf)
+		request.Header.Set("Idempotency-Key", fmt.Sprintf("cli-%d", time.Now().UnixNano()))
 		if cookie != nil {
 			request.AddCookie(cookie)
 		}
@@ -229,7 +232,7 @@ func TestCLIInstallationCommands(t *testing.T) {
 		Version       string
 		StorageSchema int `json:"storage_schema"`
 	}
-	if response.StatusCode != 200 || json.NewDecoder(response.Body).Decode(&health) != nil || health.Status != "ok" || health.Version != buildVersion || health.StorageSchema != 2 {
+	if response.StatusCode != 200 || json.NewDecoder(response.Body).Decode(&health) != nil || health.Status != "ok" || health.Version != buildVersion || health.StorageSchema != 3 {
 		t.Fatal("CLI health did not report the running version")
 	}
 	response.Body.Close()
@@ -248,12 +251,19 @@ func TestCLIInstallationCommands(t *testing.T) {
 	}
 	login()
 	configureCLIInstallation(t, admin)
+	response = admin("POST", "tenants", map[string]string{"name": "CLI persistence team"})
+	var tenant struct{ ID string }
+	if response.StatusCode != 201 || json.NewDecoder(response.Body).Decode(&tenant) != nil {
+		t.Fatal("CLI tenant creation failed")
+	}
+	response.Body.Close()
+	check(admin("PUT", "models/alpha/tenant-grants", map[string]any{"tenants": []string{tenant.ID}}), 200)
 	keys := []string{}
 	for _, name := range []string{"first", "second"} {
-		response = admin("POST", "keys", map[string]string{"name": name})
+		response = admin("POST", "tenants/"+tenant.ID+"/keys", map[string]any{"name": name, "application": name, "enabled": true, "models": []string{"alpha"}})
 		var issued struct {
-			Key      string
-			Metadata struct{ ID string }
+			Key string
+			ID  string
 		}
 		if response.StatusCode != 201 || json.NewDecoder(response.Body).Decode(&issued) != nil {
 			t.Fatal("CLI key issuance failed")
@@ -261,7 +271,7 @@ func TestCLIInstallationCommands(t *testing.T) {
 		response.Body.Close()
 		keys = append(keys, issued.Key)
 		if name == "second" {
-			check(admin("PATCH", "keys/"+issued.Metadata.ID, map[string]bool{"enabled": false}), 200)
+			check(admin("PATCH", "tenants/"+tenant.ID+"/keys/"+issued.ID, map[string]any{"name": name, "application": name, "enabled": false, "models": []string{"alpha"}, "expected_revision": 1}), 200)
 		}
 	}
 	reset := func(value string, extra ...string) ([]byte, error) {

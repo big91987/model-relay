@@ -16,6 +16,7 @@ import (
 )
 
 type Config struct {
+	Clock          func() time.Time
 	Authority      string
 	Version        string
 	Policy         Policy
@@ -28,26 +29,31 @@ type Config struct {
 type session struct {
 	CSRF   string
 	Expiry time.Time
+	UserID string
 }
 type Server struct {
-	Store            *Store
-	Config           Config
-	mu               sync.RWMutex
-	authMu           sync.Mutex
-	sessions         map[string]session
-	attempts         []time.Time
-	passwordSlots    chan struct{}
-	degraded         atomic.Bool
-	client           *http.Client
-	configEpoch      uint64
-	successID        string
-	routing          map[string]*routeRuntime
-	checking         map[int64]bool
-	health           map[string]*routeHealth
-	dispatchSequence int64
+	Store              *Store
+	Config             Config
+	mu                 sync.RWMutex
+	authMu             sync.Mutex
+	sessions           map[string]session
+	attempts           []time.Time
+	invitationAttempts []time.Time
+	passwordSlots      chan struct{}
+	degraded           atomic.Bool
+	client             *http.Client
+	configEpoch        uint64
+	successID          string
+	routing            map[string]*routeRuntime
+	checking           map[int64]bool
+	health             map[string]*routeHealth
+	dispatchSequence   int64
 }
 
 func New(store *Store, config Config) *Server {
+	if config.Clock != nil {
+		store.clock = config.Clock
+	}
 	if config.TotalTimeout == 0 {
 		config.TotalTimeout = 300 * time.Second
 	}
@@ -149,7 +155,11 @@ func (server *Server) ServeHTTP(writer http.ResponseWriter, request *http.Reques
 	case request.URL.Path == "/v1/chat/completions" && request.Method == http.MethodPost:
 		server.generate(writer, request)
 	case request.Method == http.MethodGet && (request.URL.Path == "/" || request.URL.Path == "/admin" || strings.HasPrefix(request.URL.Path, "/admin/")):
-		serveWeb(writer, request)
+		if server.Store.Schema == 3 {
+			serveConsoleWeb(writer, request)
+		} else {
+			serveWeb(writer, request)
+		}
 	default:
 		failure(writer, 404, "not_found", "")
 	}
@@ -179,6 +189,10 @@ func (server *Server) admin(writer http.ResponseWriter, request *http.Request) {
 		server.login(writer, request)
 		return
 	}
+	if server.Store.Schema == 3 && request.URL.Path == "/admin/api/invitations/accept" && request.Method == http.MethodPost {
+		server.acceptInvitation(writer, request)
+		return
+	}
 	current, ok := server.getSession(request)
 	if !ok {
 		failure(writer, 401, "unauthorized", "")
@@ -189,6 +203,15 @@ func (server *Server) admin(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 	if request.URL.Path == "/admin/api/session" && request.Method == http.MethodGet {
+		if server.Store.Schema == 3 {
+			principal, err := server.Store.principal(current.UserID)
+			if err != nil {
+				failure(writer, 401, "unauthorized", "")
+				return
+			}
+			reply(writer, 200, map[string]any{"csrf": current.CSRF, "degraded": server.degraded.Load(), "expires_at": current.Expiry.UTC().Format(time.RFC3339), "user": principal})
+			return
+		}
 		reply(writer, 200, map[string]any{"csrf": current.CSRF, "degraded": server.degraded.Load(), "expires_at": current.Expiry.UTC().Format(time.RFC3339)})
 		return
 	}
@@ -205,6 +228,20 @@ func (server *Server) admin(writer http.ResponseWriter, request *http.Request) {
 		http.SetCookie(writer, &http.Cookie{Name: "mr_session", Value: "", Path: "/admin", HttpOnly: true, SameSite: http.SameSiteStrictMode, MaxAge: -1})
 		reply(writer, 200, map[string]bool{"ok": true})
 		return
+	}
+	if server.Store.Schema == 3 {
+		if server.identityAPI(writer, request, current) || server.consoleAPI(writer, request, current) {
+			return
+		}
+		principal, err := server.Store.principal(current.UserID)
+		if err != nil {
+			failure(writer, 401, "unauthorized", "")
+			return
+		}
+		if !principal.Platform {
+			failure(writer, 403, "forbidden", "")
+			return
+		}
 	}
 	if request.URL.Path == "/admin/api/upstream" {
 		failure(writer, 410, "management_api_changed", "")
@@ -264,12 +301,21 @@ func (server *Server) login(writer http.ResponseWriter, request *http.Request) {
 	}
 	var input struct {
 		Password string `json:"password"`
+		Account  string `json:"account"`
 	}
 	if jsonInput(writer, request, &input) != nil {
 		failure(writer, 400, "invalid_request", "")
 		return
 	}
-	if !server.Store.Password(input.Password) {
+	userID := ""
+	valid := false
+	if server.Store.Schema == 3 {
+		principal, authenticated := server.Store.authenticate(input.Account, input.Password)
+		userID, valid = principal.ID, authenticated
+	} else {
+		valid = input.Account == "" && server.Store.Password(input.Password)
+	}
+	if !valid {
 		failure(writer, 401, "unauthorized", "")
 		return
 	}
@@ -286,7 +332,7 @@ func (server *Server) login(writer http.ResponseWriter, request *http.Request) {
 		failure(writer, 429, "session_limit", "")
 		return
 	}
-	server.sessions[string(digest(secret))] = session{CSRF: csrf, Expiry: now.Add(8 * time.Hour)}
+	server.sessions[string(digest(secret))] = session{CSRF: csrf, Expiry: now.Add(8 * time.Hour), UserID: userID}
 	server.authMu.Unlock()
 	http.SetCookie(writer, &http.Cookie{Name: "mr_session", Value: secret, Path: "/admin", HttpOnly: true, SameSite: http.SameSiteStrictMode, MaxAge: 8 * 3600})
 	reply(writer, 200, map[string]string{"csrf": csrf, "expires_at": now.Add(8 * time.Hour).UTC().Format(time.RFC3339)})
@@ -331,6 +377,10 @@ func (server *Server) keys(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 	if request.Method == http.MethodPost && request.URL.Path == "/admin/api/keys" {
+		if server.Store.Schema == 3 {
+			failure(writer, 410, "use_tenant_scoped_keys", "")
+			return
+		}
 		var input struct {
 			Name string `json:"name"`
 		}
@@ -441,6 +491,9 @@ func (server *Server) records(writer http.ResponseWriter, request *http.Request)
 	reply(writer, 200, map[string]any{"data": list, "next_cursor": next})
 }
 func (server *Server) appID(request *http.Request) (string, bool) {
+	if server.Store.Schema == 3 {
+		return server.controlledAppID(request)
+	}
 	header := request.Header.Get("Authorization")
 	if !strings.HasPrefix(header, "Bearer mr_") {
 		return "", false
@@ -453,11 +506,30 @@ func (server *Server) appID(request *http.Request) (string, bool) {
 func (server *Server) listModels(writer http.ResponseWriter, request *http.Request) {
 	server.mu.RLock()
 	defer server.mu.RUnlock()
-	if _, ok := server.appID(request); !ok {
+	keyID, ok := server.appID(request)
+	if !ok {
 		failure(writer, 401, "unauthorized", "")
 		return
 	}
-	rows, err := server.Store.DB.Query("SELECT alias FROM models WHERE enabled=1 AND EXISTS(SELECT 1 FROM route_candidates c JOIN upstream u ON u.id=c.upstream_id WHERE c.alias=models.alias AND c.enabled=1 AND u.enabled=1 AND length(u.token)>0) ORDER BY alias LIMIT 1000")
+	query := "SELECT alias FROM models WHERE enabled=1 AND EXISTS(SELECT 1 FROM route_candidates c JOIN upstream u ON u.id=c.upstream_id WHERE c.alias=models.alias AND c.enabled=1 AND u.enabled=1 AND length(u.token)>0)"
+	arguments := []any{}
+	if server.Store.Schema == 3 {
+		var active, legacy bool
+		var tenantID string
+		if server.Store.DB.QueryRow("SELECT t.active,c.legacy,c.tenant_id FROM key_controls c JOIN tenants t ON t.id=c.tenant_id WHERE c.key_id=?", keyID).Scan(&active, &legacy, &tenantID) != nil {
+			failure(writer, 503, "storage_unavailable", "")
+			return
+		}
+		if !active {
+			failure(writer, 403, "tenant_paused", "")
+			return
+		}
+		if server.Store.Schema == 3 {
+			query += " AND EXISTS(SELECT 1 FROM tenant_model_grants g JOIN key_model_grants k ON k.alias=g.alias WHERE g.tenant_id=? AND k.key_id=? AND g.alias=models.alias)"
+			arguments = append(arguments, tenantID, keyID)
+		}
+	}
+	rows, err := server.Store.DB.Query(query+" ORDER BY alias LIMIT 1000", arguments...)
 	if err != nil {
 		failure(writer, 503, "storage_unavailable", "")
 		return

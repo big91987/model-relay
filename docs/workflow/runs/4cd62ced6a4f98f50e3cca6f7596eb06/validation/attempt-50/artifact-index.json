@@ -1,0 +1,106 @@
+{
+  "run_id": "4cd62ced6a4f98f50e3cca6f7596eb06",
+  "execution": 50,
+  "candidate": "editor-lock-r1",
+  "files": 133,
+  "go": "go1.25.6",
+  "head": "98511771871cf0951ecef716bbb55deb13e18da5",
+  "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+  "working_tree_sha256": "5b0822a01c8d0a92236fdf1a70d5e4e1fe6114782ddb643b86e002c0dee3d836",
+  "material_version": "design-v0.2.0",
+  "material_sha256": "5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7",
+  "result": "local_regressions_passed_full_host_pending_independent_qa_open",
+  "open_gates": [
+    "Full current make verify pending; seq49 previous candidate exit2",
+    "QA47-01 P1 Open / AC01 Fail",
+    "QA47-02 P2 Open nonblocking"
+  ],
+  "artifacts": [
+    {
+      "path": ".trellis/spec/frontend/workspace-contracts.md",
+      "bytes": 52031,
+      "sha256": "86f9e6931bd531140a4813d6c244263051453f70635b4ed5167e2ef467b8f35d"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance-matrix.md",
+      "bytes": 33952,
+      "sha256": "e5209b78bce02a5bf790d5f0a549badd5abfebfc0353a2495ff81bda08e104f5"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/delivery/README.md",
+      "bytes": 17306,
+      "sha256": "f0898bccb0038df33b5f3cd14251c604e0de27845a8dfeece2e89b5f2b3de2e7"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/delivery/tasks/T001-console.md",
+      "bytes": 26318,
+      "sha256": "c611999d8b86ca33270d0fe9f845e3e8d12f8513718720e1845e102eea5422fe"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-50/checks.md",
+      "bytes": 6251,
+      "sha256": "c62812926eae65069420b97453783e4f8333cebc46f4146b99b773264f996c5c"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-50/editor-green.log",
+      "bytes": 217,
+      "sha256": "d7e93043959955aa1dfab2fb80689c7e03f529ca683b795c25a87ead45cc6095"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-50/editor-red.log",
+      "bytes": 868,
+      "sha256": "c12ea477b13f73612390c885132271f321c0f69a6d0278fb6491c3a0b8e8ce5f"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-50/frontend.log",
+      "bytes": 18219,
+      "sha256": "dfdab00ccb9a2abf6b14a3a3c4e4ba15b671ff1977e786b61863aa8956dd4c39"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-50/host-seq49-summary.md",
+      "bytes": 2372,
+      "sha256": "871712a939df93a74c64b58d0ac4fd6f25208169b6420ebb2185de68bf0cba1b"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-50/log-redaction.json",
+      "bytes": 2858,
+      "sha256": "d92e6112a506a3048184d8a292edcb4c2376a8403f3ea49fc75187f3e6de7910"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-50/material-integrity.json",
+      "bytes": 6229,
+      "sha256": "370133058c34b7ec746b2e7d839f588f08886056fc3bc30d9bc606a6e0f7610a"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-50/source-evidence.json",
+      "bytes": 336,
+      "sha256": "31218fbb34eb77e2b3aa0d271bf1b9573756686e62f4e805fc75fa5e694dbde8"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-50/static.log",
+      "bytes": 90,
+      "sha256": "6d16006e9b37eb1e9e066a287387cdbaa80a3c5acb3588eab78d09ad32639df6"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/report.md",
+      "bytes": 32481,
+      "sha256": "887179972d7d1a36561f003101708d2727b13779d8318a22c5cadc624d79bc63"
+    },
+    {
+      "path": "internal/relay/web/workspace.js",
+      "bytes": 55060,
+      "sha256": "44b06466c2ffede25b4f37483ffef94b6b525d922248acbde26dc182d2cfd40c"
+    },
+    {
+      "path": "tests/browser/console.mjs",
+      "bytes": 21719,
+      "sha256": "20fdda5f7f3fcd5b4b9373058b447b1dbaef93b0c308e3cef98923cc1c27668d"
+    },
+    {
+      "path": "tests/browser/workspace.test.mjs",
+      "bytes": 28624,
+      "sha256": "8857ece88144ecec42d42816b7f54bd5e9d9e4a9b6132c9397cc937c6bdcd379"
+    }
+  ],
+  "latest_user_delivery_requirement": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/delivery/tasks/T001-console.md#2026-10-08用户补充正式部署后查看最新实际页面"
+}

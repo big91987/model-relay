@@ -35,7 +35,7 @@ func TestDeploymentContractAndIdempotentUpgradeCLI(t *testing.T) {
 			Restore  []int `json:"restore_schemas"`
 		}
 	}
-	if json.Unmarshal(output, &contract) != nil || contract.Version != 1 || contract.Binary != "dev" || contract.Storage.Init != 2 || len(contract.Storage.Serve) != 1 || contract.Storage.Serve[0] != 2 || !contract.Storage.Explicit || len(contract.Storage.Upgrade) != 1 || contract.Storage.Upgrade[0] != 1 || len(contract.Storage.Backup) != 2 || len(contract.Storage.Restore) != 2 {
+	if json.Unmarshal(output, &contract) != nil || contract.Version != 1 || contract.Binary != "dev" || contract.Storage.Init != 3 || len(contract.Storage.Serve) != 1 || contract.Storage.Serve[0] != 3 || !contract.Storage.Explicit || len(contract.Storage.Upgrade) != 2 || contract.Storage.Upgrade[0] != 1 || contract.Storage.Upgrade[1] != 2 || len(contract.Storage.Backup) != 3 || len(contract.Storage.Restore) != 3 {
 		t.Fatal("contract mismatch")
 	}
 	entries, _ := os.ReadDir(workspace)
@@ -55,7 +55,7 @@ func TestDeploymentContractAndIdempotentUpgradeCLI(t *testing.T) {
 			Schema int
 			From   int `json:"from_schema"`
 		}
-		if err != nil || json.Unmarshal(output, &result) != nil || result.Result != "already_current" || result.Schema != 2 || result.From != 2 {
+		if err != nil || json.Unmarshal(output, &result) != nil || result.Result != "already_current" || result.Schema != 3 || result.From != 3 {
 			t.Fatal("idempotent current upgrade")
 		}
 	}

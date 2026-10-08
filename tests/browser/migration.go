@@ -139,8 +139,9 @@ func migrationJourney() error {
 	oldBinary := filepath.Join(root, "old")
 	oldFixture := filepath.Join(root, "old-fixture")
 	candidate := filepath.Join(root, "candidate")
+	compatibility := filepath.Join(root, "schema2-compatibility")
 	newFixture := filepath.Join(root, "candidate-fixture")
-	for _, build := range []struct{ directory, output, target string }{{source, oldBinary, "./cmd/model-relay"}, {source, oldFixture, "./cmd/migration-fixture"}, {".", candidate, "./cmd/model-relay"}, {".", newFixture, "./tests/browser/legacy"}} {
+	for _, build := range []struct{ directory, output, target string }{{source, oldBinary, "./cmd/model-relay"}, {source, oldFixture, "./cmd/migration-fixture"}, {".", candidate, "./cmd/model-relay"}, {".", compatibility, "./tests/browser/schema2"}, {".", newFixture, "./tests/browser/legacy"}} {
 		if _, err = migrationCommand(build.directory, "go", "build", "-o", build.output, build.target); err != nil {
 			return err
 		}
@@ -227,7 +228,7 @@ func migrationJourney() error {
 		return err
 	}
 	migrationBackup := filepath.Join(root, "migration.tar")
-	upgraded, err := migrationCommand(".", candidate, "upgrade", "--data-dir", directory, "--key-file", key, "--output", migrationBackup)
+	upgraded, err := migrationCommand(".", compatibility, "--data-dir", directory, "--key-file", key, "--output", migrationBackup)
 	if err != nil {
 		return err
 	}
@@ -236,7 +237,7 @@ func migrationJourney() error {
 		Schema int
 	}
 	if json.Unmarshal(upgraded, &result) != nil || result.Result != "migrated" || result.Schema != 2 {
-		return errors.New("candidate upgrade response invalid")
+		return fmt.Errorf("schema2 compatibility upgrade response invalid: result=%q schema=%d expected=2", result.Result, result.Schema)
 	}
 	for index, query := range queries {
 		after, err := snapshotRows(directory, query)
@@ -326,6 +327,62 @@ func migrationJourney() error {
 	if status != 200 || calls.Load() != 4 {
 		return errors.New("old binary rollback was not runnable")
 	}
-	fmt.Printf("PASS exact legacy UI migration baseline=%s schema=1->2 aliases=2 keys=2 historical_requests=%d controlled_posts=%d; old-binary rollback retains pre-upgrade identities; not formal Actions or supplier validation\n", migrationBaseline, len(before[2]), calls.Load())
+	fmt.Printf("PASS exact legacy UI compatibility migration baseline=%s schema=1->2 aliases=2 keys=2 historical_requests=%d controlled_posts=%d; schema2 test-only entry, old-binary rollback retains pre-upgrade identities; not production CLI, formal Actions or supplier validation\n", migrationBaseline, len(before[2]), calls.Load())
+	for _, fromSchema := range []int{1, 2} {
+		productionDirectory := filepath.Join(root, fmt.Sprintf("production-schema%d", fromSchema))
+		if _, err = migrationCommand(".", oldBinary, "restore", "--input", rollback, "--data-dir", productionDirectory, "--key-file", key); err != nil {
+			return err
+		}
+		if fromSchema == 2 {
+			if _, err = migrationCommand(".", compatibility, "--data-dir", productionDirectory, "--key-file", key, "--output", filepath.Join(root, "production-schema2-source.tar")); err != nil {
+				return err
+			}
+		}
+		upgraded, err = migrationCommand(".", candidate, "upgrade", "--data-dir", productionDirectory, "--key-file", key, "--output", filepath.Join(root, fmt.Sprintf("production-schema%d-backup.tar", fromSchema)))
+		if err != nil {
+			return err
+		}
+		if json.Unmarshal(upgraded, &result) != nil || result.Result != "migrated" || result.Schema != 3 {
+			return fmt.Errorf("production CLI upgrade response invalid: result=%q schema=%d expected=3", result.Result, result.Schema)
+		}
+		for index, query := range queries {
+			after, snapshotErr := snapshotRows(productionDirectory, query)
+			if snapshotErr != nil || !reflect.DeepEqual(before[index], after) {
+				return errors.New("production migration changed identity or historical rows")
+			}
+		}
+		afterModels, err = snapshotRows(productionDirectory, "SELECT m.alias,c.remote_model,m.enabled FROM models m JOIN route_candidates c ON c.alias=m.alias ORDER BY m.alias")
+		if err != nil || !reflect.DeepEqual(models, afterModels) {
+			return errors.New("production migration changed public mappings")
+		}
+		address, stop, err = isolatedService(newFixture, productionDirectory, key, listener.Addr().String())
+		if err != nil {
+			return err
+		}
+		request, _ = http.NewRequest("POST", address+"/v1/chat/completions", strings.NewReader(`{"model":"migration-a","messages":[{"role":"user","content":"isolated after production upgrade"}]}`))
+		request.Header.Set("Content-Type", "application/json")
+		request.Header.Set("Authorization", "Bearer "+seed.ApplicationKey)
+		response, err = http.DefaultClient.Do(request)
+		if err != nil {
+			stop()
+			return errors.New("production migrated credential HTTP request failed")
+		}
+		io.Copy(io.Discard, response.Body)
+		response.Body.Close()
+		if response.StatusCode != 200 || calls.Load() != int64(fromSchema+4) {
+			stop()
+			return fmt.Errorf("production migrated credential failed: status=%d controlled_posts=%d expected=%d", response.StatusCode, calls.Load(), fromSchema+4)
+		}
+		command = exec.Command("node", "tests/browser/migration-console.mjs")
+		command.Env = append(os.Environ(), "RELAY_LEGACY_URL="+address, "RELAY_LEGACY_PASSWORD="+password)
+		command.Stdout = os.Stdout
+		command.Stderr = os.Stderr
+		journeyErr := command.Run()
+		stopErr = stop()
+		if journeyErr != nil || stopErr != nil {
+			return errors.New("production migrated console journey failed")
+		}
+		fmt.Printf("PASS production CLI migration schema=%d->3 exact legacy UI seed, identity/history/mapping conservation and native console; controlled evidence, not formal deployment\n", fromSchema)
+	}
 	return nil
 }

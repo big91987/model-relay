@@ -76,7 +76,7 @@ func validateStorage(db *sql.DB, version int) error {
 		return errors.New("administrator metadata invalid")
 	}
 	queries := []string{"SELECT id,name,digest,hint,enabled,created FROM app_keys LIMIT 0", "SELECT " + recordColumns + " FROM requests LIMIT 0"}
-	if version == 2 {
+	if version >= 2 {
 		queries = append(queries, "SELECT config_revision FROM meta LIMIT 0", "SELECT name,execution_revision FROM upstream LIMIT 0", "SELECT alias,enabled,revision,legacy_remote_model FROM models LIMIT 0", "SELECT alias,upstream_id,remote_model,enabled,priority,weight,execution_revision FROM route_candidates LIMIT 0", "SELECT evidence_version,config_revision,model_revision,committed_at,successful_upstream_id,attempts_complete FROM requests LIMIT 0", "SELECT request_id,ordinal,upstream_id,upstream_name,remote_model,upstream_revision,upstream_execution_revision,candidate_execution_revision,started_at,finished_at,duration_ms,state,error_code,upstream_status,prompt_tokens,completion_tokens,total_tokens FROM request_attempts LIMIT 0", "SELECT request_id,selection_round,upstream_id,snapshot_enabled,snapshot_priority,snapshot_weight,reason,observed_at,cooldown_until FROM request_route_decisions LIMIT 0", "SELECT upstream_id,execution_revision,state,started_at,finished_at,duration_ms,error_code,upstream_status FROM upstream_checks LIMIT 0")
 	}
 	for _, query := range queries {
@@ -86,10 +86,23 @@ func validateStorage(db *sql.DB, version int) error {
 		}
 		rows.Close()
 	}
+	if version == 3 {
+		if err := validateConsole(transaction); err != nil {
+			return err
+		}
+	}
 	return integrity(transaction)
 }
 
 func Upgrade(directory, keyFile, output string) (UpgradeResult, error) {
+	return upgradeTo(directory, keyFile, output, 2)
+}
+
+func UpgradeConsole(directory, keyFile, output string) (UpgradeResult, error) {
+	return upgradeTo(directory, keyFile, output, 3)
+}
+
+func upgradeTo(directory, keyFile, output string, target int) (UpgradeResult, error) {
 	if output == "" {
 		return UpgradeResult{}, errors.New("--output required")
 	}
@@ -98,7 +111,7 @@ func Upgrade(directory, keyFile, output string) (UpgradeResult, error) {
 		return UpgradeResult{}, errors.New("upgrade installation/key/lock validation failed")
 	}
 	defer store.Close()
-	if store.Schema == 2 {
+	if store.Schema >= target {
 		transaction, err := store.DB.Begin()
 		if err != nil {
 			return UpgradeResult{}, errors.New("upgrade validation failed")
@@ -107,7 +120,7 @@ func Upgrade(directory, keyFile, output string) (UpgradeResult, error) {
 		if err = integrity(transaction); err != nil {
 			return UpgradeResult{}, err
 		}
-		return UpgradeResult{Result: "already_current", FromSchema: 2, Schema: 2}, nil
+		return UpgradeResult{Result: "already_current", FromSchema: store.Schema, Schema: store.Schema}, nil
 	}
 	if err = backupLocked(directory, output); err != nil {
 		return UpgradeResult{}, errors.New("upgrade backup failed; no migration performed")
@@ -117,6 +130,24 @@ func Upgrade(directory, keyFile, output string) (UpgradeResult, error) {
 		return UpgradeResult{}, errors.New("upgrade transaction failed")
 	}
 	defer transaction.Rollback()
+	if store.Schema == 2 && target == 3 {
+		if err := createConsole(transaction); err != nil {
+			return UpgradeResult{}, errors.New("console migration failed; source retained")
+		}
+		if _, err := transaction.Exec("UPDATE meta SET version=3"); err != nil {
+			return UpgradeResult{}, err
+		}
+		if err := validateConsole(transaction); err != nil {
+			return UpgradeResult{}, err
+		}
+		if err := integrity(transaction); err != nil {
+			return UpgradeResult{}, err
+		}
+		if err := transaction.Commit(); err != nil {
+			return UpgradeResult{}, err
+		}
+		return UpgradeResult{Result: "migrated", FromSchema: 2, Schema: 3}, nil
+	}
 	var address string
 	var encrypted []byte
 	err = transaction.QueryRow("SELECT url,token FROM upstream WHERE id=1").Scan(&address, &encrypted)
@@ -160,11 +191,22 @@ func Upgrade(directory, keyFile, output string) (UpgradeResult, error) {
 	if err = validateMaterial(transaction, store.Key, 2); err != nil {
 		return UpgradeResult{}, err
 	}
+	if target == 3 {
+		if err := createConsole(transaction); err != nil {
+			return UpgradeResult{}, err
+		}
+		if _, err := transaction.Exec("UPDATE meta SET version=3"); err != nil {
+			return UpgradeResult{}, err
+		}
+		if err := validateConsole(transaction); err != nil {
+			return UpgradeResult{}, err
+		}
+	}
 	if err = integrity(transaction); err != nil {
 		return UpgradeResult{}, err
 	}
 	if err = transaction.Commit(); err != nil {
 		return UpgradeResult{}, errors.New("upgrade commit failed")
 	}
-	return UpgradeResult{Result: "migrated", FromSchema: 1, Schema: 2}, nil
+	return UpgradeResult{Result: "migrated", FromSchema: 1, Schema: target}, nil
 }

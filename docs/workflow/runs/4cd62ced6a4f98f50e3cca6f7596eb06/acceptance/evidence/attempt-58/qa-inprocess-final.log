@@ -1,0 +1,14 @@
+# model-relay/internal/relay.test
+ld: warning: '<temp>/go-link-3976737331/000023.o' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestConsolePeopleScopeInProcess
+--- PASS: TestConsolePeopleScopeInProcess (10.31s)
+=== RUN   TestConsoleAccountingInProcess
+--- PASS: TestConsoleAccountingInProcess (2.54s)
+=== RUN   TestConsoleSummariesInProcess
+--- PASS: TestConsoleSummariesInProcess (10.33s)
+=== RUN   TestConsoleOverviewAndExactRecords
+--- PASS: TestConsoleOverviewAndExactRecords (2.80s)
+=== RUN   TestMicroDollarPrecision
+--- PASS: TestMicroDollarPrecision (0.00s)
+PASS
+ok  	model-relay/internal/relay	27.579s

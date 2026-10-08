@@ -177,6 +177,11 @@ func (server *Server) beginAttempt(ctx context.Context, request *http.Request, r
 	if _, ok := server.appID(request); !ok {
 		return nil, nil, "unauthorized"
 	}
+	if server.Store.Schema == 3 {
+		if allowed, code := server.Store.authorizeModel(record.KeyID, record.Alias); !allowed {
+			return nil, nil, code
+		}
+	}
 	current, err := server.Store.routeModel(snapshot.Model.Alias)
 	if err != nil {
 		return nil, nil, "storage_unavailable"
@@ -293,7 +298,11 @@ func (server *Server) beginAttempt(ctx context.Context, request *http.Request, r
 func (store *Store) finishAttempt(id string, attempt *Attempt) error {
 	cleanup, release := context.WithTimeout(context.Background(), 2*time.Second)
 	defer release()
-	_, err := store.DB.ExecContext(cleanup, "UPDATE request_attempts SET finished_at=?,duration_ms=?,state=?,error_code=?,upstream_status=?,prompt_tokens=?,completion_tokens=?,total_tokens=? WHERE request_id=? AND ordinal=?", attempt.Finished, attempt.Duration, attempt.State, attempt.Code, attempt.Status, attempt.Prompt, attempt.Completion, attempt.Total, id, attempt.Ordinal)
+	query := "UPDATE request_attempts SET finished_at=?,duration_ms=?,state=?,error_code=?,upstream_status=?,prompt_tokens=?,completion_tokens=?,total_tokens=? WHERE request_id=? AND ordinal=?"
+	if store.Schema == 3 {
+		query += " AND finished_at IS NULL AND EXISTS(SELECT 1 FROM requests WHERE id=request_id AND state='started')"
+	}
+	_, err := store.DB.ExecContext(cleanup, query, attempt.Finished, attempt.Duration, attempt.State, attempt.Code, attempt.Status, attempt.Prompt, attempt.Completion, attempt.Total, id, attempt.Ordinal)
 	return err
 }
 

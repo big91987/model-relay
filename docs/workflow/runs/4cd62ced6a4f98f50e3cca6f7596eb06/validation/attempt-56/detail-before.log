@@ -1,0 +1,107 @@
+✔ request detail uses the call action on the call page (2.306ms)
+✖ request detail uses the exact request row on the records page (1.210167ms)
+✖ request detail retains a failed native activation (1.010666ms)
+✖ J06 reconciled detail activates the records entry (3.744542ms)
+✔ current-period visual preparation uses the existing native call and conserves the closed bill (0.780291ms)
+✔ visual preparation rejects stale or missing current-period activity (3.287209ms)
+✔ visual preparation rejects changes to closed bill amount or corrections (1.190833ms)
+✔ J06 reconciliation reads append-only cumulative charges, not the first revision (4.417583ms)
+✔ scope refresh cannot complete on old content before asynchronous tenant removal settles (3.412ms)
+✔ failure boundary projects only the owning source position, never assertion values or host paths (0.606833ms)
+✔ J05 member transitions have independent attribution without removing scope assertions (0.169333ms)
+✔ pause conservation evidence only projects exact amounts and safe counters (1.133333ms)
+✔ J05 retains original resume fee assertion and checks each independent rejection boundary (0.092791ms)
+✔ completion failure evidence is a bounded whitelist, never raw provider or request data (0.439458ms)
+✔ actual fresh-install driver requires zero collections, not migrated legacy tenants (1.218292ms)
+✔ production Key formatter distinguishes safe states and precise grace/expiry boundaries (2.902083ms)
+✔ continuous driver uses actual product labels and rotation receipt contract (0.08775ms)
+✔ scope-required empty state replaces loading instead of leaving a perpetual loading placeholder (0.361708ms)
+✔ request-detail log navigation keeps tenant and existing safe filters (0.356875ms)
+✔ full suite stays additive to make verify with every frozen journey and all viewports (1.284ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 17
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 121.188083
+
+✖ failing tests:
+
+test at tests/browser/journeys.test.mjs:30:1
+✖ request detail uses the exact request row on the records page (1.210167ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'records' !== 'call'
+  
+      at button (file://<workspace>/tests/browser/journeys.test.mjs:20:98)
+      at requestDetail (evalmachine.<anonymous>:4:9)
+      at evalmachine.<anonymous>:9:1
+      at Script.runInContext (node:vm:149:12)
+      at Object.runInContext (node:vm:301:6)
+      at requestDetailContract (file://<workspace>/tests/browser/journeys.test.mjs:24:16)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/journeys.test.mjs:30:79)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'records',
+    expected: 'call',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/journeys.test.mjs:31:1
+✖ request detail retains a failed native activation (1.010666ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /controlled-click-failure/. Input:
+  
+  'AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n' +
+    '\n' +
+    "'records' !== 'call'\n"
+  
+      at async requestDetailContract (file://<workspace>/tests/browser/journeys.test.mjs:25:19)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+    
+    'records' !== 'call'
+    
+        at button (file://<workspace>/tests/browser/journeys.test.mjs:20:98)
+        at requestDetail (evalmachine.<anonymous>:4:9)
+        at evalmachine.<anonymous>:9:1
+        at Script.runInContext (node:vm:149:12)
+        at Object.runInContext (node:vm:301:6)
+        at requestDetailContract (file://<workspace>/tests/browser/journeys.test.mjs:24:16)
+        at TestContext.<anonymous> (file://<workspace>/tests/browser/journeys.test.mjs:31:67)
+        at Test.runInAsyncScope (node:async_hooks:226:14)
+        at Test.run (node:internal/test_runner/test:1201:25)
+        at Test.processPendingSubtests (node:internal/test_runner/test:831:18),
+    expected: /controlled-click-failure/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at tests/browser/journeys.test.mjs:32:1
+✖ J06 reconciled detail activates the records entry (3.744542ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(journey.includes("const confirmedDetail=await requestDetail(admin,unknown.id,'records');"))
+  
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/journeys.test.mjs:33:10)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

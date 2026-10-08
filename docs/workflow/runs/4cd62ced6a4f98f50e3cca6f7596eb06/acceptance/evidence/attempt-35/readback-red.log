@@ -1,0 +1,27 @@
+{"evidence_type":"Contract","browser_execution":false,"real_handler":"internal/relay/web/workspace.js:94","dom_semantics":"textContent replaces descendant controls","mutation_count":1,"read_count":1,"retry_control_present":false,"operation_identifier_visible":false,"result":"failure_reproduced"}
+✖ AC08 preserves a visible safe-read retry after transient readback failure (2.021792ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 74.07325
+
+✖ failing tests:
+
+test at docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-35/readback-recovery.test.mjs:25:1
+✖ AC08 preserves a visible safe-read retry after transient readback failure (2.021792ms)
+  AssertionError [ERR_ASSERTION]: safe read retry must remain reachable after a transient failure
+      at TestContext.<anonymous> (docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-35/readback-recovery.test.mjs:48:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+exit_code=1

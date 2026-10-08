@@ -1,0 +1,90 @@
+{
+  "suite": "console-visual",
+  "width": 1280,
+  "role": "platform_administrator",
+  "scope": {
+    "kind": "tenant",
+    "id": "Pkp-r3sEbNu5A1watk9SrA"
+  },
+  "provider": "controlled_http_not_supplier",
+  "scenario": "continuous_J01-J07",
+  "clock": "explicit_test_clock_no_database_edits",
+  "pages": [],
+  "phase": "overview",
+  "result": "failed",
+  "pending_capture": {
+    "page": "overview",
+    "expected_title": "工作台",
+    "check": "capture-facts",
+    "http_reads": [
+      {
+        "resource": "workspace/overview",
+        "status": 200,
+        "scope_matches": true
+      }
+    ],
+    "omitted_reads": 0,
+    "facts": {
+      "title": true,
+      "scope": true,
+      "role": true,
+      "ready": false,
+      "settlement": {
+        "loading": false,
+        "error_nodes": 0,
+        "notice_present": false
+      },
+      "empty_states": {
+        "total": 1,
+        "visible": 1,
+        "seven_day_no_calls": 1,
+        "no_data": 0,
+        "other": 0
+      },
+      "dimensions": {
+        "root_scroll_width": 1280,
+        "viewport_width": 1280,
+        "content_width": 990
+      },
+      "identity": {
+        "platform_administrator": true,
+        "tenant_selected": true,
+        "tenant_option_count": 3
+      },
+      "rootFits": true,
+      "secretsClear": true,
+      "columns": {},
+      "text": {
+        "今日调用": true,
+        "今日成功率": true,
+        "本月已确认费用": true,
+        "已结束调用平均延迟": true,
+        "近7日调用趋势": true,
+        "租户费用分布": true,
+        "待确认与保守预留": true
+      },
+      "actions": {
+        "发起调用": true,
+        "查看请求与核对": true,
+        "查看用量分析": true
+      },
+      "action_states": {
+        "发起调用": "enabled",
+        "查看请求与核对": "enabled",
+        "查看用量分析": "enabled"
+      },
+      "labels": {},
+      "minimumRows": 0,
+      "primaryRows": 1,
+      "dataRows": 1,
+      "form": false,
+      "cards": 7
+    }
+  },
+  "failure": {
+    "phase": "overview",
+    "check": "capture-facts",
+    "kind": "assertion",
+    "capture_assertion": "no loading/failure/empty masquerading as data"
+  }
+}

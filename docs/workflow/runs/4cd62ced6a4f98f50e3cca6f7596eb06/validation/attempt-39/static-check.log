@@ -1,0 +1,9 @@
+node syntax exit=0
+format_exit=0
+all modules verified
+modules_exit=0
+go vet ./...
+vet_exit=0
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+build_exit=0
+diff_exit=0

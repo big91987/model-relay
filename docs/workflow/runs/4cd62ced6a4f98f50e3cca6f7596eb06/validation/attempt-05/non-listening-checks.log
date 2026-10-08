@@ -1,0 +1,265 @@
+COMMAND: make frontend-test format-check vet build
+node --test tests/browser/*.test.mjs
+✔ password toggle preserves the input node and value without requesting or submitting (7.340875ms)
+✔ login success, logout and rejected login reset password visibility (1.702708ms)
+✔ pending rejected login keeps the prior session error until its own 401 clears the password (0.815333ms)
+✔ session restoration resets an entered visible password (0.632ms)
+✔ upstream form is unavailable until GET completes, then saves entered values (1.840542ms)
+✔ connection cancellation aborts once, ignores late success and releases controls (0.88525ms)
+✔ connection navigation and expiry abort pending work without late state mutation (3.200583ms)
+✔ completed setup moves original rows to review and unknown refresh restores tasks (1.293875ms)
+✔ candidate selects have standalone exact labels and unique create/edit associations (1.299916ms)
+✔ model creation locks draft and prevents duplicate submission while awaiting acknowledgement (0.794625ms)
+✔ model creation acknowledgement with failed readback never invites duplicate creation (0.740916ms)
+✔ model creation late result cannot relock inputs or publish feedback after account reset (0.664875ms)
+✔ overview distinguishes empty, saved and successful persisted configuration on reentry (0.91975ms)
+✔ runtime version preserves raw strings including dev without blocking overview (2.152167ms)
+✔ runtime version missing degrades locally and reentry recovers (0.969208ms)
+✔ runtime version empty degrades locally and reentry recovers (0.756459ms)
+✔ runtime version whitespace degrades locally and reentry recovers (0.731333ms)
+✔ runtime version number degrades locally and reentry recovers (0.70375ms)
+✔ runtime version null version degrades locally and reentry recovers (0.658416ms)
+✔ runtime version null body degrades locally and reentry recovers (0.654292ms)
+✔ runtime version array degrades locally and reentry recovers (0.661708ms)
+✔ runtime version string body degrades locally and reentry recovers (0.638458ms)
+✔ runtime version 401 degrades locally and reentry recovers (0.702583ms)
+✔ runtime version 503 degrades locally and reentry recovers (0.611375ms)
+✔ runtime version network degrades locally and reentry recovers (0.631666ms)
+✔ runtime version invalid json degrades locally and reentry recovers (1.581167ms)
+✔ late success cannot clear a newer timer or version (0.9315ms)
+✔ late failure cannot clear a newer timer or version (0.64ms)
+✔ 5 second timeout covers headers and ignores late resolution (0.704458ms)
+✔ 5 second timeout covers body and ignores late resolution (0.578208ms)
+✔ logout invalidates immediately and late success cannot contaminate a new login (0.765541ms)
+✔ real management 401 still logs out and invalidates runtime version (0.589875ms)
+✔ older response after a newer completion cannot overwrite the current version (0.626833ms)
+✔ failed configuration load leaves an error and navigation can recover (0.64475ms)
+✔ a stale navigation cannot reveal a panel after the user leaves (1.584208ms)
+✔ rejected save recovers persisted configuration after navigation finishes (0.970833ms)
+✔ explicit upstream reread retains stale credential status until its own GET settles (0.846ms)
+✔ upstream restore immediately clears secret, restores only confirmed public fields and performs zero writes: false (0.763209ms)
+✔ upstream restore immediately clears secret, restores only confirmed public fields and performs zero writes: true (0.598583ms)
+✔ upstream save owns both controls through its readback; restore and repeated save cannot overlap (0.66225ms)
+✔ late upstream restore cannot replace a new draft or unlock a newer operation (0.727667ms)
+✔ upstream busy controls release on owner invalidation without applying a late restore: pagehide (0.642459ms)
+✔ upstream busy controls release on owner invalidation without applying a late restore: uncertain session (0.704959ms)
+✔ in-flight submitted controls stay visible and disabled until current call terminates: complete (0.945792ms)
+✔ in-flight submitted controls stay visible and disabled until current call terminates: failed (0.671ms)
+✔ in-flight submitted controls stay visible and disabled until current call terminates: cancel (0.891833ms)
+✔ late canceled-call finally cannot unlock new submitted controls (0.725083ms)
+✔ key list displays server created time and explicitly unknown, never a client timestamp (0.654125ms)
+✔ state-change replacement restores only same identity unless focus moved: models/false (0.906584ms)
+✔ state-change replacement restores only same identity unless focus moved: models/true (0.809709ms)
+✔ state-change replacement restores only same identity unless focus moved: keys/false (0.676625ms)
+✔ state-change replacement restores only same identity unless focus moved: keys/true (0.678333ms)
+✔ late state change on departed page cannot restore old row focus (0.706709ms)
+✔ upstream rejected clears credential, preserves public draft and distinguishes acknowledged write (0.841458ms)
+✔ upstream network clears credential, preserves public draft and distinguishes acknowledged write (0.720875ms)
+✔ upstream refresh clears credential, preserves public draft and distinguishes acknowledged write (0.66325ms)
+✔ generation application failure clears only sensitive inputs and keeps diagnosis and identity (0.712125ms)
+✔ generation provider failure clears only sensitive inputs and keeps diagnosis and identity (2.646292ms)
+✔ generation network failure clears only sensitive inputs and keeps diagnosis and identity (0.856125ms)
+✔ generation protocol failure clears only sensitive inputs and keeps diagnosis and identity (0.856667ms)
+✔ generation stream failure clears only sensitive inputs and keeps diagnosis and identity (0.840959ms)
+✔ overview evidence action uses displayed ID, while generic records remains unfiltered (1.044584ms)
+✔ overview precise evidence action survives session restore with no local generation identity (0.677166ms)
+✔ overview precise evidence action survives new login with no local generation identity (0.715708ms)
+✔ late upstream rejected failure cannot clear new-page credential or notice (0.906ms)
+✔ late upstream refresh failure cannot clear new-page credential or notice (0.717334ms)
+✔ overview success metadata comes from the request evidence, never the clock or global revision (0.861666ms)
+✔ late overview metadata cannot replace a newer response (0.646916ms)
+✔ failed overview refresh disables and discards the old precise evidence action (0.678833ms)
+✔ model selection, placeholder example, readable text and request ID are independent of raw JSON (0.916083ms)
+✔ cancel isolates late headers, old finally cannot enable a new request (0.740917ms)
+✔ cancel isolates late json, old finally cannot enable a new request (0.943375ms)
+✔ cancel isolates late failure, old finally cannot enable a new request (0.935208ms)
+✔ SSE decodes split UTF8 and CRLF, presents increments before DONE and isolates canceled reads (1.130875ms)
+✔ tool-only output is not treated as network failure; unknown usage stays unknown and zero stays zero (2.145584ms)
+✔ late key issuance and management 401 cannot affect a new page or login (1.708ms)
+✔ clipboard completion is isolated after closing, reissuing or leaving; failures have a manual path (0.78075ms)
+✔ SSE DONE succeeds, missing DONE and event error fail without a second request (1.6115ms)
+✔ overview query failure remains unknown rather than zero and retry recovers (0.569958ms)
+✔ creation cancellation preserves public drafts with zero writes (0.502375ms)
+✔ model edit keeps canceled draft and a pending save cannot be replaced by another editor (0.823542ms)
+✔ unknown navigation hashes normalize to a safe overview target (0.505958ms)
+✔ expired session clears current generation and restores safe hash target without replay (0.651416ms)
+✔ stream tool fragments summarize only after DONE without executing arguments (0.746459ms)
+✔ empty content remains distinct and tool names/count storage are bounded (1.295458ms)
+✔ visible long stream checks at 30s; network uncertainty clears secrets, isolates late output and requires manual recovery (0.825375ms)
+✔ known expiry cancels without a session fetch; relogin restores target without replay (0.688958ms)
+✔ uncertain session invalidates late issuance and explicit relogin clears and preserves safe target (0.543958ms)
+✔ known expiry also blocks submit before timer runs (0.494166ms)
+✔ hidden generation skips polling; visibility check is single flight and stale failure cannot clear a new page (0.600291ms)
+✔ known expiry survives a hanging one-shot session check and ignores late success (0.856583ms)
+✔ known expiry survives a hanging one-shot session check and ignores late network failure (0.891459ms)
+✔ known expiry survives a hanging one-shot session check and ignores late 401 (0.820584ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: success (1.064333ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: network failure (0.889917ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: 401 (0.838042ms)
+✔ uncertain session recovery may hang but the original known expiry still clears it (1.988459ms)
+✔ ordinary periodic session success does not tell an active call to re-enter or resend (0.976167ms)
+✔ pagehide stops timers and pageshow still enforces a known deadline before a hanging check can resume (0.673ms)
+✔ visibility restore enforces known expiry even when uncertain-state timer delivery was suspended (0.636042ms)
+✔ closed model selection helper commits later viewport option: false (2.199125ms)
+✔ closed model selection helper commits later viewport option: true (0.538291ms)
+✔ closed model selection helper fails rather than accepting an unchanged first option (1.040791ms)
+✔ model selection diagnostic records type-ahead and Tab boundaries without assigning DOM values (0.516167ms)
+✔ closed model selection helper handles starting at end and disabled options: 0/false (0.404958ms)
+✔ closed model selection helper handles starting at end and disabled options: 3/false (0.389708ms)
+✔ closed model selection helper handles starting at end and disabled options: 1/true (0.386625ms)
+✔ native model selection helper rejects unavailable target before activation: true (0.4245ms)
+✔ native model selection helper rejects unavailable target before activation: false (0.432542ms)
+✔ actual model diagnostic projection observes focus, option redraw and replacement without values (0.93475ms)
+✔ model diagnostics distinguish pending response bodies, failed reads and load-finally readiness (0.457459ms)
+✔ candidate selection trace retains boundaries, redacts values and cleans observers (0.261583ms)
+✔ candidate selection trace bounds keyboard events and redacts printable input (0.309541ms)
+✔ candidate type-ahead driver uses keyboard only and preserves boundary ordering (0.236042ms)
+✔ candidate type-ahead driver rejects ambiguous disabled or non-ASCII fixture targets before keys (0.51025ms)
+✔ model diagnostic event trace is bounded and only records approved key and focus labels (0.8395ms)
+✔ model diagnostic printable keys are redacted and type-ahead boundaries survive compaction (0.855ms)
+✔ failure model projection omits arbitrary fields and keeps the bounded boundary evidence (0.471792ms)
+✔ entire UTF-8 failure line fits host tail while retaining first and final key boundaries (0.859167ms)
+✖ workspace service detail renders facts without requiring limit fields (1.456041ms)
+✖ workspace key detail renders facts without requiring limit fields (0.310417ms)
+✖ workspace request detail renders facts without requiring limit fields (0.764ms)
+✖ workspace operation detail renders facts without requiring limit fields (0.352541ms)
+✖ workspace bill detail renders facts without requiring limit fields (0.2735ms)
+✖ workspace detail null remains explicitly unknown (0.281833ms)
+✖ workspace limits retain their independent dimensions and warning (0.295625ms)
+ℹ tests 126
+ℹ suites 0
+ℹ pass 119
+ℹ fail 7
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 198.705458
+
+✖ failing tests:
+
+test at tests/browser/workspace.test.mjs:27:3
+✖ workspace service detail renders facts without requiring limit fields (1.456041ms)
+  evalmachine.<anonymous>:21
+  async 
+  ^
+  
+  ReferenceError: async is not defined
+      at evalmachine.<anonymous>:21:1
+      at Script.runInContext (node:vm:149:12)
+      at Object.runInContext (node:vm:301:6)
+      at summary (file://<workspace>/tests/browser/workspace.test.mjs:17:13)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/workspace.test.mjs:28:20)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.start (node:internal/test_runner/test:1096:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17)
+
+test at tests/browser/workspace.test.mjs:27:3
+✖ workspace key detail renders facts without requiring limit fields (0.310417ms)
+  evalmachine.<anonymous>:21
+  async 
+  ^
+  
+  ReferenceError: async is not defined
+      at evalmachine.<anonymous>:21:1
+      at Script.runInContext (node:vm:149:12)
+      at Object.runInContext (node:vm:301:6)
+      at summary (file://<workspace>/tests/browser/workspace.test.mjs:17:13)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/workspace.test.mjs:28:20)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+
+test at tests/browser/workspace.test.mjs:27:3
+✖ workspace request detail renders facts without requiring limit fields (0.764ms)
+  evalmachine.<anonymous>:21
+  async 
+  ^
+  
+  ReferenceError: async is not defined
+      at evalmachine.<anonymous>:21:1
+      at Script.runInContext (node:vm:149:12)
+      at Object.runInContext (node:vm:301:6)
+      at summary (file://<workspace>/tests/browser/workspace.test.mjs:17:13)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/workspace.test.mjs:28:20)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+
+test at tests/browser/workspace.test.mjs:27:3
+✖ workspace operation detail renders facts without requiring limit fields (0.352541ms)
+  evalmachine.<anonymous>:21
+  async 
+  ^
+  
+  ReferenceError: async is not defined
+      at evalmachine.<anonymous>:21:1
+      at Script.runInContext (node:vm:149:12)
+      at Object.runInContext (node:vm:301:6)
+      at summary (file://<workspace>/tests/browser/workspace.test.mjs:17:13)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/workspace.test.mjs:28:20)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+
+test at tests/browser/workspace.test.mjs:27:3
+✖ workspace bill detail renders facts without requiring limit fields (0.2735ms)
+  evalmachine.<anonymous>:21
+  async 
+  ^
+  
+  ReferenceError: async is not defined
+      at evalmachine.<anonymous>:21:1
+      at Script.runInContext (node:vm:149:12)
+      at Object.runInContext (node:vm:301:6)
+      at summary (file://<workspace>/tests/browser/workspace.test.mjs:17:13)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/workspace.test.mjs:28:20)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+
+test at tests/browser/workspace.test.mjs:35:1
+✖ workspace detail null remains explicitly unknown (0.281833ms)
+  evalmachine.<anonymous>:21
+  async 
+  ^
+  
+  ReferenceError: async is not defined
+      at evalmachine.<anonymous>:21:1
+      at Script.runInContext (node:vm:149:12)
+      at Object.runInContext (node:vm:301:6)
+      at summary (file://<workspace>/tests/browser/workspace.test.mjs:17:13)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/workspace.test.mjs:36:16)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+
+test at tests/browser/workspace.test.mjs:39:1
+✖ workspace limits retain their independent dimensions and warning (0.295625ms)
+  evalmachine.<anonymous>:21
+  async 
+  ^
+  
+  ReferenceError: async is not defined
+      at evalmachine.<anonymous>:21:1
+      at Script.runInContext (node:vm:149:12)
+      at Object.runInContext (node:vm:301:6)
+      at summary (file://<workspace>/tests/browser/workspace.test.mjs:17:13)
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/workspace.test.mjs:40:18)
+      at Test.runInAsyncScope (node:async_hooks:226:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+make: *** [frontend-test] Error 1
+SUPPLEMENTAL_CHECKS_EXIT_CODE=2

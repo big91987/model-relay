@@ -1,0 +1,2 @@
+command=GOCACHE=<workspace>/.cache/go-build CGO_ENABLED=1 GOTOOLCHAIN=local go run ./tests/evidence
+exit_code=0

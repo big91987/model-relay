@@ -34,7 +34,7 @@ func backupLocked(directory, output string) error {
 		return err
 	}
 	var version int
-	if err = db.QueryRow("SELECT version FROM meta").Scan(&version); err != nil || (version != 1 && version != 2) {
+	if err = db.QueryRow("SELECT version FROM meta").Scan(&version); err != nil || (version != 1 && version != 2 && version != 3) {
 		db.Close()
 		return errors.New("unsupported database version")
 	}
@@ -159,7 +159,7 @@ func Restore(input, directory, keyFile string) error {
 			return errors.New("unexpected backup entry")
 		}
 	}
-	if !seen["manifest.json"] || !seen["relay.db"] || (metadata.Version != 1 && metadata.Version != 2) || checksum != metadata.SHA256 {
+	if !seen["manifest.json"] || !seen["relay.db"] || (metadata.Version != 1 && metadata.Version != 2 && metadata.Version != 3) || checksum != metadata.SHA256 {
 		return errors.New("backup checksum or version invalid")
 	}
 	store, err := openInstallation(temporary, keyFile, true)

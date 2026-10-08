@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Model Relay · 管理工作台</title><link rel="stylesheet" href="/admin/workspace.css"><script src="/admin/workspace.js" defer></script></head>
+<body>
+<section id="login-panel" class="login-card"><div class="brand">Model Relay</div><h1>登录管理工作台</h1><p>人员账户管理权限与应用 API Key 分离。</p><form id="login-form"><label for="account">账号</label><input id="account" autocomplete="username" value="admin" required><label for="password">密码</label><input id="password" type="password" autocomplete="current-password" required><button class="primary" type="submit">登录</button></form><p id="login-error" role="alert"></p></section>
+<section id="invite-panel" class="login-card" hidden><div class="brand">Model Relay</div><h1>接受租户邀请</h1><p>邀请通过管理员手工交付，未发送验证邮件。已有账户须先登录后接受。</p><form id="accept-form"><label for="invitation-password">新账户密码（至少12字符）</label><input id="invitation-password" type="password" minlength="12" autocomplete="new-password" required><button class="primary" type="submit">接受邀请</button><button id="invite-login" type="button">已有账户，先登录</button></form><p id="invite-error" role="alert"></p></section>
+<div id="workspace" hidden>
+<aside id="sidebar"><div class="brand">Model Relay</div><p class="subtitle">模型服务管理</p><nav id="navigation" aria-label="主导航"></nav><div class="sidebar-foot">内部多租户 · USD测试计价</div></aside>
+<div class="workspace-body"><header><button id="nav-toggle" type="button" aria-expanded="false" aria-controls="sidebar">菜单</button><span id="breadcrumb">工作台</span><label class="scope-label" for="tenant">当前租户</label><select id="tenant" aria-label="当前租户"></select><span id="identity"></span><button id="logout" type="button">退出</button></header>
+<main><div class="page-heading"><div><h1 id="page-title">工作台</h1><p id="page-description"></p></div><button id="page-action" class="primary" type="button" hidden></button></div><div id="notice" role="status" aria-live="polite"></div><div id="content" aria-live="polite"></div><footer><button id="refresh" type="button">刷新当前事实</button><span id="version">运行版本未知</span><span>真实供应商 / 外部支付：未联调</span></footer></main></div>
+</div>
+<dialog id="editor" aria-labelledby="editor-title"><form id="editor-form"><div class="dialog-head"><h2 id="editor-title"></h2><button id="editor-close" type="button" aria-label="关闭编辑">关闭</button></div><div id="editor-fields"></div><p id="editor-error" role="alert"></p><div class="dialog-actions"><button id="editor-cancel" type="button">取消</button><button id="editor-save" type="submit" class="primary">保存</button></div></form></dialog>
+<dialog id="detail" class="drawer" aria-labelledby="detail-title"><div class="dialog-head"><h2 id="detail-title"></h2><button id="detail-close" type="button">关闭详情</button></div><div id="detail-content"></div></dialog>
+</body></html>

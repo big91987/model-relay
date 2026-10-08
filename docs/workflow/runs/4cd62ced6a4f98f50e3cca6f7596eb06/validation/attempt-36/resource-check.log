@@ -1,0 +1,34 @@
+# model-relay/internal/relay.test
+ld: warning: '<temp>/go-link-3022415135/000023.o' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestConsoleResourceMatrixInProcess
+=== RUN   TestConsoleResourceMatrixInProcess/tenant/calls
+=== RUN   TestConsoleResourceMatrixInProcess/tenant/rpm
+=== RUN   TestConsoleResourceMatrixInProcess/tenant/tpm
+=== RUN   TestConsoleResourceMatrixInProcess/tenant/concurrency
+=== RUN   TestConsoleResourceMatrixInProcess/tenant/budget
+=== RUN   TestConsoleResourceMatrixInProcess/key/calls
+=== RUN   TestConsoleResourceMatrixInProcess/key/rpm
+=== RUN   TestConsoleResourceMatrixInProcess/key/tpm
+=== RUN   TestConsoleResourceMatrixInProcess/key/concurrency
+=== RUN   TestConsoleResourceMatrixInProcess/key/budget
+--- PASS: TestConsoleResourceMatrixInProcess (25.47s)
+    --- PASS: TestConsoleResourceMatrixInProcess/tenant/calls (2.54s)
+    --- PASS: TestConsoleResourceMatrixInProcess/tenant/rpm (2.53s)
+    --- PASS: TestConsoleResourceMatrixInProcess/tenant/tpm (2.53s)
+    --- PASS: TestConsoleResourceMatrixInProcess/tenant/concurrency (2.51s)
+    --- PASS: TestConsoleResourceMatrixInProcess/tenant/budget (2.57s)
+    --- PASS: TestConsoleResourceMatrixInProcess/key/calls (2.56s)
+    --- PASS: TestConsoleResourceMatrixInProcess/key/rpm (2.54s)
+    --- PASS: TestConsoleResourceMatrixInProcess/key/tpm (2.51s)
+    --- PASS: TestConsoleResourceMatrixInProcess/key/concurrency (2.55s)
+    --- PASS: TestConsoleResourceMatrixInProcess/key/budget (2.62s)
+=== RUN   TestConsoleSharedResourcesInProcess
+=== RUN   TestConsoleSharedResourcesInProcess/multi_key
+    console_resource_matrix_test.go:285: scope=multi_key contenders=8 accepted=2 denied=6 other_tenant=1 real_http=false
+=== RUN   TestConsoleSharedResourcesInProcess/old_new_generation
+    console_resource_matrix_test.go:285: scope=old_new_generation contenders=8 accepted=2 denied=6 other_tenant=1 real_http=false
+--- PASS: TestConsoleSharedResourcesInProcess (5.13s)
+    --- PASS: TestConsoleSharedResourcesInProcess/multi_key (2.58s)
+    --- PASS: TestConsoleSharedResourcesInProcess/old_new_generation (2.55s)
+PASS
+ok  	model-relay/internal/relay	32.295s

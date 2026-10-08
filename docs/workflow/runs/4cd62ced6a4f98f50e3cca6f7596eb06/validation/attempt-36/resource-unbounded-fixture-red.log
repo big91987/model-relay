@@ -1,0 +1,59 @@
+# model-relay/internal/relay.test
+ld: warning: '<temp>/go-link-2534966349/000023.o' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestConsoleResourceMatrixInProcess
+=== RUN   TestConsoleResourceMatrixInProcess/tenant/calls
+    console_contract_test.go:47: bounded output not sent
+    console_contract_test.go:47: bounded output not sent
+=== RUN   TestConsoleResourceMatrixInProcess/tenant/rpm
+    console_contract_test.go:47: bounded output not sent
+    console_contract_test.go:47: bounded output not sent
+=== RUN   TestConsoleResourceMatrixInProcess/tenant/tpm
+    console_contract_test.go:47: bounded output not sent
+=== RUN   TestConsoleResourceMatrixInProcess/tenant/concurrency
+    console_contract_test.go:47: bounded output not sent
+    console_contract_test.go:47: bounded output not sent
+=== RUN   TestConsoleResourceMatrixInProcess/tenant/budget
+    console_contract_test.go:47: bounded output not sent
+=== RUN   TestConsoleResourceMatrixInProcess/key/calls
+    console_contract_test.go:47: bounded output not sent
+    console_contract_test.go:47: bounded output not sent
+=== RUN   TestConsoleResourceMatrixInProcess/key/rpm
+    console_contract_test.go:47: bounded output not sent
+    console_contract_test.go:47: bounded output not sent
+=== RUN   TestConsoleResourceMatrixInProcess/key/tpm
+    console_contract_test.go:47: bounded output not sent
+=== RUN   TestConsoleResourceMatrixInProcess/key/concurrency
+    console_contract_test.go:47: bounded output not sent
+    console_contract_test.go:47: bounded output not sent
+=== RUN   TestConsoleResourceMatrixInProcess/key/budget
+    console_contract_test.go:47: bounded output not sent
+--- FAIL: TestConsoleResourceMatrixInProcess (24.73s)
+    --- FAIL: TestConsoleResourceMatrixInProcess/tenant/calls (2.50s)
+    --- FAIL: TestConsoleResourceMatrixInProcess/tenant/rpm (2.48s)
+    --- FAIL: TestConsoleResourceMatrixInProcess/tenant/tpm (2.45s)
+    --- FAIL: TestConsoleResourceMatrixInProcess/tenant/concurrency (2.50s)
+    --- FAIL: TestConsoleResourceMatrixInProcess/tenant/budget (2.45s)
+    --- FAIL: TestConsoleResourceMatrixInProcess/key/calls (2.45s)
+    --- FAIL: TestConsoleResourceMatrixInProcess/key/rpm (2.50s)
+    --- FAIL: TestConsoleResourceMatrixInProcess/key/tpm (2.51s)
+    --- FAIL: TestConsoleResourceMatrixInProcess/key/concurrency (2.45s)
+    --- FAIL: TestConsoleResourceMatrixInProcess/key/budget (2.44s)
+=== RUN   TestConsoleSharedResourcesInProcess
+=== RUN   TestConsoleSharedResourcesInProcess/multi_key
+    console_contract_test.go:47: bounded output not sent
+    console_contract_test.go:47: bounded output not sent
+    console_contract_test.go:47: bounded output not sent
+    console_contract_test.go:47: bounded output not sent
+    console_resource_matrix_test.go:284: scope=multi_key contenders=8 accepted=2 denied=6 other_tenant=1 real_http=false
+=== RUN   TestConsoleSharedResourcesInProcess/old_new_generation
+    console_contract_test.go:47: bounded output not sent
+    console_contract_test.go:47: bounded output not sent
+    console_contract_test.go:47: bounded output not sent
+    console_contract_test.go:47: bounded output not sent
+    console_resource_matrix_test.go:284: scope=old_new_generation contenders=8 accepted=2 denied=6 other_tenant=1 real_http=false
+--- FAIL: TestConsoleSharedResourcesInProcess (4.85s)
+    --- FAIL: TestConsoleSharedResourcesInProcess/multi_key (2.42s)
+    --- FAIL: TestConsoleSharedResourcesInProcess/old_new_generation (2.44s)
+FAIL
+FAIL	model-relay/internal/relay	30.115s
+FAIL

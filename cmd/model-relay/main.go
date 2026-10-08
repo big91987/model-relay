@@ -31,6 +31,7 @@ func run(args []string) error {
 	input := flags.String("input", "", "backup input")
 	output := flags.String("output", "", "backup output")
 	passwordStdin := flags.Bool("password-stdin", false, "read replacement password from standard input")
+	privateAuthorities := flags.String("private-upstream-authorities", "", "explicit comma-separated private upstream host:port allowlist; never loopback or metadata")
 	if err := flags.Parse(args[1:]); err != nil {
 		return err
 	}
@@ -42,15 +43,15 @@ func run(args []string) error {
 		if len(args) != 1 {
 			return errors.New("deployment-contract accepts no flags")
 		}
-		return json.NewEncoder(os.Stdout).Encode(map[string]any{"contract_version": 1, "binary_version": buildVersion, "storage": map[string]any{"init_schema": 2, "serve_schemas": []int{2}, "upgrade_from": []int{1}, "explicit_upgrade": true, "backup_schemas": []int{1, 2}, "restore_schemas": []int{1, 2}}})
+		return json.NewEncoder(os.Stdout).Encode(map[string]any{"contract_version": 1, "binary_version": buildVersion, "storage": map[string]any{"init_schema": 3, "serve_schemas": []int{3}, "upgrade_from": []int{1, 2}, "explicit_upgrade": true, "backup_schemas": []int{1, 2, 3}, "restore_schemas": []int{1, 2, 3}}})
 	case "upgrade":
-		result, err := relay.Upgrade(*directory, *keyFile, *output)
+		result, err := relay.UpgradeConsole(*directory, *keyFile, *output)
 		if err != nil {
 			return err
 		}
 		return json.NewEncoder(os.Stdout).Encode(map[string]any{"binary_version": buildVersion, "result": result.Result, "from_schema": result.FromSchema, "schema": result.Schema})
 	case "init":
-		password, err := relay.Init(*directory, *keyFile)
+		password, err := relay.InitConsole(*directory, *keyFile)
 		if err != nil {
 			return err
 		}
@@ -81,6 +82,16 @@ func run(args []string) error {
 		}
 		return relay.Restore(*input, *directory, *keyFile)
 	case "serve":
+		private := []string{}
+		if *privateAuthorities != "" {
+			for _, authority := range strings.Split(*privateAuthorities, ",") {
+				host, port, err := net.SplitHostPort(authority)
+				if err != nil || host == "" || port == "" || strings.TrimSpace(authority) != authority {
+					return errors.New("private upstream allowlist requires exact host:port")
+				}
+				private = append(private, authority)
+			}
+		}
 		host, _, err := net.SplitHostPort(*listen)
 		if err != nil {
 			return errors.New("invalid listen authority")
@@ -94,6 +105,9 @@ func run(args []string) error {
 			return err
 		}
 		defer store.Close()
+		if store.Schema != 3 {
+			return errors.New("explicit upgrade --data-dir --key-file --output required for this binary")
+		}
 		listener, err := net.Listen("tcp", *listen)
 		if err != nil {
 			return errors.New("listen failed; installation retained")
@@ -101,7 +115,7 @@ func run(args []string) error {
 		defer listener.Close()
 		root, cancel := context.WithCancel(context.Background())
 		defer cancel()
-		server := &http.Server{Handler: relay.New(store, relay.Config{Authority: listener.Addr().String(), Version: buildVersion}), ReadHeaderTimeout: 5 * time.Second, IdleTimeout: 60 * time.Second, MaxHeaderBytes: 32 * 1024, BaseContext: func(net.Listener) context.Context { return root }}
+		server := &http.Server{Handler: relay.New(store, relay.Config{Authority: listener.Addr().String(), Version: buildVersion, Policy: relay.Policy{PrivateAuthorities: private}}), ReadHeaderTimeout: 5 * time.Second, IdleTimeout: 60 * time.Second, MaxHeaderBytes: 32 * 1024, BaseContext: func(net.Listener) context.Context { return root }}
 		signals, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 		defer stop()
 		done := make(chan struct{})

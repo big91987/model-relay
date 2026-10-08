@@ -1,0 +1,28 @@
+✔ request detail uses the call action on the call page (2.323333ms)
+✔ request detail uses the exact request row on the records page (0.457ms)
+✔ request detail retains a failed native activation (0.513ms)
+✔ J06 reconciled detail activates the records entry (0.078667ms)
+✔ current-period visual preparation uses the existing native call and conserves the closed bill (0.547417ms)
+✔ visual preparation rejects stale or missing current-period activity (2.8065ms)
+✔ visual preparation rejects changes to closed bill amount or corrections (2.080375ms)
+✔ J06 reconciliation reads append-only cumulative charges, not the first revision (9.006333ms)
+✔ scope refresh cannot complete on old content before asynchronous tenant removal settles (3.05ms)
+✔ failure boundary projects only the owning source position, never assertion values or host paths (0.540875ms)
+✔ J05 member transitions have independent attribution without removing scope assertions (0.261167ms)
+✔ pause conservation evidence only projects exact amounts and safe counters (1.538625ms)
+✔ J05 retains original resume fee assertion and checks each independent rejection boundary (0.095708ms)
+✔ completion failure evidence is a bounded whitelist, never raw provider or request data (0.489458ms)
+✔ actual fresh-install driver requires zero collections, not migrated legacy tenants (1.519792ms)
+✔ production Key formatter distinguishes safe states and precise grace/expiry boundaries (3.165333ms)
+✔ continuous driver uses actual product labels and rotation receipt contract (0.118ms)
+✔ scope-required empty state replaces loading instead of leaving a perpetual loading placeholder (0.393375ms)
+✔ request-detail log navigation keeps tenant and existing safe filters (0.39425ms)
+✔ full suite stays additive to make verify with every frozen journey and all viewports (1.165625ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 125.099875

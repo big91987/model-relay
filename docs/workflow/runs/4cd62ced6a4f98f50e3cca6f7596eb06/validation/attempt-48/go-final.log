@@ -1,0 +1,58 @@
+# model-relay/internal/relay.test
+ld: warning: '<temp>' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestConsoleGovernanceInProcess
+--- PASS: TestConsoleGovernanceInProcess (2.66s)
+=== RUN   TestConsoleResourceDimensionsInProcess
+--- PASS: TestConsoleResourceDimensionsInProcess (2.70s)
+=== RUN   TestConsolePeopleScopeInProcess
+--- PASS: TestConsolePeopleScopeInProcess (10.48s)
+=== RUN   TestConsolePauseUsageInProcess
+--- PASS: TestConsolePauseUsageInProcess (2.58s)
+=== RUN   TestConsoleAccountingInProcess
+--- PASS: TestConsoleAccountingInProcess (2.58s)
+=== RUN   TestConsoleResourceMatrixInProcess
+=== RUN   TestConsoleResourceMatrixInProcess/tenant/calls
+=== RUN   TestConsoleResourceMatrixInProcess/tenant/rpm
+=== RUN   TestConsoleResourceMatrixInProcess/tenant/tpm
+=== RUN   TestConsoleResourceMatrixInProcess/tenant/concurrency
+=== RUN   TestConsoleResourceMatrixInProcess/tenant/budget
+=== RUN   TestConsoleResourceMatrixInProcess/key/calls
+=== RUN   TestConsoleResourceMatrixInProcess/key/rpm
+=== RUN   TestConsoleResourceMatrixInProcess/key/tpm
+=== RUN   TestConsoleResourceMatrixInProcess/key/concurrency
+=== RUN   TestConsoleResourceMatrixInProcess/key/budget
+--- PASS: TestConsoleResourceMatrixInProcess (25.74s)
+    --- PASS: TestConsoleResourceMatrixInProcess/tenant/calls (2.60s)
+    --- PASS: TestConsoleResourceMatrixInProcess/tenant/rpm (2.59s)
+    --- PASS: TestConsoleResourceMatrixInProcess/tenant/tpm (2.57s)
+    --- PASS: TestConsoleResourceMatrixInProcess/tenant/concurrency (2.54s)
+    --- PASS: TestConsoleResourceMatrixInProcess/tenant/budget (2.55s)
+    --- PASS: TestConsoleResourceMatrixInProcess/key/calls (2.59s)
+    --- PASS: TestConsoleResourceMatrixInProcess/key/rpm (2.59s)
+    --- PASS: TestConsoleResourceMatrixInProcess/key/tpm (2.59s)
+    --- PASS: TestConsoleResourceMatrixInProcess/key/concurrency (2.56s)
+    --- PASS: TestConsoleResourceMatrixInProcess/key/budget (2.55s)
+=== RUN   TestConsoleSharedResourcesInProcess
+=== RUN   TestConsoleSharedResourcesInProcess/multi_key
+    console_resource_matrix_test.go:285: scope=multi_key contenders=8 accepted=2 denied=6 other_tenant=1 real_http=false
+=== RUN   TestConsoleSharedResourcesInProcess/old_new_generation
+    console_resource_matrix_test.go:285: scope=old_new_generation contenders=8 accepted=2 denied=6 other_tenant=1 real_http=false
+--- PASS: TestConsoleSharedResourcesInProcess (5.05s)
+    --- PASS: TestConsoleSharedResourcesInProcess/multi_key (2.51s)
+    --- PASS: TestConsoleSharedResourcesInProcess/old_new_generation (2.53s)
+=== RUN   TestConsoleSummariesInProcess
+--- PASS: TestConsoleSummariesInProcess (11.04s)
+=== RUN   TestConsoleFreshInstallationEmptyCollections
+=== RUN   TestConsoleFreshInstallationEmptyCollections/upstreams
+=== RUN   TestConsoleFreshInstallationEmptyCollections/models
+=== RUN   TestConsoleFreshInstallationEmptyCollections/tenants
+--- PASS: TestConsoleFreshInstallationEmptyCollections (2.57s)
+    --- PASS: TestConsoleFreshInstallationEmptyCollections/upstreams (0.00s)
+    --- PASS: TestConsoleFreshInstallationEmptyCollections/models (0.00s)
+    --- PASS: TestConsoleFreshInstallationEmptyCollections/tenants (0.00s)
+=== RUN   TestConsoleServiceCheckRevisionContract
+--- PASS: TestConsoleServiceCheckRevisionContract (2.58s)
+=== RUN   TestConsoleIdentityAndKeys
+--- PASS: TestConsoleIdentityAndKeys (5.26s)
+PASS
+ok  	model-relay/internal/relay	75.013s

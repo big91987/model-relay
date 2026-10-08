@@ -1,0 +1,525 @@
+{
+  "recorded_at": "2026-10-08T02:30:27.291Z",
+  "seq": 37,
+  "connector_exit_code": 0,
+  "connector_log_bytes": 101748,
+  "connector_log_truncated": false,
+  "source": {
+    "files": 127,
+    "go": "go1.25.6",
+    "head": "98511771871cf0951ecef716bbb55deb13e18da5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "3ee2122eadac33a67342523a082f791d8a81154cc86b7321d53de856866a15ef"
+  },
+  "artifacts": [
+    {
+      "source": "test-results/continuous-1280-5283.json",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/continuous-1280-5283.json",
+      "sha256": "248815bbbc0f8b97baa522409858b0b3069ac0a3f7ec1b68a62b54e5298b0eec",
+      "bytes": 325,
+      "source_modified_at": "2026-10-08T02:21:21.375Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/continuous-1280-before-rotation-5283.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/continuous-1280-before-rotation-5283.png",
+      "sha256": "9979c1892b8aec69b898947f9e326f102cf4c5fec4cfb2c061982425cdbf212e",
+      "bytes": 92325,
+      "source_modified_at": "2026-10-08T02:21:12.903Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/continuous-1280-key-states-5283.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/continuous-1280-key-states-5283.png",
+      "sha256": "d0bc8e81e9aefda670baa6736a86d352a20e8d3a54eef0d9cca8d4464471e25d",
+      "bytes": 134394,
+      "source_modified_at": "2026-10-08T02:21:14.990Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/continuous-1280-before-correction-5283.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/continuous-1280-before-correction-5283.png",
+      "sha256": "57930892f355ea2f4d13f8ba2decfb47a30b8a37597dd53e2ba90d787273a9c5",
+      "bytes": 109244,
+      "source_modified_at": "2026-10-08T02:21:20.615Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/continuous-1280-after-correction-5283.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/continuous-1280-after-correction-5283.png",
+      "sha256": "0774ce27760f8a650fdfff9faa34a6566878fe111865a03768e0ae03cb11a6a5",
+      "bytes": 114334,
+      "source_modified_at": "2026-10-08T02:21:20.772Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/continuous-1280-final-5283.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/continuous-1280-final-5283.png",
+      "sha256": "640eb54da6536a2b0cca570c18765ba556a8a05dc0a1c7355ffcd7533da9bd72",
+      "bytes": 153629,
+      "source_modified_at": "2026-10-08T02:21:21.375Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-1280.json",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-1280.json",
+      "sha256": "4553a8a83bfae6716ae0a0e053f21b3450aaeae0f418ba3250563c468b3f6dcf",
+      "bytes": 2158,
+      "source_modified_at": "2026-10-08T02:20:58.007Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-1280-double-normal.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-1280-double-normal.png",
+      "sha256": "7b6e52e56e09ebc210b1df47fcef2b5ea0d71269181d2e80ce3d102b2663e3dc",
+      "bytes": 128387,
+      "source_modified_at": "2026-10-08T02:20:57.464Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-1280-double-sse.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-1280-double-sse.png",
+      "sha256": "a401d6282006a906e41c87505608b38eed45fe7d0266da870b0a6816d2aeff25",
+      "bytes": 128567,
+      "source_modified_at": "2026-10-08T02:20:58.005Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-1280-historical-readback-red.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-1280-historical-readback-red.png",
+      "sha256": "4a723be44a102588fdca6178aa09c4338f754b5cb0ceb187be091f69eb14963d",
+      "bytes": 108008,
+      "source_modified_at": "2026-10-08T02:20:56.087Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-1280-issuance-before.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-1280-issuance-before.png",
+      "sha256": "8b30f65b488e0a42cf3db83289c6447356b6c47609a007ad3b4b3f860cb78968",
+      "bytes": 114690,
+      "source_modified_at": "2026-10-08T02:20:56.210Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-1280-issuance-read-404.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-1280-issuance-read-404.png",
+      "sha256": "b1c1795545f41521a8b0876d2145e2138d3090103ca7ec3b348072599efd34c1",
+      "bytes": 128917,
+      "source_modified_at": "2026-10-08T02:20:56.426Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-1280-issuance-read-503.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-1280-issuance-read-503.png",
+      "sha256": "8b9a644b7d9235698bf9ec6d27c8ccb5ea5d151dc105d268da9c98315b9ae522",
+      "bytes": 128873,
+      "source_modified_at": "2026-10-08T02:20:56.375Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-1280-issuance-recovered.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-1280-issuance-recovered.png",
+      "sha256": "d61d90ff48c224c1cc91e95df334f2c1cc0ef75d1514ba0a2f5b2ac3ce288435",
+      "bytes": 107694,
+      "source_modified_at": "2026-10-08T02:20:56.477Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-1280-issuance-unknown.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-1280-issuance-unknown.png",
+      "sha256": "0443317c04d696c826dfaf3b5b0468919cb94f356becc3594c1f6cc89bc961b0",
+      "bytes": 123563,
+      "source_modified_at": "2026-10-08T02:20:56.292Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-1280-rotation-before.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-1280-rotation-before.png",
+      "sha256": "6a00a8bde8dd5d37ae1ea3ddc995cff0156a81453932915f4701ecf02b542ce0",
+      "bytes": 132465,
+      "source_modified_at": "2026-10-08T02:20:56.587Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-1280-rotation-read-404.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-1280-rotation-read-404.png",
+      "sha256": "50cb7a725897356aef9cfef3e0648b2318d246d59babbc30f53907beb2fe05ec",
+      "bytes": 148739,
+      "source_modified_at": "2026-10-08T02:20:56.763Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-1280-rotation-read-503.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-1280-rotation-read-503.png",
+      "sha256": "0d985959b3847e4a3f784703ecf29bfa652636c13b66bbc6b17050998499eb18",
+      "bytes": 148740,
+      "source_modified_at": "2026-10-08T02:20:56.704Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-1280-rotation-recovered.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-1280-rotation-recovered.png",
+      "sha256": "9e34e2f123e2c661a35eafa67f66bae513c2d7e77e6ccee60a13ba5a201e3ad7",
+      "bytes": 106193,
+      "source_modified_at": "2026-10-08T02:20:56.820Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-1280-rotation-unknown.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-1280-rotation-unknown.png",
+      "sha256": "001a11ae176e1ed458949b3d1667b7228f28be469d701dc9318ababd8329e378",
+      "bytes": 145669,
+      "source_modified_at": "2026-10-08T02:20:56.653Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/console-1280.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/console-1280.png",
+      "sha256": "de26b871bd86b46ba50c00bc7207824efd09f4178d1f2b31de9f5134ce353c72",
+      "bytes": 129404,
+      "source_modified_at": "2026-10-08T02:20:58.555Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/continuous-1440-5310.json",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/continuous-1440-5310.json",
+      "sha256": "01ffab95b09427714760f14d3808c67f4a4e6b0f87a5029640128a8495fadb2e",
+      "bytes": 325,
+      "source_modified_at": "2026-10-08T02:21:34.742Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/continuous-1440-before-rotation-5310.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/continuous-1440-before-rotation-5310.png",
+      "sha256": "0e04cd75816b1a1a1051bdf9d5896fdc013d4953338fc7f9d87c19ebd8dfa8a5",
+      "bytes": 94183,
+      "source_modified_at": "2026-10-08T02:21:25.815Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/continuous-1440-key-states-5310.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/continuous-1440-key-states-5310.png",
+      "sha256": "f667437bc337ab4960bd9e5da252b0e2ef726b80cf512b1ba821f865403ebcbe",
+      "bytes": 137648,
+      "source_modified_at": "2026-10-08T02:21:27.802Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/continuous-1440-before-correction-5310.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/continuous-1440-before-correction-5310.png",
+      "sha256": "98204def0df51aa80bbca0fee921327bf7f157d0a508abd39491b9ce2a83b173",
+      "bytes": 110406,
+      "source_modified_at": "2026-10-08T02:21:33.357Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/continuous-1440-after-correction-5310.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/continuous-1440-after-correction-5310.png",
+      "sha256": "134579b842fd7e295899c629d1d2419520078df29943e62b574fdb1724e7c313",
+      "bytes": 114703,
+      "source_modified_at": "2026-10-08T02:21:33.574Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/continuous-1440-final-5310.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/continuous-1440-final-5310.png",
+      "sha256": "cf5dbba1713f263f37509bf9bd52b823dd24bf4c2d97e2a2f8817cc126907a5f",
+      "bytes": 156927,
+      "source_modified_at": "2026-10-08T02:21:34.742Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-1440.json",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-1440.json",
+      "sha256": "9e4e81997f553e1abb297d26a27a5caf9f61e1acf3f928e47cae3177ef899016",
+      "bytes": 2158,
+      "source_modified_at": "2026-10-08T02:21:02.625Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-1440-double-normal.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-1440-double-normal.png",
+      "sha256": "d54451b8d329ca15a050df45503cd4fa7d09cb82575fa3bd6f1cee19b92f58ee",
+      "bytes": 126997,
+      "source_modified_at": "2026-10-08T02:21:02.095Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-1440-double-sse.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-1440-double-sse.png",
+      "sha256": "68998df24007e2513e01f53950b0258188f09ccb5d45540149dc8a10458a1816",
+      "bytes": 127089,
+      "source_modified_at": "2026-10-08T02:21:02.624Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-1440-historical-readback-red.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-1440-historical-readback-red.png",
+      "sha256": "190e7fb9be6e58f842eb9132c8e5609fc0c3fe53ed51137e8ce30fbf9ea02a31",
+      "bytes": 114904,
+      "source_modified_at": "2026-10-08T02:21:00.756Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-1440-issuance-before.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-1440-issuance-before.png",
+      "sha256": "954a94a4a1b6803d034bed233fc8268ceeb19d17d1fb9ef4f188990ef7ef9b8d",
+      "bytes": 122394,
+      "source_modified_at": "2026-10-08T02:21:00.874Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-1440-issuance-read-404.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-1440-issuance-read-404.png",
+      "sha256": "f2f18b3eb5859bd7077b12274e5ed5ad72604aca60de99428f7f59641f88b209",
+      "bytes": 137925,
+      "source_modified_at": "2026-10-08T02:21:01.049Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-1440-issuance-read-503.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-1440-issuance-read-503.png",
+      "sha256": "47fa5ddbac1412536023fb7e90649ec90254aaf3fe4dbcfb71fd185f9f9b2712",
+      "bytes": 137891,
+      "source_modified_at": "2026-10-08T02:21:00.999Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-1440-issuance-recovered.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-1440-issuance-recovered.png",
+      "sha256": "0aaf80fc8e779a422d932bb6dabff68478f0dce9a9ccf9b8ef0a415ce192982c",
+      "bytes": 118865,
+      "source_modified_at": "2026-10-08T02:21:01.100Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-1440-issuance-unknown.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-1440-issuance-unknown.png",
+      "sha256": "39ed0e5a98977296c18871c54410bcf8b024b19d5db4bf1de446f270931a784d",
+      "bytes": 132437,
+      "source_modified_at": "2026-10-08T02:21:00.940Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-1440-rotation-before.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-1440-rotation-before.png",
+      "sha256": "01fbbab18de4790ebc9a542cc1018ef73e4e3f49eb3e12494731239829dbbf03",
+      "bytes": 132359,
+      "source_modified_at": "2026-10-08T02:21:01.217Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-1440-rotation-read-404.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-1440-rotation-read-404.png",
+      "sha256": "b69aba6fe7bfe6f6d279616430e984069215485903cd56e6396b19acaa30d5b8",
+      "bytes": 145219,
+      "source_modified_at": "2026-10-08T02:21:01.392Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-1440-rotation-read-503.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-1440-rotation-read-503.png",
+      "sha256": "ffdb258edd8d74f3893ea5144d32d8662135ef516119c38484af1d01c3f5a72a",
+      "bytes": 145221,
+      "source_modified_at": "2026-10-08T02:21:01.341Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-1440-rotation-recovered.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-1440-rotation-recovered.png",
+      "sha256": "b9e7e0c34de81a13c120d8b5ae80302c2df5865bb5de14ad5684dcce7fe2935d",
+      "bytes": 112442,
+      "source_modified_at": "2026-10-08T02:21:01.451Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-1440-rotation-unknown.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-1440-rotation-unknown.png",
+      "sha256": "dd26dc5d52de2b4b767cfef6d569bb3456afbec654a1062088e245c2ef9de23d",
+      "bytes": 143304,
+      "source_modified_at": "2026-10-08T02:21:01.290Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/console-1440.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/console-1440.png",
+      "sha256": "b78315ffb40be3ae3fee19d36ecedbf33382e867e98791c60017f3d2acff76fe",
+      "bytes": 127967,
+      "source_modified_at": "2026-10-08T02:21:03.199Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/continuous-390-5330.json",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/continuous-390-5330.json",
+      "sha256": "4599c2734373a8b90d5e6a4183a0269118167838f5f48ef6c2b9f99c898b3d24",
+      "bytes": 324,
+      "source_modified_at": "2026-10-08T02:21:49.777Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/continuous-390-before-rotation-5330.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/continuous-390-before-rotation-5330.png",
+      "sha256": "58c53275210ef5b84fec110d2c3ce69aa07b2a7226bf4d329ad1ec5965eb6cb7",
+      "bytes": 47068,
+      "source_modified_at": "2026-10-08T02:21:39.706Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/continuous-390-key-states-5330.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/continuous-390-key-states-5330.png",
+      "sha256": "8d06af5824a242288f0452c1e582b87ae8a71c38a2027ae2008aba7126bfbf4c",
+      "bytes": 69403,
+      "source_modified_at": "2026-10-08T02:21:42.095Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/continuous-390-before-correction-5330.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/continuous-390-before-correction-5330.png",
+      "sha256": "b4bcb5f9fa14ebbe9f6bb82142bffea4c8531d50bef00b2c5161f9f716c93d23",
+      "bytes": 65282,
+      "source_modified_at": "2026-10-08T02:21:48.995Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/continuous-390-after-correction-5330.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/continuous-390-after-correction-5330.png",
+      "sha256": "1e776e967a6caa9bb7be7d0975b118641413a3bfe2348b3b6d81ecfadeb175a0",
+      "bytes": 66719,
+      "source_modified_at": "2026-10-08T02:21:49.146Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/continuous-390-final-5330.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/continuous-390-final-5330.png",
+      "sha256": "6c6f418210604d1b0d25b46cac8cc25719297ffb5582b1597f5b31b0ccbc5022",
+      "bytes": 77169,
+      "source_modified_at": "2026-10-08T02:21:49.777Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-390.json",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-390.json",
+      "sha256": "a7e19ceb651677e2dc0f0d19520124bbc56f1e5c1405913ba8455d31b1e80291",
+      "bytes": 2157,
+      "source_modified_at": "2026-10-08T02:21:07.589Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-390-double-normal.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-390-double-normal.png",
+      "sha256": "f8d691edda158992313078878ebba8435f81e7ba2b2bad629ea443ffe364cae8",
+      "bytes": 59858,
+      "source_modified_at": "2026-10-08T02:21:07.017Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-390-double-sse.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-390-double-sse.png",
+      "sha256": "f8d691edda158992313078878ebba8435f81e7ba2b2bad629ea443ffe364cae8",
+      "bytes": 59858,
+      "source_modified_at": "2026-10-08T02:21:07.588Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-390-historical-readback-red.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-390-historical-readback-red.png",
+      "sha256": "455ce863f0ce99a97a56b4d5274b168202811a4e0e9b7d17ba70461137fa6e65",
+      "bytes": 48006,
+      "source_modified_at": "2026-10-08T02:21:05.583Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-390-issuance-before.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-390-issuance-before.png",
+      "sha256": "555666b72f2a7226161c902b266cd60e174f586bbe8e90a8e3faccb48e9c0251",
+      "bytes": 56968,
+      "source_modified_at": "2026-10-08T02:21:05.732Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-390-issuance-read-404.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-390-issuance-read-404.png",
+      "sha256": "1a5de728f4ddf307d18d971a15416449a600a05c42fb4cfd53402a8a10867220",
+      "bytes": 64044,
+      "source_modified_at": "2026-10-08T02:21:05.907Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-390-issuance-read-503.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-390-issuance-read-503.png",
+      "sha256": "5e2368863e58c47fcccea4922cee4f12f8bad33f0ea295452018e3ef22ed928e",
+      "bytes": 64188,
+      "source_modified_at": "2026-10-08T02:21:05.858Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-390-issuance-recovered.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-390-issuance-recovered.png",
+      "sha256": "fe3722e2e5c7d866aefbed39e6ce3853b507361058088b546ca4e515605423c0",
+      "bytes": 28992,
+      "source_modified_at": "2026-10-08T02:21:05.955Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-390-issuance-unknown.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-390-issuance-unknown.png",
+      "sha256": "b29e671a101014596d40c8a9c4559dfa8f46608acf8b072aa33442c7d9175b5e",
+      "bytes": 59884,
+      "source_modified_at": "2026-10-08T02:21:05.798Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-390-rotation-before.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-390-rotation-before.png",
+      "sha256": "efb8c7376da4f2e3822a14ab53bd98db011632db5c68298f92cf12a543436466",
+      "bytes": 83165,
+      "source_modified_at": "2026-10-08T02:21:06.084Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-390-rotation-read-404.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-390-rotation-read-404.png",
+      "sha256": "b3a5455615eb913131bfddf10138131a442dbac1ebe38b1cf9a4b6d9d41d7e02",
+      "bytes": 91999,
+      "source_modified_at": "2026-10-08T02:21:06.259Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-390-rotation-read-503.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-390-rotation-read-503.png",
+      "sha256": "6d677c54fb0ab4070928f60c70b4e83ab071e11daa41ded5d49798eea379e0a2",
+      "bytes": 91937,
+      "source_modified_at": "2026-10-08T02:21:06.211Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-390-rotation-recovered.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-390-rotation-recovered.png",
+      "sha256": "0abaefd12bec37636db75c95782009eabbfa15da23b82430ea90bfd68582cba3",
+      "bytes": 39096,
+      "source_modified_at": "2026-10-08T02:21:06.306Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/fault-390-rotation-unknown.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/fault-390-rotation-unknown.png",
+      "sha256": "28a9af376059a7be314ebec9aad647746aed024fde31d8a5e0a9f41030b0d5b1",
+      "bytes": 88725,
+      "source_modified_at": "2026-10-08T02:21:06.152Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    },
+    {
+      "source": "test-results/console-390.png",
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-38/host-seq37/console-390.png",
+      "sha256": "9ead419d9031aea9d1455547a79bcbaab48b3ad0408f21a1cffc2a67984eaa1f",
+      "bytes": 60596,
+      "source_modified_at": "2026-10-08T02:21:08.369Z",
+      "provenance": "host-produced artifact copied unchanged by QA; not QA browser execution"
+    }
+  ],
+  "limitations": [
+    "JSON receipts do not embed a signed source digest; linkage is connector source stamp, matching checkout, reviewed runner and artifact timestamps.",
+    "Raw full command archive retained by platform read_command_output(seq=37); this index is not a copy of that log.",
+    "Screenshot safety supported by secret-empty assertions and inspected samples; no claim of automated pixel OCR."
+  ]
+}

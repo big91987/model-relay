@@ -1,0 +1,39 @@
+✖ scope refresh cannot complete on old content before asynchronous tenant removal settles (3.645208ms)
+✔ failure boundary projects only the owning source position, never assertion values or host paths (0.82025ms)
+✔ J05 member transitions have independent attribution without removing scope assertions (0.155125ms)
+✔ pause conservation evidence only projects exact amounts and safe counters (1.726208ms)
+✔ J05 retains original resume fee assertion and checks each independent rejection boundary (0.08975ms)
+✔ completion failure evidence is a bounded whitelist, never raw provider or request data (0.431542ms)
+✔ actual fresh-install driver requires zero collections, not migrated legacy tenants (5.399125ms)
+✔ production Key formatter distinguishes safe states and precise grace/expiry boundaries (2.768375ms)
+✔ continuous driver uses actual product labels and rotation receipt contract (0.11725ms)
+✔ scope-required empty state replaces loading instead of leaving a perpetual loading placeholder (0.353209ms)
+✔ request-detail log navigation keeps tenant and existing safe filters (0.380416ms)
+✔ full suite stays additive to make verify with every frozen journey and all viewports (0.868958ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 11
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 97.585916
+
+✖ failing tests:
+
+test at tests/browser/journeys.test.mjs:11:1
+✖ scope refresh cannot complete on old content before asynchronous tenant removal settles (3.645208ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/journeys.test.mjs:29:15)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

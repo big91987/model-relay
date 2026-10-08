@@ -1,0 +1,6 @@
+{
+  "source_probe": {"probe":"actual-model-editor-labels","substring_matches":2,"exact_matches":1},
+  "native_probe": {"probe":"native-label-selector","result":"unavailable","error_name":"Error","launch_failed":true,"exit_code":1},
+  "launch_diagnosis": {"probe":"chromium-launch","result":"failed","error_name":"Error","missing_executable":false,"permission_denied":true,"process_closed":true,"exit_code":1},
+  "scope":"Launch failed before creating a page or making network requests. No native selector mechanism or backend UI validation passed. The second launch only classified the first failure; no further retries."
+}

@@ -1,0 +1,40 @@
+✔ locked Playwright removal continues its current in-flight handler before a late explicit continue (2.689959ms)
+✔ locked Playwright explicit continue settles before removing its handler without a second dispatch (1.721459ms)
+✔ a new editor owns its save lock after navigation interrupts acknowledged-write readback (1.613584ms)
+✔ save driver observes one acknowledged write and rejects a locked editor before arming a waiter (1.563833ms)
+✔ interrupted editor driver releases only its controlled GET and retains the unlocked/cancel/no-extra-write assertions (5.983125ms)
+✔ editor queued close clears its own issued value without erasing a transferred call key (0.587834ms)
+✔ editor close before transfer settlement still permits the explicitly owned destination (0.331542ms)
+✔ superseded navigation cannot restore an issued secret even on another playground epoch (0.308459ms)
+✔ old editor close event cannot erase a reopened one-time dialog (0.292083ms)
+✔ workspace service detail renders facts without requiring limit fields (0.47925ms)
+✔ workspace key detail renders facts without requiring limit fields (0.286708ms)
+✔ workspace request detail renders facts without requiring limit fields (0.318708ms)
+✔ workspace operation detail renders facts without requiring limit fields (0.249917ms)
+✔ workspace bill detail renders facts without requiring limit fields (0.253375ms)
+✔ workspace detail null remains explicitly unknown (0.230834ms)
+✔ workspace limits retain their independent dimensions and warning (0.302959ms)
+✔ workspace request and price details label actual API fields without changing amounts (0.2755ms)
+✔ workspace Key budget cards render the shared resource contract instead of raw JSON (0.901ms)
+✔ workspace local list search spans fetched groups and recovers after clearing (0.658708ms)
+✔ workspace service check sends execution revision, not management revision or empty input (0.458375ms)
+✔ workspace stale service check exposes rejection without detail or automatic retry (0.379ms)
+✔ console model driver uniquely targets actual editor labels without editing additional routes (0.822833ms)
+✔ console failure snapshot projects only safe enums, counts and booleans (0.525375ms)
+✔ console failure snapshot tolerates missing controls without inventing facts (0.351833ms)
+✔ console response diagnostics retain route statuses without URLs, bodies or errors (0.584083ms)
+✔ keyboard driver retains native actions and all original boundary assertions (0.760084ms)
+✔ keyboard driver waits for asynchronous editor visibility before its first native Tab (0.466916ms)
+✔ keyboard driver preserves first-tab rejection and distinguishes its stage (4.415167ms)
+✔ keyboard driver preserves cycle rejection and distinguishes its stage (0.597709ms)
+✔ keyboard driver preserves escape rejection and distinguishes its stage (0.4955ms)
+✔ keyboard driver preserves return rejection and distinguishes its stage (0.4935ms)
+✔ keyboard projection emits only fixed booleans for editor, body, root and missing focus (1.0145ms)
+ℹ tests 32
+ℹ suites 0
+ℹ pass 32
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 193.525875
