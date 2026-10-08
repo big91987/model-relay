@@ -3,6 +3,7 @@ import {mkdir, readFile, writeFile} from 'node:fs/promises';
 import {chromium} from 'playwright';
 import {consoleVisualReview} from './console-visual.mjs';
 import {managementSummaryJourney,summaryCell,summaryFailureFacts} from './console-summary.mjs';
+import {modelSaveReadbackJourney,waitForSaveReadback} from './model-save-readback.mjs';
 
 const origin=process.env.RELAY_JOURNEY_ORIGIN;
 const width=Number(process.env.RELAY_JOURNEY_WIDTH);
@@ -73,13 +74,14 @@ async function scope(page,tenant) {
 }
 async function save(page,path,method='POST',status=201,keyboard=false) {
   action='form-submit';
+  const expected=await page.evaluate(()=>({operation:document.getElementById('editor-form').dataset.operation,tenant:document.getElementById('tenant').value,page:document.getElementById('page-title').textContent}));
   const receipt=page.waitForResponse(response=>new URL(response.url()).pathname===path&&response.request().method()===method);
   if(keyboard){await tabTo(page,'editor-save');await page.keyboard.press('Enter');}else await button(page,'保存').click();
   const response=await receipt;lastStatus=response.status();assert.equal(lastStatus,status);
   const value=await response.json();
   if(status>=400){await page.locator('#editor-error').filter({hasText:'操作失败：'}).waitFor();}
   else if(value.key||value.acceptance_token)await page.getByLabel('一次性API Key').waitFor();
-  else {await page.locator('#editor').waitFor({state:'hidden'});await ready(page);}
+  else {await waitForSaveReadback(page,expected);await page.locator('#editor').waitFor({state:'hidden'});await ready(page);}
   return value;
 }
 async function read(page,path,status=200) {
@@ -347,6 +349,8 @@ try {
     for(const label of ['供应商输入成本','供应商输出成本','租户输入价格','租户输出价格'])await admin.getByLabel(label+'（微美元 / 百万Token）').fill(label.startsWith('供应商')?'1000000':'2000000');
     await save(admin,`/admin/api/models/${model}/prices`);await admin.locator('#editor').waitFor({state:'hidden'});
   }
+  await scope(admin,firstTenant);await nav(admin,'模型托管');
+  await modelSaveReadbackJourney(admin,{tenant:firstTenant,otherTenant:'',alias:models[1],width,save:path=>save(admin,'/admin/api/'+path,'PATCH',200),ready:()=>ready(admin),changeScope:tenant=>scope(admin,tenant),mark,record:cases=>writeFile(`test-results/model-save-readback-${width}.json`,JSON.stringify({suite:'model-save-readback',mode:'operation_readback_regression',provider:'controlled_http_not_supplier',chromium_version:browser.version(),cases},null,2)+'\n')});
   mark('J01-responsibility-chain');await budget(admin,firstTenant,100000);
   const ownerAccount='journey-owner@example.test',developerAccount='journey-developer@example.test';
   const owner=await invite(admin,firstTenant,ownerAccount,'administrator');

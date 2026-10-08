@@ -1,0 +1,56 @@
+started_utc=2026-10-08T21:44:49Z
+source_before_exit=0
+COMMAND=node --test tests/browser/model-save-readback.test.mjs tests/browser/console-summary.test.mjs tests/browser/workspace.test.mjs
+✔ summary money preserves exact decimal precision and distinguishes unknown from zero (0.672042ms)
+✔ live summary assertion rejects absent columns, wrong values and ambiguous rows (0.947167ms)
+✔ summary diagnostics keep original assertion and distinguish its exact boundary without raw values (1.131167ms)
+✔ summary locator failures retain original error identity and bounded diagnostic (0.155708ms)
+✔ post-write probe excludes pre-write, other scopes, methods and detail routes (0.863792ms)
+✔ a new editor owns its save lock after navigation interrupts acknowledged-write readback (1.6075ms)
+✔ save driver observes one acknowledged write and rejects a locked editor before arming a waiter (1.402416ms)
+✔ interrupted editor driver releases only its controlled GET and retains the unlocked/cancel/no-extra-write assertions (6.005875ms)
+✔ editor queued close clears its own issued value without erasing a transferred call key (0.534042ms)
+✔ editor close before transfer settlement still permits the explicitly owned destination (0.293292ms)
+✔ superseded navigation cannot restore an issued secret even on another playground epoch (0.29575ms)
+✔ old editor close event cannot erase a reopened one-time dialog (0.261375ms)
+✔ workspace service detail renders facts without requiring limit fields (0.419875ms)
+✔ workspace key detail renders facts without requiring limit fields (0.257959ms)
+✔ workspace request detail renders facts without requiring limit fields (0.271083ms)
+✔ workspace operation detail renders facts without requiring limit fields (0.225084ms)
+✔ workspace bill detail renders facts without requiring limit fields (0.215625ms)
+✔ workspace detail null remains explicitly unknown (0.202292ms)
+✔ workspace limits retain their independent dimensions and warning (0.271791ms)
+✔ workspace request and price details label actual API fields without changing amounts (0.259791ms)
+✔ workspace Key budget cards render the shared resource contract instead of raw JSON (0.803208ms)
+✔ workspace local list search spans fetched groups and recovers after clearing (0.566833ms)
+✔ workspace service check sends execution revision, not management revision or empty input (0.42575ms)
+✔ workspace stale service check exposes rejection without detail or automatic retry (0.358084ms)
+✔ console model driver uniquely targets actual editor labels without editing additional routes (0.754917ms)
+✔ console failure snapshot projects only safe enums, counts and booleans (0.461375ms)
+✔ console failure snapshot tolerates missing controls without inventing facts (0.32575ms)
+✔ console response diagnostics retain route statuses without URLs, bodies or errors (0.515958ms)
+✔ keyboard driver retains native actions and all original boundary assertions (0.665791ms)
+✔ keyboard driver waits for asynchronous editor visibility before its first native Tab (0.384833ms)
+✔ keyboard driver preserves first-tab rejection and distinguishes its stage (3.853ms)
+✔ keyboard driver preserves cycle rejection and distinguishes its stage (0.548291ms)
+✔ keyboard driver preserves escape rejection and distinguishes its stage (0.421375ms)
+✔ keyboard driver preserves return rejection and distinguishes its stage (0.418459ms)
+✔ keyboard projection emits only fixed booleans for editor, body, root and missing focus (0.764667ms)
+ℹ tests 35
+ℹ suites 0
+ℹ pass 35
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 103.312542
+node_test_exit=0
+COMMAND=node --check tests/browser/model-save-readback.mjs
+syntax_exit=0
+COMMAND=node --check tests/browser/model-save-readback.test.mjs
+syntax_exit=0
+COMMAND=node --check tests/browser/journeys.mjs
+syntax_exit=0
+COMMAND=git diff --check
+diff_check_exit=0
+finished_utc=2026-10-08T21:44:49Z

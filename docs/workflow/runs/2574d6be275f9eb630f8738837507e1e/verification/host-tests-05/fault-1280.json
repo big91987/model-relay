@@ -1,0 +1,103 @@
+{
+  "suite": "console-faults",
+  "width": 1280,
+  "provider": "controlled_http_not_supplier",
+  "cases": [
+    {
+      "case": "QA35-01-historical-red",
+      "evidence_kind": "isolated_reconstruction_of_previous_editor_not_current_asset",
+      "asset_sha256": "d68fc29eb7b51eb4460b13a1a677ed84fd58ab2d5ce3ea64d9b6edb897edde45",
+      "mutations": 1,
+      "committed_status": 201,
+      "read_status": 503,
+      "retry_present": false,
+      "result": "expected_failure_reproduced"
+    },
+    {
+      "case": "issuance-lost-response",
+      "mutations": 1,
+      "reads": 3,
+      "committed_status": 201,
+      "read_statuses": [
+        503,
+        404,
+        200
+      ],
+      "secret_replayed": false,
+      "result": "passed"
+    },
+    {
+      "case": "rotation-lost-response",
+      "mutations": 1,
+      "reads": 3,
+      "committed_status": 200,
+      "read_statuses": [
+        503,
+        404,
+        200
+      ],
+      "secret_replayed": false,
+      "stacked_transition_status": 409,
+      "result": "passed"
+    },
+    {
+      "case": "double-normal",
+      "proxy_posts": 1,
+      "admissions": 1,
+      "attempts": 1,
+      "actual_upstream_dispatches": 1,
+      "input_tokens": 3,
+      "output_tokens": 4,
+      "result": "passed"
+    },
+    {
+      "case": "double-sse",
+      "proxy_posts": 1,
+      "admissions": 1,
+      "attempts": 1,
+      "actual_upstream_dispatches": 1,
+      "input_tokens": 3,
+      "output_tokens": 4,
+      "result": "passed"
+    }
+  ],
+  "observations": [
+    {
+      "phase": "issuance",
+      "method": "POST",
+      "status": 201,
+      "mutations": 1
+    },
+    {
+      "phase": "issuance",
+      "method": "GET",
+      "status": 503,
+      "reads": 1
+    },
+    {
+      "phase": "issuance",
+      "method": "GET",
+      "status": 404,
+      "reads": 2
+    },
+    {
+      "phase": "rotation",
+      "method": "POST",
+      "status": 200,
+      "mutations": 1
+    },
+    {
+      "phase": "rotation",
+      "method": "GET",
+      "status": 503,
+      "reads": 1
+    },
+    {
+      "phase": "rotation",
+      "method": "GET",
+      "status": 404,
+      "reads": 2
+    }
+  ],
+  "phase": "completed"
+}

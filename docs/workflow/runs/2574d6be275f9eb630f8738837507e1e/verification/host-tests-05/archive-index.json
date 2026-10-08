@@ -1,0 +1,88 @@
+{
+  "created_utc": "2026-10-08T22:14:52.057Z",
+  "provenance": "tests Connector execution 5; unmodified project-owned receipt files",
+  "connector_exit_code": 2,
+  "project_gate_exit": 2,
+  "project_runner_exit": 1,
+  "connector_log_bytes": 329434,
+  "project_log_bytes": 329252,
+  "project_log_hash_matches_state": true,
+  "source_before": {
+    "files": 149,
+    "go": "go1.25.6",
+    "head": "9bf6ecaf53758ca2258498968b830c535e02e1c0",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "ba8816e8f4cb38bb3b6c782195da2324bd16964f98cc2ff00448d91e78940d6f"
+  },
+  "source_after": {
+    "files": 149,
+    "go": "go1.25.6",
+    "head": "9bf6ecaf53758ca2258498968b830c535e02e1c0",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "ba8816e8f4cb38bb3b6c782195da2324bd16964f98cc2ff00448d91e78940d6f"
+  },
+  "versions": {
+    "go": "go version go1.25.6 darwin/arm64",
+    "node": "v26.0.0",
+    "npm": "11.12.1"
+  },
+  "chromium_version": "NotRecorded in this receipt; next probe records browser.version()",
+  "clean_start": true,
+  "source_unchanged": true,
+  "owned_group_absent": true,
+  "controlled_cases": 4,
+  "early_completion_cases": 4,
+  "final_dom_matches_cases": 4,
+  "files": [
+    {
+      "path": "verification/host-tests-05/continuous-1280-79647.json",
+      "bytes": 1001,
+      "sha256": "3e7abecf4fd981ef6f1fe81122cface592525a400bf21b8e584bcabe8f7ce3a1"
+    },
+    {
+      "path": "verification/host-tests-05/editor-interruption-1280.json",
+      "bytes": 173,
+      "sha256": "3d7b2d429bfcf51c43c59648abe482d268183309830e17c40b57222bab81c1c4"
+    },
+    {
+      "path": "verification/host-tests-05/editor-interruption-1440.json",
+      "bytes": 173,
+      "sha256": "6fb155edf69ff318dc89535727466e810ab8916ff1254da36c9097ec060ca39d"
+    },
+    {
+      "path": "verification/host-tests-05/editor-interruption-390.json",
+      "bytes": 172,
+      "sha256": "718eda9e362906dfcef709c6fb48ceb51096fe64ed0b6d1a232ca3865800f4f8"
+    },
+    {
+      "path": "verification/host-tests-05/fault-1280.json",
+      "bytes": 2158,
+      "sha256": "b5c122519f1cab6f4d5dd69ad6c4fc4608e2d3c5f496c07b0746364f91835e90"
+    },
+    {
+      "path": "verification/host-tests-05/fault-1440.json",
+      "bytes": 2158,
+      "sha256": "6131fbb8f1ca049f03ca0f6b423e5aedbaaec5dbe862bc9a03ff2ea3174bbe49"
+    },
+    {
+      "path": "verification/host-tests-05/fault-390.json",
+      "bytes": 2157,
+      "sha256": "071a2072e18881270c9b5e54015b670db67bd33e0920734cbb4b221401d5cea8"
+    },
+    {
+      "path": "verification/host-tests-05/model-save-readback-1280.json",
+      "bytes": 7874,
+      "sha256": "e1d783a03247b92c48f2472d47d599bd21b3b77dcc99afd71d60da46450f42fd"
+    },
+    {
+      "path": "verification/host-tests-05/state.json",
+      "bytes": 2763,
+      "sha256": "2ccfc821acf7206dd2323fb2ebb3cafdc4c28d246342e893080f8381c3cda8b3"
+    },
+    {
+      "path": "verification/host-tests-05/verify.log",
+      "bytes": 329252,
+      "sha256": "a5a3c4b6d12086c04108c7c474a9484232414e27051522fd303072ffcae3ab59"
+    }
+  ]
+}

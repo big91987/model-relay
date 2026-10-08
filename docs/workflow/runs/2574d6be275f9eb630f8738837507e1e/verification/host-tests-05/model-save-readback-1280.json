@@ -1,0 +1,252 @@
+{
+  "suite": "model-save-readback",
+  "mode": "pre_repair_diagnostic",
+  "provider": "controlled_http_not_supplier",
+  "cases": [
+    {
+      "viewport": 1280,
+      "enabled": false,
+      "role": "platform_administrator",
+      "write_status": 200,
+      "stages": [
+        {
+          "phase": "tenants",
+          "read_status": 200,
+          "read_utc": "2026-10-08T21:57:25.801Z",
+          "dialog_open": false,
+          "content_loading": false,
+          "write_notice": true,
+          "save_disabled": true,
+          "page_models": true,
+          "scope_matches": true,
+          "save_completed": true,
+          "utc": "2026-10-08T21:57:25.804Z",
+          "summary_cell": {
+            "available": true,
+            "check": "cell-value",
+            "column": "model-status",
+            "row_count": 1,
+            "column_count": 8,
+            "column_present": true,
+            "value_matches": false,
+            "expected_status": "停用",
+            "observed_status": "启用"
+          },
+          "error_kind": "assertion",
+          "release_utc": "2026-10-08T21:57:25.809Z"
+        },
+        {
+          "phase": "catalog",
+          "read_status": 200,
+          "read_utc": "2026-10-08T21:57:25.813Z",
+          "dialog_open": false,
+          "content_loading": true,
+          "write_notice": true,
+          "save_disabled": true,
+          "page_models": true,
+          "scope_matches": true,
+          "save_completed": true,
+          "utc": "2026-10-08T21:57:25.815Z",
+          "summary_cell": {
+            "available": true,
+            "check": "row-count",
+            "column": "model-status",
+            "row_count": 0
+          },
+          "error_kind": "assertion",
+          "release_utc": "2026-10-08T21:57:25.816Z"
+        }
+      ],
+      "final_dom_matches": true,
+      "cleanup": true,
+      "write_utc": "2026-10-08T21:57:25.797Z",
+      "save_utc": "2026-10-08T21:57:25.802Z",
+      "original_failure_phase": "tenants",
+      "final_assertion_utc": "2026-10-08T21:57:25.841Z",
+      "final_utc": "2026-10-08T21:57:25.844Z"
+    },
+    {
+      "viewport": 1280,
+      "enabled": true,
+      "role": "platform_administrator",
+      "write_status": 200,
+      "stages": [
+        {
+          "phase": "tenants",
+          "read_status": 200,
+          "read_utc": "2026-10-08T21:57:25.883Z",
+          "dialog_open": false,
+          "content_loading": false,
+          "write_notice": true,
+          "save_disabled": true,
+          "page_models": true,
+          "scope_matches": true,
+          "save_completed": true,
+          "utc": "2026-10-08T21:57:25.885Z",
+          "summary_cell": {
+            "available": true,
+            "check": "cell-value",
+            "column": "model-status",
+            "row_count": 1,
+            "column_count": 8,
+            "column_present": true,
+            "value_matches": false,
+            "expected_status": "启用",
+            "observed_status": "停用"
+          },
+          "error_kind": "assertion",
+          "release_utc": "2026-10-08T21:57:25.888Z"
+        },
+        {
+          "phase": "catalog",
+          "read_status": 200,
+          "read_utc": "2026-10-08T21:57:25.891Z",
+          "dialog_open": false,
+          "content_loading": true,
+          "write_notice": true,
+          "save_disabled": true,
+          "page_models": true,
+          "scope_matches": true,
+          "save_completed": true,
+          "utc": "2026-10-08T21:57:25.892Z",
+          "summary_cell": {
+            "available": true,
+            "check": "row-count",
+            "column": "model-status",
+            "row_count": 0
+          },
+          "error_kind": "assertion",
+          "release_utc": "2026-10-08T21:57:25.893Z"
+        }
+      ],
+      "final_dom_matches": true,
+      "cleanup": true,
+      "write_utc": "2026-10-08T21:57:25.881Z",
+      "save_utc": "2026-10-08T21:57:25.884Z",
+      "final_assertion_utc": "2026-10-08T21:57:25.917Z",
+      "final_utc": "2026-10-08T21:57:25.920Z"
+    },
+    {
+      "viewport": 390,
+      "enabled": false,
+      "role": "platform_administrator",
+      "write_status": 200,
+      "stages": [
+        {
+          "phase": "tenants",
+          "read_status": 200,
+          "read_utc": "2026-10-08T21:57:25.966Z",
+          "dialog_open": false,
+          "content_loading": false,
+          "write_notice": true,
+          "save_disabled": true,
+          "page_models": true,
+          "scope_matches": true,
+          "save_completed": true,
+          "utc": "2026-10-08T21:57:25.968Z",
+          "summary_cell": {
+            "available": true,
+            "check": "cell-value",
+            "column": "model-status",
+            "row_count": 1,
+            "column_count": 8,
+            "column_present": true,
+            "value_matches": false,
+            "expected_status": "停用",
+            "observed_status": "启用"
+          },
+          "error_kind": "assertion",
+          "release_utc": "2026-10-08T21:57:25.972Z"
+        },
+        {
+          "phase": "catalog",
+          "read_status": 200,
+          "read_utc": "2026-10-08T21:57:25.975Z",
+          "dialog_open": false,
+          "content_loading": true,
+          "write_notice": true,
+          "save_disabled": true,
+          "page_models": true,
+          "scope_matches": true,
+          "save_completed": true,
+          "utc": "2026-10-08T21:57:25.976Z",
+          "summary_cell": {
+            "available": true,
+            "check": "row-count",
+            "column": "model-status",
+            "row_count": 0
+          },
+          "error_kind": "assertion",
+          "release_utc": "2026-10-08T21:57:25.977Z"
+        }
+      ],
+      "final_dom_matches": true,
+      "cleanup": true,
+      "write_utc": "2026-10-08T21:57:25.964Z",
+      "save_utc": "2026-10-08T21:57:25.968Z",
+      "final_assertion_utc": "2026-10-08T21:57:26.002Z",
+      "final_utc": "2026-10-08T21:57:26.007Z"
+    },
+    {
+      "viewport": 390,
+      "enabled": true,
+      "role": "platform_administrator",
+      "write_status": 200,
+      "stages": [
+        {
+          "phase": "tenants",
+          "read_status": 200,
+          "read_utc": "2026-10-08T21:57:26.049Z",
+          "dialog_open": false,
+          "content_loading": false,
+          "write_notice": true,
+          "save_disabled": true,
+          "page_models": true,
+          "scope_matches": true,
+          "save_completed": true,
+          "utc": "2026-10-08T21:57:26.052Z",
+          "summary_cell": {
+            "available": true,
+            "check": "cell-value",
+            "column": "model-status",
+            "row_count": 1,
+            "column_count": 8,
+            "column_present": true,
+            "value_matches": false,
+            "expected_status": "启用",
+            "observed_status": "停用"
+          },
+          "error_kind": "assertion",
+          "release_utc": "2026-10-08T21:57:26.055Z"
+        },
+        {
+          "phase": "catalog",
+          "read_status": 200,
+          "read_utc": "2026-10-08T21:57:26.058Z",
+          "dialog_open": false,
+          "content_loading": true,
+          "write_notice": true,
+          "save_disabled": true,
+          "page_models": true,
+          "scope_matches": true,
+          "save_completed": true,
+          "utc": "2026-10-08T21:57:26.059Z",
+          "summary_cell": {
+            "available": true,
+            "check": "row-count",
+            "column": "model-status",
+            "row_count": 0
+          },
+          "error_kind": "assertion",
+          "release_utc": "2026-10-08T21:57:26.061Z"
+        }
+      ],
+      "final_dom_matches": true,
+      "cleanup": true,
+      "write_utc": "2026-10-08T21:57:26.047Z",
+      "save_utc": "2026-10-08T21:57:26.051Z",
+      "final_assertion_utc": "2026-10-08T21:57:26.086Z",
+      "final_utc": "2026-10-08T21:57:26.089Z"
+    }
+  ]
+}
