@@ -1,0 +1,1002 @@
+{
+  "reviewed_utc": "2026-10-08T20:05:50.505Z",
+  "result": "Pass: report artifacts, local links, unique public states, preserved evidence and unchanged candidate",
+  "target": "publish",
+  "source": {
+    "files": 147,
+    "go": "go1.25.6",
+    "head": "cd413b5aa24a372a19c19af999a6ef61b5c41572",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "f8befd158a543afeb1ba77778e4caf72e876f6e4b0b988dd4e6ab73de5e5eaab"
+  },
+  "public_states": {
+    "overview": "Executing",
+    "task": "In Review",
+    "milestone": "Ready for Review",
+    "qa_candidate": "Go with known issues"
+  },
+  "delivery_review": "Ready with Non-blocking Gaps",
+  "changed_public_artifacts": [
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/README.md",
+      "bytes": 4782,
+      "sha256": "24eb8acd228c7c197c3c71bc2fced086cc4c759443b89e942a858ad1d171556a"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/tasks/T001-clean-install.md",
+      "bytes": 5934,
+      "sha256": "b6e418a41e31eecfbd95a7c941efdc54666f95395b442b71fbba1fb3cb1ab5d1"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/milestones/M01-clean-install.md",
+      "bytes": 2831,
+      "sha256": "de9b442ee116c2782bbbdb07a1be1346a90b57145efa29c1553a91b648c401dd"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "bytes": 16074,
+      "sha256": "a661f62b8437b9ec5ab47a1f0bc762a7786964ef6dd483a841d13b0d346428eb"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/pr.md",
+      "bytes": 8558,
+      "sha256": "417f6cd9121d7164f414de5c672f97a7b8e7c9ede99cb4c4b2bffbdadd87715f"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/report-22-review.json",
+      "bytes": 4947,
+      "sha256": "3bbf09562e9dcd0fb1bbc462d0b378e685c39af125c26c4445cca84e728e1cb2"
+    }
+  ],
+  "referenced_evidence": [
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/report-qa-21.md",
+      "bytes": 9706,
+      "sha256": "11e7ed67bb3e68dbf181559b02ce2fae54e40c23a643916dad00a3b7fc7f9513"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/matrix-qa-21.md",
+      "bytes": 7058,
+      "sha256": "e14d01f3d6df3fe7258446112b04ca1081ecbb840f8d1663f6c71fbf1e976499"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/summary-assessment-qa-21.md",
+      "bytes": 9268,
+      "sha256": "aa373a2e5eed3e98425433ed29f46d7e93ab31990324fafa66d2ba5357c4ee73"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/defects-qa-21.md",
+      "bytes": 3986,
+      "sha256": "41ab99c34c92de433a863faf55e70865b4b7c0b66480750368f42164043421e7"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/release-handoff-qa-21.md",
+      "bytes": 3856,
+      "sha256": "34beeb1aa006bf932c7a24cb06b4515ee4eca7e674a4df082ef308f7b9c51919"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/index.md",
+      "bytes": 3962,
+      "sha256": "942bf63181152b5c4fd4c320f2cb3296cdeac8bfbea9b78ce15a1dfa7ad9a554"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/archive-index.json",
+      "bytes": 38796,
+      "sha256": "3b58c00354a03b266f2b60c772ac26e1bd341b7c7a813ef6683cda155a51e66f"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/source-qa-21.json",
+      "bytes": 357,
+      "sha256": "edcb90377bd661b01bd4fec69395871e7cd72da2a37f9b40ad90490c2729a612"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/summary-history-review.json",
+      "bytes": 5388,
+      "sha256": "0b1d0c298cd6a93f32cd88f2564ba00e037052e97746f3019d317fe5c3f342e6"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/summary-source-review.json",
+      "bytes": 5524,
+      "sha256": "ac388817f229a75583e57f2145ea4f941e7825c22c70acae06a5592eaf16cdb2"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/host-seq20/verify.log",
+      "bytes": 310718,
+      "sha256": "7c4d3952943721deae9188a6f52f860572037ac8ea39ba55d278d6bf2c7abb7b"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/host-seq20/state.json",
+      "bytes": 3076,
+      "sha256": "40a711b6cca8fcdb254699688255be4b55758aa8751e3a12958c60fc2c4c585b"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/tests-18-verify.log",
+      "bytes": 307276,
+      "sha256": "cb92549be85d96006a9d9131a12067982e41abccf5e75147c7353f0803e7c430"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/tests-18-state.json",
+      "bytes": 2763,
+      "sha256": "2b1b1a996841bb1590a0e623802a144ffab8692705700988ad367240b984904e"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/tests-18-continuous-1280.json",
+      "bytes": 1347,
+      "sha256": "eb04e5b83f1cf17d4b79f064fc93a536d2e9221d71969365ac60638bebe10413"
+    }
+  ],
+  "self": {
+    "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/report-22-handoff.json",
+    "hash_omitted": "self-reference"
+  },
+  "link_checks": [
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/README.md",
+      "target": "tasks/T001-clean-install.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/tasks/T001-clean-install.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/README.md",
+      "target": "milestones/M01-clean-install.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/milestones/M01-clean-install.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/README.md",
+      "target": "tasks/T001-clean-install.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/tasks/T001-clean-install.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/README.md",
+      "target": "acceptance/report-qa-21.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/report-qa-21.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/README.md",
+      "target": "acceptance/matrix-qa-21.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/matrix-qa-21.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/README.md",
+      "target": "acceptance/evidence/qa-21/archive-index.json",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/archive-index.json",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/README.md",
+      "target": "verification/report-22-review.json",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/report-22-review.json",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/README.md",
+      "target": "acceptance/summary-assessment-qa-21.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/summary-assessment-qa-21.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/README.md",
+      "target": "verification/index.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/README.md",
+      "target": "acceptance/report-qa-21.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/report-qa-21.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/README.md",
+      "target": "acceptance/release-handoff-qa-21.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/release-handoff-qa-21.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/README.md",
+      "target": "pr.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/pr.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/README.md",
+      "target": "verification/index.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/tasks/T001-clean-install.md",
+      "target": "../milestones/M01-clean-install.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/milestones/M01-clean-install.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/tasks/T001-clean-install.md",
+      "target": "../acceptance/evidence/qa-21/source-qa-21.json",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/source-qa-21.json",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/tasks/T001-clean-install.md",
+      "target": "../verification/frontend-before.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/frontend-before.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/tasks/T001-clean-install.md",
+      "target": "../verification/clean-before.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/clean-before.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/tasks/T001-clean-install.md",
+      "target": "../acceptance/evidence/qa-21/independent-go.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/independent-go.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/tasks/T001-clean-install.md",
+      "target": "../acceptance/evidence/qa-21/host-seq20/verify.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/host-seq20/verify.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/tasks/T001-clean-install.md",
+      "target": "../acceptance/evidence/qa-21/host-seq20/state.json",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/host-seq20/state.json",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/tasks/T001-clean-install.md",
+      "target": "../acceptance/matrix-qa-21.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/matrix-qa-21.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/tasks/T001-clean-install.md",
+      "target": "../verification/index.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/tasks/T001-clean-install.md",
+      "target": "../acceptance/evidence/qa-21/archive-index.json",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/archive-index.json",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/tasks/T001-clean-install.md",
+      "target": "../verification/report-22-review.json",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/report-22-review.json",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/tasks/T001-clean-install.md",
+      "target": "../acceptance/summary-assessment-qa-21.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/summary-assessment-qa-21.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/tasks/T001-clean-install.md",
+      "target": "../acceptance/release-handoff-qa-21.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/release-handoff-qa-21.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/tasks/T001-clean-install.md",
+      "target": "../pr.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/pr.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/milestones/M01-clean-install.md",
+      "target": "../tasks/T001-clean-install.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/tasks/T001-clean-install.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/milestones/M01-clean-install.md",
+      "target": "../acceptance/report-qa-21.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/report-qa-21.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/milestones/M01-clean-install.md",
+      "target": "../acceptance/matrix-qa-21.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/matrix-qa-21.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/milestones/M01-clean-install.md",
+      "target": "../acceptance/journeys-qa-21.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/journeys-qa-21.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/milestones/M01-clean-install.md",
+      "target": "../acceptance/evidence/qa-21/archive-index.json",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/archive-index.json",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/milestones/M01-clean-install.md",
+      "target": "../verification/report-22-review.json",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/report-22-review.json",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/milestones/M01-clean-install.md",
+      "target": "../acceptance/summary-assessment-qa-21.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/summary-assessment-qa-21.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/milestones/M01-clean-install.md",
+      "target": "../acceptance/release-handoff-qa-21.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/release-handoff-qa-21.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/milestones/M01-clean-install.md",
+      "target": "../verification/index.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "report-22-review.json",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/report-22-review.json",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "report-22-handoff.json",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/report-22-handoff.json",
+      "local_target": "self; created by this audit"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "../pr.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/pr.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "../acceptance/summary-assessment-qa-21.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/summary-assessment-qa-21.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "../acceptance/report-qa-21.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/report-qa-21.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "../acceptance/matrix-qa-21.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/matrix-qa-21.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "../acceptance/journeys-qa-21.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/journeys-qa-21.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "../acceptance/defects-qa-21.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/defects-qa-21.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "../acceptance/evidence/qa-21/index.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/index.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "../acceptance/evidence/qa-21/archive-index.json",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/archive-index.json",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "../acceptance/evidence/qa-21/source-qa-21.json",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/source-qa-21.json",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "../acceptance/evidence/qa-21/independent-review.json",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/independent-review.json",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "../acceptance/release-handoff-qa-21.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/release-handoff-qa-21.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "remediation-development-19.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/remediation-development-19.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "source-development-19.json",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/source-development-19.json",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-19-check.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-19-check.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "tests-18-verify.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/tests-18-verify.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "tests-18-state.json",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/tests-18-state.json",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "tests-18-continuous-1280.json",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/tests-18-continuous-1280.json",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-19-final.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-19-final.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "source-development-17.json",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/source-development-17.json",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "remediation-development-17.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/remediation-development-17.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "tests-16-verify.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/tests-16-verify.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "tests-16-state.json",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/tests-16-state.json",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "tests-16-routing-selection.jsonl",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/tests-16-routing-selection.jsonl",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-17-serial.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-17-serial.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-17-serial-project-cache.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-17-serial-project-cache.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-17-parallel.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-17-parallel.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-17-inprocess-race.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-17-inprocess-race.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-17-check.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-17-check.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-17-static.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-17-static.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-17-final.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-17-final.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "remediation-development-15.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/remediation-development-15.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "source-development-15.json",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/source-development-15.json",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "tests-14-verify.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/tests-14-verify.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "tests-14-state.json",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/tests-14-state.json",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "tests-14-routing-selection.jsonl",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/tests-14-routing-selection.jsonl",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-15-tests-initial.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-15-tests-initial.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-15-static-initial.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-15-static-initial.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-15-static-gate-failure.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-15-static-gate-failure.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-15-tests.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-15-tests.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-15-tests-final.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-15-tests-final.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-15-static.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-15-static.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "remediation-development-13.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/remediation-development-13.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "source-development-13.json",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/source-development-13.json",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-13-red.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-13-red.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-13-initial.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-13-initial.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-13-tests.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-13-tests.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-13-tests-final.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-13-tests-final.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-13-tests-candidate.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-13-tests-candidate.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-13-cancellation-repeat.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-13-cancellation-repeat.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-13-static.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-13-static.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "tests-12-state.json",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/tests-12-state.json",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "tests-12-partial-verify.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/tests-12-partial-verify.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "remediation-development-7.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/remediation-development-7.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "host-clean-verify.sh",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/host-clean-verify.sh",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-7-check.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-7-check.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "clean-before.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/clean-before.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "frontend-before.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/frontend-before.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "dependency-regression-before.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/dependency-regression-before.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "verify-before.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/verify-before.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "dependency-regression-after.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/dependency-regression-after.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "frontend-after.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/frontend-after.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "static-after.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/static-after.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "environment-after.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/environment-after.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "source-after.json",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/source-after.json",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "changed-files.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/changed-files.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-check.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-check.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "remediation-development-9.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/remediation-development-9.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "source-development-9.json",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/source-development-9.json",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-9-tests.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-9-tests.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-9-tests-final.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-9-tests-final.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-9-tests-candidate.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-9-tests-candidate.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-9-check.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-9-check.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-9-static.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-9-static.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "remediation-development-11.md",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/remediation-development-11.md",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "tests-10-verify.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/tests-10-verify.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "tests-10-state.json",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/tests-10-state.json",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-11-npm-before.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-11-npm-before.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "source-development-11.json",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/source-development-11.json",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-11-tests.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-11-tests.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-11-static.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-11-static.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-11-tests-initial.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-11-tests-initial.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-11-static-initial.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-11-static-initial.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-11-tests-intermediate.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-11-tests-intermediate.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "target": "development-11-static-intermediate.log",
+      "resolved": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/development-11-static-intermediate.log",
+      "local_target": "exists"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/pr.md",
+      "target": "https://github.com/big91987/model-relay/blob/workflow%2F3e7496815b9922704072482cf44e73e2/docs/workflow/runs/3e7496815b9922704072482cf44e73e2/README.md",
+      "repository_path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/README.md",
+      "local_target": "exists",
+      "remote_access": "Not verified; push pending"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/pr.md",
+      "target": "https://github.com/big91987/model-relay/blob/workflow%2F3e7496815b9922704072482cf44e73e2/docs/workflow/runs/3e7496815b9922704072482cf44e73e2/tasks/T001-clean-install.md",
+      "repository_path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/tasks/T001-clean-install.md",
+      "local_target": "exists",
+      "remote_access": "Not verified; push pending"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/pr.md",
+      "target": "https://github.com/big91987/model-relay/blob/workflow%2F3e7496815b9922704072482cf44e73e2/docs/workflow/runs/3e7496815b9922704072482cf44e73e2/milestones/M01-clean-install.md",
+      "repository_path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/milestones/M01-clean-install.md",
+      "local_target": "exists",
+      "remote_access": "Not verified; push pending"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/pr.md",
+      "target": "https://github.com/big91987/model-relay/blob/workflow%2F3e7496815b9922704072482cf44e73e2/docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/report-qa-21.md",
+      "repository_path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/report-qa-21.md",
+      "local_target": "exists",
+      "remote_access": "Not verified; push pending"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/pr.md",
+      "target": "https://github.com/big91987/model-relay/blob/workflow%2F3e7496815b9922704072482cf44e73e2/docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/matrix-qa-21.md",
+      "repository_path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/matrix-qa-21.md",
+      "local_target": "exists",
+      "remote_access": "Not verified; push pending"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/pr.md",
+      "target": "https://github.com/big91987/model-relay/blob/workflow%2F3e7496815b9922704072482cf44e73e2/docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/journeys-qa-21.md",
+      "repository_path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/journeys-qa-21.md",
+      "local_target": "exists",
+      "remote_access": "Not verified; push pending"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/pr.md",
+      "target": "https://github.com/big91987/model-relay/blob/workflow%2F3e7496815b9922704072482cf44e73e2/docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/archive-index.json",
+      "repository_path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/archive-index.json",
+      "local_target": "exists",
+      "remote_access": "Not verified; push pending"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/pr.md",
+      "target": "https://github.com/big91987/model-relay/blob/workflow%2F3e7496815b9922704072482cf44e73e2/docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/host-seq20/verify.log",
+      "repository_path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/host-seq20/verify.log",
+      "local_target": "exists",
+      "remote_access": "Not verified; push pending"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/pr.md",
+      "target": "https://github.com/big91987/model-relay/blob/workflow%2F3e7496815b9922704072482cf44e73e2/docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/host-seq20/state.json",
+      "repository_path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/host-seq20/state.json",
+      "local_target": "exists",
+      "remote_access": "Not verified; push pending"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/pr.md",
+      "target": "https://github.com/big91987/model-relay/blob/workflow%2F3e7496815b9922704072482cf44e73e2/docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/source-qa-21.json",
+      "repository_path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/source-qa-21.json",
+      "local_target": "exists",
+      "remote_access": "Not verified; push pending"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/pr.md",
+      "target": "https://github.com/big91987/model-relay/blob/workflow%2F3e7496815b9922704072482cf44e73e2/docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/summary-assessment-qa-21.md",
+      "repository_path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/summary-assessment-qa-21.md",
+      "local_target": "exists",
+      "remote_access": "Not verified; push pending"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/pr.md",
+      "target": "https://github.com/big91987/model-relay/blob/workflow%2F3e7496815b9922704072482cf44e73e2/docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/tests-18-verify.log",
+      "repository_path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/tests-18-verify.log",
+      "local_target": "exists",
+      "remote_access": "Not verified; push pending"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/pr.md",
+      "target": "https://github.com/big91987/model-relay/blob/workflow%2F3e7496815b9922704072482cf44e73e2/docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/tests-18-state.json",
+      "repository_path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/tests-18-state.json",
+      "local_target": "exists",
+      "remote_access": "Not verified; push pending"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/pr.md",
+      "target": "https://github.com/big91987/model-relay/blob/workflow%2F3e7496815b9922704072482cf44e73e2/docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/tests-18-continuous-1280.json",
+      "repository_path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/tests-18-continuous-1280.json",
+      "local_target": "exists",
+      "remote_access": "Not verified; push pending"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/pr.md",
+      "target": "https://github.com/big91987/model-relay/blob/workflow%2F3e7496815b9922704072482cf44e73e2/docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/qa-native/verify.log",
+      "repository_path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/qa-native/verify.log",
+      "local_target": "exists",
+      "remote_access": "Not verified; push pending"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/pr.md",
+      "target": "https://github.com/big91987/model-relay/blob/workflow%2F3e7496815b9922704072482cf44e73e2/docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/report-22-review.json",
+      "repository_path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/report-22-review.json",
+      "local_target": "exists",
+      "remote_access": "Not verified; push pending"
+    },
+    {
+      "from": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/pr.md",
+      "target": "https://github.com/big91987/model-relay/blob/workflow%2F3e7496815b9922704072482cf44e73e2/docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/release-handoff-qa-21.md",
+      "repository_path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/release-handoff-qa-21.md",
+      "local_target": "exists",
+      "remote_access": "Not verified; push pending"
+    }
+  ],
+  "remote_access": "Not verified; no push performed",
+  "archive_files_rechecked": 148,
+  "git_diff_check": "exit0",
+  "sensitive_text_check": {
+    "files": 139,
+    "scope": "Run text/log/JSON/script records; known home paths and long bearer/provider-key markers only",
+    "result": "No matches; not a comprehensive credential scanner or new image review"
+  },
+  "limits": {
+    "make_verify": "Not rerun by report; original seq20 verified through QA archive",
+    "qa_dynamic_browser": "Blocked",
+    "supplier": "Not Run",
+    "summary_history": "Open/P2/root cause unknown",
+    "git_commit_push_merge": "Not Run",
+    "formal_prepare_deployment_health_admin": "Not Run"
+  },
+  "next": "Connector commits/pushes exact candidate and documents; authorized coordinator reviews exact PR/merge then formal prepare and Owner preview Deployment/healthz schema3/admin/data/password receipts; no declaration of deployment before evidence"
+}

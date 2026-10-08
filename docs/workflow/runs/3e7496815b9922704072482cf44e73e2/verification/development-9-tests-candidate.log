@@ -1,0 +1,41 @@
+=== RUN   TestCleanVerificationDependencyOrder
+=== RUN   TestCleanVerificationDependencyOrder/frontend-test
+=== RUN   TestCleanVerificationDependencyOrder/browser
+=== RUN   TestCleanVerificationDependencyOrder/verify
+--- PASS: TestCleanVerificationDependencyOrder (0.05s)
+    --- PASS: TestCleanVerificationDependencyOrder/frontend-test (0.01s)
+    --- PASS: TestCleanVerificationDependencyOrder/browser (0.01s)
+    --- PASS: TestCleanVerificationDependencyOrder/verify (0.03s)
+=== RUN   TestDependencyFailureStopsConsumers
+=== RUN   TestDependencyFailureStopsConsumers/frontend-test
+=== RUN   TestDependencyFailureStopsConsumers/browser
+--- PASS: TestDependencyFailureStopsConsumers (0.82s)
+    --- PASS: TestDependencyFailureStopsConsumers/frontend-test (0.53s)
+    --- PASS: TestDependencyFailureStopsConsumers/browser (0.29s)
+PASS
+ok  	model-relay/tests/verification	2.246s
+=== RUN   TestCandidateCopyAndEnvironment
+--- PASS: TestCandidateCopyAndEnvironment (0.00s)
+=== RUN   TestCaptureChunkBoundariesAndFailure
+--- PASS: TestCaptureChunkBoundariesAndFailure (0.01s)
+=== RUN   TestOwnedGroupCancellation
+--- PASS: TestOwnedGroupCancellation (0.10s)
+=== RUN   TestFixedRunnerReceipts
+=== RUN   TestFixedRunnerReceipts/green_fixture
+verification_receipt=test-results/verification/20261008T172856Z-3433098808
+CLEAN_START {"started_utc":"2026-10-08T17:28:56.593177Z","finished_utc":"","command":"make verify -\u003e isolated make verify-gates","isolation":"new private candidate; git history read-only","node_modules_before":false,"clean_start_measured":true,"npm_cache_before":false,"node_modules_after":false,"npm_cache_after":false,"source_unchanged":false,"candidate_unchanged":false,"NODE_PATH":"unset","manual_preinstall":"none","source_before":{"head":"fixture","working_tree_sha256":"fixture"},"versions":{"go":"go-fixture","node":"node-fixture","npm":"npm-fixture"},"gate_exit":-1,"exit_code":1,"log_sha256":"","log_bytes":0,"cleanup":"not_started"}
+fixture gates stdout
+fixture gates stderr
+CLEAN_END gate_exit=0 source_unchanged=true NODE_PATH=unset
+=== RUN   TestFixedRunnerReceipts/failed_fixture
+verification_receipt=test-results/verification/20261008T172857Z-1225817830
+CLEAN_START {"started_utc":"2026-10-08T17:28:57.641915Z","finished_utc":"","command":"make verify -\u003e isolated make verify-gates","isolation":"new private candidate; git history read-only","node_modules_before":false,"clean_start_measured":true,"npm_cache_before":false,"node_modules_after":false,"npm_cache_after":false,"source_unchanged":false,"candidate_unchanged":false,"NODE_PATH":"unset","manual_preinstall":"none","source_before":{"head":"fixture","working_tree_sha256":"fixture"},"versions":{"go":"go-fixture","node":"node-fixture","npm":"npm-fixture"},"gate_exit":-1,"exit_code":1,"log_sha256":"","log_bytes":0,"cleanup":"not_started"}
+fixture gates stdout
+fixture gates stderr
+CLEAN_END gate_exit=23 source_unchanged=true NODE_PATH=unset
+FAILED: exit status 23
+--- PASS: TestFixedRunnerReceipts (1.99s)
+    --- PASS: TestFixedRunnerReceipts/green_fixture (1.05s)
+    --- PASS: TestFixedRunnerReceipts/failed_fixture (0.94s)
+PASS
+ok  	model-relay/tests/verify	3.845s

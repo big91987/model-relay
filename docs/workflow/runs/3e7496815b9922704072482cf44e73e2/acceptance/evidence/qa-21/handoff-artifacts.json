@@ -1,0 +1,184 @@
+{
+  "result": "Pass",
+  "source": {
+    "files": 147,
+    "go": "go1.25.6",
+    "head": "cd413b5aa24a372a19c19af999a6ef61b5c41572",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "f8befd158a543afeb1ba77778e4caf72e876f6e4b0b988dd4e6ab73de5e5eaab"
+  },
+  "host_archived_files": 148,
+  "artifacts": [
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/README.md",
+      "bytes": 7057,
+      "sha256": "41069d216b4926c15ba76e5140a83990a96c796e22570c3d7624590020ce2928"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/tasks/T001-clean-install.md",
+      "bytes": 8405,
+      "sha256": "6fe83dc3967ebe22c00a5cb229965c6c2f8f3bd95b90073098e0f8dbb90f35f5"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/milestones/M01-clean-install.md",
+      "bytes": 4200,
+      "sha256": "763553675c97779bafcce7c87731e36aba9428a99ca935619ddd3a1dc767b6c0"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/index.md",
+      "bytes": 15274,
+      "sha256": "9a02fde9b705302dcaeefb4f13b5183f8a97aa57baaafba0f75a42f112bb89d7"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/report-qa-21.md",
+      "bytes": 9706,
+      "sha256": "11e7ed67bb3e68dbf181559b02ce2fae54e40c23a643916dad00a3b7fc7f9513"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/matrix-qa-21.md",
+      "bytes": 7058,
+      "sha256": "e14d01f3d6df3fe7258446112b04ca1081ecbb840f8d1663f6c71fbf1e976499"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/journeys-qa-21.md",
+      "bytes": 3727,
+      "sha256": "f0f645ce6bfa8b8bd729d87ecaea5ae9979533ad8e4c96381a899c79605054f5"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/defects-qa-21.md",
+      "bytes": 3986,
+      "sha256": "41ab99c34c92de433a863faf55e70865b4b7c0b66480750368f42164043421e7"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/release-handoff-qa-21.md",
+      "bytes": 3856,
+      "sha256": "34beeb1aa006bf932c7a24cb06b4515ee4eca7e674a4df082ef308f7b9c51919"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/index.md",
+      "bytes": 3962,
+      "sha256": "942bf63181152b5c4fd4c320f2cb3296cdeac8bfbea9b78ce15a1dfa7ad9a554"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/archive-index.json",
+      "bytes": 38796,
+      "sha256": "3b58c00354a03b266f2b60c772ac26e1bd341b7c7a813ef6683cda155a51e66f"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/independent-review.json",
+      "bytes": 3588,
+      "sha256": "47ca106df349e3e5a3471e2d01bfa12e2507073684eb06b4ea2ba8f6e8250eed"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/source-qa-21.json",
+      "bytes": 357,
+      "sha256": "edcb90377bd661b01bd4fec69395871e7cd72da2a37f9b40ad90490c2729a612"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/host-seq20/verify.log",
+      "bytes": 310718,
+      "sha256": "7c4d3952943721deae9188a6f52f860572037ac8ea39ba55d278d6bf2c7abb7b"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/host-seq20/state.json",
+      "bytes": 3076,
+      "sha256": "40a711b6cca8fcdb254699688255be4b55758aa8751e3a12958c60fc2c4c585b"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/qa-native/verify.log",
+      "bytes": 146593,
+      "sha256": "5057aaccbb758d93b356ee9d86afa0b5ae2af2192fe0f7f6283e6a0c6badc186"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/qa-native/state.json",
+      "bytes": 2765,
+      "sha256": "ce52de725215f67ac8b467f62f64718c9faa9601fb893b67ce1d0ebe760a54d7"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/independent-go.log",
+      "bytes": 19877,
+      "sha256": "3f05f5664891a1b908bfd13dcef3126d76c5b3035241770942b1c4a8f3c7e0b8"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/independent-node.log",
+      "bytes": 19138,
+      "sha256": "05abf97afd8d9ad40d44873e002d0816c1d1e304e55087c725314e9ce622833b"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/independent-static.log",
+      "bytes": 107,
+      "sha256": "11ea5fee39d63db10b5c40cfbc0b029533bc333d9d60b28dbf2b30b1bf58a737"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/collection-check.log",
+      "bytes": 4588,
+      "sha256": "2b3941e616b4119d2c19beaf09aba34157b04d38e216b422b785439f5bde4429"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/collect.mjs",
+      "bytes": 5528,
+      "sha256": "49f78667e5bf027215b7528d8cf6fb348a9cf65e8ae4a4e639dcb9e78d0d4c8e"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/finalize.mjs",
+      "bytes": 3366,
+      "sha256": "67035bc66f6a779811c1f6dbe795e42babd416a0cb82e4173b92e38c9934f0af"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/host-seq20/browser/continuous-1280-62042.json",
+      "bytes": 325,
+      "sha256": "248815bbbc0f8b97baa522409858b0b3069ac0a3f7ec1b68a62b54e5298b0eec"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/host-seq20/browser/management-summary-1280.json",
+      "bytes": 266,
+      "sha256": "a1020a8c49e96b46ebcd5c76ff356f1c749a23132569d5251c03f2fb4a33d3c7"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/host-seq20/browser/visual-1280/review.json",
+      "bytes": 23816,
+      "sha256": "3c69e4a70801db1c4f07fb66cafdedb95814ae3e2b8ddab864eae96c9f81a164"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/summary-assessment-qa-21.md",
+      "bytes": 9268,
+      "sha256": "aa373a2e5eed3e98425433ed29f46d7e93ab31990324fafa66d2ba5357c4ee73"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/summary-history-review.json",
+      "bytes": 5388,
+      "sha256": "0b1d0c298cd6a93f32cd88f2564ba00e037052e97746f3019d317fe5c3f342e6"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/summary-source-review.json",
+      "bytes": 5524,
+      "sha256": "ac388817f229a75583e57f2145ea4f941e7825c22c70acae06a5592eaf16cdb2"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/summary-focused-contract.log",
+      "bytes": 548,
+      "sha256": "3986964a31cde99018e06602336a2db09cb451505460b36b45486cb845767c18"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/summary-review.mjs",
+      "bytes": 6280,
+      "sha256": "adfd5b29dcc363acd4cf2324d577d5193da73d29bfe49206283d3a28ac737d79"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/tests-18-verify.log",
+      "bytes": 307276,
+      "sha256": "cb92549be85d96006a9d9131a12067982e41abccf5e75147c7353f0803e7c430"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/tests-18-state.json",
+      "bytes": 2763,
+      "sha256": "2b1b1a996841bb1590a0e623802a144ffab8692705700988ad367240b984904e"
+    },
+    {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/tests-18-continuous-1280.json",
+      "bytes": 1347,
+      "sha256": "eb04e5b83f1cf17d4b79f064fc93a536d2e9221d71969365ac60638bebe10413"
+    }
+  ],
+  "followup": "Independent historical summary assessment; no full-gate rerun; historical state unmodified; Open/P2 unknown retained"
+}

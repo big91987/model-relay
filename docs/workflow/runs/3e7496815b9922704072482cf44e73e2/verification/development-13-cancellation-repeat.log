@@ -1,0 +1,39 @@
+=== RUN   TestInventoryCancellationReceipt
+verification_receipt=test-results/verification/20261008T180016Z-1185525145
+COMMAND_START stage=source-inventory
+
+COMMAND_END stage=source-inventory exit=-1 cancelled=true
+FAILED: source inventory: source-inventory: signal: terminated
+context deadline exceeded
+--- PASS: TestInventoryCancellationReceipt (0.06s)
+=== RUN   TestRunnerSIGTERMPersistsCleanup
+--- PASS: TestRunnerSIGTERMPersistsCleanup (0.45s)
+=== RUN   TestOwnedGroupCancellation
+--- PASS: TestOwnedGroupCancellation (0.10s)
+=== RUN   TestInventoryCancellationReceipt
+verification_receipt=test-results/verification/20261008T180016Z-1916496291
+COMMAND_START stage=source-inventory
+
+COMMAND_END stage=source-inventory exit=-1 cancelled=true
+FAILED: source inventory: source-inventory: signal: terminated
+context deadline exceeded
+--- PASS: TestInventoryCancellationReceipt (0.06s)
+=== RUN   TestRunnerSIGTERMPersistsCleanup
+--- PASS: TestRunnerSIGTERMPersistsCleanup (0.24s)
+=== RUN   TestOwnedGroupCancellation
+--- PASS: TestOwnedGroupCancellation (0.10s)
+=== RUN   TestInventoryCancellationReceipt
+verification_receipt=test-results/verification/20261008T180017Z-726260611
+COMMAND_START stage=source-inventory
+
+COMMAND_END stage=source-inventory exit=-1 cancelled=true
+FAILED: source inventory: source-inventory: signal: terminated
+context deadline exceeded
+--- PASS: TestInventoryCancellationReceipt (0.06s)
+=== RUN   TestRunnerSIGTERMPersistsCleanup
+--- PASS: TestRunnerSIGTERMPersistsCleanup (0.25s)
+=== RUN   TestOwnedGroupCancellation
+--- PASS: TestOwnedGroupCancellation (0.10s)
+PASS
+ok  	model-relay/tests/verify	2.825s
+exit_code=0

@@ -1,0 +1,16 @@
+command=make format-check
+exit_code=0
+command=go mod verify
+all modules verified
+exit_code=0
+command=go vet ./...
+exit_code=0
+command=make build
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+exit_code=0
+command=git diff --check
+exit_code=0
+command=go run ./tests/evidence (after checks)
+{"files":144,"go":"go1.25.6","head":"cd413b5aa24a372a19c19af999a6ef61b5c41572","scope":"product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference","working_tree_sha256":"23adc3748b3294e04f3dc7a4512f0e5ab8b118e2f48671aaae6370f5a3200a82"}
+exit_code=0
+overall_exit=0

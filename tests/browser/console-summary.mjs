@@ -1,5 +1,11 @@
 import assert from 'node:assert/strict';
 
+const summaryFailures=new WeakMap();
+
+export function summaryFailureFacts(error) {
+  return summaryFailures.get(error)??{available:false};
+}
+
 export function summaryMoney(value) {
   if(value==null)return '未知';
   const amount=BigInt(value),absolute=amount<0n?-amount:amount;
@@ -7,11 +13,27 @@ export function summaryMoney(value) {
 }
 
 export async function summaryCell(row,label,expected) {
-  assert.equal(await row.count(),1,'one exact live object row');
-  const headings=await row.locator('xpath=ancestor::table').locator('thead th').allTextContents();
-  const index=headings.indexOf(label);
-  assert.ok(index>=0,'required summary column: '+label);
-  assert.equal((await row.getByRole('cell').nth(index).textContent()).trim(),String(expected),'live summary value: '+label);
+  const facts={available:true,check:'row-count',column:label==='状态'?'model-status':'other'};
+  try {
+    facts.row_count=await row.count();
+    assert.equal(facts.row_count,1,'one exact live object row');
+    facts.check='column-present';
+    const headings=await row.locator('xpath=ancestor::table').locator('thead th').allTextContents();
+    const index=headings.indexOf(label);
+    facts.column_count=headings.length;facts.column_present=index>=0;
+    assert.ok(index>=0,'required summary column: '+label);
+    facts.check='cell-value';
+    const actual=(await row.getByRole('cell').nth(index).textContent()).trim();
+    facts.value_matches=actual===String(expected);
+    if(label==='状态') {
+      facts.expected_status=['启用','停用'].includes(String(expected))?String(expected):'other';
+      facts.observed_status=['启用','停用'].includes(actual)?actual:'other';
+    }
+    assert.equal(actual,String(expected),'live summary value: '+label);
+  } catch(error) {
+    summaryFailures.set(error,facts);
+    throw error;
+  }
 }
 
 export async function managementSummaryJourney(page,{tenants,models,nav,read,scope,save,closeDetail,ready,mark}) {

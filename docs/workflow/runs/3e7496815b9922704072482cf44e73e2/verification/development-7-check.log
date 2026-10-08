@@ -1,0 +1,39 @@
+development7 targeted/static checks; not full host verification
+command=bash -n host-clean-verify.sh
+exit_code=0
+command=go test -race -count=1 -v ./tests/verification
+=== RUN   TestCleanVerificationDependencyOrder
+=== RUN   TestCleanVerificationDependencyOrder/frontend-test
+=== RUN   TestCleanVerificationDependencyOrder/browser
+=== RUN   TestCleanVerificationDependencyOrder/verify
+--- PASS: TestCleanVerificationDependencyOrder (0.05s)
+    --- PASS: TestCleanVerificationDependencyOrder/frontend-test (0.01s)
+    --- PASS: TestCleanVerificationDependencyOrder/browser (0.01s)
+    --- PASS: TestCleanVerificationDependencyOrder/verify (0.03s)
+=== RUN   TestDependencyFailureStopsConsumers
+=== RUN   TestDependencyFailureStopsConsumers/frontend-test
+=== RUN   TestDependencyFailureStopsConsumers/browser
+--- PASS: TestDependencyFailureStopsConsumers (0.63s)
+    --- PASS: TestDependencyFailureStopsConsumers/frontend-test (0.43s)
+    --- PASS: TestDependencyFailureStopsConsumers/browser (0.20s)
+PASS
+ok  	model-relay/tests/verification	2.270s
+exit_code=0
+command=make format-check
+exit_code=0
+command=git diff --check
+exit_code=0
+command=go run ./tests/evidence
+{"files":142,"go":"go1.25.6","head":"cd413b5aa24a372a19c19af999a6ef61b5c41572","scope":"product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference","working_tree_sha256":"8e82aaa123df25a4758a1939fb2d018713831507aee337e18dfa6100c49f619e"}
+exit_code=0
+isolated-copy-preflight=passed; agent-sandbox-only; no make verify executed
+node_modules=absent
+local_npm_cache=absent
+NODE_PATH=unset
+NODE_OPTIONS=unset
+{"files":142,"go":"go1.25.6","head":"cd413b5aa24a372a19c19af999a6ef61b5c41572","scope":"product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference","working_tree_sha256":"8e82aaa123df25a4758a1939fb2d018713831507aee337e18dfa6100c49f619e"}
+exit_code=0
+final_capture_script_syntax
+exit_code=0
+final_diff_check
+exit_code=0

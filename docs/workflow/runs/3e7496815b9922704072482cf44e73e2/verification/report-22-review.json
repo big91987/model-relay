@@ -1,0 +1,142 @@
+{
+  "reviewed_utc": "2026-10-08T20:01:09.981Z",
+  "result": "Passed report consistency review; not a new make verify or deployment",
+  "source": {
+    "files": 147,
+    "go": "go1.25.6",
+    "head": "cd413b5aa24a372a19c19af999a6ef61b5c41572",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "f8befd158a543afeb1ba77778e4caf72e876f6e4b0b988dd4e6ab73de5e5eaab"
+  },
+  "branch": "workflow/3e7496815b9922704072482cf44e73e2",
+  "remote": "https://github.com/big91987/model-relay.git",
+  "archived_files_verified": 148,
+  "archive_index": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/archive-index.json",
+  "runner": {
+    "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/acceptance/evidence/qa-21/host-seq20/verify.log",
+    "bytes": 310718,
+    "sha256": "7c4d3952943721deae9188a6f52f860572037ac8ea39ba55d278d6bf2c7abb7b"
+  },
+  "connector": {
+    "seq": 20,
+    "bytes": 310815,
+    "exit_code": 0,
+    "truncated": false,
+    "offsets": [
+      0,
+      32768,
+      65536,
+      98304,
+      131072,
+      163840,
+      196608,
+      229376,
+      262144,
+      294912
+    ],
+    "next_offset": 310815,
+    "eof": true,
+    "full_runner_is_not_connector_full_output": true
+  },
+  "clean_state": {
+    "node_modules_before": false,
+    "npm_cache_before": false,
+    "NODE_PATH": "unset",
+    "manual_preinstall": "none",
+    "source_unchanged": true,
+    "candidate_unchanged": true,
+    "exit_code": 0,
+    "gate_exit": 0,
+    "cleanup": "owned_process_group_cleanup_attempted; candidate_removed",
+    "owned_group_absent": true
+  },
+  "locks": [
+    {
+      "path": "Makefile",
+      "bytes": 1032,
+      "sha256": "4997a2baaa4068306bb480bb2aad2254ebe700bcfb3345cd0dda6a2841708302"
+    },
+    {
+      "path": "README.md",
+      "bytes": 21351,
+      "sha256": "5ef9e48808f1cc6639d0ef89e1a56190defc6c3ef03c8ece837a016e0116577c"
+    },
+    {
+      "path": "package.json",
+      "bytes": 115,
+      "sha256": "1a2755144abab6752719532bd09707cc2a09067d29d60e406cb3835999e89a3a"
+    },
+    {
+      "path": "package-lock.json",
+      "bytes": 1709,
+      "sha256": "05459652f98128ebcb6786e2d80bf694d23c437c0d4f7d45c56371da511bc688"
+    },
+    {
+      "path": "go.mod",
+      "bytes": 156,
+      "sha256": "43a61905ab453f007d88c21bd3066453570fb6d9bd533247b94b81612b615477"
+    },
+    {
+      "path": "go.sum",
+      "bytes": 489,
+      "sha256": "9afb7f3a178eab537ac50d13d8f518553386f2ebf4e0fce528cbc6b2f8be99d5"
+    },
+    {
+      "path": "tests/verify/main.go",
+      "bytes": 17694,
+      "sha256": "a57141093ee44755e7f138bdf9a0cf90889a6bce2fe74ff390ce546a9d344126"
+    },
+    {
+      "path": "tests/verify/main_test.go",
+      "bytes": 20456,
+      "sha256": "a3a2040ae4f5d2c9d7bdff35b05600b4581063d8305d253e9462a89b0db42cdc"
+    },
+    {
+      "path": "tests/browser/console-summary.mjs",
+      "bytes": 8687,
+      "sha256": "187a7df473957652dfbcd935ea412e73d5275dcacbe9793315995ecf5964b50c"
+    },
+    {
+      "path": "tests/browser/journeys.mjs",
+      "bytes": 48813,
+      "sha256": "e3316d1f2698318368d43fd8afb71ed50b159d9d6528dda096c7532d4d1e19a5"
+    }
+  ],
+  "history": {
+    "seq18": {
+      "path": "docs/workflow/runs/3e7496815b9922704072482cf44e73e2/verification/tests-18-verify.log",
+      "bytes": 307276,
+      "sha256": "cb92549be85d96006a9d9131a12067982e41abccf5e75147c7353f0803e7c430"
+    },
+    "gate_exit": 2,
+    "diagnosis": "Open; root cause unknown; seq20 does not close history"
+  },
+  "material": {
+    "version": "design-v0.2.0",
+    "status": "frozen-for-test-implementation",
+    "manifest_path": ".workflow-input/3e7496815b9922704072482cf44e73e2/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/manifest.json",
+    "archive": {
+      "path": ".workflow-input/3e7496815b9922704072482cf44e73e2/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/archive.zip",
+      "bytes": 261636,
+      "sha256": "5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7"
+    },
+    "referenced_files": [
+      {
+        "path": ".workflow-input/3e7496815b9922704072482cf44e73e2/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/docs/acceptance.md",
+        "bytes": 5730,
+        "sha256": "2792740b1579d614780856a13b6257d192736e1efc0309f1dc41405a665bef7a"
+      },
+      {
+        "path": ".workflow-input/3e7496815b9922704072482cf44e73e2/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/docs/interactions.md",
+        "bytes": 6329,
+        "sha256": "95f3490ef003fa9b19dd6b9e864dd3b0429619b8cd9d0ecec853919d6a12c801"
+      }
+    ]
+  },
+  "runtime_locks_deploy_unchanged": true,
+  "qa_native": "Blocked; not host seq20",
+  "qa_dynamic_browser": "Blocked",
+  "supplier": "Not Run",
+  "git_publication": "Not Run",
+  "formal_deployment": "Not Run"
+}

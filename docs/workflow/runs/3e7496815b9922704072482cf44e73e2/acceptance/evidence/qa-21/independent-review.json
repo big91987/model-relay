@@ -1,0 +1,96 @@
+{
+  "source": {
+    "files": 147,
+    "go": "go1.25.6",
+    "head": "cd413b5aa24a372a19c19af999a6ef61b5c41572",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "f8befd158a543afeb1ba77778e4caf72e876f6e4b0b988dd4e6ab73de5e5eaab"
+  },
+  "branch": "workflow/3e7496815b9922704072482cf44e73e2",
+  "checks": [
+    {
+      "kind": "go",
+      "result": "Pass",
+      "file": "independent-go.log",
+      "original_sha256": "3f05f5664891a1b908bfd13dcef3126d76c5b3035241770942b1c4a8f3c7e0b8",
+      "archived_sha256": "3f05f5664891a1b908bfd13dcef3126d76c5b3035241770942b1c4a8f3c7e0b8",
+      "bytes": 19877,
+      "redaction": "source/home/temporary host paths only"
+    },
+    {
+      "kind": "node",
+      "result": "Pass",
+      "file": "independent-node.log",
+      "original_sha256": "05abf97afd8d9ad40d44873e002d0816c1d1e304e55087c725314e9ce622833b",
+      "archived_sha256": "05abf97afd8d9ad40d44873e002d0816c1d1e304e55087c725314e9ce622833b",
+      "bytes": 19138,
+      "redaction": "source/home/temporary host paths only"
+    },
+    {
+      "kind": "static",
+      "result": "Pass",
+      "file": "independent-static.log",
+      "original_sha256": "11ea5fee39d63db10b5c40cfbc0b029533bc333d9d60b28dbf2b30b1bf58a737",
+      "archived_sha256": "11ea5fee39d63db10b5c40cfbc0b029533bc333d9d60b28dbf2b30b1bf58a737",
+      "bytes": 107,
+      "redaction": "source/home/temporary host paths only"
+    }
+  ],
+  "locks": [
+    {
+      "path": "Makefile",
+      "sha256": "4997a2baaa4068306bb480bb2aad2254ebe700bcfb3345cd0dda6a2841708302"
+    },
+    {
+      "path": "README.md",
+      "sha256": "5ef9e48808f1cc6639d0ef89e1a56190defc6c3ef03c8ece837a016e0116577c"
+    },
+    {
+      "path": "package.json",
+      "sha256": "1a2755144abab6752719532bd09707cc2a09067d29d60e406cb3835999e89a3a"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "05459652f98128ebcb6786e2d80bf694d23c437c0d4f7d45c56371da511bc688"
+    },
+    {
+      "path": "go.mod",
+      "sha256": "43a61905ab453f007d88c21bd3066453570fb6d9bd533247b94b81612b615477"
+    },
+    {
+      "path": "go.sum",
+      "sha256": "9afb7f3a178eab537ac50d13d8f518553386f2ebf4e0fce528cbc6b2f8be99d5"
+    },
+    {
+      "path": "tests/verify/main.go",
+      "sha256": "a57141093ee44755e7f138bdf9a0cf90889a6bce2fe74ff390ce546a9d344126"
+    },
+    {
+      "path": "tests/verify/main_test.go",
+      "sha256": "a3a2040ae4f5d2c9d7bdff35b05600b4581063d8305d253e9462a89b0db42cdc"
+    },
+    {
+      "path": "tests/browser/console-summary.mjs",
+      "sha256": "187a7df473957652dfbcd935ea412e73d5275dcacbe9793315995ecf5964b50c"
+    },
+    {
+      "path": "tests/browser/journeys.mjs",
+      "sha256": "e3316d1f2698318368d43fd8afb71ed50b159d9d6528dda096c7532d4d1e19a5"
+    }
+  ],
+  "native": {
+    "result": "Blocked",
+    "make_exit": 2,
+    "runner_exit": 1,
+    "gate_exit": 2,
+    "receipt": "test-results/verification/20261008T193951Z-1230671575",
+    "bytes": 146593,
+    "sha256": "5057aaccbb758d93b356ee9d86afa0b5ae2af2192fe0f7f6283e6a0c6badc186",
+    "cleanup": "owned_process_group_cleanup_attempted; candidate_removed",
+    "owned_group_absent": true,
+    "source_unchanged": true,
+    "reason": "historical listener unavailable; not business red",
+    "browser": "Blocked; not reached"
+  },
+  "collection_note": "First collector incorrectly expected a top-level result on console-faults JSON; corrected to validate five per-case outcomes without changing original receipts or product."
+}

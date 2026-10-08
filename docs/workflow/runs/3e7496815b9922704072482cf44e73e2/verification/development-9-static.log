@@ -1,0 +1,13 @@
+command=make format-check
+exit_code=0
+command=go mod verify
+all modules verified
+exit_code=0
+command=make vet
+go vet ./...
+exit_code=0
+command=make build
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+exit_code=0
+command=git diff --check
+exit_code=0

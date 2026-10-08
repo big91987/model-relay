@@ -3,6 +3,7 @@ import { chromium } from 'playwright';
 import { mkdir, appendFile } from 'node:fs/promises';
 import { observeSelection } from './selection-trace.mjs';
 import { typeAheadCandidate } from './candidate-keyboard.mjs';
+import { routingProgress } from './routing-progress.mjs';
 
 const browser = await chromium.launch({headless: true});
 const origin = process.env.RELAY_BROWSER_URL;
@@ -162,9 +163,30 @@ try {
     assert.equal(await page.locator('#model-edit').isVisible(), true); await input(page, page.locator('#edit-candidates fieldset').nth(1).getByLabel('同级权重'), '1'); await press(page, '取消编辑');
     await panel(page, '应用密钥', 'keys'); if (!await page.locator('#key-create').evaluate(node => node.open)) { await focus(page, page.locator('#key-create summary')); await page.keyboard.press('Enter'); };
     await input(page, page.getByLabel('密钥名称'), 'routing-key-' + width); await press(page, '签发密钥'); await page.locator('#issued').waitFor({state: 'visible'}); const key = await page.locator('#issued-key').inputValue(); await press(page, '关闭展示');
+    let callSequence = 0;
     async function call(stream = false, message = 'route ordinary') {
-      await panel(page, '调用测试', 'test'); await select(page, page.getByLabel('调用别名'), alias); await input(page, page.getByLabel('应用密钥', {exact: true}), key); await input(page, page.getByLabel('文本消息'), message); await checked(page, page.getByLabel('SSE 流式'), stream);
-      const pending = page.waitForResponse(response => new URL(response.url()).pathname === '/v1/chat/completions'); await press(page, '发送请求'); const result = await pending; if (!stream) { assert.equal(result.status(), 200); await page.locator('#test-status').filter({hasText: '完成'}).waitFor(); } return result;
+      const progress = routingProgress(width, ++callSequence);
+      let ok = false;
+      try {
+        await progress.step('panel', () => panel(page, '调用测试', 'test'));
+        await progress.step('alias', () => select(page, page.getByLabel('调用别名'), alias));
+        await progress.step('key', () => input(page, page.getByLabel('应用密钥', {exact: true}), key));
+        await progress.step('message', () => input(page, page.getByLabel('文本消息'), message));
+        await progress.step('stream', () => checked(page, page.getByLabel('SSE 流式'), stream));
+        const result = await progress.step('send', async () => {
+          const pending = page.waitForResponse(response => new URL(response.url()).pathname === '/v1/chat/completions');
+          await press(page, '发送请求');
+          return await pending;
+        });
+        if (!stream) {
+          assert.equal(result.status(), 200);
+          await progress.step('complete', () => page.locator('#test-status').filter({hasText: '完成'}).waitFor());
+        }
+        ok = true;
+        return result;
+      } finally {
+        progress.finish(ok);
+      }
     }
     async function edit(callback) { await panel(page, '模型', 'models'); await press(page, '编辑映射 ' + alias); await callback(page.locator('#edit-candidates fieldset')); const saved = page.waitForResponse(response => response.request().method() === 'PATCH' && new URL(response.url()).pathname === '/admin/api/models/' + alias); const reread = page.waitForResponse(response => response.request().method() === 'GET' && new URL(response.url()).pathname === '/admin/api/models'); await press(page, '保存映射'); assert.equal((await saved).status(), 200); await reread; await page.locator('#model-edit').waitFor({state: 'hidden'}); await page.locator('#notice').filter({hasText: '映射已保存'}).waitFor(); }
     await context.request.post(control + '/route/reset'); stage = `actual weighted selection ${width}`;
@@ -202,9 +224,15 @@ try {
     await edit(async rows => input(page, rows.nth(1).getByLabel('优先级（大数先用）'), '10')); await context.request.post(control + '/route/reset'); for (let index = 0; index < 10; index++) await call(); assert.deepEqual(await counts(context), {primary: 0, secondary: 10, checks: 0});
     await edit(async rows => checked(page, rows.nth(1).getByLabel('参与路由'), false)); await context.request.post(control + '/route/reset'); await call(); assert.deepEqual(await counts(context), {primary: 1, secondary: 0, checks: 0});
     await edit(async rows => { await checked(page, rows.nth(1).getByLabel('参与路由'), true); await input(page, rows.nth(1).getByLabel('优先级（大数先用）'), '0'); await input(page, rows.nth(0).getByLabel('同级权重'), '1'); });
-    stage = `failover and unknown consumption ${width}`; await context.request.post(control + '/route/reset'); await context.request.post(control + '/route/fail'); const recovered = await call(); const id = recovered.headers()['x-request-id'];
-    await press(page, '查看本次记录'); await page.locator('#record-detail').filter({hasText: id}).waitFor(); const text = await page.locator('#record-detail').textContent(); assert.ok(text.includes('尝试 1') && text.includes('尝试 2') && text.includes('完整合计 未知') && text.includes('未知尝试 1')); assert.deepEqual(await counts(context), {primary: 1, secondary: 1, checks: 0});
-    await call(); assert.deepEqual(await counts(context), {primary: 1, secondary: 2, checks: 0}); await panel(page, '模型', 'models'); await page.locator('#model-list').filter({hasText: '暂时冷却'}).waitFor();
+    stage = `failover reset ${width}`; await context.request.post(control + '/route/reset');
+    stage = `failover fixture ${width}`; await context.request.post(control + '/route/fail');
+    stage = `failover request ${width}`; const recovered = await call(); const id = recovered.headers()['x-request-id'];
+    stage = `failover record action ${width}`; await press(page, '查看本次记录');
+    stage = `failover record rendering ${width}`; await page.locator('#record-detail').filter({hasText: id}).waitFor();
+    const text = await page.locator('#record-detail').textContent(); assert.ok(text.includes('尝试 1') && text.includes('尝试 2') && text.includes('完整合计 未知') && text.includes('未知尝试 1'));
+    stage = `failover counts ${width}`; assert.deepEqual(await counts(context), {primary: 1, secondary: 1, checks: 0});
+    stage = `cooldown request ${width}`; await call(); assert.deepEqual(await counts(context), {primary: 1, secondary: 2, checks: 0});
+    stage = `cooldown model rendering ${width}`; await panel(page, '模型', 'models'); await page.locator('#model-list').filter({hasText: '暂时冷却'}).waitFor();
     await context.request.post(control + '/route/recover'); await page.waitForTimeout(31000); stage = `passive recovery ${width}`; await call(); assert.equal((await counts(context)).primary, 2);
     await edit(async rows => input(page, rows.nth(0).getByLabel('优先级（大数先用）'), '100')); await context.request.post(control + '/route/reset'); stage = `committed stream no replay ${width}`;
     await call(true, 'route stream cut'); await page.locator('#test-status').filter({hasText: '失败'}).waitFor(); assert.equal((await counts(context)).secondary, 0);

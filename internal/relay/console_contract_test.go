@@ -526,6 +526,7 @@ func pauseUsageScenario(test *testing.T, actual bool) {
 }
 
 func peopleScopeScenario(test *testing.T, actual bool) {
+	test.Parallel()
 	fixture := governedInstallation(test, actual)
 	admin := &fixture.admin
 	status, other := admin.call("POST", "tenants", map[string]any{"name": "Other isolated tenant"}, "")

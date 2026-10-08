@@ -1,0 +1,58 @@
+# model-relay/internal/relay.test
+ld: warning: '<temp>/go-link-2877588071/000023.o' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Moved_Permanently
+=== PAUSE TestRoutingTemporaryAllowlistAndUnknownTotals/Moved_Permanently
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Bad_Request
+=== PAUSE TestRoutingTemporaryAllowlistAndUnknownTotals/Bad_Request
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Unauthorized
+=== PAUSE TestRoutingTemporaryAllowlistAndUnknownTotals/Unauthorized
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Forbidden
+=== PAUSE TestRoutingTemporaryAllowlistAndUnknownTotals/Forbidden
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Not_Found
+=== PAUSE TestRoutingTemporaryAllowlistAndUnknownTotals/Not_Found
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Request_Timeout
+=== PAUSE TestRoutingTemporaryAllowlistAndUnknownTotals/Request_Timeout
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Too_Many_Requests
+=== PAUSE TestRoutingTemporaryAllowlistAndUnknownTotals/Too_Many_Requests
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Internal_Server_Error
+=== PAUSE TestRoutingTemporaryAllowlistAndUnknownTotals/Internal_Server_Error
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Not_Implemented
+=== PAUSE TestRoutingTemporaryAllowlistAndUnknownTotals/Not_Implemented
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Bad_Gateway
+=== PAUSE TestRoutingTemporaryAllowlistAndUnknownTotals/Bad_Gateway
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Service_Unavailable
+=== PAUSE TestRoutingTemporaryAllowlistAndUnknownTotals/Service_Unavailable
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/Gateway_Timeout
+=== PAUSE TestRoutingTemporaryAllowlistAndUnknownTotals/Gateway_Timeout
+=== RUN   TestRoutingTemporaryAllowlistAndUnknownTotals/HTTP_Version_Not_Supported
+=== PAUSE TestRoutingTemporaryAllowlistAndUnknownTotals/HTTP_Version_Not_Supported
+=== CONT  TestRoutingTemporaryAllowlistAndUnknownTotals/Moved_Permanently
+=== CONT  TestRoutingTemporaryAllowlistAndUnknownTotals/Not_Implemented
+=== CONT  TestRoutingTemporaryAllowlistAndUnknownTotals/Forbidden
+=== CONT  TestRoutingTemporaryAllowlistAndUnknownTotals/Request_Timeout
+=== CONT  TestRoutingTemporaryAllowlistAndUnknownTotals/Not_Found
+=== CONT  TestRoutingTemporaryAllowlistAndUnknownTotals/Bad_Gateway
+=== CONT  TestRoutingTemporaryAllowlistAndUnknownTotals/HTTP_Version_Not_Supported
+=== CONT  TestRoutingTemporaryAllowlistAndUnknownTotals/Service_Unavailable
+=== CONT  TestRoutingTemporaryAllowlistAndUnknownTotals/Bad_Request
+=== CONT  TestRoutingTemporaryAllowlistAndUnknownTotals/Unauthorized
+=== CONT  TestRoutingTemporaryAllowlistAndUnknownTotals/Too_Many_Requests
+=== CONT  TestRoutingTemporaryAllowlistAndUnknownTotals/Gateway_Timeout
+=== CONT  TestRoutingTemporaryAllowlistAndUnknownTotals/Internal_Server_Error
+--- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals (0.00s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Forbidden (2.54s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Not_Implemented (2.54s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Request_Timeout (2.54s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Moved_Permanently (2.56s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Bad_Gateway (2.54s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/HTTP_Version_Not_Supported (2.53s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Service_Unavailable (2.53s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Not_Found (2.55s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Unauthorized (2.52s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Bad_Request (2.52s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Too_Many_Requests (2.52s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Gateway_Timeout (2.53s)
+    --- PASS: TestRoutingTemporaryAllowlistAndUnknownTotals/Internal_Server_Error (2.41s)
+PASS
+ok  	model-relay/internal/relay	11.765s

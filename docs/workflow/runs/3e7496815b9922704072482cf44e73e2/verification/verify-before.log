@@ -1,0 +1,7 @@
+go run ./tests/evidence
+{"files":141,"go":"go1.25.6","head":"cd413b5aa24a372a19c19af999a6ef61b5c41572","scope":"product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference","working_tree_sha256":"617a4a3660812d88da23371019d838e0948536535a6171c806a21fb4c0275f29"}
+go run ./tests/review-history
+review historical HTTP rejected: historical listener unavailable; not business red
+exit status 1
+make: *** [verify] Error 1
+exit_code=2

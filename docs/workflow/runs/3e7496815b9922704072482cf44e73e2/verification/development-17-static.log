@@ -1,0 +1,9 @@
+# model-relay/tests/browser.test
+ld: warning: '<temp>/go-link-1659945128/000023.o' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestBrowserPhasePreservesResult
+--- PASS: TestBrowserPhasePreservesResult (0.00s)
+PASS
+ok  	model-relay/tests/browser	1.443s
+all modules verified
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+EXIT_CODE=0

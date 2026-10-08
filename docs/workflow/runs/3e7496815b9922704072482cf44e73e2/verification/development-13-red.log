@@ -1,0 +1,34 @@
+=== RUN   TestCopyRejectsParentEscape
+    main_test.go:61: copied outside input through tracked parent symlink
+--- FAIL: TestCopyRejectsParentEscape (0.00s)
+=== RUN   TestFixedRunnerReceipts
+=== RUN   TestFixedRunnerReceipts/evidence_failed_fixture
+verification_receipt=test-results/verification/20261008T175122Z-1938165038
+FAILED: source digest: exit status 25
+    main_test.go:226: evidence-stdout-diagnostic
+=== RUN   TestFixedRunnerReceipts/probe_failed_fixture
+verification_receipt=test-results/verification/20261008T175123Z-587899208
+PREREQUISITE tool=go output=go-fixture
+PREREQUISITE tool=node output=node-fixture
+PREREQUISITE tool=npm output=npm-fixture
+CLEAN_START {"started_utc":"2026-10-08T17:51:23.345627Z","finished_utc":"","command":"make verify -\u003e isolated make verify-gates","isolation":"new private candidate; git history read-only","node_modules_before":false,"clean_start_measured":true,"npm_cache_before":false,"node_modules_after":false,"npm_cache_after":false,"source_unchanged":false,"candidate_unchanged":false,"NODE_PATH":"unset","manual_preinstall":"none","source_before":{"head":"fixture","working_tree_sha256":"fixture"},"versions":{"go":"go-fixture","node":"node-fixture","npm":"npm-fixture"},"gate_exit":-1,"exit_code":1,"log_sha256":"","log_bytes":0,"cleanup":"not_started"}
+fixture gates stdout
+fixture gates stderr
+CLEAN_END gate_exit=0 source_unchanged=true NODE_PATH=unset
+FAILED: exit status 26
+    main_test.go:226: probe-stdout-diagnostic
+--- FAIL: TestFixedRunnerReceipts (2.55s)
+    --- FAIL: TestFixedRunnerReceipts/evidence_failed_fixture (0.79s)
+    --- FAIL: TestFixedRunnerReceipts/probe_failed_fixture (1.75s)
+FAIL
+FAIL	model-relay/tests/verify	3.112s
+FAIL
+=== RUN   TestInventoryCancellationReceipt
+verification_receipt=test-results/verification/20261008T175151Z-1689998444
+FAILED: source inventory: exit status 27
+    main_test.go:84: inventory did not observe cancellation: err=source inventory: exit status 27 elapsed=1.037504833s
+--- FAIL: TestInventoryCancellationReceipt (1.04s)
+FAIL
+FAIL	model-relay/tests/verify	1.493s
+FAIL
+exit_code=1

@@ -1,0 +1,13 @@
+✔ summary money preserves exact decimal precision and distinguishes unknown from zero (0.581625ms)
+✔ live summary assertion rejects absent columns, wrong values and ambiguous rows (0.844875ms)
+✔ summary diagnostics keep original assertion and distinguish its exact boundary without raw values (0.980417ms)
+✔ summary locator failures retain original error identity and bounded diagnostic (0.146083ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 70.929625
+QA_SUMMARY_FOCUSED_EXIT=0
