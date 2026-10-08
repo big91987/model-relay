@@ -1,0 +1,4 @@
+all modules verified
+go vet ./...
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+syntax_format_modules_vet_build_diff_exit=0

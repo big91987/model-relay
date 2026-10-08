@@ -1,0 +1,5 @@
+2026-10-08T10:31:58+0800
+all modules verified
+go vet ./...
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+2026-10-08T10:31:59+0800

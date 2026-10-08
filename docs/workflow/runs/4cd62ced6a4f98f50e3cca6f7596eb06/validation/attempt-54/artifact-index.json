@@ -1,0 +1,96 @@
+{
+  "candidate": "editor-route-cleanup-r1",
+  "execution": 54,
+  "source": {
+    "files": 134,
+    "go": "go1.25.6",
+    "head": "98511771871cf0951ecef716bbb55deb13e18da5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "6c674fcb21eba6c31818a9de7d564c520c3ef2c14a72fc0065308088a835c9a3"
+  },
+  "gate": "complete host Pending; independent QA Pending; QA47-01 P1 Open / AC01 Fail; QA47-02 P2 Open; publication Not Run",
+  "verification_entry": "make verify",
+  "verification_timeout_seconds": 900,
+  "artifacts": [
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-54/checks.md",
+      "bytes": 4842,
+      "sha256": "eadd36cf18fce4eed12c8ae52d2f06099e9fd2d0765d9057ec066e76dfcaf88a"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-54/host-seq53-summary.md",
+      "bytes": 2058,
+      "sha256": "1ee9b273fd9843697f0809fddd09c54b92b18287997676e843cbf80c4aa76ac8"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-54/source-evidence.json",
+      "bytes": 336,
+      "sha256": "57ffd61eaed2666e38261d451fd490b995d6ca74484fc60d7ee812109a6679f8"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-54/material-integrity.json",
+      "bytes": 6941,
+      "sha256": "04c1293532a3ab70dfc2680bb997b676f71412857c1af8dc27f5db5790ca4a11"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-54/playwright-source-diagnostic.json",
+      "bytes": 979,
+      "sha256": "4f345de2d9b685bd44c3a46ec3daaa71a6aadae9d0bcb2ec3d9c93f70cc81afb"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-54/route-diagnostic.log",
+      "bytes": 3197,
+      "sha256": "9bded5fee2c5597b1a02e23f5428bf54362bcf2500931b7abff09052715f2302"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-54/frontend.log",
+      "bytes": 18464,
+      "sha256": "7a475f122dedb3313ca0f2c48c09ca1273a6c774288b63c9afbbe1944d5ed8a4"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-54/static.log",
+      "bytes": 90,
+      "sha256": "6d16006e9b37eb1e9e066a287387cdbaa80a3c5acb3588eab78d09ad32639df6"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/delivery/tasks/T001-console.md",
+      "bytes": 28059,
+      "sha256": "a08d27910a9c69d22dbc793abc56e3dc7d636e2000c97e754ce7da5488520ac7"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/delivery/README.md",
+      "bytes": 18348,
+      "sha256": "cc6467a4bcdfa36133bc2c6a11bd4c456ca051e1e113e4692ad8974109d80070"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/report.md",
+      "bytes": 33646,
+      "sha256": "5dd0d041fbbce3cc8223b57941fc3940bff3d95fb6054eeb090c17ba9cd24023"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance-matrix.md",
+      "bytes": 35660,
+      "sha256": "cabbc89b71d3931917f0756aae1f12d9d6fe062a9e7d2883e9854b6a82b54bf5"
+    },
+    {
+      "path": ".trellis/spec/frontend/workspace-contracts.md",
+      "bytes": 54524,
+      "sha256": "87f9f830b124cb2c6778179ca2fe4e56d7646eb260bfbf6d875e49136f6f2776"
+    },
+    {
+      "path": "tests/browser/console.mjs",
+      "bytes": 21840,
+      "sha256": "eb4f375d87f4c00e1eef8662ecdf1fd14e14e0d8ede7a18796df485c6d609810"
+    },
+    {
+      "path": "tests/browser/workspace.test.mjs",
+      "bytes": 30099,
+      "sha256": "71ba6c16ee2babdc9143bff1e55fb0972c12b559ddf26e7217629abfc30281c4"
+    },
+    {
+      "path": "tests/browser/route-cleanup.test.mjs",
+      "bytes": 1451,
+      "sha256": "3f509c823eb7b1845cca6b04a7e7b8b958f75da8c24cb34f4649a6713505dc71"
+    }
+  ]
+}

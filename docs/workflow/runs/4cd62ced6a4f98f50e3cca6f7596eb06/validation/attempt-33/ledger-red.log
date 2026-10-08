@@ -1,0 +1,42 @@
+✖ J06 reconciliation reads append-only cumulative charges, not the first revision (2.455125ms)
+✔ scope refresh cannot complete on old content before asynchronous tenant removal settles (2.674ms)
+✔ failure boundary projects only the owning source position, never assertion values or host paths (0.544833ms)
+✔ J05 member transitions have independent attribution without removing scope assertions (0.168708ms)
+✔ pause conservation evidence only projects exact amounts and safe counters (1.649375ms)
+✔ J05 retains original resume fee assertion and checks each independent rejection boundary (0.095208ms)
+✔ completion failure evidence is a bounded whitelist, never raw provider or request data (0.442625ms)
+✔ actual fresh-install driver requires zero collections, not migrated legacy tenants (6.964292ms)
+✔ production Key formatter distinguishes safe states and precise grace/expiry boundaries (3.171292ms)
+✔ continuous driver uses actual product labels and rotation receipt contract (0.155542ms)
+✔ scope-required empty state replaces loading instead of leaving a perpetual loading placeholder (0.347167ms)
+✔ request-detail log navigation keeps tenant and existing safe filters (0.377917ms)
+✔ full suite stays additive to make verify with every frozen journey and all viewports (1.400125ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 12
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 108.092667
+
+✖ failing tests:
+
+test at tests/browser/journeys.test.mjs:11:1
+✖ J06 reconciliation reads append-only cumulative charges, not the first revision (2.455125ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  '0' !== '21'
+  
+      at evalmachine.<anonymous>:1:148
+      at async run (file://<workspace>/tests/browser/journeys.test.mjs:21:5)
+      at async TestContext.<anonymous> (file://<workspace>/tests/browser/journeys.test.mjs:24:17)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '0',
+    expected: '21',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

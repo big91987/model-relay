@@ -1,0 +1,49 @@
+{
+  "current_records": [
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-50/editor-red.log",
+      "original_sha256": "512e2ec65268c7f49f48a1d0f2803ddb3605040d3a14bc19ae5a9178fbd1a2d2",
+      "retained_sha256": "c12ea477b13f73612390c885132271f321c0f69a6d0278fb6491c3a0b8e8ce5f",
+      "redacted": true,
+      "rule": "workspace absolute path replaced by <workspace>; assertions and exit outcomes retained"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-50/editor-green.log",
+      "original_sha256": "d7e93043959955aa1dfab2fb80689c7e03f529ca683b795c25a87ead45cc6095",
+      "retained_sha256": "d7e93043959955aa1dfab2fb80689c7e03f529ca683b795c25a87ead45cc6095",
+      "redacted": false,
+      "rule": "workspace absolute path replaced by <workspace>; assertions and exit outcomes retained"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-50/frontend.log",
+      "original_sha256": "dfdab00ccb9a2abf6b14a3a3c4e4ba15b671ff1977e786b61863aa8956dd4c39",
+      "retained_sha256": "dfdab00ccb9a2abf6b14a3a3c4e4ba15b671ff1977e786b61863aa8956dd4c39",
+      "redacted": false,
+      "rule": "workspace absolute path replaced by <workspace>; assertions and exit outcomes retained"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-50/static.log",
+      "original_sha256": "6d16006e9b37eb1e9e066a287387cdbaa80a3c5acb3588eab78d09ad32639df6",
+      "retained_sha256": "6d16006e9b37eb1e9e066a287387cdbaa80a3c5acb3588eab78d09ad32639df6",
+      "redacted": false,
+      "rule": "workspace absolute path replaced by <workspace>; assertions and exit outcomes retained"
+    }
+  ],
+  "previous_success_log_digests_only": [
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-50/frontend.log",
+      "original_sha256": "445dd6def780b03a64a6b94ae9fa2226e9b71d5af79c53a0950d557bb7ad5751",
+      "retained_sha256": "445dd6def780b03a64a6b94ae9fa2226e9b71d5af79c53a0950d557bb7ad5751",
+      "redacted": false,
+      "rule": "workspace absolute path replaced by <workspace>; assertions and exit outcomes retained"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-50/static.log",
+      "original_sha256": "6d16006e9b37eb1e9e066a287387cdbaa80a3c5acb3588eab78d09ad32639df6",
+      "retained_sha256": "6d16006e9b37eb1e9e066a287387cdbaa80a3c5acb3588eab78d09ad32639df6",
+      "redacted": false,
+      "rule": "workspace absolute path replaced by <workspace>; assertions and exit outcomes retained"
+    }
+  ],
+  "note": "The final successful revalidation replaces frontend/static logs; earlier success digests are retained, not complete earlier logs. Red and green editor reproductions remain unchanged."
+}

@@ -23,6 +23,7 @@ type Upstream struct {
 	CredentialConfigured bool         `json:"credential_configured"`
 	Check                *CheckResult `json:"check"`
 	Encrypted            []byte       `json:"-"`
+	SourceKind           string       `json:"source_kind,omitempty"`
 }
 
 type CheckResult struct {
@@ -43,6 +44,11 @@ func (store *Store) upstreamByID(id int64) (Upstream, error) {
 	value.CredentialConfigured = len(value.Encrypted) > 0
 	if err != nil {
 		return value, err
+	}
+	if store.Schema == 3 {
+		if err := store.DB.QueryRow("SELECT source_kind FROM service_profiles WHERE upstream_id=?", id).Scan(&value.SourceKind); err != nil {
+			return value, err
+		}
 	}
 	var check CheckResult
 	err = store.DB.QueryRow("SELECT id,execution_revision,state,started_at,finished_at,duration_ms,error_code,upstream_status FROM upstream_checks WHERE upstream_id=? ORDER BY id DESC LIMIT 1", id).Scan(&check.ID, &check.ExecutionRevision, &check.State, &check.Started, &check.Finished, &check.Duration, &check.Code, &check.Status)
@@ -164,14 +170,19 @@ func (server *Server) upstreams(writer http.ResponseWriter, request *http.Reques
 		return
 	}
 	var input struct {
-		Name     string `json:"name"`
-		URL      string `json:"url"`
-		Token    string `json:"token"`
-		Enabled  *bool  `json:"enabled"`
-		Expected *int64 `json:"expected_revision"`
+		Name       string `json:"name"`
+		URL        string `json:"url"`
+		Token      string `json:"token"`
+		Enabled    *bool  `json:"enabled"`
+		Expected   *int64 `json:"expected_revision"`
+		SourceKind string `json:"source_kind"`
 	}
 	if jsonInput(writer, request, &input) != nil || input.Enabled == nil || !validName(strings.TrimSpace(input.Name)) || len(input.Token) > 8192 || strings.ContainsAny(input.Token, "\r\n\x00") || !creating && input.Expected == nil {
 		failure(writer, 400, "invalid_request", "")
+		return
+	}
+	if input.SourceKind != "" && input.SourceKind != "provider" && input.SourceKind != "self_hosted" && input.SourceKind != "unspecified" {
+		failure(writer, 400, "invalid_source_kind", "")
 		return
 	}
 	normalized, err := server.Config.Policy.URL(request.Context(), input.URL)
@@ -244,6 +255,24 @@ func (server *Server) upstreams(writer http.ResponseWriter, request *http.Reques
 	if _, err = transaction.Exec("UPDATE upstream SET name=?,url=?,token=?,enabled=?,revision=?,execution_revision=? WHERE id=?", strings.TrimSpace(input.Name), normalized, encrypted, *input.Enabled, revision, execution, id); err != nil {
 		failure(writer, 503, "storage_unavailable", "")
 		return
+	}
+	if server.Store.Schema == 3 {
+		kind := input.SourceKind
+		if kind == "" {
+			kind = current.SourceKind
+		}
+		if kind == "" {
+			kind = "unspecified"
+		}
+		if _, err := transaction.Exec("INSERT INTO service_profiles VALUES(?,?) ON CONFLICT(upstream_id) DO UPDATE SET source_kind=excluded.source_kind", id, kind); err != nil {
+			failure(writer, 503, "storage_unavailable", "")
+			return
+		}
+		currentSession, _ := server.getSession(request)
+		if auditIdentity(transaction, currentSession.UserID, "", "upstream.write", strconv.FormatInt(id, 10)) != nil {
+			failure(writer, 503, "storage_unavailable", "")
+			return
+		}
 	}
 	if configChanged(transaction) != nil || transaction.Commit() != nil {
 		failure(writer, 503, "storage_unavailable", "")
@@ -494,6 +523,13 @@ func (server *Server) routeModels(writer http.ResponseWriter, request *http.Requ
 			}
 		}
 		if _, err = transaction.Exec("INSERT INTO route_candidates VALUES(?,?,?,?,?,?,?)", alias, candidate.UpstreamID, candidate.RemoteModel, *candidate.Enabled, *candidate.Priority, *candidate.Weight, execution); err != nil {
+			failure(writer, 503, "storage_unavailable", "")
+			return
+		}
+	}
+	if server.Store.Schema == 3 {
+		currentSession, _ := server.getSession(request)
+		if auditIdentity(transaction, currentSession.UserID, "", "model.write", alias) != nil {
 			failure(writer, 503, "storage_unavailable", "")
 			return
 		}

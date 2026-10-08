@@ -43,6 +43,9 @@ func (server *Server) routedGenerate(writer http.ResponseWriter, request *http.R
 			if code == "unauthorized" {
 				status = 401
 			}
+			if code == "tenant_paused" || code == "model_forbidden" {
+				status = 403
+			}
 			if code == "request_timeout" {
 				status = 504
 				state = "timeout"
@@ -121,6 +124,15 @@ func (server *Server) routedGenerate(writer http.ResponseWriter, request *http.R
 		if record.Stream {
 			outgoing.Header.Set("Accept", "text/event-stream")
 		}
+		if server.Store.Schema == 3 {
+			if _, err := server.Store.DB.Exec("UPDATE attempt_dispatches SET possible=1 WHERE request_id=? AND ordinal=?", record.ID, attempt.Ordinal); err != nil {
+				persist("rejected", "storage_unavailable")
+				output.stop()
+				server.storageFailure()
+				respond(503, "rejected", "storage_unavailable")
+				return
+			}
+		}
 		response, err := server.client.Do(outgoing)
 		if err != nil {
 			status, state, errorCode = classify(output.child, err, false)
@@ -128,6 +140,14 @@ func (server *Server) routedGenerate(writer http.ResponseWriter, request *http.R
 		} else {
 			record.Status = &response.StatusCode
 			if response.StatusCode != 200 {
+				if server.Store.Schema == 3 {
+					data, err := io.ReadAll(io.LimitReader(response.Body, (1<<20)+1))
+					if err == nil && len(data) <= 1<<20 && uniqueJSON(data) {
+						if value, ok := object(data); ok {
+							record.Usage = usageFrom(value)
+						}
+					}
+				}
 				temporary = temporaryStatus(response.StatusCode)
 				errorCode = "upstream_http_error"
 				if response.StatusCode >= 300 && response.StatusCode < 400 {

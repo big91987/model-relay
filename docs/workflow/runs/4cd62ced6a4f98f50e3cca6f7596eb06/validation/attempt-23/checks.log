@@ -1,0 +1,29 @@
+date_utc=2026-10-07T22:06:23Z
+98511771871cf0951ecef716bbb55deb13e18da5
+
+command=make format-check
+exit_code=0
+
+command=go mod verify
+all modules verified
+exit_code=0
+
+command=make vet
+go vet ./...
+exit_code=0
+
+command=make build
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+exit_code=0
+
+command=node --check internal/relay/web/workspace.js
+exit_code=0
+
+command=node --check tests/browser/journeys.mjs
+exit_code=0
+# model-relay/internal/relay.test
+ld: warning: '<temporary-object>' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+ok  	model-relay/internal/relay	27.208s
+targeted_go_exit_code=0
+ok  	model-relay/tests/browser	0.454s [no tests to run]
+browser_compile_exit_code=0

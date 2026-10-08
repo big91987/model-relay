@@ -1,0 +1,17 @@
+{
+  "suite": "continuous-console",
+  "width": 390,
+  "result": "passed",
+  "checkpoints": [
+    "J01",
+    "J02",
+    "J03",
+    "J04",
+    "J05",
+    "J07",
+    "J06"
+  ],
+  "provider": "controlled_http_not_supplier",
+  "clock": "explicit_test_clock_no_database_edits",
+  "cleanup": "isolated_directory_servers_contexts"
+}

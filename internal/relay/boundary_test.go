@@ -43,6 +43,7 @@ func TestHeaderBoundaryAndFailureContract(t *testing.T) {
 	server.sessions[string(digest(session))] = struct {
 		CSRF   string
 		Expiry time.Time
+		UserID string
 	}{CSRF: csrf, Expiry: time.Now().Add(time.Hour)}
 	admin := func(method, path, body string) *httptest.ResponseRecorder {
 		request := httptest.NewRequest(method, "http://127.0.0.1:5544/admin/api/"+path, strings.NewReader(body))

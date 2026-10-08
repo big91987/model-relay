@@ -23,6 +23,9 @@ func (server *Server) generate(writer http.ResponseWriter, request *http.Request
 	writer.Header().Set("X-Request-ID", id)
 	started := time.Now()
 	record := Record{ID: id, Time: started.UTC().Format(time.RFC3339Nano)}
+	if server.Store.Schema == 3 {
+		record.Time = server.Store.now().Format(time.RFC3339Nano)
+	}
 	server.mu.RLock()
 	keyID, ok := server.identifyKey(request)
 	server.mu.RUnlock()
@@ -113,6 +116,16 @@ func (server *Server) generate(writer http.ResponseWriter, request *http.Request
 		reject(400, code)
 		return
 	}
+	if server.Store.Schema == 3 {
+		if allowed, code := server.Store.authorizeModel(keyID, alias); !allowed {
+			status := 403
+			if code == "storage_unavailable" {
+				status = 503
+			}
+			reject(status, code)
+			return
+		}
+	}
 	server.mu.Lock()
 	keyID, ok = server.appID(request)
 	if !ok {
@@ -137,6 +150,21 @@ func (server *Server) generate(writer http.ResponseWriter, request *http.Request
 		server.storageFailure()
 		failure(writer, 503, "storage_unavailable", id)
 		return
+	}
+	if server.Store.Schema == 3 {
+		server.mu.Lock()
+		code, status, prior := server.Store.admit(record, snapshot, payload, request)
+		server.mu.Unlock()
+		if code != "" {
+			finish("rejected", code)
+			if prior != "" {
+				writer.Header().Set("X-Request-ID", prior)
+				failure(writer, status, code, prior)
+				return
+			}
+			failure(writer, status, code, id)
+			return
+		}
 	}
 	server.routedGenerate(writer, request, ctx, &record, payload, snapshot, finish)
 }

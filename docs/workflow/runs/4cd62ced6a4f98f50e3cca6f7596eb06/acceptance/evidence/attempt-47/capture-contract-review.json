@@ -1,0 +1,647 @@
+{
+  "kind": "Static Review of current real-browser receipts, not a newly executed UI journey",
+  "reviews": [
+    {
+      "width": 1280,
+      "scope": {
+        "kind": "tenant",
+        "id": "hohlzE0qM5_sYyZq5bm93w"
+      },
+      "pages": [
+        {
+          "page": "overview",
+          "columns": {},
+          "row_actions": []
+        },
+        {
+          "page": "models",
+          "columns": {
+            "公共模型": true,
+            "协议能力": true,
+            "状态": true,
+            "版本": true
+          },
+          "row_actions": [
+            "编辑",
+            "租户授权",
+            "上界",
+            "详情"
+          ],
+          "detail": [
+            "路由候选",
+            "价格版本",
+            "上界依据"
+          ],
+          "editor": [
+            "公共模型名",
+            "服务",
+            "远端模型名",
+            "首候选优先级（越大越优先）",
+            "首候选权重",
+            "首候选启用",
+            "启用"
+          ]
+        },
+        {
+          "page": "services",
+          "columns": {
+            "服务": true,
+            "来源": true,
+            "基础地址": true,
+            "状态": true,
+            "核验事实": true
+          },
+          "row_actions": [
+            "编辑",
+            "核验",
+            "详情"
+          ],
+          "detail": [
+            "名称",
+            "基础地址",
+            "启用"
+          ],
+          "editor": [
+            "服务名称",
+            "来源类型",
+            "兼容API基础地址",
+            "上游凭据（编辑留空保留同地址原值）"
+          ]
+        },
+        {
+          "page": "keys",
+          "columns": {
+            "名称": true,
+            "应用": true,
+            "安全标识": true,
+            "模型授权": true,
+            "状态": true,
+            "期限": true,
+            "费用已用 / 预留 / 上限": true
+          },
+          "row_actions": [
+            "详情",
+            "额度 / 用量",
+            "历史",
+            "编辑",
+            "轮换",
+            "撤销"
+          ],
+          "detail": [
+            "本周期次数",
+            "每分钟请求 RPM",
+            "每分钟收费Token TPM（含预留）",
+            "本地活跃并发",
+            "费用预算（USD）"
+          ],
+          "editor": [
+            "名称",
+            "应用",
+            "模型授权（可多选）",
+            "诊断开发者（可多选）",
+            "UTC到期时间（留空为无限）",
+            "启用"
+          ]
+        },
+        {
+          "page": "tenants",
+          "columns": {
+            "租户": true,
+            "状态": true,
+            "人员资格": true,
+            "账号": true,
+            "角色": true,
+            "到期": true
+          },
+          "row_actions": [],
+          "editor": [
+            "邮箱账号",
+            "角色",
+            "有效小时（1–168）"
+          ]
+        },
+        {
+          "page": "limits",
+          "columns": {
+            "独立维度": true,
+            "有效上限": true,
+            "已用 / 含预留": true,
+            "剩余": true,
+            "平台上界": true
+          },
+          "row_actions": [],
+          "editor": [
+            "本周期次数",
+            "每分钟请求 RPM",
+            "每分钟收费Token TPM",
+            "本地并发",
+            "费用预算（微美元）",
+            "硬费用预算（需要供应商可信收费Token上界）"
+          ]
+        },
+        {
+          "page": "usage",
+          "columns": {
+            "模型": true,
+            "请求": true,
+            "已确认输入Tokens": true,
+            "已确认输出Tokens": true,
+            "已确认租户费": true,
+            "已确认供应商成本": true,
+            "待确认": true,
+            "保守预留": true
+          },
+          "row_actions": []
+        },
+        {
+          "page": "billing",
+          "columns": {
+            "模型": true,
+            "租户输入 USD/百万Token": true,
+            "租户输出 USD/百万Token": true,
+            "周期": true,
+            "原 / 已确认费用": true,
+            "成本": true,
+            "待确认": true
+          },
+          "row_actions": [
+            "版本",
+            "发布新价"
+          ],
+          "detail": [
+            "供应商输入成本（微美元 / 百万Token）",
+            "供应商输出成本（微美元 / 百万Token）",
+            "租户输入价格（微美元 / 百万Token）",
+            "租户输出价格（微美元 / 百万Token）"
+          ],
+          "editor": [
+            "服务ID",
+            "供应商输入成本（微美元 / 百万Token）",
+            "供应商输出成本（微美元 / 百万Token）",
+            "租户输入价格（微美元 / 百万Token）",
+            "租户输出价格（微美元 / 百万Token）"
+          ]
+        },
+        {
+          "page": "records",
+          "columns": {
+            "时间": true,
+            "Request ID": true,
+            "公共模型": true,
+            "状态": true,
+            "Token总量": true,
+            "已确认租户费": true,
+            "已确认供应商成本": true,
+            "耗时ms": true,
+            "待确认": true
+          },
+          "row_actions": [],
+          "detail": [
+            "调用尝试",
+            "受理价格快照",
+            "追加计费明细"
+          ]
+        },
+        {
+          "page": "playground",
+          "columns": {},
+          "row_actions": []
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "scope": {
+        "kind": "tenant",
+        "id": "6MAIx60e-UiMjBmdx31BYw"
+      },
+      "pages": [
+        {
+          "page": "overview",
+          "columns": {},
+          "row_actions": []
+        },
+        {
+          "page": "models",
+          "columns": {
+            "公共模型": true,
+            "协议能力": true,
+            "状态": true,
+            "版本": true
+          },
+          "row_actions": [
+            "编辑",
+            "租户授权",
+            "上界",
+            "详情"
+          ],
+          "detail": [
+            "路由候选",
+            "价格版本",
+            "上界依据"
+          ],
+          "editor": [
+            "公共模型名",
+            "服务",
+            "远端模型名",
+            "首候选优先级（越大越优先）",
+            "首候选权重",
+            "首候选启用",
+            "启用"
+          ]
+        },
+        {
+          "page": "services",
+          "columns": {
+            "服务": true,
+            "来源": true,
+            "基础地址": true,
+            "状态": true,
+            "核验事实": true
+          },
+          "row_actions": [
+            "编辑",
+            "核验",
+            "详情"
+          ],
+          "detail": [
+            "名称",
+            "基础地址",
+            "启用"
+          ],
+          "editor": [
+            "服务名称",
+            "来源类型",
+            "兼容API基础地址",
+            "上游凭据（编辑留空保留同地址原值）"
+          ]
+        },
+        {
+          "page": "keys",
+          "columns": {
+            "名称": true,
+            "应用": true,
+            "安全标识": true,
+            "模型授权": true,
+            "状态": true,
+            "期限": true,
+            "费用已用 / 预留 / 上限": true
+          },
+          "row_actions": [
+            "详情",
+            "额度 / 用量",
+            "历史",
+            "编辑",
+            "轮换",
+            "撤销"
+          ],
+          "detail": [
+            "本周期次数",
+            "每分钟请求 RPM",
+            "每分钟收费Token TPM（含预留）",
+            "本地活跃并发",
+            "费用预算（USD）"
+          ],
+          "editor": [
+            "名称",
+            "应用",
+            "模型授权（可多选）",
+            "诊断开发者（可多选）",
+            "UTC到期时间（留空为无限）",
+            "启用"
+          ]
+        },
+        {
+          "page": "tenants",
+          "columns": {
+            "租户": true,
+            "状态": true,
+            "人员资格": true,
+            "账号": true,
+            "角色": true,
+            "到期": true
+          },
+          "row_actions": [],
+          "editor": [
+            "邮箱账号",
+            "角色",
+            "有效小时（1–168）"
+          ]
+        },
+        {
+          "page": "limits",
+          "columns": {
+            "独立维度": true,
+            "有效上限": true,
+            "已用 / 含预留": true,
+            "剩余": true,
+            "平台上界": true
+          },
+          "row_actions": [],
+          "editor": [
+            "本周期次数",
+            "每分钟请求 RPM",
+            "每分钟收费Token TPM",
+            "本地并发",
+            "费用预算（微美元）",
+            "硬费用预算（需要供应商可信收费Token上界）"
+          ]
+        },
+        {
+          "page": "usage",
+          "columns": {
+            "模型": true,
+            "请求": true,
+            "已确认输入Tokens": true,
+            "已确认输出Tokens": true,
+            "已确认租户费": true,
+            "已确认供应商成本": true,
+            "待确认": true,
+            "保守预留": true
+          },
+          "row_actions": []
+        },
+        {
+          "page": "billing",
+          "columns": {
+            "模型": true,
+            "租户输入 USD/百万Token": true,
+            "租户输出 USD/百万Token": true,
+            "周期": true,
+            "原 / 已确认费用": true,
+            "成本": true,
+            "待确认": true
+          },
+          "row_actions": [
+            "版本",
+            "发布新价"
+          ],
+          "detail": [
+            "供应商输入成本（微美元 / 百万Token）",
+            "供应商输出成本（微美元 / 百万Token）",
+            "租户输入价格（微美元 / 百万Token）",
+            "租户输出价格（微美元 / 百万Token）"
+          ],
+          "editor": [
+            "服务ID",
+            "供应商输入成本（微美元 / 百万Token）",
+            "供应商输出成本（微美元 / 百万Token）",
+            "租户输入价格（微美元 / 百万Token）",
+            "租户输出价格（微美元 / 百万Token）"
+          ]
+        },
+        {
+          "page": "records",
+          "columns": {
+            "时间": true,
+            "Request ID": true,
+            "公共模型": true,
+            "状态": true,
+            "Token总量": true,
+            "已确认租户费": true,
+            "已确认供应商成本": true,
+            "耗时ms": true,
+            "待确认": true
+          },
+          "row_actions": [],
+          "detail": [
+            "调用尝试",
+            "受理价格快照",
+            "追加计费明细"
+          ]
+        },
+        {
+          "page": "playground",
+          "columns": {},
+          "row_actions": []
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "scope": {
+        "kind": "tenant",
+        "id": "KabXFMpbsr_e3wc38-MoFQ"
+      },
+      "pages": [
+        {
+          "page": "overview",
+          "columns": {},
+          "row_actions": []
+        },
+        {
+          "page": "models",
+          "columns": {
+            "公共模型": true,
+            "协议能力": true,
+            "状态": true,
+            "版本": true
+          },
+          "row_actions": [
+            "编辑",
+            "租户授权",
+            "上界",
+            "详情"
+          ],
+          "detail": [
+            "路由候选",
+            "价格版本",
+            "上界依据"
+          ],
+          "editor": [
+            "公共模型名",
+            "服务",
+            "远端模型名",
+            "首候选优先级（越大越优先）",
+            "首候选权重",
+            "首候选启用",
+            "启用"
+          ]
+        },
+        {
+          "page": "services",
+          "columns": {
+            "服务": true,
+            "来源": true,
+            "基础地址": true,
+            "状态": true,
+            "核验事实": true
+          },
+          "row_actions": [
+            "编辑",
+            "核验",
+            "详情"
+          ],
+          "detail": [
+            "名称",
+            "基础地址",
+            "启用"
+          ],
+          "editor": [
+            "服务名称",
+            "来源类型",
+            "兼容API基础地址",
+            "上游凭据（编辑留空保留同地址原值）"
+          ]
+        },
+        {
+          "page": "keys",
+          "columns": {
+            "名称": true,
+            "应用": true,
+            "安全标识": true,
+            "模型授权": true,
+            "状态": true,
+            "期限": true,
+            "费用已用 / 预留 / 上限": true
+          },
+          "row_actions": [
+            "详情",
+            "额度 / 用量",
+            "历史",
+            "编辑",
+            "轮换",
+            "撤销"
+          ],
+          "detail": [
+            "本周期次数",
+            "每分钟请求 RPM",
+            "每分钟收费Token TPM（含预留）",
+            "本地活跃并发",
+            "费用预算（USD）"
+          ],
+          "editor": [
+            "名称",
+            "应用",
+            "模型授权（可多选）",
+            "诊断开发者（可多选）",
+            "UTC到期时间（留空为无限）",
+            "启用"
+          ]
+        },
+        {
+          "page": "tenants",
+          "columns": {
+            "租户": true,
+            "状态": true,
+            "人员资格": true,
+            "账号": true,
+            "角色": true,
+            "到期": true
+          },
+          "row_actions": [],
+          "editor": [
+            "邮箱账号",
+            "角色",
+            "有效小时（1–168）"
+          ]
+        },
+        {
+          "page": "limits",
+          "columns": {
+            "独立维度": true,
+            "有效上限": true,
+            "已用 / 含预留": true,
+            "剩余": true,
+            "平台上界": true
+          },
+          "row_actions": [],
+          "editor": [
+            "本周期次数",
+            "每分钟请求 RPM",
+            "每分钟收费Token TPM",
+            "本地并发",
+            "费用预算（微美元）",
+            "硬费用预算（需要供应商可信收费Token上界）"
+          ]
+        },
+        {
+          "page": "usage",
+          "columns": {
+            "模型": true,
+            "请求": true,
+            "已确认输入Tokens": true,
+            "已确认输出Tokens": true,
+            "已确认租户费": true,
+            "已确认供应商成本": true,
+            "待确认": true,
+            "保守预留": true
+          },
+          "row_actions": []
+        },
+        {
+          "page": "billing",
+          "columns": {
+            "模型": true,
+            "租户输入 USD/百万Token": true,
+            "租户输出 USD/百万Token": true,
+            "周期": true,
+            "原 / 已确认费用": true,
+            "成本": true,
+            "待确认": true
+          },
+          "row_actions": [
+            "版本",
+            "发布新价"
+          ],
+          "detail": [
+            "供应商输入成本（微美元 / 百万Token）",
+            "供应商输出成本（微美元 / 百万Token）",
+            "租户输入价格（微美元 / 百万Token）",
+            "租户输出价格（微美元 / 百万Token）"
+          ],
+          "editor": [
+            "服务ID",
+            "供应商输入成本（微美元 / 百万Token）",
+            "供应商输出成本（微美元 / 百万Token）",
+            "租户输入价格（微美元 / 百万Token）",
+            "租户输出价格（微美元 / 百万Token）"
+          ]
+        },
+        {
+          "page": "records",
+          "columns": {
+            "时间": true,
+            "Request ID": true,
+            "公共模型": true,
+            "状态": true,
+            "Token总量": true,
+            "已确认租户费": true,
+            "已确认供应商成本": true,
+            "耗时ms": true,
+            "待确认": true
+          },
+          "row_actions": [],
+          "detail": [
+            "调用尝试",
+            "受理价格快照",
+            "追加计费明细"
+          ]
+        },
+        {
+          "page": "playground",
+          "columns": {},
+          "row_actions": []
+        }
+      ]
+    }
+  ],
+  "observations": [
+    {
+      "id": "QA47-01",
+      "result": "Fail",
+      "pages": [
+        "models",
+        "services",
+        "tenants"
+      ],
+      "reason": "Frozen major summary information absent from current tables; current capture contract does not assert it."
+    },
+    {
+      "id": "QA47-02",
+      "result": "Fail",
+      "page": "records",
+      "reason": "Unqualified Token total remains unknown for a reconciled request with confirmed input 3/output 4 in usage. Original upstream facts may stay immutable; UI must distinguish them from reconciled facts."
+    }
+  ]
+}

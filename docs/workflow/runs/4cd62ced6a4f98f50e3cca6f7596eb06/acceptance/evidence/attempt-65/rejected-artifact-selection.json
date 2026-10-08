@@ -1,0 +1,113 @@
+{
+  "reason": "Historical process IDs rejected by actual mtime check before QA decision; originals remain in test-results and historical QA evidence; not current seq64 evidence",
+  "rejected": [
+    {
+      "source": "test-results/continuous-1280-96921.json",
+      "retained": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-65/host/continuous-1280-96921.json",
+      "sha256": "248815bbbc0f8b97baa522409858b0b3069ac0a3f7ec1b68a62b54e5298b0eec",
+      "provenance": "seq64 current host artifacts; UI execution from host, not independent QA browser operation"
+    },
+    {
+      "source": "test-results/continuous-1280-after-correction-96921.png",
+      "retained": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-65/host/continuous-1280-after-correction-96921.png",
+      "sha256": "0774ce27760f8a650fdfff9faa34a6566878fe111865a03768e0ae03cb11a6a5",
+      "provenance": "seq64 current host artifacts; UI execution from host, not independent QA browser operation"
+    },
+    {
+      "source": "test-results/continuous-1280-before-correction-96921.png",
+      "retained": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-65/host/continuous-1280-before-correction-96921.png",
+      "sha256": "57930892f355ea2f4d13f8ba2decfb47a30b8a37597dd53e2ba90d787273a9c5",
+      "provenance": "seq64 current host artifacts; UI execution from host, not independent QA browser operation"
+    },
+    {
+      "source": "test-results/continuous-1280-before-rotation-96921.png",
+      "retained": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-65/host/continuous-1280-before-rotation-96921.png",
+      "sha256": "6e67f027863ec0d1aa350e36959d2bed86af29dcaa1909cd792cf5c17f6ceb7d",
+      "provenance": "seq64 current host artifacts; UI execution from host, not independent QA browser operation"
+    },
+    {
+      "source": "test-results/continuous-1280-final-96921.png",
+      "retained": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-65/host/continuous-1280-final-96921.png",
+      "sha256": "74597d0d50859ca62e6169ae7f31043806259c883a0533aef41e6ba088d59a16",
+      "provenance": "seq64 current host artifacts; UI execution from host, not independent QA browser operation"
+    },
+    {
+      "source": "test-results/continuous-1280-key-states-96921.png",
+      "retained": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-65/host/continuous-1280-key-states-96921.png",
+      "sha256": "bf66c0c502a4e2e4bfb52f4e87726ad0c8bfdeab5daafe7aed6a6596293798ce",
+      "provenance": "seq64 current host artifacts; UI execution from host, not independent QA browser operation"
+    },
+    {
+      "source": "test-results/continuous-1440-96937.json",
+      "retained": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-65/host/continuous-1440-96937.json",
+      "sha256": "01ffab95b09427714760f14d3808c67f4a4e6b0f87a5029640128a8495fadb2e",
+      "provenance": "seq64 current host artifacts; UI execution from host, not independent QA browser operation"
+    },
+    {
+      "source": "test-results/continuous-1440-after-correction-96937.png",
+      "retained": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-65/host/continuous-1440-after-correction-96937.png",
+      "sha256": "5536774d4fe4913b3eb3ddd832f63df6bb7e5ba691d1250ed5a683113c7762f4",
+      "provenance": "seq64 current host artifacts; UI execution from host, not independent QA browser operation"
+    },
+    {
+      "source": "test-results/continuous-1440-before-correction-96937.png",
+      "retained": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-65/host/continuous-1440-before-correction-96937.png",
+      "sha256": "98204def0df51aa80bbca0fee921327bf7f157d0a508abd39491b9ce2a83b173",
+      "provenance": "seq64 current host artifacts; UI execution from host, not independent QA browser operation"
+    },
+    {
+      "source": "test-results/continuous-1440-before-rotation-96937.png",
+      "retained": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-65/host/continuous-1440-before-rotation-96937.png",
+      "sha256": "270a26d556fb2fe8172a1ce156b2bfeb48e2bc6f1bd878c77c565f96a1d93469",
+      "provenance": "seq64 current host artifacts; UI execution from host, not independent QA browser operation"
+    },
+    {
+      "source": "test-results/continuous-1440-final-96937.png",
+      "retained": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-65/host/continuous-1440-final-96937.png",
+      "sha256": "13a27e9354db45cc323a103c5e3176181a6e0892e03342b8d3e261a121a16bdd",
+      "provenance": "seq64 current host artifacts; UI execution from host, not independent QA browser operation"
+    },
+    {
+      "source": "test-results/continuous-1440-key-states-96937.png",
+      "retained": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-65/host/continuous-1440-key-states-96937.png",
+      "sha256": "34c2755590805cfb48ec8c5a9f4e53969c571029afd653876b31c27c0659451b",
+      "provenance": "seq64 current host artifacts; UI execution from host, not independent QA browser operation"
+    },
+    {
+      "source": "test-results/continuous-390-96963.json",
+      "retained": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-65/host/continuous-390-96963.json",
+      "sha256": "4599c2734373a8b90d5e6a4183a0269118167838f5f48ef6c2b9f99c898b3d24",
+      "provenance": "seq64 current host artifacts; UI execution from host, not independent QA browser operation"
+    },
+    {
+      "source": "test-results/continuous-390-after-correction-96963.png",
+      "retained": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-65/host/continuous-390-after-correction-96963.png",
+      "sha256": "1e776e967a6caa9bb7be7d0975b118641413a3bfe2348b3b6d81ecfadeb175a0",
+      "provenance": "seq64 current host artifacts; UI execution from host, not independent QA browser operation"
+    },
+    {
+      "source": "test-results/continuous-390-before-correction-96963.png",
+      "retained": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-65/host/continuous-390-before-correction-96963.png",
+      "sha256": "b4bcb5f9fa14ebbe9f6bb82142bffea4c8531d50bef00b2c5161f9f716c93d23",
+      "provenance": "seq64 current host artifacts; UI execution from host, not independent QA browser operation"
+    },
+    {
+      "source": "test-results/continuous-390-before-rotation-96963.png",
+      "retained": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-65/host/continuous-390-before-rotation-96963.png",
+      "sha256": "887f634b1753cf2d44b848c7ddde0bbf0098b462db358c420803b304ad9125d0",
+      "provenance": "seq64 current host artifacts; UI execution from host, not independent QA browser operation"
+    },
+    {
+      "source": "test-results/continuous-390-final-96963.png",
+      "retained": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-65/host/continuous-390-final-96963.png",
+      "sha256": "94eec980af58083a33ff84a828a0ec6538781a0ac28793a0a30a7040b793c5b1",
+      "provenance": "seq64 current host artifacts; UI execution from host, not independent QA browser operation"
+    },
+    {
+      "source": "test-results/continuous-390-key-states-96963.png",
+      "retained": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/acceptance/evidence/attempt-65/host/continuous-390-key-states-96963.png",
+      "sha256": "4664858ed687ab711688e5f15f6919aa6af97e4f868751f0163424bfb6bc0b6a",
+      "provenance": "seq64 current host artifacts; UI execution from host, not independent QA browser operation"
+    }
+  ]
+}

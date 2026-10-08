@@ -1,0 +1,26 @@
+{
+  "result": "passed",
+  "scope": "bounded log scan; no claim of supplier or native UI verification",
+  "checks": [
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-39/frontend-check.log",
+      "secret_or_local_path_detected": false
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-39/frontend-check-final.log",
+      "secret_or_local_path_detected": false
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-39/static-check.log",
+      "secret_or_local_path_detected": false
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-39/static-check-final.log",
+      "secret_or_local_path_detected": false
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-39/diff-check.log",
+      "secret_or_local_path_detected": false
+    }
+  ]
+}

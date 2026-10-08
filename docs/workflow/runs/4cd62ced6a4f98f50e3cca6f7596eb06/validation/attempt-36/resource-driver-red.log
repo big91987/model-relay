@@ -1,0 +1,31 @@
+# model-relay/internal/relay.test
+ld: warning: '<temp>/go-link-1389931791/000023.o' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+--- FAIL: TestConsoleResourceMatrixInProcess (25.01s)
+    --- FAIL: TestConsoleResourceMatrixInProcess/tenant/calls (2.49s)
+        console_resource_matrix_test.go:104: unlimited initial tenant 409
+    --- FAIL: TestConsoleResourceMatrixInProcess/tenant/rpm (2.49s)
+        console_resource_matrix_test.go:104: unlimited initial tenant 409
+    --- FAIL: TestConsoleResourceMatrixInProcess/tenant/tpm (2.50s)
+        console_resource_matrix_test.go:104: unlimited initial tenant 409
+    --- FAIL: TestConsoleResourceMatrixInProcess/tenant/concurrency (2.51s)
+        console_resource_matrix_test.go:104: unlimited initial tenant 409
+    --- FAIL: TestConsoleResourceMatrixInProcess/tenant/budget (2.49s)
+        console_resource_matrix_test.go:104: unlimited initial tenant 409
+    --- FAIL: TestConsoleResourceMatrixInProcess/key/calls (2.52s)
+        console_resource_matrix_test.go:104: unlimited initial tenant 409
+    --- FAIL: TestConsoleResourceMatrixInProcess/key/rpm (2.50s)
+        console_resource_matrix_test.go:104: unlimited initial tenant 409
+    --- FAIL: TestConsoleResourceMatrixInProcess/key/tpm (2.52s)
+        console_resource_matrix_test.go:104: unlimited initial tenant 409
+    --- FAIL: TestConsoleResourceMatrixInProcess/key/concurrency (2.50s)
+        console_resource_matrix_test.go:104: unlimited initial tenant 409
+    --- FAIL: TestConsoleResourceMatrixInProcess/key/budget (2.49s)
+        console_resource_matrix_test.go:104: unlimited initial tenant 409
+--- FAIL: TestConsoleSharedResourcesInProcess (5.05s)
+    --- FAIL: TestConsoleSharedResourcesInProcess/multi_key (2.53s)
+        console_resource_matrix_test.go:184: unlimited initial tenant 409
+    --- FAIL: TestConsoleSharedResourcesInProcess/old_new_generation (2.52s)
+        console_resource_matrix_test.go:184: unlimited initial tenant 409
+FAIL
+FAIL	model-relay/internal/relay	30.315s
+FAIL

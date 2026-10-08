@@ -1,0 +1,3 @@
+all modules verified
+go vet ./...
+go build -trimpath -o bin/model-relay ./cmd/model-relay

@@ -1,0 +1,92 @@
+{
+  "candidate": "visual-current-period-r1",
+  "source": {
+    "files": 129,
+    "go": "go1.25.6",
+    "head": "98511771871cf0951ecef716bbb55deb13e18da5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "31bbf962868170e32d089a83217b8f057afce3a359fa9f0d5b25c1f4089d6bc5"
+  },
+  "artifacts": [
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-43/checks.md",
+      "bytes": 7626,
+      "sha256": "930e6e7d10e9f390d23c903d0b706d30ab5a2d082eeadacf32fd5fa2d7352264"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-43/frontend-check.log",
+      "bytes": 17443,
+      "sha256": "f53d727517806d16f9472ab80bddf93a54692e64c5ac5d38096d206cbe81394e"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-43/host-retest.md",
+      "bytes": 2049,
+      "sha256": "3ab77be9eecffca1aeafd1557307c00ffcb6a1170c18d1813442dc34561a75c2"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-43/host-seq42-continuous-1280.json",
+      "bytes": 1333,
+      "sha256": "894871fc4f04c2d040b452f872e6ec5640fc0a5808f08811bedb6248be5ddb37"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-43/host-seq42-visual-1280.json",
+      "bytes": 2208,
+      "sha256": "b16d20c502f4b130b3e56a47f58492634b205761e00bb4b0414b6e2fd81d7e33"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-43/material-integrity.json",
+      "bytes": 6013,
+      "sha256": "3788554038ca051ac6f211ef422c0023e56ed4bcb24f4655ffc8478367e56a91"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-43/source-after.json",
+      "bytes": 336,
+      "sha256": "0867e3e1e233ed7b047f49f99553baebac93b2e3fc6bf5792f6e3d09ee469f5a"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-43/source-evidence.json",
+      "bytes": 336,
+      "sha256": "0867e3e1e233ed7b047f49f99553baebac93b2e3fc6bf5792f6e3d09ee469f5a"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-43/static-check.log",
+      "bytes": 391,
+      "sha256": "72b28e15017c34479c8f16120ecc9b85589e8574b1e32ff497b6aa2948e66e2b"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-43/targeted-check.log",
+      "bytes": 1711,
+      "sha256": "b2a428798ffdefbfb9759f6d2a5f41f344bc6b27d31530622e6673e10408a432"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/attempt-43/targeted-first.log",
+      "bytes": 1714,
+      "sha256": "92c293e48a1524cc07802cfffc342cd959803a4d489bfc84cc02c15950d975af"
+    },
+    {
+      "path": "tests/browser/journeys.mjs",
+      "bytes": 45298,
+      "sha256": "873cafe8c5a4fea45645225577434b88dcb9b226d038763d6509b64e4c7b3347"
+    },
+    {
+      "path": "tests/browser/journeys.test.mjs",
+      "bytes": 19143,
+      "sha256": "2798278aec5f2a445f4a5b6e9c31d764b535cb01f4f77e9238a0c63633c6a45f"
+    },
+    {
+      "path": ".trellis/spec/frontend/workspace-contracts.md",
+      "bytes": 45084,
+      "sha256": "0efbc9f5f56dcab0be856d4c870c6c7bf28680514ae57dda6d0430cc6498ae11"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/delivery/tasks/T001-console.md",
+      "bytes": 19731,
+      "sha256": "350a2248e4229fd081faa59a994b54455f10c194054e27f7b9c3e65cf8c7bf41"
+    },
+    {
+      "path": "docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/delivery/README.md",
+      "bytes": 15202,
+      "sha256": "d9fb4e5db5bf14076f1ff6d87441e03751cc89ae68d6818d655a3d03e57f8c42"
+    }
+  ]
+}

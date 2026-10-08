@@ -1,0 +1,206 @@
+
+$ make format-check
+exit_code=0
+
+$ go mod verify
+all modules verified
+exit_code=0
+
+$ make vet
+go vet ./...
+exit_code=0
+
+$ make frontend-test
+node --test tests/browser/*.test.mjs
+✔ pause conservation evidence only projects exact amounts and safe counters (3.904667ms)
+✔ J05 retains original resume fee assertion and checks each independent rejection boundary (0.09275ms)
+✔ completion failure evidence is a bounded whitelist, never raw provider or request data (0.490209ms)
+✔ actual fresh-install driver requires zero collections, not migrated legacy tenants (5.102458ms)
+✔ production Key formatter distinguishes safe states and precise grace/expiry boundaries (3.482333ms)
+✔ continuous driver uses actual product labels and rotation receipt contract (0.123667ms)
+✔ scope-required empty state replaces loading instead of leaving a perpetual loading placeholder (0.360875ms)
+✔ request-detail log navigation keeps tenant and existing safe filters (0.411333ms)
+✔ full suite stays additive to make verify with every frozen journey and all viewports (0.320916ms)
+✔ migration driver consumes schema3 paginated Key contract (0.7105ms)
+✔ migration driver rejects obsolete_data without exposing collection values (0.467041ms)
+✔ migration driver rejects missing_key without exposing collection values (0.332958ms)
+✔ migration driver rejects additional_key without exposing collection values (0.068792ms)
+✔ migration driver rejects wrong_total without exposing collection values (0.077458ms)
+✔ migration driver rejects disabled_changed without exposing collection values (0.064417ms)
+✔ migration driver rejects enabled_changed without exposing collection values (0.066167ms)
+✔ migration driver rejects missing_identity without exposing collection values (0.082542ms)
+✔ password toggle preserves the input node and value without requesting or submitting (6.914833ms)
+✔ login success, logout and rejected login reset password visibility (1.670042ms)
+✔ pending rejected login keeps the prior session error until its own 401 clears the password (0.699ms)
+✔ session restoration resets an entered visible password (0.595708ms)
+✔ upstream form is unavailable until GET completes, then saves entered values (1.810709ms)
+✔ connection cancellation aborts once, ignores late success and releases controls (0.90925ms)
+✔ connection navigation and expiry abort pending work without late state mutation (2.923167ms)
+✔ completed setup moves original rows to review and unknown refresh restores tasks (1.25075ms)
+✔ candidate selects have standalone exact labels and unique create/edit associations (1.321625ms)
+✔ model creation locks draft and prevents duplicate submission while awaiting acknowledgement (0.844834ms)
+✔ model creation acknowledgement with failed readback never invites duplicate creation (0.835125ms)
+✔ model creation late result cannot relock inputs or publish feedback after account reset (0.645834ms)
+✔ overview distinguishes empty, saved and successful persisted configuration on reentry (0.926667ms)
+✔ runtime version preserves raw strings including dev without blocking overview (1.808167ms)
+✔ runtime version missing degrades locally and reentry recovers (0.803541ms)
+✔ runtime version empty degrades locally and reentry recovers (0.602ms)
+✔ runtime version whitespace degrades locally and reentry recovers (0.615ms)
+✔ runtime version number degrades locally and reentry recovers (0.606583ms)
+✔ runtime version null version degrades locally and reentry recovers (0.591125ms)
+✔ runtime version null body degrades locally and reentry recovers (0.588667ms)
+✔ runtime version array degrades locally and reentry recovers (0.590875ms)
+✔ runtime version string body degrades locally and reentry recovers (0.590375ms)
+✔ runtime version 401 degrades locally and reentry recovers (0.634125ms)
+✔ runtime version 503 degrades locally and reentry recovers (0.597334ms)
+✔ runtime version network degrades locally and reentry recovers (0.624083ms)
+✔ runtime version invalid json degrades locally and reentry recovers (1.220416ms)
+✔ late success cannot clear a newer timer or version (0.729666ms)
+✔ late failure cannot clear a newer timer or version (0.647ms)
+✔ 5 second timeout covers headers and ignores late resolution (0.706542ms)
+✔ 5 second timeout covers body and ignores late resolution (0.576042ms)
+✔ logout invalidates immediately and late success cannot contaminate a new login (0.671125ms)
+✔ real management 401 still logs out and invalidates runtime version (0.546083ms)
+✔ older response after a newer completion cannot overwrite the current version (0.6145ms)
+✔ failed configuration load leaves an error and navigation can recover (0.637583ms)
+✔ a stale navigation cannot reveal a panel after the user leaves (1.365292ms)
+✔ rejected save recovers persisted configuration after navigation finishes (0.77025ms)
+✔ explicit upstream reread retains stale credential status until its own GET settles (0.721417ms)
+✔ upstream restore immediately clears secret, restores only confirmed public fields and performs zero writes: false (0.621334ms)
+✔ upstream restore immediately clears secret, restores only confirmed public fields and performs zero writes: true (0.584042ms)
+✔ upstream save owns both controls through its readback; restore and repeated save cannot overlap (0.74775ms)
+✔ late upstream restore cannot replace a new draft or unlock a newer operation (0.731334ms)
+✔ upstream busy controls release on owner invalidation without applying a late restore: pagehide (0.583666ms)
+✔ upstream busy controls release on owner invalidation without applying a late restore: uncertain session (0.796667ms)
+✔ in-flight submitted controls stay visible and disabled until current call terminates: complete (0.954584ms)
+✔ in-flight submitted controls stay visible and disabled until current call terminates: failed (0.556833ms)
+✔ in-flight submitted controls stay visible and disabled until current call terminates: cancel (0.620875ms)
+✔ late canceled-call finally cannot unlock new submitted controls (0.611208ms)
+✔ key list displays server created time and explicitly unknown, never a client timestamp (0.62425ms)
+✔ state-change replacement restores only same identity unless focus moved: models/false (0.829667ms)
+✔ state-change replacement restores only same identity unless focus moved: models/true (0.765ms)
+✔ state-change replacement restores only same identity unless focus moved: keys/false (0.714375ms)
+✔ state-change replacement restores only same identity unless focus moved: keys/true (0.677042ms)
+✔ late state change on departed page cannot restore old row focus (0.628708ms)
+✔ upstream rejected clears credential, preserves public draft and distinguishes acknowledged write (0.776375ms)
+✔ upstream network clears credential, preserves public draft and distinguishes acknowledged write (0.723625ms)
+✔ upstream refresh clears credential, preserves public draft and distinguishes acknowledged write (0.654958ms)
+✔ generation application failure clears only sensitive inputs and keeps diagnosis and identity (0.677958ms)
+✔ generation provider failure clears only sensitive inputs and keeps diagnosis and identity (2.334041ms)
+✔ generation network failure clears only sensitive inputs and keeps diagnosis and identity (0.768459ms)
+✔ generation protocol failure clears only sensitive inputs and keeps diagnosis and identity (0.65825ms)
+✔ generation stream failure clears only sensitive inputs and keeps diagnosis and identity (0.69225ms)
+✔ overview evidence action uses displayed ID, while generic records remains unfiltered (0.7755ms)
+✔ overview precise evidence action survives session restore with no local generation identity (0.614041ms)
+✔ overview precise evidence action survives new login with no local generation identity (0.572ms)
+✔ late upstream rejected failure cannot clear new-page credential or notice (0.730667ms)
+✔ late upstream refresh failure cannot clear new-page credential or notice (0.615208ms)
+✔ overview success metadata comes from the request evidence, never the clock or global revision (0.727208ms)
+✔ late overview metadata cannot replace a newer response (0.5975ms)
+✔ failed overview refresh disables and discards the old precise evidence action (0.604917ms)
+✔ model selection, placeholder example, readable text and request ID are independent of raw JSON (0.6165ms)
+✔ cancel isolates late headers, old finally cannot enable a new request (0.603959ms)
+✔ cancel isolates late json, old finally cannot enable a new request (0.586958ms)
+✔ cancel isolates late failure, old finally cannot enable a new request (0.583334ms)
+✔ SSE decodes split UTF8 and CRLF, presents increments before DONE and isolates canceled reads (0.871167ms)
+✔ tool-only output is not treated as network failure; unknown usage stays unknown and zero stays zero (2.064ms)
+✔ late key issuance and management 401 cannot affect a new page or login (1.814542ms)
+✔ clipboard completion is isolated after closing, reissuing or leaving; failures have a manual path (0.838709ms)
+✔ SSE DONE succeeds, missing DONE and event error fail without a second request (1.621709ms)
+✔ overview query failure remains unknown rather than zero and retry recovers (0.588166ms)
+✔ creation cancellation preserves public drafts with zero writes (0.488875ms)
+✔ model edit keeps canceled draft and a pending save cannot be replaced by another editor (0.82175ms)
+✔ unknown navigation hashes normalize to a safe overview target (0.517583ms)
+✔ expired session clears current generation and restores safe hash target without replay (0.6225ms)
+✔ stream tool fragments summarize only after DONE without executing arguments (0.709916ms)
+✔ empty content remains distinct and tool names/count storage are bounded (1.278875ms)
+✔ visible long stream checks at 30s; network uncertainty clears secrets, isolates late output and requires manual recovery (0.8185ms)
+✔ known expiry cancels without a session fetch; relogin restores target without replay (0.690167ms)
+✔ uncertain session invalidates late issuance and explicit relogin clears and preserves safe target (0.549916ms)
+✔ known expiry also blocks submit before timer runs (0.486416ms)
+✔ hidden generation skips polling; visibility check is single flight and stale failure cannot clear a new page (0.633208ms)
+✔ known expiry survives a hanging one-shot session check and ignores late success (0.921792ms)
+✔ known expiry survives a hanging one-shot session check and ignores late network failure (0.843416ms)
+✔ known expiry survives a hanging one-shot session check and ignores late 401 (0.661583ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: success (0.910917ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: network failure (0.747208ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: 401 (0.7515ms)
+✔ uncertain session recovery may hang but the original known expiry still clears it (1.536708ms)
+✔ ordinary periodic session success does not tell an active call to re-enter or resend (0.715333ms)
+✔ pagehide stops timers and pageshow still enforces a known deadline before a hanging check can resume (0.664583ms)
+✔ visibility restore enforces known expiry even when uncertain-state timer delivery was suspended (0.632667ms)
+✔ closed model selection helper commits later viewport option: false (1.916417ms)
+✔ closed model selection helper commits later viewport option: true (0.50225ms)
+✔ closed model selection helper fails rather than accepting an unchanged first option (1.05325ms)
+✔ model selection diagnostic records type-ahead and Tab boundaries without assigning DOM values (0.432542ms)
+✔ closed model selection helper handles starting at end and disabled options: 0/false (0.413041ms)
+✔ closed model selection helper handles starting at end and disabled options: 3/false (0.381458ms)
+✔ closed model selection helper handles starting at end and disabled options: 1/true (0.383583ms)
+✔ native model selection helper rejects unavailable target before activation: true (0.421458ms)
+✔ native model selection helper rejects unavailable target before activation: false (0.429042ms)
+✔ actual model diagnostic projection observes focus, option redraw and replacement without values (0.887334ms)
+✔ model diagnostics distinguish pending response bodies, failed reads and load-finally readiness (0.459042ms)
+✔ candidate selection trace retains boundaries, redacts values and cleans observers (0.252583ms)
+✔ candidate selection trace bounds keyboard events and redacts printable input (0.281ms)
+✔ candidate type-ahead driver uses keyboard only and preserves boundary ordering (0.204583ms)
+✔ candidate type-ahead driver rejects ambiguous disabled or non-ASCII fixture targets before keys (0.2825ms)
+✔ model diagnostic event trace is bounded and only records approved key and focus labels (0.54325ms)
+✔ model diagnostic printable keys are redacted and type-ahead boundaries survive compaction (0.636708ms)
+✔ failure model projection omits arbitrary fields and keeps the bounded boundary evidence (0.427584ms)
+✔ entire UTF-8 failure line fits host tail while retaining first and final key boundaries (0.789875ms)
+✔ editor queued close clears its own issued value without erasing a transferred call key (2.257791ms)
+✔ editor close before transfer settlement still permits the explicitly owned destination (0.433584ms)
+✔ superseded navigation cannot restore an issued secret even on another playground epoch (0.38675ms)
+✔ old editor close event cannot erase a reopened one-time dialog (0.353583ms)
+✔ workspace service detail renders facts without requiring limit fields (0.516459ms)
+✔ workspace key detail renders facts without requiring limit fields (0.277167ms)
+✔ workspace request detail renders facts without requiring limit fields (0.257834ms)
+✔ workspace operation detail renders facts without requiring limit fields (0.268041ms)
+✔ workspace bill detail renders facts without requiring limit fields (0.306667ms)
+✔ workspace detail null remains explicitly unknown (0.310709ms)
+✔ workspace limits retain their independent dimensions and warning (0.344458ms)
+✔ workspace local list search spans fetched groups and recovers after clearing (0.69975ms)
+✔ workspace service check sends execution revision, not management revision or empty input (2.109ms)
+✔ workspace stale service check exposes rejection without detail or automatic retry (0.495916ms)
+✔ console model driver uniquely targets actual editor labels without editing additional routes (1.497375ms)
+✔ console failure snapshot projects only safe enums, counts and booleans (0.5915ms)
+✔ console failure snapshot tolerates missing controls without inventing facts (0.380958ms)
+✔ console response diagnostics retain route statuses without URLs, bodies or errors (0.628208ms)
+✔ keyboard driver retains native actions and all original boundary assertions (0.840166ms)
+✔ keyboard driver waits for asynchronous editor visibility before its first native Tab (0.519791ms)
+✔ keyboard driver preserves first-tab rejection and distinguishes its stage (4.779667ms)
+✔ keyboard driver preserves cycle rejection and distinguishes its stage (0.662ms)
+✔ keyboard driver preserves escape rejection and distinguishes its stage (0.696542ms)
+✔ keyboard driver preserves return rejection and distinguishes its stage (0.467625ms)
+✔ keyboard projection emits only fixed booleans for editor, body, root and missing focus (0.383084ms)
+ℹ tests 161
+ℹ suites 0
+ℹ pass 161
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 189.100167
+exit_code=0
+
+$ go test -race -count=1 -run ^(TestConsolePauseUsageInProcess|TestConsolePeopleScopeInProcess|TestConsoleAccountingInProcess|TestContinuousUpstreamResponseContract)$ ./internal/relay ./tests/browser
+# model-relay/tests/browser.test
+ld: warning: '<temp>/go-link/000023.o' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+# model-relay/internal/relay.test
+ld: warning: '<temp>/go-link/000023.o' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+ok  	model-relay/internal/relay	16.098s
+ok  	model-relay/tests/browser	1.630s
+exit_code=0
+
+$ make build
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+exit_code=0
+
+$ go test -c -o .cache/attempt29-browser.test ./tests/browser
+exit_code=0
+
+$ node --check tests/browser/journeys.mjs
+exit_code=0
+
+$ git diff --check
+exit_code=0

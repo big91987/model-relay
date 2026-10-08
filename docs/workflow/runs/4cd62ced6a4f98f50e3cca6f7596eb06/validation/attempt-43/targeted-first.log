@@ -1,0 +1,24 @@
+✔ current-period visual preparation uses the existing native call and conserves the closed bill (1.846542ms)
+✔ visual preparation rejects stale or missing current-period activity (2.669625ms)
+✔ visual preparation rejects changes to closed bill amount or corrections (1.310167ms)
+✔ J06 reconciliation reads append-only cumulative charges, not the first revision (7.738458ms)
+✔ scope refresh cannot complete on old content before asynchronous tenant removal settles (2.348625ms)
+✔ failure boundary projects only the owning source position, never assertion values or host paths (0.423042ms)
+✔ J05 member transitions have independent attribution without removing scope assertions (0.157709ms)
+✔ pause conservation evidence only projects exact amounts and safe counters (0.910209ms)
+✔ J05 retains original resume fee assertion and checks each independent rejection boundary (0.097334ms)
+✔ completion failure evidence is a bounded whitelist, never raw provider or request data (0.403084ms)
+✔ actual fresh-install driver requires zero collections, not migrated legacy tenants (1.155042ms)
+✔ production Key formatter distinguishes safe states and precise grace/expiry boundaries (2.822834ms)
+✔ continuous driver uses actual product labels and rotation receipt contract (0.097625ms)
+✔ scope-required empty state replaces loading instead of leaving a perpetual loading placeholder (0.296542ms)
+✔ request-detail log navigation keeps tenant and existing safe filters (0.339583ms)
+✔ full suite stays additive to make verify with every frozen journey and all viewports (1.241625ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 100.968

@@ -9,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"sync"
 	"syscall"
 	"time"
 	"unicode/utf8"
@@ -18,10 +19,30 @@ import (
 )
 
 type Store struct {
-	DB     *sql.DB
-	Key    []byte
-	Schema int
-	lock   *os.File
+	DB            *sql.DB
+	Key           []byte
+	Schema        int
+	lock          *os.File
+	clock         func() time.Time
+	clockMu       sync.RWMutex
+	effectiveTime time.Time
+	clockWarned   bool
+}
+
+func (store *Store) now() time.Time {
+	if store.Schema == 3 {
+		store.clockMu.RLock()
+		defer store.clockMu.RUnlock()
+		return store.effectiveTime
+	}
+	return store.wallTime()
+}
+
+func (store *Store) wallTime() time.Time {
+	if store.clock != nil {
+		return store.clock().UTC()
+	}
+	return time.Now().UTC()
 }
 
 func lockDirectory(directory string) (*os.File, error) {
@@ -83,6 +104,14 @@ CREATE TABLE app_keys(id TEXT PRIMARY KEY, name TEXT NOT NULL, digest BLOB UNIQU
 CREATE TABLE requests(id TEXT PRIMARY KEY, time TEXT NOT NULL, key_id TEXT, alias TEXT, model TEXT, stream INTEGER NOT NULL, revision INTEGER, state TEXT NOT NULL, error_code TEXT NOT NULL, upstream_status INTEGER, duration_ms INTEGER, prompt_tokens INTEGER, completion_tokens INTEGER, total_tokens INTEGER);` + configurationSchema + requestUpgrade + evidenceSchema
 
 func Init(directory, keyFile string) (string, error) {
+	return initSchema(directory, keyFile, 2)
+}
+
+func InitConsole(directory, keyFile string) (string, error) {
+	return initSchema(directory, keyFile, 3)
+}
+
+func initSchema(directory, keyFile string, version int) (string, error) {
 	if filepath.Clean(keyFile) == filepath.Join(filepath.Clean(directory), "relay.db") {
 		return "", errors.New("key must be separate")
 	}
@@ -135,8 +164,16 @@ func Init(directory, keyFile string) (string, error) {
 	password := randomSecret(32)
 	salt := digest(randomSecret(16))[:16]
 	hash := argon2.IDKey([]byte(password), salt, 3, 64*1024, 1, 32)
-	if _, err = transaction.Exec("INSERT INTO meta(version,sentinel) VALUES(2,?); INSERT INTO admin VALUES(?,?)", sentinel, salt, hash); err != nil {
+	if _, err = transaction.Exec("INSERT INTO meta(version,sentinel) VALUES(?,?); INSERT INTO admin VALUES(?,?)", version, sentinel, salt, hash); err != nil {
 		return "", err
+	}
+	if version == 3 {
+		if err = createConsole(transaction); err != nil {
+			return "", err
+		}
+		if _, err := transaction.Exec("DELETE FROM resource_limits WHERE owner_type='tenant' AND owner_id='legacy'; DELETE FROM memberships WHERE tenant_id='legacy'; DELETE FROM tenants WHERE id='legacy'"); err != nil {
+			return "", err
+		}
 	}
 	if err = transaction.Commit(); err != nil {
 		return "", err
@@ -170,7 +207,7 @@ func openInstallation(directory, keyFile string, allowLegacy bool) (*Store, erro
 	store := &Store{DB: db, Key: key, lock: lock}
 	var version int
 	var sentinel []byte
-	if err = db.QueryRow("SELECT version,sentinel FROM meta").Scan(&version, &sentinel); err != nil || (version != 1 && version != 2) {
+	if err = db.QueryRow("SELECT version,sentinel FROM meta").Scan(&version, &sentinel); err != nil || (version != 1 && version != 2 && version != 3) {
 		store.Close()
 		return nil, errors.New("unsupported or invalid database version")
 	}
@@ -198,6 +235,12 @@ func openInstallation(directory, keyFile string, allowLegacy bool) (*Store, erro
 	if _, err = db.Exec("UPDATE requests SET state='process_interrupted',error_code='process_interrupted',duration_ms=NULL,attempts_complete=0 WHERE state='started'; UPDATE request_attempts SET state='process_interrupted',error_code='process_interrupted' WHERE finished_at IS NULL; UPDATE upstream_checks SET state='unknown',error_code='process_interrupted' WHERE finished_at IS NULL"); err != nil {
 		store.Close()
 		return nil, err
+	}
+	if version == 3 {
+		if err = store.recoverConsole(); err != nil {
+			store.Close()
+			return nil, err
+		}
 	}
 	return store, nil
 }
@@ -235,6 +278,11 @@ func ResetAdminPassword(directory, keyFile, password string) error {
 	count, err := result.RowsAffected()
 	if err != nil || count != 1 {
 		return errors.New("installation must contain exactly one administrator")
+	}
+	if store.Schema == 3 {
+		if _, err := transaction.Exec("UPDATE users SET salt=?,hash=? WHERE id='platform-admin'", salt, hash); err != nil {
+			return err
+		}
 	}
 	return transaction.Commit()
 }
@@ -295,9 +343,18 @@ func (store *Store) Finish(record Record) error {
 	if err != nil {
 		return err
 	}
-	_, err = transaction.ExecContext(ctx, "UPDATE requests SET state=?,error_code=?,model=?,revision=?,upstream_status=?,duration_ms=?,prompt_tokens=?,completion_tokens=?,total_tokens=?,successful_upstream_id=?,committed_at=?,attempts_complete=? WHERE id=?", record.State, record.Code, record.Model, record.Revision, record.Status, record.Duration, usage.Prompt, usage.Completion, usage.Total, record.SuccessfulUpstream, record.CommittedAt, complete, record.ID)
+	query := "UPDATE requests SET state=?,error_code=?,model=?,revision=?,upstream_status=?,duration_ms=?,prompt_tokens=?,completion_tokens=?,total_tokens=?,successful_upstream_id=?,committed_at=?,attempts_complete=? WHERE id=?"
+	if store.Schema == 3 {
+		query += " AND state='started'"
+	}
+	_, err = transaction.ExecContext(ctx, query, record.State, record.Code, record.Model, record.Revision, record.Status, record.Duration, usage.Prompt, usage.Completion, usage.Total, record.SuccessfulUpstream, record.CommittedAt, complete, record.ID)
 	if err != nil {
 		return err
+	}
+	if store.Schema == 3 {
+		if err := settleAdmission(transaction, record.ID); err != nil {
+			return err
+		}
 	}
 	return transaction.Commit()
 }

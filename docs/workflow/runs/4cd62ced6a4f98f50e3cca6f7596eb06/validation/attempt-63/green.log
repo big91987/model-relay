@@ -1,0 +1,8 @@
+--- FAIL: TestConsoleReviewZeroSoftBudgetInProcess (0.49s)
+    --- FAIL: TestConsoleReviewZeroSoftBudgetInProcess/tenant (0.25s)
+        console_review_regression_test.go:59: soft/null fee conservation {3 3 21 0 21 0 0} 3
+    --- FAIL: TestConsoleReviewZeroSoftBudgetInProcess/key (0.24s)
+        console_review_regression_test.go:59: soft/null fee conservation {3 3 21 0 0 0 0} 3
+FAIL
+FAIL	model-relay/internal/relay	7.368s
+FAIL

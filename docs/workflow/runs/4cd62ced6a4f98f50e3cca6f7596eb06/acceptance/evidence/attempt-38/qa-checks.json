@@ -1,0 +1,18 @@
+{
+  "qa_execution": 38,
+  "date": "2026-10-08",
+  "candidate": "safe-readback-resource-matrix-r1",
+  "head": "98511771871cf0951ecef716bbb55deb13e18da5",
+  "working_tree_sha256": "3ee2122eadac33a67342523a082f791d8a81154cc86b7321d53de856866a15ef",
+  "qa_actual_checks": [
+    {"command":"go run ./tests/evidence","exit_code":0,"evidence":"source-before.json; source-after.json","scope":"127-file declared source inventory, before/after identical"},
+    {"command":"node --test tests/browser/*.test.mjs","exit_code":0,"evidence":"qa-node.log","tests":169,"failed":0,"skipped":0,"scope":"Node contract/DOM tests, not a browser journey"},
+    {"command":"go test -race -count=1 -v -run '^(TestConsoleResourceMatrixInProcess|TestConsoleSharedResourcesInProcess|TestConsoleGovernanceInProcess|TestConsolePeopleScopeInProcess|TestConsolePauseUsageInProcess|TestConsoleGenerationExactDeadline|TestMicroDollarPrecision)$' ./internal/relay","exit_code":0,"evidence":"qa-go.log","top_level_tests":7,"package_elapsed_seconds":48.879,"scope":"InProcess handler/storage/resource/ledger and exact deadline/precision; not actual HTTP"},
+    {"command":"set -e; make format-check; go mod verify; make vet; make build","exit_code":0,"evidence":"qa-static-final.log","scope":"non-listening project checks, not full make verify"},
+    {"command":"node acceptance/evidence/attempt-38/collect.mjs (from this Run root)","exit_code":0,"evidence":"collect-final.log; material-integrity.json; artifact-index.json","material_files":19,"artifact_files":63,"scope":"integrity/copy checks, not execution of browser cases"}
+  ],
+  "host_connector": {"execution":37,"command":"make verify","exit_code":0,"log_bytes":101748,"log_truncated":false,"read_offsets":[0,32768,65536,98304],"additional_lookup_offset":44000,"final_offset":101748,"eof":true,"evidence":"host-seq37-review.md; platform retained archive"},
+  "not_repeated": {"qa_native_make_verify":"Blocked in unchanged listening sandbox; previous evidence preserved; same-version host execution is the allowed substitute","static_browser_check":"not suitable for Go backend; not used"},
+  "collection_failure": {"initial_exit_code":1,"reason":"QA collector assumed nonexistent console-first-call-1440.png; corrected list excludes extra legacy first-call images","evidence":"collector-attempt.md"},
+  "current_qa_conclusion": "No-Go: mandatory AC01 full actual UI-to-approved-prototype review evidence incomplete; existing functional defects and specified remediation scenarios closed; external/Harness/release facts not claimed"
+}

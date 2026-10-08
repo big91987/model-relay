@@ -144,6 +144,13 @@ func (server *Server) identifyKey(request *http.Request) (string, bool) {
 	}
 	var id string
 	var enabled bool
+	if server.Store.Schema == 3 {
+		if server.Store.DB.QueryRow("SELECT k.id,k.enabled FROM key_generations g JOIN app_keys k ON k.id=g.key_id WHERE g.digest=?", digest(strings.TrimPrefix(header, "Bearer "))).Scan(&id, &enabled) != nil {
+			return "", false
+		}
+		_, authorized := server.controlledAppID(request)
+		return id, authorized
+	}
 	if server.Store.DB.QueryRow("SELECT id,enabled FROM app_keys WHERE digest=?", digest(strings.TrimPrefix(header, "Bearer "))).Scan(&id, &enabled) != nil {
 		return "", false
 	}

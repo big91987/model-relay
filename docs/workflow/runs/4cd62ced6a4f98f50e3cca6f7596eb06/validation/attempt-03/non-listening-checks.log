@@ -1,0 +1,222 @@
+COMMAND: make format-check
+COMMAND: go mod verify
+all modules verified
+COMMAND: go vet ./...
+COMMAND: node --check workspace.js and console.mjs
+COMMAND: make frontend-test
+node --test tests/browser/ui.test.mjs
+✔ password toggle preserves the input node and value without requesting or submitting (6.484417ms)
+✔ login success, logout and rejected login reset password visibility (1.326958ms)
+✔ pending rejected login keeps the prior session error until its own 401 clears the password (0.692334ms)
+✔ session restoration resets an entered visible password (0.564667ms)
+✔ upstream form is unavailable until GET completes, then saves entered values (2.005833ms)
+✔ connection cancellation aborts once, ignores late success and releases controls (0.856291ms)
+✔ connection navigation and expiry abort pending work without late state mutation (2.696417ms)
+✔ completed setup moves original rows to review and unknown refresh restores tasks (1.272958ms)
+✔ candidate selects have standalone exact labels and unique create/edit associations (1.435375ms)
+✔ model creation locks draft and prevents duplicate submission while awaiting acknowledgement (0.726708ms)
+✔ model creation acknowledgement with failed readback never invites duplicate creation (0.682125ms)
+✔ model creation late result cannot relock inputs or publish feedback after account reset (0.633125ms)
+✔ overview distinguishes empty, saved and successful persisted configuration on reentry (0.781375ms)
+✔ runtime version preserves raw strings including dev without blocking overview (1.684416ms)
+✔ runtime version missing degrades locally and reentry recovers (0.7965ms)
+✔ runtime version empty degrades locally and reentry recovers (0.696542ms)
+✔ runtime version whitespace degrades locally and reentry recovers (0.610792ms)
+✔ runtime version number degrades locally and reentry recovers (0.592708ms)
+✔ runtime version null version degrades locally and reentry recovers (0.646416ms)
+✔ runtime version null body degrades locally and reentry recovers (0.693ms)
+✔ runtime version array degrades locally and reentry recovers (0.645791ms)
+✔ runtime version string body degrades locally and reentry recovers (0.558792ms)
+✔ runtime version 401 degrades locally and reentry recovers (0.639625ms)
+✔ runtime version 503 degrades locally and reentry recovers (0.588416ms)
+✔ runtime version network degrades locally and reentry recovers (0.554166ms)
+✔ runtime version invalid json degrades locally and reentry recovers (1.161292ms)
+✔ late success cannot clear a newer timer or version (0.680041ms)
+✔ late failure cannot clear a newer timer or version (0.593625ms)
+✔ 5 second timeout covers headers and ignores late resolution (0.643709ms)
+✔ 5 second timeout covers body and ignores late resolution (0.533292ms)
+✔ logout invalidates immediately and late success cannot contaminate a new login (0.667292ms)
+✔ real management 401 still logs out and invalidates runtime version (0.531167ms)
+✔ older response after a newer completion cannot overwrite the current version (0.579542ms)
+✔ failed configuration load leaves an error and navigation can recover (0.568292ms)
+✔ a stale navigation cannot reveal a panel after the user leaves (1.276375ms)
+✔ rejected save recovers persisted configuration after navigation finishes (0.773292ms)
+✔ explicit upstream reread retains stale credential status until its own GET settles (0.683667ms)
+✔ upstream restore immediately clears secret, restores only confirmed public fields and performs zero writes: false (0.62975ms)
+✔ upstream restore immediately clears secret, restores only confirmed public fields and performs zero writes: true (0.565583ms)
+✔ upstream save owns both controls through its readback; restore and repeated save cannot overlap (0.5505ms)
+✔ late upstream restore cannot replace a new draft or unlock a newer operation (0.621958ms)
+✔ upstream busy controls release on owner invalidation without applying a late restore: pagehide (0.550041ms)
+✔ upstream busy controls release on owner invalidation without applying a late restore: uncertain session (0.60725ms)
+✔ in-flight submitted controls stay visible and disabled until current call terminates: complete (0.824125ms)
+✔ in-flight submitted controls stay visible and disabled until current call terminates: failed (0.528333ms)
+✔ in-flight submitted controls stay visible and disabled until current call terminates: cancel (0.596708ms)
+✔ late canceled-call finally cannot unlock new submitted controls (0.730291ms)
+✔ key list displays server created time and explicitly unknown, never a client timestamp (0.564875ms)
+✔ state-change replacement restores only same identity unless focus moved: models/false (0.794666ms)
+✔ state-change replacement restores only same identity unless focus moved: models/true (0.645541ms)
+✔ state-change replacement restores only same identity unless focus moved: keys/false (0.682375ms)
+✔ state-change replacement restores only same identity unless focus moved: keys/true (0.681333ms)
+✔ late state change on departed page cannot restore old row focus (0.644417ms)
+✔ upstream rejected clears credential, preserves public draft and distinguishes acknowledged write (0.665333ms)
+✔ upstream network clears credential, preserves public draft and distinguishes acknowledged write (0.65625ms)
+✔ upstream refresh clears credential, preserves public draft and distinguishes acknowledged write (0.644708ms)
+✔ generation application failure clears only sensitive inputs and keeps diagnosis and identity (0.671708ms)
+✔ generation provider failure clears only sensitive inputs and keeps diagnosis and identity (1.930792ms)
+✔ generation network failure clears only sensitive inputs and keeps diagnosis and identity (0.549834ms)
+✔ generation protocol failure clears only sensitive inputs and keeps diagnosis and identity (0.542917ms)
+✔ generation stream failure clears only sensitive inputs and keeps diagnosis and identity (0.605459ms)
+✔ overview evidence action uses displayed ID, while generic records remains unfiltered (0.699375ms)
+✔ overview precise evidence action survives session restore with no local generation identity (0.613958ms)
+✔ overview precise evidence action survives new login with no local generation identity (0.604583ms)
+✔ late upstream rejected failure cannot clear new-page credential or notice (0.616375ms)
+✔ late upstream refresh failure cannot clear new-page credential or notice (0.58075ms)
+✔ overview success metadata comes from the request evidence, never the clock or global revision (0.684709ms)
+✔ late overview metadata cannot replace a newer response (0.549708ms)
+✔ failed overview refresh disables and discards the old precise evidence action (0.617584ms)
+✔ model selection, placeholder example, readable text and request ID are independent of raw JSON (0.556167ms)
+✔ cancel isolates late headers, old finally cannot enable a new request (0.581083ms)
+✔ cancel isolates late json, old finally cannot enable a new request (0.582458ms)
+✔ cancel isolates late failure, old finally cannot enable a new request (0.566708ms)
+✔ SSE decodes split UTF8 and CRLF, presents increments before DONE and isolates canceled reads (0.813125ms)
+✔ tool-only output is not treated as network failure; unknown usage stays unknown and zero stays zero (1.730292ms)
+✔ late key issuance and management 401 cannot affect a new page or login (1.60775ms)
+✔ clipboard completion is isolated after closing, reissuing or leaving; failures have a manual path (0.833166ms)
+✔ SSE DONE succeeds, missing DONE and event error fail without a second request (1.506541ms)
+✔ overview query failure remains unknown rather than zero and retry recovers (0.518833ms)
+✔ creation cancellation preserves public drafts with zero writes (0.462416ms)
+✔ model edit keeps canceled draft and a pending save cannot be replaced by another editor (0.747042ms)
+✔ unknown navigation hashes normalize to a safe overview target (0.462667ms)
+✔ expired session clears current generation and restores safe hash target without replay (0.530916ms)
+✔ stream tool fragments summarize only after DONE without executing arguments (0.662375ms)
+✔ empty content remains distinct and tool names/count storage are bounded (1.283041ms)
+✔ visible long stream checks at 30s; network uncertainty clears secrets, isolates late output and requires manual recovery (1.161875ms)
+✔ known expiry cancels without a session fetch; relogin restores target without replay (0.736625ms)
+✔ uncertain session invalidates late issuance and explicit relogin clears and preserves safe target (0.554625ms)
+✔ known expiry also blocks submit before timer runs (0.516875ms)
+✔ hidden generation skips polling; visibility check is single flight and stale failure cannot clear a new page (0.629667ms)
+✔ known expiry survives a hanging one-shot session check and ignores late success (0.971625ms)
+✔ known expiry survives a hanging one-shot session check and ignores late network failure (0.773958ms)
+✔ known expiry survives a hanging one-shot session check and ignores late 401 (0.6275ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: success (0.880666ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: network failure (0.738959ms)
+✔ hanging session result across navigation cannot extend expiry or affect a new login: 401 (0.862333ms)
+✔ uncertain session recovery may hang but the original known expiry still clears it (1.542208ms)
+✔ ordinary periodic session success does not tell an active call to re-enter or resend (0.717458ms)
+✔ pagehide stops timers and pageshow still enforces a known deadline before a hanging check can resume (0.647417ms)
+✔ visibility restore enforces known expiry even when uncertain-state timer delivery was suspended (0.609958ms)
+✔ closed model selection helper commits later viewport option: false (1.797042ms)
+✔ closed model selection helper commits later viewport option: true (0.456084ms)
+✔ closed model selection helper fails rather than accepting an unchanged first option (0.994291ms)
+✔ model selection diagnostic records type-ahead and Tab boundaries without assigning DOM values (0.4055ms)
+✔ closed model selection helper handles starting at end and disabled options: 0/false (0.39525ms)
+✔ closed model selection helper handles starting at end and disabled options: 3/false (0.37675ms)
+✔ closed model selection helper handles starting at end and disabled options: 1/true (0.371416ms)
+✔ native model selection helper rejects unavailable target before activation: true (0.411875ms)
+✔ native model selection helper rejects unavailable target before activation: false (0.410125ms)
+✔ actual model diagnostic projection observes focus, option redraw and replacement without values (0.930416ms)
+✔ model diagnostics distinguish pending response bodies, failed reads and load-finally readiness (0.448333ms)
+✔ candidate selection trace retains boundaries, redacts values and cleans observers (0.246833ms)
+✔ candidate selection trace bounds keyboard events and redacts printable input (0.279166ms)
+✔ candidate type-ahead driver uses keyboard only and preserves boundary ordering (0.205458ms)
+✔ candidate type-ahead driver rejects ambiguous disabled or non-ASCII fixture targets before keys (0.280583ms)
+✔ model diagnostic event trace is bounded and only records approved key and focus labels (0.542042ms)
+✔ model diagnostic printable keys are redacted and type-ahead boundaries survive compaction (0.6415ms)
+✔ failure model projection omits arbitrary fields and keeps the bounded boundary evidence (0.418583ms)
+✔ entire UTF-8 failure line fits host tail while retaining first and final key boundaries (0.826834ms)
+ℹ tests 119
+ℹ suites 0
+ℹ pass 119
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 175.68625
+COMMAND: go test -race -count=1 -v selected non-listening regressions
+# model-relay/cmd/model-relay.test
+ld: warning: '<temp>/go-link-1986116333/000023.o' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+# model-relay/internal/relay.test
+ld: warning: '<temp>/go-link-19080572/000023.o' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestDeploymentContractAndIdempotentUpgradeCLI
+--- PASS: TestDeploymentContractAndIdempotentUpgradeCLI (2.35s)
+PASS
+ok  	model-relay/cmd/model-relay	3.958s
+=== RUN   TestConsoleGovernanceInProcess
+--- PASS: TestConsoleGovernanceInProcess (2.42s)
+=== RUN   TestConsoleInvitationRateLimit
+--- PASS: TestConsoleInvitationRateLimit (1.17s)
+=== RUN   TestConsoleGenerationExactDeadline
+--- PASS: TestConsoleGenerationExactDeadline (2.30s)
+=== RUN   TestConsoleResourceDimensionsInProcess
+--- PASS: TestConsoleResourceDimensionsInProcess (2.31s)
+=== RUN   TestConsolePeopleScopeInProcess
+--- PASS: TestConsolePeopleScopeInProcess (9.18s)
+=== RUN   TestConsoleAccountingInProcess
+--- PASS: TestConsoleAccountingInProcess (2.31s)
+=== RUN   TestConsoleMigrationConservation
+=== RUN   TestConsoleMigrationConservation/schema1
+=== RUN   TestConsoleMigrationConservation/schema2
+--- PASS: TestConsoleMigrationConservation (3.56s)
+    --- PASS: TestConsoleMigrationConservation/schema1 (0.04s)
+    --- PASS: TestConsoleMigrationConservation/schema2 (3.51s)
+=== RUN   TestConsoleIdentityAndKeys
+--- PASS: TestConsoleIdentityAndKeys (4.61s)
+=== RUN   TestMicroDollarPrecision
+--- PASS: TestMicroDollarPrecision (0.00s)
+=== RUN   TestInProcessContract
+--- PASS: TestInProcessContract (2.46s)
+=== RUN   TestExplicitUpgradeConservation
+=== RUN   TestExplicitUpgradeConservation/mapped
+=== RUN   TestExplicitUpgradeConservation/orphan
+--- PASS: TestExplicitUpgradeConservation (0.04s)
+    --- PASS: TestExplicitUpgradeConservation/mapped (0.03s)
+    --- PASS: TestExplicitUpgradeConservation/orphan (0.02s)
+PASS
+ok  	model-relay/internal/relay	31.967s
+?   	model-relay/tests/browser	[no test files]
+?   	model-relay/tests/browser/legacy	[no test files]
+?   	model-relay/tests/evidence	[no test files]
+=== RUN   TestHistoryCommandOutput
+=== RUN   TestHistoryCommandOutput/expected_red
+=== RUN   TestHistoryCommandOutput/rejected
+=== RUN   TestHistoryCommandOutput/closed_stdout
+--- PASS: TestHistoryCommandOutput (2.52s)
+    --- PASS: TestHistoryCommandOutput/expected_red (1.80s)
+    --- PASS: TestHistoryCommandOutput/rejected (0.36s)
+    --- PASS: TestHistoryCommandOutput/closed_stdout (0.33s)
+=== RUN   TestHistoricalAssessment
+=== RUN   TestHistoricalAssessment/bind
+=== RUN   TestHistoricalAssessment/build
+=== RUN   TestHistoricalAssessment/warning_with_error
+=== RUN   TestHistoricalAssessment/timeout
+=== RUN   TestHistoricalAssessment/green
+=== RUN   TestHistoricalAssessment/missing_assertion
+=== RUN   TestHistoricalAssessment/extra_assertion
+=== RUN   TestHistoricalAssessment/race
+=== RUN   TestHistoricalAssessment/wrong_status
+=== RUN   TestHistoricalAssessment/query_failure
+=== RUN   TestHistoricalAssessment/skip
+=== RUN   TestHistoricalAssessment/duplicate
+=== RUN   TestHistoricalAssessment/missing_package
+=== RUN   TestHistoricalAssessment/invalid_json
+--- PASS: TestHistoricalAssessment (0.03s)
+    --- PASS: TestHistoricalAssessment/bind (0.00s)
+    --- PASS: TestHistoricalAssessment/build (0.00s)
+    --- PASS: TestHistoricalAssessment/warning_with_error (0.00s)
+    --- PASS: TestHistoricalAssessment/timeout (0.00s)
+    --- PASS: TestHistoricalAssessment/green (0.00s)
+    --- PASS: TestHistoricalAssessment/missing_assertion (0.00s)
+    --- PASS: TestHistoricalAssessment/extra_assertion (0.00s)
+    --- PASS: TestHistoricalAssessment/race (0.00s)
+    --- PASS: TestHistoricalAssessment/wrong_status (0.00s)
+    --- PASS: TestHistoricalAssessment/query_failure (0.00s)
+    --- PASS: TestHistoricalAssessment/skip (0.00s)
+    --- PASS: TestHistoricalAssessment/duplicate (0.00s)
+    --- PASS: TestHistoricalAssessment/missing_package (0.00s)
+    --- PASS: TestHistoricalAssessment/invalid_json (0.00s)
+PASS
+ok  	model-relay/tests/health-history	4.564s
+COMMAND: make build
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+COMMAND: git diff --check
+SUPPLEMENTAL_CHECKS_EXIT_CODE=0

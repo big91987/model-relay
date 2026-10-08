@@ -1,0 +1,18 @@
+# model-relay/internal/relay.test
+ld: warning: '<temp>/go-link/000023.o' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestConsoleClockRecoveryInProcess
+    console_clock_recovery_test.go:113: clock recovery child: error=<nil> output=PASS
+--- FAIL: TestConsoleClockRecoveryInProcess (3.63s)
+=== RUN   TestConsoleGenerationExactDeadline
+--- PASS: TestConsoleGenerationExactDeadline (2.59s)
+=== RUN   TestConsoleReviewZeroSoftBudgetInProcess
+=== RUN   TestConsoleReviewZeroSoftBudgetInProcess/tenant
+=== RUN   TestConsoleReviewZeroSoftBudgetInProcess/key
+--- PASS: TestConsoleReviewZeroSoftBudgetInProcess (5.13s)
+    --- PASS: TestConsoleReviewZeroSoftBudgetInProcess/tenant (2.55s)
+    --- PASS: TestConsoleReviewZeroSoftBudgetInProcess/key (2.58s)
+=== RUN   TestConsoleReviewClockRollbackInProcess
+--- PASS: TestConsoleReviewClockRollbackInProcess (2.56s)
+FAIL
+FAIL	model-relay/internal/relay	14.695s
+FAIL

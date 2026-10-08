@@ -7,6 +7,7 @@ export GOTOOLCHAIN := local
 .PHONY: verify format-check vet test build browser frontend-test health-history
 verify:
 	go run ./tests/evidence
+	go run ./tests/review-history
 	$(MAKE) health-history
 	$(MAKE) format-check
 	go mod verify
@@ -29,7 +30,7 @@ test:
 	go test -race -count=1 -v ./...
 
 frontend-test:
-	node --test tests/browser/ui.test.mjs
+	node --test tests/browser/*.test.mjs
 
 build:
 	@mkdir -p bin

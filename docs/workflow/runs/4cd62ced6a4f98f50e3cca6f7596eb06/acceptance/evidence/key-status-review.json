@@ -1,0 +1,24 @@
+{
+  "evidence_type": "Static Review; extracted actual formatter, not UI-E2E",
+  "source": "internal/relay/web/workspace.js",
+  "field_passed_by_column": "revoked",
+  "outcomes": [
+    {
+      "scenario": "enabled",
+      "rendered": "有效 / 按启用与期限判断"
+    },
+    {
+      "scenario": "disabled",
+      "rendered": "有效 / 按启用与期限判断"
+    },
+    {
+      "scenario": "expired",
+      "rendered": "有效 / 按启用与期限判断"
+    },
+    {
+      "scenario": "revoked",
+      "rendered": "已撤销"
+    }
+  ],
+  "distinguishes_enabled_disabled_expired": false
+}

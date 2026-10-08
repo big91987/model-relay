@@ -324,4 +324,12 @@ func main() {
 		fmt.Fprintln(os.Stderr, strings.ReplaceAll(err.Error(), "\n", " "))
 		os.Exit(1)
 	}
+	if err := consoleJourney(); err != nil {
+		fmt.Fprintln(os.Stderr, "console browser verification failed:", err)
+		os.Exit(1)
+	}
+	if err := fullConsoleJourneys(); err != nil {
+		fmt.Fprintln(os.Stderr, "continuous console browser verification failed:", err)
+		os.Exit(1)
+	}
 }

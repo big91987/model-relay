@@ -1,0 +1,13 @@
+{
+  "qa_execution": 47,
+  "date": "2026-10-08",
+  "source_before_after_equal": true,
+  "working_tree_sha256": "7e0b20ddbdea4585959365d8ad3b6121abaa91cd3f450fa2c6c21f7afc05a9ab",
+  "host_fixed_entry": {"seq": 46, "command": "make verify", "exit_code": 0, "log_bytes": 104299, "truncated": false, "archive_read_eof": true},
+  "qa_executed": ["project-cache go run ./tests/evidence", "material archive and 19 manifest file digests", "evidence collector 75 artifacts including 63 PNG digests", "30 actual page image inspections and selected detail/editor inspections", "node --check acceptance evidence collector", "cmp source-before/source-after", "git diff --check"],
+  "qa_not_executed": ["repeat make verify under known listening restriction", "new real browser journey", "real supplier validation", "PR merge or production deployment"],
+  "collector_final_exit_code": 0,
+  "syntax_cmp_diff_final_exit_code": 0,
+  "result": "No-Go",
+  "open_defects": [{"id": "QA47-01", "severity": "P1", "owner": "development"}, {"id": "QA47-02", "severity": "P2", "owner": "development", "independently_blocking": false}]
+}

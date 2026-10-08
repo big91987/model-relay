@@ -60,8 +60,18 @@ type Resolver interface {
 	LookupNetIP(context.Context, string, string) ([]netip.Addr, error)
 }
 type Policy struct {
-	TestAuthority string
-	Resolver      Resolver
+	TestAuthority      string
+	Resolver           Resolver
+	PrivateAuthorities []string
+}
+
+func (policy Policy) privateAllowed(authority string) bool {
+	for _, allowed := range policy.PrivateAuthorities {
+		if allowed == authority {
+			return true
+		}
+	}
+	return false
 }
 
 var errDestinationForbidden = errors.New("destination forbidden")
@@ -116,6 +126,9 @@ func (policy Policy) validateIPs(ctx context.Context, host, authority string) (n
 		if authority == policy.TestAuthority && address.IsLoopback() {
 			continue
 		}
+		if policy.privateAllowed(authority) && address.IsPrivate() && !address.IsLoopback() && !address.IsLinkLocalUnicast() {
+			continue
+		}
 		if !publicIP(address) {
 			return netip.Addr{}, errDestinationForbidden
 		}
@@ -129,7 +142,7 @@ func (policy Policy) URL(ctx context.Context, raw string) (string, error) {
 	if err != nil || parsed.Hostname() == "" || parsed.User != nil || parsed.RawQuery != "" || parsed.ForceQuery || parsed.Fragment != "" || strings.ContainsAny(raw, "\\\r\n") || parsed.Opaque != "" {
 		return "", errors.New("invalid destination")
 	}
-	if parsed.Scheme != "https" && !(parsed.Scheme == "http" && parsed.Host == policy.TestAuthority) {
+	if parsed.Scheme != "https" && !(parsed.Scheme == "http" && (parsed.Host == policy.TestAuthority || policy.privateAllowed(parsed.Host))) {
 		return "", errors.New("HTTPS required")
 	}
 	if parsed.RawPath != "" || strings.ContainsAny(parsed.Path, "\r\n\x00") || strings.Contains(parsed.Path, "..") || strings.Contains(parsed.Path, "//") {
@@ -155,7 +168,7 @@ func (policy Policy) Dial(ctx context.Context, network, authority string) (net.C
 		return nil, err
 	}
 	testAuthority := authority
-	if strings.HasSuffix(authority, ":443") {
+	if strings.HasSuffix(authority, ":443") && !policy.privateAllowed(authority) {
 		testAuthority = host
 	}
 	address, err := policy.validateIPs(ctx, host, testAuthority)

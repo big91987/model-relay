@@ -4,9 +4,11 @@
 
 从零独立实现；不使用 New API 的源码、数据库模型或实现。它是 Agent Platform 原生编排的真实产品实践仓库，需求、设计、开发、独立 QA 和交付证据随代码维护。
 
-## 首版目标
+## 当前目标：多租户管理控制台
 
-- 单管理员管理网页，上游配置、模型别名、访问密钥和调用记录。
+- A管理工作台十页，真实平台/租户管理员、开发者、财务身份及邀请接受。
+- 供应商API/已有自托管服务接入、公共模型发布/租户授权、稳定应用Key及代际轮换。
+- 独立次数/RPM/TPM/并发/硬软费用预算；USD微美元价格快照、多尝试/未知费用、追加核对和账单更正。
 - `/v1/models` 和 `/v1/chat/completions`，支持普通响应与 SSE 流式转发。
 - 密钥保护、明确的错误边界、请求取消与数据持久化。
 - 完整服务的启动、停止、重启与备份说明，真实 HTTP 和浏览器验证。
@@ -14,10 +16,14 @@
 后端统一使用 **Go**，管理网页由同一 Go 服务提供。
 
 - [产品路线图与功能拆分](docs/roadmap.md)
-- [当前阶段：v0.1.0 基础中转](docs/releases/v0.1.0.md)
+- [当前冻结范围及实际材料入口](docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/product-definition.md)
+- [当前实现与验证状态](docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/delivery/README.md)
+- [历史v0.1.0基础中转](docs/releases/v0.1.0.md)
 - [产品委托](docs/product-brief.md)
 
-## 当前演进：多上游路由与调用诊断
+## 历史演进：多上游路由与调用诊断
+
+以下为历史发布与切片责任，不代表当前design-v0.2.0已验收。当前Issue #25从main独立实施完整冻结范围，不恢复旧工作区。源码、受控测试和公开运维说明已扩展到schema3；宿主固定门禁、独立QA、PR与正式部署仍须本Run真实回执，不能引用历史通过。
 
 第 1 项首次配置与诊断已通过独立 QA，经 Issue #16 / PR #17 合并至 `85f6d17c07c5fddeb2d6a39a5a067769a11bb4cc` 并正式测试部署（用户提供 Deployment 6876076706 success）。这是上一切片的发布事实，不覆盖其 [历史验收报告](docs/workflow/runs/f1ff775cb6fee4d609353655cae5e180/acceptance/report-02.md)。当前 Issue #18 实现路线第 2 项：[多上游需求](docs/workflow/runs/82227c5986e5f41875895d8016c686a6/product-definition.md)、[架构](docs/workflow/runs/82227c5986e5f41875895d8016c686a6/routing-architecture.md)、[研发交付与验证状态](docs/workflow/runs/82227c5986e5f41875895d8016c686a6/delivery/README.md)。当前实现待宿主完整门禁与独立 QA，不代表本轮已合并或发布；真实供应商仍未测。
 
@@ -51,13 +57,15 @@ bin/model-relay serve --data-dir ../relay-data --key-file ../relay.key --listen 
 
 访问 `http://127.0.0.1:5544/admin/`（不要改为 `localhost`，Host 必须与实际监听 authority 一致），使用一次输出的密码登录。默认安装没有上游、模型或密钥，不自动发送任何生成请求：
 
-1. “上游”保存完整 HTTPS base URL（例如供应商 `/v1` 地址）与凭据。初次和改地址必须有新凭据；相同地址留空保留原值。保存只代表本地提交，不是联调成功。
-2. “模型”建立稳定别名与真实模型映射，可编辑映射、停用或重新启用。
-3. “应用密钥”签发命名密钥，仅创建时展示完整值，可复制后关闭。遗失后签发新的并停用旧的；查询不找回原值。
-4. “调用测试”从启用模型中选择别名，手动输入应用密钥及消息，选择普通/SSE 发送。默认展示可读文本，可展开有界原始诊断；工具/空内容有明确说明。可能产生真实供应商费用；支持取消、不自动重试或重复发送。页面离开、退出、过期和取消会清空敏感输入及输出。页面提供网关 Base URL 和不含真实秘密的占位客户端示例。
-5. “调用记录”从本次结果按钮或精确请求 ID 定位同请求，核对模型、密钥安全标识、状态、耗时及可空用量；未知不等于零。分页最多 100 条，不记录对话或供应商诊断正文。无效/停用密钥仍统一拒绝且不访问上游，可落盘时记录安全拒绝元数据；未取得 ID、未找到记录或存储故障不代表未计费。
+1. 使用账号`admin`和首次密码登录。“供应商与服务”明确来源类型、基础地址和凭据；编辑同地址留空保留原凭据。显式核验不发送生成请求，保存不等于连接/生成成功。
+2. “模型托管”发布公共模型及真实远端候选，选择租户授权。新模型没有隐式租户/Key授权。“定价与账单”一次发布全部候选的独立成本和统一租户输入/输出价格，单位为微美元/百万Token，保留历史版本。
+3. “租户与成员”创建租户、设预算、邀请负责人。邀请链接手工受信交付，不发送邮件；新账户接受时设至少12字符密码，已有账户先登录后接受。人员与应用Key分离，移除成员收回身份/诊断权限，不擅自撤销应用Key。
+4. 租户管理员在“API Keys”创建应用、模型交集、期限及诊断成员；完整秘密仅本次显示。遗失需轮换，立即或最长24小时过渡，新旧共享应用额度与历史。未知提交先安全读回，不盲目重签。
+5. “配额与预算”独立配置租户/Key次数、RPM、TPM、并发及费用。空为无限、0为拒绝，改限额/暂停/轮换不清零。有限TPM或硬费用须先登记绑定当前执行配置的可信收费Token上界；不能证明时拒绝，而不是假称硬保证。上界依据由运营者承担供应商契约责任，测试上游不证明真实供应商。
+6. “调用测试”显式使用已持有Key，普通/SSE输出、取消与同Request ID诊断；取消只停止本地接收，不能宣称上游免收费。页面离开/退出清敏感，不自动重发；“调用日志”支持模型/Key/状态/时间/ID筛选、分页、精确详情与导出。
+7. 平台管理员按可追溯依据核对未知用量/历史价格；所有dispatch的已知用量均计成本与租户费。仅已结束且无未决的周期可结账；已关闭金额不可覆写，更正追加原因、操作者与开放调整周期。外部支付仍未接通。
 
-六页支持 `/admin/#overview`、`#upstream`、`#models`、`#keys`、`#test`、`#records` 深链和刷新。概览计数由数据库全量聚合；保存与调用成功区分。“当前配置曾成功”仅引用本次启动、当前配置的一个真实持久成功请求；任何上游/模型/密钥写入或服务重启都要求重新核验，不删除历史记录，不是持续健康证明。运行版本独立读取 `/healthz.version` 原值。
+正式schema3是十页A工作台，真实身份范围由服务端决定。概览趋势/租户费用/风险来自持久事实；缺数据为未知/空，错误不冒充0。运行版本独立读取`/healthz.version`及`storage_schema`。schema2六页仅留作兼容回归，不是本期交付UI。
 
 应用端调用示例（环境变量仅供调用者自行填入，测试不读取用户密钥）：
 
@@ -86,9 +94,11 @@ bin/model-relay serve --data-dir ../relay-restored --key-file ../relay.key --lis
 
 ## 协议与安全边界
 
-仅支持 `GET /v1/models` 和文本/函数工具子集的 `POST /v1/chat/completions`。协议清单、来源规则与错误契约以 `docs/workflow/design.md` 第 4–6 节为准：支持常见生成参数、function tools/choice、response_format、stream_options.include_usage，未知字段和多模态转发前拒绝。只替换请求 model；普通结果及合法 SSE chunk 原样返回，响应中的真实 model 不改写。不转发客户端 Cookie/自定义头或供应商 Set-Cookie；不会访问客户端指定目的地址。
+仅支持 `GET /v1/models` 和文本/函数工具子集的 `POST /v1/chat/completions`。协议清单、来源规则与错误契约以 `docs/workflow/design.md` 第 4–6 节为准：软/无限模式支持既有常见生成参数、function tools/choice、response_format、stream_options.include_usage，未知字段和多模态转发前拒绝。有限TPM/硬费用模式仅支持可证明有界的普通文本子集，拒绝tools、多模态、n>1及超过已声明输出上限的请求，默认发送显式安全输出上限。只替换请求 model；普通结果及合法 SSE chunk 原样返回，响应中的真实 model 不改写。不转发客户端 Cookie/自定义头或供应商 Set-Cookie；不会访问客户端指定目的地址。
 
 默认拒绝 HTTP、私网/loopback/特殊地址、环境代理、所有重定向；配置和实际 Dial 均复验 DNS。管理写操作须精确 Origin，登录后的写操作还需会话 CSRF；管理会话与应用 Bearer 隔离。上游 token AES-GCM 加密，管理员密码 Argon2id，随机应用密钥仅存 SHA-256 摘要。本版只支持 loopback，无公网 TLS/生产部署承诺，同机特权进程不在秘密保护边界内。
+
+接入已有私网推理端点时，仅运营者在明确授权后为`serve`配置`--private-upstream-authorities host:port,host:port`精确白名单；未列明仍拒绝。该列表可允许私网HTTP/HTTPS，但不允许loopback、metadata/link-local及混合DNS越界，不自动扩大网络权限。产品默认不设置白名单，受控loopback只存在于测试Policy。
 
 生成请求最大 1 MiB、管理 JSON 64 KiB、普通响应 8 MiB、SSE 事件 256 KiB/全流 32 MiB；响应头 30 秒、整个请求 300 秒、提交前每次尝试 60 秒、有效 SSE 事件空闲 60 秒；逐次下游写 10 秒。全局登录 10 次/分钟，最多两个并行口令验证。同请求最多尝试 3 个不同上游，不重复同一上游；优先级大数先用，同级平滑加权轮转。只有 HTTP 408/429/500/502/503/504、暂时网络或 TLS/传输失败可在响应提交前切换；暂时失败冷却 30 秒后被动恢复。协议/授权/存储失败、整体超时、取消或已向客户端提交响应均停止切换。SSE 只有记录落盘后才发送 `[DONE]`；`event: error` 或缺少 `[DONE]` 均为不完整，不以 finish_reason 代替结束。取消不能保证供应商撤销费用，多次尝试可能产生重复消耗；未知用量保留未知并展示已知部分。
 
@@ -96,18 +106,20 @@ bin/model-relay serve --data-dir ../relay-restored --key-file ../relay.key --lis
 
 ## 从旧安装升级
 
-新安装使用 schema 2；`serve` 不会隐式升级 schema 1。停止旧服务、保留独立主密钥并先由旧 binary 备份，使用候选 binary 执行：
+新安装使用 schema 3；`serve` 不会隐式升级 schema 1/2。停止旧服务、保留独立主密钥并先由旧 binary 备份，使用候选 binary 执行：
 
 ```sh
 bin/model-relay deployment-contract
 bin/model-relay upgrade --data-dir <data-directory> --key-file <key-file> --output <new-migration-backup.tar>
 ```
 
-`upgrade` 在独占安装锁内校验凭据、创建新的升级前备份，再原子迁移；返回 JSON `migrated` 或 `already_current`。已是 schema 2 时不重复备份/迁移，仍必须提供 `--output`。保留旧安装身份、管理员、应用密钥、模型及历史记录；历史尝试未知不补造，无上游的遗留映射保留远端名待管理员关联。健康检查报告实际打开的 `storage_schema`。
+`upgrade` 在独占安装锁内校验凭据、创建新的升级前备份，再原子迁移；返回 JSON `migrated` 或 `already_current`。已是 schema 3 时不重复备份/迁移，仍必须提供 `--output`。保留旧管理员、应用密钥、模型及历史，旧Key归入“原有应用”租户；未知历史用量/价格不补0，平台必须通过带证据的正式历史核对入口处理。无上游的遗留映射保留远端名待关联。健康检查报告实际`storage_schema`，部署只接受CLI声明的schema3。
 
 回退只承诺升级前完整快照：停止新服务，用旧 binary 的 `restore` 将旧归档恢复到空目标并配原主密钥，不合并升级后新增数据。不要把本机手动升级当正式发布；平台正式 activate 需完成旧 binary 备份→候选升级→切换启动/实际 schema 核对及失败恢复，用户已报告平台固定源d0564d05的接缝实现、隔离回归和标准安装升级；这不代替真实新旧Go联调及正式 Actions 非空升级/失败恢复复验，后两层仍是发布依赖。详见 [升级与发布契约](docs/workflow/runs/82227c5986e5f41875895d8016c686a6/deployment-upgrade-contract.md)。
 
 ## 验证
+
+当前完整范围、AC映射和真实执行结果见[本Run验证记录](docs/workflow/runs/4cd62ced6a4f98f50e3cca6f7596eb06/validation/report.md)。原生沙箱已实测不能监听；完整`make verify`仍交宿主固定项目Connector，不将定向单测/构建当全量通过。新门禁包含真实HTTP/SSE、人员范围、独立资源/费用、多尝试核对、schema1/2→3与崩溃重启、1280/1440/390实际Go UI；原可信历史/浏览器门禁保留。
 
 前提：上述 Go/C 工具链，以及 Node 18+、npm、Playwright Chromium（仅测试依赖）。
 

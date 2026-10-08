@@ -1,0 +1,10 @@
+--- FAIL: TestConsoleReviewZeroSoftBudgetInProcess (0.53s)
+    --- FAIL: TestConsoleReviewZeroSoftBudgetInProcess/tenant (0.27s)
+        console_review_regression_test.go:28: zero soft budget: status=200 dispatch_delta=1 error=<nil>
+    --- FAIL: TestConsoleReviewZeroSoftBudgetInProcess/key (0.26s)
+        console_review_regression_test.go:28: zero soft budget: status=200 dispatch_delta=1 error=<nil>
+--- FAIL: TestConsoleReviewClockRollbackInProcess (0.24s)
+    console_review_regression_test.go:57: expired unretired generation revived after rollback {200 6VdWD7gv9USesKukV33Y-Q <nil>} 1
+FAIL
+FAIL	model-relay/internal/relay	2.796s
+FAIL

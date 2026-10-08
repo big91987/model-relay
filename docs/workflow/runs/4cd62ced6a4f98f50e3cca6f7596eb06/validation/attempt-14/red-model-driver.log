@@ -1,0 +1,40 @@
+✔ workspace service detail renders facts without requiring limit fields (1.221958ms)
+✔ workspace key detail renders facts without requiring limit fields (0.557625ms)
+✔ workspace request detail renders facts without requiring limit fields (0.294084ms)
+✔ workspace operation detail renders facts without requiring limit fields (0.246792ms)
+✔ workspace bill detail renders facts without requiring limit fields (0.253458ms)
+✔ workspace detail null remains explicitly unknown (0.252334ms)
+✔ workspace limits retain their independent dimensions and warning (0.328625ms)
+✔ workspace local list search spans fetched groups and recovers after clearing (0.595917ms)
+✔ workspace service check sends execution revision, not management revision or empty input (1.400667ms)
+✔ workspace stale service check exposes rejection without detail or automatic retry (0.406916ms)
+✖ console model driver uniquely targets actual editor labels without editing additional routes (1.58225ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 10
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 78.905125
+
+✖ failing tests:
+
+test at tests/browser/workspace.test.mjs:116:1
+✖ console model driver uniquely targets actual editor labels without editing additional routes (1.58225ms)
+  AssertionError [ERR_ASSERTION]: model driver label must identify one actual editor control
+  
+  2 !== 1
+  
+      at Object.write (file://<workspace>/tests/browser/workspace.test.mjs:139:18)
+      at evalmachine.<anonymous>:1:254
+      at async TestContext.<anonymous> (file://<workspace>/tests/browser/workspace.test.mjs:146:3)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

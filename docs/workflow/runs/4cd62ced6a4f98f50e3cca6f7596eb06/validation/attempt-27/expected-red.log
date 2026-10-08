@@ -1,0 +1,8 @@
+--- FAIL: TestContinuousUpstreamResponseContract (0.00s)
+    --- FAIL: TestContinuousUpstreamResponseContract/known (0.00s)
+        journeys_test.go:46: controlled completion requires assistant role and content
+    --- FAIL: TestContinuousUpstreamResponseContract/unknown (0.00s)
+        journeys_test.go:46: controlled completion requires assistant role and content
+FAIL
+FAIL	model-relay/tests/browser	0.577s
+FAIL
