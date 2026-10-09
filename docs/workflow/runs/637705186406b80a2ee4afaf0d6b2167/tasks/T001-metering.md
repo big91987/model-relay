@@ -38,7 +38,7 @@
 
 ## 实施结果与版本
 
-prepare18整合main `6929376089535038112da48aed715fd729615d76`，HEAD仍 `8917f942cb38af2f56aa93914ab62e763bf9cc6e`，同MERGE_HEAD、非干净、冲突0；158文件源码指纹 `6e359667d5f7521f6b8c421454c6fc7cbe5ccb8c74aa87bb1e5955c194c202cc`。QA23复算两项变更保留，report24重算同摘要。tests22完整冷make verify约653.728秒exit0，278项前端无skip、全包race/真实HTTP/进程/build与三宽受控Go UI全绿。QA本人8组进程内race 21.991秒exit0、53项Node exit0，未声称本人重跑HTTP/浏览器。
+prepare18整合main `6929376089535038112da48aed715fd729615d76`；tests22于上海2026-10-10 00:22:25–00:33:19及其后QA23/report24采证时，旧HEAD为 `8917f942cb38af2f56aa93914ab62e763bf9cc6e`，联合工作树当时尚未提交、冲突0。publish25已于上海2026-10-10 00:55:39形成并推送联合提交 `5602f563313427ea9b1c7fbd495f5ce60a1de10a`（exit0/pushed=true），pr26已更新同PR36。report28接手工作树干净；158文件源码指纹 `6e359667d5f7521f6b8c421454c6fc7cbe5ccb8c74aa87bb1e5955c194c202cc` 与原验收一致，361件QA归档bytes/SHA及联合提交对象核对一致。tests22完整冷make verify约653.728秒exit0，278项前端无skip、全包race/真实HTTP/进程/build与三宽受控Go UI全绿。QA本人8组进程内race 21.991秒exit0、53项Node exit0，未声称本人重跑HTTP/浏览器。
 
 [QA23结论](../acceptance/release-assessment-qa-23.md)、[逐项矩阵](../acceptance/acceptance-matrix-qa-23.md)、[证据索引](../acceptance/evidence/index.md)为当前完成依据。生产实现确认缺陷0；内部“无默认cap”未复现，没有生产算法红绿，只有采证/测试工程历史失败及当前完整门禁绿。无本任务新增生产接口/schema/价格/供应商改动；联合主线行为保留。设计偏差无；不重做PRD/架构。
 
@@ -46,7 +46,7 @@ prepare18整合main `6929376089535038112da48aed715fd729615d76`，HEAD仍 `8917f9
 
 ## 交接与限制
 
-- 可依赖：联合M01受控资产已独立验收；report完成[PR正文](../pr.md)，原publish提交推送、原pr更新同PR36而非创建新PR，Refs #34。正式新提交/Actions/合并/部署待Connector，不把旧HEAD当新联合发布SHA。
+- 可依赖：联合M01受控资产已独立验收，publish25已提交推送、pr26已更新同PR36；report28补正[PR正文](../pr.md)及公共当前状态，原publish/pr仅需提交推送本轮文档并更新同PR36，Refs #34，不新建PR。最终新HEAD及正式Actions映射待Connector，不预编SHA，不声称PR36已合并/部署。report24版本保留于publish25提交对象，原始证据不变。
 - 未验：原#33两屏非零RPM/TPM/自然窗/双会话、真实供应商安全/隐藏推理/思考、成功/恢复/费用实扣Not Run/Blocked，Incomplete-No-Go保持。
 - 专用测试责任Pipeline核合法配置、精确模型/上界/思考和H/X预算再独立评审复测；C仅前置图。budget not_attested、24次/每次64 tokens/90秒及未知历史不变，新增真实请求0，无私有Provider读取。
 - 最近成功验证tests22/QA23，不再等待已完成的验证；约66秒门禁余量有风险。源/测试/锁/契约变化需重验，纯报告更新不冒称重跑。普通阶段无新增用户决定。

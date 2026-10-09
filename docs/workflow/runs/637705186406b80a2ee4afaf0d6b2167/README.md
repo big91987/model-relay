@@ -1,13 +1,13 @@
 # #34 调用安全与计量整改
 
-日期 2026-10-10；交付负责人 report执行24；同Issue34、Run及PR36的联合受控交付补正。原#33受测版本为 `3f9cee1615e87e002a2c2300f2d29778072ec3f5`，产品Incomplete-No-Go保持。
+日期 2026-10-10；交付负责人 report执行28；同Issue34、Run及PR36的交付说明补正，仅修改文档。原#33受测版本为 `3f9cee1615e87e002a2c2300f2d29778072ec3f5`，产品Incomplete-No-Go保持。
 
 ## 当前状态
 
 - 当前里程碑：[M01](milestones/M01-metering.md) **Accepted**，仅联合受控安全/计量回归资产。
-- 交付判断：**Executing**。当前研发与独立验收完成，版本交付尚待原Connector发布；不称Delivered。
+- 交付判断：**Executing**。联合资产已由publish25提交推送、pr26更新PR36；当前仅交付说明补正待原Connector提交推送及更新同PR，不将未提供的正式Actions/合并/部署写为完成。
 - 任务事实源：[T001](tasks/T001-metering.md) **Done**，依据tests22完整冷门禁和QA23独立评审，不再等待已完成的验证。
-- 关键路径：联合整合→固定完整冷门禁→独立QA→report（均完成）→原publish提交推送→原pr更新PR36→精确新提交/Actions门禁。
+- 关键路径：联合整合→tests22完整冷门禁→QA23→report24→publish25→pr26（均完成）→report28说明补正→原publish/pr更新同PR36及精确新提交/Actions映射。
 - 当前阻塞：联合受控资产发布交接无阻塞；真实供应商安全/费用与原非零数值网页仍Blocked/Not Run，不属于本轮Accepted。
 - 下一批Ready：无新增研发任务；原publish可接手[PR正文](pr.md)。真实生成前置未满足，不标Ready，不新增供应商任务。
 
@@ -21,7 +21,9 @@
 
 ## 联合版本与证据
 
-分支 `workflow/637705186406b80a2ee4afaf0d6b2167`；HEAD `8917f942cb38af2f56aa93914ab62e763bf9cc6e`；origin/main及MERGE_HEAD `6929376089535038112da48aed715fd729615d76`。prepare18未提交整合，当前非干净、冲突0；旧HEAD不是新的联合提交。158文件完整源码指纹 `6e359667d5f7521f6b8c421454c6fc7cbe5ccb8c74aa87bb1e5955c194c202cc`，tests22/QA23前后一致，report24重算一致。report仅更新交付文本及历史快照，不改业务/测试/契约。
+分支 `workflow/637705186406b80a2ee4afaf0d6b2167`；当前已发布联合HEAD `5602f563313427ea9b1c7fbd495f5ce60a1de10a`，父提交为旧任务HEAD `8917f942cb38af2f56aa93914ab62e763bf9cc6e` 与main `6929376089535038112da48aed715fd729615d76`。publish25于上海2026-10-10 00:55:39提交，回执exit0/pushed=true，pr26已更新同PR36且head一致。report28接手工作树干净，无待整合冲突。
+
+tests22（上海2026-10-10 00:22:25–00:33:19）及其后QA23/report24的未提交联合工作树是历史采证对象，不是发布后的当前状态。158文件完整源码指纹 `6e359667d5f7521f6b8c421454c6fc7cbe5ccb8c74aa87bb1e5955c194c202cc`，tests22/QA23/report24/report28重算一致；report28逐件核361件QA归档bytes/SHA及publish25提交对象一致。本轮仅更新本总览、任务、里程碑与PR正文，不改业务/测试/契约，不重跑已经通过的产品门禁或QA。report24公共说明仍保留于publish25提交对象，全部原始QA/失败证据保持不变。
 
 [QA23联合库存](acceptance/evidence/qa-23/integration-recomputed.json)复算PR35全部3255个main变更路径逐字保留；接手时PR36全部231路径仅4份授权公共状态/计划文档不同，原代码/断言/失败证据保留。Makefile及Go验证入口共同保留两项交付，不以无冲突替代联合验证。
 
@@ -59,6 +61,6 @@ manifest：该根 `manifest.json`；version `product-test33-handoff-r1`；ZIP SH
 
 ## 交付审查与下一责任
 
-report24实际核验：指定四份更新文档的 `git diff --check` exit0；更新前后 `go run ./tests/evidence` 均158文件同源码指纹；交接ZIP和61项材料大小/SHA256全部匹配；落盘完整宿主日志959452字节/摘要与state一致；56个文档链接本地目标存在，其中15个PR仓库URL使用已核对的origin及编码任务分支。只读核对HEAD/origin/main/MERGE_HEAD和冲突0，不写Git元数据；未联网声明新远端文件可访问，未重跑宿主全门禁。历史快照与公共报告不属于源码指纹范围，不将该指纹冒充全部文档摘要。
+report28实际核验：按项目 `tests/evidence/main.go` 相同库存及排序/路径/长度/字节算法只读复算158文件指纹，与tests22/QA23及publish25提交一致；361件QA归档bytes/SHA与该提交对象一致；交接ZIP和61项材料大小/SHA256匹配；指定四份更新文档 `git diff --check` 通过，正文仓库URL核对实际origin、编码任务分支及已提交目标。读取publish25完整保留日志124字节、eof=true/truncated=false，exit0/pushed=true由正式回执支持；pr26正式回执支持同PR36 head。只读Git，不写元数据、不联网冒充额外远端实测、不重跑产品tests/QA或供应商。report24原核验说明保留于publish25提交对象；历史快照与公共报告不属于源码指纹范围，不将该指纹冒充全部文档摘要。
 
-report24按Skill公共契约/审查清单复核：**Ready for Dispatch**（原publish），当前受控AC逐项由QA23追踪，任务Done及里程碑Accepted有同版集成证据；总览唯一状态，历史存档、失败保留。未执行需求/设计阶段不补造文档，无需新增用户决定。原publish负责提交未提交整合及本轮文档、推送同任务分支；原pr更新同PR36，标题“【产品测试】补齐受控RPM/TPM与安全调用计量回归”，Refs #34，不关闭#33。新的提交/Actions/合并/部署均无回执，保持待执行。正文链接仅是本次推送后的仓库访问目标，须发布前核对远端存在与精确候选。
+report28按Skill公共契约/审查清单复核：**Ready for Dispatch**（原publish），当前受控AC逐项由QA23追踪，任务Done及里程碑Accepted有同版集成证据；总览唯一状态，历史存档、失败保留。未执行需求/设计阶段不补造文档，无需新增用户决定。联合资产提交推送与PR36更新已完成；下一步原publish仅提交推送本轮四份文档，原pr更新同PR36，使用正文首条非空一级标题“【产品测试】补齐受控RPM/TPM与安全调用计量回归”，Refs #34，不关闭#33。最终新HEAD不得预编，正式Actions结果及PR36合并/部署未提供完成回执，不称通过。已发布QA链接与本轮待推送文档修改分列，正文更新前由Connector确认精确最终候选与链接目标。
