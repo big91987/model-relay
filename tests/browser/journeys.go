@@ -21,11 +21,18 @@ func fullConsoleJourneys() error {
 		if err := fullConsoleJourney(width); err != nil {
 			return fmt.Errorf("continuous console journey %d: %w", width, err)
 		}
+		if err := fullConsoleJourneyMode(width, "self_hosted"); err != nil {
+			return fmt.Errorf("first self-hosted console journey %d: %w", width, err)
+		}
 	}
 	return nil
 }
 
 func fullConsoleJourney(width int) error {
+	return fullConsoleJourneyMode(width, "provider")
+}
+
+func fullConsoleJourneyMode(width int, mode string) error {
 	root, err := os.MkdirTemp("", "relay-continuous-ui-")
 	if err != nil {
 		return err
@@ -79,7 +86,13 @@ func fullConsoleJourney(width int) error {
 	if err != nil {
 		return err
 	}
-	upstream := &http.Server{ReadHeaderTimeout: 5 * time.Second, Handler: continuousUpstream(&dispatched)}
+	upstreamHandler := continuousUpstream(&dispatched)
+	basePath := "/v1"
+	if mode == "self_hosted" {
+		upstreamHandler = selfHostedUpstream(&dispatched)
+		basePath = selfHostedPath
+	}
+	upstream := &http.Server{ReadHeaderTimeout: 5 * time.Second, Handler: upstreamHandler}
 	go upstream.Serve(upstreamListener)
 	defer upstream.Close()
 	listener, err := net.Listen("tcp", "127.0.0.1:0")
@@ -94,7 +107,7 @@ func fullConsoleJourney(width int) error {
 	go server.Serve(listener)
 	defer server.Close()
 	command := exec.Command("node", "tests/browser/journeys.mjs")
-	command.Env = append(os.Environ(), "RELAY_JOURNEY_WIDTH="+fmt.Sprint(width), "RELAY_JOURNEY_ORIGIN=http://"+listener.Addr().String(), "RELAY_JOURNEY_PASSWORD="+password, "RELAY_JOURNEY_UPSTREAM=http://"+upstreamListener.Addr().String()+"/v1", "RELAY_JOURNEY_CONTROL=http://"+controlListener.Addr().String(), "RELAY_JOURNEY_CAPABILITY="+controlToken)
+	command.Env = append(os.Environ(), "RELAY_JOURNEY_MODE="+mode, "RELAY_JOURNEY_WIDTH="+fmt.Sprint(width), "RELAY_JOURNEY_ORIGIN=http://"+listener.Addr().String(), "RELAY_JOURNEY_PASSWORD="+password, "RELAY_JOURNEY_UPSTREAM=http://"+upstreamListener.Addr().String()+basePath, "RELAY_JOURNEY_CONTROL=http://"+controlListener.Addr().String(), "RELAY_JOURNEY_CAPABILITY="+controlToken)
 	command.Stdout = os.Stdout
 	command.Stderr = os.Stderr
 	return command.Run()
@@ -116,6 +129,7 @@ func continuousUpstream(dispatched *atomic.Int64) http.Handler {
 			return
 		}
 		var input struct {
+			Stream   bool `json:"stream"`
 			Messages []struct {
 				Content string `json:"content"`
 			} `json:"messages"`
@@ -125,10 +139,39 @@ func continuousUpstream(dispatched *atomic.Int64) http.Handler {
 			return
 		}
 		dispatched.Add(1)
+		if input.Stream {
+			writer.Header().Set("Content-Type", "text/event-stream")
+			fmt.Fprint(writer, "data: {\"id\":\"controlled\",\"choices\":[{\"delta\":{\"role\":\"assistant\",\"content\":\"controlled stream\"},\"finish_reason\":null}]}\n\n")
+			writer.(http.Flusher).Flush()
+			fmt.Fprint(writer, "data: {\"id\":\"controlled\",\"choices\":[{\"delta\":{},\"finish_reason\":\"stop\"}],\"usage\":{\"prompt_tokens\":3,\"completion_tokens\":4,\"total_tokens\":7}}\n\ndata: [DONE]\n\n")
+			return
+		}
 		if len(input.Messages) > 0 && input.Messages[0].Content == "controlled unknown usage" {
 			fmt.Fprint(writer, `{"choices":[{"message":{"role":"assistant","content":"controlled unknown"}}]}`)
 			return
 		}
 		fmt.Fprint(writer, `{"id":"controlled","choices":[{"message":{"role":"assistant","content":"controlled response"}}],"usage":{"prompt_tokens":3,"completion_tokens":4,"total_tokens":7}}`)
+	})
+}
+
+const selfHostedPath = "/isolated-controlled-self-hosted-long-address-readable-without-truncation/v1"
+
+func selfHostedUpstream(dispatched *atomic.Int64) http.Handler {
+	completion := continuousUpstream(dispatched)
+	return http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
+		if request.URL.Path == "/unreachable/models" {
+			connection, _, err := writer.(http.Hijacker).Hijack()
+			if err == nil {
+				connection.Close()
+			}
+			return
+		}
+		if request.URL.Path != selfHostedPath+"/models" && request.URL.Path != selfHostedPath+"/chat/completions" {
+			writer.WriteHeader(404)
+			return
+		}
+		forwarded := request.Clone(request.Context())
+		forwarded.URL.Path = "/v1" + request.URL.Path[len(selfHostedPath):]
+		completion.ServeHTTP(writer, forwarded)
 	})
 }

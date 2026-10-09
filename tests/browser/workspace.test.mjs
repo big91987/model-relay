@@ -5,6 +5,101 @@ import vm from 'node:vm';
 
 const source = readFileSync(new URL('../../internal/relay/web/workspace.js', import.meta.url), 'utf8');
 
+test('workspace clips background scrolling only while a native modal is open',()=>{
+  const style=readFileSync(new URL('../../internal/relay/web/workspace.css',import.meta.url),'utf8');
+  assert.match(style,/html:has\(dialog:modal\)\{overflow:clip\}/);
+  assert.match(style,/body\.modal-scroll-locked\{position:fixed;top:var\(--modal-scroll-top\);left:var\(--modal-scroll-left\);width:100%\}/);
+  assert.match(style,/dialog\{[^}]*overflow:auto/);
+  assert.doesNotMatch(style,/html\s*\{[^}]*overflow:(?:hidden|clip)/);
+});
+
+test('modal scroll lock preserves one background position across queued close and reopening',()=>{
+  let modal=false;
+  const properties=new Map(),classes=new Set(),restored=[];
+  const document={body:{style:{setProperty:(name,value)=>properties.set(name,value),removeProperty:name=>properties.delete(name)},classList:{add:name=>classes.add(name),remove:name=>classes.delete(name)}},querySelector:()=>modal?{}:null};
+  const window={scrollX:12,scrollY:182,scrollTo:(left,top)=>restored.push({left,top})};
+  const context=vm.createContext({document,window});
+  vm.runInContext(source.slice(source.indexOf('let modalScroll='),source.indexOf('function clearSensitive(')),context);
+  const dialog={showModal(){modal=true;}};
+  context.openModal(dialog);
+  assert.equal(classes.has('modal-scroll-locked'),true);
+  assert.equal(properties.get('--modal-scroll-top'),'-182px');
+  assert.equal(properties.get('--modal-scroll-left'),'-12px');
+  modal=false;window.scrollY=0;
+  context.openModal(dialog);
+  context.releaseModalScroll();
+  assert.equal(restored.length,0);
+  assert.equal(properties.get('--modal-scroll-top'),'-182px');
+  modal=false;context.releaseModalScroll();
+  assert.deepEqual(restored,[{left:12,top:182}]);
+  assert.equal(classes.size,0);assert.equal(properties.size,0);
+  context.releaseModalScroll();assert.equal(restored.length,1);
+});
+
+test('explicit modal close restores background before a queued close event is delivered',()=>{
+  let modal=false;
+  const properties=new Map(),classes=new Set(),restored=[];
+  const document={body:{style:{setProperty:(name,value)=>properties.set(name,value),removeProperty:name=>properties.delete(name)},classList:{add:name=>classes.add(name),remove:name=>classes.delete(name)}},querySelector:()=>modal?{}:null};
+  const window={scrollX:12,scrollY:182,scrollTo:(left,top)=>restored.push({left,top})};
+  const context=vm.createContext({document,window});
+  vm.runInContext(source.slice(source.indexOf('let modalScroll='),source.indexOf('function clearSensitive(')),context);
+  const dialog={showModal(){modal=true;},close(){modal=false;}};
+  context.openModal(dialog);
+  context.closeModal(dialog);
+  assert.equal(modal,false);
+  assert.equal(classes.size,0);
+  assert.equal(properties.size,0);
+  assert.deepEqual(restored,[{left:12,top:182}]);
+  context.openModal(dialog);
+  context.releaseModalScroll();
+  assert.equal(classes.has('modal-scroll-locked'),true);
+  assert.equal(restored.length,1);
+  context.closeModal(dialog);
+  assert.equal(classes.size,0);
+  assert.equal(restored.length,2);
+  context.releaseModalScroll();
+  assert.equal(restored.length,2);
+});
+
+test('closing one modal preserves the lock while another native modal remains',()=>{
+  let modalCount=0,locked=false,restored=0;
+  const context=vm.createContext({document:{body:{style:{setProperty(){},removeProperty(){}},classList:{add(){locked=true;},remove(){locked=false;}}},querySelector:()=>modalCount?{}:null},window:{scrollX:0,scrollY:182,scrollTo(){restored++;}}});
+  vm.runInContext(source.slice(source.indexOf('let modalScroll='),source.indexOf('function clearSensitive(')),context);
+  const first={showModal(){modalCount++;},close(){modalCount--;}};
+  const second={showModal(){modalCount++;},close(){modalCount--;}};
+  context.openModal(first);context.openModal(second);
+  context.closeModal(first);
+  assert.equal(locked,true);assert.equal(restored,0);
+  context.closeModal(second);
+  assert.equal(locked,false);assert.equal(restored,1);
+});
+
+test('explicit UI close paths use the shared synchronous release without replacing native focus',()=>{
+  assert.match(source,/byId\('detail-close'\)\.onclick=\(\)=>closeModal\(byId\('detail'\)\)/);
+  assert.match(source,/function closeEditor\(\) \{ if\(state\.busy\) return; closeModal\(byId\('editor'\)\); \}/);
+  const closeSource=source.slice(source.indexOf('function closeModal('),source.indexOf('function openModal('));
+  assert.match(closeSource,/dialog\.close\(\);\s+releaseModalScroll\(\);/);
+  assert.doesNotMatch(closeSource,/focus\(|setTimeout|requestAnimationFrame/);
+});
+
+test('failed native modal opening releases the scroll lock without swallowing the error',()=>{
+  let locked=false,restored=false;
+  const context=vm.createContext({document:{body:{style:{setProperty(){},removeProperty(){}},classList:{add(){locked=true;},remove(){locked=false;}}},querySelector:()=>null},window:{scrollX:0,scrollY:327,scrollTo(left,top){restored=left===0&&top===327;}}});
+  vm.runInContext(source.slice(source.indexOf('let modalScroll='),source.indexOf('function clearSensitive(')),context);
+  const failure=new Error('controlled native opening failure');
+  assert.throws(()=>context.openModal({showModal(){throw failure;}}),error=>error===failure);
+  assert.equal(locked,false);assert.equal(restored,true);
+});
+
+test('workspace invalidation closes both native dialogs before synchronously releasing background scroll',()=>{
+  const calls=[];
+  const dialogs=new Map(['editor','detail'].map(name=>[name,{open:true,close(){this.open=false;calls.push(name);}}]));
+  dialogs.set('editor-form',{dataset:{}});
+  const context=vm.createContext({state:{epoch:0,controllers:new Set(),call:null,busy:true},byId:name=>dialogs.get(name),releaseModalScroll(){assert.equal(dialogs.get('editor').open,false);assert.equal(dialogs.get('detail').open,false);calls.push('release');},clearSensitive(){calls.push('clear');}});
+  vm.runInContext(source.slice(source.indexOf('function invalidate('),source.indexOf('function signedOut(')),context);
+  context.invalidate();assert.deepEqual(calls,['editor','detail','release','clear']);
+});
+
 test('a new editor owns its save lock after navigation interrupts acknowledged-write readback', async () => {
   const elements = new Map();
   const control = () => ({textContent:'',value:'',hidden:false,disabled:false,dataset:{},append(){},replaceChildren(){},querySelector(){return null;},focus(){}});
@@ -16,7 +111,7 @@ test('a new editor owns its save lock after navigation interrupts acknowledged-w
   const state = {epoch:1,busy:false};
   const context = vm.createContext({
     state,crypto:{randomUUID:()=> 'controlled-operation'},byId:id=>elements.get(id),
-    notice(){},clearSensitive(){},node:()=>control(),syncTenants:()=>new Promise(resolve=>{releaseReadback=resolve;}),renderPage:async()=>true
+    notice(){},clearSensitive(){},openModal:dialog=>dialog.showModal(),closeModal:dialog=>dialog.close(),node:()=>control(),syncTenants:()=>new Promise(resolve=>{releaseReadback=resolve;}),renderPage:async()=>true
   });
   vm.runInContext(source.slice(source.indexOf('function edit('),source.indexOf('function secretDialog(')),context);
   vm.runInContext("edit('first',[],async()=>({}));",context);
@@ -112,7 +207,7 @@ function secretLifecycleFixture() {
   let finishNavigation;
   const state = { epoch: 1, page: 'keys' };
   const context = vm.createContext({
-    state, byId: id => elements.get(id),
+    state, byId: id => elements.get(id),openModal:dialog=>dialog.showModal(),closeModal:dialog=>dialog.close(),releaseModalScroll(){},
     node(tag) { const element = create(); if (tag === 'input') secrets.push(element); return element; },
     button(label, handler) { controls.set(label, handler); return create(); },
     navigate(page) { state.epoch++; state.page = page; return new Promise(resolve => { finishNavigation = resolve; }); },
@@ -168,13 +263,14 @@ const summarySource = source.slice(summaryStart, summaryEnd);
 
 function summary(value) {
   const context = vm.createContext({
-    node(tag, text = '') { return { tag, text, children: [], append(...values) { this.children.push(...values); } }; },
+    node(tag, text = '') { return { tag, text, children: [], append(...values) { this.children.push(...values); },setAttribute(){} }; },
     table(columns, values) { return { tag: 'table', columns, values }; },
     column(label, field) { return { label, field }; },
     money(value) { return String(value); },
     value
   });
-  return vm.runInContext(summarySource + '\nlimitSummary(value);', context);
+  const displaySource=source.slice(source.indexOf('function enumLabel('),source.indexOf('function modelSources('));
+  return vm.runInContext(displaySource + '\n' + summarySource + '\nlimitSummary(value);', context);
 }
 
 for (const [name, value] of Object.entries({

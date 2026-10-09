@@ -1,0 +1,463 @@
+{
+  "source": "test-results/verification/20261009T031408Z-615334232",
+  "archived_utc": "2026-10-09T03:30:05.630Z",
+  "files": 91,
+  "byte_preserving": true,
+  "records": [
+    {
+      "path": "browser/console-1280.png",
+      "bytes": 131159,
+      "sha256": "a557e6b4ad88311541b835b046571ec52ee0846917d4c49e537d9acc3b074d0b"
+    },
+    {
+      "path": "browser/console-1440.png",
+      "bytes": 130296,
+      "sha256": "a77c21711231eb8878a8b7302216af40e0066220124818a4d5ca3ec935c3527f"
+    },
+    {
+      "path": "browser/console-390.png",
+      "bytes": 51616,
+      "sha256": "65bd7c892ffab4f87aa3e34af9452364df0df2126035677e91fb96bd0737b0bc"
+    },
+    {
+      "path": "browser/console-first-call-1280.png",
+      "bytes": 110746,
+      "sha256": "5eeee8344fc7449817f7729c2507c90ce17155f4d968c4528cd3b49b9ec2f934"
+    },
+    {
+      "path": "browser/console-first-call-390.png",
+      "bytes": 105893,
+      "sha256": "bdcd4178016f3912c8e06c37bb95cf490fd471c85db683862009c4a80a392745"
+    },
+    {
+      "path": "browser/continuous-1280-93652.json",
+      "bytes": 3773,
+      "sha256": "ae41c4f3a6b1cd5188f58ef5ff73b8ae40c9ad3dc295243f94ab48b75d81a991"
+    },
+    {
+      "path": "browser/continuous-1280-after-correction-93652.png",
+      "bytes": 134857,
+      "sha256": "b4d1b635509837a0ad57c0404e1168e5b2610cb31b7b1c6eeefe4eba48029617"
+    },
+    {
+      "path": "browser/continuous-1280-after-correction-93652.png.integrity.json",
+      "bytes": 19397,
+      "sha256": "c0bc122d8ae5e2e8d7d899584505890e56d2fb473f1a932bda67dc354c3350b1"
+    },
+    {
+      "path": "browser/continuous-1280-before-correction-93652.png",
+      "bytes": 105352,
+      "sha256": "94c27d6a06b87859a594e0f565ce70c9112a1b13cdd5b299f7df92da986583ac"
+    },
+    {
+      "path": "browser/continuous-1280-before-correction-93652.png.integrity.json",
+      "bytes": 26064,
+      "sha256": "d2df3556cee0c1a542c917cd0d0b7139669108f69c8294af173f2107a9fd9682"
+    },
+    {
+      "path": "browser/continuous-1280-before-rotation-93652.png",
+      "bytes": 94856,
+      "sha256": "417c6e7510d22a0f51e6ce43efe4ca6347dabbda6d5cc0152fabbb3a7eeb549d"
+    },
+    {
+      "path": "browser/continuous-1280-before-rotation-93652.png.integrity.json",
+      "bytes": 24766,
+      "sha256": "6decb6f5060f390d719bf4b0888ce29036703ef91c0f9e1b93f23bb5d5eb0694"
+    },
+    {
+      "path": "browser/continuous-1280-key-states-93652.png",
+      "bytes": 140287,
+      "sha256": "757dfc4e2bf0ec8697324a1c7884885e4064b495a8df31beb8a9fc65f0fc4fb4"
+    },
+    {
+      "path": "browser/continuous-1280-key-states-93652.png.integrity.json",
+      "bytes": 24738,
+      "sha256": "64266dc83272e22ff0652e174cd20843fe5d050e1942150e1e8b79346dd39eac"
+    },
+    {
+      "path": "browser/editor-interruption-1280.json",
+      "bytes": 173,
+      "sha256": "3d7b2d429bfcf51c43c59648abe482d268183309830e17c40b57222bab81c1c4"
+    },
+    {
+      "path": "browser/editor-interruption-1440.json",
+      "bytes": 173,
+      "sha256": "6fb155edf69ff318dc89535727466e810ab8916ff1254da36c9097ec060ca39d"
+    },
+    {
+      "path": "browser/editor-interruption-390.json",
+      "bytes": 172,
+      "sha256": "718eda9e362906dfcef709c6fb48ceb51096fe64ed0b6d1a232ca3865800f4f8"
+    },
+    {
+      "path": "browser/fault-1280-double-normal.png",
+      "bytes": 130172,
+      "sha256": "f77591bbb27fdfe09f0c28f5f0099be05c7ebdde4771af4218aa5b544c7ad59f"
+    },
+    {
+      "path": "browser/fault-1280-double-sse.png",
+      "bytes": 130316,
+      "sha256": "58294a7457a94d017c146fc8217dfbe2acbc9b0ed90e5da45344cf1088181d54"
+    },
+    {
+      "path": "browser/fault-1280-historical-readback-red.png",
+      "bytes": 114582,
+      "sha256": "5b548085d7e1ff4db763aa400949b06d8f9f908b7334956aaf695f7167dcd8c1"
+    },
+    {
+      "path": "browser/fault-1280-issuance-before.png",
+      "bytes": 124423,
+      "sha256": "8e4c4183442bb524bffbf3364dbcdeab263388647ac611c2b6e4dbdba554499f"
+    },
+    {
+      "path": "browser/fault-1280-issuance-read-404.png",
+      "bytes": 139652,
+      "sha256": "28e87dd87fbce90b27c1832aab103f70dea00ee6f850155b42c66920579efc9d"
+    },
+    {
+      "path": "browser/fault-1280-issuance-read-503.png",
+      "bytes": 139613,
+      "sha256": "ea77b480503d1ff5c32959b854d371fc0f751d2e36e39214c42826e5fd49c48d"
+    },
+    {
+      "path": "browser/fault-1280-issuance-recovered.png",
+      "bytes": 109590,
+      "sha256": "9f74d8de307a052b3448610deb069f9b97a3b7be3f16e62afce7e1a330cda781"
+    },
+    {
+      "path": "browser/fault-1280-issuance-unknown.png",
+      "bytes": 134255,
+      "sha256": "6064922c54f13ec4ffebf80ca12013619af72754984479d2130b1c8d4ab2d7c1"
+    },
+    {
+      "path": "browser/fault-1280-rotation-before.png",
+      "bytes": 144377,
+      "sha256": "cc42eae906803bd61a2fe8d9a746467c54a7be38e4462f0605dd9e22f760aefc"
+    },
+    {
+      "path": "browser/fault-1280-rotation-read-404.png",
+      "bytes": 162483,
+      "sha256": "bd7cd4d23d00ac0904c8461de0fd166093392f190e05004c5e9af48836ad3a05"
+    },
+    {
+      "path": "browser/fault-1280-rotation-read-503.png",
+      "bytes": 162483,
+      "sha256": "bd7cd4d23d00ac0904c8461de0fd166093392f190e05004c5e9af48836ad3a05"
+    },
+    {
+      "path": "browser/fault-1280-rotation-recovered.png",
+      "bytes": 115856,
+      "sha256": "7dd0309fb777b6aebce7b7a469c03b730702bcfcd3990c1f9618f06522764d47"
+    },
+    {
+      "path": "browser/fault-1280-rotation-unknown.png",
+      "bytes": 156527,
+      "sha256": "2b7b4957edb8210b56af5bc30d6697345eb3acd4329ed116118f1c399083c536"
+    },
+    {
+      "path": "browser/fault-1280.json",
+      "bytes": 2158,
+      "sha256": "96d67963488734438fc0cbe8604f21c2e6de0241a564c9d5e12e8a7a02092aec"
+    },
+    {
+      "path": "browser/fault-1440-double-normal.png",
+      "bytes": 129365,
+      "sha256": "93ab6016e5947807d665e1d1e991b01110499fc42a66c95e6a6c3db1014ccd13"
+    },
+    {
+      "path": "browser/fault-1440-double-sse.png",
+      "bytes": 129447,
+      "sha256": "30c71390952a8c1404167c4d9ec152c5c23d89e23b4be072c51d1165ac1ace9f"
+    },
+    {
+      "path": "browser/fault-1440-historical-readback-red.png",
+      "bytes": 118333,
+      "sha256": "4ba2f49a8d4c50675e7f5b96c7a1a0e07ae373149ddeafd2ef5f4df33c4813c0"
+    },
+    {
+      "path": "browser/fault-1440-issuance-before.png",
+      "bytes": 127179,
+      "sha256": "4d01db54c1e7d7cc8cf7f8ee7b014cf4607e33fac13f0e9ada703919325e336b"
+    },
+    {
+      "path": "browser/fault-1440-issuance-read-404.png",
+      "bytes": 142875,
+      "sha256": "f55d89ce05694746e3e3d23996a961052c3335564c15c5dd52932b2ac90945aa"
+    },
+    {
+      "path": "browser/fault-1440-issuance-read-503.png",
+      "bytes": 142841,
+      "sha256": "9587dcb28c53568da6bf2eb2fd635598d9c84a12c1d980e8cece593f26138123"
+    },
+    {
+      "path": "browser/fault-1440-issuance-recovered.png",
+      "bytes": 120013,
+      "sha256": "8f208aea609537b91bc90e9154b5586d0627c58f24cdddc85cc6d8034a11e88c"
+    },
+    {
+      "path": "browser/fault-1440-issuance-unknown.png",
+      "bytes": 137597,
+      "sha256": "3969cb5020163dbf9602ca198011add0016f58c379509c8395bc6a309fe9d98b"
+    },
+    {
+      "path": "browser/fault-1440-rotation-before.png",
+      "bytes": 141095,
+      "sha256": "b044f84db14ba4d58b59759a7dcdfb63c8eaa44c7427a5c3096997c268de67c8"
+    },
+    {
+      "path": "browser/fault-1440-rotation-read-404.png",
+      "bytes": 160547,
+      "sha256": "ed67910ff8b59a05b56565a8b0a8c57e30c8bb7716a21df9bb090be2a6352ef4"
+    },
+    {
+      "path": "browser/fault-1440-rotation-read-503.png",
+      "bytes": 160546,
+      "sha256": "ef78c3aec63288f759fe6e84c42dc07acf31d95a21f6ce5378996ae749f8d053"
+    },
+    {
+      "path": "browser/fault-1440-rotation-recovered.png",
+      "bytes": 119268,
+      "sha256": "7486b1e13c89f9975f2b5d1da968cb7c4d5ea0a5ee7bce52a44b62d9956422d6"
+    },
+    {
+      "path": "browser/fault-1440-rotation-unknown.png",
+      "bytes": 156831,
+      "sha256": "6cbbff238a3bc3ca9c190a5350142915dc90af961447d76f779f6d3932fc1493"
+    },
+    {
+      "path": "browser/fault-1440.json",
+      "bytes": 2158,
+      "sha256": "83adf5c9a238b58a004668a4944fd1f96fa1cb81e5e61a06e9c2cd78431f0522"
+    },
+    {
+      "path": "browser/fault-390-double-normal.png",
+      "bytes": 50892,
+      "sha256": "8e6d6d266b2b0282952feae39c7b77ac250dfb87faefc35b355b0b89af6902f6"
+    },
+    {
+      "path": "browser/fault-390-double-sse.png",
+      "bytes": 50892,
+      "sha256": "8e6d6d266b2b0282952feae39c7b77ac250dfb87faefc35b355b0b89af6902f6"
+    },
+    {
+      "path": "browser/fault-390-historical-readback-red.png",
+      "bytes": 48006,
+      "sha256": "455ce863f0ce99a97a56b4d5274b168202811a4e0e9b7d17ba70461137fa6e65"
+    },
+    {
+      "path": "browser/fault-390-issuance-before.png",
+      "bytes": 46029,
+      "sha256": "01519e60b2f8a015f3ec83614142d62716c1f1b4f67e1a1441dae6e9f026f6a0"
+    },
+    {
+      "path": "browser/fault-390-issuance-read-404.png",
+      "bytes": 53788,
+      "sha256": "31ab0c8804f0124e8cf49e13c6e12e0ad80d546bc9cedaae7f260884ae08acde"
+    },
+    {
+      "path": "browser/fault-390-issuance-read-503.png",
+      "bytes": 53970,
+      "sha256": "76199487391fc3000646e1e929ce37c75173a924f8950f68bd5719add2d0576e"
+    },
+    {
+      "path": "browser/fault-390-issuance-recovered.png",
+      "bytes": 18290,
+      "sha256": "9e0a3e84e5b606ba1f64cecd5793bf3e455fac4c6dd8225ebb17673d715fcd18"
+    },
+    {
+      "path": "browser/fault-390-issuance-unknown.png",
+      "bytes": 49580,
+      "sha256": "00689b8ade3cacea7ed2aeadbbce128b1b2557ea59997b342aa9c24d3be49c0c"
+    },
+    {
+      "path": "browser/fault-390-rotation-before.png",
+      "bytes": 75084,
+      "sha256": "2983508fc38c6507d05ade58e0cf709ae110d362ae5130957a3215af4a9c7cf9"
+    },
+    {
+      "path": "browser/fault-390-rotation-read-404.png",
+      "bytes": 80786,
+      "sha256": "2de466c5333924a5c7c35041cf4b43ed891c6fb1eed655c7c4da4a9cc5923b14"
+    },
+    {
+      "path": "browser/fault-390-rotation-read-503.png",
+      "bytes": 80725,
+      "sha256": "952792b2f73622275743c0a564a3b81b4d80922a41437ff83c87814785ea3e85"
+    },
+    {
+      "path": "browser/fault-390-rotation-recovered.png",
+      "bytes": 33743,
+      "sha256": "8e47c910de4e826e9dd84046a3d61919c46540061dba648cd1a541ec4a505cdb"
+    },
+    {
+      "path": "browser/fault-390-rotation-unknown.png",
+      "bytes": 74928,
+      "sha256": "b2ccd14e0e2dc200ef1286172e47aa86a78027ca7dddd9452d091b53b19e8ad4"
+    },
+    {
+      "path": "browser/fault-390.json",
+      "bytes": 2157,
+      "sha256": "3d7110aa88e6e21c94133c90bc8261a3cecaf90cfca119ca0b87952ff3329f2a"
+    },
+    {
+      "path": "browser/legacy-ui-before-upgrade.png",
+      "bytes": 166033,
+      "sha256": "e51ac77d82b0b7042ece54d4c9ebdb74d5dadee0d939168a57c9054259b97bba"
+    },
+    {
+      "path": "browser/management-summary-1280.json",
+      "bytes": 266,
+      "sha256": "a1020a8c49e96b46ebcd5c76ff356f1c749a23132569d5251c03f2fb4a33d3c7"
+    },
+    {
+      "path": "browser/model-save-readback-1280.json",
+      "bytes": 7501,
+      "sha256": "42a68589c7b3d32db92a5d906b0bc9f35cdac30757af628baf5fafa507588e1c"
+    },
+    {
+      "path": "browser/model-selection-1280.jsonl",
+      "bytes": 1188152,
+      "sha256": "9f0fc2965b4ef09915e85d91def779d7e1ba40edd3a5ba1d10567b64485bbaf2"
+    },
+    {
+      "path": "browser/model-selection-390.jsonl",
+      "bytes": 1140870,
+      "sha256": "b2cceafa4dbc12c8dc61a260ce76a7621fb954e0e72ae42820f7184548f65f90"
+    },
+    {
+      "path": "browser/routing-1280.png",
+      "bytes": 133015,
+      "sha256": "5209edfb9da5a51d2d745bee1e9d327aed542aa8a38fc7b2de0c4fccd78a40ff"
+    },
+    {
+      "path": "browser/routing-390.png",
+      "bytes": 125380,
+      "sha256": "628a9acd7168f2c86797ff213b617a00d9f1c70d8d3c82fe6072cb18ac313891"
+    },
+    {
+      "path": "browser/routing-selection-93498.jsonl",
+      "bytes": 1013522,
+      "sha256": "99eda2105f077dd5ae5209f3fcf3b438c6a2588bb5c8171a1a46924a8146be9e"
+    },
+    {
+      "path": "browser/visual-1280/keys-right-columns-1.png",
+      "bytes": 6725,
+      "sha256": "78a7b304df77dac78964e27f6571f81f2ac48376e545786f9778a183028bff53"
+    },
+    {
+      "path": "browser/visual-1280/keys-right-columns-1.png.integrity.json",
+      "bytes": 24807,
+      "sha256": "09e3cdd85bd0c43af232f6e99db3912d9258a0bc255ff064b5df342c1404f70d"
+    },
+    {
+      "path": "browser/visual-1280/models-detail.png",
+      "bytes": 125664,
+      "sha256": "5f9cc516d74f7f866ffb67e4a58092b264bae18806dfd412d22c76ce5f120828"
+    },
+    {
+      "path": "browser/visual-1280/models-detail.png.integrity.json",
+      "bytes": 19408,
+      "sha256": "cc88e5fd7174bb9e54904ddd23a2fb72986146cb586ff8b174a6e832cf119043"
+    },
+    {
+      "path": "browser/visual-1280/models-editor.png",
+      "bytes": 117377,
+      "sha256": "dba9cde0b55b58b51d22b04fa46bdf63df4004d7bd639db6e36fe1cdaee38df0"
+    },
+    {
+      "path": "browser/visual-1280/models-editor.png.integrity.json",
+      "bytes": 20092,
+      "sha256": "10cec5192d2725a92135065793f4d20693d5bd234c4a90574bff9ddfaf73197c"
+    },
+    {
+      "path": "browser/visual-1280/models-page.png",
+      "bytes": 137819,
+      "sha256": "ea6e3be248e270f3e89763559f8457bd7a4f7880f857d81dcb8ea533b1031e92"
+    },
+    {
+      "path": "browser/visual-1280/models-page.png.integrity.json",
+      "bytes": 24737,
+      "sha256": "77220cc1bdacde34632ed109024fd47dfb677b7b5b1219b68fd29f1f9c13c7e1"
+    },
+    {
+      "path": "browser/visual-1280/overview-page.png",
+      "bytes": 155556,
+      "sha256": "7b88a78f8677721452491cf6d7f450c5129b071552a95366b92f376d8170f148"
+    },
+    {
+      "path": "browser/visual-1280/overview-page.png.integrity.json",
+      "bytes": 26125,
+      "sha256": "921dd1073954f77916fc7f74dbd5b2699121f0b5e6e27e74300a1ce61b4e1949"
+    },
+    {
+      "path": "browser/visual-1280/overview-right-columns-1.png",
+      "bytes": 154145,
+      "sha256": "b168650b83668c8d4e679ad4143682c82537897ce0597ab218a628cc59b80416"
+    },
+    {
+      "path": "browser/visual-1280/overview-right-columns-1.png.integrity.json",
+      "bytes": 26110,
+      "sha256": "18d663e23a4884b6b2d16eacef4070101b03f575e0f2f785dd4e51074312d6a7"
+    },
+    {
+      "path": "browser/visual-1280/review.json",
+      "bytes": 13796,
+      "sha256": "824f7232842d1a788a4cb85a6464912ca87f9d51ab1d0368c839f9b7ec64d2b5"
+    },
+    {
+      "path": "browser/visual-1280/services-detail.png",
+      "bytes": 104455,
+      "sha256": "d2c2438bb1e9664bef92cbd77f4c309f63524c3c3a430d23bb702e92b6c78dd4"
+    },
+    {
+      "path": "browser/visual-1280/services-detail.png.integrity.json",
+      "bytes": 19383,
+      "sha256": "bee34640c4cff0e4cbcfac591e68fbd61a0858c1bcb46297452908baa75bc132"
+    },
+    {
+      "path": "browser/visual-1280/services-editor.png",
+      "bytes": 119405,
+      "sha256": "a468475ac81e236605b27c152188795dbda029a6dc9dd22085a64ffca7d84680"
+    },
+    {
+      "path": "browser/visual-1280/services-editor.png.integrity.json",
+      "bytes": 20107,
+      "sha256": "320b23f0104dae172b9661422f3bebd24a476eef2f6febb16ea12ed6ed6c42c8"
+    },
+    {
+      "path": "browser/visual-1280/services-page.png",
+      "bytes": 101815,
+      "sha256": "8b5ef377b9d7a49c95fca790d0b8a4da0fb3665143c087b80db0513f37d674e1"
+    },
+    {
+      "path": "browser/visual-1280/services-page.png.integrity.json",
+      "bytes": 24753,
+      "sha256": "186885735eefb492e1f653d617f22d336ad3727c036a6fea9a000b1f766c94d6"
+    },
+    {
+      "path": "browser/visual-1280/services-right-columns-1.png",
+      "bytes": 100340,
+      "sha256": "45ad0cb93a12ef7c66dc759108e29573df90b6420c6b24578de525942ef4ee2e"
+    },
+    {
+      "path": "browser/visual-1280/services-right-columns-1.png.integrity.json",
+      "bytes": 24757,
+      "sha256": "7f68a36618217d775ec4c0037eea84c498a21d249a2a97b09219429fbe799470"
+    },
+    {
+      "path": "browser/visual-activity-1280.json",
+      "bytes": 309,
+      "sha256": "4555c68dad9d35fbc942018ea3cec96df22ff63e4bbcdbd47dc12f0a22f5ec0c"
+    },
+    {
+      "path": "state.json",
+      "bytes": 2763,
+      "sha256": "9ed79d1b3a26b0126b15830678a30b5a674a260da7a717586e6085a36203ca0c"
+    },
+    {
+      "path": "verify.log",
+      "bytes": 442181,
+      "sha256": "6bef2179294ecb3c6e99638903f37f883ca5b6f60032297109582cf23f8d8196"
+    }
+  ]
+}

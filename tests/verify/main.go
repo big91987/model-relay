@@ -47,10 +47,14 @@ type receipt struct {
 }
 
 type commandReceipt struct {
-	Stage       string `json:"stage"`
-	Exit        int    `json:"exit"`
-	Cancelled   bool   `json:"cancelled"`
-	GroupAbsent *bool  `json:"owned_group_absent,omitempty"`
+	Stage                  string `json:"stage"`
+	Exit                   int    `json:"exit"`
+	Cancelled              bool   `json:"cancelled"`
+	GroupAbsent            *bool  `json:"owned_group_absent,omitempty"`
+	StartedUTC             string `json:"started_utc"`
+	BudgetMilliseconds     int64  `json:"budget_ms"`
+	ExecuteMilliseconds    int64  `json:"execute_ms"`
+	GroupCheckMilliseconds int64  `json:"group_check_ms"`
 }
 
 func main() {
@@ -367,20 +371,29 @@ func captureCommand(ctx context.Context, stage string, requested *exec.Cmd, outp
 	var stdout bytes.Buffer
 	command.Stdout = io.MultiWriter(output, &stdout)
 	command.Stderr = output
-	if _, err := fmt.Fprintf(output, "COMMAND_START stage=%s\n", stage); err != nil {
+	deadline, _ := bounded.Deadline()
+	entry := commandReceipt{Stage: stage, StartedUTC: time.Now().UTC().Format(time.RFC3339Nano), BudgetMilliseconds: max(0, time.Until(deadline).Milliseconds())}
+	if bounded.Err() != nil {
+		entry.BudgetMilliseconds = 0
+	}
+	if _, err := fmt.Fprintf(output, "COMMAND_START stage=%s started_utc=%s budget_ms=%d\n", stage, entry.StartedUTC, entry.BudgetMilliseconds); err != nil {
 		return nil, err
 	}
+	executeStarted := time.Now()
 	code, err := execute(bounded, command, output)
-	entry := commandReceipt{Stage: stage, Exit: code, Cancelled: bounded.Err() != nil}
+	entry.ExecuteMilliseconds = time.Since(executeStarted).Milliseconds()
+	entry.Exit, entry.Cancelled = code, bounded.Err() != nil
 	if command.Process != nil {
+		groupCheckStarted := time.Now()
 		absent := ownedGroupAbsent(command.Process.Pid)
+		entry.GroupCheckMilliseconds = time.Since(groupCheckStarted).Milliseconds()
 		entry.GroupAbsent = &absent
 		if !absent {
 			err = errors.Join(err, errors.New("auxiliary owned process group remains after bounded cleanup"))
 		}
 	}
 	state.AuxiliaryCommands = append(state.AuxiliaryCommands, entry)
-	_, writeErr := fmt.Fprintf(output, "\nCOMMAND_END stage=%s exit=%d cancelled=%t\n", stage, code, entry.Cancelled)
+	_, writeErr := fmt.Fprintf(output, "\nCOMMAND_END stage=%s exit=%d cancelled=%t execute_ms=%d group_check_ms=%d\n", stage, code, entry.Cancelled, entry.ExecuteMilliseconds, entry.GroupCheckMilliseconds)
 	err = errors.Join(err, writeErr)
 	if err != nil {
 		err = fmt.Errorf("%s: %w", stage, err)

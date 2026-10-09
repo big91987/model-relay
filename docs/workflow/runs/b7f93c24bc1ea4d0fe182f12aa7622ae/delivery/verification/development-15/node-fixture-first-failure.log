@@ -1,0 +1,77 @@
+✔ capture requires pixels in title and main content, not only nonuniform sidebar (5.809417ms)
+✔ capture rejects displaced content and geometry movement without retry (0.976042ms)
+✖ live boundary whitelist captures viewport, root, scroll owners and table ink anchors without text (2.459625ms)
+✔ PNG audit rejects unsupported and incomplete bytes (0.648291ms)
+✔ failed capture preserves image receipt and original error identity with bounded facts (5.613ms)
+✔ successful capture names persisted sidecar and original PNG digest (1.227833ms)
+✔ all visual and continuous/self-hosted screenshots use integrity gate after existing secret checks (0.565041ms)
+✔ visual contract names exactly all ten approved pages with substantive checks (1.308041ms)
+✔ capture contract rejects title-only, failure, wrong role/scope, overflow and secrets (1.076666ms)
+✔ limits visual editor targets its heading action outside content (3.438375ms)
+✔ all other visual editors retain exact current row or content ownership (0.21125ms)
+✔ missing heading editor has no content or page-wide fallback (0.092333ms)
+✔ visual read diagnostic keeps only current overview GET status and scope match (0.337542ms)
+✔ failed visual capture persists facts before assertion without relaxing empty gate (4.95025ms)
+✔ navigation failure retains null facts and omits arbitrary error text (2.272167ms)
+✔ journey failure boundary includes summary assertion source but never raw stack paths or errors (2.706291ms)
+✔ request detail uses the call action on the call page (0.646667ms)
+✔ request detail uses the exact request row on the records page (0.356333ms)
+✔ request detail retains a failed native activation (0.556417ms)
+✔ J06 reconciled detail activates the records entry (0.069583ms)
+✔ current-period visual preparation uses the existing native call and conserves the closed bill (0.559708ms)
+✔ visual preparation rejects stale or missing current-period activity (3.479625ms)
+✔ visual preparation rejects changes to closed bill amount or corrections (1.375208ms)
+✔ J06 reconciliation reads append-only cumulative charges, not the first revision (8.397209ms)
+✔ scope refresh cannot complete on old content before asynchronous tenant removal settles (2.981792ms)
+✔ failure boundary projects only the owning source position, never assertion values or host paths (0.386333ms)
+✔ J05 member transitions have independent attribution without removing scope assertions (0.175834ms)
+✔ pause conservation evidence only projects exact amounts and safe counters (0.99225ms)
+✔ J05 retains original resume fee assertion and checks each independent rejection boundary (0.08225ms)
+✔ completion failure evidence is a bounded whitelist, never raw provider or request data (0.396292ms)
+✔ actual fresh-install driver requires zero collections, not migrated legacy tenants (1.347042ms)
+✔ production Key formatter distinguishes safe states and precise grace/expiry boundaries (2.815ms)
+✔ continuous driver uses actual product labels and rotation receipt contract (0.099167ms)
+✔ scope-required empty state replaces loading instead of leaving a perpetual loading placeholder (0.34ms)
+✔ request-detail log navigation keeps tenant and existing safe filters (0.636208ms)
+✔ full suite stays additive to make verify with every frozen journey and all viewports (5.986917ms)
+✔ known call, check, invitation, source and role labels express the actual business result (1.249667ms)
+✔ unknown enum values remain distinguishable and prototype keys cannot pretend to be states (0.08925ms)
+✔ full technical identifiers use native text, retain exact content and expose keyboard scroll access (0.090291ms)
+✔ technical region names preserve each public identity instead of replacing it with scroll instructions (0.084709ms)
+✔ empty error codes are absent facts, not empty scrollable identifiers (0.047667ms)
+✔ readability gate rejects overflow, hidden or clipped identifiers and unreachable table columns (0.765458ms)
+✔ failed native layout evidence retains bounded facts, never arbitrary page text or paths (0.904459ms)
+✔ scroll driver measures the open dialog instead of trying to focus inert background tables (0.187333ms)
+✔ scroll boundary diagnostic retains only finite geometry and boolean hit facts (0.246709ms)
+✔ passive event diagnostics are bounded, phase-labelled and removed without driving the page (0.760334ms)
+✔ event receipts whitelist fields and dispose unavailable diagnostics (0.161709ms)
+✔ keyboard completion requires own-region movement then scrollend, with bounded timeout and cleanup (0.962458ms)
+✔ rightmost timeout preserves original assertion and one native input sequence with bounded before/after evidence (0.54775ms)
+✔ wheel waits for keyboard completion and does not run after a missing completion (0.342708ms)
+ℹ tests 50
+ℹ suites 0
+ℹ pass 49
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 136.244291
+
+✖ failing tests:
+
+test at tests/browser/capture-integrity.test.mjs:43:1
+✖ live boundary whitelist captures viewport, root, scroll owners and table ink anchors without text (2.459625ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  2 !== 4
+  
+      at TestContext.<anonymous> (file://<workspace>/tests/browser/capture-integrity.test.mjs:54:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 4,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

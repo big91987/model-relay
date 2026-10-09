@@ -1,0 +1,369 @@
+{
+  "execution": 40,
+  "source": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "7f0e8c2074c493a6176a94dad788c9c65a291d2464a70e484d1fde01e0b1a658"
+  },
+  "started_utc": "2026-10-09T07:12:27.744874Z",
+  "finished_utc": "2026-10-09T07:23:37.293448Z",
+  "gate_exit": 2,
+  "runner_exit": 1,
+  "capture": {
+    "started_utc": "2026-10-09T07:23:36.161Z",
+    "finished_utc": "2026-10-09T07:23:36.302Z",
+    "sha256": "78a7b304df77dac78964e27f6571f81f2ac48376e545786f9778a183028bff53",
+    "failure_boundary": "integrity",
+    "pixels": {
+      "width": 1280,
+      "height": 1149,
+      "surface": {
+        "uniform_rgb": true,
+        "first_pixel_rgb": [
+          243,
+          246,
+          250
+        ]
+      },
+      "anchors": [
+        {
+          "inside": true,
+          "samples": 11592,
+          "contrast": 0,
+          "dark_pixels": 0,
+          "ink_present": false
+        },
+        {
+          "inside": true,
+          "samples": 4840,
+          "contrast": 0,
+          "dark_pixels": 0,
+          "ink_present": false
+        },
+        {
+          "inside": true,
+          "samples": 4840,
+          "contrast": 0,
+          "dark_pixels": 0,
+          "ink_present": false
+        },
+        {
+          "inside": true,
+          "samples": 21230,
+          "contrast": 0,
+          "dark_pixels": 0,
+          "ink_present": false
+        }
+      ]
+    }
+  },
+  "trace": {
+    "complete": true,
+    "data_loss": true,
+    "page_associated": true,
+    "markers": [
+      {
+        "kind": "relay-capture-call",
+        "timestamp_us": 4541236174233
+      }
+    ],
+    "ignored_events": 1236,
+    "snapshots": [
+      {
+        "timestamp_us": 4541236175675,
+        "page_association": "matched",
+        "source_frame_number": 786,
+        "device_viewport": {
+          "width": 1280,
+          "height": 900
+        },
+        "content_layer_quad": [
+          -3679,
+          -148,
+          -2399,
+          -148,
+          -2399,
+          1001,
+          -3679,
+          1001
+        ]
+      },
+      {
+        "timestamp_us": 4541236183580,
+        "page_association": "other",
+        "source_frame_number": 31,
+        "device_viewport": {
+          "width": 1280,
+          "height": 1149
+        },
+        "content_layer_quad": null
+      },
+      {
+        "timestamp_us": 4541236192227,
+        "page_association": "matched",
+        "source_frame_number": 791,
+        "device_viewport": {
+          "width": 1280,
+          "height": 1149
+        },
+        "content_layer_quad": [
+          -3679,
+          0,
+          -2399,
+          0,
+          -2399,
+          1149,
+          -3679,
+          1149
+        ]
+      },
+      {
+        "timestamp_us": 4541236200777,
+        "page_association": "matched",
+        "source_frame_number": 791,
+        "device_viewport": {
+          "width": 1280,
+          "height": 1149
+        },
+        "content_layer_quad": [
+          -2694,
+          0,
+          -1414,
+          0,
+          -1414,
+          1149,
+          -2694,
+          1149
+        ]
+      },
+      {
+        "timestamp_us": 4541236208969,
+        "page_association": "matched",
+        "source_frame_number": 792,
+        "device_viewport": {
+          "width": 1280,
+          "height": 1149
+        },
+        "content_layer_quad": [
+          -2427,
+          0,
+          -1147,
+          0,
+          -1147,
+          1149,
+          -2427,
+          1149
+        ]
+      },
+      {
+        "timestamp_us": 4541236225761,
+        "page_association": "matched",
+        "source_frame_number": 793,
+        "device_viewport": {
+          "width": 1280,
+          "height": 900
+        },
+        "content_layer_quad": [
+          -2427,
+          -148,
+          -1147,
+          -148,
+          -1147,
+          1001,
+          -2427,
+          1001
+        ]
+      },
+      {
+        "timestamp_us": 4541236233770,
+        "page_association": "matched",
+        "source_frame_number": 794,
+        "device_viewport": {
+          "width": 1280,
+          "height": 900
+        },
+        "content_layer_quad": [
+          -1780,
+          -148,
+          -500,
+          -148,
+          -500,
+          1001,
+          -1780,
+          1001
+        ]
+      },
+      {
+        "timestamp_us": 4541236242508,
+        "page_association": "matched",
+        "source_frame_number": 794,
+        "device_viewport": {
+          "width": 1280,
+          "height": 900
+        },
+        "content_layer_quad": [
+          -1600,
+          -148,
+          -320,
+          -148,
+          -320,
+          1001,
+          -1600,
+          1001
+        ]
+      }
+    ]
+  },
+  "lifecycle": {
+    "available": true,
+    "samples": [
+      {
+        "kind": "armed",
+        "elapsed_ms": 0,
+        "viewport": {
+          "width": 1280,
+          "height": 900,
+          "x": 0,
+          "y": 148
+        },
+        "visual_viewport": {
+          "width": 1280,
+          "height": 900,
+          "scale": 1
+        },
+        "document_visible": true,
+        "body": {
+          "connected": true,
+          "visible": true
+        },
+        "content": {
+          "connected": true,
+          "visible": true
+        }
+      },
+      {
+        "kind": "screenshot-call",
+        "elapsed_ms": 4,
+        "viewport": {
+          "width": 1280,
+          "height": 900,
+          "x": 0,
+          "y": 148
+        },
+        "visual_viewport": {
+          "width": 1280,
+          "height": 900,
+          "scale": 1
+        },
+        "document_visible": true,
+        "body": {
+          "connected": true,
+          "visible": true
+        },
+        "content": {
+          "connected": true,
+          "visible": true
+        }
+      },
+      {
+        "kind": "window-resize",
+        "elapsed_ms": 19,
+        "viewport": {
+          "width": 1280,
+          "height": 900,
+          "x": 0,
+          "y": 148
+        },
+        "visual_viewport": {
+          "width": 1280,
+          "height": 900,
+          "scale": 1
+        },
+        "document_visible": true,
+        "body": {
+          "connected": true,
+          "visible": true
+        },
+        "content": {
+          "connected": true,
+          "visible": true
+        }
+      },
+      {
+        "kind": "visual-resize",
+        "elapsed_ms": 19,
+        "viewport": {
+          "width": 1280,
+          "height": 900,
+          "x": 0,
+          "y": 148
+        },
+        "visual_viewport": {
+          "width": 1280,
+          "height": 900,
+          "scale": 1
+        },
+        "document_visible": true,
+        "body": {
+          "connected": true,
+          "visible": true
+        },
+        "content": {
+          "connected": true,
+          "visible": true
+        }
+      },
+      {
+        "kind": "screenshot-return",
+        "elapsed_ms": 56,
+        "viewport": {
+          "width": 1280,
+          "height": 900,
+          "x": 0,
+          "y": 148
+        },
+        "visual_viewport": {
+          "width": 1280,
+          "height": 900,
+          "scale": 1
+        },
+        "document_visible": true,
+        "body": {
+          "connected": true,
+          "visible": true
+        },
+        "content": {
+          "connected": true,
+          "visible": true
+        }
+      },
+      {
+        "kind": "finished",
+        "elapsed_ms": 94,
+        "viewport": {
+          "width": 1280,
+          "height": 900,
+          "x": 0,
+          "y": 148
+        },
+        "visual_viewport": {
+          "width": 1280,
+          "height": 900,
+          "scale": 1
+        },
+        "document_visible": true,
+        "body": {
+          "connected": true,
+          "visible": true
+        },
+        "content": {
+          "connected": true,
+          "visible": true
+        }
+      }
+    ],
+    "omitted": 0
+  }
+}

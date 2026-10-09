@@ -1,0 +1,74 @@
+{
+  "report_execution": 58,
+  "started_utc": "2026-10-09T11:42:20.267Z",
+  "finished_utc": "2026-10-09T11:42:20.605Z",
+  "scope": "Delivery documentation review; no product changes, no make verify rerun, no browser execution, no Git publishing or provider/real database operations",
+  "source_command": "GOCACHE=\"$PWD/.cache/go-build\" GOTOOLCHAIN=local go run ./tests/evidence",
+  "source_command_exit": 0,
+  "candidate": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "dc667be6f0f5db892748ac8a214d799264c2d451004da8c80a5e06e6c38f338c"
+  },
+  "source_matches_development55_host56_qa57": true,
+  "repository": "big91987/model-relay",
+  "origin": "https://github.com/big91987/model-relay.git",
+  "branch": "workflow/b7f93c24bc1ea4d0fe182f12aa7622ae",
+  "material": {
+    "version": "design-v0.2.0",
+    "status": "frozen-for-test-implementation",
+    "manifest_path": ".workflow-input/b7f93c24bc1ea4d0fe182f12aa7622ae/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/manifest.json",
+    "archive_sha256": "5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7",
+    "entries_checked": 19,
+    "all_bytes_match": true
+  },
+  "host56_evidence": {
+    "files": 344,
+    "bytes": 40258790,
+    "all_bytes_match": true,
+    "index_path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/acceptance/evidence/attempt-57/integrity.json"
+  },
+  "qa57_immutable_reports_checked": [
+    "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/acceptance/acceptance-report-57.md",
+    "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/acceptance/acceptance-matrix-57.md",
+    "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/acceptance/journeys-57.md",
+    "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/acceptance/visual-review-57.md"
+  ],
+  "qa57_reports_unchanged": true,
+  "qa57_final_integrity_note": "Original QA57 final-integrity document hashes remain historical; README and delivery projections intentionally updated by report58. No original receipt rewritten.",
+  "document_links_checked": 94,
+  "link_check": "Exact repository and percent-encoded branch/path; all targets exist locally and are nonempty. This receipt self-link is checked after creation.",
+  "remote_accessibility": "Not checked; new artifacts are not yet committed/pushed. publish must confirm remote targets before PR publication.",
+  "git_diff_check_exit": 0,
+  "documents": [
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/README.md",
+      "bytes": 6540,
+      "sha256": "2be53edea2910df81ea541086151cee0eb3cd8b634b4c1f556761730b61dc6d6"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/tasks/T001-console.md",
+      "bytes": 5793,
+      "sha256": "ebae5bea0c81b68ac9fcf0e42a706ed4d6b0cf4bcbc993ad2b26bd3423bb8df7"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/milestones/M01-console.md",
+      "bytes": 3489,
+      "sha256": "9626fae84c80b743a3e3df0bc6b5863e80dfa5db20b8bc0a40681eea4cb47f7e"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/acceptance/README.md",
+      "bytes": 2561,
+      "sha256": "8aba8223e397608f7e9aa116b9e6960392a4f18f8137ea5cddae3bc1406a415e"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/pr.md",
+      "bytes": 9399,
+      "sha256": "255384b060b5ea69f2f18b5d0e0d9c73418f4601575cacbf4fd57d5e06e7ce7b"
+    }
+  ],
+  "permissions_and_effects": "No permission expansion, uncertain write replay, supplier calls, account reset, database changes, commit, branch creation, push, PR creation, merge or deployment.",
+  "editor_recovery": "An initial documentation edit command containing a NUL byte was rejected before process creation; no file or business side effects. Reissued as an apply_patch-only documentation edit."
+}

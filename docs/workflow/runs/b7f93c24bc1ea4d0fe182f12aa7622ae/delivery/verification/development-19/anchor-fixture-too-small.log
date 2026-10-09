@@ -1,0 +1,43 @@
+✔ capture requires pixels in title and main content, not only nonuniform sidebar (7.143375ms)
+✔ capture rejects displaced content and geometry movement without retry (1.081667ms)
+✔ live boundary whitelist captures viewport, root, scroll owners and table ink anchors without text (2.644875ms)
+✖ content anchor respects table clipping instead of sampling an occluded header (0.764833ms)
+✖ clipping does not remove the mandatory substantive anchor or misplace document coordinates (0.843209ms)
+✔ PNG audit rejects unsupported and incomplete bytes (0.36925ms)
+✔ failed capture preserves image receipt and original error identity with bounded facts (5.940208ms)
+✔ successful capture names persisted sidecar and original PNG digest (1.508333ms)
+✔ all visual and continuous/self-hosted screenshots use integrity gate after existing secret checks (0.908708ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 7
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 111.440792
+
+✖ failing tests:
+
+test at tests/browser/capture-integrity.test.mjs:74:1
+✖ content anchor respects table clipping instead of sampling an occluded header (0.764833ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  2 !== 4
+  
+      at TestContext.<anonymous> (tests/browser/capture-integrity.test.mjs:79:12)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 4,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/browser/capture-integrity.test.mjs:85:1
+✖ clipping does not remove the mandatory substantive anchor or misplace document coordinates (0.843209ms)
+  TypeError: Cannot read properties of undefined (reading 'top')
+      at TestContext.<anonymous> (tests/browser/capture-integrity.test.mjs:91:36)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7)

@@ -1,0 +1,163 @@
+{
+  "checked_utc": "2026-10-09T04:39:28.323Z",
+  "exit_code": 0,
+  "source_before": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "b446c17fa141aeb559558c1bbe1ac230f797000108ea5d1920d98dc88d5ccfc9"
+  },
+  "source_after": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "b446c17fa141aeb559558c1bbe1ac230f797000108ea5d1920d98dc88d5ccfc9"
+  },
+  "source_final": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "b446c17fa141aeb559558c1bbe1ac230f797000108ea5d1920d98dc88d5ccfc9"
+  },
+  "source_unchanged": true,
+  "material_version": "design-v0.2.0",
+  "material_status": "frozen-for-test-implementation",
+  "material_archive_sha256": "5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7",
+  "material_references": [
+    {
+      "path": ".workflow-input/b7f93c24bc1ea4d0fe182f12aa7622ae/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/docs/prd.md",
+      "bytes": 12605,
+      "sha256": "e768b4f26b4471e714d92b0db6e3187c89f37a25a697c01a12c6079af07de547"
+    },
+    {
+      "path": ".workflow-input/b7f93c24bc1ea4d0fe182f12aa7622ae/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/docs/interactions.md",
+      "bytes": 6329,
+      "sha256": "95f3490ef003fa9b19dd6b9e864dd3b0429619b8cd9d0ecec853919d6a12c801"
+    },
+    {
+      "path": ".workflow-input/b7f93c24bc1ea4d0fe182f12aa7622ae/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/docs/acceptance.md",
+      "bytes": 5730,
+      "sha256": "2792740b1579d614780856a13b6257d192736e1efc0309f1dc41405a665bef7a"
+    }
+  ],
+  "final_diff_exit": 0,
+  "all_final_local_checks_exit_zero": true,
+  "host_original_bytes_unchanged": true,
+  "first_local_failure_retained": true,
+  "empty_log_not_handoff_artifact": "syntax-diff.log; zero stdout, exit 0 retained in local-checks.json",
+  "files": [
+    {
+      "path": "tests/verify/main.go",
+      "bytes": 18549,
+      "sha256": "bbc840e32a3bcb05e3f03b78efeda080e1ab5c147578bc3a7a0970a0377ff99d"
+    },
+    {
+      "path": "tests/verify/main_test.go",
+      "bytes": 23166,
+      "sha256": "b375481de88aa15e36820c2da933d80659fdbdee1e664a62074d15ef22cbfbf9"
+    },
+    {
+      "path": ".trellis/spec/frontend/dependency-preparation.md",
+      "bytes": 16609,
+      "sha256": "acd82075101eb3de5dada32d416e1d4d6f77fd62cd0eb9699ad08f4d838a0d17"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/README.md",
+      "bytes": 8589,
+      "sha256": "c4e9f13b70e666cbec672d574ff8b6bf84a4b96d85433b3ab9e9c5425eb32f45"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/tasks/T001-console.md",
+      "bytes": 14376,
+      "sha256": "6e4d08afdead8fd54e206d56cbe3847b73468847fd1b9f4e0bdcdb2b0edf96f5"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/milestones/M01-console.md",
+      "bytes": 6439,
+      "sha256": "95b48c4399c2ff81d9a8b39b423272f28c76b6fe236a19d4f39c33467b08d230"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-29.md",
+      "bytes": 7144,
+      "sha256": "4fd4400648898ff824aa03de1d91f9dc3a7a105473263963d61bc010d05100b8"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-29/source.json",
+      "bytes": 336,
+      "sha256": "28fec7a3f8bdd2dfbe0893075309bd089efb03f6a90323905ec71020ac5db163"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-29/source-after.json",
+      "bytes": 336,
+      "sha256": "28fec7a3f8bdd2dfbe0893075309bd089efb03f6a90323905ec71020ac5db163"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-29/local-checks.json",
+      "bytes": 3102,
+      "sha256": "af115ddf35f1c7210e0f7dfb90716aa0d1f69364fb4bb3fdaad2be3e8f3b905f"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-29/local-checks-first.json",
+      "bytes": 3102,
+      "sha256": "4d43ac795ff5e49dbfb640fa2dc7a7cf3ea0ce1cbe355d7d461c18b671764c14"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-29/host-failure-summary.json",
+      "bytes": 2080,
+      "sha256": "a5a7bd7e55cfe183ec7afcedde90b74700e1dcd0923c5049a5d7f1d674e2ac79"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-29/first-failure-summary.json",
+      "bytes": 1402,
+      "sha256": "ede413ca2582e1a4db2afb1453f5731ae51b595597da07ed02b6caf4ae69fc6a"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-29/go-runner-first-failure.log",
+      "bytes": 45889,
+      "sha256": "efd14f738e422d14abe7d6afebce6531128ec1d18200a5a71095893463154ff8"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-29/go-runner.log",
+      "bytes": 27551,
+      "sha256": "763be7a10cc0194c9ed56b1dbf958179d90c538fe2cd0c52f1bb1427d446316b"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-29/go-wiring.log",
+      "bytes": 878,
+      "sha256": "f7702189a9c7a07215d27ebbd07b640ec1a5406e064a377d6074e33f629f555b"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-29/node-targeted.log",
+      "bytes": 6613,
+      "sha256": "3e95ba90c1e80bc80ad7ecf62dc31da5d89f7837554f3fffb98775a5a5d33c20"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-29/static.log",
+      "bytes": 69,
+      "sha256": "deb218d2d47a07979cc802ccb2849898388f8f3dfb362ba6fd6a5a1e84775fb1"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-29/go-fixture.log",
+      "bytes": 721,
+      "sha256": "d85c8b05da2517a86780bdff59e8d8c9885fb56792cf8532bd8b3d9217d2b069"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-28/archive-index.json",
+      "bytes": 1465,
+      "sha256": "73e34f114fa0f2a4e055faec2e7a7930a95ce08c920e04b3d211196fca7ce674"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-28/state.json",
+      "bytes": 2763,
+      "sha256": "bb47ee04987e77ec4d47ad62a304931e41e064df80f403716c0c9cd097970e2b"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-28/verify.log",
+      "bytes": 423684,
+      "sha256": "2d677abf830b07f1cfea30c4b4e8911382d34f13b2b893027a9f5a297d54ec63"
+    }
+  ]
+}

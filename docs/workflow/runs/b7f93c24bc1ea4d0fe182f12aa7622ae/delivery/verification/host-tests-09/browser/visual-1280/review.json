@@ -1,0 +1,167 @@
+{
+  "suite": "console-visual",
+  "width": 1280,
+  "role": "platform_administrator",
+  "scope": {
+    "kind": "tenant",
+    "id": "4flfm2ykBVcn79dVcDOc0w"
+  },
+  "provider": "controlled_http_not_supplier",
+  "scenario": "continuous_J01-J07",
+  "clock": "explicit_test_clock_no_database_edits",
+  "pages": [],
+  "phase": "overview",
+  "result": "failed",
+  "pending_capture": {
+    "page": "overview",
+    "expected_title": "工作台",
+    "check": "readability",
+    "http_reads": [
+      {
+        "resource": "workspace/overview",
+        "status": 200,
+        "scope_matches": true
+      }
+    ],
+    "omitted_reads": 0,
+    "facts": {
+      "title": true,
+      "scope": true,
+      "role": true,
+      "ready": true,
+      "settlement": {
+        "loading": false,
+        "error_nodes": 0,
+        "notice_present": false
+      },
+      "empty_states": {
+        "total": 0,
+        "visible": 0,
+        "seven_day_no_calls": 0,
+        "no_data": 0,
+        "other": 0
+      },
+      "dimensions": {
+        "root_scroll_width": 1280,
+        "viewport_width": 1280,
+        "content_width": 990
+      },
+      "identity": {
+        "platform_administrator": true,
+        "tenant_selected": true,
+        "tenant_option_count": 3
+      },
+      "rootFits": true,
+      "secretsClear": true,
+      "columns": {},
+      "text": {
+        "今日调用": true,
+        "今日成功率": true,
+        "本月已确认费用": true,
+        "已结束调用平均延迟": true,
+        "近7日调用趋势": true,
+        "租户费用分布": true,
+        "待确认与保守预留": true,
+        "当前范围模型状态": true
+      },
+      "actions": {
+        "发起调用": true,
+        "查看请求与核对": true,
+        "查看用量分析": true,
+        "管理模型": true,
+        "查看预算": true
+      },
+      "action_states": {
+        "发起调用": "enabled",
+        "查看请求与核对": "enabled",
+        "查看用量分析": "enabled",
+        "管理模型": "enabled",
+        "查看预算": "enabled"
+      },
+      "labels": {},
+      "minimumRows": 0,
+      "primaryRows": 1,
+      "dataRows": 3,
+      "form": false,
+      "cards": 8
+    }
+  },
+  "failure": {
+    "phase": "overview",
+    "check": "readability",
+    "kind": "timeout",
+    "capture_assertion": null,
+    "readability": {
+      "available": true,
+      "boundary": "rightmost-column",
+      "keyboard_scrolled_tables": 0,
+      "keyboard_scrolled_identifiers": 0,
+      "root_fits": true,
+      "tables_accessible": true,
+      "headers_unbroken": true,
+      "identifiers_complete": true,
+      "actions_unbroken": true,
+      "tables": 2,
+      "identifiers": 2,
+      "overflowing_tables": 1,
+      "overflowing_identifiers": 0,
+      "scroll_probe": {
+        "region_index": 0,
+        "before": {
+          "available": true,
+          "connected": true,
+          "focused": true,
+          "point_in_viewport": true,
+          "point_inside_region": true,
+          "hit_inside_region": true,
+          "hit_technical_value": false,
+          "hit_scroll_owner_region": true,
+          "hit_nested_scroll_owner": false,
+          "pointer_x": 1026.6328125,
+          "pointer_y": 503,
+          "viewport_width": 1280,
+          "viewport_height": 900,
+          "region_left": 826.265625,
+          "region_top": 473,
+          "region_right": 1227,
+          "region_bottom": 564,
+          "scroll_left": 1,
+          "client_width": 399,
+          "scroll_width": 650,
+          "last_column_left": 1215.265625,
+          "last_column_right": 1476.265625,
+          "hit_owner_scroll_left": 1,
+          "hit_owner_client_width": 399,
+          "hit_owner_scroll_width": 650
+        },
+        "after": {
+          "available": true,
+          "connected": true,
+          "focused": true,
+          "point_in_viewport": true,
+          "point_inside_region": true,
+          "hit_inside_region": true,
+          "hit_technical_value": false,
+          "hit_scroll_owner_region": true,
+          "hit_nested_scroll_owner": false,
+          "pointer_x": 1026.6328125,
+          "pointer_y": 503,
+          "viewport_width": 1280,
+          "viewport_height": 900,
+          "region_left": 826.265625,
+          "region_top": 473,
+          "region_right": 1227,
+          "region_bottom": 564,
+          "scroll_left": 40,
+          "client_width": 399,
+          "scroll_width": 650,
+          "last_column_left": 1176.265625,
+          "last_column_right": 1437.265625,
+          "hit_owner_scroll_left": 40,
+          "hit_owner_client_width": 399,
+          "hit_owner_scroll_width": 650
+        }
+      }
+    }
+  }
+}

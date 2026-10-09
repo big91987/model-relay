@@ -1,0 +1,88 @@
+{
+  "suite": "continuous-console",
+  "width": 1280,
+  "result": "failed",
+  "stage": "J06-close-correction",
+  "action": "authoritative-read",
+  "last_status": 200,
+  "initial_counts": {
+    "upstreams": 0,
+    "models": 0,
+    "tenants": 0
+  },
+  "call_facts": {
+    "expected_status": 200,
+    "dispatch_delta": 1
+  },
+  "usage_facts": {
+    "period_same": true,
+    "fee_micro_usd": {
+      "before": "126",
+      "after": "126"
+    },
+    "reserved_micro_usd": {
+      "before": "0",
+      "after": "0"
+    },
+    "calls": {
+      "before": 9,
+      "after": 9
+    },
+    "pending": {
+      "before": 0,
+      "after": 0
+    },
+    "concurrency": {
+      "before": 0,
+      "after": 0
+    }
+  },
+  "read_facts": {
+    "expected_status": 200,
+    "actual_status": 200
+  },
+  "membership_facts": {
+    "role": "finance",
+    "diagnostic_count": 0,
+    "tenant_count": 0,
+    "tenant_option_count": 0
+  },
+  "ledger_facts": {
+    "entries": 2,
+    "fee": "21",
+    "cost": "7",
+    "input_tokens": "3",
+    "output_tokens": "4"
+  },
+  "self_hosted_facts": {},
+  "self_hosted_progress": {
+    "steps": [],
+    "screenshots": []
+  },
+  "failure_boundary": {
+    "source": "tests/browser/journeys.mjs",
+    "line": 324,
+    "column": 3
+  },
+  "summary_cell": {
+    "available": false
+  },
+  "readability_facts": {
+    "available": false
+  },
+  "checkpoints": [
+    "J01",
+    "J02",
+    "J03",
+    "J04",
+    "J05",
+    "J07"
+  ],
+  "error_kind": "assertion",
+  "editor_open": false,
+  "editor_invalid": 0,
+  "editor_failure": false,
+  "content_loading": false,
+  "workspace_visible": true,
+  "secret_present": false
+}

@@ -1,6 +1,10 @@
 import assert from 'node:assert/strict';
-import {createHash} from 'node:crypto';
-import {mkdir, readFile, writeFile} from 'node:fs/promises';
+import {mkdir, writeFile} from 'node:fs/promises';
+import {readabilityEvidence,readabilityFailureFacts} from './readability.mjs';
+import {captureIntegrityScreenshot} from './capture-integrity.mjs';
+
+const modalCloseFailures=new WeakMap();
+export const modalCloseFailureFacts=error=>modalCloseFailures.get(error)??{available:false};
 
 export const visualPages = [
   {id:'overview',title:'工作台',text:['今日调用','今日成功率','本月已确认费用','已结束调用平均延迟','近7日调用趋势','租户费用分布','待确认与保守预留','当前范围模型状态'],actions:['发起调用','查看请求与核对','查看用量分析','管理模型','查看预算']},
@@ -40,10 +44,62 @@ export function overviewReadFact(response,tenant) {
   return {resource:'workspace/overview',status:response.status(),scope_matches:address.searchParams.get('tenant')===tenant};
 }
 
+export function assertModalScrollFacts(facts) {
+  assert.equal(facts.native_modal,true,'opened dialog retains native modal ownership');
+  assert.equal(facts.root_overflow,'clip','modal root retains the original clip boundary');
+  assert.equal(facts.body_position,'fixed','modal background is removed from root scroll flow');
+  assert.equal(facts.dialog_overflow,'auto','long dialog retains its own scroll container');
+  assert.equal(facts.background_scroll_delta,0,'modal blocks background scrolling');
+  assert.equal(facts.focus_inside,true,'scroll boundary retains dialog focus');
+}
+
+export async function assertModalClosed(page,control,observer=null) {
+  const facts=await page.evaluate(()=>({modal_open:!!document.querySelector('dialog:modal'),root_overflow:getComputedStyle(document.documentElement).overflowY,body_position:getComputedStyle(document.body).position,body_lock_class:document.body.classList.contains('modal-scroll-locked'),scroll_x:scrollX,scroll_y:scrollY}));
+  const trigger=await control.evaluate(element=>({connected:element.isConnected,focused:element===document.activeElement,focus_in_dialog:!!document.activeElement?.closest('dialog'),focus_is_body:document.activeElement===document.body,focus_is_root:document.activeElement===document.documentElement}));
+  const event=observer?await observer.evaluate(value=>value.facts):{available:false};
+  let boundary='native-ownership';
+  try {
+    assert.equal(facts.modal_open,false,'closing the visual dialog releases native modal ownership');
+    boundary='root-unlock';
+    assert.notEqual(facts.root_overflow,'clip','ordinary page scrolling is unlocked after modal close');
+    boundary='body-unlock';
+    assert.notEqual(facts.body_position,'fixed','closing the last dialog releases the background body');
+    boundary='trigger-focus';
+    assert.equal(trigger.focused,true,'native modal close restores its trigger focus');
+    return {facts,trigger,event};
+  } catch(error) {
+    const overflow=['visible','auto','scroll','hidden','clip'].includes(facts.root_overflow)?facts.root_overflow:'other';
+    const position=['static','relative','absolute','fixed','sticky'].includes(facts.body_position)?facts.body_position:'other';
+    modalCloseFailures.set(error,{available:true,boundary,modal_open:facts.modal_open===true,root_overflow:overflow,body_position:position,body_lock_class:facts.body_lock_class===true,scroll_x:Number.isFinite(facts.scroll_x)?facts.scroll_x:null,scroll_y:Number.isFinite(facts.scroll_y)?facts.scroll_y:null,trigger_connected:trigger.connected===true,trigger_focused:trigger.focused===true,focus_in_dialog:trigger.focus_in_dialog===true,focus_is_body:trigger.focus_is_body===true,focus_is_root:trigger.focus_is_root===true,event});
+    throw error;
+  }
+}
+
+export async function closeVisualModal(page,control,selector,name) {
+  const observer=await page.evaluateHandle(selector=>{
+    const dialog=document.querySelector(selector);
+    const facts={available:true,close_events:0,modal_open_at_event:null,body_locked_at_event:null,body_fixed_at_event:null,root_clipped_at_event:null};
+    const listener=()=>{facts.close_events++;facts.modal_open_at_event=!!document.querySelector('dialog:modal');facts.body_locked_at_event=document.body.classList.contains('modal-scroll-locked');facts.body_fixed_at_event=getComputedStyle(document.body).position==='fixed';facts.root_clipped_at_event=getComputedStyle(document.documentElement).overflowY==='clip';};
+    dialog.addEventListener('close',listener);
+    return {facts,finish(){dialog.removeEventListener('close',listener);}};
+  },selector);
+  let failure=null;
+  try {
+    await page.getByRole('button',{name,exact:true}).click();
+    await page.locator(selector).waitFor({state:'hidden'});
+    return await assertModalClosed(page,control,observer);
+  } catch(error) {
+    failure=error;throw error;
+  } finally {
+    try {try {await observer.evaluate(value=>value.finish());}finally {await observer.dispose();}}
+    catch(error) {if(!failure)throw error;}
+  }
+}
+
 export async function consoleVisualReview(page,{width,tenant,objects,secrets=[],nav,step}) {
   const directory=`test-results/visual-${width}`;
   await mkdir(directory,{recursive:true});
-  const receipt={suite:'console-visual',width,role:'platform_administrator',scope:{kind:'tenant',id:tenant},provider:'controlled_http_not_supplier',scenario:'continuous_J01-J07',clock:'explicit_test_clock_no_database_edits',pages:[],phase:'start',result:'in_progress'};
+  const receipt={suite:'console-visual',width,role:'platform_administrator',scope:{kind:'tenant',id:tenant},provider:'controlled_http_not_supplier',scenario:'continuous_J01-J07',clock:'explicit_test_clock_no_database_edits',pages:[],modal_scroll_checks:[],phase:'start',result:'in_progress'};
   const mark=phase=>{receipt.phase=phase;step(phase);};
   const saveReceipt=()=>writeFile(`${directory}/review.json`,JSON.stringify(receipt,null,2)+'\n');
   let captureAssertion=null;
@@ -60,9 +116,23 @@ export async function consoleVisualReview(page,{width,tenant,objects,secrets=[],
     const clear=await page.evaluate(secrets=>[...document.querySelectorAll('input[type=password],.secret,textarea[data-sensitive]')].every(control=>control.value==='')&&(!document.getElementById('call-output')||['','尚未调用'].includes(document.getElementById('call-output').textContent))&&secrets.filter(Boolean).every(secret=>!document.body.textContent.includes(secret)),secrets);
     assert.equal(clear,true,'never capture passwords, keys, invitation links or conversations');
     await page.evaluate(()=>document.fonts.ready);
+    receipt.pending_capture.check='modal-scroll-boundary';
+    const modalScroll=await page.evaluate(()=>{
+      const dialog=document.querySelector('dialog[open]');
+      if(!dialog)return null;
+      const before=scrollY;
+      window.scrollBy(0,100);
+      return {native_modal:dialog.matches(':modal'),root_overflow:getComputedStyle(document.documentElement).overflowY,body_position:getComputedStyle(document.body).position,root_scroll_height:document.scrollingElement.scrollHeight,root_client_height:document.scrollingElement.clientHeight,dialog_overflow:getComputedStyle(dialog).overflowY,background_scroll_delta:scrollY-before,focus_inside:dialog.contains(document.activeElement)};
+    });
+    if(modalScroll) {
+      receipt.pending_capture.modal_scroll=modalScroll;
+      assert.ok(receipt.modal_scroll_checks.length<32,'bounded modal scroll probes');
+      receipt.modal_scroll_checks.push({capture:name,...modalScroll});
+      assertModalScrollFacts(modalScroll);
+    }
     const path=`${directory}/${name}.png`;
-    await page.screenshot({path,fullPage:true});
-    return {path,sha256:createHash('sha256').update(await readFile(path)).digest('hex')};
+    receipt.pending_capture.check='screenshot-content-integrity';
+    return captureIntegrityScreenshot(page,path);
   };
   page.on('response',observe);
   try {
@@ -127,21 +197,25 @@ export async function consoleVisualReview(page,{width,tenant,objects,secrets=[],
       for(const name of ['停止本地接收（费用可能待确认）','查看同Request ID日志']) assert.equal(await page.getByRole('button',{name,exact:true}).isDisabled(),true);
       assert.equal(await page.locator('#call-output').textContent(),'尚未调用');
     }
-    const checkpoint={page:definition.id,title:definition.title,state:'nonempty_or_unused_call_form',facts,row_actions:definition.rowActions??[],screenshots:[await screenshot(`${definition.id}-page`)]};
+    receipt.pending_capture.check='readability';
+    const rightScreenshots=[];
+    const readability=await readabilityEvidence(page,async index=>rightScreenshots.push(await screenshot(`${definition.id}-right-columns-${index+1}`)));
+    const checkpoint={page:definition.id,title:definition.title,state:'nonempty_or_unused_call_form',facts,readability,row_actions:definition.rowActions??[],screenshots:[await screenshot(`${definition.id}-page`),...rightScreenshots]};
     receipt.pages.push(checkpoint);
     await saveReceipt();
     if(definition.detail) {
       mark(`${definition.id}-detail`);
       receipt.pending_capture.check='open-detail';
-      await row.getByRole('button',{name:definition.detail.action,exact:true}).first().click();
+      const detailControl=row.getByRole('button',{name:definition.detail.action,exact:true}).first();
+      await detailControl.click();
       await page.locator('#detail[open]').waitFor({state:'visible'});
       for(const label of definition.detail.text) {
         receipt.pending_capture.check='detail-field: '+label;
         await page.locator('#detail-content').getByText(label,{exact:true}).first().waitFor({state:'visible'});
       }
       checkpoint.detail={action:definition.detail.action,asserted_fields:definition.detail.text,screenshot:await screenshot(`${definition.id}-detail`)};
-      await page.getByRole('button',{name:'关闭详情',exact:true}).click();
-      await page.locator('#detail').waitFor({state:'hidden'});
+      receipt.pending_capture.check='close-detail';
+      checkpoint.detail.close=await closeVisualModal(page,detailControl,'#detail','关闭详情');
       await saveReceipt();
     }
     if(definition.editor) {
@@ -156,14 +230,14 @@ export async function consoleVisualReview(page,{width,tenant,objects,secrets=[],
         await page.getByLabel(label,{exact:true}).waitFor({state:'visible'});
       }
       checkpoint.editor={action:definition.editor.action,asserted_labels:definition.editor.labels,screenshot:await screenshot(`${definition.id}-editor`),mutation:false};
-      await page.getByRole('button',{name:'关闭编辑',exact:true}).click();
-      await page.locator('#editor').waitFor({state:'hidden'});
+      receipt.pending_capture.check='close-editor';
+      checkpoint.editor.close=await closeVisualModal(page,control,'#editor','关闭编辑');
       await saveReceipt();
     }
   }
   } catch(error) {
     receipt.result='failed';
-    receipt.failure={phase:receipt.phase,check:receipt.pending_capture?.check,kind:error.name==='AssertionError'?'assertion':error.name==='TimeoutError'?'timeout':'other',capture_assertion:captureAssertion};
+    receipt.failure={phase:receipt.phase,check:receipt.pending_capture?.check,kind:error.name==='AssertionError'?'assertion':error.name==='TimeoutError'?'timeout':'other',capture_assertion:captureAssertion,capture_integrity:error.captureIntegrity??null,readability:readabilityFailureFacts(error),modal_close:modalCloseFailureFacts(error)};
     await saveReceipt();
     console.log(JSON.stringify({suite:receipt.suite,width,result:'failed',phase:receipt.phase,failure:receipt.failure,evidence:`${directory}/review.json`,capture:receipt.pending_capture}));
     throw error;

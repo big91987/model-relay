@@ -1,0 +1,53 @@
+{
+  "connector_seq": 28,
+  "connector_exit": 2,
+  "gate_exit": 2,
+  "runner_exit": 1,
+  "started_utc": "2026-10-09T04:21:23.935954Z",
+  "finished_utc": "2026-10-09T04:27:39.074261Z",
+  "source_before": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "0211a610cb72b4435455a6d746d7648e9668d414a967d021c1b645ff97825e96"
+  },
+  "source_after": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "0211a610cb72b4435455a6d746d7648e9668d414a967d021c1b645ff97825e96"
+  },
+  "node_tests": 250,
+  "node_pass": 250,
+  "node_fail": 0,
+  "failure": {
+    "test": "TestFixedRunnerReceipts/green_fixture",
+    "stage": "prerequisite-npm",
+    "command_kind": "constant-output isolated shell fixture, not real npm",
+    "duration_seconds": 8.01,
+    "cancelled": true,
+    "error": "context deadline exceeded",
+    "original_context_seconds": 8,
+    "original_phase_timing_available": false
+  },
+  "browser_executed": false,
+  "new_screenshot_available": false,
+  "cleanup": "owned_process_group_cleanup_attempted; candidate_removed",
+  "owned_group_absent": true,
+  "proven": [
+    "fixed host failed before browser",
+    "fixture parent context exhausted",
+    "source unchanged",
+    "250 Node checks passed"
+  ],
+  "unproven": [
+    "reason for fixture delay",
+    "Chromium wheel attribution",
+    "blank PNG cause",
+    "historical R28-04 cause"
+  ],
+  "original_log": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-28/verify.log",
+  "original_state": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-28/state.json"
+}

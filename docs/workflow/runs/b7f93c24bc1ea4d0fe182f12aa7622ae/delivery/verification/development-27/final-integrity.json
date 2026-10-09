@@ -1,0 +1,30 @@
+{
+  "checked_utc": "2026-10-09T04:20:16.456Z",
+  "source": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "0211a610cb72b4435455a6d746d7648e9668d414a967d021c1b645ff97825e96"
+  },
+  "source_unchanged": true,
+  "host_original_files_verified": 91,
+  "git_diff_check_exit": 0,
+  "nonempty_evidence": [
+    "development-27.md",
+    "development-27/source.json",
+    "development-27/source-after.json",
+    "development-27/local-checks.json",
+    "development-27/host-failure-summary.json",
+    "development-27/node-targeted.log",
+    "development-27/static.log",
+    "development-27/go-fixture.log",
+    "development-27/integrity-first-failure.json"
+  ],
+  "empty_raw_logs_not_handoff": [
+    "development-27/syntax-diff.log"
+  ],
+  "complete_host_verification": "pending",
+  "independent_qa": "pending",
+  "historical_blank_image_cause": "unresolved"
+}

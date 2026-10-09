@@ -1,0 +1,810 @@
+{
+  "suite": "console-visual",
+  "width": 1280,
+  "role": "platform_administrator",
+  "scope": {
+    "kind": "tenant",
+    "id": "FRueKnGcRHtFyVUAQxXFiA"
+  },
+  "provider": "controlled_http_not_supplier",
+  "scenario": "continuous_J01-J07",
+  "clock": "explicit_test_clock_no_database_edits",
+  "pages": [
+    {
+      "page": "overview",
+      "title": "工作台",
+      "state": "nonempty_or_unused_call_form",
+      "facts": {
+        "title": true,
+        "scope": true,
+        "role": true,
+        "ready": true,
+        "settlement": {
+          "loading": false,
+          "error_nodes": 0,
+          "notice_present": false
+        },
+        "empty_states": {
+          "total": 0,
+          "visible": 0,
+          "seven_day_no_calls": 0,
+          "no_data": 0,
+          "other": 0
+        },
+        "dimensions": {
+          "root_scroll_width": 1280,
+          "viewport_width": 1280,
+          "content_width": 990
+        },
+        "identity": {
+          "platform_administrator": true,
+          "tenant_selected": true,
+          "tenant_option_count": 3
+        },
+        "rootFits": true,
+        "secretsClear": true,
+        "columns": {},
+        "text": {
+          "今日调用": true,
+          "今日成功率": true,
+          "本月已确认费用": true,
+          "已结束调用平均延迟": true,
+          "近7日调用趋势": true,
+          "租户费用分布": true,
+          "待确认与保守预留": true,
+          "当前范围模型状态": true
+        },
+        "actions": {
+          "发起调用": true,
+          "查看请求与核对": true,
+          "查看用量分析": true,
+          "管理模型": true,
+          "查看预算": true
+        },
+        "action_states": {
+          "发起调用": "enabled",
+          "查看请求与核对": "enabled",
+          "查看用量分析": "enabled",
+          "管理模型": "enabled",
+          "查看预算": "enabled"
+        },
+        "labels": {},
+        "minimumRows": 0,
+        "primaryRows": 1,
+        "dataRows": 3,
+        "form": false,
+        "cards": 8
+      },
+      "readability": {
+        "root_fits": true,
+        "tables": 2,
+        "tables_accessible": true,
+        "headers_unbroken": true,
+        "identifiers": 2,
+        "identifiers_complete": true,
+        "actions_unbroken": true,
+        "overflowing_tables": 1,
+        "overflowing_identifiers": 0,
+        "keyboard_scrolled_tables": 1,
+        "keyboard_scrolled_identifiers": 0
+      },
+      "row_actions": [],
+      "screenshots": [
+        {
+          "path": "test-results/visual-1280/overview-page.png",
+          "sha256": "9b7f0009e5187cbef6b6a58d746fd3252bc7196805e6b5ea0a49221c30eccb89",
+          "integrity_path": "test-results/visual-1280/overview-page.png.integrity.json"
+        },
+        {
+          "path": "test-results/visual-1280/overview-right-columns-1.png",
+          "sha256": "1cd9777301f5b814fcaf976bea4e43cf10bda8acbf1e6fe759a19ff7647fe4cb",
+          "integrity_path": "test-results/visual-1280/overview-right-columns-1.png.integrity.json"
+        }
+      ]
+    },
+    {
+      "page": "models",
+      "title": "模型托管",
+      "state": "nonempty_or_unused_call_form",
+      "facts": {
+        "title": true,
+        "scope": true,
+        "role": true,
+        "ready": true,
+        "settlement": {
+          "loading": false,
+          "error_nodes": 0,
+          "notice_present": false
+        },
+        "empty_states": {
+          "total": 0,
+          "visible": 0,
+          "seven_day_no_calls": 0,
+          "no_data": 0,
+          "other": 0
+        },
+        "dimensions": {
+          "root_scroll_width": 1280,
+          "viewport_width": 1280,
+          "content_width": 990
+        },
+        "identity": {
+          "platform_administrator": true,
+          "tenant_selected": true,
+          "tenant_option_count": 3
+        },
+        "rootFits": true,
+        "secretsClear": true,
+        "columns": {
+          "公共模型": true,
+          "来源 / 类型": true,
+          "协议能力": true,
+          "状态": true,
+          "当前租户价格（USD）": true,
+          "调用延迟": true,
+          "版本": true
+        },
+        "text": {},
+        "actions": {
+          "接入模型": true
+        },
+        "action_states": {
+          "接入模型": "enabled"
+        },
+        "labels": {},
+        "minimumRows": 2,
+        "primaryRows": 2,
+        "dataRows": 2,
+        "form": false,
+        "cards": 0
+      },
+      "readability": {
+        "root_fits": true,
+        "tables": 1,
+        "tables_accessible": true,
+        "headers_unbroken": true,
+        "identifiers": 2,
+        "identifiers_complete": true,
+        "actions_unbroken": true,
+        "overflowing_tables": 0,
+        "overflowing_identifiers": 0,
+        "keyboard_scrolled_tables": 0,
+        "keyboard_scrolled_identifiers": 0
+      },
+      "row_actions": [
+        "编辑",
+        "租户授权",
+        "上界",
+        "详情",
+        "启停",
+        "调用测试"
+      ],
+      "screenshots": [
+        {
+          "path": "test-results/visual-1280/models-page.png",
+          "sha256": "32aff91925751f70b6090583da3762f2baf19e9bb5f73f454dc78a43658864b7",
+          "integrity_path": "test-results/visual-1280/models-page.png.integrity.json"
+        }
+      ],
+      "detail": {
+        "action": "详情",
+        "asserted_fields": [
+          "路由候选",
+          "价格版本",
+          "上界依据"
+        ],
+        "screenshot": {
+          "path": "test-results/visual-1280/models-detail.png",
+          "sha256": "d528cde412d7c93fd62a9b2d96b30cfbf306ce38f21f028b96b7d062cab73f70",
+          "integrity_path": "test-results/visual-1280/models-detail.png.integrity.json"
+        }
+      },
+      "editor": {
+        "action": "编辑",
+        "asserted_labels": [
+          "公共模型名",
+          "服务",
+          "远端模型名",
+          "首候选优先级（越大越优先）",
+          "首候选权重",
+          "首候选启用",
+          "启用"
+        ],
+        "screenshot": {
+          "path": "test-results/visual-1280/models-editor.png",
+          "sha256": "8cd8dfb85b4df60cc60db074bb11624fbf5981814c57c619039059ee4aa43104",
+          "integrity_path": "test-results/visual-1280/models-editor.png.integrity.json"
+        },
+        "mutation": false
+      }
+    },
+    {
+      "page": "services",
+      "title": "供应商与服务",
+      "state": "nonempty_or_unused_call_form",
+      "facts": {
+        "title": true,
+        "scope": true,
+        "role": true,
+        "ready": true,
+        "settlement": {
+          "loading": false,
+          "error_nodes": 0,
+          "notice_present": false
+        },
+        "empty_states": {
+          "total": 0,
+          "visible": 0,
+          "seven_day_no_calls": 0,
+          "no_data": 0,
+          "other": 0
+        },
+        "dimensions": {
+          "root_scroll_width": 1280,
+          "viewport_width": 1280,
+          "content_width": 990
+        },
+        "identity": {
+          "platform_administrator": true,
+          "tenant_selected": true,
+          "tenant_option_count": 3
+        },
+        "rootFits": true,
+        "secretsClear": true,
+        "columns": {
+          "服务": true,
+          "来源": true,
+          "基础地址": true,
+          "状态": true,
+          "关联模型": true,
+          "核验事实": true,
+          "核验时间 / 配置版本": true
+        },
+        "text": {},
+        "actions": {
+          "接入服务": true
+        },
+        "action_states": {
+          "接入服务": "enabled"
+        },
+        "labels": {},
+        "minimumRows": 0,
+        "primaryRows": 1,
+        "dataRows": 1,
+        "form": false,
+        "cards": 0
+      },
+      "readability": {
+        "root_fits": true,
+        "tables": 1,
+        "tables_accessible": true,
+        "headers_unbroken": true,
+        "identifiers": 1,
+        "identifiers_complete": true,
+        "actions_unbroken": true,
+        "overflowing_tables": 1,
+        "overflowing_identifiers": 0,
+        "keyboard_scrolled_tables": 1,
+        "keyboard_scrolled_identifiers": 0
+      },
+      "row_actions": [
+        "编辑",
+        "核验",
+        "详情",
+        "关联模型"
+      ],
+      "screenshots": [
+        {
+          "path": "test-results/visual-1280/services-page.png",
+          "sha256": "7ae506c367e0ed53bab988b8ec3697d93adad3a7a8602615f29f636fcca906cf",
+          "integrity_path": "test-results/visual-1280/services-page.png.integrity.json"
+        },
+        {
+          "path": "test-results/visual-1280/services-right-columns-1.png",
+          "sha256": "2846b1b8ffd06d7c8f19dd5f884fcacd5583bb95d939e620dfccb3018d04737f",
+          "integrity_path": "test-results/visual-1280/services-right-columns-1.png.integrity.json"
+        }
+      ],
+      "detail": {
+        "action": "详情",
+        "asserted_fields": [
+          "名称",
+          "基础地址",
+          "启用"
+        ],
+        "screenshot": {
+          "path": "test-results/visual-1280/services-detail.png",
+          "sha256": "d2731cc95000d0f4b54abf56c1f65b67be5c83d6b57a5b3df8bed8dae546acc6",
+          "integrity_path": "test-results/visual-1280/services-detail.png.integrity.json"
+        }
+      },
+      "editor": {
+        "action": "编辑",
+        "asserted_labels": [
+          "服务名称",
+          "来源类型",
+          "兼容API基础地址",
+          "上游凭据（编辑留空保留同地址原值）"
+        ],
+        "screenshot": {
+          "path": "test-results/visual-1280/services-editor.png",
+          "sha256": "e748b9e5f70a5f56881cd917fa11a3d31923e0e8c7b02048143c08016af1e1bb",
+          "integrity_path": "test-results/visual-1280/services-editor.png.integrity.json"
+        },
+        "mutation": false
+      }
+    }
+  ],
+  "phase": "keys",
+  "result": "failed",
+  "pending_capture": {
+    "page": "keys",
+    "expected_title": "API Keys",
+    "check": "screenshot-content-integrity",
+    "http_reads": [],
+    "omitted_reads": 0,
+    "facts": {
+      "title": true,
+      "scope": true,
+      "role": true,
+      "ready": true,
+      "settlement": {
+        "loading": false,
+        "error_nodes": 0,
+        "notice_present": false
+      },
+      "empty_states": {
+        "total": 0,
+        "visible": 0,
+        "seven_day_no_calls": 0,
+        "no_data": 0,
+        "other": 0
+      },
+      "dimensions": {
+        "root_scroll_width": 1280,
+        "viewport_width": 1280,
+        "content_width": 990
+      },
+      "identity": {
+        "platform_administrator": true,
+        "tenant_selected": true,
+        "tenant_option_count": 3
+      },
+      "rootFits": true,
+      "secretsClear": true,
+      "columns": {
+        "名称": true,
+        "应用": true,
+        "安全标识": true,
+        "模型授权": true,
+        "状态": true,
+        "期限": true,
+        "费用已用 / 预留 / 上限": true
+      },
+      "text": {},
+      "actions": {
+        "创建Key": true
+      },
+      "action_states": {
+        "创建Key": "enabled"
+      },
+      "labels": {},
+      "minimumRows": 2,
+      "primaryRows": 4,
+      "dataRows": 4,
+      "form": false,
+      "cards": 0
+    }
+  },
+  "failure": {
+    "phase": "keys",
+    "check": "screenshot-content-integrity",
+    "kind": "assertion",
+    "capture_assertion": null,
+    "readability": {
+      "available": true,
+      "boundary": "rightmost-column",
+      "keyboard_scrolled_tables": 0,
+      "keyboard_scrolled_identifiers": 0,
+      "root_fits": true,
+      "tables_accessible": true,
+      "headers_unbroken": true,
+      "identifiers_complete": true,
+      "actions_unbroken": true,
+      "tables": 1,
+      "identifiers": 4,
+      "overflowing_tables": 1,
+      "overflowing_identifiers": 0,
+      "scroll_probe": {
+        "region_index": 0,
+        "before": {
+          "available": true,
+          "connected": true,
+          "focused": true,
+          "point_in_viewport": true,
+          "point_inside_region": true,
+          "hit_inside_region": true,
+          "hit_technical_value": false,
+          "hit_scroll_owner_region": true,
+          "hit_nested_scroll_owner": false,
+          "pointer_x": 753,
+          "pointer_y": 112,
+          "viewport_width": 1280,
+          "viewport_height": 900,
+          "region_left": 258,
+          "region_top": 82,
+          "region_right": 1248,
+          "region_bottom": 900.5,
+          "scroll_left": 29,
+          "client_width": 988,
+          "scroll_width": 1017,
+          "last_column_left": 1087,
+          "last_column_right": 1247,
+          "hit_owner_scroll_left": 29,
+          "hit_owner_client_width": 988,
+          "hit_owner_scroll_width": 1017
+        },
+        "after": {
+          "available": true,
+          "connected": true,
+          "focused": true,
+          "point_in_viewport": true,
+          "point_inside_region": true,
+          "hit_inside_region": true,
+          "hit_technical_value": false,
+          "hit_scroll_owner_region": true,
+          "hit_nested_scroll_owner": false,
+          "pointer_x": 753,
+          "pointer_y": 112,
+          "viewport_width": 1280,
+          "viewport_height": 900,
+          "region_left": 258,
+          "region_top": 82,
+          "region_right": 1248,
+          "region_bottom": 900.5,
+          "scroll_left": 29,
+          "client_width": 988,
+          "scroll_width": 1017,
+          "last_column_left": 1087,
+          "last_column_right": 1247,
+          "hit_owner_scroll_left": 29,
+          "hit_owner_client_width": 988,
+          "hit_owner_scroll_width": 1017
+        },
+        "events": {
+          "available": true,
+          "events": [
+            {
+              "kind": "keydown",
+              "phase": "keyboard",
+              "elapsed_ms": 2,
+              "scroll_left": 0,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "client_x": null,
+              "client_y": null,
+              "trusted": true,
+              "default_prevented": false,
+              "target_inside_region": null
+            },
+            {
+              "kind": "keyup",
+              "phase": "keyboard",
+              "elapsed_ms": 2,
+              "scroll_left": 0,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "client_x": null,
+              "client_y": null,
+              "trusted": true,
+              "default_prevented": false,
+              "target_inside_region": null
+            },
+            {
+              "kind": "scroll",
+              "phase": "keyboard",
+              "elapsed_ms": 21,
+              "scroll_left": 1,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "client_x": null,
+              "client_y": null,
+              "trusted": true,
+              "default_prevented": false,
+              "target_inside_region": null
+            },
+            {
+              "kind": "scroll",
+              "phase": "keyboard",
+              "elapsed_ms": 29,
+              "scroll_left": 2,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "client_x": null,
+              "client_y": null,
+              "trusted": true,
+              "default_prevented": false,
+              "target_inside_region": null
+            },
+            {
+              "kind": "scroll",
+              "phase": "keyboard",
+              "elapsed_ms": 37,
+              "scroll_left": 3,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "client_x": null,
+              "client_y": null,
+              "trusted": true,
+              "default_prevented": false,
+              "target_inside_region": null
+            },
+            {
+              "kind": "scroll",
+              "phase": "keyboard",
+              "elapsed_ms": 46,
+              "scroll_left": 5,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "client_x": null,
+              "client_y": null,
+              "trusted": true,
+              "default_prevented": false,
+              "target_inside_region": null
+            },
+            {
+              "kind": "scroll",
+              "phase": "keyboard",
+              "elapsed_ms": 53,
+              "scroll_left": 7,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "client_x": null,
+              "client_y": null,
+              "trusted": true,
+              "default_prevented": false,
+              "target_inside_region": null
+            },
+            {
+              "kind": "scroll",
+              "phase": "keyboard",
+              "elapsed_ms": 62,
+              "scroll_left": 10,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "client_x": null,
+              "client_y": null,
+              "trusted": true,
+              "default_prevented": false,
+              "target_inside_region": null
+            },
+            {
+              "kind": "scroll",
+              "phase": "keyboard",
+              "elapsed_ms": 71,
+              "scroll_left": 12,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "client_x": null,
+              "client_y": null,
+              "trusted": true,
+              "default_prevented": false,
+              "target_inside_region": null
+            },
+            {
+              "kind": "scroll",
+              "phase": "keyboard",
+              "elapsed_ms": 77,
+              "scroll_left": 15,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "client_x": null,
+              "client_y": null,
+              "trusted": true,
+              "default_prevented": false,
+              "target_inside_region": null
+            },
+            {
+              "kind": "scroll",
+              "phase": "keyboard",
+              "elapsed_ms": 88,
+              "scroll_left": 18,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "client_x": null,
+              "client_y": null,
+              "trusted": true,
+              "default_prevented": false,
+              "target_inside_region": null
+            },
+            {
+              "kind": "scroll",
+              "phase": "keyboard",
+              "elapsed_ms": 95,
+              "scroll_left": 20,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "client_x": null,
+              "client_y": null,
+              "trusted": true,
+              "default_prevented": false,
+              "target_inside_region": null
+            },
+            {
+              "kind": "scroll",
+              "phase": "keyboard",
+              "elapsed_ms": 103,
+              "scroll_left": 22,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "client_x": null,
+              "client_y": null,
+              "trusted": true,
+              "default_prevented": false,
+              "target_inside_region": null
+            },
+            {
+              "kind": "scroll",
+              "phase": "keyboard",
+              "elapsed_ms": 112,
+              "scroll_left": 25,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "client_x": null,
+              "client_y": null,
+              "trusted": true,
+              "default_prevented": false,
+              "target_inside_region": null
+            },
+            {
+              "kind": "scroll",
+              "phase": "keyboard",
+              "elapsed_ms": 121,
+              "scroll_left": 26,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "client_x": null,
+              "client_y": null,
+              "trusted": true,
+              "default_prevented": false,
+              "target_inside_region": null
+            },
+            {
+              "kind": "scroll",
+              "phase": "keyboard",
+              "elapsed_ms": 129,
+              "scroll_left": 28,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "client_x": null,
+              "client_y": null,
+              "trusted": true,
+              "default_prevented": false,
+              "target_inside_region": null
+            },
+            {
+              "kind": "scroll",
+              "phase": "keyboard",
+              "elapsed_ms": 146,
+              "scroll_left": 29,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "client_x": null,
+              "client_y": null,
+              "trusted": true,
+              "default_prevented": false,
+              "target_inside_region": null
+            },
+            {
+              "kind": "scrollend",
+              "phase": "keyboard",
+              "elapsed_ms": 162,
+              "scroll_left": 29,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "client_x": null,
+              "client_y": null,
+              "trusted": true,
+              "default_prevented": false,
+              "target_inside_region": null
+            },
+            {
+              "kind": "wheel",
+              "phase": "wheel",
+              "elapsed_ms": 190,
+              "scroll_left": 29,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": 100000,
+              "delta_y": 0,
+              "delta_mode": 0,
+              "client_x": 753,
+              "client_y": 112,
+              "trusted": true,
+              "default_prevented": false,
+              "target_inside_region": true
+            }
+          ],
+          "landmarks": [
+            {
+              "stage": "wheel-dispatch-start",
+              "elapsed_ms": 171,
+              "scroll_left": 29,
+              "window_x": 0,
+              "window_y": 148
+            },
+            {
+              "stage": "capture-start",
+              "elapsed_ms": 195,
+              "scroll_left": 29,
+              "window_x": 0,
+              "window_y": 148
+            },
+            {
+              "stage": "capture-end",
+              "elapsed_ms": 283,
+              "scroll_left": 29,
+              "window_x": 0,
+              "window_y": 148
+            }
+          ],
+          "omitted": 0
+        }
+      }
+    }
+  }
+}

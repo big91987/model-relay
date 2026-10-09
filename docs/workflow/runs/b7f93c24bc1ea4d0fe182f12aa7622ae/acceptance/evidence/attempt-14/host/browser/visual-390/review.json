@@ -1,0 +1,1068 @@
+{
+  "suite": "console-visual",
+  "width": 390,
+  "role": "platform_administrator",
+  "scope": {
+    "kind": "tenant",
+    "id": "BnpFHqEZBBV8brGEOJL11Q"
+  },
+  "provider": "controlled_http_not_supplier",
+  "scenario": "continuous_J01-J07",
+  "clock": "explicit_test_clock_no_database_edits",
+  "pages": [
+    {
+      "page": "overview",
+      "title": "工作台",
+      "state": "nonempty_or_unused_call_form",
+      "facts": {
+        "title": true,
+        "scope": true,
+        "role": true,
+        "ready": true,
+        "settlement": {
+          "loading": false,
+          "error_nodes": 0,
+          "notice_present": false
+        },
+        "empty_states": {
+          "total": 0,
+          "visible": 0,
+          "seven_day_no_calls": 0,
+          "no_data": 0,
+          "other": 0
+        },
+        "dimensions": {
+          "root_scroll_width": 390,
+          "viewport_width": 390,
+          "content_width": 358
+        },
+        "identity": {
+          "platform_administrator": true,
+          "tenant_selected": true,
+          "tenant_option_count": 3
+        },
+        "rootFits": true,
+        "secretsClear": true,
+        "columns": {},
+        "text": {
+          "今日调用": true,
+          "今日成功率": true,
+          "本月已确认费用": true,
+          "已结束调用平均延迟": true,
+          "近7日调用趋势": true,
+          "租户费用分布": true,
+          "待确认与保守预留": true,
+          "当前范围模型状态": true
+        },
+        "actions": {
+          "发起调用": true,
+          "查看请求与核对": true,
+          "查看用量分析": true,
+          "管理模型": true,
+          "查看预算": true
+        },
+        "action_states": {
+          "发起调用": "enabled",
+          "查看请求与核对": "enabled",
+          "查看用量分析": "enabled",
+          "管理模型": "enabled",
+          "查看预算": "enabled"
+        },
+        "labels": {},
+        "minimumRows": 0,
+        "primaryRows": 1,
+        "dataRows": 3,
+        "form": false,
+        "cards": 8
+      },
+      "readability": {
+        "root_fits": true,
+        "tables": 2,
+        "tables_accessible": true,
+        "headers_unbroken": true,
+        "identifiers": 2,
+        "identifiers_complete": true,
+        "actions_unbroken": true,
+        "overflowing_tables": 2,
+        "overflowing_identifiers": 0,
+        "keyboard_scrolled_tables": 2,
+        "keyboard_scrolled_identifiers": 0
+      },
+      "row_actions": [],
+      "screenshots": [
+        {
+          "path": "test-results/visual-390/overview-page.png",
+          "sha256": "8ce5fdd385624f226608ed9da9073dbca290ce668caaab67b4e65da28a42e38e"
+        },
+        {
+          "path": "test-results/visual-390/overview-right-columns-1.png",
+          "sha256": "ce6c72bf9961704d8b9fe1374f4015c40cb0d904a0a54a3112a173ebc0eeb422"
+        },
+        {
+          "path": "test-results/visual-390/overview-right-columns-2.png",
+          "sha256": "2487c31f35ddf439765577307ce402cde08c17e52734ef1b4a9f8a43138ccb06"
+        }
+      ]
+    },
+    {
+      "page": "models",
+      "title": "模型托管",
+      "state": "nonempty_or_unused_call_form",
+      "facts": {
+        "title": true,
+        "scope": true,
+        "role": true,
+        "ready": true,
+        "settlement": {
+          "loading": false,
+          "error_nodes": 0,
+          "notice_present": false
+        },
+        "empty_states": {
+          "total": 0,
+          "visible": 0,
+          "seven_day_no_calls": 0,
+          "no_data": 0,
+          "other": 0
+        },
+        "dimensions": {
+          "root_scroll_width": 390,
+          "viewport_width": 390,
+          "content_width": 358
+        },
+        "identity": {
+          "platform_administrator": true,
+          "tenant_selected": true,
+          "tenant_option_count": 3
+        },
+        "rootFits": true,
+        "secretsClear": true,
+        "columns": {
+          "公共模型": true,
+          "来源 / 类型": true,
+          "协议能力": true,
+          "状态": true,
+          "当前租户价格（USD）": true,
+          "调用延迟": true,
+          "版本": true
+        },
+        "text": {},
+        "actions": {
+          "接入模型": true
+        },
+        "action_states": {
+          "接入模型": "enabled"
+        },
+        "labels": {},
+        "minimumRows": 2,
+        "primaryRows": 2,
+        "dataRows": 2,
+        "form": false,
+        "cards": 0
+      },
+      "readability": {
+        "root_fits": true,
+        "tables": 1,
+        "tables_accessible": true,
+        "headers_unbroken": true,
+        "identifiers": 2,
+        "identifiers_complete": true,
+        "actions_unbroken": true,
+        "overflowing_tables": 1,
+        "overflowing_identifiers": 0,
+        "keyboard_scrolled_tables": 1,
+        "keyboard_scrolled_identifiers": 0
+      },
+      "row_actions": [
+        "编辑",
+        "租户授权",
+        "上界",
+        "详情",
+        "启停",
+        "调用测试"
+      ],
+      "screenshots": [
+        {
+          "path": "test-results/visual-390/models-page.png",
+          "sha256": "de28c10ad1c78ae509abc6cbd2d81adc2728f95a9e0fae33c3fab4ea34922358"
+        },
+        {
+          "path": "test-results/visual-390/models-right-columns-1.png",
+          "sha256": "dc31a6ed4e569f55309f1b16fc632d6850c182812a6d12bf8614c5c2c16cbe83"
+        }
+      ],
+      "detail": {
+        "action": "详情",
+        "asserted_fields": [
+          "路由候选",
+          "价格版本",
+          "上界依据"
+        ],
+        "screenshot": {
+          "path": "test-results/visual-390/models-detail.png",
+          "sha256": "b4b198aae2cbb079755dccbc0a4183d6e5df95d58030c08e8a1c99401746ed8d"
+        }
+      },
+      "editor": {
+        "action": "编辑",
+        "asserted_labels": [
+          "公共模型名",
+          "服务",
+          "远端模型名",
+          "首候选优先级（越大越优先）",
+          "首候选权重",
+          "首候选启用",
+          "启用"
+        ],
+        "screenshot": {
+          "path": "test-results/visual-390/models-editor.png",
+          "sha256": "d017f676db15c9fd5ac45aaa454ee0d42962200f46e2a2ca8d2ff9e7e2705060"
+        },
+        "mutation": false
+      }
+    },
+    {
+      "page": "services",
+      "title": "供应商与服务",
+      "state": "nonempty_or_unused_call_form",
+      "facts": {
+        "title": true,
+        "scope": true,
+        "role": true,
+        "ready": true,
+        "settlement": {
+          "loading": false,
+          "error_nodes": 0,
+          "notice_present": false
+        },
+        "empty_states": {
+          "total": 0,
+          "visible": 0,
+          "seven_day_no_calls": 0,
+          "no_data": 0,
+          "other": 0
+        },
+        "dimensions": {
+          "root_scroll_width": 390,
+          "viewport_width": 390,
+          "content_width": 358
+        },
+        "identity": {
+          "platform_administrator": true,
+          "tenant_selected": true,
+          "tenant_option_count": 3
+        },
+        "rootFits": true,
+        "secretsClear": true,
+        "columns": {
+          "服务": true,
+          "来源": true,
+          "基础地址": true,
+          "状态": true,
+          "关联模型": true,
+          "核验事实": true,
+          "核验时间 / 配置版本": true
+        },
+        "text": {},
+        "actions": {
+          "接入服务": true
+        },
+        "action_states": {
+          "接入服务": "enabled"
+        },
+        "labels": {},
+        "minimumRows": 0,
+        "primaryRows": 1,
+        "dataRows": 1,
+        "form": false,
+        "cards": 0
+      },
+      "readability": {
+        "root_fits": true,
+        "tables": 1,
+        "tables_accessible": true,
+        "headers_unbroken": true,
+        "identifiers": 1,
+        "identifiers_complete": true,
+        "actions_unbroken": true,
+        "overflowing_tables": 1,
+        "overflowing_identifiers": 0,
+        "keyboard_scrolled_tables": 1,
+        "keyboard_scrolled_identifiers": 0
+      },
+      "row_actions": [
+        "编辑",
+        "核验",
+        "详情",
+        "关联模型"
+      ],
+      "screenshots": [
+        {
+          "path": "test-results/visual-390/services-page.png",
+          "sha256": "e2921f6836739f3850ff7abf2a7bd1036e5ef23a9f1446a1385d882e3b5b9b18"
+        },
+        {
+          "path": "test-results/visual-390/services-right-columns-1.png",
+          "sha256": "836c3be429355bda7cec4be85ac3d34a086dff8bcbc8c97bc59102d2a9f472f0"
+        }
+      ],
+      "detail": {
+        "action": "详情",
+        "asserted_fields": [
+          "名称",
+          "基础地址",
+          "启用"
+        ],
+        "screenshot": {
+          "path": "test-results/visual-390/services-detail.png",
+          "sha256": "38caed8eaadb586e330f0f382589a338fb5b1a74e454ba46ae600d1b4041c9ed"
+        }
+      },
+      "editor": {
+        "action": "编辑",
+        "asserted_labels": [
+          "服务名称",
+          "来源类型",
+          "兼容API基础地址",
+          "上游凭据（编辑留空保留同地址原值）"
+        ],
+        "screenshot": {
+          "path": "test-results/visual-390/services-editor.png",
+          "sha256": "810f64b790dc374f23a34b733c381883bc29203db74f924d394703adf860cabc"
+        },
+        "mutation": false
+      }
+    },
+    {
+      "page": "keys",
+      "title": "API Keys",
+      "state": "nonempty_or_unused_call_form",
+      "facts": {
+        "title": true,
+        "scope": true,
+        "role": true,
+        "ready": true,
+        "settlement": {
+          "loading": false,
+          "error_nodes": 0,
+          "notice_present": false
+        },
+        "empty_states": {
+          "total": 0,
+          "visible": 0,
+          "seven_day_no_calls": 0,
+          "no_data": 0,
+          "other": 0
+        },
+        "dimensions": {
+          "root_scroll_width": 390,
+          "viewport_width": 390,
+          "content_width": 358
+        },
+        "identity": {
+          "platform_administrator": true,
+          "tenant_selected": true,
+          "tenant_option_count": 3
+        },
+        "rootFits": true,
+        "secretsClear": true,
+        "columns": {
+          "名称": true,
+          "应用": true,
+          "安全标识": true,
+          "模型授权": true,
+          "状态": true,
+          "期限": true,
+          "费用已用 / 预留 / 上限": true
+        },
+        "text": {},
+        "actions": {
+          "创建Key": true
+        },
+        "action_states": {
+          "创建Key": "enabled"
+        },
+        "labels": {},
+        "minimumRows": 2,
+        "primaryRows": 4,
+        "dataRows": 4,
+        "form": false,
+        "cards": 0
+      },
+      "readability": {
+        "root_fits": true,
+        "tables": 1,
+        "tables_accessible": true,
+        "headers_unbroken": true,
+        "identifiers": 4,
+        "identifiers_complete": true,
+        "actions_unbroken": true,
+        "overflowing_tables": 1,
+        "overflowing_identifiers": 0,
+        "keyboard_scrolled_tables": 1,
+        "keyboard_scrolled_identifiers": 0
+      },
+      "row_actions": [
+        "详情",
+        "额度 / 用量",
+        "历史",
+        "编辑",
+        "轮换",
+        "撤销"
+      ],
+      "screenshots": [
+        {
+          "path": "test-results/visual-390/keys-page.png",
+          "sha256": "044886abf75b484758fb38314813c86b890ac484b2a9f52868e838fc75e18322"
+        },
+        {
+          "path": "test-results/visual-390/keys-right-columns-1.png",
+          "sha256": "e757af86d37f87a0e9c15d4dbaecd60a8d653261c6969cbb8484e587eaf6030c"
+        }
+      ],
+      "detail": {
+        "action": "额度 / 用量",
+        "asserted_fields": [
+          "本周期次数",
+          "每分钟请求 RPM",
+          "每分钟收费Token TPM（含预留）",
+          "本地活跃并发",
+          "费用预算（USD）"
+        ],
+        "screenshot": {
+          "path": "test-results/visual-390/keys-detail.png",
+          "sha256": "bface2ae6f1962414cf6feee2905224e949d6c9350c944126cf0deb199c2972a"
+        }
+      },
+      "editor": {
+        "action": "编辑",
+        "asserted_labels": [
+          "名称",
+          "应用",
+          "模型授权（可多选）",
+          "诊断开发者（可多选）",
+          "UTC到期时间（留空为无限）",
+          "启用"
+        ],
+        "screenshot": {
+          "path": "test-results/visual-390/keys-editor.png",
+          "sha256": "faeb81daae8cd778fd7d468147583104a0b56cc96c3c5dd2698f271bf78ee18a"
+        },
+        "mutation": false
+      }
+    },
+    {
+      "page": "tenants",
+      "title": "租户与成员",
+      "state": "nonempty_or_unused_call_form",
+      "facts": {
+        "title": true,
+        "scope": true,
+        "role": true,
+        "ready": true,
+        "settlement": {
+          "loading": false,
+          "error_nodes": 0,
+          "notice_present": false
+        },
+        "empty_states": {
+          "total": 0,
+          "visible": 0,
+          "seven_day_no_calls": 0,
+          "no_data": 0,
+          "other": 0
+        },
+        "dimensions": {
+          "root_scroll_width": 390,
+          "viewport_width": 390,
+          "content_width": 358
+        },
+        "identity": {
+          "platform_administrator": true,
+          "tenant_selected": true,
+          "tenant_option_count": 3
+        },
+        "rootFits": true,
+        "secretsClear": true,
+        "columns": {
+          "租户": true,
+          "状态": true,
+          "人员资格": true,
+          "负责人": true,
+          "成员数": true,
+          "授权模型": true,
+          "应用Key数（含撤销历史）": true,
+          "预算 / 已用": true,
+          "账号": true,
+          "角色": true,
+          "到期": true
+        },
+        "text": {
+          "当前租户成员": true,
+          "邀请记录（未发送邮件）": true
+        },
+        "actions": {
+          "创建租户": true,
+          "邀请成员": true
+        },
+        "action_states": {
+          "创建租户": "enabled",
+          "邀请成员": "enabled"
+        },
+        "labels": {},
+        "minimumRows": 2,
+        "primaryRows": 2,
+        "dataRows": 7,
+        "form": false,
+        "cards": 0
+      },
+      "readability": {
+        "root_fits": true,
+        "tables": 3,
+        "tables_accessible": true,
+        "headers_unbroken": true,
+        "identifiers": 5,
+        "identifiers_complete": true,
+        "actions_unbroken": true,
+        "overflowing_tables": 3,
+        "overflowing_identifiers": 0,
+        "keyboard_scrolled_tables": 3,
+        "keyboard_scrolled_identifiers": 0
+      },
+      "row_actions": [],
+      "screenshots": [
+        {
+          "path": "test-results/visual-390/tenants-page.png",
+          "sha256": "1daf6e6f3ab347576b59e51a946006673f7bcb672a9759c19bb4807d353dbdc2"
+        },
+        {
+          "path": "test-results/visual-390/tenants-right-columns-1.png",
+          "sha256": "1535c68100364e60984418c0349defdadfdf5077834f3106fe0ff31474138401"
+        },
+        {
+          "path": "test-results/visual-390/tenants-right-columns-2.png",
+          "sha256": "409084bce605051597eb0985fce0c8beab15756803afb4aa0115dacd61042990"
+        },
+        {
+          "path": "test-results/visual-390/tenants-right-columns-3.png",
+          "sha256": "89ad5df96ce301033e99b2e1b81e7ebca1b88837b4e8f7c5a8f1dde372dc2417"
+        }
+      ],
+      "editor": {
+        "action": "邀请成员",
+        "asserted_labels": [
+          "邮箱账号",
+          "角色",
+          "有效小时（1–168）"
+        ],
+        "screenshot": {
+          "path": "test-results/visual-390/tenants-editor.png",
+          "sha256": "39e7c4374e52cc0730e98001f952ddb8d20ab8e2f92c82827b2c2ba8ce8db80e"
+        },
+        "mutation": false
+      }
+    },
+    {
+      "page": "limits",
+      "title": "配额与预算",
+      "state": "nonempty_or_unused_call_form",
+      "facts": {
+        "title": true,
+        "scope": true,
+        "role": true,
+        "ready": true,
+        "settlement": {
+          "loading": false,
+          "error_nodes": 0,
+          "notice_present": false
+        },
+        "empty_states": {
+          "total": 0,
+          "visible": 0,
+          "seven_day_no_calls": 0,
+          "no_data": 0,
+          "other": 0
+        },
+        "dimensions": {
+          "root_scroll_width": 390,
+          "viewport_width": 390,
+          "content_width": 358
+        },
+        "identity": {
+          "platform_administrator": true,
+          "tenant_selected": true,
+          "tenant_option_count": 3
+        },
+        "rootFits": true,
+        "secretsClear": true,
+        "columns": {
+          "独立维度": true,
+          "有效上限": true,
+          "已用 / 含预留": true,
+          "剩余": true,
+          "平台上界": true
+        },
+        "text": {
+          "租户共享资源": true,
+          "本周期次数": true,
+          "每分钟请求 RPM": true,
+          "每分钟收费Token TPM（含预留）": true,
+          "本地活跃并发": true,
+          "费用预算（USD）": true
+        },
+        "actions": {
+          "调整租户限额": true,
+          "调整Key限额": true
+        },
+        "action_states": {
+          "调整租户限额": "enabled",
+          "调整Key限额": "enabled"
+        },
+        "labels": {},
+        "minimumRows": 0,
+        "primaryRows": 5,
+        "dataRows": 25,
+        "form": false,
+        "cards": 4
+      },
+      "readability": {
+        "root_fits": true,
+        "tables": 5,
+        "tables_accessible": true,
+        "headers_unbroken": true,
+        "identifiers": 0,
+        "identifiers_complete": true,
+        "actions_unbroken": true,
+        "overflowing_tables": 5,
+        "overflowing_identifiers": 0,
+        "keyboard_scrolled_tables": 5,
+        "keyboard_scrolled_identifiers": 0
+      },
+      "row_actions": [],
+      "screenshots": [
+        {
+          "path": "test-results/visual-390/limits-page.png",
+          "sha256": "790c749995165f9fbaf0015aa67b043b8197b608e1fe0c7bf710081408d749da"
+        },
+        {
+          "path": "test-results/visual-390/limits-right-columns-1.png",
+          "sha256": "7efb88f80cb1ef1b1b6170403002b3fa492ceae94682199907c645b6133e28e0"
+        },
+        {
+          "path": "test-results/visual-390/limits-right-columns-2.png",
+          "sha256": "ed30914688f3c14a77183639fec69e9445cd53a2ee73fed12c433c5d57ad42d3"
+        },
+        {
+          "path": "test-results/visual-390/limits-right-columns-3.png",
+          "sha256": "e7b18387913c8e91438aac7e7f5c43199d1432fe9705746de9b78f2d6b001bab"
+        },
+        {
+          "path": "test-results/visual-390/limits-right-columns-4.png",
+          "sha256": "13b5846f64805c4f703a34b379daad14ac2dfe25ec86e2df9e94c508b295a967"
+        },
+        {
+          "path": "test-results/visual-390/limits-right-columns-5.png",
+          "sha256": "0451892a9cd28f0d5cffd7f1003e13833fda2c232c3bfdece3d7c57e0c25b8b2"
+        }
+      ],
+      "editor": {
+        "action": "调整租户限额",
+        "asserted_labels": [
+          "本周期次数",
+          "每分钟请求 RPM",
+          "每分钟收费Token TPM",
+          "本地并发",
+          "费用预算（微美元）",
+          "硬费用预算（需要供应商可信收费Token上界）"
+        ],
+        "screenshot": {
+          "path": "test-results/visual-390/limits-editor.png",
+          "sha256": "d250499cb0fd3c02a3cdd6b51ed62b4670adbda95b0f6923a6d591b3f60f0189"
+        },
+        "mutation": false
+      }
+    },
+    {
+      "page": "usage",
+      "title": "用量分析",
+      "state": "nonempty_or_unused_call_form",
+      "facts": {
+        "title": true,
+        "scope": true,
+        "role": true,
+        "ready": true,
+        "settlement": {
+          "loading": false,
+          "error_nodes": 0,
+          "notice_present": false
+        },
+        "empty_states": {
+          "total": 0,
+          "visible": 0,
+          "seven_day_no_calls": 0,
+          "no_data": 0,
+          "other": 0
+        },
+        "dimensions": {
+          "root_scroll_width": 390,
+          "viewport_width": 390,
+          "content_width": 358
+        },
+        "identity": {
+          "platform_administrator": true,
+          "tenant_selected": true,
+          "tenant_option_count": 3
+        },
+        "rootFits": true,
+        "secretsClear": true,
+        "columns": {
+          "模型": true,
+          "请求": true,
+          "已确认输入Tokens": true,
+          "已确认输出Tokens": true,
+          "已确认租户费": true,
+          "已确认供应商成本": true,
+          "待确认": true,
+          "保守预留": true
+        },
+        "text": {},
+        "actions": {
+          "筛选": true,
+          "导出当前筛选": true
+        },
+        "action_states": {
+          "筛选": "enabled",
+          "导出当前筛选": "enabled"
+        },
+        "labels": {},
+        "minimumRows": 0,
+        "primaryRows": 1,
+        "dataRows": 1,
+        "form": false,
+        "cards": 0
+      },
+      "readability": {
+        "root_fits": true,
+        "tables": 1,
+        "tables_accessible": true,
+        "headers_unbroken": true,
+        "identifiers": 1,
+        "identifiers_complete": true,
+        "actions_unbroken": true,
+        "overflowing_tables": 1,
+        "overflowing_identifiers": 0,
+        "keyboard_scrolled_tables": 1,
+        "keyboard_scrolled_identifiers": 0
+      },
+      "row_actions": [],
+      "screenshots": [
+        {
+          "path": "test-results/visual-390/usage-page.png",
+          "sha256": "861ddd901fad9c53ed6f92739c7a7a327d8e5e52989db3c948b71d8a28574cb2"
+        },
+        {
+          "path": "test-results/visual-390/usage-right-columns-1.png",
+          "sha256": "d45821842947b2370010924f05cb0b6b7052e8063ea456471d50a21c7c709ef4"
+        }
+      ]
+    },
+    {
+      "page": "billing",
+      "title": "定价与账单",
+      "state": "nonempty_or_unused_call_form",
+      "facts": {
+        "title": true,
+        "scope": true,
+        "role": true,
+        "ready": true,
+        "settlement": {
+          "loading": false,
+          "error_nodes": 0,
+          "notice_present": false
+        },
+        "empty_states": {
+          "total": 0,
+          "visible": 0,
+          "seven_day_no_calls": 0,
+          "no_data": 0,
+          "other": 0
+        },
+        "dimensions": {
+          "root_scroll_width": 390,
+          "viewport_width": 390,
+          "content_width": 358
+        },
+        "identity": {
+          "platform_administrator": true,
+          "tenant_selected": true,
+          "tenant_option_count": 3
+        },
+        "rootFits": true,
+        "secretsClear": true,
+        "columns": {
+          "模型": true,
+          "租户输入 USD/百万Token": true,
+          "租户输出 USD/百万Token": true,
+          "周期": true,
+          "原 / 已确认费用": true,
+          "成本": true,
+          "待确认": true
+        },
+        "text": {
+          "模型价格（USD测试价）": true,
+          "租户周期账单 · 外部支付未接通": true
+        },
+        "actions": {},
+        "action_states": {},
+        "labels": {},
+        "minimumRows": 0,
+        "primaryRows": 2,
+        "dataRows": 4,
+        "form": false,
+        "cards": 0
+      },
+      "readability": {
+        "root_fits": true,
+        "tables": 2,
+        "tables_accessible": true,
+        "headers_unbroken": true,
+        "identifiers": 2,
+        "identifiers_complete": true,
+        "actions_unbroken": true,
+        "overflowing_tables": 2,
+        "overflowing_identifiers": 0,
+        "keyboard_scrolled_tables": 2,
+        "keyboard_scrolled_identifiers": 0
+      },
+      "row_actions": [
+        "版本",
+        "发布新价"
+      ],
+      "screenshots": [
+        {
+          "path": "test-results/visual-390/billing-page.png",
+          "sha256": "caa4346cb181793af6f636f738e28d3f82d668e7678f8ed51768ee10d36eb180"
+        },
+        {
+          "path": "test-results/visual-390/billing-right-columns-1.png",
+          "sha256": "f3b93d2f76b8e9aaf046eb9748affd18ec561d6085ca862571d5ab8b9a572f36"
+        },
+        {
+          "path": "test-results/visual-390/billing-right-columns-2.png",
+          "sha256": "8fb67122048caba8bb0ffb1d7ea7de21339ed914412ad34be3b0299ff18ebbde"
+        }
+      ],
+      "detail": {
+        "action": "版本",
+        "asserted_fields": [
+          "供应商输入成本（微美元 / 百万Token）",
+          "供应商输出成本（微美元 / 百万Token）",
+          "租户输入价格（微美元 / 百万Token）",
+          "租户输出价格（微美元 / 百万Token）"
+        ],
+        "screenshot": {
+          "path": "test-results/visual-390/billing-detail.png",
+          "sha256": "87b55aa028df410beeada484c693d03792c8b69d8f929f389c59a942537ce9ee"
+        }
+      },
+      "editor": {
+        "action": "发布新价",
+        "asserted_labels": [
+          "服务ID",
+          "供应商输入成本（微美元 / 百万Token）",
+          "供应商输出成本（微美元 / 百万Token）",
+          "租户输入价格（微美元 / 百万Token）",
+          "租户输出价格（微美元 / 百万Token）"
+        ],
+        "screenshot": {
+          "path": "test-results/visual-390/billing-editor.png",
+          "sha256": "225b9a1785af93089d1db099c5420f47bef412f26d76c3a6b5e860a6c17785d3"
+        },
+        "mutation": false
+      }
+    },
+    {
+      "page": "records",
+      "title": "调用日志",
+      "state": "nonempty_or_unused_call_form",
+      "facts": {
+        "title": true,
+        "scope": true,
+        "role": true,
+        "ready": true,
+        "settlement": {
+          "loading": false,
+          "error_nodes": 0,
+          "notice_present": false
+        },
+        "empty_states": {
+          "total": 0,
+          "visible": 0,
+          "seven_day_no_calls": 0,
+          "no_data": 0,
+          "other": 0
+        },
+        "dimensions": {
+          "root_scroll_width": 390,
+          "viewport_width": 390,
+          "content_width": 358
+        },
+        "identity": {
+          "platform_administrator": true,
+          "tenant_selected": true,
+          "tenant_option_count": 3
+        },
+        "rootFits": true,
+        "secretsClear": true,
+        "columns": {
+          "时间": true,
+          "Request ID": true,
+          "公共模型": true,
+          "状态": true,
+          "Token总量": true,
+          "已确认租户费": true,
+          "已确认供应商成本": true,
+          "耗时ms": true,
+          "待确认": true
+        },
+        "text": {},
+        "actions": {
+          "筛选": true,
+          "管理审计": true,
+          "导出筛选": true,
+          "上一页": true,
+          "下一页": true
+        },
+        "action_states": {
+          "筛选": "enabled",
+          "管理审计": "enabled",
+          "导出筛选": "enabled",
+          "上一页": "disabled_or_absent",
+          "下一页": "enabled"
+        },
+        "labels": {},
+        "minimumRows": 0,
+        "primaryRows": 25,
+        "dataRows": 25,
+        "form": false,
+        "cards": 0
+      },
+      "readability": {
+        "root_fits": true,
+        "tables": 1,
+        "tables_accessible": true,
+        "headers_unbroken": true,
+        "identifiers": 50,
+        "identifiers_complete": true,
+        "actions_unbroken": true,
+        "overflowing_tables": 1,
+        "overflowing_identifiers": 0,
+        "keyboard_scrolled_tables": 1,
+        "keyboard_scrolled_identifiers": 0
+      },
+      "row_actions": [],
+      "screenshots": [
+        {
+          "path": "test-results/visual-390/records-page.png",
+          "sha256": "b4b587d32368d5da2ac5b7a6e8eb5e218d4ad6728dacef76fcc1e71e3758b127"
+        },
+        {
+          "path": "test-results/visual-390/records-right-columns-1.png",
+          "sha256": "48c2a476a6a8041f7d8a3da876a3d0fa34fc38d4710d7f8c80aba4931fa84e67"
+        }
+      ],
+      "detail": {
+        "action": "详情 / 核对",
+        "asserted_fields": [
+          "调用尝试",
+          "受理价格快照",
+          "追加计费明细"
+        ],
+        "screenshot": {
+          "path": "test-results/visual-390/records-detail.png",
+          "sha256": "caa6b084e848545c67a32003b398b3c52fc526cbd8dac5637cff348fe30931ae"
+        }
+      }
+    },
+    {
+      "page": "playground",
+      "title": "调用测试",
+      "state": "nonempty_or_unused_call_form",
+      "facts": {
+        "title": true,
+        "scope": true,
+        "role": true,
+        "ready": true,
+        "settlement": {
+          "loading": false,
+          "error_nodes": 0,
+          "notice_present": false
+        },
+        "empty_states": {
+          "total": 0,
+          "visible": 0,
+          "seven_day_no_calls": 0,
+          "no_data": 0,
+          "other": 0
+        },
+        "dimensions": {
+          "root_scroll_width": 390,
+          "viewport_width": 390,
+          "content_width": 358
+        },
+        "identity": {
+          "platform_administrator": true,
+          "tenant_selected": true,
+          "tenant_option_count": 3
+        },
+        "rootFits": true,
+        "secretsClear": true,
+        "columns": {},
+        "text": {},
+        "actions": {
+          "发送": true,
+          "停止本地接收（费用可能待确认）": true,
+          "查看同Request ID日志": true
+        },
+        "action_states": {
+          "发送": "enabled",
+          "停止本地接收（费用可能待确认）": "disabled_or_absent",
+          "查看同Request ID日志": "disabled_or_absent"
+        },
+        "labels": {
+          "应用API Key（不会保存）": true,
+          "公共模型名": true,
+          "消息": true,
+          "SSE流式": true
+        },
+        "minimumRows": 0,
+        "primaryRows": 0,
+        "dataRows": 0,
+        "form": true,
+        "cards": 1
+      },
+      "readability": {
+        "root_fits": true,
+        "tables": 0,
+        "tables_accessible": true,
+        "headers_unbroken": true,
+        "identifiers": 0,
+        "identifiers_complete": true,
+        "actions_unbroken": true,
+        "overflowing_tables": 0,
+        "overflowing_identifiers": 0,
+        "keyboard_scrolled_tables": 0,
+        "keyboard_scrolled_identifiers": 0
+      },
+      "row_actions": [],
+      "screenshots": [
+        {
+          "path": "test-results/visual-390/playground-page.png",
+          "sha256": "515d55ffe1b8daf1b240ef18f9b47c1ec40dd0fd8a9b88d25292342e48093516"
+        }
+      ]
+    }
+  ],
+  "phase": "completed",
+  "result": "passed"
+}

@@ -46,6 +46,7 @@ func upstreamJSON() *http.Response {
 }
 
 func TestRoutingSelectionAndEvidence(t *testing.T) {
+	t.Parallel()
 	value := newConsoleFixture(t)
 	multiConfiguration(t, value, 2, []int{3, 1})
 	counts := map[string]int{}
@@ -137,6 +138,7 @@ func TestRoutingTemporaryAllowlistAndUnknownTotals(t *testing.T) {
 }
 
 func TestRoutingBoundedAndStop(t *testing.T) {
+	t.Parallel()
 	value := newConsoleFixture(t)
 	multiConfiguration(t, value, 4, nil)
 	var calls atomic.Int64

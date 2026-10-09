@@ -1,0 +1,14 @@
+{
+  "suite": "visual-current-period",
+  "width": 1280,
+  "result": "passed",
+  "provider": "controlled_http_not_supplier",
+  "facts": {
+    "requests_before": 0,
+    "requests_after": 1,
+    "trend_days_before": 0,
+    "trend_days_after": 1,
+    "fee_micro_usd": "21",
+    "closed_bill_unchanged": true
+  }
+}

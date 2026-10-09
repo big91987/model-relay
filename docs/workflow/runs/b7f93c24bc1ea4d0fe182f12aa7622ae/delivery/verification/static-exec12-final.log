@@ -1,0 +1,10 @@
+START_UTC=2026-10-09T01:20:17Z
+COMMAND=make format-check vet build
+go vet ./...
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+EXIT_CODE=0
+COMMAND=node --check tests/browser/readability.mjs && node --check tests/browser/readability.test.mjs
+EXIT_CODE=0
+COMMAND=git diff --check
+EXIT_CODE=0
+END_UTC=2026-10-09T01:20:18Z

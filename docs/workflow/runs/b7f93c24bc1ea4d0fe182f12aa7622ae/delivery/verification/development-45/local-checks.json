@@ -1,0 +1,54 @@
+[
+  {
+    "name": "node-targeted",
+    "command": "node --test tests/browser/capture-integrity.test.mjs tests/browser/console-visual.test.mjs tests/browser/journeys.test.mjs tests/browser/readability.test.mjs tests/browser/workspace.test.mjs",
+    "started_utc": "2026-10-09T09:10:35.651Z",
+    "finished_utc": "2026-10-09T09:10:35.837Z",
+    "exit_code": 0,
+    "signal": null,
+    "log": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-45/node-targeted.log",
+    "log_bytes": 11030,
+    "raw_log_bytes": 11030,
+    "sha256": "a805774257082f98acc41711e50de49f26c3092e293d36040e00cc72e117d9da",
+    "scope": "Supplemental local checks only; no listening/browser or complete make verify proof"
+  },
+  {
+    "name": "static",
+    "command": "sh -c node --check tests/browser/capture-integrity.mjs && node --check tests/browser/console-visual.mjs && git diff --check && make format-check vet build && go mod verify",
+    "started_utc": "2026-10-09T09:10:35.840Z",
+    "finished_utc": "2026-10-09T09:10:36.882Z",
+    "exit_code": 0,
+    "signal": null,
+    "log": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-45/static.log",
+    "log_bytes": 90,
+    "raw_log_bytes": 90,
+    "sha256": "d9056758603dafeeb6b4ccfd3ce53f6fa6e5c42e6bc87b74b3df975020df33ee",
+    "scope": "Supplemental local checks only; no listening/browser or complete make verify proof"
+  },
+  {
+    "name": "go-wiring",
+    "command": "go test -race -count=1 ./tests/verification",
+    "started_utc": "2026-10-09T09:10:36.882Z",
+    "finished_utc": "2026-10-09T09:10:39.506Z",
+    "exit_code": 0,
+    "signal": null,
+    "log": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-45/go-wiring.log",
+    "log_bytes": 43,
+    "raw_log_bytes": 43,
+    "sha256": "de4233e4e609f40c800e11846330660eec00b172bb99a5831ad347ab871ac181",
+    "scope": "Supplemental local checks only; no listening/browser or complete make verify proof"
+  },
+  {
+    "name": "source-final",
+    "command": "go run ./tests/evidence",
+    "started_utc": "2026-10-09T09:10:39.507Z",
+    "finished_utc": "2026-10-09T09:10:39.622Z",
+    "exit_code": 0,
+    "signal": null,
+    "log": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-45/source-final.log",
+    "log_bytes": 336,
+    "raw_log_bytes": 336,
+    "sha256": "453a3deb6eb527d41baf72d50e2c530f13c0081342149c12aaa6ad53e9a7d3a1",
+    "scope": "Supplemental local checks only; no listening/browser or complete make verify proof"
+  }
+]

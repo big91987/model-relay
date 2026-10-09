@@ -1,0 +1,42 @@
+{
+  "qa_execution": 14,
+  "utc": "2026-10-09T01:48:06.677Z",
+  "source_digest": "65201f488ae0969684625a92c23fb2c1e76bed30916b2c92a405b1e9e00f92a9",
+  "commands": [
+    {
+      "command": "git diff --check",
+      "exit_code": 0
+    },
+    {
+      "command": "GOCACHE=<workspace>/.cache/go-build GOTOOLCHAIN=local go run ./tests/evidence",
+      "exit_code": 0
+    },
+    {
+      "command": "GOCACHE=<workspace>/.cache/go-build GOTOOLCHAIN=local go run <run>/acceptance/audit-png.go <run>/acceptance/evidence/attempt-14/host/browser",
+      "exit_code": 0,
+      "pngs": 181,
+      "uniform": 4
+    },
+    {
+      "command": "gofmt -l <run>/acceptance/audit-png.go",
+      "exit_code": 0,
+      "output_empty": true
+    }
+  ],
+  "archive_files_rechecked": 210,
+  "report_links_rechecked": 9,
+  "nonempty_artifacts": [
+    "acceptance-report-14.md",
+    "acceptance-matrix-14.md",
+    "journeys-14.md",
+    "visual-review-14.md",
+    "remediation-14.md",
+    "README.md",
+    "audit-png.go"
+  ],
+  "make_verify_local": "Not Run",
+  "host_make_verify_execution": 13,
+  "host_exit_code": 0,
+  "qa_decision": "No-Go: mandatory visual evidence incomplete",
+  "business_files_modified_by_qa": false
+}

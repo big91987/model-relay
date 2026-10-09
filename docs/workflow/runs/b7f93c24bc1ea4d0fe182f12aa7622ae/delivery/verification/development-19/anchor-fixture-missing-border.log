@@ -1,0 +1,33 @@
+✔ capture requires pixels in title and main content, not only nonuniform sidebar (4.407292ms)
+✔ capture rejects displaced content and geometry movement without retry (0.875792ms)
+✔ live boundary whitelist captures viewport, root, scroll owners and table ink anchors without text (2.024959ms)
+✖ content anchor respects table clipping instead of sampling an occluded header (0.777583ms)
+✖ clipping does not remove the mandatory substantive anchor or misplace document coordinates (0.877083ms)
+✔ PNG audit rejects unsupported and incomplete bytes (0.307666ms)
+✔ failed capture preserves image receipt and original error identity with bounded facts (6.020166ms)
+✔ successful capture names persisted sidecar and original PNG digest (1.53525ms)
+✔ all visual and continuous/self-hosted screenshots use integrity gate after existing secret checks (0.578625ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 7
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 101.441166
+
+✖ failing tests:
+
+test at tests/browser/capture-integrity.test.mjs:74:1
+✖ content anchor respects table clipping instead of sampling an occluded header (0.777583ms)
+  TypeError: Cannot read properties of null (reading 'left')
+      at TestContext.<anonymous> (tests/browser/capture-integrity.test.mjs:77:35)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7)
+
+test at tests/browser/capture-integrity.test.mjs:85:1
+✖ clipping does not remove the mandatory substantive anchor or misplace document coordinates (0.877083ms)
+  TypeError: Cannot read properties of null (reading 'left')
+      at TestContext.<anonymous> (tests/browser/capture-integrity.test.mjs:90:36)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7)

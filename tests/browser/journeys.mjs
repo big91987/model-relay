@@ -4,9 +4,12 @@ import {chromium} from 'playwright';
 import {consoleVisualReview} from './console-visual.mjs';
 import {managementSummaryJourney,summaryCell,summaryFailureFacts} from './console-summary.mjs';
 import {modelSaveReadbackJourney,waitForSaveReadback} from './model-save-readback.mjs';
+import {readabilityEvidence,readabilityFailureFacts} from './readability.mjs';
+import {captureIntegrityScreenshot} from './capture-integrity.mjs';
 
 const origin=process.env.RELAY_JOURNEY_ORIGIN;
 const width=Number(process.env.RELAY_JOURNEY_WIDTH);
+const mode=process.env.RELAY_JOURNEY_MODE??'provider';
 const browser=await chromium.launch({headless:true});
 const contexts=[];
 const pages=[];
@@ -17,6 +20,8 @@ let usageFacts={};
 let readFacts={};
 let membershipFacts={};
 let ledgerFacts={};
+let selfHostedFacts={};
+const selfHostedProgress={steps:[],screenshots:[]};
 const initialCounts={};
 let activePage;
 let now;
@@ -94,7 +99,7 @@ async function read(page,path,status=200) {
   return response.json();
 }
 function failureBoundary(error) {
-  const match=typeof error.stack==='string'?error.stack.match(/\n\s+at (?:[^\n]* \()?file:\/\/[^\n]*\/tests\/browser\/(journeys|console-summary)\.mjs:(\d{1,6}):(\d{1,6})\)?(?:\n|$)/):null;
+  const match=typeof error.stack==='string'?error.stack.match(/\n\s+at (?:[^\n]* \()?file:\/\/[^\n]*\/tests\/browser\/(journeys|console-summary|readability)\.mjs:(\d{1,6}):(\d{1,6})\)?(?:\n|$)/):null;
   return match?{source:'tests/browser/'+match[1]+'.mjs',line:Number(match[2]),column:Number(match[3])}:{available:false};
 }
 function conservationFacts(before,after) {
@@ -245,7 +250,7 @@ async function call(page,key,model,status=200,message='controlled journey input'
   const id=response.headers()['x-request-id'];assert.ok(id);
   if(status===200)await page.locator('#call-output').filter({hasText:'controlled'}).waitFor();
   else await page.locator('#call-output').filter({hasText:'调用失败：'}).waitFor();
-  return {id,value:await response.json()};
+  return {id,value:stream&&status===200?await response.text():await response.json()};
 }
 function completionFacts(value) {
   const states=['started','success','rejected','upstream_failed','upstream_rejected','stream_interrupted','timeout','canceled'];
@@ -263,6 +268,18 @@ async function requestDetail(page,id,entry='call') {
   ]);assert.equal(response.status(),200);
   await page.locator('#detail-title').filter({hasText:id}).waitFor();
   const value=await response.json();assert.equal(value.id,id);return value;
+}
+async function billDetail(page,period,id) {
+  action='bill-detail';
+  const [response]=await Promise.all([
+    page.waitForResponse(response=>new URL(response.url()).pathname===`/admin/api/bills/${id}`&&response.request().method()==='GET'),
+    row(page,period).getByRole('button',{name:'详情 / 更正',exact:true}).click()
+  ]);
+  assert.equal(response.status(),200);
+  const value=await response.json();assert.equal(value.id,id);
+  await page.locator('#detail').waitFor({state:'visible'});
+  assert.equal(await page.locator('#detail-title').textContent(),'已结账，原金额不可覆写（调整仅计入各调整周期一次）');
+  return value;
 }
 async function editKey(page,tenantID,key,name,models,enabled=true) {
   await nav(page,'API Keys');await row(page,name).getByRole('button',{name:'编辑',exact:true}).click();
@@ -316,13 +333,98 @@ async function safeCurrentScreenshot(page,name) {
   assert.ok(await page.evaluate(()=>[...document.querySelectorAll('input[type=password],.secret,textarea[data-sensitive]')].every(element=>element.value==='')));
   assert.ok(await page.evaluate(()=>localStorage.length===0&&sessionStorage.length===0));
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
-  await page.screenshot({path:`test-results/continuous-${width}-${name}-${process.pid}.png`,fullPage:true});
+  await captureIntegrityScreenshot(page,`test-results/continuous-${width}-${name}-${process.pid}.png`);
+}
+
+async function selfHostedJourney(admin) {
+  const startedUTC=new Date().toISOString(),{steps,screenshots}=selfHostedProgress;
+  const secrets=[process.env.RELAY_JOURNEY_PASSWORD,'controlled-journey-upstream','controlled-rejected-credential','controlled-journey-password'];
+  const record=async(step,page)=>{
+    mark('self-hosted-'+step);
+    const layout=await readabilityEvidence(page);
+    assert.equal(await page.evaluate(values=>values.every(value=>!document.body.innerText.includes(value)),secrets),true);
+    await safeCurrentScreenshot(page,'self-hosted-'+step);
+    screenshots.push(`continuous-${width}-self-hosted-${step}-${process.pid}.png`);
+    steps.push({step,utc:new Date().toISOString(),readability:layout});
+  };
+  const name='Isolated controlled self-hosted service',model='self-hosted-long-public-model-name-readable-without-truncation-'+('segment-'.repeat(7));
+  const base=process.env.RELAY_JOURNEY_UPSTREAM;
+  mark('self-hosted-create-source');await nav(admin,'供应商与服务');await button(admin,'接入服务').click();
+  await admin.getByLabel('服务名称').fill(name);await admin.getByLabel('来源类型').selectOption('self_hosted');
+  await admin.getByLabel('兼容API基础地址').fill(new URL('/unreachable',base).toString());
+  await admin.getByLabel('上游凭据（编辑留空保留同地址原值）').fill('controlled-journey-upstream');
+  const service=await save(admin,'/admin/api/upstreams');assert.equal(service.source_kind,'self_hosted');
+  await summaryCell(row(admin,name),'来源','已有自托管');
+  const checkSource=async(expectedState,expectedCode)=>{
+    mark('self-hosted-check-'+expectedCode);
+    const [response]=await Promise.all([admin.waitForResponse(response=>new URL(response.url()).pathname===`/admin/api/upstreams/${service.id}/check`),row(admin,name).getByRole('button',{name:'核验',exact:true}).click()]);
+    assert.equal(response.status(),200);const result=await response.json();
+    selfHostedFacts={check_state:['success','failed','checking','canceled','unknown'].includes(result.state)?result.state:'other',check_code:['','upstream_connection_failed','upstream_rejected'].includes(result.error_code)?result.error_code:'other',applicable:result.applicable===true};
+    assert.equal(result.state,expectedState);assert.equal(result.error_code,expectedCode);assert.equal(result.applicable,true);
+    await admin.locator('#detail-content').getByText(expectedState==='success'?'核验通过':'核验失败',{exact:true}).waitFor();
+    if(expectedCode)await admin.locator('#detail-content').getByText(expectedCode,{exact:true}).waitFor();
+    await record(expectedCode||'verified',admin);await closeDetail(admin);
+    await nav(admin,'供应商与服务');await summaryCell(row(admin,name),'核验事实',expectedState==='success'?'核验通过':'核验失败');
+    return result;
+  };
+  const unreachable=await checkSource('failed','upstream_connection_failed');assert.equal(unreachable.upstream_status,null);
+  const editSource=async(token)=>{
+    await row(admin,name).getByRole('button',{name:'编辑',exact:true}).click();
+    await admin.getByLabel('兼容API基础地址').fill(base);
+    await admin.getByLabel('上游凭据（编辑留空保留同地址原值）').fill(token);
+    await save(admin,`/admin/api/upstreams/${service.id}`,'PATCH',200);
+    await summaryCell(row(admin,name),'核验事实','未知 / 配置已变更');
+  };
+  await editSource('controlled-rejected-credential');const rejected=await checkSource('failed','upstream_rejected');assert.equal(rejected.upstream_status,401);
+  await editSource('controlled-journey-upstream');await checkSource('success','');
+  await summaryCell(row(admin,name),'基础地址',base);await record('service-long-address',admin);
+  mark('self-hosted-associate-model');await nav(admin,'模型托管');await button(admin,'接入模型').click();
+  await admin.getByLabel('公共模型名',{exact:true}).fill(model);await admin.getByLabel('服务',{exact:true}).selectOption(String(service.id));
+  await admin.getByLabel('远端模型名',{exact:true}).fill('controlled');await save(admin,'/admin/api/models');
+  await summaryCell(row(admin,model),'公共模型',model);
+  const tenantID=await tenant(admin,'Self-hosted isolated tenant');await nav(admin,'模型托管');
+  await row(admin,model).getByRole('button',{name:'租户授权',exact:true}).click();await admin.getByLabel('允许使用此模型的租户').selectOption([tenantID]);
+  await save(admin,`/admin/api/models/${model}/tenant-grants`,'PUT',200);
+  await nav(admin,'定价与账单');await row(admin,model).getByRole('button',{name:'发布新价',exact:true}).click();
+  for(const label of ['供应商输入成本','供应商输出成本','租户输入价格','租户输出价格'])await admin.getByLabel(label+'（微美元 / 百万Token）').fill(label.startsWith('供应商')?'1000000':'3000000');
+  await save(admin,`/admin/api/models/${model}/prices`);
+  const owner=await invite(admin,tenantID,'self-hosted-owner@example.test','administrator');
+  const developer=await invite(admin,tenantID,'self-hosted-developer@example.test','developer');
+  await nav(owner,'租户与成员');await summaryCell(row(owner,'self-hosted-developer@example.test').filter({has:owner.getByRole('button',{name:'改角色',exact:true})}),'角色','开发者');await record('roles',owner);
+  const key=await createKey(owner,tenantID,'Self-hosted isolated application',[model],'self-hosted-developer@example.test');
+  secrets.push(key.key);
+  const keys=items(await read(owner,`tenants/${tenantID}/keys`));const metadata=keys.find(value=>value.id===key.id);assert.ok(metadata);
+  await summaryCell(row(owner,'Self-hosted isolated application'),'安全标识',metadata.hint);await record('key-safe-identifier',owner);
+  for(const [page,stream] of [[owner,false],[developer,true]]) {
+    mark(stream?'self-hosted-sse':'self-hosted-normal');
+    const before=await read(owner,`tenants/${tenantID}/limits`);
+    const response=await call(page,key.key,model,200,'controlled self-hosted input',stream);
+    if(stream){assert.ok(response.value.includes('data:'));assert.ok(response.value.includes('[DONE]'));}
+    const detail=await requestDetail(page,response.id);assert.equal(detail.state,'success');assert.equal(detail.key_id,key.id);assert.equal(detail.tenant_id,tenantID);assert.equal(detail.alias,model);assert.equal(detail.pending,0);
+    assert.equal(detail.confirmed_input_tokens,'3');assert.equal(detail.confirmed_output_tokens,'4');assert.equal(detail.charge_entries.length,1);
+    assert.equal(detail.charge_entries[0].fee,'21');assert.equal(detail.charge_entries[0].cost,'7');
+    await closeDetail(page);await nav(page,'调用日志');
+    const logged=await requestDetail(page,response.id,'records');assert.deepEqual(logged.charge_entries,detail.charge_entries);assert.deepEqual(logged.price_snapshots,detail.price_snapshots);
+    await record(stream?'sse-same-request':'normal-same-request',page);await closeDetail(page);
+    const after=await read(owner,`tenants/${tenantID}/limits`);assert.equal(BigInt(after.usage.fee_micro_usd)-BigInt(before.usage.fee_micro_usd),21n);assert.equal(after.usage.pending,0);
+    steps.push({step:stream?'sse-ledger':'normal-ledger',utc:new Date().toISOString(),input_tokens:3,output_tokens:4,fee_micro_usd:'21',cost_micro_usd:'7',same_request:true});
+  }
+  await nav(owner,'用量分析');const usage=items(await read(owner,`usage?tenant=${tenantID}`)).find(value=>value.alias===model);assert.ok(usage);
+  assert.equal(usage.confirmed_input_tokens,6);assert.equal(usage.confirmed_output_tokens,8);assert.equal(usage.fee_micro_usd,'42');assert.equal(usage.cost_micro_usd,'14');assert.equal(usage.pending,0);
+  await summaryCell(row(owner,model),'已确认租户费','0.000042 USD');await record('usage-confirmed',owner);
+  await nav(owner,'模型托管');await summaryCell(row(owner,model),'公共模型',model);await record('model-long-name',owner);
+  const receipt={suite:'first-self-hosted',width,result:'passed',started_utc:startedUTC,finished_utc:new Date().toISOString(),chromium_version:browser.version(),initial_counts:initialCounts,provider:'controlled_http_not_supplier',installation:'independent_temporary_sqlite',business_writes:'native_user_actions_only',steps,screenshots,cleanup_owner:'go_harness_and_browser_finally'};
+  await writeFile(`test-results/self-hosted-${width}-${process.pid}.json`,JSON.stringify(receipt,null,2)+'\n');
+  console.log(JSON.stringify({suite:receipt.suite,width,result:'passed',provider:receipt.provider,steps:steps.length}));
 }
 
 try {
   await mkdir('test-results',{recursive:true});now=(await control()).now;
   const admin=await newPage();await login(admin,'admin',process.env.RELAY_JOURNEY_PASSWORD);
   await freshInstallation(admin);
+  if(mode==='self_hosted') {
+    await selfHostedJourney(admin);
+  } else {
   const firstTenant=await tenant(admin,'Journey Alpha',true);
   mark('J01-service-validation');await nav(admin,'供应商与服务');await button(admin,'接入服务').click();
   await admin.getByLabel('服务名称').fill('Journey controlled upstream');
@@ -487,10 +589,10 @@ try {
   await nav(admin,'用量分析');await admin.getByLabel('Request ID',{exact:true}).fill(unknown.id);await button(admin,'筛选').click();await ready(admin);
   await summaryCell(row(admin,models[0]),'已确认输入Tokens','3');await summaryCell(row(admin,models[0]),'已确认输出Tokens','4');
   mark('J06-close-correction');await nav(admin,'定价与账单');await row(admin,period).getByRole('button',{name:'结账',exact:true}).click();const bill=await save(admin,`/admin/api/tenants/${firstTenant}/bills`);await admin.locator('#editor').waitFor({state:'hidden'});
-  const before=await read(admin,`bills/${bill.id}`);await safeCurrentScreenshot(admin,'before-correction');await row(admin,period).getByRole('button',{name:'详情 / 更正',exact:true}).click();await button(admin,'追加更正').click();await admin.getByLabel('有符号更正金额（微美元）').fill('5');await admin.getByLabel('开放调整周期（UTC月）').fill(now.slice(0,7));await admin.getByLabel('原因',{exact:true}).fill('controlled append correction');await save(admin,`/admin/api/bills/${bill.id}/corrections`);await admin.locator('#editor').waitFor({state:'hidden'});
+  const before=await read(admin,`bills/${bill.id}`);await safeCurrentScreenshot(admin,'before-correction');await billDetail(admin,period,bill.id);await button(admin,'追加更正').click();await admin.getByLabel('有符号更正金额（微美元）').fill('5');await admin.getByLabel('开放调整周期（UTC月）').fill(now.slice(0,7));await admin.getByLabel('原因',{exact:true}).fill('controlled append correction');await save(admin,`/admin/api/bills/${bill.id}/corrections`);await admin.locator('#editor').waitFor({state:'hidden'});
   const after=await read(admin,`bills/${bill.id}`);assert.equal(after.original_fee,before.original_fee);assert.equal(after.corrections.length,1);assert.equal(after.corrections[0].amount,'5');assert.equal(after.corrections[0].period,now.slice(0,7));assert.equal(after.corrections[0].reason,'controlled append correction');
   const adjustedPeriod=items(await read(admin,`tenants/${firstTenant}/bills`)).find(value=>value.period===now.slice(0,7));assert.equal(adjustedPeriod.adjustment_micro_usd,'5');assert.equal(adjustedPeriod.fee_micro_usd,'5');await row(admin,now.slice(0,7)).getByText('0.000005 USD',{exact:true}).waitFor();
-  await row(admin,period).getByRole('button',{name:'详情 / 更正',exact:true}).click();await safeCurrentScreenshot(admin,'after-correction');const billCSV=await download(admin,'导出周期完整账单');assert.ok(billCSV.includes(period));assert.ok(!billCSV.includes(secondTenant));await closeDetail(admin);
+  await billDetail(admin,period,bill.id);await safeCurrentScreenshot(admin,'after-correction');const billCSV=await download(admin,'导出周期完整账单');assert.ok(billCSV.includes(period));assert.ok(!billCSV.includes(secondTenant));await closeDetail(admin);
   await login(finance,'journey-finance@example.test','controlled-journey-password');await nav(finance,'定价与账单');assert.equal(await button(finance,'追加更正').count(),0);assert.equal(await button(finance,'结账').count(),0);
   await login(secondOwner,'journey-beta-owner@example.test','controlled-journey-password');await read(secondOwner,`bills/${bill.id}`,404);complete('J06');
   mark('visual-current-period-call');
@@ -503,8 +605,9 @@ try {
   await consoleVisualReview(admin,{width,tenant:firstTenant,objects:{model:models[0],service:'Journey controlled upstream',key:'Primary journey key',request:unknown.id},secrets:[current.key,primary.key,process.env.RELAY_JOURNEY_PASSWORD,'controlled-journey-upstream','controlled-journey-password'],nav:title=>nav(admin,title),step:phase=>{activePage=admin;mark('visual-'+phase);}});
   await safeScreenshot(admin,'final');assert.equal(checkpoints.length,7);
   await writeFile(`test-results/continuous-${width}-${process.pid}.json`,JSON.stringify({suite:'continuous-console',width,result:'passed',checkpoints,provider:'controlled_http_not_supplier',clock:'explicit_test_clock_no_database_edits',cleanup:'isolated_directory_servers_contexts'},null,2)+'\n');
+  }
 } catch(error) {
   const snapshot=activePage?await activePage.evaluate(()=>({editor_open:document.getElementById('editor')?.open===true,editor_invalid:document.getElementById('editor')?.querySelectorAll(':invalid').length??0,editor_failure:document.getElementById('editor-error')?.textContent.startsWith('操作失败：')===true,content_loading:document.getElementById('content')?.textContent.includes('正在读取当前范围…')===true,workspace_visible:document.getElementById('workspace')?.hidden===false,secret_present:[...document.querySelectorAll('input[type=password],.secret')].some(element=>element.value!=='')})).catch(()=>({snapshot_available:false})):{};
-  const receipt={suite:'continuous-console',width,result:'failed',stage,action,last_status:lastStatus,initial_counts:initialCounts,call_facts:callFacts,usage_facts:usageFacts,read_facts:readFacts,membership_facts:membershipFacts,ledger_facts:ledgerFacts,failure_boundary:failureBoundary(error),summary_cell:summaryFailureFacts(error),checkpoints,error_kind:error.name==='TimeoutError'?'timeout':error.name==='AssertionError'?'assertion':'other',...snapshot};
-  console.error(JSON.stringify(receipt));await writeFile(`test-results/continuous-${width}-${process.pid}.json`,JSON.stringify(receipt,null,2)+'\n');process.exitCode=1;
+  const receipt={suite:mode==='self_hosted'?'first-self-hosted':'continuous-console',width,result:'failed',stage,action,last_status:lastStatus,initial_counts:initialCounts,call_facts:callFacts,usage_facts:usageFacts,read_facts:readFacts,membership_facts:membershipFacts,ledger_facts:ledgerFacts,self_hosted_facts:selfHostedFacts,self_hosted_progress:selfHostedProgress,failure_boundary:failureBoundary(error),summary_cell:summaryFailureFacts(error),readability_facts:readabilityFailureFacts(error),checkpoints,error_kind:error.name==='TimeoutError'?'timeout':error.name==='AssertionError'?'assertion':'other',...snapshot};
+  console.error(JSON.stringify(receipt));await writeFile(`test-results/${mode==='self_hosted'?'self-hosted':'continuous'}-${width}-${process.pid}.json`,JSON.stringify(receipt,null,2)+'\n');process.exitCode=1;
 } finally {for(const context of contexts)await context.close();await browser.close();}

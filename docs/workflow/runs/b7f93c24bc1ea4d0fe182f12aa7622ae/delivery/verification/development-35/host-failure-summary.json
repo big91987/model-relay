@@ -1,0 +1,228 @@
+{
+  "kind": "derived_allowlisted_not_a_pass",
+  "connector_execution": 34,
+  "started_utc": "2026-10-09T05:28:47.691491Z",
+  "finished_utc": "2026-10-09T05:39:22.953765Z",
+  "exit_code": 1,
+  "gate_exit": 2,
+  "source_before": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "f700fb6ebcf8c8ec62ffb7e0621d62c4b86ac2e9f3a8956d0c211e1d0c1f85d8"
+  },
+  "source_after": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "f700fb6ebcf8c8ec62ffb7e0621d62c4b86ac2e9f3a8956d0c211e1d0c1f85d8"
+  },
+  "clean_start_measured": true,
+  "source_unchanged": true,
+  "owned_group_absent": true,
+  "runner_log_bytes": 533487,
+  "runner_log_sha256": "4a51a3fc33e3cd6c91e103971c8dbbcbe1b7a1bf51a5c0ed60cfc0e4a8034332",
+  "archive_files": 91,
+  "image": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-34/browser/visual-1280/keys-right-columns-1.png",
+  "sha256": "78a7b304df77dac78964e27f6571f81f2ac48376e545786f9778a183028bff53",
+  "same_image_as_execution32": true,
+  "lifecycle": {
+    "available": true,
+    "samples": [
+      {
+        "kind": "armed",
+        "elapsed_ms": 0,
+        "viewport": {
+          "width": 1280,
+          "height": 900,
+          "x": 0,
+          "y": 148
+        },
+        "visual_viewport": {
+          "width": 1280,
+          "height": 900,
+          "scale": 1
+        },
+        "document_visible": true,
+        "body": {
+          "connected": true,
+          "visible": true
+        },
+        "content": {
+          "connected": true,
+          "visible": true
+        }
+      },
+      {
+        "kind": "screenshot-call",
+        "elapsed_ms": 3,
+        "viewport": {
+          "width": 1280,
+          "height": 900,
+          "x": 0,
+          "y": 148
+        },
+        "visual_viewport": {
+          "width": 1280,
+          "height": 900,
+          "scale": 1
+        },
+        "document_visible": true,
+        "body": {
+          "connected": true,
+          "visible": true
+        },
+        "content": {
+          "connected": true,
+          "visible": true
+        }
+      },
+      {
+        "kind": "window-resize",
+        "elapsed_ms": 9,
+        "viewport": {
+          "width": 1280,
+          "height": 900,
+          "x": 0,
+          "y": 148
+        },
+        "visual_viewport": {
+          "width": 1280,
+          "height": 900,
+          "scale": 1
+        },
+        "document_visible": true,
+        "body": {
+          "connected": true,
+          "visible": true
+        },
+        "content": {
+          "connected": true,
+          "visible": true
+        }
+      },
+      {
+        "kind": "visual-resize",
+        "elapsed_ms": 9,
+        "viewport": {
+          "width": 1280,
+          "height": 900,
+          "x": 0,
+          "y": 148
+        },
+        "visual_viewport": {
+          "width": 1280,
+          "height": 900,
+          "scale": 1
+        },
+        "document_visible": true,
+        "body": {
+          "connected": true,
+          "visible": true
+        },
+        "content": {
+          "connected": true,
+          "visible": true
+        }
+      },
+      {
+        "kind": "screenshot-return",
+        "elapsed_ms": 48,
+        "viewport": {
+          "width": 1280,
+          "height": 900,
+          "x": 0,
+          "y": 148
+        },
+        "visual_viewport": {
+          "width": 1280,
+          "height": 900,
+          "scale": 1
+        },
+        "document_visible": true,
+        "body": {
+          "connected": true,
+          "visible": true
+        },
+        "content": {
+          "connected": true,
+          "visible": true
+        }
+      },
+      {
+        "kind": "finished",
+        "elapsed_ms": 84,
+        "viewport": {
+          "width": 1280,
+          "height": 900,
+          "x": 0,
+          "y": 148
+        },
+        "visual_viewport": {
+          "width": 1280,
+          "height": 900,
+          "scale": 1
+        },
+        "document_visible": true,
+        "body": {
+          "connected": true,
+          "visible": true
+        },
+        "content": {
+          "connected": true,
+          "visible": true
+        }
+      }
+    ],
+    "omitted": 0
+  },
+  "pixels": {
+    "width": 1280,
+    "height": 1149,
+    "surface": {
+      "uniform_rgb": true,
+      "first_pixel_rgb": [
+        243,
+        246,
+        250
+      ]
+    },
+    "anchors": [
+      {
+        "inside": true,
+        "samples": 11592,
+        "contrast": 0,
+        "dark_pixels": 0,
+        "ink_present": false
+      },
+      {
+        "inside": true,
+        "samples": 4840,
+        "contrast": 0,
+        "dark_pixels": 0,
+        "ink_present": false
+      },
+      {
+        "inside": true,
+        "samples": 4840,
+        "contrast": 0,
+        "dark_pixels": 0,
+        "ink_present": false
+      },
+      {
+        "inside": true,
+        "samples": 21230,
+        "contrast": 0,
+        "dark_pixels": 0,
+        "ink_present": false
+      }
+    ]
+  },
+  "compositor": {
+    "tree_events": 3,
+    "paint_events": 13
+  },
+  "interpretation": "All recorded lifecycle visibility and dimensions are stable; resize notifications are not measured dimension changes. Blank PNG remains failed. No raster/capture/input/product causal conclusion."
+}

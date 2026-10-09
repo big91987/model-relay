@@ -1,0 +1,73 @@
+{
+  "started_utc": "2026-10-09T10:59:34.220Z",
+  "finished_utc": "2026-10-09T10:59:34.405Z",
+  "source_before": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "dc667be6f0f5db892748ac8a214d799264c2d451004da8c80a5e06e6c38f338c"
+  },
+  "source_after": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "dc667be6f0f5db892748ac8a214d799264c2d451004da8c80a5e06e6c38f338c"
+  },
+  "source_unchanged": true,
+  "retained_host_files": 79,
+  "retained_host_integrity": true,
+  "checks": [
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-55.md",
+      "bytes": 6726,
+      "sha256": "4c81ee9d04261b865d89514bae46ed1d4d9fdbbfd4d07e283b5e4677be451d3f"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-55/source-final.json",
+      "bytes": 357,
+      "sha256": "7c92b3795ddf7e12fbe2cd70c9b9dc4ba7e7aa19ee503de920c2dcb780896752"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-55/source-final.log",
+      "bytes": 336,
+      "sha256": "850a2e8b048d192e3a5a5892164552f13034979d3de763f45043dab1b1bc66f9"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-55/local-checks.json",
+      "bytes": 3448,
+      "sha256": "542a67c3a5b018daa1371979e6efffdd4147786acb014de5d3c2b5f62656e2d2"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-55/retained-integrity.json",
+      "bytes": 1096,
+      "sha256": "6ddeaa8cc6b61823e36c91b5def5dc012444731d4efa911d81aa43cf841f0e24"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-55/affected-first-failure.log",
+      "bytes": 37108,
+      "sha256": "2701fa98ed95b1602cab4854c5307ba1eca777bac627179bbf6c484e196de140"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-55/affected.log",
+      "bytes": 13394,
+      "sha256": "1af0a3bbb705ed9d1466ec883881425a02d4081b8adc262ea8c5a7c0756247d4"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-55/static.log",
+      "bytes": 90,
+      "sha256": "d9056758603dafeeb6b4ccfd3ce53f6fa6e5c42e6bc87b74b3df975020df33ee"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-55/go-wiring.log",
+      "bytes": 43,
+      "sha256": "b7ebbef987348e80d2cf219deaf5fd60525bdca1a9f9a64ec77d772dd1dd520c"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-54/archive-index.json",
+      "bytes": 24075,
+      "sha256": "e4493ad18e3be4be1cf7016fe5d1ffec530096c1748c4f34df285e99c203ff28"
+    }
+  ]
+}

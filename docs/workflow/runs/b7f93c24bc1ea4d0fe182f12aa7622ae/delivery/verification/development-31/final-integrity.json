@@ -1,0 +1,87 @@
+{
+  "checked_utc": "2026-10-09T05:02:57.846Z",
+  "exit_code": 0,
+  "source_before": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "6151725283c508e9f5ec6f8cf3419489fc1274ea954e787037cc6511d0b7a7a3"
+  },
+  "source_after": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "6151725283c508e9f5ec6f8cf3419489fc1274ea954e787037cc6511d0b7a7a3"
+  },
+  "source_final": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "6151725283c508e9f5ec6f8cf3419489fc1274ea954e787037cc6511d0b7a7a3"
+  },
+  "original_files_checked": 91,
+  "original_runner": {
+    "bytes": 505303,
+    "sha256": "5c9a8fe9ef85d558fbd025f65b99929dd3b716f71288138b1f1597ea9e38975c"
+  },
+  "material": {
+    "version": "design-v0.2.0",
+    "status": "frozen-for-test-implementation",
+    "archive_sha256": "5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7",
+    "references": [
+      {
+        "path": ".workflow-input/b7f93c24bc1ea4d0fe182f12aa7622ae/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/docs/acceptance.md",
+        "sha256": "2792740b1579d614780856a13b6257d192736e1efc0309f1dc41405a665bef7a"
+      },
+      {
+        "path": ".workflow-input/b7f93c24bc1ea4d0fe182f12aa7622ae/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/docs/interactions.md",
+        "sha256": "95f3490ef003fa9b19dd6b9e864dd3b0429619b8cd9d0ecec853919d6a12c801"
+      },
+      {
+        "path": ".workflow-input/b7f93c24bc1ea4d0fe182f12aa7622ae/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/docs/prd.md",
+        "sha256": "e768b4f26b4471e714d92b0db6e3187c89f37a25a697c01a12c6079af07de547"
+      }
+    ]
+  },
+  "local_check_count": 8,
+  "local_exit_codes": [
+    {
+      "name": "source",
+      "exit_code": 0
+    },
+    {
+      "name": "node-targeted",
+      "exit_code": 0
+    },
+    {
+      "name": "go-runner",
+      "exit_code": 0
+    },
+    {
+      "name": "go-wiring",
+      "exit_code": 0
+    },
+    {
+      "name": "static",
+      "exit_code": 0
+    },
+    {
+      "name": "go-fixture",
+      "exit_code": 0
+    },
+    {
+      "name": "syntax-diff",
+      "exit_code": 0
+    },
+    {
+      "name": "source-after",
+      "exit_code": 0
+    }
+  ],
+  "diff_check_exit": 0,
+  "logs_local_paths_clear": true,
+  "boundary": "not a complete make verify or browser receipt; independent host tests and QA pending"
+}

@@ -1,0 +1,6 @@
+START_UTC=2026-10-09T01:20:18.626Z
+COMMAND=go run ./tests/evidence (twice; GOCACHE workspace cache, GOTOOLCHAIN local)
+{"files":152,"go":"go1.25.6","head":"3f9cee1615e87e002a2c2300f2d29778072ec3f5","scope":"product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference","working_tree_sha256":"65201f488ae0969684625a92c23fb2c1e76bed30916b2c92a405b1e9e00f92a9"}
+EXIT_CODE=0
+SOURCE_UNCHANGED=true
+END_UTC=2026-10-09T01:20:18.794Z

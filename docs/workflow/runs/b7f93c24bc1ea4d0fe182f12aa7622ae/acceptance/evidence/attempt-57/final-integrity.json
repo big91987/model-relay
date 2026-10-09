@@ -1,0 +1,57 @@
+{
+  "qa_execution": 57,
+  "checked_utc": "2026-10-09T11:26:19.197Z",
+  "source_unchanged_after_reports": true,
+  "candidate": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "dc667be6f0f5db892748ac8a214d799264c2d451004da8c80a5e06e6c38f338c"
+  },
+  "archive_files_rechecked": 344,
+  "all_bytes_match": true,
+  "new_document_links_checked": true,
+  "documents": [
+    {
+      "path": "acceptance/README.md",
+      "bytes": 2736,
+      "sha256": "6bd3bc8a6715f64cda57a6b18b7716fc1f1f3c19337a2b25726c7c3385cf676b"
+    },
+    {
+      "path": "acceptance/acceptance-report-57.md",
+      "bytes": 12638,
+      "sha256": "6732e0119814fa9b73295771aaf3d2240dd95813011b6011a4a00d812283ca79"
+    },
+    {
+      "path": "acceptance/acceptance-matrix-57.md",
+      "bytes": 8653,
+      "sha256": "4e520b341c3cee699094de3a211e9eb73248e2ee153e82f2574ee22090233ac7"
+    },
+    {
+      "path": "acceptance/journeys-57.md",
+      "bytes": 7289,
+      "sha256": "5f62b63e192ac4eb4face74b9af3e44b0b81edd02cecef2bc318a16c84c83e7a"
+    },
+    {
+      "path": "acceptance/visual-review-57.md",
+      "bytes": 6966,
+      "sha256": "fc2a4bc77387da78bc1955598a437e54bbec806149d83fa678483f7e7bd051c9"
+    },
+    {
+      "path": "delivery/README.md",
+      "bytes": 18986,
+      "sha256": "cbd6a66ef937209a0fcce200d0f2e07da6eeab9613e04c8a58282f1f1078b2b2"
+    },
+    {
+      "path": "delivery/tasks/T001-console.md",
+      "bytes": 24997,
+      "sha256": "18c4211d664e8402bf35716cac11c3169a346b43938cad81db4f58c634b90db9"
+    },
+    {
+      "path": "delivery/milestones/M01-console.md",
+      "bytes": 13497,
+      "sha256": "5eb37abf6cc3752153bd124615797488079dc1deb0f5ee958daf1d778bbe7680"
+    }
+  ]
+}

@@ -1,0 +1,145 @@
+{
+  "execution": 47,
+  "checked_utc": "2026-10-09T09:46:15.963Z",
+  "source": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "dcdab7fc4bbdbbcc944377450a30d36cb6e20a67c65443cfb950de22a779f193"
+  },
+  "source_recomputed_unchanged": true,
+  "archives": [
+    {
+      "execution": 44,
+      "files": 275,
+      "all_original_hashes_match": true,
+      "index": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-44/archive-index.json"
+    },
+    {
+      "execution": 46,
+      "files": 275,
+      "all_original_hashes_match": true,
+      "index": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-46/archive-index.json"
+    }
+  ],
+  "local_check_logs_verified": 9,
+  "artifact_entries": [
+    {
+      "path": "internal/relay/web/workspace.css",
+      "bytes": 5884,
+      "sha256": "59c68445fbd2cfad05371a2903677111318827f15fdfe99be8657636e21f701d"
+    },
+    {
+      "path": "tests/browser/console-visual.mjs",
+      "bytes": 18616,
+      "sha256": "ced859683c677bab6e4e0715efb31e321d23ee91fe1b33c36a4b6c2c2c9ab467"
+    },
+    {
+      "path": "tests/browser/console-visual.test.mjs",
+      "bytes": 8780,
+      "sha256": "995086d1589fbdf6600845a6dd0f584664b88ef68fb665f55a2378b0f04bf111"
+    },
+    {
+      "path": "tests/browser/workspace.test.mjs",
+      "bytes": 30692,
+      "sha256": "e69f8000c34fed096320917c099cde8bea07187c94ea45c360810c04513a5379"
+    },
+    {
+      "path": ".trellis/spec/frontend/workspace-contracts.md",
+      "bytes": 107281,
+      "sha256": "999349663e66fd84cf5d59a389b3f6efde6fcd8f4cdfc18c51724aa9dc3a0703"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-47.md",
+      "bytes": 6462,
+      "sha256": "e5c96cfb632a31dd0f38cabb90927156e3f26b68385f2ad89f866cf038c5093d"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/README.md",
+      "bytes": 15077,
+      "sha256": "42dcd18da712058e61a9d2c257df51f686fc2009ddd5f8b3e82c9104de780e6c"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/tasks/T001-console.md",
+      "bytes": 22172,
+      "sha256": "ff0fa64e73d1a62707cfd22a21d3c16746c61a5a8ffa7a7102ff4d19cd6ee216"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/milestones/M01-console.md",
+      "bytes": 10433,
+      "sha256": "4840198fc7354226eb480ffe769b06631140829eb3c6a2356f54a57b72eb607a"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-47/failure-summary.json",
+      "bytes": 4218,
+      "sha256": "d9e9efd42d2d35866b3eeb3b06007bb8de7c18503cff7aa03c61e7342ae2aedb"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-47/go-wiring-workspace-cache.log",
+      "bytes": 43,
+      "sha256": "f01ea817f5b50dbb6b99ca5981e007324ded2a1616234618e8f97c80d913509c"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-47/go-wiring.log",
+      "bytes": 111,
+      "sha256": "1e1a6fd17e126f11f86c66035af58c3f4206108c75f694986328f5ea8bcba469"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-47/local-checks.json",
+      "bytes": 6027,
+      "sha256": "4b4acb542ac1429379ecbe287462f5c45d5ca653397ed4d6830e1a847a81e248"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-47/node-regressions.log",
+      "bytes": 27182,
+      "sha256": "58448ab626f481790e008b7a701f5baa4dd5d0ec449e2cac47a10523e7730337"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-47/node-targeted-final.log",
+      "bytes": 11350,
+      "sha256": "f5052da26b9c7273adfe0f5228bfaa35da4c2f073692c078249ec910461b3fa0"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-47/node-targeted.log",
+      "bytes": 11249,
+      "sha256": "117eba82f8c619f9c3bb141df7712b4c52c9f489c9280248a33400624a2b84ff"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-47/original-png-audit.json",
+      "bytes": 33466,
+      "sha256": "02c3b020ddf07c5c7cb8a27d9d44d7f3c238d4934c2077e5b26f7ca68fc216b2"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-47/source-final-confirmed.log",
+      "bytes": 336,
+      "sha256": "03a402781974ae33d9a107c3ab27c685f7fdb8a2b5ab6de1c4a2b03572270bdc"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-47/source-final.json",
+      "bytes": 336,
+      "sha256": "03a402781974ae33d9a107c3ab27c685f7fdb8a2b5ab6de1c4a2b03572270bdc"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-47/source-final.log",
+      "bytes": 336,
+      "sha256": "5303ea4cc8e9d780048f635eac1ebdab1fdbe6c945e2b98926bc35d6fc8c5ded"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-47/source-intermediate.json",
+      "bytes": 336,
+      "sha256": "5303ea4cc8e9d780048f635eac1ebdab1fdbe6c945e2b98926bc35d6fc8c5ded"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-47/static-final.log",
+      "bytes": 90,
+      "sha256": "d9056758603dafeeb6b4ccfd3ce53f6fa6e5c42e6bc87b74b3df975020df33ee"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-47/static.log",
+      "bytes": 90,
+      "sha256": "d9056758603dafeeb6b4ccfd3ce53f6fa6e5c42e6bc87b74b3df975020df33ee"
+    }
+  ],
+  "scope": "Retained original failed host artifacts and final local/product evidence; not full host or independent QA acceptance"
+}

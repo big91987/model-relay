@@ -1,0 +1,100 @@
+{
+  "utc": "2026-10-09T03:34:10.022Z",
+  "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+  "source_sha256": "6ce878eb3a41ec7fa0a18488c6625c09f9ef6c3d243ee66812036550ccf6a65b",
+  "source_unchanged": true,
+  "original_host_archive_rechecked": 91,
+  "original_blank_png_equals_execution20": true,
+  "checks": "git diff --check exit0; source before/after equal; all archived bytes SHA equal; listed artifacts nonempty",
+  "empty_success_logs_not_artifacts": [
+    "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-23/syntax-diff.log"
+  ],
+  "prior_integrity_attempt": "aborted on nonempty-artifact guard because successful syntax-diff emitted zero bytes; raw log preserved, exit0 in local-checks.json; no product/test gate failed",
+  "records": [
+    {
+      "path": "tests/browser/capture-integrity.mjs",
+      "bytes": 13832,
+      "sha256": "582a5cd8d000eb85191175dad419b042bc9067779be57698e25012928037119c"
+    },
+    {
+      "path": "tests/browser/capture-integrity.test.mjs",
+      "bytes": 17781,
+      "sha256": "42a96e22fd48b1358cd1c622442b8447e99b2f041076c87670697a33a9b98b3b"
+    },
+    {
+      "path": ".trellis/spec/frontend/workspace-contracts.md",
+      "bytes": 85334,
+      "sha256": "9b722a957e95505949687ff15fced78ec16aebfb274ef66c9ec91f05efb2d9ae"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/README.md",
+      "bytes": 7050,
+      "sha256": "eb832147ec2adbf0b0097380dd9e543b6757182bbfb450c5847616ef98e5e83b"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/tasks/T001-console.md",
+      "bytes": 11438,
+      "sha256": "01c23d48ab923bbd74f1d046848eaadf52cac95ed74ac48e7216dd667c5197f0"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/milestones/M01-console.md",
+      "bytes": 4646,
+      "sha256": "5ab8244234d5683e83ca82a52f3556820626e4310a761a0a3dc808796a7da92e"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-23.md",
+      "bytes": 6649,
+      "sha256": "5f57f427785fecfdb45f05ad089f71db0ee7bee7736cb9118b4c3ee7354d100f"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-23/capture-comparison.json",
+      "bytes": 5930,
+      "sha256": "b32d5715d9a143457d4a3e7a86e7f8ab2e8a949764fe02fdd952888d2c3bff2d"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-23/go-fixture.log",
+      "bytes": 763,
+      "sha256": "98a6a0badcaecdcbac96ad0b835b0188696249afac4e406fdba4c060144698e3"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-23/host-failure-summary.json",
+      "bytes": 13712,
+      "sha256": "a463826fbe9936d19f94296af8107ff902c37a814bad45b808db4703e675b3b6"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-23/local-checks.json",
+      "bytes": 1920,
+      "sha256": "ba9287cc11b605225ef373806facf24b0d80575d5663bab9d1264555a11d9e75"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-23/node-targeted.log",
+      "bytes": 6392,
+      "sha256": "51f45d1598b5cfbe2b449b5d995e7996b3a0fa7fb68cd29791b871efdce20819"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-23/source-after.json",
+      "bytes": 336,
+      "sha256": "f489869dd87d8f6b94cb53b1eacd20b903954cabce35b02efa91840ab2509559"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-23/source-after.log",
+      "bytes": 336,
+      "sha256": "f489869dd87d8f6b94cb53b1eacd20b903954cabce35b02efa91840ab2509559"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-23/source-before.log",
+      "bytes": 336,
+      "sha256": "f489869dd87d8f6b94cb53b1eacd20b903954cabce35b02efa91840ab2509559"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-23/source.json",
+      "bytes": 336,
+      "sha256": "f489869dd87d8f6b94cb53b1eacd20b903954cabce35b02efa91840ab2509559"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-23/static.log",
+      "bytes": 69,
+      "sha256": "deb218d2d47a07979cc802ccb2849898388f8f3dfb362ba6fd6a5a1e84775fb1"
+    }
+  ]
+}

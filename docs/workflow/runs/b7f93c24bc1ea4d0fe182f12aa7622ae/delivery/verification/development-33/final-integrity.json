@@ -1,0 +1,87 @@
+{
+  "result": "passed_integrity_audit_not_complete_make_verify",
+  "utc": "2026-10-09T05:27:17.205Z",
+  "candidate": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "f700fb6ebcf8c8ec62ffb7e0621d62c4b86ac2e9f3a8956d0c211e1d0c1f85d8"
+  },
+  "archive_files_verified": 91,
+  "runner_log_bytes": 519228,
+  "runner_log_sha256": "118c913871d78f3fc8279acbd22c65947cd840a601d0d08b69669c51defbcb56",
+  "material_version": "design-v0.2.0",
+  "material_sha256": "5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7",
+  "material_references_verified": [
+    "docs/prd.md",
+    "docs/interactions.md",
+    "docs/acceptance.md"
+  ],
+  "source_before_after_equal": true,
+  "original_entry_and_locks_unchanged": true,
+  "all_local_checks_exit_zero": true,
+  "absolute_machine_path_scan": "clear after one local linker temporary path redaction; initial failure retained",
+  "local_files": [
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-33/go-fixture.log",
+      "bytes": 708,
+      "sha256": "973f06cfae85d7bcefdb011862d927b895fa0a1949d587295784da10269250bc"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-33/go-runner.log",
+      "bytes": 27545,
+      "sha256": "7fe8a6c2eb926c04221b20f633a2cdc824be53ddbceb1d5057b1e15fb0de2869"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-33/go-wiring.log",
+      "bytes": 878,
+      "sha256": "cfa6e13aa43719e955aefe4a4d06f2666d7c6271e020b1221d6dd1e2f72db109"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-33/host-failure-summary.json",
+      "bytes": 14846,
+      "sha256": "7db9c2fa520d93ddbe86a9812088114f28d4cc74e4dac77a26639bf0ec2a4705"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-33/initial-integrity.json",
+      "bytes": 447,
+      "sha256": "6487cb21f7863e25724cf85f1fc2415957496db3682d7af7bc6d455508eedf21"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-33/initial-node.log",
+      "bytes": 3913,
+      "sha256": "b0cb440ca3a9d8ef18a6b26322cc8b7e2ea2ff7731d87f430f999c5722b01afd"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-33/local-checks.json",
+      "bytes": 3310,
+      "sha256": "b19ab0ec84c485510f9cc3af732a77d0481834559e7e411898cc5cd395393767"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-33/node-targeted.log",
+      "bytes": 7142,
+      "sha256": "609116886cdb0ca3983db7a8be04753542f4f33a2676bafcc963c2392f91250e"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-33/source-after.json",
+      "bytes": 336,
+      "sha256": "b750b034e7757d23cb491e42df0177833a64da65aed1764f709e7295a9a27005"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-33/source.json",
+      "bytes": 336,
+      "sha256": "b750b034e7757d23cb491e42df0177833a64da65aed1764f709e7295a9a27005"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-33/static.log",
+      "bytes": 69,
+      "sha256": "deb218d2d47a07979cc802ccb2849898388f8f3dfb362ba6fd6a5a1e84775fb1"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-33/syntax-diff.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}
