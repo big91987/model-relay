@@ -1,0 +1,40 @@
+{
+  "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+  "candidate_working_tree_sha256": "078e1aa1c31f63fa98308db68e3e6fa5c29d2554409c3f498d2f1c6af4921019",
+  "host_tests5_working_tree_sha256": "ebfc78a9bc25c69e3bacffe21f4aab956fd70d4d9af07dc12a8c97f7b61c7a9d",
+  "host_tests5_full_log_matches_original_state_sha256": true,
+  "files": [
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/metering-parallel-inprocess-exec6.log",
+      "bytes": 78503,
+      "sha256": "1cd0a79dc119c70a5b2125d10f941ce3a3bc20581d1b7dbb2cf566c27efc63de",
+      "command_exit": 0,
+      "local_raw_sha256": "c72b0e5a5a27f6ee67a2621f78ec3aeb02675e76b4ca4663290b2b80dd3a2d29",
+      "redaction": "workspace/temporary absolute paths only"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/static-exec6.log",
+      "bytes": 1060,
+      "sha256": "245e4e5f898954cc639747bc85a1d5d50230fe0e34dd5a8c176a5d61b1551aae",
+      "command_exit": 0,
+      "local_raw_sha256": "245e4e5f898954cc639747bc85a1d5d50230fe0e34dd5a8c176a5d61b1551aae",
+      "redaction": "none (already safe)"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/frontend-exec6.log",
+      "bytes": 21790,
+      "sha256": "e6ada26a508f4ecd725b05b366ba9bc61679cc89e35b762e58866f42e66c1622",
+      "command_exit": 1,
+      "local_raw_sha256": "7d4bf3e80b194544e6d8c642ec94260ca711b9dc3966ff188326b3d63f2a0fcb",
+      "redaction": "workspace/temporary absolute paths only"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/frontend-locked-exec6.log",
+      "bytes": 1481,
+      "sha256": "d29d3f6a15e049d7c52d216ee5baef22935f6201fdc02cac95cadcfba798d701",
+      "command_exit": 2,
+      "local_raw_sha256": "3cee57f5fb2f38ab780f00ebbd4f3fde6a6bcdae1c2c0770c71bc5f68daadfa7",
+      "redaction": "workspace/temporary absolute paths only"
+    }
+  ]
+}

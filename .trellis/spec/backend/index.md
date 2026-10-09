@@ -9,5 +9,7 @@ For schema3 personnel, tenancy, application governance or finance, also read [mu
 
 For deadline/window/budget changes, read its durable shared UTC and zero-soft-budget scenario. Preserve actual HTTP historical red reconstruction and current regression tests in make verify.
 
+For output safety or RPM/TPM verification, read [metering regression contracts](metering-regression.md). Keep in-process, actual HTTP, browser and live-provider evidence distinct.
+
 ## Quality Check
 Run make verify unchanged. Review HTTP methods, authorization, CSRF, persistence and secret redaction if those paths change. Review [console contracts](console-contracts.md) for counts, configuration epochs and safe rejection. See [runtime contracts](runtime-contracts.md) for trusted examples.

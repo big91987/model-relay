@@ -1,0 +1,13 @@
+command=go test -race -count=1 -v ./internal/relay -run ^TestMeteringSafetyActualHTTP/tenant_tpm$
+{"files":152,"go":"go1.25.6","head":"3f9cee1615e87e002a2c2300f2d29778072ec3f5","scope":"product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference","working_tree_sha256":"ebfc78a9bc25c69e3bacffe21f4aab956fd70d4d9af07dc12a8c97f7b61c7a9d"}
+# model-relay/internal/relay.test
+ld: warning: '<temporary>/go-link/000023.o' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestMeteringSafetyActualHTTP
+=== RUN   TestMeteringSafetyActualHTTP/tenant_tpm
+    metering_regression_test.go:175: real HTTP listener unavailable: listen tcp 127.0.0.1:0: bind: operation not permitted
+--- FAIL: TestMeteringSafetyActualHTTP (1.23s)
+    --- FAIL: TestMeteringSafetyActualHTTP/tenant_tpm (1.23s)
+FAIL
+FAIL	model-relay/internal/relay	4.483s
+FAIL
+listener_diagnostic_exit=1

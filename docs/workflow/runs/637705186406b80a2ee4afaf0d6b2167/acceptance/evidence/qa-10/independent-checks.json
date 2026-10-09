@@ -1,0 +1,20 @@
+{
+  "source_command": "GOCACHE=<workspace-cache> GOTOOLCHAIN=local go run ./tests/evidence",
+  "source_exit": 0,
+  "diff_check_exit": 0,
+  "go_command": "GOCACHE=<workspace-cache> GOTOOLCHAIN=local CGO_ENABLED=1 go test -race -count=1 -v ./internal/relay -parallel=4 -run '^TestMetering.*InProcess$'",
+  "go_exit_observed": 0,
+  "go_pass_footer": true,
+  "node_focused_command": "node --test tests/browser/cooldown-observation.test.mjs tests/browser/routing-progress.test.mjs",
+  "node_focused_exit_observed": 0,
+  "node_focused_tests": 3,
+  "initial_node_smoke": "node --test additionally included selection-trace.mjs; 4 reported, not four assertion suites",
+  "sandbox_initial_source_attempt": {
+    "result": "Blocked",
+    "cause": "default user Go cache outside writable roots",
+    "corrected": "workspace GOCACHE source command exit0",
+    "not_a_product_failure": true
+  },
+  "full_gate_origin": "host Connector tests execution9; QA did not repeat listening make verify",
+  "supplier_generation_by_qa": 0
+}

@@ -33,10 +33,15 @@ type governedFixture struct {
 
 func governedInstallation(test *testing.T, actual bool) *governedFixture {
 	test.Helper()
+	return governedInstallationWithHandler(test, actual, nil)
+}
+
+func governedInstallationWithHandler(test *testing.T, actual bool, controlled func(*governedFixture) http.Handler) *governedFixture {
+	test.Helper()
 	store, password := consoleInstallation(test)
 	fixture := &governedFixture{test: test, store: store, origin: "http://127.0.0.1:5544"}
 	fixture.clock.Store(time.Date(2026, 9, 30, 23, 59, 0, 0, time.UTC).UnixNano())
-	upstream := http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
+	var upstream http.Handler = http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
 		fixture.hits.Add(1)
 		var input map[string]any
 		if json.NewDecoder(request.Body).Decode(&input) != nil {
@@ -70,6 +75,9 @@ func governedInstallation(test *testing.T, actual bool) *governedFixture {
 			fmt.Fprint(writer, `{"choices":[{"message":{"role":"assistant","content":"controlled third"}}],"usage":{"prompt_tokens":3,"completion_tokens":4,"total_tokens":7}}`)
 		}
 	})
+	if controlled != nil {
+		upstream = controlled(fixture)
+	}
 	upstreamURL := "https://controlled.example"
 	policy := Policy{Resolver: fixedResolver{[]netip.Addr{netip.MustParseAddr("8.8.8.8")}}}
 	if actual {
@@ -155,8 +163,14 @@ func (fixture *governedFixture) generate(body map[string]any, operation string) 
 	return response.StatusCode, response.Header.Get("X-Request-ID")
 }
 
-func TestConsoleGovernanceActualHTTP(test *testing.T) { governanceScenario(test, true) }
-func TestConsoleGovernanceInProcess(test *testing.T)  { governanceScenario(test, false) }
+func TestConsoleGovernanceActualHTTP(test *testing.T) {
+	test.Parallel()
+	governanceScenario(test, true)
+}
+func TestConsoleGovernanceInProcess(test *testing.T) {
+	test.Parallel()
+	governanceScenario(test, false)
+}
 
 func governanceScenario(test *testing.T, actual bool) {
 	fixture := governedInstallation(test, actual)
@@ -352,8 +366,14 @@ func TestConsoleGenerationExactDeadline(test *testing.T) {
 	}
 }
 
-func TestConsoleResourceDimensionsInProcess(test *testing.T)  { resourceDimensionScenario(test, false) }
-func TestConsoleResourceDimensionsActualHTTP(test *testing.T) { resourceDimensionScenario(test, true) }
+func TestConsoleResourceDimensionsInProcess(test *testing.T) {
+	test.Parallel()
+	resourceDimensionScenario(test, false)
+}
+func TestConsoleResourceDimensionsActualHTTP(test *testing.T) {
+	test.Parallel()
+	resourceDimensionScenario(test, true)
+}
 
 func resourceDimensionScenario(test *testing.T, actual bool) {
 	fixture := governedInstallation(test, actual)
@@ -438,8 +458,14 @@ func resourceDimensionScenario(test *testing.T, actual bool) {
 func TestConsolePeopleScopeInProcess(test *testing.T)  { peopleScopeScenario(test, false) }
 func TestConsolePeopleScopeActualHTTP(test *testing.T) { peopleScopeScenario(test, true) }
 
-func TestConsolePauseUsageInProcess(test *testing.T)  { pauseUsageScenario(test, false) }
-func TestConsolePauseUsageActualHTTP(test *testing.T) { pauseUsageScenario(test, true) }
+func TestConsolePauseUsageInProcess(test *testing.T) {
+	test.Parallel()
+	pauseUsageScenario(test, false)
+}
+func TestConsolePauseUsageActualHTTP(test *testing.T) {
+	test.Parallel()
+	pauseUsageScenario(test, true)
+}
 
 func pauseUsageScenario(test *testing.T, actual bool) {
 	fixture := governedInstallation(test, actual)

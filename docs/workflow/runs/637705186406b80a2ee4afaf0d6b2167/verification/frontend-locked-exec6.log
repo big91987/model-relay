@@ -1,0 +1,25 @@
+npm ci --ignore-scripts --omit=optional --no-audit --no-fund --cache .cache/npm
+npm error code EPERM
+npm error syscall connect
+npm error errno EPERM
+npm error FetchError: request to https://registry.npmjs.org/playwright-core/-/playwright-core-1.59.1.tgz failed, reason: connect EPERM 127.0.0.1:7897 - Local (0.0.0.0:0)
+npm error     at ClientRequest.<anonymous> (/opt/homebrew/lib/node_modules/npm/node_modules/minipass-fetch/lib/index.js:130:14)
+npm error     at ClientRequest.emit (node:events:509:20)
+npm error     at emitErrorEvent (node:_http_client:109:11)
+npm error     at _destroy (node:_http_client:993:9)
+npm error     at onSocketNT (node:_http_client:1013:5)
+npm error     at process.processTicksAndRejections (node:internal/process/task_queues:91:21) {
+npm error   code: 'EPERM',
+npm error   errno: 'EPERM',
+npm error   syscall: 'connect',
+npm error   address: '127.0.0.1',
+npm error   port: 7897,
+npm error   type: 'system'
+npm error }
+npm error
+npm error The operation was rejected by your operating system.
+npm error It is likely you do not have the permissions to access this file as the current user
+npm error
+npm error If you believe this might be a permissions issue, please double-check the permissions of the file and its containing directories, or try running the command again as root/Administrator.
+npm error A complete log of this run can be found in: <workspace>/.cache/npm/_logs/2026-10-09T12_40_50_246Z-debug-0.log
+make: *** [verification-deps] Error 1

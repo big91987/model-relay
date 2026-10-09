@@ -1,0 +1,54 @@
+# model-relay/internal/relay.test
+ld: warning: '<temporary> has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestConsoleClockQueuedDeadlineInProcess
+=== PAUSE TestConsoleClockQueuedDeadlineInProcess
+=== RUN   TestConsoleGovernanceInProcess
+=== PAUSE TestConsoleGovernanceInProcess
+=== RUN   TestConsoleResourceDimensionsInProcess
+=== PAUSE TestConsoleResourceDimensionsInProcess
+=== RUN   TestConsolePauseUsageInProcess
+=== PAUSE TestConsolePauseUsageInProcess
+=== RUN   TestConsoleAccountingInProcess
+=== PAUSE TestConsoleAccountingInProcess
+=== RUN   TestConsoleSharedResourcesInProcess
+=== PAUSE TestConsoleSharedResourcesInProcess
+=== RUN   TestConsoleReviewZeroSoftBudgetInProcess
+=== PAUSE TestConsoleReviewZeroSoftBudgetInProcess
+=== RUN   TestConsoleReviewClockRollbackInProcess
+=== PAUSE TestConsoleReviewClockRollbackInProcess
+=== CONT  TestConsoleGovernanceInProcess
+=== CONT  TestConsoleReviewZeroSoftBudgetInProcess
+=== CONT  TestConsolePauseUsageInProcess
+=== CONT  TestConsoleSharedResourcesInProcess
+=== RUN   TestConsoleReviewZeroSoftBudgetInProcess/tenant
+=== RUN   TestConsoleSharedResourcesInProcess/multi_key
+2026/10/09 21:06:33 effective_clock_rollback: UTC high water retained; verify host time synchronization; do not reset database windows
+=== RUN   TestConsoleReviewZeroSoftBudgetInProcess/key
+--- PASS: TestConsoleGovernanceInProcess (2.77s)
+=== CONT  TestConsoleClockQueuedDeadlineInProcess
+=== RUN   TestConsoleClockQueuedDeadlineInProcess/models
+=== NAME  TestConsoleSharedResourcesInProcess/multi_key
+    console_resource_matrix_test.go:292: scope=multi_key contenders=8 accepted=2 denied=6 other_tenant=1 real_http=false
+=== RUN   TestConsoleSharedResourcesInProcess/old_new_generation
+--- PASS: TestConsolePauseUsageInProcess (2.78s)
+=== CONT  TestConsoleResourceDimensionsInProcess
+=== RUN   TestConsoleClockQueuedDeadlineInProcess/invitation
+=== CONT  TestConsoleReviewClockRollbackInProcess
+--- PASS: TestConsoleReviewZeroSoftBudgetInProcess (5.39s)
+    --- PASS: TestConsoleReviewZeroSoftBudgetInProcess/tenant (2.76s)
+    --- PASS: TestConsoleReviewZeroSoftBudgetInProcess/key (2.63s)
+=== CONT  TestConsoleAccountingInProcess
+--- PASS: TestConsoleResourceDimensionsInProcess (2.62s)
+=== NAME  TestConsoleSharedResourcesInProcess/old_new_generation
+    console_resource_matrix_test.go:292: scope=old_new_generation contenders=8 accepted=2 denied=6 other_tenant=1 real_http=false
+--- PASS: TestConsoleSharedResourcesInProcess (5.41s)
+    --- PASS: TestConsoleSharedResourcesInProcess/multi_key (2.77s)
+    --- PASS: TestConsoleSharedResourcesInProcess/old_new_generation (2.63s)
+--- PASS: TestConsoleClockQueuedDeadlineInProcess (5.13s)
+    --- PASS: TestConsoleClockQueuedDeadlineInProcess/models (2.57s)
+    --- PASS: TestConsoleClockQueuedDeadlineInProcess/invitation (2.56s)
+2026/10/09 21:06:38 effective_clock_rollback: UTC high water retained; verify host time synchronization; do not reset database windows
+--- PASS: TestConsoleReviewClockRollbackInProcess (2.55s)
+--- PASS: TestConsoleAccountingInProcess (2.56s)
+PASS
+ok  	model-relay/internal/relay	9.632s
