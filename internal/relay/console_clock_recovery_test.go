@@ -25,8 +25,14 @@ type clockRecoveryState struct {
 	Actual     bool
 }
 
-func TestConsoleClockRecoveryInProcess(test *testing.T)  { clockRecoveryScenario(test, false) }
-func TestConsoleClockRecoveryActualHTTP(test *testing.T) { clockRecoveryScenario(test, true) }
+func TestConsoleClockRecoveryInProcess(test *testing.T) {
+	test.Parallel()
+	clockRecoveryScenario(test, false)
+}
+func TestConsoleClockRecoveryActualHTTP(test *testing.T) {
+	test.Parallel()
+	clockRecoveryScenario(test, true)
+}
 
 func clockRecoveryScenario(test *testing.T, actual bool) {
 	fixture := singleResourceInstallation(test, actual)

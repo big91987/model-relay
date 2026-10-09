@@ -1,0 +1,46 @@
+--- PASS: TestMeteringUndispatchedInProcess (2.67s)
+--- PASS: TestMeteringWindowsInProcess (10.56s)
+--- PASS: TestMeteringCompetitionInProcess (10.57s)
+--- PASS: TestMeteringSafetyInProcess (7.92s)
+--- PASS: TestMeteringCancellationActualHTTP (2.59s)
+--- PASS: TestMeteringBoundViolationActualHTTP (2.60s)
+--- PASS: TestMeteringTimeoutInProcess (4.59s)
+--- PASS: TestMeteringTimeoutActualHTTP (4.58s)
+--- PASS: TestMeteringCancellationInProcess (2.58s)
+--- PASS: TestMeteringBoundViolationInProcess (2.59s)
+--- PASS: TestMeteringSafetyActualHTTP (8.02s)
+--- PASS: TestMeteringCompetitionActualHTTP (10.44s)
+--- PASS: TestMeteringWindowsActualHTTP (10.56s)
+--- PASS: TestMeteringTerminalInProcess (20.82s)
+--- PASS: TestMeteringTerminalActualHTTP (20.92s)
+ok  	model-relay/internal/relay	363.407s
+BROWSER_PHASE name=migration state=start utc=2026-10-09T12:56:55.09646Z
+BROWSER_PHASE name=migration state=end utc=2026-10-09T12:57:09.89635Z elapsed_ms=14799 ok=true
+BROWSER_PHASE name=legacy-ui state=start utc=2026-10-09T12:57:10.029182Z
+BROWSER_PHASE name=legacy-ui state=end utc=2026-10-09T12:58:46.861705Z elapsed_ms=96835 ok=true
+BROWSER_PHASE name=routing state=start utc=2026-10-09T12:58:46.861802Z
+routing_cooldown={"utc":"2026-10-09T12:59:20.245Z","width":1280,"status":200,"model_count":5,"matching_models":1,"has_next_page":false,"candidate_count":2,"cooling_count":1,"expired_count":0,"failed_count":0,"minimum_remaining_ms":29732,"target_rows":1,"rendered_cooling":true}
+PASS real multi-upstream UI 1280px: connection GET, priority/3:1 visits, disable, failover/unknown usage, passive recovery, SSE/cancel no replay; controlled upstreams only
+routing_cooldown={"utc":"2026-10-09T13:00:25.356Z","width":390,"status":200,"model_count":6,"matching_models":1,"has_next_page":false,"candidate_count":2,"cooling_count":1,"expired_count":0,"failed_count":0,"minimum_remaining_ms":29752,"target_rows":1,"rendered_cooling":true}
+PASS real multi-upstream UI 390px: connection GET, priority/3:1 visits, disable, failover/unknown usage, passive recovery, SSE/cancel no replay; controlled upstreams only
+BROWSER_PHASE name=routing state=end utc=2026-10-09T13:00:57.533461Z elapsed_ms=130674 ok=true
+BROWSER_PHASE name=console state=start utc=2026-10-09T13:00:57.534286Z
+BROWSER_PHASE name=console state=end utc=2026-10-09T13:01:12.982076Z elapsed_ms=15447 ok=true
+BROWSER_PHASE name=full-console state=start utc=2026-10-09T13:01:12.982084Z
+{"suite":"continuous-console","width":1280,"journey":"J01","result":"passed","provider":"controlled_http_not_supplier"}
+{"suite":"continuous-console","width":1280,"journey":"J02","result":"passed","provider":"controlled_http_not_supplier"}
+{"suite":"continuous-console","width":1280,"journey":"J03","result":"passed","provider":"controlled_http_not_supplier"}
+{"suite":"continuous-console","width":1280,"journey":"J04","result":"passed","provider":"controlled_http_not_supplier"}
+{"suite":"continuous-console","width":1280,"journey":"J05","result":"passed","provider":"controlled_http_not_supplier"}
+{"suite":"continuous-console","width":1280,"journey":"J07","result":"passed","provider":"controlled_http_not_supplier"}
+{"suite":"continuous-console","width":1280,"journey":"J06","result":"passed","provider":"controlled_http_not_supplier"}
+{"suite":"management-summary","width":1280,"result":"passed","provider":"controlled_http_not_supplier","facts":{"models":2,"tenants":2,"services":1,"keys":5,"api_values_match":true,"context_actions":true}}
+{"suite":"console-visual","width":1280,"result":"passed","pages":10,"evidence":"test-results/visual-1280/review.json","provider":"controlled_http_not_supplier","scope":"current_authenticated_tenant"}
+{"suite":"continuous-console","width":1440,"journey":"J01","result":"passed","provider":"controlled_http_not_supplier"}
+{"suite":"continuous-console","width":1440,"journey":"J02","result":"passed","provider":"controlled_http_not_supplier"}
+make[1]: *** [browser] Terminated: 15
+make: *** [verify-gates] Terminated: 15
+{"suite":"continuous-console","width":1440,"result":"failed","stage":"J03-hour-grace","action":"navigation","last_status":201,"initial_counts":{"upstreams":0,"models":0,"tenants":0},"call_facts":{"expected_status":401,"dispatch_delta":0},"usage_facts":{},"read_facts":{"expected_status":200,"actual_status":200},"membership_facts":{},"ledger_facts":{},"failure_boundary":{"available":false},"summary_cell":{"available":false},"checkpoints":["J01","J02"],"error_kind":"other","snapshot_available":false}
+CLEAN_END gate_exit=-1 source_unchanged=true NODE_PATH=unset
+FAILED: signal: terminated
+context deadline exceeded

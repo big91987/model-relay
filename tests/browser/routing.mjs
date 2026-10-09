@@ -4,6 +4,7 @@ import { mkdir, appendFile } from 'node:fs/promises';
 import { observeSelection } from './selection-trace.mjs';
 import { typeAheadCandidate } from './candidate-keyboard.mjs';
 import { routingProgress } from './routing-progress.mjs';
+import { cooldownObservation } from './cooldown-observation.mjs';
 
 const browser = await chromium.launch({headless: true});
 const origin = process.env.RELAY_BROWSER_URL;
@@ -12,6 +13,7 @@ const control = process.env.RELAY_BROWSER_CONTROL;
 let stage = 'launch';
 let selectionProbe = null;
 let reviewProbe = null;
+let cooldownProbe = null;
 const modelResponses = [];
 const selectionDiagnosticFile = `test-results/routing-selection-${process.pid}.jsonl`;
 console.log('routing_diagnostic_execution=' + process.pid);
@@ -44,6 +46,7 @@ async function panel(page, name, id) { await press(page, name); await page.locat
 async function counts(context) { const result = await context.request.post(control + '/route/counts'); assert.equal(result.status(), 204); return {primary: Number(result.headers()['x-primary']), secondary: Number(result.headers()['x-secondary']), checks: Number(result.headers()['x-checks'])}; }
 try {
   for (const width of [1280, 390]) {
+    cooldownProbe = null;
     const context = await browser.newContext({viewport: {width, height: 900}});
     const page = await context.newPage(); page.on('dialog', dialog => dialog.accept());
     page.on('response', response => {
@@ -232,7 +235,13 @@ try {
     const text = await page.locator('#record-detail').textContent(); assert.ok(text.includes('尝试 1') && text.includes('尝试 2') && text.includes('完整合计 未知') && text.includes('未知尝试 1'));
     stage = `failover counts ${width}`; assert.deepEqual(await counts(context), {primary: 1, secondary: 1, checks: 0});
     stage = `cooldown request ${width}`; await call(); assert.deepEqual(await counts(context), {primary: 1, secondary: 2, checks: 0});
-    stage = `cooldown model rendering ${width}`; await panel(page, '模型', 'models'); await page.locator('#model-list').filter({hasText: '暂时冷却'}).waitFor();
+    stage = `cooldown model rendering ${width}`;
+    const cooldownRead = page.waitForResponse(response => response.request().method() === 'GET' && new URL(response.url()).pathname === '/admin/api/models');
+    await panel(page, '模型', 'models');
+    const cooldownResponse = await cooldownRead;
+    cooldownProbe = {width, status: cooldownResponse.status(), ...cooldownObservation(await cooldownResponse.json(), alias), target_rows: await page.locator('#model-list').getByRole('button', {name: '编辑映射 ' + alias, exact: true}).count(), rendered_cooling: (await page.locator('#model-list').textContent()).includes('暂时冷却')};
+    console.log('routing_cooldown=' + JSON.stringify({utc: new Date().toISOString(), ...cooldownProbe}));
+    await page.locator('#model-list').filter({hasText: '暂时冷却'}).waitFor();
     await context.request.post(control + '/route/recover'); await page.waitForTimeout(31000); stage = `passive recovery ${width}`; await call(); assert.equal((await counts(context)).primary, 2);
     await edit(async rows => input(page, rows.nth(0).getByLabel('优先级（大数先用）'), '100')); await context.request.post(control + '/route/reset'); stage = `committed stream no replay ${width}`;
     await call(true, 'route stream cut'); await page.locator('#test-status').filter({hasText: '失败'}).waitFor(); assert.equal((await counts(context)).secondary, 0);
@@ -252,7 +261,7 @@ try {
   }
 } catch (error) {
   const kind = ['AssertionError', 'TimeoutError', 'Error'].includes(error.name) ? error.name : 'OtherError';
-  console.error('routing_failure=' + JSON.stringify({stage, kind, selectionProbe, reviewProbe, modelResponses, selectionDiagnosticFile}));
+  console.error('routing_failure=' + JSON.stringify({stage, kind, selectionProbe, reviewProbe, cooldownProbe, modelResponses, selectionDiagnosticFile}));
   throw new Error('Real routing browser journey failed at ' + stage + '; no credential or response-body diagnostic');
 }
 finally { await browser.close(); }

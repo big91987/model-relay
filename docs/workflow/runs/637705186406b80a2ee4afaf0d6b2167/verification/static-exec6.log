@@ -1,0 +1,24 @@
+all modules verified
+go vet ./...
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+ok  	model-relay/cmd/model-relay	(cached) [no tests to run]
+ok  	model-relay/internal/relay	0.956s [no tests to run]
+ok  	model-relay/tests/browser	(cached) [no tests to run]
+?   	model-relay/tests/browser/legacy	[no test files]
+?   	model-relay/tests/browser/schema2	[no test files]
+?   	model-relay/tests/evidence	[no test files]
+ok  	model-relay/tests/health-history	(cached) [no tests to run]
+ok  	model-relay/tests/review-history	(cached) [no tests to run]
+ok  	model-relay/tests/verification	(cached) [no tests to run]
+ok  	model-relay/tests/verify	(cached) [no tests to run]
+✔ cooldown observation projects only target health counts and remaining time (1.351167ms)
+✔ cooldown observation distinguishes missing, expired and invalid evidence (0.089042ms)
+✔ routing progress preserves values, errors and whitelist-only diagnostics (46.109208ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 126.642334

@@ -1,0 +1,32 @@
+COMMAND_START stage=prerequisite-go
+go version go1.25.6 darwin/arm64
+
+COMMAND_END stage=prerequisite-go exit=0 cancelled=false
+PREREQUISITE tool=go output=go version go1.25.6 darwin/arm64
+COMMAND_START stage=prerequisite-node
+v26.0.0
+
+COMMAND_END stage=prerequisite-node exit=0 cancelled=false
+PREREQUISITE tool=node output=v26.0.0
+COMMAND_START stage=prerequisite-npm
+11.12.1
+
+COMMAND_END stage=prerequisite-npm exit=0 cancelled=false
+PREREQUISITE tool=npm output=11.12.1
+CLEAN_START {"started_utc":"2026-10-09T11:48:58.655184Z","finished_utc":"","command":"make verify -\u003e isolated make verify-gates","isolation":"new private candidate; git history read-only","node_modules_before":false,"clean_start_measured":true,"npm_cache_before":false,"node_modules_after":false,"npm_cache_after":false,"source_unchanged":false,"candidate_unchanged":false,"NODE_PATH":"unset","manual_preinstall":"none","source_before":{"files":150,"go":"go1.25.6","head":"3f9cee1615e87e002a2c2300f2d29778072ec3f5","scope":"product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference","working_tree_sha256":"0384f115adbbd545e8ce01021f238010ba66c89eb06e6acea08ce872ce0fa474"},"versions":{"go":"go version go1.25.6 darwin/arm64","node":"v26.0.0","npm":"11.12.1"},"gate_exit":-1,"exit_code":1,"log_sha256":"","log_bytes":0,"cleanup":"not_started","auxiliary_commands":[{"stage":"source-inventory","exit":0,"cancelled":false,"owned_group_absent":true},{"stage":"git-directory","exit":0,"cancelled":false,"owned_group_absent":true},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true},{"stage":"prerequisite-go","exit":0,"cancelled":false,"owned_group_absent":true},{"stage":"prerequisite-node","exit":0,"cancelled":false,"owned_group_absent":true},{"stage":"prerequisite-npm","exit":0,"cancelled":false,"owned_group_absent":true}]}
+go run ./tests/evidence
+{"files":150,"go":"go1.25.6","head":"3f9cee1615e87e002a2c2300f2d29778072ec3f5","scope":"product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference","working_tree_sha256":"0384f115adbbd545e8ce01021f238010ba66c89eb06e6acea08ce872ce0fa474"}
+go run ./tests/review-history
+review historical HTTP rejected: historical listener unavailable; not business red
+exit status 1
+make: *** [verify-gates] Error 1
+COMMAND_START stage=source-evidence
+{"files":150,"go":"go1.25.6","head":"3f9cee1615e87e002a2c2300f2d29778072ec3f5","scope":"product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference","working_tree_sha256":"0384f115adbbd545e8ce01021f238010ba66c89eb06e6acea08ce872ce0fa474"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false
+COMMAND_START stage=source-evidence
+{"files":150,"go":"go1.25.6","head":"3f9cee1615e87e002a2c2300f2d29778072ec3f5","scope":"product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference","working_tree_sha256":"0384f115adbbd545e8ce01021f238010ba66c89eb06e6acea08ce872ce0fa474"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false
+CLEAN_END gate_exit=2 source_unchanged=true NODE_PATH=unset
+FAILED: exit status 2

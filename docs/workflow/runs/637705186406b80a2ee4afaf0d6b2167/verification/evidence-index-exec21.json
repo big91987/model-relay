@@ -1,0 +1,113 @@
+{
+  "execution": 21,
+  "head": "8917f942cb38af2f56aa93914ab62e763bf9cc6e",
+  "integration_base": "6929376089535038112da48aed715fd729615d76",
+  "merge_head": "6929376089535038112da48aed715fd729615d76",
+  "integration_pending": true,
+  "source_before": {
+    "files": 158,
+    "go": "go1.25.6",
+    "head": "8917f942cb38af2f56aa93914ab62e763bf9cc6e",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "6e359667d5f7521f6b8c421454c6fc7cbe5ccb8c74aa87bb1e5955c194c202cc"
+  },
+  "source_after": {
+    "files": 158,
+    "go": "go1.25.6",
+    "head": "8917f942cb38af2f56aa93914ab62e763bf9cc6e",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "6e359667d5f7521f6b8c421454c6fc7cbe5ccb8c74aa87bb1e5955c194c202cc"
+  },
+  "source_unchanged": true,
+  "scope": "controlled joint candidate; not supplier acceptance",
+  "gate_status": "Pending host complete cold make verify and new independent QA",
+  "checks": {
+    "format": 0,
+    "modules": 0,
+    "vet": 0,
+    "build": 0,
+    "compile_only": 0,
+    "inprocess_race": {
+      "exit": 0,
+      "parents": 18,
+      "package_seconds": 34.258
+    },
+    "runner_timing": {
+      "exit": 0,
+      "package_seconds": 1.619
+    },
+    "node_subset": {
+      "exit": 0,
+      "tests": 136
+    },
+    "frontend_locked": {
+      "make_exit": 2,
+      "npm_exit": 1,
+      "result": "connect EPERM at configured local proxy; wildcard not started"
+    },
+    "whole_integration_diff_check": {
+      "exit": 2,
+      "result": "existing main historical log trailing whitespace"
+    },
+    "scoped_diff_check": 0
+  },
+  "supplier_requests": 0,
+  "budget": "not_attested",
+  "artifacts": [
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/collect-integration-exec21.mjs",
+      "bytes": 5299,
+      "sha256": "26476c99151bdea37cd9092e21c4112028d3b4f9ec9b71923e4db37cf34805b3"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/integration-inventory-exec21.json",
+      "bytes": 1050843,
+      "sha256": "feba795f7a0828a784d8d361c7633f0dc874344671619d322f68ef5bd899ee0c"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/integration-review-exec21.md",
+      "bytes": 9020,
+      "sha256": "d2405c2b4e247ff99b724900eb4d123b327d586eb1178be1fbc45173297350f4"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/candidate-source-exec21.json",
+      "bytes": 336,
+      "sha256": "1c2e85f1a0a81aa3f209a808dd90df72a9703371c3569077469c0d1ec6589d56"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/candidate-source-after-exec21.json",
+      "bytes": 336,
+      "sha256": "1c2e85f1a0a81aa3f209a808dd90df72a9703371c3569077469c0d1ec6589d56"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/static-exec21.log",
+      "bytes": 5195,
+      "sha256": "29646379eeaea7bd942106298ea2669eed2c1a749d5a9d39a52b37eb7c678e98"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/metering-combined-exec21.log",
+      "bytes": 84260,
+      "sha256": "16e7d92dc1ec91eb596fb994e1b6971caa9335c59a21f5dfa04af6b93dd3db73"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/runner-timing-exec21.log",
+      "bytes": 856,
+      "sha256": "63ec8f3fbd4d0bc666f299deeedb4ef90750a1dd923d4b9c69747710d315d736"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/frontend-exec21.log",
+      "bytes": 1846,
+      "sha256": "b553fa6842644aafadec7d67f78983648d02706fc05797369c8a17774e0fcc94"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/node-subset-exec21.log",
+      "bytes": 14098,
+      "sha256": "94be17ce89e1b74d6014c40e14bdf0b3e67fb8b53e6ea2e9de86751418a4ff1a"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/scope-check-exec21.log",
+      "bytes": 182,
+      "sha256": "848cd80f57099486d181ed78e59256bc027fdbbeaf129e90c81e9a2293b7ea83"
+    }
+  ]
+}

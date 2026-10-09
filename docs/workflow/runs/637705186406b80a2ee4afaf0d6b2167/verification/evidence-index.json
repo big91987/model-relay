@@ -1,0 +1,281 @@
+{
+  "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+  "current_qa": {
+    "execution": 10,
+    "source_working_tree_sha256": "2dfe14a3c305c13621f23b7dd287a8313b7e4f39ab64b8281d283450d125d8ed",
+    "stage_verdict": "Go for M01 controlled regression assets only",
+    "supplier_verdict": "Blocked; original issue33 No-Go retained",
+    "confirmed_production_defects": 0,
+    "report": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/acceptance/release-assessment-qa-10.md",
+    "matrix": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/acceptance/acceptance-matrix-qa-10.md",
+    "plan_review": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/acceptance/test-plan-review-qa-10.md",
+    "journeys": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/acceptance/core-journeys-qa-10.md",
+    "next_actions": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/acceptance/findings-and-next-actions-qa-10.md",
+    "evidence_index": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/acceptance/evidence/index.md",
+    "archive_index": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/acceptance/evidence/qa-10/archive-index.json",
+    "host_state": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/acceptance/evidence/qa-10/host-tests9/state.json",
+    "host_full_runner_log": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/acceptance/evidence/qa-10/host-tests9/verify.log"
+  },
+  "candidate_working_tree_sha256": "2dfe14a3c305c13621f23b7dd287a8313b7e4f39ab64b8281d283450d125d8ed",
+  "audit": {
+    "absolute_host_paths_found": 0,
+    "openai_key_patterns_found": 0,
+    "scope": "new Run public artifacts; not a supplier audit",
+    "baseline_full_log_matches_original_state_sha256": true
+  },
+  "original_source_versions": "earlier driver failures have no captured working-tree digest; not claimed as product red/green",
+  "files": [
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/baseline-make-verify-excerpt.log",
+      "bytes": 3474,
+      "sha256": "3c48c7ffc053adca8307b392ec23bc52e06e08d64b8c1d8a7fc3ff6c096d250b",
+      "command_exit": 2,
+      "local_raw_sha256": "3c48c7ffc053adca8307b392ec23bc52e06e08d64b8c1d8a7fc3ff6c096d250b",
+      "redaction": "none (already safe)"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/baseline-make-verify-full.log",
+      "bytes": 156555,
+      "sha256": "bf0cb01d38b572bfefa15a32a93ebf6c1b92eaa517d15a79904e0adac88c94da",
+      "command_exit": 2,
+      "local_raw_sha256": "bf0cb01d38b572bfefa15a32a93ebf6c1b92eaa517d15a79904e0adac88c94da",
+      "redaction": "none (already safe)"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/baseline-make-verify.json",
+      "bytes": 2765,
+      "sha256": "38cffaeadec332b7011f80e0d42fa428e6e48df53675ac7069dd728bc284fd15"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/candidate-source.json",
+      "bytes": 336,
+      "sha256": "524c205eb27ea50c4c3775724907ea9aea5124c9fb03852ec91e56cdbe8ed0e6"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/candidate-test-code.sha256",
+      "bytes": 1073,
+      "sha256": "d8450fc43a3eaf160b2b7f13a4fd89636f0f43c38b2401cf77cfa82b79c2970e"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/existing-inprocess-regression.log",
+      "bytes": 4459,
+      "sha256": "e5a8cfdaf2cd05257120929aee008b97bfbc340a25143d6e96b7ef87651392da",
+      "command_exit": 0,
+      "local_raw_sha256": "69c09bbf6ab9f9354efff75c36e9bbe378b1e4d688aaba5a06dba4e6c752c015",
+      "redaction": "temporary compiler path only"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/listener-diagnostic.log",
+      "bytes": 1040,
+      "sha256": "f5b0ed5b4c5e05a6dbd27eb67631d0449b524c9eac29a109836c074f70833682",
+      "command_exit": 1,
+      "local_raw_sha256": "6866d493400b2b69df8a2c64dd424b71dda408136ac0464d735dbba91f06fed1",
+      "redaction": "temporary compiler path only"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/metering-candidate-final.log",
+      "bytes": 75878,
+      "sha256": "0248f053fb4819ee95e09dab788753edcec5eecf2d9cd36ec18540dbdc7bac19",
+      "command_exit": 0,
+      "local_raw_sha256": "0bf4e17286b8ff1e95a871ebe5e414d70b69de087c25a46eecff716f9bb778be",
+      "redaction": "temporary compiler path only"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/metering-driver-corrections.log",
+      "bytes": 13526,
+      "sha256": "29f51be9fb6afe9f44c110a0036c31c8fa8eaab4a59f2480d08e8e3b531f0ae9",
+      "command_exit": 0,
+      "local_raw_sha256": "03bcf96f11a9de02a41e6d0400a1e4aa23e0855ff48b85d587d528fada74afce",
+      "redaction": "temporary compiler path only"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/metering-inprocess-final.log",
+      "bytes": 70191,
+      "sha256": "ab9dd7ec00558cf0311d0368137c3d76c17ffd74d84d878a2c98cd2f917529fd",
+      "command_exit": 0,
+      "local_raw_sha256": "6bef6f0951195bfb778c4122e820680b2990705138fe31212bd5a2d561c12e7c",
+      "redaction": "temporary compiler path only"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/metering-inprocess-first.log",
+      "bytes": 30380,
+      "sha256": "8460fcffc129a85d3d3bb113a450fd8afa0ca6dd5936d772d39cee3126d8d23b",
+      "command_exit": 1,
+      "local_raw_sha256": "b1f6e4fe5ebdeaacc924eb762c97ea0b55f8d1ec4c40bead9ebcac59af09ae38",
+      "redaction": "temporary compiler path only"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/metering-inprocess-second.log",
+      "bytes": 57366,
+      "sha256": "b3bcaa0965359a57c3c08d45bb58da4efa0167709cb609188bbaab5d9746dfc6",
+      "command_exit": 1,
+      "local_raw_sha256": "a4577d6df503be03c43c9f0f86d9f385f91ab53c8409b9f38c3073c208471ae0",
+      "redaction": "temporary compiler path only"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/metering-interruption.log",
+      "bytes": 5478,
+      "sha256": "79b7d566cfc0e4d39c69661976772378f134db2dfa0be2b5197bdc789a3250dd",
+      "command_exit": 0,
+      "local_raw_sha256": "91c052926105667131ba9bf460eecaeb47114ee1404b3af430f9589ce67c2ecd",
+      "redaction": "temporary compiler path only"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/results.md",
+      "bytes": 10274,
+      "sha256": "d35db413ca35cc6d59a63a0091ac14accb96623249828b9b559eb179e8d9e13c"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/static-candidate-final.log",
+      "bytes": 762,
+      "sha256": "9748ffc6b0499a85e6603f9f2925259fa8b1ab3fcd1fe551254884daf6054c17",
+      "command_exit": 0,
+      "local_raw_sha256": "9748ffc6b0499a85e6603f9f2925259fa8b1ab3fcd1fe551254884daf6054c17",
+      "redaction": "none (already safe)"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/static-checks-first.log",
+      "bytes": 70,
+      "sha256": "72cc5c804a6de1c1d170693508d9096a6dc682b72c34893088e64764794d869e",
+      "command_exit": 1,
+      "local_raw_sha256": "72cc5c804a6de1c1d170693508d9096a6dc682b72c34893088e64764794d869e",
+      "redaction": "none (already safe)"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/static-checks.log",
+      "bytes": 750,
+      "sha256": "a33bea750153746af71100853598494d7e0efba6b0b6a8491c1cbc6ca3450c91",
+      "command_exit": 0,
+      "local_raw_sha256": "a33bea750153746af71100853598494d7e0efba6b0b6a8491c1cbc6ca3450c91",
+      "redaction": "none (already safe)"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/test-plan.md",
+      "bytes": 8892,
+      "sha256": "9e13f459ce51bdceb488356779862dd89caa6da4a87e44dc2b1267b9b07010fe"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/candidate-source-exec4.json",
+      "bytes": 336,
+      "sha256": "c206467efadac965bd1f7d314274cf1ae37fab900967ab0c698bd8b3f953a1a1"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/candidate-test-code-exec4.sha256",
+      "bytes": 215,
+      "sha256": "57d045d9c88ad570576a372fe1f4eb25cfa7da58808d754d0079579648df12b0"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/evidence-index-exec4.json",
+      "bytes": 6730,
+      "sha256": "402d43af427ef33faf818c2b4ef1f5c5ea176391ec5057acea04e518baed74c5"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/evidence-index-exec6.json",
+      "bytes": 1946,
+      "sha256": "1b44b3b7b0e6274d493df5c63d8c29680dada1c2799a4ba8f4bc224aed7d7537"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/frontend-exec6.log",
+      "bytes": 21790,
+      "sha256": "e6ada26a508f4ecd725b05b366ba9bc61679cc89e35b762e58866f42e66c1622"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/frontend-locked-exec6.log",
+      "bytes": 1481,
+      "sha256": "d29d3f6a15e049d7c52d216ee5baef22935f6201fdc02cac95cadcfba798d701"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/host-return-exec6.md",
+      "bytes": 6647,
+      "sha256": "9239b90fa123d2dc2da542c1f5aa470b32149b74a721289d9381b89fab8e2403"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/host-tests5-full.log",
+      "bytes": 483297,
+      "sha256": "fa5961f25f65accec113d6bd88c05084e5c8ad65a6b0745a51541fbf34db2aa8"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/host-tests5-selection.jsonl",
+      "bytes": 994029,
+      "sha256": "a7b31ee0f35c2bbdc7a017bce8c212e2ad87e22ef93f5e63e1877a97d59a34a7"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/host-tests5-state.json",
+      "bytes": 2764,
+      "sha256": "3e3f4506eb653cf604e7c35c8b7234ee93064750d76e09f43b1e5d12976ee1df"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/metering-parallel-inprocess-exec6.log",
+      "bytes": 78503,
+      "sha256": "1cd0a79dc119c70a5b2125d10f941ce3a3bc20581d1b7dbb2cf566c27efc63de"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/static-exec6.log",
+      "bytes": 1060,
+      "sha256": "245e4e5f898954cc639747bc85a1d5d50230fe0e34dd5a8c176a5d61b1551aae"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/host-return-exec8.md",
+      "bytes": 7402,
+      "sha256": "e6b0ab6d083308f81d3ae25235e6b76f4568652d7f97f8bd6b9e0f7d93d069f6"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/host-tests7-state.json",
+      "bytes": 2764,
+      "sha256": "32d830fab7bba11eea6438105f857530694525aaaf370fa9388c4f7b671ee23a"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/host-tests7-full.log",
+      "bytes": 496183,
+      "sha256": "856d2529c78a86d16ad1f36bc8333b9f72354ad861ec904fe12907a1f88371f1"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/host-tests7-selection.jsonl",
+      "bytes": 4618,
+      "sha256": "c07e78aa17a0f01bf21118071e61eee9be3907f696dabb2c531200736a85074f"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/metering-scheduling-before-exec8.log",
+      "bytes": 2335,
+      "sha256": "92515dc908ccc15fbc99ed65aa499392c6e3b35a7c87b11b20758b4063ce3e50"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/metering-scheduling-after-exec8.log",
+      "bytes": 3193,
+      "sha256": "b88540604a44733fd1770b1cd038eb9b7019873a80557264493033b30667d8cd"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/metering-combined-exec8.log",
+      "bytes": 82975,
+      "sha256": "2faf1ae185de799298e687e8b28b54a98ee2784b0f5ca8b0e4337d2118c6f800"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/static-exec8.log",
+      "bytes": 1060,
+      "sha256": "f7b916db2aa448125d6b43ecf61cc297d86232cc4b2fc3ce889f97f39b42d2fc"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/evidence-index-exec8.json",
+      "bytes": 3017,
+      "sha256": "81429823a14155158ebcf5af484e1f10ea0c90af3515353dedaceb09c483646e"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/candidate-source-exec6.json",
+      "bytes": 336,
+      "sha256": "02043816b578d7f02d7e1be13b119f1589fd1fd286434016baa3d1cac1af36e9"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/candidate-test-code-exec6.sha256",
+      "bytes": 522,
+      "sha256": "94845655fec32452388208e83a2676823f442fbee1c9f31acb094b0acbd0b97c"
+    },
+    {
+      "path": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/evidence-index-current-exec6.json",
+      "bytes": 9656,
+      "sha256": "337ae7e372b8060599159fae7e0379cedb4fde44b539216cdee407f21fdacd36"
+    }
+  ],
+  "previous_candidate_working_tree_sha256": "078e1aa1c31f63fa98308db68e3e6fa5c29d2554409c3f498d2f1c6af4921019",
+  "execution6_index": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/evidence-index-exec6.json",
+  "execution8_index": "docs/workflow/runs/637705186406b80a2ee4afaf0d6b2167/verification/evidence-index-exec8.json"
+}

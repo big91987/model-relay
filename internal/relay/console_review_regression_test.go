@@ -5,8 +5,14 @@ import (
 	"time"
 )
 
-func TestConsoleReviewZeroSoftBudgetInProcess(test *testing.T)  { reviewZeroSoftBudget(test, false) }
-func TestConsoleReviewZeroSoftBudgetActualHTTP(test *testing.T) { reviewZeroSoftBudget(test, true) }
+func TestConsoleReviewZeroSoftBudgetInProcess(test *testing.T) {
+	test.Parallel()
+	reviewZeroSoftBudget(test, false)
+}
+func TestConsoleReviewZeroSoftBudgetActualHTTP(test *testing.T) {
+	test.Parallel()
+	reviewZeroSoftBudget(test, true)
+}
 
 func reviewZeroSoftBudget(test *testing.T, actual bool) {
 	for _, scope := range []string{"tenant", "key"} {
@@ -70,8 +76,14 @@ func reviewZeroSoftBudget(test *testing.T, actual bool) {
 	}
 }
 
-func TestConsoleReviewClockRollbackInProcess(test *testing.T)  { reviewClockRollback(test, false) }
-func TestConsoleReviewClockRollbackActualHTTP(test *testing.T) { reviewClockRollback(test, true) }
+func TestConsoleReviewClockRollbackInProcess(test *testing.T) {
+	test.Parallel()
+	reviewClockRollback(test, false)
+}
+func TestConsoleReviewClockRollbackActualHTTP(test *testing.T) {
+	test.Parallel()
+	reviewClockRollback(test, true)
+}
 
 func reviewClockRollback(test *testing.T, actual bool) {
 	fixture := singleResourceInstallation(test, actual)

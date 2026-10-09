@@ -1,0 +1,19 @@
+format_exit=0
+all modules verified
+modules_exit=0
+go vet ./...
+vet_exit=0
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+build_exit=0
+ok  	model-relay/cmd/model-relay	(cached) [no tests to run]
+ok  	model-relay/internal/relay	0.861s [no tests to run]
+ok  	model-relay/tests/browser	(cached) [no tests to run]
+?   	model-relay/tests/browser/legacy	[no test files]
+?   	model-relay/tests/browser/schema2	[no test files]
+?   	model-relay/tests/evidence	[no test files]
+ok  	model-relay/tests/health-history	(cached) [no tests to run]
+ok  	model-relay/tests/review-history	(cached) [no tests to run]
+ok  	model-relay/tests/verification	(cached) [no tests to run]
+ok  	model-relay/tests/verify	(cached) [no tests to run]
+compile_all_exit=0
+diff_check_exit=0

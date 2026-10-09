@@ -177,8 +177,14 @@ func resourceMatrixScenario(test *testing.T, actual bool) {
 	}
 }
 
-func TestConsoleSharedResourcesInProcess(test *testing.T)  { sharedResourcesScenario(test, false) }
-func TestConsoleSharedResourcesActualHTTP(test *testing.T) { sharedResourcesScenario(test, true) }
+func TestConsoleSharedResourcesInProcess(test *testing.T) {
+	test.Parallel()
+	sharedResourcesScenario(test, false)
+}
+func TestConsoleSharedResourcesActualHTTP(test *testing.T) {
+	test.Parallel()
+	sharedResourcesScenario(test, true)
+}
 
 func sharedResourcesScenario(test *testing.T, actual bool) {
 	for _, mode := range []string{"multi_key", "old_new_generation"} {

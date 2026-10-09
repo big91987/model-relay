@@ -10,8 +10,14 @@ import (
 	"time"
 )
 
-func TestConsoleClockQueuedDeadlineInProcess(test *testing.T)  { clockQueuedDeadline(test, false) }
-func TestConsoleClockQueuedDeadlineActualHTTP(test *testing.T) { clockQueuedDeadline(test, true) }
+func TestConsoleClockQueuedDeadlineInProcess(test *testing.T) {
+	test.Parallel()
+	clockQueuedDeadline(test, false)
+}
+func TestConsoleClockQueuedDeadlineActualHTTP(test *testing.T) {
+	test.Parallel()
+	clockQueuedDeadline(test, true)
+}
 
 func clockQueuedDeadline(test *testing.T, actual bool) {
 	for _, boundary := range []string{"models", "invitation"} {

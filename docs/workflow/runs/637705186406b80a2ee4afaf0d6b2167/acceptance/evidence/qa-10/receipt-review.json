@@ -1,0 +1,39 @@
+{
+  "connector_execution": 9,
+  "connector_exit": 0,
+  "connector_reported_bytes": 499596,
+  "connector_truncated": false,
+  "receipt_path": "test-results/verification/20261009T131347Z-1173031951",
+  "runner_log_bytes": 499499,
+  "runner_log_sha256": "c93e9625fdd4cd5c51ebf97c7838cd37c887972ccf672e67182d6b5ce4484021",
+  "prefix_bytes": 97,
+  "reconstructed_connector_sha256": "ac6cc0d59ed5c6515c29571ac45a9bf8e7f66b8a8bb0c81acf51f747d58c66c3",
+  "reconstruction_limit": "reconstructed from runner log verified against state plus observed Connector prefix; retained Connector beginning/end sampled, middle not bytewise compared",
+  "elapsed_seconds": 698.502,
+  "source": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "2dfe14a3c305c13621f23b7dd287a8313b7e4f39ab64b8281d283450d125d8ed"
+  },
+  "top_level_gate": "Pass",
+  "expected_runner_failures": 11,
+  "browser_phases": [
+    "BROWSER_PHASE name=migration state=start utc=2026-10-09T13:20:13.193247Z",
+    "BROWSER_PHASE name=migration state=end utc=2026-10-09T13:20:28.034418Z elapsed_ms=14841 ok=true",
+    "BROWSER_PHASE name=legacy-ui state=start utc=2026-10-09T13:20:28.168237Z",
+    "BROWSER_PHASE name=legacy-ui state=end utc=2026-10-09T13:22:05.864286Z elapsed_ms=97695 ok=true",
+    "BROWSER_PHASE name=routing state=start utc=2026-10-09T13:22:05.864407Z",
+    "BROWSER_PHASE name=routing state=end utc=2026-10-09T13:24:17.12998Z elapsed_ms=131265 ok=true",
+    "BROWSER_PHASE name=console state=start utc=2026-10-09T13:24:17.130972Z",
+    "BROWSER_PHASE name=console state=end utc=2026-10-09T13:24:32.563548Z elapsed_ms=15432 ok=true",
+    "BROWSER_PHASE name=full-console state=start utc=2026-10-09T13:24:32.56356Z",
+    "BROWSER_PHASE name=full-console state=end utc=2026-10-09T13:25:25.280833Z elapsed_ms=52717 ok=true"
+  ],
+  "skipped": [
+    "--- SKIP: TestConsoleClockRecoveryWorker (0.00s)"
+  ],
+  "text_scan": "no personal absolute paths, auth-header payloads or sk-style keys in archived text; PNG helpers assert cleared secrets/storage; QA visually sampled desktop/narrow finals",
+  "supplier_result": "Blocked; not supplier validation"
+}

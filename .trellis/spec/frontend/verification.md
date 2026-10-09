@@ -1,5 +1,17 @@
 # UI verification
 
+## Host tests7 cooling observation outcome
+
+The same-source host tests7 receipt (`078e1aa1…`) observed status200, one matching model/target row, two candidates, one cooling candidate, zero expired/failed, and rendered cooling at1280/390px; minimum remaining times were29732/29752ms. Both original routing journeys, including31-second natural recovery, completed. These are controlled real-Go-browser facts for that candidate, not live supplier evidence or proof of the new scheduling candidate. Full verification still failed: the cumulative twelve-minute deadline terminated full-console1440px J03 after completed1280px full-console. Do not repair J03 or cooldown rendering from this cancellation alone, extend waits/deadline, or count earlier phases as a full-gate pass. Preserve the exec5 failure and exec7 complete state/log separately.
+
+## Routing cooldown boundary after host tests5
+
+The twelve-minute fixed gate terminated while the390px journey awaited the original `#model-list` cooling text. The prior1280px journey passed; no390px cooling API/DOM projection existed. Do not attribute this to product rendering, native selection, expired cooldown or cumulative scheduling without the next actual receipt. No timeout, cooldown wait or original assertion is relaxed.
+
+`cooldownObservation(value, alias, now = Date.now())` in `tests/browser/cooldown-observation.mjs` projects the actual UI-triggered models response to numeric model/target/candidate counts, next-page boolean, allowlisted cooling/expired/failed counts and finite minimum remaining milliseconds. `routing.mjs` arms the GET before native navigation, emits `routing_cooldown` with HTTP status, width, UTC, exact-target button count and cooling-text boolean, and retains it in the safe failure projection. This is a read-boundary snapshot; response receipt does not prove DOM rendering has settled. It makes no new request, retries no action and emits no alias, cursor, upstream ID, body, credential or error message. Reset the projection per viewport so a previous width is not misattributed.
+
+Good: API cooling positive + target row absent distinguishes an API fact from a rendering question. Base: missing target/expired cooldown remains explicit evidence, not a guessed product failure. Bad: dump the response, accept any model as the target, remove the original assertion, or use the projection fixture to claim native success. Required Node tests cover target isolation, absent/malformed data, expired/invalid dates and private-field exclusion in the unchanged wildcard gate; host must still execute the original full journey.
+
 ## Completed review exact-identity gate after seq19
 `routing.mjs` obtains `call_evidence.request_id` from the actual overview GET triggered by UI navigation, not from a seed or the last locally generated ID. Before native activation of the moved `overview-record` button, arm the exact `GET /admin/api/requests/<encoded-id>` response; require HTTP200, matching response ID, visible detail, matching lookup input and the same first detail line. Preserve zero pending/five completed rows, default closed details, native Tab/Enter with visible focus, expansion and return/collapse assertions at both widths.
 

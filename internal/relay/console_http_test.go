@@ -16,10 +16,12 @@ import (
 )
 
 func TestConsoleActualHTTPQuotaBillingAndSSE(testContext *testing.T) {
+	testContext.Parallel()
 	consoleAccountingScenario(testContext, true)
 }
 
 func TestConsoleAccountingInProcess(testContext *testing.T) {
+	testContext.Parallel()
 	consoleAccountingScenario(testContext, false)
 }
 

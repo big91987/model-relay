@@ -1,0 +1,34 @@
+{
+  "qa_execution": 23,
+  "qa_date": "2026-10-10",
+  "source_unchanged": true,
+  "go": {
+    "command": "go test -race -count=1 -v ./internal/relay -parallel=4 -run '^TestMetering(SafetyInProcess|TerminalInProcess|WindowsInProcess|CompetitionInProcess|BoundViolationInProcess|UndispatchedInProcess|CancellationInProcess|TimeoutInProcess)$'",
+    "exit": 0,
+    "top_level_pass": 8,
+    "elapsed_seconds": 21.991,
+    "real_http": false
+  },
+  "node": {
+    "command": "node --test tests/browser/{capture-integrity,readability,console-summary,cooldown-observation}.test.mjs",
+    "exit": 0,
+    "tests": 53,
+    "skips": 0,
+    "browser": false
+  },
+  "host_numeric_reconciliation": {
+    "phases": {
+      "bounded_complete": 12,
+      "rpm_recovered": 8,
+      "unknown_carry": 8,
+      "known_with_pending": 8,
+      "pending_across_minute": 8,
+      "reconciled_old_minute": 16,
+      "undispatched_settled": 2
+    },
+    "all_snapshots": 214
+  },
+  "png_integrity_hash_matches": 45,
+  "qa_browser_reexecution": "Not Run; current same-source tests22 host UI evidence reviewed",
+  "supplier_requests": 0
+}
