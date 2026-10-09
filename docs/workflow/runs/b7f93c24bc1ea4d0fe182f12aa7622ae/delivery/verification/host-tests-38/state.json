@@ -1,0 +1,132 @@
+{
+  "started_utc": "2026-10-09T06:33:15.943627Z",
+  "finished_utc": "2026-10-09T06:44:41.916723Z",
+  "command": "make verify -\u003e isolated make verify-gates",
+  "isolation": "new private candidate; git history read-only",
+  "node_modules_before": false,
+  "clean_start_measured": true,
+  "npm_cache_before": false,
+  "node_modules_after": true,
+  "npm_cache_after": true,
+  "source_unchanged": true,
+  "candidate_unchanged": true,
+  "NODE_PATH": "unset",
+  "manual_preinstall": "none",
+  "source_before": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "cd3175b1ec0a5254aa6460274b3921b56d8cf4639d0485d95e2603280d4d9e45"
+  },
+  "source_after": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "cd3175b1ec0a5254aa6460274b3921b56d8cf4639d0485d95e2603280d4d9e45"
+  },
+  "versions": {
+    "go": "go version go1.25.6 darwin/arm64",
+    "node": "v26.0.0",
+    "npm": "11.12.1"
+  },
+  "gate_exit": 2,
+  "exit_code": 1,
+  "log_sha256": "2d66a94afd054763a0e42ba616ad62d5ce31d122077f3e15e92e50be05a2e610",
+  "log_bytes": 560672,
+  "cleanup": "owned_process_group_cleanup_attempted; candidate_removed",
+  "owned_group_absent": true,
+  "auxiliary_commands": [
+    {
+      "stage": "source-inventory",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-09T06:33:15.94414Z",
+      "budget_ms": 119999,
+      "execute_ms": 24,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "git-directory",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-09T06:33:19.680517Z",
+      "budget_ms": 119999,
+      "execute_ms": 15,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-09T06:33:19.696209Z",
+      "budget_ms": 119999,
+      "execute_ms": 2386,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-09T06:33:22.082908Z",
+      "budget_ms": 119999,
+      "execute_ms": 78,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "prerequisite-go",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-09T06:33:22.16158Z",
+      "budget_ms": 119999,
+      "execute_ms": 6,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "prerequisite-node",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-09T06:33:22.168511Z",
+      "budget_ms": 119999,
+      "execute_ms": 22,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "prerequisite-npm",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-09T06:33:22.191358Z",
+      "budget_ms": 119999,
+      "execute_ms": 126,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-09T06:44:41.053552Z",
+      "budget_ms": 119999,
+      "execute_ms": 192,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-09T06:44:41.246151Z",
+      "budget_ms": 119999,
+      "execute_ms": 133,
+      "group_check_ms": 0
+    }
+  ]
+}

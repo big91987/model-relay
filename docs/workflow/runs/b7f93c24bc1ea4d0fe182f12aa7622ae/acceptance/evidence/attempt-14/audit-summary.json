@@ -1,0 +1,102 @@
+{
+  "qa_execution": 14,
+  "checked_utc": "2026-10-09T01:41:23.066Z",
+  "candidate": {
+    "files": 152,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "65201f488ae0969684625a92c23fb2c1e76bed30916b2c92a405b1e9e00f92a9"
+  },
+  "host_source_matches": true,
+  "archive": {
+    "files": 210,
+    "png": 181,
+    "bytes": 24952711,
+    "all_bytes_match": true
+  },
+  "log": {
+    "bytes": 373368,
+    "sha256": "eeba757fc1f4728aeaab9c844a8aa274969f44c0638b9f7fa04b1609242b105c",
+    "state_match": true,
+    "connector_wrapper_bytes": 373465,
+    "wrapper_is_not_raw_verify_log": true,
+    "node": [
+      "ℹ tests 227",
+      "ℹ pass 227",
+      "ℹ fail 0",
+      "ℹ skipped 0"
+    ]
+  },
+  "material": {
+    "version": "design-v0.2.0",
+    "status": "frozen-for-test-implementation",
+    "archive_sha256": "5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7",
+    "references": [
+      {
+        "path": "docs/prd.md",
+        "sha256": "e768b4f26b4471e714d92b0db6e3187c89f37a25a697c01a12c6079af07de547",
+        "bytes": 12605,
+        "actual_sha256": "e768b4f26b4471e714d92b0db6e3187c89f37a25a697c01a12c6079af07de547",
+        "match": true,
+        "actual_path": ".workflow-input/b7f93c24bc1ea4d0fe182f12aa7622ae/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/docs/prd.md"
+      },
+      {
+        "path": "docs/interactions.md",
+        "sha256": "95f3490ef003fa9b19dd6b9e864dd3b0429619b8cd9d0ecec853919d6a12c801",
+        "bytes": 6329,
+        "actual_sha256": "95f3490ef003fa9b19dd6b9e864dd3b0429619b8cd9d0ecec853919d6a12c801",
+        "match": true,
+        "actual_path": ".workflow-input/b7f93c24bc1ea4d0fe182f12aa7622ae/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/docs/interactions.md"
+      },
+      {
+        "path": "docs/acceptance.md",
+        "sha256": "2792740b1579d614780856a13b6257d192736e1efc0309f1dc41405a665bef7a",
+        "bytes": 5730,
+        "actual_sha256": "2792740b1579d614780856a13b6257d192736e1efc0309f1dc41405a665bef7a",
+        "match": true,
+        "actual_path": ".workflow-input/b7f93c24bc1ea4d0fe182f12aa7622ae/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/docs/acceptance.md"
+      }
+    ]
+  },
+  "visual_receipts": [
+    {
+      "width": 1280,
+      "pages": 10,
+      "result": "passed",
+      "screenshotCount": 27,
+      "screenshot_sha256_match": true,
+      "root_all_fit": true,
+      "secrets_clear": true
+    },
+    {
+      "width": 1440,
+      "pages": 10,
+      "result": "passed",
+      "screenshotCount": 24,
+      "screenshot_sha256_match": true,
+      "root_all_fit": true,
+      "secrets_clear": true
+    },
+    {
+      "width": 390,
+      "pages": 10,
+      "result": "passed",
+      "screenshotCount": 38,
+      "screenshot_sha256_match": true,
+      "root_all_fit": true,
+      "secrets_clear": true
+    }
+  ],
+  "qa_local_execution": {
+    "fixed_make_verify": "Not Run: unchanged documented sandbox listener limit; same-version host execution13 accepted for behavioral gate",
+    "source_audit": "Pass with workspace GOCACHE; initial default cache denied, no escalation",
+    "png_decode": "all181 decoded; four fully uniform; nonuniform is not a visual pass"
+  },
+  "security": {
+    "textFiles": 29,
+    "personal_host_paths_found": false,
+    "full_key_pattern_found": false,
+    "limits": "pattern checks and viewed screenshot review, not comprehensive secret proof"
+  }
+}

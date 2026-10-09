@@ -1,0 +1,45 @@
+✔ capture requires pixels in title and main content, not only nonuniform sidebar (4.080625ms)
+✔ original PNG uniformity distinguishes a whole blank image from sidebar-only ink without accepting either (1.611916ms)
+✔ render diagnostics whitelist ancestors, lifecycle and hit ownership without text or CSS payloads (0.979291ms)
+✔ render observer failure remains unavailable, never serialized as a raw browser error (0.134958ms)
+✔ single-capture lifecycle distinguishes transient viewport and visibility from stable endpoints (0.680084ms)
+✔ lifecycle samples are bounded and observers dispose on success or failure without raw errors (0.417625ms)
+✔ compositor observer bounds layer and paint events and never records protocol payloads (1.443833ms)
+✔ missing compositor domain or layout is unavailable, not proof of rendering (0.138958ms)
+✔ capture detaches compositor on original pixel failure without another screenshot (4.65325ms)
+✔ capture rejects displaced content and geometry movement without retry (0.76125ms)
+✔ live boundary whitelist captures viewport, root, scroll owners and table ink anchors without text (0.966667ms)
+✔ content anchor respects table clipping instead of sampling an occluded header (2.983ms)
+✔ clipping does not remove the mandatory substantive anchor or misplace document coordinates (0.886ms)
+✔ content anchor excludes a header covered by the scroll container border (0.38875ms)
+✔ PNG audit rejects unsupported and incomplete bytes (0.197833ms)
+✔ failed capture preserves image receipt and original error identity with bounded facts (3.168208ms)
+✔ diagnostic observer does not replace the original failure or retry the single PNG (1.008542ms)
+✔ successful capture names persisted sidecar and original PNG digest (0.979208ms)
+✔ all visual and continuous/self-hosted screenshots use integrity gate after existing secret checks (0.741417ms)
+✔ known call, check, invitation, source and role labels express the actual business result (1.084416ms)
+✔ unknown enum values remain distinguishable and prototype keys cannot pretend to be states (0.084792ms)
+✔ full technical identifiers use native text, retain exact content and expose keyboard scroll access (0.086834ms)
+✔ technical region names preserve each public identity instead of replacing it with scroll instructions (0.07625ms)
+✔ empty error codes are absent facts, not empty scrollable identifiers (0.0475ms)
+✔ readability gate rejects overflow, hidden or clipped identifiers and unreachable table columns (0.753125ms)
+✔ failed native layout evidence retains bounded facts, never arbitrary page text or paths (0.921ms)
+✔ scroll driver measures the open dialog instead of trying to focus inert background tables (0.168167ms)
+✔ scroll boundary diagnostic retains only finite geometry and boolean hit facts (0.240625ms)
+✔ passive event diagnostics are bounded, phase-labelled and removed without driving the page (0.991959ms)
+✔ document capture observes wheel outside the region without recording target identity (0.450167ms)
+✔ event receipts whitelist fields and dispose unavailable diagnostics (0.1725ms)
+✔ keyboard completion requires own-region movement then scrollend, with bounded timeout and cleanup (0.935459ms)
+✔ wheel completion requires trusted own-region delivery, not preexisting edge geometry (1.1155ms)
+✔ one wheel must complete before capture even when keyboard already reached the edge (0.894625ms)
+✔ rightmost timeout preserves original assertion and one native input sequence with bounded before/after evidence (0.524292ms)
+✔ wheel waits for keyboard completion and does not run after a missing completion (0.38525ms)
+✔ original right-column capture failure retains events observed through capture and disposes once (0.453083ms)
+ℹ tests 37
+ℹ suites 0
+ℹ pass 37
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 103.389167

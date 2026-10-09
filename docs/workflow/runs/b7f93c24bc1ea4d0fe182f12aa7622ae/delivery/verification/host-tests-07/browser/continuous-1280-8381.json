@@ -1,0 +1,99 @@
+{
+  "suite": "continuous-console",
+  "width": 1280,
+  "result": "failed",
+  "stage": "visual-overview",
+  "action": "navigation",
+  "last_status": 200,
+  "initial_counts": {
+    "upstreams": 0,
+    "models": 0,
+    "tenants": 0
+  },
+  "call_facts": {
+    "expected_status": 200,
+    "dispatch_delta": 1
+  },
+  "usage_facts": {
+    "period_same": true,
+    "fee_micro_usd": {
+      "before": "126",
+      "after": "126"
+    },
+    "reserved_micro_usd": {
+      "before": "0",
+      "after": "0"
+    },
+    "calls": {
+      "before": 9,
+      "after": 9
+    },
+    "pending": {
+      "before": 0,
+      "after": 0
+    },
+    "concurrency": {
+      "before": 0,
+      "after": 0
+    }
+  },
+  "read_facts": {
+    "expected_status": 200,
+    "actual_status": 200
+  },
+  "membership_facts": {
+    "role": "finance",
+    "diagnostic_count": 0,
+    "tenant_count": 0,
+    "tenant_option_count": 0
+  },
+  "ledger_facts": {
+    "entries": 2,
+    "fee": "21",
+    "cost": "7",
+    "input_tokens": "3",
+    "output_tokens": "4"
+  },
+  "self_hosted_facts": {},
+  "self_hosted_progress": {
+    "steps": [],
+    "screenshots": []
+  },
+  "failure_boundary": {
+    "available": false
+  },
+  "summary_cell": {
+    "available": false
+  },
+  "readability_facts": {
+    "available": true,
+    "boundary": "rightmost-column",
+    "keyboard_scrolled_tables": 0,
+    "keyboard_scrolled_identifiers": 0,
+    "root_fits": true,
+    "tables_accessible": true,
+    "headers_unbroken": true,
+    "identifiers_complete": true,
+    "actions_unbroken": true,
+    "tables": 2,
+    "identifiers": 2,
+    "overflowing_tables": 1,
+    "overflowing_identifiers": 0
+  },
+  "checkpoints": [
+    "J01",
+    "J02",
+    "J03",
+    "J04",
+    "J05",
+    "J07",
+    "J06"
+  ],
+  "error_kind": "timeout",
+  "editor_open": false,
+  "editor_invalid": 0,
+  "editor_failure": false,
+  "content_loading": false,
+  "workspace_visible": true,
+  "secret_present": false
+}

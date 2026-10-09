@@ -1,0 +1,65 @@
+[
+  {
+    "name": "source-before",
+    "command": "go run ./tests/evidence",
+    "started_utc": "2026-10-09T03:09:08.515Z",
+    "finished_utc": "2026-10-09T03:09:08.686Z",
+    "exit_code": 0,
+    "scope": "local_not_complete_host_gate",
+    "log": "source-before.log"
+  },
+  {
+    "name": "node-current",
+    "command": "node --test tests/browser/*.test.mjs",
+    "started_utc": "2026-10-09T03:09:08.687Z",
+    "finished_utc": "2026-10-09T03:09:09.051Z",
+    "exit_code": 1,
+    "scope": "local_not_complete_host_gate",
+    "log": "node-current.log"
+  },
+  {
+    "name": "node-targeted",
+    "command": "node --test tests/browser/capture-integrity.test.mjs tests/browser/console-visual.test.mjs tests/browser/journeys.test.mjs tests/browser/readability.test.mjs",
+    "started_utc": "2026-10-09T03:09:54.760Z",
+    "finished_utc": "2026-10-09T03:09:54.938Z",
+    "exit_code": 0,
+    "scope": "local_not_complete_host_gate",
+    "log": "node-targeted.log"
+  },
+  {
+    "name": "static",
+    "command": "make format-check vet build",
+    "started_utc": "2026-10-09T03:09:54.940Z",
+    "finished_utc": "2026-10-09T03:09:55.498Z",
+    "exit_code": 0,
+    "scope": "local_not_complete_host_gate",
+    "log": "static.log"
+  },
+  {
+    "name": "go-fixture",
+    "command": "go test -race ./tests/browser -run \"^TestContinuousUpstream(Response|Stream)Contract$\" -count=1 -v",
+    "started_utc": "2026-10-09T03:09:55.498Z",
+    "finished_utc": "2026-10-09T03:10:00.901Z",
+    "exit_code": 0,
+    "scope": "local_not_complete_host_gate",
+    "log": "go-fixture.log"
+  },
+  {
+    "name": "syntax-diff",
+    "command": "node --check tests/browser/capture-integrity.mjs && node --check tests/browser/capture-integrity.test.mjs && git diff --check",
+    "started_utc": "2026-10-09T03:10:00.901Z",
+    "finished_utc": "2026-10-09T03:10:01.040Z",
+    "exit_code": 0,
+    "scope": "local_not_complete_host_gate",
+    "log": "syntax-diff.log"
+  },
+  {
+    "name": "source-after",
+    "command": "go run ./tests/evidence",
+    "started_utc": "2026-10-09T03:10:01.040Z",
+    "finished_utc": "2026-10-09T03:10:01.128Z",
+    "exit_code": 0,
+    "scope": "local_not_complete_host_gate",
+    "log": "source-after.log"
+  }
+]

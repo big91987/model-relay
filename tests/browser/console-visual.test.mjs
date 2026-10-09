@@ -3,7 +3,75 @@ import {test} from 'node:test';
 import {mkdtemp,readFile,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
-import {assertCaptureFacts,consoleVisualReview,overviewReadFact,visualEditorControl,visualPages} from './console-visual.mjs';
+import {assertCaptureFacts,assertModalClosed,assertModalScrollFacts,closeVisualModal,consoleVisualReview,modalCloseFailureFacts,overviewReadFact,visualEditorControl,visualPages} from './console-visual.mjs';
+
+test('modal scroll contract requires native ownership, clipped background, internal scroll and focus',()=>{
+  const facts={native_modal:true,root_overflow:'clip',body_position:'fixed',dialog_overflow:'auto',background_scroll_delta:0,focus_inside:true};
+  assertModalScrollFacts(facts);
+  for(const [field,value] of Object.entries({native_modal:false,root_overflow:'hidden',body_position:'static',dialog_overflow:'clip',background_scroll_delta:145,focus_inside:false})) {
+    assert.throws(()=>assertModalScrollFacts({...facts,[field]:value}));
+  }
+  assert.throws(()=>assertModalScrollFacts({...facts,background_scroll_delta:null}));
+});
+
+test('modal close contract rejects a remaining modal, retained root lock or lost trigger focus',async()=>{
+  const check=(facts,focused)=>assertModalClosed({evaluate:async()=>facts},{evaluate:async()=>({focused})});
+  await check({modal_open:false,root_overflow:'visible'},true);
+  await assert.rejects(check({modal_open:true,root_overflow:'visible'},true));
+  await assert.rejects(check({modal_open:false,root_overflow:'clip'},true));
+  await assert.rejects(check({modal_open:false,root_overflow:'visible',body_position:'fixed'},true));
+  await assert.rejects(check({modal_open:false,root_overflow:'visible'},false));
+});
+
+test('modal close failures identify the exact unchanged assertion with safe facts',async()=>{
+  const base={modal_open:false,root_overflow:'visible',body_position:'static',body_lock_class:false,scroll_x:0,scroll_y:37};
+  const trigger={connected:true,focused:true,focus_in_dialog:false,focus_is_body:false,focus_is_root:false};
+  const event={available:true,close_events:1,modal_open_at_event:false,body_locked_at_event:false,body_fixed_at_event:false,root_clipped_at_event:false};
+  for(const [boundary,override,focus] of [['native-ownership',{modal_open:true},true],['root-unlock',{root_overflow:'clip'},true],['body-unlock',{body_position:'fixed',body_lock_class:true},true],['trigger-focus',{},false]]) {
+    await assert.rejects(assertModalClosed({evaluate:async()=>({...base,...override,private:'never-log'})},{evaluate:async()=>({...trigger,focused:focus,private:'never-log'})},{evaluate:async()=>event}),error=>{
+      const facts=modalCloseFailureFacts(error);
+      assert.equal(facts.boundary,boundary);assert.equal(facts.trigger_focused,focus);assert.deepEqual(facts.event,event);
+      assert.equal(JSON.stringify(facts).includes('never-log'),false);
+      assert.equal(facts.scroll_y,37);
+      return true;
+    });
+  }
+  assert.deepEqual(modalCloseFailureFacts(new Error('never-log')),{available:false});
+});
+
+test('close observer is passive, records event delivery, and cleans up without retrying assertions',async()=>{
+  const sequence=[],listeners=new Map();
+  const body={classList:{contains:()=>false}},root={};
+  const dialog={addEventListener:(event,listener)=>listeners.set(event,listener),removeEventListener:(event,listener)=>{assert.equal(listeners.get(event),listener);listeners.delete(event);}};
+  const previous={document:globalThis.document,getComputedStyle:globalThis.getComputedStyle};
+  globalThis.document={body,documentElement:root,querySelector:selector=>selector==='#detail'?dialog:null};
+  globalThis.getComputedStyle=element=>element===body?{position:'static'}:{overflowY:'visible'};
+  let observed;
+  const page={evaluateHandle:async(callback,selector)=>{sequence.push('arm');observed=callback(selector);return {evaluate:async read=>read(observed),dispose:async()=>sequence.push('dispose')};},evaluate:async()=>({modal_open:false,root_overflow:'visible',body_position:'static'}),getByRole:()=>({click:async()=>{sequence.push('click');listeners.get('close')();}}),locator:()=>({waitFor:async()=>sequence.push('hidden')})};
+  try {
+    const result=await closeVisualModal(page,{evaluate:async()=>({focused:true})},'#detail','关闭详情');
+    assert.equal(result.event.close_events,1);assert.equal(result.event.body_fixed_at_event,false);
+    assert.deepEqual(sequence,['arm','click','hidden','dispose']);assert.equal(listeners.size,0);
+    page.getByRole=()=>({click:async()=>sequence.push('click')});
+    await assert.rejects(closeVisualModal(page,{evaluate:async()=>({focused:false})},'#detail','关闭详情'),error=>{
+      assert.equal(modalCloseFailureFacts(error).boundary,'trigger-focus');assert.equal(modalCloseFailureFacts(error).event.close_events,0);return true;
+    });
+    assert.equal(listeners.size,0);assert.equal(sequence.filter(item=>item==='click').length,2);
+  } finally {
+    for(const [name,value] of Object.entries(previous))if(value===undefined)delete globalThis[name];else globalThis[name]=value;
+  }
+});
+
+test('close observer cleanup cannot replace the original strict assertion failure',async()=>{
+  const page={evaluateHandle:async()=>({evaluate:async callback=>{
+    if(callback.toString().includes('finish'))throw new Error('private-cleanup');
+    return {available:true,close_events:0};
+  },dispose:async()=>{throw new Error('private-dispose');}}),evaluate:async()=>({modal_open:false,root_overflow:'visible',body_position:'fixed'}),getByRole:()=>({click:async()=>{}}),locator:()=>({waitFor:async()=>{}})};
+  await assert.rejects(closeVisualModal(page,{evaluate:async()=>({focused:true})},'#detail','关闭详情'),error=>{
+    assert.equal(error.name,'AssertionError');assert.equal(modalCloseFailureFacts(error).boundary,'body-unlock');
+    assert.equal(JSON.stringify(modalCloseFailureFacts(error)).includes('private-'),false);return true;
+  });
+});
 
 const passing=()=>({title:true,scope:true,role:true,ready:true,rootFits:true,secretsClear:true,columns:{field:true},text:{summary:true},actions:{edit:true},labels:{input:true},dataRows:1,form:false,cards:0});
 

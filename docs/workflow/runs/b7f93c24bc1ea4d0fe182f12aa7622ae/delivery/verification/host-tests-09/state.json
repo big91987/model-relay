@@ -1,0 +1,96 @@
+{
+  "started_utc": "2026-10-09T00:42:38.247388Z",
+  "finished_utc": "2026-10-09T00:53:32.689746Z",
+  "command": "make verify -\u003e isolated make verify-gates",
+  "isolation": "new private candidate; git history read-only",
+  "node_modules_before": false,
+  "clean_start_measured": true,
+  "npm_cache_before": false,
+  "node_modules_after": true,
+  "npm_cache_after": true,
+  "source_unchanged": true,
+  "candidate_unchanged": true,
+  "NODE_PATH": "unset",
+  "manual_preinstall": "none",
+  "source_before": {
+    "files": 152,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "74c0dc47b98bf629110fe011e0e9ce7f0e3e45a01e23a75de7f2fd60c4e837b0"
+  },
+  "source_after": {
+    "files": 152,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "74c0dc47b98bf629110fe011e0e9ce7f0e3e45a01e23a75de7f2fd60c4e837b0"
+  },
+  "versions": {
+    "go": "go version go1.25.6 darwin/arm64",
+    "node": "v26.0.0",
+    "npm": "11.12.1"
+  },
+  "gate_exit": 2,
+  "exit_code": 1,
+  "log_sha256": "2f4a62ffa1286c919d5f9f0227f6a8f0cd14282023986a38fccbd45b6c3ee31b",
+  "log_bytes": 356265,
+  "cleanup": "owned_process_group_cleanup_attempted; candidate_removed",
+  "owned_group_absent": true,
+  "auxiliary_commands": [
+    {
+      "stage": "source-inventory",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true
+    },
+    {
+      "stage": "git-directory",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true
+    },
+    {
+      "stage": "prerequisite-go",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true
+    },
+    {
+      "stage": "prerequisite-node",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true
+    },
+    {
+      "stage": "prerequisite-npm",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true
+    }
+  ]
+}

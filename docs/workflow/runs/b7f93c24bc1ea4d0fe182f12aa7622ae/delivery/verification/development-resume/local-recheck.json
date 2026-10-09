@@ -1,0 +1,101 @@
+[
+  {
+    "name": "source-final",
+    "command": "go run ./tests/evidence",
+    "started_utc": "2026-10-09T07:04:51.403Z",
+    "finished_utc": "2026-10-09T07:04:51.608Z",
+    "exit_code": 0,
+    "signal": null,
+    "scope": "local supplemental checks; not complete make verify; no browser or HTTP listening",
+    "log": "source-final.json",
+    "redacted": false
+  },
+  {
+    "name": "cancel-probe-diagnostic",
+    "command": "go test -race ./tests/verify -run \"^TestFixedRunnerReceipts$/^cancel_probe$\" -count=1 -v",
+    "started_utc": "2026-10-09T07:04:51.609Z",
+    "finished_utc": "2026-10-09T07:04:54.542Z",
+    "exit_code": 0,
+    "signal": null,
+    "scope": "local supplemental checks; not complete make verify; no browser or HTTP listening",
+    "log": "cancel-probe-diagnostic.log",
+    "redacted": false
+  },
+  {
+    "name": "go-runner",
+    "command": "go test -race ./tests/verify -count=1 -v",
+    "started_utc": "2026-10-09T07:04:54.542Z",
+    "finished_utc": "2026-10-09T07:05:03.283Z",
+    "exit_code": 0,
+    "signal": null,
+    "scope": "local supplemental checks; not complete make verify; no browser or HTTP listening",
+    "log": "go-runner-recheck.log",
+    "redacted": false
+  },
+  {
+    "name": "go-wiring",
+    "command": "go test -race ./tests/verification -count=1 -v",
+    "started_utc": "2026-10-09T07:05:03.283Z",
+    "finished_utc": "2026-10-09T07:05:05.520Z",
+    "exit_code": 0,
+    "signal": null,
+    "scope": "local supplemental checks; not complete make verify; no browser or HTTP listening",
+    "log": "go-wiring.log",
+    "redacted": false
+  },
+  {
+    "name": "static",
+    "command": "make format-check vet build",
+    "started_utc": "2026-10-09T07:05:05.521Z",
+    "finished_utc": "2026-10-09T07:05:06.132Z",
+    "exit_code": 0,
+    "signal": null,
+    "scope": "local supplemental checks; not complete make verify; no browser or HTTP listening",
+    "log": "static.log",
+    "redacted": false
+  },
+  {
+    "name": "go-fixture",
+    "command": "go test -race ./tests/browser -run \"^TestContinuousUpstream(Response|Stream)Contract$\" -count=1 -v",
+    "started_utc": "2026-10-09T07:05:06.132Z",
+    "finished_utc": "2026-10-09T07:05:08.387Z",
+    "exit_code": 0,
+    "signal": null,
+    "scope": "local supplemental checks; not complete make verify; no browser or HTTP listening",
+    "log": "go-fixture.log",
+    "redacted": true
+  },
+  {
+    "name": "node-targeted",
+    "command": "node --test tests/browser/capture-integrity.test.mjs tests/browser/console-visual.test.mjs tests/browser/journeys.test.mjs tests/browser/readability.test.mjs",
+    "started_utc": "2026-10-09T07:05:08.387Z",
+    "finished_utc": "2026-10-09T07:05:08.585Z",
+    "exit_code": 0,
+    "signal": null,
+    "scope": "local supplemental checks; not complete make verify; no browser or HTTP listening",
+    "log": "node-final.log",
+    "redacted": false
+  },
+  {
+    "name": "syntax-diff",
+    "command": "node --check tests/browser/capture-integrity.mjs && node --check tests/browser/capture-integrity.test.mjs && git diff --check",
+    "started_utc": "2026-10-09T07:05:08.585Z",
+    "finished_utc": "2026-10-09T07:05:08.699Z",
+    "exit_code": 0,
+    "signal": null,
+    "scope": "local supplemental checks; not complete make verify; no browser or HTTP listening",
+    "log": "syntax-diff.log",
+    "redacted": false
+  },
+  {
+    "name": "source-final-after",
+    "command": "go run ./tests/evidence",
+    "started_utc": "2026-10-09T07:05:08.699Z",
+    "finished_utc": "2026-10-09T07:05:08.786Z",
+    "exit_code": 0,
+    "signal": null,
+    "scope": "local supplemental checks; not complete make verify; no browser or HTTP listening",
+    "log": "source-final-after.json",
+    "redacted": false
+  }
+]

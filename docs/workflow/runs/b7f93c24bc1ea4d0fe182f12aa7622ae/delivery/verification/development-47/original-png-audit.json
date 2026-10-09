@@ -1,0 +1,1341 @@
+{
+  "execution": 46,
+  "source": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "88794346a0c678b418671a625365a555a28bd0626c2533492c692428cfc9a0a8"
+  },
+  "original_pixels_only": true,
+  "inspection_scope": "keys-editor at three widths; only 390 original PNG visually inspected in development47; not an independent QA review of all archived screenshots",
+  "audits": [
+    {
+      "width": 1280,
+      "png": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-46/browser/visual-1280/keys-editor.png",
+      "bytes": 175796,
+      "sha256": "301c9a37fc5de7661707e4e2f4c932e8ff6644abef2478cfcf889191424c5058",
+      "result": "passed",
+      "dialog_position": {
+        "before": "fixed",
+        "after": "fixed"
+      },
+      "before": {
+        "utc": "2026-11-01T00:00:00.000Z",
+        "window": {
+          "x": 0,
+          "y": 148,
+          "width": 1280,
+          "height": 900
+        },
+        "visual_viewport": {
+          "left": 0,
+          "top": 0,
+          "page_left": 0,
+          "page_top": 148,
+          "width": 1280,
+          "height": 900,
+          "scale": 1
+        },
+        "root": {
+          "left": 0,
+          "top": 0,
+          "width": 1280,
+          "height": 1148.5,
+          "scroll_left": 0,
+          "scroll_top": 148,
+          "client_width": 1280,
+          "client_height": 900,
+          "scroll_width": 1280,
+          "scroll_height": 1149
+        },
+        "body": {
+          "left": 0,
+          "top": 0,
+          "width": 1280,
+          "height": 1148.5,
+          "scroll_left": 0,
+          "scroll_top": 0,
+          "client_width": 1280,
+          "client_height": 1149,
+          "scroll_width": 1280,
+          "scroll_height": 1149
+        },
+        "main": {
+          "left": 226,
+          "top": 72,
+          "width": 1054,
+          "height": 1076.5,
+          "scroll_left": 0,
+          "scroll_top": 0,
+          "client_width": 1054,
+          "client_height": 1077,
+          "scroll_width": 1054,
+          "scroll_height": 1077
+        },
+        "content": {
+          "left": 330,
+          "top": 214.75,
+          "width": 620,
+          "height": 766.5,
+          "scroll_left": 0,
+          "scroll_top": 0,
+          "client_width": 618,
+          "client_height": 765,
+          "scroll_width": 618,
+          "scroll_height": 765
+        },
+        "dialog": true,
+        "dialog_position": "fixed",
+        "title": {
+          "left": 355,
+          "top": 239.75,
+          "width": 103.875,
+          "height": 27,
+          "scroll_left": 0,
+          "scroll_top": 0,
+          "client_width": 104,
+          "client_height": 27,
+          "scroll_width": 104,
+          "scroll_height": 27
+        },
+        "focus": {
+          "inside_content": true,
+          "technical_value": false,
+          "table_region": false,
+          "box": {
+            "left": 355,
+            "top": 325.75,
+            "width": 570,
+            "height": 39,
+            "scroll_left": 0,
+            "scroll_top": 0,
+            "client_width": 568,
+            "client_height": 37,
+            "scroll_width": 568,
+            "scroll_height": 37
+          }
+        },
+        "anchors": [
+          {
+            "left": 355,
+            "top": 239.75,
+            "width": 103.875,
+            "height": 27,
+            "scroll_left": 0,
+            "scroll_top": 0,
+            "client_width": 104,
+            "client_height": 27,
+            "scroll_width": 104,
+            "scroll_height": 27
+          },
+          {
+            "left": 355,
+            "top": 298.75,
+            "width": 570,
+            "height": 21,
+            "scroll_left": 0,
+            "scroll_top": 0,
+            "client_width": 570,
+            "client_height": 21,
+            "scroll_width": 570,
+            "scroll_height": 21
+          }
+        ],
+        "tables": [],
+        "tables_omitted": 0
+      },
+      "after": {
+        "utc": "2026-11-01T00:00:00.000Z",
+        "window": {
+          "x": 0,
+          "y": 148,
+          "width": 1280,
+          "height": 900
+        },
+        "visual_viewport": {
+          "left": 0,
+          "top": 0,
+          "page_left": 0,
+          "page_top": 148,
+          "width": 1280,
+          "height": 900,
+          "scale": 1
+        },
+        "root": {
+          "left": 0,
+          "top": 0,
+          "width": 1280,
+          "height": 1148.5,
+          "scroll_left": 0,
+          "scroll_top": 148,
+          "client_width": 1280,
+          "client_height": 900,
+          "scroll_width": 1280,
+          "scroll_height": 1149
+        },
+        "body": {
+          "left": 0,
+          "top": 0,
+          "width": 1280,
+          "height": 1148.5,
+          "scroll_left": 0,
+          "scroll_top": 0,
+          "client_width": 1280,
+          "client_height": 1149,
+          "scroll_width": 1280,
+          "scroll_height": 1149
+        },
+        "main": {
+          "left": 226,
+          "top": 72,
+          "width": 1054,
+          "height": 1076.5,
+          "scroll_left": 0,
+          "scroll_top": 0,
+          "client_width": 1054,
+          "client_height": 1077,
+          "scroll_width": 1054,
+          "scroll_height": 1077
+        },
+        "content": {
+          "left": 330,
+          "top": 214.75,
+          "width": 620,
+          "height": 766.5,
+          "scroll_left": 0,
+          "scroll_top": 0,
+          "client_width": 618,
+          "client_height": 765,
+          "scroll_width": 618,
+          "scroll_height": 765
+        },
+        "dialog": true,
+        "dialog_position": "fixed",
+        "title": {
+          "left": 355,
+          "top": 239.75,
+          "width": 103.875,
+          "height": 27,
+          "scroll_left": 0,
+          "scroll_top": 0,
+          "client_width": 104,
+          "client_height": 27,
+          "scroll_width": 104,
+          "scroll_height": 27
+        },
+        "focus": {
+          "inside_content": true,
+          "technical_value": false,
+          "table_region": false,
+          "box": {
+            "left": 355,
+            "top": 325.75,
+            "width": 570,
+            "height": 39,
+            "scroll_left": 0,
+            "scroll_top": 0,
+            "client_width": 568,
+            "client_height": 37,
+            "scroll_width": 568,
+            "scroll_height": 37
+          }
+        },
+        "anchors": [
+          {
+            "left": 355,
+            "top": 239.75,
+            "width": 103.875,
+            "height": 27,
+            "scroll_left": 0,
+            "scroll_top": 0,
+            "client_width": 104,
+            "client_height": 27,
+            "scroll_width": 104,
+            "scroll_height": 27
+          },
+          {
+            "left": 355,
+            "top": 298.75,
+            "width": 570,
+            "height": 21,
+            "scroll_left": 0,
+            "scroll_top": 0,
+            "client_width": 570,
+            "client_height": 21,
+            "scroll_width": 570,
+            "scroll_height": 21
+          }
+        ],
+        "tables": [],
+        "tables_omitted": 0
+      },
+      "geometry": {
+        "scroll_delta": {
+          "x": 0,
+          "y": 0
+        },
+        "dialog_before": true,
+        "dialog_after": true,
+        "fields": [
+          {
+            "field": "root",
+            "document_delta": {
+              "left": 0,
+              "top": 0,
+              "width": 0,
+              "height": 0
+            },
+            "viewport_delta": {
+              "left": 0,
+              "top": 0
+            },
+            "document_stable": true,
+            "viewport_stable": true
+          },
+          {
+            "field": "body",
+            "document_delta": {
+              "left": 0,
+              "top": 0,
+              "width": 0,
+              "height": 0
+            },
+            "viewport_delta": {
+              "left": 0,
+              "top": 0
+            },
+            "document_stable": true,
+            "viewport_stable": true
+          },
+          {
+            "field": "main",
+            "document_delta": {
+              "left": 0,
+              "top": 0,
+              "width": 0,
+              "height": 0
+            },
+            "viewport_delta": {
+              "left": 0,
+              "top": 0
+            },
+            "document_stable": true,
+            "viewport_stable": true
+          },
+          {
+            "field": "title",
+            "document_delta": {
+              "left": 0,
+              "top": 0,
+              "width": 0,
+              "height": 0
+            },
+            "viewport_delta": {
+              "left": 0,
+              "top": 0
+            },
+            "document_stable": true,
+            "viewport_stable": true
+          },
+          {
+            "field": "content",
+            "document_delta": {
+              "left": 0,
+              "top": 0,
+              "width": 0,
+              "height": 0
+            },
+            "viewport_delta": {
+              "left": 0,
+              "top": 0
+            },
+            "document_stable": true,
+            "viewport_stable": true
+          }
+        ]
+      },
+      "pixels": {
+        "width": 1280,
+        "height": 1149,
+        "surface": {
+          "uniform_rgb": false,
+          "first_pixel_rgb": [
+            243,
+            246,
+            250
+          ]
+        },
+        "anchors": [
+          {
+            "inside": true,
+            "samples": 2912,
+            "contrast": 255,
+            "dark_pixels": 961,
+            "ink_present": true
+          },
+          {
+            "inside": true,
+            "samples": 12540,
+            "contrast": 255,
+            "dark_pixels": 211,
+            "ink_present": true
+          }
+        ]
+      },
+      "lifecycle": {
+        "available": true,
+        "samples": [
+          {
+            "kind": "armed",
+            "elapsed_ms": 0,
+            "viewport": {
+              "width": 1280,
+              "height": 900,
+              "x": 0,
+              "y": 148
+            }
+          },
+          {
+            "kind": "screenshot-call",
+            "elapsed_ms": 3,
+            "viewport": {
+              "width": 1280,
+              "height": 900,
+              "x": 0,
+              "y": 148
+            }
+          },
+          {
+            "kind": "window-resize",
+            "elapsed_ms": 10,
+            "viewport": {
+              "width": 1280,
+              "height": 900,
+              "x": 0,
+              "y": 148
+            }
+          },
+          {
+            "kind": "visual-resize",
+            "elapsed_ms": 10,
+            "viewport": {
+              "width": 1280,
+              "height": 900,
+              "x": 0,
+              "y": 148
+            }
+          },
+          {
+            "kind": "screenshot-return",
+            "elapsed_ms": 49,
+            "viewport": {
+              "width": 1280,
+              "height": 900,
+              "x": 0,
+              "y": 148
+            }
+          },
+          {
+            "kind": "finished",
+            "elapsed_ms": 73,
+            "viewport": {
+              "width": 1280,
+              "height": 900,
+              "x": 0,
+              "y": 148
+            }
+          }
+        ]
+      }
+    },
+    {
+      "width": 1440,
+      "png": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-46/browser/visual-1440/keys-editor.png",
+      "bytes": 175501,
+      "sha256": "997049d9a20a386da81ba6c9192c879ff91d09f49808b0398886c53d4b672123",
+      "result": "passed",
+      "dialog_position": {
+        "before": "fixed",
+        "after": "fixed"
+      },
+      "before": {
+        "utc": "2026-11-01T00:00:00.000Z",
+        "window": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 900
+        },
+        "visual_viewport": {
+          "left": 0,
+          "top": 0,
+          "page_left": 0,
+          "page_top": 0,
+          "width": 1440,
+          "height": 900,
+          "scale": 1
+        },
+        "root": {
+          "left": 0,
+          "top": 0,
+          "width": 1440,
+          "height": 972.5,
+          "scroll_left": 0,
+          "scroll_top": 0,
+          "client_width": 1440,
+          "client_height": 900,
+          "scroll_width": 1440,
+          "scroll_height": 973
+        },
+        "body": {
+          "left": 0,
+          "top": 0,
+          "width": 1440,
+          "height": 972.5,
+          "scroll_left": 0,
+          "scroll_top": 0,
+          "client_width": 1440,
+          "client_height": 973,
+          "scroll_width": 1440,
+          "scroll_height": 973
+        },
+        "main": {
+          "left": 226,
+          "top": 72,
+          "width": 1214,
+          "height": 900.5,
+          "scroll_left": 0,
+          "scroll_top": 0,
+          "client_width": 1214,
+          "client_height": 901,
+          "scroll_width": 1214,
+          "scroll_height": 901
+        },
+        "content": {
+          "left": 410,
+          "top": 66.75,
+          "width": 620,
+          "height": 766.5,
+          "scroll_left": 0,
+          "scroll_top": 0,
+          "client_width": 618,
+          "client_height": 765,
+          "scroll_width": 618,
+          "scroll_height": 765
+        },
+        "dialog": true,
+        "dialog_position": "fixed",
+        "title": {
+          "left": 435,
+          "top": 91.75,
+          "width": 103.875,
+          "height": 27,
+          "scroll_left": 0,
+          "scroll_top": 0,
+          "client_width": 104,
+          "client_height": 27,
+          "scroll_width": 104,
+          "scroll_height": 27
+        },
+        "focus": {
+          "inside_content": true,
+          "technical_value": false,
+          "table_region": false,
+          "box": {
+            "left": 435,
+            "top": 177.75,
+            "width": 570,
+            "height": 39,
+            "scroll_left": 0,
+            "scroll_top": 0,
+            "client_width": 568,
+            "client_height": 37,
+            "scroll_width": 568,
+            "scroll_height": 37
+          }
+        },
+        "anchors": [
+          {
+            "left": 435,
+            "top": 91.75,
+            "width": 103.875,
+            "height": 27,
+            "scroll_left": 0,
+            "scroll_top": 0,
+            "client_width": 104,
+            "client_height": 27,
+            "scroll_width": 104,
+            "scroll_height": 27
+          },
+          {
+            "left": 435,
+            "top": 150.75,
+            "width": 570,
+            "height": 21,
+            "scroll_left": 0,
+            "scroll_top": 0,
+            "client_width": 570,
+            "client_height": 21,
+            "scroll_width": 570,
+            "scroll_height": 21
+          }
+        ],
+        "tables": [],
+        "tables_omitted": 0
+      },
+      "after": {
+        "utc": "2026-11-01T00:00:00.000Z",
+        "window": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 900
+        },
+        "visual_viewport": {
+          "left": 0,
+          "top": 0,
+          "page_left": 0,
+          "page_top": 0,
+          "width": 1440,
+          "height": 900,
+          "scale": 1
+        },
+        "root": {
+          "left": 0,
+          "top": 0,
+          "width": 1440,
+          "height": 972.5,
+          "scroll_left": 0,
+          "scroll_top": 0,
+          "client_width": 1440,
+          "client_height": 900,
+          "scroll_width": 1440,
+          "scroll_height": 973
+        },
+        "body": {
+          "left": 0,
+          "top": 0,
+          "width": 1440,
+          "height": 972.5,
+          "scroll_left": 0,
+          "scroll_top": 0,
+          "client_width": 1440,
+          "client_height": 973,
+          "scroll_width": 1440,
+          "scroll_height": 973
+        },
+        "main": {
+          "left": 226,
+          "top": 72,
+          "width": 1214,
+          "height": 900.5,
+          "scroll_left": 0,
+          "scroll_top": 0,
+          "client_width": 1214,
+          "client_height": 901,
+          "scroll_width": 1214,
+          "scroll_height": 901
+        },
+        "content": {
+          "left": 410,
+          "top": 66.75,
+          "width": 620,
+          "height": 766.5,
+          "scroll_left": 0,
+          "scroll_top": 0,
+          "client_width": 618,
+          "client_height": 765,
+          "scroll_width": 618,
+          "scroll_height": 765
+        },
+        "dialog": true,
+        "dialog_position": "fixed",
+        "title": {
+          "left": 435,
+          "top": 91.75,
+          "width": 103.875,
+          "height": 27,
+          "scroll_left": 0,
+          "scroll_top": 0,
+          "client_width": 104,
+          "client_height": 27,
+          "scroll_width": 104,
+          "scroll_height": 27
+        },
+        "focus": {
+          "inside_content": true,
+          "technical_value": false,
+          "table_region": false,
+          "box": {
+            "left": 435,
+            "top": 177.75,
+            "width": 570,
+            "height": 39,
+            "scroll_left": 0,
+            "scroll_top": 0,
+            "client_width": 568,
+            "client_height": 37,
+            "scroll_width": 568,
+            "scroll_height": 37
+          }
+        },
+        "anchors": [
+          {
+            "left": 435,
+            "top": 91.75,
+            "width": 103.875,
+            "height": 27,
+            "scroll_left": 0,
+            "scroll_top": 0,
+            "client_width": 104,
+            "client_height": 27,
+            "scroll_width": 104,
+            "scroll_height": 27
+          },
+          {
+            "left": 435,
+            "top": 150.75,
+            "width": 570,
+            "height": 21,
+            "scroll_left": 0,
+            "scroll_top": 0,
+            "client_width": 570,
+            "client_height": 21,
+            "scroll_width": 570,
+            "scroll_height": 21
+          }
+        ],
+        "tables": [],
+        "tables_omitted": 0
+      },
+      "geometry": {
+        "scroll_delta": {
+          "x": 0,
+          "y": 0
+        },
+        "dialog_before": true,
+        "dialog_after": true,
+        "fields": [
+          {
+            "field": "root",
+            "document_delta": {
+              "left": 0,
+              "top": 0,
+              "width": 0,
+              "height": 0
+            },
+            "viewport_delta": {
+              "left": 0,
+              "top": 0
+            },
+            "document_stable": true,
+            "viewport_stable": true
+          },
+          {
+            "field": "body",
+            "document_delta": {
+              "left": 0,
+              "top": 0,
+              "width": 0,
+              "height": 0
+            },
+            "viewport_delta": {
+              "left": 0,
+              "top": 0
+            },
+            "document_stable": true,
+            "viewport_stable": true
+          },
+          {
+            "field": "main",
+            "document_delta": {
+              "left": 0,
+              "top": 0,
+              "width": 0,
+              "height": 0
+            },
+            "viewport_delta": {
+              "left": 0,
+              "top": 0
+            },
+            "document_stable": true,
+            "viewport_stable": true
+          },
+          {
+            "field": "title",
+            "document_delta": {
+              "left": 0,
+              "top": 0,
+              "width": 0,
+              "height": 0
+            },
+            "viewport_delta": {
+              "left": 0,
+              "top": 0
+            },
+            "document_stable": true,
+            "viewport_stable": true
+          },
+          {
+            "field": "content",
+            "document_delta": {
+              "left": 0,
+              "top": 0,
+              "width": 0,
+              "height": 0
+            },
+            "viewport_delta": {
+              "left": 0,
+              "top": 0
+            },
+            "document_stable": true,
+            "viewport_stable": true
+          }
+        ]
+      },
+      "pixels": {
+        "width": 1440,
+        "height": 973,
+        "surface": {
+          "uniform_rgb": false,
+          "first_pixel_rgb": [
+            161,
+            167,
+            177
+          ]
+        },
+        "anchors": [
+          {
+            "inside": true,
+            "samples": 2912,
+            "contrast": 255,
+            "dark_pixels": 961,
+            "ink_present": true
+          },
+          {
+            "inside": true,
+            "samples": 12540,
+            "contrast": 255,
+            "dark_pixels": 211,
+            "ink_present": true
+          }
+        ]
+      },
+      "lifecycle": {
+        "available": true,
+        "samples": [
+          {
+            "kind": "armed",
+            "elapsed_ms": 0,
+            "viewport": {
+              "width": 1440,
+              "height": 900,
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "kind": "screenshot-call",
+            "elapsed_ms": 4,
+            "viewport": {
+              "width": 1440,
+              "height": 900,
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "kind": "window-resize",
+            "elapsed_ms": 10,
+            "viewport": {
+              "width": 1440,
+              "height": 900,
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "kind": "visual-resize",
+            "elapsed_ms": 10,
+            "viewport": {
+              "width": 1440,
+              "height": 900,
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "kind": "screenshot-return",
+            "elapsed_ms": 50,
+            "viewport": {
+              "width": 1440,
+              "height": 900,
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "kind": "finished",
+            "elapsed_ms": 73,
+            "viewport": {
+              "width": 1440,
+              "height": 900,
+              "x": 0,
+              "y": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "png": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-46/browser/visual-390/keys-editor.png",
+      "bytes": 75822,
+      "sha256": "5a0b555cb97dc116f23fa89bceb610c8d9021535a3183807785818a76fa0088f",
+      "result": "failed",
+      "dialog_position": {
+        "before": "fixed",
+        "after": "fixed"
+      },
+      "before": {
+        "utc": "2026-11-01T00:00:00.000Z",
+        "window": {
+          "x": 0,
+          "y": 182,
+          "width": 390,
+          "height": 900
+        },
+        "visual_viewport": {
+          "left": 0,
+          "top": 0,
+          "page_left": 0,
+          "page_top": 182,
+          "width": 390,
+          "height": 900,
+          "scale": 1
+        },
+        "root": {
+          "left": 0,
+          "top": 0,
+          "width": 390,
+          "height": 1226.5,
+          "scroll_left": 0,
+          "scroll_top": 182,
+          "client_width": 390,
+          "client_height": 900,
+          "scroll_width": 390,
+          "scroll_height": 1227
+        },
+        "body": {
+          "left": 0,
+          "top": 0,
+          "width": 390,
+          "height": 1226.5,
+          "scroll_left": 0,
+          "scroll_top": 0,
+          "client_width": 390,
+          "client_height": 1227,
+          "scroll_width": 390,
+          "scroll_height": 1227
+        },
+        "main": {
+          "left": 0,
+          "top": 85,
+          "width": 390,
+          "height": 1141.5,
+          "scroll_left": 0,
+          "scroll_top": 0,
+          "client_width": 390,
+          "client_height": 1142,
+          "scroll_width": 390,
+          "scroll_height": 1142
+        },
+        "content": {
+          "left": 16,
+          "top": 254.75,
+          "width": 358,
+          "height": 754.5,
+          "scroll_left": 0,
+          "scroll_top": 0,
+          "client_width": 356,
+          "client_height": 753,
+          "scroll_width": 356,
+          "scroll_height": 753
+        },
+        "dialog": true,
+        "dialog_position": "fixed",
+        "title": {
+          "left": 35,
+          "top": 273.75,
+          "width": 103.875,
+          "height": 27,
+          "scroll_left": 0,
+          "scroll_top": 0,
+          "client_width": 104,
+          "client_height": 27,
+          "scroll_width": 104,
+          "scroll_height": 27
+        },
+        "focus": {
+          "inside_content": true,
+          "technical_value": false,
+          "table_region": false,
+          "box": {
+            "left": 35,
+            "top": 359.75,
+            "width": 320,
+            "height": 39,
+            "scroll_left": 0,
+            "scroll_top": 0,
+            "client_width": 318,
+            "client_height": 37,
+            "scroll_width": 318,
+            "scroll_height": 37
+          }
+        },
+        "anchors": [
+          {
+            "left": 35,
+            "top": 273.75,
+            "width": 103.875,
+            "height": 27,
+            "scroll_left": 0,
+            "scroll_top": 0,
+            "client_width": 104,
+            "client_height": 27,
+            "scroll_width": 104,
+            "scroll_height": 27
+          },
+          {
+            "left": 35,
+            "top": 332.75,
+            "width": 320,
+            "height": 21,
+            "scroll_left": 0,
+            "scroll_top": 0,
+            "client_width": 320,
+            "client_height": 21,
+            "scroll_width": 320,
+            "scroll_height": 21
+          }
+        ],
+        "tables": [],
+        "tables_omitted": 0
+      },
+      "after": {
+        "utc": "2026-11-01T00:00:00.000Z",
+        "window": {
+          "x": 0,
+          "y": 327,
+          "width": 390,
+          "height": 900
+        },
+        "visual_viewport": {
+          "left": 0,
+          "top": 0,
+          "page_left": 0,
+          "page_top": 327,
+          "width": 390,
+          "height": 900,
+          "scale": 1
+        },
+        "root": {
+          "left": 0,
+          "top": 0,
+          "width": 390,
+          "height": 1226.5,
+          "scroll_left": 0,
+          "scroll_top": 327,
+          "client_width": 390,
+          "client_height": 900,
+          "scroll_width": 390,
+          "scroll_height": 1227
+        },
+        "body": {
+          "left": 0,
+          "top": 0,
+          "width": 390,
+          "height": 1226.5,
+          "scroll_left": 0,
+          "scroll_top": 0,
+          "client_width": 390,
+          "client_height": 1227,
+          "scroll_width": 390,
+          "scroll_height": 1227
+        },
+        "main": {
+          "left": 0,
+          "top": 85,
+          "width": 390,
+          "height": 1141.5,
+          "scroll_left": 0,
+          "scroll_top": 0,
+          "client_width": 390,
+          "client_height": 1142,
+          "scroll_width": 390,
+          "scroll_height": 1142
+        },
+        "content": {
+          "left": 16,
+          "top": 399.75,
+          "width": 358,
+          "height": 754.5,
+          "scroll_left": 0,
+          "scroll_top": 0,
+          "client_width": 356,
+          "client_height": 753,
+          "scroll_width": 356,
+          "scroll_height": 753
+        },
+        "dialog": true,
+        "dialog_position": "fixed",
+        "title": {
+          "left": 35,
+          "top": 418.75,
+          "width": 103.875,
+          "height": 27,
+          "scroll_left": 0,
+          "scroll_top": 0,
+          "client_width": 104,
+          "client_height": 27,
+          "scroll_width": 104,
+          "scroll_height": 27
+        },
+        "focus": {
+          "inside_content": true,
+          "technical_value": false,
+          "table_region": false,
+          "box": {
+            "left": 35,
+            "top": 504.75,
+            "width": 320,
+            "height": 39,
+            "scroll_left": 0,
+            "scroll_top": 0,
+            "client_width": 318,
+            "client_height": 37,
+            "scroll_width": 318,
+            "scroll_height": 37
+          }
+        },
+        "anchors": [
+          {
+            "left": 35,
+            "top": 418.75,
+            "width": 103.875,
+            "height": 27,
+            "scroll_left": 0,
+            "scroll_top": 0,
+            "client_width": 104,
+            "client_height": 27,
+            "scroll_width": 104,
+            "scroll_height": 27
+          },
+          {
+            "left": 35,
+            "top": 477.75,
+            "width": 320,
+            "height": 21,
+            "scroll_left": 0,
+            "scroll_top": 0,
+            "client_width": 320,
+            "client_height": 21,
+            "scroll_width": 320,
+            "scroll_height": 21
+          }
+        ],
+        "tables": [],
+        "tables_omitted": 0
+      },
+      "geometry": {
+        "scroll_delta": {
+          "x": 0,
+          "y": 145
+        },
+        "dialog_before": true,
+        "dialog_after": true,
+        "fields": [
+          {
+            "field": "root",
+            "document_delta": {
+              "left": 0,
+              "top": 0,
+              "width": 0,
+              "height": 0
+            },
+            "viewport_delta": {
+              "left": 0,
+              "top": -145
+            },
+            "document_stable": true,
+            "viewport_stable": false
+          },
+          {
+            "field": "body",
+            "document_delta": {
+              "left": 0,
+              "top": 0,
+              "width": 0,
+              "height": 0
+            },
+            "viewport_delta": {
+              "left": 0,
+              "top": -145
+            },
+            "document_stable": true,
+            "viewport_stable": false
+          },
+          {
+            "field": "main",
+            "document_delta": {
+              "left": 0,
+              "top": 0,
+              "width": 0,
+              "height": 0
+            },
+            "viewport_delta": {
+              "left": 0,
+              "top": -145
+            },
+            "document_stable": true,
+            "viewport_stable": false
+          },
+          {
+            "field": "title",
+            "document_delta": {
+              "left": 0,
+              "top": 145,
+              "width": 0,
+              "height": 0
+            },
+            "viewport_delta": {
+              "left": 0,
+              "top": 0
+            },
+            "document_stable": false,
+            "viewport_stable": true
+          },
+          {
+            "field": "content",
+            "document_delta": {
+              "left": 0,
+              "top": 145,
+              "width": 0,
+              "height": 0
+            },
+            "viewport_delta": {
+              "left": 0,
+              "top": 0
+            },
+            "document_stable": false,
+            "viewport_stable": true
+          }
+        ]
+      },
+      "pixels": {
+        "width": 390,
+        "height": 1227,
+        "surface": {
+          "uniform_rgb": false,
+          "first_pixel_rgb": [
+            255,
+            255,
+            255
+          ]
+        },
+        "anchors": [
+          {
+            "inside": true,
+            "samples": 2912,
+            "contrast": 135,
+            "dark_pixels": 64,
+            "ink_present": true
+          },
+          {
+            "inside": true,
+            "samples": 7040,
+            "contrast": 108,
+            "dark_pixels": 7040,
+            "ink_present": true
+          }
+        ]
+      },
+      "lifecycle": {
+        "available": true,
+        "samples": [
+          {
+            "kind": "armed",
+            "elapsed_ms": 0,
+            "viewport": {
+              "width": 390,
+              "height": 900,
+              "x": 0,
+              "y": 182
+            }
+          },
+          {
+            "kind": "screenshot-call",
+            "elapsed_ms": 3,
+            "viewport": {
+              "width": 390,
+              "height": 900,
+              "x": 0,
+              "y": 182
+            }
+          },
+          {
+            "kind": "window-resize",
+            "elapsed_ms": 10,
+            "viewport": {
+              "width": 390,
+              "height": 900,
+              "x": 0,
+              "y": 327
+            }
+          },
+          {
+            "kind": "visual-resize",
+            "elapsed_ms": 10,
+            "viewport": {
+              "width": 390,
+              "height": 900,
+              "x": 0,
+              "y": 327
+            }
+          },
+          {
+            "kind": "window-scroll",
+            "elapsed_ms": 10,
+            "viewport": {
+              "width": 390,
+              "height": 900,
+              "x": 0,
+              "y": 327
+            }
+          },
+          {
+            "kind": "screenshot-return",
+            "elapsed_ms": 32,
+            "viewport": {
+              "width": 390,
+              "height": 900,
+              "x": 0,
+              "y": 327
+            }
+          },
+          {
+            "kind": "finished",
+            "elapsed_ms": 48,
+            "viewport": {
+              "width": 390,
+              "height": 900,
+              "x": 0,
+              "y": 327
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

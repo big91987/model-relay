@@ -1,0 +1,12 @@
+{
+  "command": "node --test tests/browser/*.test.mjs",
+  "exit_code": 1,
+  "tests": 224,
+  "passed": 223,
+  "failed": 1,
+  "cause": "route-cleanup.test.mjs: MODULE_NOT_FOUND playwright-core/package.json; no local dependency installation",
+  "original_sha256": "462f7a3a995152e814395292a876bb2fbdce0d56bca41d6ead0f08201b3cb34a",
+  "redacted_sha256": "49aa6580ca9d6ef21fd5cffe832befc74703ff9304632d713100577fe39f189a",
+  "redaction": "workspace absolute prefix only",
+  "raw_ignored_path": "test-results/development-exec10/node-all.raw.log"
+}

@@ -1,0 +1,113 @@
+{
+  "execution": 53,
+  "checked_utc": "2026-10-09T10:40:27.126Z",
+  "source": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "00d8519e5b54d97eccce2cae8652735bec46319108044d0d075c96da9b33ce8c"
+  },
+  "material": {
+    "version": "design-v0.2.0",
+    "status": "frozen-for-test-implementation",
+    "archive_sha256": "5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7",
+    "references": [
+      {
+        "path": ".workflow-input/b7f93c24bc1ea4d0fe182f12aa7622ae/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/docs/acceptance.md",
+        "sha256": "2792740b1579d614780856a13b6257d192736e1efc0309f1dc41405a665bef7a",
+        "matches": true
+      },
+      {
+        "path": ".workflow-input/b7f93c24bc1ea4d0fe182f12aa7622ae/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/docs/interactions.md",
+        "sha256": "95f3490ef003fa9b19dd6b9e864dd3b0429619b8cd9d0ecec853919d6a12c801",
+        "matches": true
+      },
+      {
+        "path": ".workflow-input/b7f93c24bc1ea4d0fe182f12aa7622ae/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/docs/prd.md",
+        "sha256": "e768b4f26b4471e714d92b0db6e3187c89f37a25a697c01a12c6079af07de547",
+        "matches": true
+      }
+    ]
+  },
+  "host_archive_verified": 79,
+  "local_checks_verified": 4,
+  "entries": [
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/README.md",
+      "bytes": 17210,
+      "sha256": "a25d674faafd7d8c66fdd355bda4d76c36403a65803c9ee7c402681f70de8817"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/tasks/T001-console.md",
+      "bytes": 23506,
+      "sha256": "bbf34ae2673bf36c18b407a370aa100e3ff735edcb29f80928cd2dfe6e5be1a9"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/milestones/M01-console.md",
+      "bytes": 11997,
+      "sha256": "5fee0141189aebd690a2c9b18bdd355499b932b05789f4edea54062e1fe47042"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-53.md",
+      "bytes": 5776,
+      "sha256": "b8b076f1c8d40900ce7cdc6374870380954c003b9d8888d8d207fdc46de18237"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-53/affected.log",
+      "bytes": 13106,
+      "sha256": "6ff17fa65c4425f80c99c76c86daf79066475ba53a890d11978c7981f6a299a9"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-53/go-wiring.log",
+      "bytes": 43,
+      "sha256": "bfa1a8bda89e082c56fa1e2cbe07cf009d6481e94cb75a116a033220b3b67534"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-53/local-checks.json",
+      "bytes": 2740,
+      "sha256": "dbd4f7cfe42c815a619ac8361e8dfa9b2308395f3632c96cdeb16a2f24810653"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-53/retained-integrity.json",
+      "bytes": 1220,
+      "sha256": "d595942aa2be9b3d403c040d5156fa5b11826490008f32b1df9ec57ea4530dac"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-53/source-final.json",
+      "bytes": 357,
+      "sha256": "2b91b8814b620b6466460c61d845a3f9cac67e312b4dd80f7c4e25bcec59b8ca"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-53/source-final.log",
+      "bytes": 336,
+      "sha256": "360c43052b0f0d73a3905232f580f0742ff4feee4f51c23f94407bc5b727d556"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-53/static.log",
+      "bytes": 90,
+      "sha256": "d9056758603dafeeb6b4ccfd3ce53f6fa6e5c42e6bc87b74b3df975020df33ee"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-52/archive-index.json",
+      "bytes": 21546,
+      "sha256": "76f8e57ae1f70a51a88e4e9b0ea78abde1fffaeb22bb89ba0b5dc5c1962f6215"
+    },
+    {
+      "path": "tests/browser/console-visual.mjs",
+      "bytes": 21819,
+      "sha256": "c2b8a48458893d9e4ee623ed8d0d9d995f9fdc39c8c2d9befcc09eec1d147630"
+    },
+    {
+      "path": "tests/browser/console-visual.test.mjs",
+      "bytes": 13197,
+      "sha256": "13f4e7efb6e7f684d8309ccbbf71685b89f14f15feb6d922c301c2b876922d68"
+    },
+    {
+      "path": ".trellis/spec/frontend/workspace-contracts.md",
+      "bytes": 113789,
+      "sha256": "e690fe8b361399cdfe598c89a52cc1281401ca9341c728c0b919dcbfa135f283"
+    }
+  ],
+  "scope": "current nonempty delivery/diagnostic artifacts; host-tests-52 archive index retains all original bytes; excludes this index to avoid self-reference"
+}

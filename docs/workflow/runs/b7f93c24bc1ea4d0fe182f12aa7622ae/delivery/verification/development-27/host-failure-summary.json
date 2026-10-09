@@ -1,0 +1,453 @@
+{
+  "connector": {
+    "seq": 26,
+    "exit_code": 2,
+    "log_bytes": 477612
+  },
+  "runner": {
+    "started_utc": "2026-10-09T04:00:50.769388Z",
+    "finished_utc": "2026-10-09T04:11:53.712778Z",
+    "exit_code": 1,
+    "gate_exit": 2,
+    "log_bytes": 477430,
+    "log_sha256": "424a6fcba37ed649d4c0394daa820d6c21fb9ad4ce2cc68d41b1d43db3493431",
+    "cleanup": "owned_process_group_cleanup_attempted; candidate_removed",
+    "owned_group_absent": true,
+    "source_unchanged": true,
+    "source_before": {
+      "files": 154,
+      "go": "go1.25.6",
+      "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+      "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+      "working_tree_sha256": "bce88d0683991cef837feea8b321cc67a75a18da9b09a71760105b816f4c7824"
+    },
+    "source_after": {
+      "files": 154,
+      "go": "go1.25.6",
+      "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+      "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+      "working_tree_sha256": "bce88d0683991cef837feea8b321cc67a75a18da9b09a71760105b816f4c7824"
+    }
+  },
+  "node_counts": [
+    "ℹ tests 249"
+  ],
+  "failed_boundary": {
+    "suite": "continuous-console",
+    "width": 1280,
+    "stage": "visual-keys",
+    "checkpoints": [
+      "J01",
+      "J02",
+      "J03",
+      "J04",
+      "J05",
+      "J07",
+      "J06"
+    ],
+    "readability_facts": {
+      "available": true,
+      "boundary": "rightmost-column",
+      "keyboard_scrolled_tables": 0,
+      "keyboard_scrolled_identifiers": 0,
+      "root_fits": true,
+      "tables_accessible": true,
+      "headers_unbroken": true,
+      "identifiers_complete": true,
+      "actions_unbroken": true,
+      "tables": 1,
+      "identifiers": 4,
+      "overflowing_tables": 1,
+      "overflowing_identifiers": 0,
+      "scroll_probe": {
+        "region_index": 0,
+        "before": {
+          "available": true,
+          "connected": true,
+          "focused": true,
+          "point_in_viewport": true,
+          "point_inside_region": true,
+          "hit_inside_region": true,
+          "hit_technical_value": false,
+          "hit_scroll_owner_region": true,
+          "hit_nested_scroll_owner": false,
+          "pointer_x": 753,
+          "pointer_y": 112,
+          "viewport_width": 1280,
+          "viewport_height": 900,
+          "region_left": 258,
+          "region_top": 82,
+          "region_right": 1248,
+          "region_bottom": 900.5,
+          "scroll_left": 32,
+          "client_width": 988,
+          "scroll_width": 1020,
+          "last_column_left": 1087.140625,
+          "last_column_right": 1247.140625,
+          "hit_owner_scroll_left": 32,
+          "hit_owner_client_width": 988,
+          "hit_owner_scroll_width": 1020
+        },
+        "after": {
+          "available": true,
+          "connected": true,
+          "focused": true,
+          "point_in_viewport": true,
+          "point_inside_region": true,
+          "hit_inside_region": true,
+          "hit_technical_value": false,
+          "hit_scroll_owner_region": true,
+          "hit_nested_scroll_owner": false,
+          "pointer_x": 753,
+          "pointer_y": 112,
+          "viewport_width": 1280,
+          "viewport_height": 900,
+          "region_left": 258,
+          "region_top": 82,
+          "region_right": 1248,
+          "region_bottom": 900.5,
+          "scroll_left": 32,
+          "client_width": 988,
+          "scroll_width": 1020,
+          "last_column_left": 1087.140625,
+          "last_column_right": 1247.140625,
+          "hit_owner_scroll_left": 32,
+          "hit_owner_client_width": 988,
+          "hit_owner_scroll_width": 1020
+        },
+        "events": {
+          "available": true,
+          "events": [
+            {
+              "kind": "keydown",
+              "phase": "keyboard",
+              "elapsed_ms": 3,
+              "scroll_left": 0,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "trusted": true,
+              "default_prevented": false
+            },
+            {
+              "kind": "keyup",
+              "phase": "keyboard",
+              "elapsed_ms": 3,
+              "scroll_left": 0,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "trusted": true,
+              "default_prevented": false
+            },
+            {
+              "kind": "scroll",
+              "phase": "keyboard",
+              "elapsed_ms": 20,
+              "scroll_left": 1,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "trusted": true,
+              "default_prevented": false
+            },
+            {
+              "kind": "scroll",
+              "phase": "keyboard",
+              "elapsed_ms": 28,
+              "scroll_left": 2,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "trusted": true,
+              "default_prevented": false
+            },
+            {
+              "kind": "scroll",
+              "phase": "keyboard",
+              "elapsed_ms": 36,
+              "scroll_left": 3,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "trusted": true,
+              "default_prevented": false
+            },
+            {
+              "kind": "scroll",
+              "phase": "keyboard",
+              "elapsed_ms": 45,
+              "scroll_left": 5,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "trusted": true,
+              "default_prevented": false
+            },
+            {
+              "kind": "scroll",
+              "phase": "keyboard",
+              "elapsed_ms": 53,
+              "scroll_left": 7,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "trusted": true,
+              "default_prevented": false
+            },
+            {
+              "kind": "scroll",
+              "phase": "keyboard",
+              "elapsed_ms": 62,
+              "scroll_left": 10,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "trusted": true,
+              "default_prevented": false
+            },
+            {
+              "kind": "scroll",
+              "phase": "keyboard",
+              "elapsed_ms": 70,
+              "scroll_left": 13,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "trusted": true,
+              "default_prevented": false
+            },
+            {
+              "kind": "scroll",
+              "phase": "keyboard",
+              "elapsed_ms": 77,
+              "scroll_left": 16,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "trusted": true,
+              "default_prevented": false
+            },
+            {
+              "kind": "scroll",
+              "phase": "keyboard",
+              "elapsed_ms": 87,
+              "scroll_left": 19,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "trusted": true,
+              "default_prevented": false
+            },
+            {
+              "kind": "scroll",
+              "phase": "keyboard",
+              "elapsed_ms": 95,
+              "scroll_left": 22,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "trusted": true,
+              "default_prevented": false
+            },
+            {
+              "kind": "scroll",
+              "phase": "keyboard",
+              "elapsed_ms": 103,
+              "scroll_left": 25,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "trusted": true,
+              "default_prevented": false
+            },
+            {
+              "kind": "scroll",
+              "phase": "keyboard",
+              "elapsed_ms": 112,
+              "scroll_left": 27,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "trusted": true,
+              "default_prevented": false
+            },
+            {
+              "kind": "scroll",
+              "phase": "keyboard",
+              "elapsed_ms": 120,
+              "scroll_left": 29,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "trusted": true,
+              "default_prevented": false
+            },
+            {
+              "kind": "scroll",
+              "phase": "keyboard",
+              "elapsed_ms": 128,
+              "scroll_left": 30,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "trusted": true,
+              "default_prevented": false
+            },
+            {
+              "kind": "scroll",
+              "phase": "keyboard",
+              "elapsed_ms": 136,
+              "scroll_left": 31,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "trusted": true,
+              "default_prevented": false
+            },
+            {
+              "kind": "scroll",
+              "phase": "keyboard",
+              "elapsed_ms": 145,
+              "scroll_left": 32,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "trusted": true,
+              "default_prevented": false
+            },
+            {
+              "kind": "scrollend",
+              "phase": "keyboard",
+              "elapsed_ms": 170,
+              "scroll_left": 32,
+              "window_x": 0,
+              "window_y": 148,
+              "delta_x": null,
+              "delta_y": null,
+              "delta_mode": null,
+              "trusted": true,
+              "default_prevented": false
+            }
+          ],
+          "landmarks": [
+            {
+              "stage": "wheel-dispatch-start",
+              "elapsed_ms": 178,
+              "scroll_left": 32,
+              "window_x": 0,
+              "window_y": 148
+            },
+            {
+              "stage": "capture-start",
+              "elapsed_ms": 193,
+              "scroll_left": 32,
+              "window_x": 0,
+              "window_y": 148
+            },
+            {
+              "stage": "capture-end",
+              "elapsed_ms": 282,
+              "scroll_left": 32,
+              "window_x": 0,
+              "window_y": 148
+            }
+          ],
+          "omitted": 0
+        }
+      }
+    },
+    "self_hosted_progress": {
+      "steps": [],
+      "screenshots": []
+    }
+  },
+  "original_png": {
+    "path": "host-tests-26/browser/visual-1280/keys-right-columns-1.png",
+    "sha256": "78a7b304df77dac78964e27f6571f81f2ac48376e545786f9778a183028bff53",
+    "pixels": {
+      "width": 1280,
+      "height": 1149,
+      "surface": {
+        "uniform_rgb": true,
+        "first_pixel_rgb": [
+          243,
+          246,
+          250
+        ]
+      },
+      "anchors": [
+        {
+          "inside": true,
+          "samples": 11592,
+          "contrast": 0,
+          "dark_pixels": 0,
+          "ink_present": false
+        },
+        {
+          "inside": true,
+          "samples": 4840,
+          "contrast": 0,
+          "dark_pixels": 0,
+          "ink_present": false
+        },
+        {
+          "inside": true,
+          "samples": 4840,
+          "contrast": 0,
+          "dark_pixels": 0,
+          "ink_present": false
+        },
+        {
+          "inside": true,
+          "samples": 21230,
+          "contrast": 0,
+          "dark_pixels": 0,
+          "ink_present": false
+        }
+      ]
+    },
+    "compositor": {
+      "tree_events": 4,
+      "paint_events": 10,
+      "detached": true
+    }
+  },
+  "conclusion": "same original uniform PNG; own keyboard scrollend observed; no table wheel observed; absence of page-wide input not established; raster cause unresolved; not listening failure or product closure"
+}

@@ -1,0 +1,125 @@
+{
+  "verified_utc": "2026-10-09T03:12:54.727Z",
+  "source": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "66cc3cd66fd062d0716ceff32bc9889cc2140145164e0cabc4b116ae3707a3c8"
+  },
+  "source_unchanged": true,
+  "archived_files": 91,
+  "archive_sha_verified": true,
+  "material_version": "design-v0.2.0",
+  "material_archive_sha256": "5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7",
+  "material_references": [
+    {
+      "path": ".workflow-input/b7f93c24bc1ea4d0fe182f12aa7622ae/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/docs/acceptance.md",
+      "sha256": "2792740b1579d614780856a13b6257d192736e1efc0309f1dc41405a665bef7a",
+      "bytes": 5730
+    },
+    {
+      "path": ".workflow-input/b7f93c24bc1ea4d0fe182f12aa7622ae/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/docs/interactions.md",
+      "sha256": "95f3490ef003fa9b19dd6b9e864dd3b0429619b8cd9d0ecec853919d6a12c801",
+      "bytes": 6329
+    }
+  ],
+  "entries": [
+    {
+      "path": "tests/browser/capture-integrity.mjs",
+      "bytes": 11449,
+      "sha256": "4619e5f7743983b2cf375b8ac0a1991092d7708155292bfb1baef0083e48e186"
+    },
+    {
+      "path": "tests/browser/capture-integrity.test.mjs",
+      "bytes": 13928,
+      "sha256": "8437140376532c7a6510ff9d9681041e773643e26b72a2a0650be299db06bcf5"
+    },
+    {
+      "path": ".trellis/spec/frontend/workspace-contracts.md",
+      "bytes": 83350,
+      "sha256": "c30c6e24a9d191978947c24ebf9465b9e5c7f1549414abd6b9774d03ab313e29"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/README.md",
+      "bytes": 6148,
+      "sha256": "d588bc3c7a6d55c2a69df286b1a0da3d63fc795910056e9d8a5ebd424d2a7bfb"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/tasks/T001-console.md",
+      "bytes": 10348,
+      "sha256": "a770ef63594d4e1c061375326eb3ee68919dfbb50e8559c9338700309f83fec6"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/milestones/M01-console.md",
+      "bytes": 4075,
+      "sha256": "4dbebdc1f23b47b11cae2712f5f23e8b8f1ce2f1a31c8a372b5dbe0b9bc25bdc"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-21.md",
+      "bytes": 6357,
+      "sha256": "82719c53dda9c9f8fcb92886bb4a70d455f50359ae356adb3f1d4212e6c99862"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-21/go-fixture.log",
+      "bytes": 700,
+      "sha256": "460ee54518fc761140820809d50f9eea0f9b49a6b0db2841d729d08a6e1c2ee6"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-21/host-failure-summary.json",
+      "bytes": 8764,
+      "sha256": "a1a75f69a715e63155ea3a1177fd404fcca0dbfd37ef6147cb0fd96c4fbc42ad"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-21/local-checks.json",
+      "bytes": 2202,
+      "sha256": "034a7683941dbba738be83e88dfc5390a47db7e677f76cc0e9c92566c6190605"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-21/node-current.log",
+      "bytes": 24884,
+      "sha256": "1234966f5ed34033479b989eb289f957c8fb1592ed8f5dfd68691213cd330324"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-21/node-targeted.log",
+      "bytes": 6104,
+      "sha256": "c48c63ab8d0491315ca959649f70fa340e94fe4d560153beae2ec037d5e75ca6"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-21/source-after.json",
+      "bytes": 336,
+      "sha256": "b3d7129e78ce70cb84161ed997e22714d6e614c846208ae0725dbb4dcc678fd8"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-21/source-after.log",
+      "bytes": 336,
+      "sha256": "b3d7129e78ce70cb84161ed997e22714d6e614c846208ae0725dbb4dcc678fd8"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-21/source-before.log",
+      "bytes": 336,
+      "sha256": "b3d7129e78ce70cb84161ed997e22714d6e614c846208ae0725dbb4dcc678fd8"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-21/source.json",
+      "bytes": 336,
+      "sha256": "b3d7129e78ce70cb84161ed997e22714d6e614c846208ae0725dbb4dcc678fd8"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-21/static.log",
+      "bytes": 69,
+      "sha256": "deb218d2d47a07979cc802ccb2849898388f8f3dfb362ba6fd6a5a1e84775fb1"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-21/syntax-diff.log",
+      "bytes": 459,
+      "sha256": "f0ebfae7b51099e5a70c6742a39a56869024b6ab7942933c5acadedeec990fc8"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-20/archive-index.json",
+      "bytes": 24265,
+      "sha256": "aff92e7920797e217d44cb08ae5ca3571fee046ba1a04976162845ac2a69e643"
+    }
+  ],
+  "conclusion": "local diagnostic checks only; full host verify and independent QA pending"
+}

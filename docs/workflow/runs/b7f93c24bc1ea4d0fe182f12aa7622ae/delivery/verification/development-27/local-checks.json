@@ -1,0 +1,62 @@
+[
+  {
+    "name": "source",
+    "command": "go run ./tests/evidence",
+    "started_utc": "2026-10-09T04:17:17.357Z",
+    "finished_utc": "2026-10-09T04:17:17.525Z",
+    "exit_code": 0,
+    "signal": null,
+    "scope": "local_not_complete_host_gate; original Makefile workspace Go cache",
+    "log": "source.json"
+  },
+  {
+    "name": "node-targeted",
+    "command": "node --test tests/browser/capture-integrity.test.mjs tests/browser/console-visual.test.mjs tests/browser/journeys.test.mjs tests/browser/readability.test.mjs",
+    "started_utc": "2026-10-09T04:17:17.526Z",
+    "finished_utc": "2026-10-09T04:17:17.701Z",
+    "exit_code": 0,
+    "signal": null,
+    "scope": "local_not_complete_host_gate; original Makefile workspace Go cache",
+    "log": "node-targeted.log"
+  },
+  {
+    "name": "static",
+    "command": "make format-check vet build",
+    "started_utc": "2026-10-09T04:17:17.701Z",
+    "finished_utc": "2026-10-09T04:17:18.261Z",
+    "exit_code": 0,
+    "signal": null,
+    "scope": "local_not_complete_host_gate; original Makefile workspace Go cache",
+    "log": "static.log"
+  },
+  {
+    "name": "go-fixture",
+    "command": "go test -race ./tests/browser -run \"^TestContinuousUpstream(Response|Stream)Contract$\" -count=1 -v",
+    "started_utc": "2026-10-09T04:17:18.261Z",
+    "finished_utc": "2026-10-09T04:17:20.896Z",
+    "exit_code": 0,
+    "signal": null,
+    "scope": "local_not_complete_host_gate; original Makefile workspace Go cache",
+    "log": "go-fixture.log"
+  },
+  {
+    "name": "syntax-diff",
+    "command": "node --check tests/browser/readability.mjs && node --check tests/browser/readability.test.mjs && git diff --check",
+    "started_utc": "2026-10-09T04:17:20.897Z",
+    "finished_utc": "2026-10-09T04:17:21.037Z",
+    "exit_code": 0,
+    "signal": null,
+    "scope": "local_not_complete_host_gate; original Makefile workspace Go cache",
+    "log": "syntax-diff.log"
+  },
+  {
+    "name": "source-after",
+    "command": "go run ./tests/evidence",
+    "started_utc": "2026-10-09T04:17:21.037Z",
+    "finished_utc": "2026-10-09T04:17:21.116Z",
+    "exit_code": 0,
+    "signal": null,
+    "scope": "local_not_complete_host_gate; original Makefile workspace Go cache",
+    "log": "source-after.json"
+  }
+]

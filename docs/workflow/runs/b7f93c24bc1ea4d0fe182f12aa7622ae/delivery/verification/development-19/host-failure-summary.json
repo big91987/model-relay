@@ -1,0 +1,178 @@
+{
+  "host_execution": 18,
+  "connector_exit": 2,
+  "gate_exit": 2,
+  "runner_exit": 1,
+  "started_utc": "2026-10-09T02:28:07.374121Z",
+  "finished_utc": "2026-10-09T02:39:16.546503Z",
+  "source_before": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "ec88f5c79c35689c7587e83e50b0c3c68ba99728dc382a2fe196088e74957619"
+  },
+  "source_after": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "ec88f5c79c35689c7587e83e50b0c3c68ba99728dc382a2fe196088e74957619"
+  },
+  "source_unchanged": true,
+  "cleanup": "owned_process_group_cleanup_attempted; candidate_removed",
+  "owned_group_absent": true,
+  "log_bytes": 415987,
+  "log_sha256": "75dd381e6062510abcc62287ce5bec5d91930a603071521629961652d07b245c",
+  "original_image": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-18/browser/visual-1280/services-right-columns-1.png",
+  "image_sha256": "a27d70e140bb6a1c170bbefdaae63962589177e7227651ca0ff7a49a700913f9",
+  "failure_boundary": "integrity",
+  "original_assertion_reproduced": true,
+  "original_anchors": [
+    {
+      "left": 258,
+      "top": 104,
+      "width": 309.21875,
+      "height": 36,
+      "scroll_left": 0,
+      "scroll_top": 0,
+      "client_width": 309,
+      "client_height": 36,
+      "scroll_width": 309,
+      "scroll_height": 36
+    },
+    {
+      "left": 192,
+      "top": 231,
+      "width": 110,
+      "height": 44,
+      "scroll_left": 0,
+      "scroll_top": 0,
+      "client_width": 110,
+      "client_height": 44,
+      "scroll_width": 110,
+      "scroll_height": 44
+    },
+    {
+      "left": 302,
+      "top": 231,
+      "width": 110,
+      "height": 44
+    },
+    {
+      "left": 302,
+      "top": 275,
+      "width": 110,
+      "height": 161.5
+    }
+  ],
+  "original_pixels": {
+    "width": 1280,
+    "height": 900,
+    "anchors": [
+      {
+        "inside": true,
+        "samples": 11160,
+        "contrast": 192,
+        "dark_pixels": 1667,
+        "ink_present": true
+      },
+      {
+        "inside": true,
+        "samples": 4840,
+        "contrast": 71,
+        "dark_pixels": 0,
+        "ink_present": false
+      },
+      {
+        "inside": true,
+        "samples": 4840,
+        "contrast": 130,
+        "dark_pixels": 148,
+        "ink_present": true
+      },
+      {
+        "inside": true,
+        "samples": 17820,
+        "contrast": 201,
+        "dark_pixels": 269,
+        "ink_present": true
+      }
+    ]
+  },
+  "offline_analysis": {
+    "evidence_kind": "original_png_pixels_with_sidecar_visible_header_substitution_not_native_reexecution",
+    "anchors": [
+      {
+        "left": 258,
+        "top": 104,
+        "width": 309.21875,
+        "height": 36,
+        "scroll_left": 0,
+        "scroll_top": 0,
+        "client_width": 309,
+        "client_height": 36,
+        "scroll_width": 309,
+        "scroll_height": 36
+      },
+      {
+        "left": 302,
+        "top": 231,
+        "width": 110,
+        "height": 44
+      },
+      {
+        "left": 302,
+        "top": 231,
+        "width": 110,
+        "height": 44
+      },
+      {
+        "left": 302,
+        "top": 275,
+        "width": 110,
+        "height": 161.5
+      }
+    ],
+    "pixels": {
+      "width": 1280,
+      "height": 900,
+      "anchors": [
+        {
+          "inside": true,
+          "samples": 11160,
+          "contrast": 192,
+          "dark_pixels": 1667,
+          "ink_present": true
+        },
+        {
+          "inside": true,
+          "samples": 4840,
+          "contrast": 130,
+          "dark_pixels": 148,
+          "ink_present": true
+        },
+        {
+          "inside": true,
+          "samples": 4840,
+          "contrast": 130,
+          "dark_pixels": 148,
+          "ink_present": true
+        },
+        {
+          "inside": true,
+          "samples": 17820,
+          "contrast": 201,
+          "dark_pixels": 269,
+          "ink_present": true
+        }
+      ]
+    },
+    "result": "passed_only_for_offline_pixel_analysis"
+  },
+  "not_proven": [
+    "new native capture",
+    "QA14 old blank-image root cause",
+    "remaining three-viewport visual and self_hosted coverage"
+  ]
+}

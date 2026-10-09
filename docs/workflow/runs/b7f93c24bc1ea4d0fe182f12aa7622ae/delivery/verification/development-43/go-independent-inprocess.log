@@ -1,0 +1,37 @@
+=== RUN   TestConsoleOverviewAndExactRecords
+=== PAUSE TestConsoleOverviewAndExactRecords
+=== RUN   TestConsoleEvidenceConfigurationRace
+=== PAUSE TestConsoleEvidenceConfigurationRace
+=== RUN   TestConsoleDeniedMetadataAndStorage
+=== PAUSE TestConsoleDeniedMetadataAndStorage
+=== RUN   TestInstallationRecovery
+=== PAUSE TestInstallationRecovery
+=== RUN   TestInterruptedAndVersion
+=== PAUSE TestInterruptedAndVersion
+=== RUN   TestSourceAndLoginLimits
+=== PAUSE TestSourceAndLoginLimits
+=== RUN   TestRoutingSelectionAndEvidence
+=== PAUSE TestRoutingSelectionAndEvidence
+=== RUN   TestRoutingBoundedAndStop
+=== PAUSE TestRoutingBoundedAndStop
+=== CONT  TestConsoleOverviewAndExactRecords
+=== CONT  TestInterruptedAndVersion
+=== CONT  TestSourceAndLoginLimits
+=== CONT  TestRoutingBoundedAndStop
+--- PASS: TestInterruptedAndVersion (1.31s)
+=== CONT  TestInstallationRecovery
+--- PASS: TestConsoleOverviewAndExactRecords (2.70s)
+=== CONT  TestConsoleDeniedMetadataAndStorage
+--- PASS: TestRoutingBoundedAndStop (5.23s)
+=== CONT  TestConsoleEvidenceConfigurationRace
+2026/10/09 16:15:37 storage_write_failed
+--- PASS: TestConsoleDeniedMetadataAndStorage (2.59s)
+=== CONT  TestRoutingSelectionAndEvidence
+--- PASS: TestInstallationRecovery (5.20s)
+--- PASS: TestConsoleEvidenceConfigurationRace (2.58s)
+--- PASS: TestRoutingSelectionAndEvidence (2.59s)
+--- PASS: TestSourceAndLoginLimits (14.07s)
+PASS
+ok  	model-relay/internal/relay	15.823s
+# model-relay/internal/relay.test
+ld: warning: '[temporary-linker-object]' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626

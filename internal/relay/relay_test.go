@@ -189,6 +189,7 @@ func waitState(t *testing.T, value *fixture, state string) Record {
 }
 
 func TestInstallationRecovery(t *testing.T) {
+	t.Parallel()
 	store, password, directory, keyFile := installation(t)
 	if _, err := Init(directory, keyFile); err == nil {
 		t.Fatal("repeat init accepted")
@@ -245,6 +246,7 @@ func TestInstallationRecovery(t *testing.T) {
 	}
 }
 func TestInterruptedAndVersion(t *testing.T) {
+	t.Parallel()
 	store, _, directory, keyFile := installation(t)
 	if err := store.Start(Record{ID: "interrupted", Time: time.Now().Format(time.RFC3339)}); err != nil {
 		t.Fatal(err)
@@ -267,6 +269,7 @@ func TestInterruptedAndVersion(t *testing.T) {
 	}
 }
 func TestSourceAndLoginLimits(t *testing.T) {
+	t.Parallel()
 	store, password, _, _ := installation(t)
 	server := New(store, Config{Authority: "127.0.0.1:5544"})
 	request := func(origin, body string) *httptest.ResponseRecorder {
@@ -332,6 +335,7 @@ func TestDestinationAndProtocol(t *testing.T) {
 	}
 }
 func TestHTTPManagementAndOrdinary(t *testing.T) {
+	t.Parallel()
 	var calls atomic.Int32
 	value := newFixture(t, func(writer http.ResponseWriter, request *http.Request) {
 		calls.Add(1)
@@ -440,6 +444,7 @@ func TestHTTPManagementAndOrdinary(t *testing.T) {
 	}
 }
 func TestTransparentParametersAndLocalReject(t *testing.T) {
+	t.Parallel()
 	var calls atomic.Int32
 	value := newFixture(t, func(writer http.ResponseWriter, request *http.Request) {
 		calls.Add(1)
@@ -468,6 +473,7 @@ func TestTransparentParametersAndLocalReject(t *testing.T) {
 	}
 }
 func TestSSEBarrierAndUsage(t *testing.T) {
+	t.Parallel()
 	release := make(chan struct{})
 	value := newFixture(t, func(writer http.ResponseWriter, request *http.Request) {
 		writer.Header().Set("Content-Type", "text/event-stream")
@@ -645,6 +651,7 @@ func TestTimeoutRedirectAndNetwork(t *testing.T) {
 	}
 }
 func TestStorageFailClosed(t *testing.T) {
+	t.Parallel()
 	for _, phase := range []string{"start", "finish", "stream_finish"} {
 		t.Run(phase, func(t *testing.T) {
 			var count atomic.Int32

@@ -1,0 +1,86 @@
+[
+  {
+    "name": "source",
+    "command": "go run ./tests/evidence",
+    "started_utc": "2026-10-09T07:35:36.533Z",
+    "finished_utc": "2026-10-09T07:35:36.651Z",
+    "exit_code": 0,
+    "signal": null,
+    "log": "source.log",
+    "scope": "local supplemental; no complete make verify, native browser or listening HTTP proof"
+  },
+  {
+    "name": "node-targeted",
+    "command": "node --test tests/browser/capture-integrity.test.mjs tests/browser/console-visual.test.mjs tests/browser/journeys.test.mjs tests/browser/readability.test.mjs tests/browser/workspace.test.mjs",
+    "started_utc": "2026-10-09T07:35:36.653Z",
+    "finished_utc": "2026-10-09T07:35:36.860Z",
+    "exit_code": 0,
+    "signal": null,
+    "log": "node-targeted.log",
+    "scope": "local supplemental; no complete make verify, native browser or listening HTTP proof"
+  },
+  {
+    "name": "go-runner",
+    "command": "go test -race ./tests/verify -count=1 -v",
+    "started_utc": "2026-10-09T07:35:36.861Z",
+    "finished_utc": "2026-10-09T07:35:49.453Z",
+    "exit_code": 0,
+    "signal": null,
+    "log": "go-runner.log",
+    "scope": "local supplemental; no complete make verify, native browser or listening HTTP proof"
+  },
+  {
+    "name": "go-wiring",
+    "command": "go test -race ./tests/verification -count=1 -v",
+    "started_utc": "2026-10-09T07:35:49.453Z",
+    "finished_utc": "2026-10-09T07:35:51.761Z",
+    "exit_code": 0,
+    "signal": null,
+    "log": "go-wiring.log",
+    "scope": "local supplemental; no complete make verify, native browser or listening HTTP proof"
+  },
+  {
+    "name": "static",
+    "command": "make format-check vet build && go mod verify",
+    "started_utc": "2026-10-09T07:35:51.762Z",
+    "finished_utc": "2026-10-09T07:35:54.533Z",
+    "exit_code": 0,
+    "signal": null,
+    "log": "static.log",
+    "scope": "local supplemental; no complete make verify, native browser or listening HTTP proof"
+  },
+  {
+    "name": "go-fixture",
+    "command": "go test -race ./tests/browser -run \"^TestContinuousUpstream(Response|Stream)Contract$\" -count=1 -v",
+    "started_utc": "2026-10-09T07:35:54.533Z",
+    "finished_utc": "2026-10-09T07:35:57.428Z",
+    "exit_code": 0,
+    "signal": null,
+    "log": "go-fixture.log",
+    "scope": "local supplemental; no complete make verify, native browser or listening HTTP proof",
+    "redacted": true,
+    "redaction": "temporary absolute linker path only; warning and result retained",
+    "original_log_sha256": "89700290bb285bacf0286328c8a52e81639056454e0dcb9aef1ad7212ba5da43",
+    "original_log_bytes": 763
+  },
+  {
+    "name": "syntax-diff",
+    "command": "node --check tests/browser/capture-integrity.mjs && node --check tests/browser/readability.mjs && node --check tests/browser/readability.test.mjs && git diff --check",
+    "started_utc": "2026-10-09T07:35:57.429Z",
+    "finished_utc": "2026-10-09T07:35:57.635Z",
+    "exit_code": 0,
+    "signal": null,
+    "log": "syntax-diff.log",
+    "scope": "local supplemental; no complete make verify, native browser or listening HTTP proof"
+  },
+  {
+    "name": "source-after",
+    "command": "go run ./tests/evidence",
+    "started_utc": "2026-10-09T07:35:57.635Z",
+    "finished_utc": "2026-10-09T07:35:57.740Z",
+    "exit_code": 0,
+    "signal": null,
+    "log": "source-after.log",
+    "scope": "local supplemental; no complete make verify, native browser or listening HTTP proof"
+  }
+]

@@ -1,0 +1,7 @@
+START_UTC=2026-10-09T00:58:36Z
+go vet ./...
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+GO_CHECK_EXIT_CODE=0
+SYNTAX_EXIT_CODE=0
+DIFF_EXIT_CODE=0
+END_UTC=2026-10-09T00:58:37Z

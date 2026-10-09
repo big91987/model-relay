@@ -334,6 +334,53 @@ func TestOwnedGroupCancellation(test *testing.T) {
 	}
 }
 
+func TestCaptureCommandTiming(test *testing.T) {
+	for _, scenario := range []string{"success", "nonzero", "cancelled"} {
+		test.Run(scenario, func(test *testing.T) {
+			ctx, cancel := context.WithCancel(context.Background())
+			defer cancel()
+			script := "printf 'timing-stdout\\n'; printf 'timing-stderr\\n' >&2"
+			if scenario == "nonzero" {
+				script += "; exit 23"
+			} else if scenario == "cancelled" {
+				cancel()
+			}
+			var output bytes.Buffer
+			log := newLog(&output, "", "", "")
+			var state receipt
+			started := time.Now()
+			stdout, err := captureCommand(ctx, "timing-fixture", exec.Command("/bin/sh", "-c", script), log, &state)
+			finished := time.Now()
+			if flushErr := log.flush(); flushErr != nil {
+				test.Fatal(flushErr)
+			}
+			if (err != nil) != (scenario != "success") || len(state.AuxiliaryCommands) != 1 {
+				test.Fatalf("unexpected timing outcome: err=%v entries=%d", err, len(state.AuxiliaryCommands))
+			}
+			entry := state.AuxiliaryCommands[0]
+			stamp, stampErr := time.Parse(time.RFC3339Nano, entry.StartedUTC)
+			if stampErr != nil || stamp.Before(started) || stamp.After(finished) || entry.BudgetMilliseconds < 0 || entry.BudgetMilliseconds > (2*time.Minute).Milliseconds() || entry.ExecuteMilliseconds < 0 || entry.GroupCheckMilliseconds < 0 || entry.ExecuteMilliseconds+entry.GroupCheckMilliseconds > finished.Sub(started).Milliseconds() {
+				test.Fatalf("invalid timing receipt: %+v", entry)
+			}
+			if entry.Stage != "timing-fixture" || entry.Cancelled != (scenario == "cancelled") {
+				test.Fatalf("lost boundary: %+v", entry)
+			}
+			if scenario == "cancelled" {
+				if entry.BudgetMilliseconds != 0 || entry.Exit != -1 || len(stdout) != 0 {
+					test.Fatalf("cancelled command ran: %+v", entry)
+				}
+			} else if string(stdout) != "timing-stdout\n" || !strings.Contains(output.String(), "timing-stderr") || entry.GroupAbsent == nil || !*entry.GroupAbsent || (scenario == "success" && entry.Exit != 0) || (scenario == "nonzero" && entry.Exit != 23) {
+				test.Fatalf("capture changed semantics: %+v", entry)
+			}
+			for _, marker := range []string{"COMMAND_START stage=timing-fixture started_utc=", "budget_ms=", "COMMAND_END stage=timing-fixture exit=", "execute_ms=", "group_check_ms="} {
+				if !strings.Contains(output.String(), marker) {
+					test.Fatal("missing timing marker: " + marker)
+				}
+			}
+		})
+	}
+}
+
 func TestFixedRunnerReceipts(test *testing.T) {
 	for _, scenario := range []string{"green_fixture", "failed_fixture", "prerequisite_failed_fixture", "evidence_failed_fixture", "probe_failed_fixture", "copy_failed_fixture", "cancel_inventory", "cancel_git_directory", "cancel_evidence", "cancel_prerequisite", "cancel_probe"} {
 		test.Run(scenario, func(test *testing.T) {
@@ -411,9 +458,7 @@ func TestFixedRunnerReceipts(test *testing.T) {
 				}()
 			}
 			err := run(ctx)
-			if (err != nil) != failure {
-				test.Fatalf("err=%v failure=%test", err, failure)
-			}
+			runErr := err
 			matches, err := filepath.Glob("test-results/verification/*/state.json")
 			if err != nil || len(matches) != 1 {
 				test.Fatalf("receipts=%v err=%v", matches, err)
@@ -425,6 +470,12 @@ func TestFixedRunnerReceipts(test *testing.T) {
 			var state receipt
 			if err := json.Unmarshal(data, &state); err != nil {
 				test.Fatal(err)
+			}
+			if (runErr != nil) != failure {
+				for _, entry := range state.AuxiliaryCommands {
+					test.Logf("FIXTURE_TIMING stage=%s started_utc=%s budget_ms=%d execute_ms=%d group_check_ms=%d exit=%d cancelled=%t", entry.Stage, entry.StartedUTC, entry.BudgetMilliseconds, entry.ExecuteMilliseconds, entry.GroupCheckMilliseconds, entry.Exit, entry.Cancelled)
+				}
+				test.Fatalf("err=%v failure=%t", runErr, failure)
 			}
 			earlyFailure := scenario == "copy_failed_fixture" || scenario == "cancel_inventory" || scenario == "cancel_git_directory"
 			if state.CleanStartMeasured == earlyFailure || state.NodeModulesBefore || state.NPMCacheBefore || state.NodePath != "unset" || !strings.Contains(state.Cleanup, "candidate_removed") || state.FinishedUTC == "" {
@@ -471,8 +522,11 @@ func TestFixedRunnerReceipts(test *testing.T) {
 				if err != nil {
 					test.Fatal(err)
 				}
-				if _, err := fmt.Sscanf(string(data), "%d", &child); err != nil || syscall.Kill(child, 0) != syscall.ESRCH {
-					test.Fatal("actual auxiliary child remains")
+				if _, err := fmt.Sscanf(string(data), "%d", &child); err != nil {
+					test.Fatal("invalid auxiliary child receipt")
+				}
+				if probeErr := syscall.Kill(child, 0); probeErr != syscall.ESRCH {
+					test.Fatalf("actual auxiliary child remains: signal_probe=%v", probeErr)
 				}
 			} else if !bytes.Equal(state.Before, state.After) {
 				test.Fatal("candidate source changed")

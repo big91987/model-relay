@@ -104,6 +104,7 @@ func (value *consoleFixture) overview(t *testing.T) map[string]json.RawMessage {
 }
 
 func TestConsoleOverviewAndExactRecords(t *testing.T) {
+	t.Parallel()
 	value := newConsoleFixture(t)
 	result := value.overview(t)
 	if string(result["call_evidence"]) != "null" || !bytes.Contains(result["upstream"], []byte(`"configured":false`)) {
@@ -166,6 +167,7 @@ func TestConsoleOverviewAndExactRecords(t *testing.T) {
 }
 
 func TestConsoleEvidenceConfigurationRace(t *testing.T) {
+	t.Parallel()
 	value := newConsoleFixture(t)
 	value.configure(t)
 	entered, release := make(chan struct{}), make(chan struct{})
@@ -215,6 +217,7 @@ func TestConsoleEvidenceConfigurationRace(t *testing.T) {
 }
 
 func TestConsoleDeniedMetadataAndStorage(t *testing.T) {
+	t.Parallel()
 	value := newConsoleFixture(t)
 	value.configure(t)
 	var posts atomic.Int64
@@ -267,6 +270,7 @@ func TestConsoleDeniedMetadataAndStorage(t *testing.T) {
 }
 
 func TestConsoleRealHTTP(t *testing.T) {
+	t.Parallel()
 	value := newFixture(t, func(writer http.ResponseWriter, request *http.Request) {
 		writer.Header().Set("Content-Type", "application/json")
 		io.WriteString(writer, `{"choices":[{"message":{"role":"assistant","content":"controlled fixture"}}]}`)

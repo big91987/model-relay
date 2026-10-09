@@ -1,0 +1,219 @@
+{
+  "suite": "first-self-hosted",
+  "width": 1440,
+  "result": "passed",
+  "started_utc": "2026-10-09T01:33:06.825Z",
+  "finished_utc": "2026-10-09T01:33:11.073Z",
+  "chromium_version": "147.0.7727.15",
+  "initial_counts": {
+    "upstreams": 0,
+    "models": 0,
+    "tenants": 0
+  },
+  "provider": "controlled_http_not_supplier",
+  "installation": "independent_temporary_sqlite",
+  "business_writes": "native_user_actions_only",
+  "steps": [
+    {
+      "step": "upstream_connection_failed",
+      "utc": "2026-10-09T01:33:06.986Z",
+      "readability": {
+        "root_fits": true,
+        "tables": 0,
+        "tables_accessible": true,
+        "headers_unbroken": true,
+        "identifiers": 2,
+        "identifiers_complete": true,
+        "actions_unbroken": true,
+        "overflowing_tables": 0,
+        "overflowing_identifiers": 0,
+        "keyboard_scrolled_tables": 0,
+        "keyboard_scrolled_identifiers": 0
+      }
+    },
+    {
+      "step": "upstream_rejected",
+      "utc": "2026-10-09T01:33:07.153Z",
+      "readability": {
+        "root_fits": true,
+        "tables": 0,
+        "tables_accessible": true,
+        "headers_unbroken": true,
+        "identifiers": 2,
+        "identifiers_complete": true,
+        "actions_unbroken": true,
+        "overflowing_tables": 0,
+        "overflowing_identifiers": 0,
+        "keyboard_scrolled_tables": 0,
+        "keyboard_scrolled_identifiers": 0
+      }
+    },
+    {
+      "step": "verified",
+      "utc": "2026-10-09T01:33:07.336Z",
+      "readability": {
+        "root_fits": true,
+        "tables": 0,
+        "tables_accessible": true,
+        "headers_unbroken": true,
+        "identifiers": 1,
+        "identifiers_complete": true,
+        "actions_unbroken": true,
+        "overflowing_tables": 0,
+        "overflowing_identifiers": 0,
+        "keyboard_scrolled_tables": 0,
+        "keyboard_scrolled_identifiers": 0
+      }
+    },
+    {
+      "step": "service-long-address",
+      "utc": "2026-10-09T01:33:07.676Z",
+      "readability": {
+        "root_fits": true,
+        "tables": 1,
+        "tables_accessible": true,
+        "headers_unbroken": true,
+        "identifiers": 1,
+        "identifiers_complete": true,
+        "actions_unbroken": true,
+        "overflowing_tables": 1,
+        "overflowing_identifiers": 1,
+        "keyboard_scrolled_tables": 1,
+        "keyboard_scrolled_identifiers": 1
+      }
+    },
+    {
+      "step": "roles",
+      "utc": "2026-10-09T01:33:09.740Z",
+      "readability": {
+        "root_fits": true,
+        "tables": 3,
+        "tables_accessible": true,
+        "headers_unbroken": true,
+        "identifiers": 4,
+        "identifiers_complete": true,
+        "actions_unbroken": true,
+        "overflowing_tables": 1,
+        "overflowing_identifiers": 0,
+        "keyboard_scrolled_tables": 1,
+        "keyboard_scrolled_identifiers": 0
+      }
+    },
+    {
+      "step": "key-safe-identifier",
+      "utc": "2026-10-09T01:33:09.943Z",
+      "readability": {
+        "root_fits": true,
+        "tables": 1,
+        "tables_accessible": true,
+        "headers_unbroken": true,
+        "identifiers": 1,
+        "identifiers_complete": true,
+        "actions_unbroken": true,
+        "overflowing_tables": 0,
+        "overflowing_identifiers": 0,
+        "keyboard_scrolled_tables": 0,
+        "keyboard_scrolled_identifiers": 0
+      }
+    },
+    {
+      "step": "normal-same-request",
+      "utc": "2026-10-09T01:33:10.191Z",
+      "readability": {
+        "root_fits": true,
+        "tables": 0,
+        "tables_accessible": true,
+        "headers_unbroken": true,
+        "identifiers": 7,
+        "identifiers_complete": true,
+        "actions_unbroken": true,
+        "overflowing_tables": 0,
+        "overflowing_identifiers": 1,
+        "keyboard_scrolled_tables": 0,
+        "keyboard_scrolled_identifiers": 1
+      }
+    },
+    {
+      "step": "normal-ledger",
+      "utc": "2026-10-09T01:33:10.206Z",
+      "input_tokens": 3,
+      "output_tokens": 4,
+      "fee_micro_usd": "21",
+      "cost_micro_usd": "7",
+      "same_request": true
+    },
+    {
+      "step": "sse-same-request",
+      "utc": "2026-10-09T01:33:10.446Z",
+      "readability": {
+        "root_fits": true,
+        "tables": 0,
+        "tables_accessible": true,
+        "headers_unbroken": true,
+        "identifiers": 7,
+        "identifiers_complete": true,
+        "actions_unbroken": true,
+        "overflowing_tables": 0,
+        "overflowing_identifiers": 1,
+        "keyboard_scrolled_tables": 0,
+        "keyboard_scrolled_identifiers": 1
+      }
+    },
+    {
+      "step": "sse-ledger",
+      "utc": "2026-10-09T01:33:10.461Z",
+      "input_tokens": 3,
+      "output_tokens": 4,
+      "fee_micro_usd": "21",
+      "cost_micro_usd": "7",
+      "same_request": true
+    },
+    {
+      "step": "usage-confirmed",
+      "utc": "2026-10-09T01:33:10.769Z",
+      "readability": {
+        "root_fits": true,
+        "tables": 1,
+        "tables_accessible": true,
+        "headers_unbroken": true,
+        "identifiers": 1,
+        "identifiers_complete": true,
+        "actions_unbroken": true,
+        "overflowing_tables": 1,
+        "overflowing_identifiers": 1,
+        "keyboard_scrolled_tables": 1,
+        "keyboard_scrolled_identifiers": 1
+      }
+    },
+    {
+      "step": "model-long-name",
+      "utc": "2026-10-09T01:33:11.073Z",
+      "readability": {
+        "root_fits": true,
+        "tables": 1,
+        "tables_accessible": true,
+        "headers_unbroken": true,
+        "identifiers": 1,
+        "identifiers_complete": true,
+        "actions_unbroken": true,
+        "overflowing_tables": 1,
+        "overflowing_identifiers": 1,
+        "keyboard_scrolled_tables": 1,
+        "keyboard_scrolled_identifiers": 1
+      }
+    }
+  ],
+  "screenshots": [
+    "continuous-1440-self-hosted-upstream_connection_failed-48273.png",
+    "continuous-1440-self-hosted-upstream_rejected-48273.png",
+    "continuous-1440-self-hosted-verified-48273.png",
+    "continuous-1440-self-hosted-service-long-address-48273.png",
+    "continuous-1440-self-hosted-roles-48273.png",
+    "continuous-1440-self-hosted-key-safe-identifier-48273.png",
+    "continuous-1440-self-hosted-normal-same-request-48273.png",
+    "continuous-1440-self-hosted-sse-same-request-48273.png",
+    "continuous-1440-self-hosted-usage-confirmed-48273.png",
+    "continuous-1440-self-hosted-model-long-name-48273.png"
+  ],
+  "cleanup_owner": "go_harness_and_browser_finally"
+}

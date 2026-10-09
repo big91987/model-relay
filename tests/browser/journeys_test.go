@@ -3,12 +3,14 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"path/filepath"
 	"strings"
 	"sync/atomic"
 	"testing"
+	"time"
 
 	"model-relay/internal/relay"
 )
@@ -60,6 +62,45 @@ func TestContinuousUpstreamResponseContract(test *testing.T) {
 	}
 	if dispatched.Load() != 2 {
 		test.Fatal("completion dispatch counter mismatch")
+	}
+}
+
+func TestContinuousUpstreamStreamContract(test *testing.T) {
+	var dispatched atomic.Int64
+	request := httptest.NewRequest("POST", "http://controlled.test/v1/chat/completions", strings.NewReader(`{"stream":true,"messages":[{"role":"user","content":"controlled journey input"}]}`))
+	request.Header.Set("Authorization", "Bearer controlled-journey-upstream")
+	writer := httptest.NewRecorder()
+	continuousUpstream(&dispatched).ServeHTTP(writer, request)
+	if writer.Code != 200 || writer.Header().Get("Content-Type") != "text/event-stream" || !writer.Flushed {
+		test.Fatal("controlled SSE requires successful stream headers and an actually flushed first frame")
+	}
+	frames := strings.Split(strings.TrimSpace(writer.Body.String()), "\n\n")
+	if len(frames) != 3 || frames[2] != "data: [DONE]" {
+		test.Fatal("controlled SSE requires two structured frames and a terminal frame")
+	}
+	for index, frame := range frames[:2] {
+		var chunk struct {
+			Choices []struct {
+				Delta struct{ Role, Content string }
+			}
+			Usage *struct {
+				Input  int64 `json:"prompt_tokens"`
+				Output int64 `json:"completion_tokens"`
+				Total  int64 `json:"total_tokens"`
+			}
+		}
+		if !strings.HasPrefix(frame, "data: ") || json.Unmarshal([]byte(strings.TrimPrefix(frame, "data: ")), &chunk) != nil || len(chunk.Choices) != 1 {
+			test.Fatal("controlled SSE structured frame mismatch")
+		}
+		if index == 0 && (chunk.Choices[0].Delta.Role != "assistant" || chunk.Choices[0].Delta.Content == "" || chunk.Usage != nil) {
+			test.Fatal("controlled SSE first frame must carry assistant text, not invented usage")
+		}
+		if index == 1 && (chunk.Usage == nil || chunk.Usage.Input != 3 || chunk.Usage.Output != 4 || chunk.Usage.Total != 7) {
+			test.Fatal("controlled SSE terminal usage changed")
+		}
+	}
+	if dispatched.Load() != 1 {
+		test.Fatal("controlled SSE must count exactly one completion dispatch")
 	}
 }
 
@@ -119,12 +160,14 @@ func TestContinuousUpstreamRelayHTTP(test *testing.T) {
 	for _, scenario := range []struct {
 		name, message string
 		pending       float64
+		stream        bool
 	}{
-		{"known", "controlled journey input", 0},
-		{"unknown", "controlled unknown usage", 1},
+		{"known", "controlled journey input", 0, false},
+		{"unknown", "controlled unknown usage", 1, false},
+		{"known-stream", "controlled journey input", 0, true},
 	} {
 		test.Run(scenario.name, func(test *testing.T) {
-			data, _ := json.Marshal(map[string]any{"model": "controlled", "messages": []map[string]string{{"role": "user", "content": scenario.message}}})
+			data, _ := json.Marshal(map[string]any{"model": "controlled", "messages": []map[string]string{{"role": "user", "content": scenario.message}}, "stream": scenario.stream})
 			request := httptest.NewRequest("POST", "http://console.test/v1/chat/completions", bytes.NewReader(data))
 			request.Header.Set("Content-Type", "application/json")
 			request.Header.Set("Authorization", "Bearer "+key)
@@ -132,6 +175,9 @@ func TestContinuousUpstreamRelayHTTP(test *testing.T) {
 			server.ServeHTTP(writer, request)
 			if writer.Code != 200 {
 				test.Fatalf("actual controlled HTTP relay status=%d want=200", writer.Code)
+			}
+			if scenario.stream && (writer.Header().Get("Content-Type") != "text/event-stream" || !strings.Contains(writer.Body.String(), "data: [DONE]")) {
+				test.Fatal("controlled stream response must be actual SSE with a terminal frame")
 			}
 			detail := admin("GET", "workspace/requests/"+writer.Header().Get("X-Request-ID"), nil, 200)
 			if detail["pending"] != scenario.pending || detail["state"] != "success" {
@@ -149,7 +195,46 @@ func TestContinuousUpstreamRelayHTTP(test *testing.T) {
 			}
 		})
 	}
-	if dispatched.Load() != 2 {
+	if dispatched.Load() != 3 {
 		test.Fatal("actual controlled HTTP dispatch count mismatch")
+	}
+}
+
+func TestSelfHostedControlledHTTPBoundary(test *testing.T) {
+	var dispatched atomic.Int64
+	server := httptest.NewServer(selfHostedUpstream(&dispatched))
+	defer server.Close()
+	client := &http.Client{Timeout: 2 * time.Second}
+	for _, scenario := range []struct {
+		path, token string
+		status      int
+	}{
+		{selfHostedPath + "/models", "controlled-journey-upstream", 200},
+		{selfHostedPath + "/models", "controlled-rejected-credential", 401},
+	} {
+		request, err := http.NewRequest("GET", server.URL+scenario.path, nil)
+		if err != nil {
+			test.Fatal("controlled request creation failed")
+		}
+		request.Header.Set("Authorization", "Bearer "+scenario.token)
+		response, err := client.Do(request)
+		if err != nil {
+			test.Fatal("controlled check transport failed")
+		}
+		io.Copy(io.Discard, response.Body)
+		response.Body.Close()
+		if response.StatusCode != scenario.status {
+			test.Fatal("controlled check HTTP status mismatch")
+		}
+	}
+	response, err := client.Get(server.URL + "/unreachable/models")
+	if response != nil {
+		response.Body.Close()
+	}
+	if err == nil {
+		test.Fatal("closed test connection must fail at transport boundary, not return an HTTP error")
+	}
+	if dispatched.Load() != 0 {
+		test.Fatal("check-only fixture must not count a completion")
 	}
 }

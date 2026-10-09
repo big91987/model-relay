@@ -1,0 +1,146 @@
+{
+  "host_execution": 48,
+  "connector_exit_code": 2,
+  "runner_exit_code": 1,
+  "gate_exit_code": 2,
+  "source_before": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "dcdab7fc4bbdbbcc944377450a30d36cb6e20a67c65443cfb950de22a779f193"
+  },
+  "source_after": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "dcdab7fc4bbdbbcc944377450a30d36cb6e20a67c65443cfb950de22a779f193"
+  },
+  "candidate_unchanged": true,
+  "source_unchanged": true,
+  "owned_group_absent": true,
+  "cleanup": "owned_process_group_cleanup_attempted; candidate_removed",
+  "log_sha256": "ecfa54c7d1f88d4b779a89ae2c3451bf2bbc93b71e0975f32f681110568c4404",
+  "log_bytes": 689931,
+  "visual_phase": "keys-detail",
+  "failure": {
+    "phase": "keys-detail",
+    "check": "modal-scroll-boundary",
+    "kind": "assertion",
+    "capture_assertion": null,
+    "capture_integrity": null,
+    "readability": {
+      "available": false
+    }
+  },
+  "pending_capture": {
+    "page": "keys",
+    "expected_title": "API Keys",
+    "check": "modal-scroll-boundary",
+    "http_reads": [],
+    "omitted_reads": 0,
+    "facts": {
+      "title": true,
+      "scope": true,
+      "role": true,
+      "ready": true,
+      "settlement": {
+        "loading": false,
+        "error_nodes": 0,
+        "notice_present": false
+      },
+      "empty_states": {
+        "total": 0,
+        "visible": 0,
+        "seven_day_no_calls": 0,
+        "no_data": 0,
+        "other": 0
+      },
+      "dimensions": {
+        "root_scroll_width": 1280,
+        "viewport_width": 1280,
+        "content_width": 990
+      },
+      "identity": {
+        "platform_administrator": true,
+        "tenant_selected": true,
+        "tenant_option_count": 3
+      },
+      "rootFits": true,
+      "secretsClear": true,
+      "columns": {
+        "名称": true,
+        "应用": true,
+        "安全标识": true,
+        "模型授权": true,
+        "状态": true,
+        "期限": true,
+        "费用已用 / 预留 / 上限": true
+      },
+      "text": {},
+      "actions": {
+        "创建Key": true
+      },
+      "action_states": {
+        "创建Key": "enabled"
+      },
+      "labels": {},
+      "minimumRows": 2,
+      "primaryRows": 4,
+      "dataRows": 4,
+      "form": false,
+      "cards": 0
+    },
+    "modal_scroll": {
+      "native_modal": true,
+      "root_overflow": "clip",
+      "dialog_overflow": "auto",
+      "background_scroll_delta": 100,
+      "focus_inside": true
+    }
+  },
+  "modal_scroll_checks": [
+    {
+      "capture": "models-detail",
+      "native_modal": true,
+      "root_overflow": "clip",
+      "dialog_overflow": "auto",
+      "background_scroll_delta": 0,
+      "focus_inside": true
+    },
+    {
+      "capture": "models-editor",
+      "native_modal": true,
+      "root_overflow": "clip",
+      "dialog_overflow": "auto",
+      "background_scroll_delta": 0,
+      "focus_inside": true
+    },
+    {
+      "capture": "services-detail",
+      "native_modal": true,
+      "root_overflow": "clip",
+      "dialog_overflow": "auto",
+      "background_scroll_delta": 0,
+      "focus_inside": true
+    },
+    {
+      "capture": "services-editor",
+      "native_modal": true,
+      "root_overflow": "clip",
+      "dialog_overflow": "auto",
+      "background_scroll_delta": 0,
+      "focus_inside": true
+    },
+    {
+      "capture": "keys-detail",
+      "native_modal": true,
+      "root_overflow": "clip",
+      "dialog_overflow": "auto",
+      "background_scroll_delta": 100,
+      "focus_inside": true
+    }
+  ],
+  "interpretation": "Root clip computed style is insufficient: actual native scrollBy moved background100px. Failed before original keys-detail capture; new self_hosted not reached. Not a sandbox listening failure."
+}

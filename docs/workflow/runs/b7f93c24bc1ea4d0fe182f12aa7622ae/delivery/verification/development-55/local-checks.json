@@ -1,0 +1,62 @@
+[
+  {
+    "command": "node --test tests/browser/{workspace,readback,save-lifecycle,journeys,console-visual,capture-integrity,readability}.test.mjs",
+    "exit_code": 1,
+    "started_utc": null,
+    "ended_utc": null,
+    "timing": "not captured on initial execution",
+    "log": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-55/affected-first-failure.log",
+    "sha256": "2701fa98ed95b1602cab4854c5307ba1eca777bac627179bbf6c484e196de140",
+    "original_sha256": "974d10e830e30dfd4bcb4a3e2cfa888fbee78e150ee3f791be889cf87d977b28",
+    "absolute_paths_redacted": true,
+    "reason": "new source-wiring test regex had an extra closing parenthesis; corrected test only; original product assertions retained"
+  },
+  {
+    "command": "node --test tests/browser/{workspace,readback,save-lifecycle,journeys,console-visual,capture-integrity,readability}.test.mjs",
+    "started_utc": "2026-10-09T10:57:09.899Z",
+    "ended_utc": "2026-10-09T10:57:10.084Z",
+    "exit_code": 0,
+    "signal": null,
+    "log": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-55/affected.log",
+    "bytes": 13394,
+    "sha256": "1af0a3bbb705ed9d1466ec883881425a02d4081b8adc262ea8c5a7c0756247d4",
+    "original_sha256": "1af0a3bbb705ed9d1466ec883881425a02d4081b8adc262ea8c5a7c0756247d4",
+    "absolute_paths_redacted": true
+  },
+  {
+    "command": "node --check internal/relay/web/workspace.js && node --check tests/browser/workspace.test.mjs && node --check tests/browser/readback.test.mjs && node --check tests/browser/save-lifecycle.test.mjs && node --check tests/browser/journeys.test.mjs && git diff --check && make format-check vet build && GOCACHE=\"$PWD/.cache/go-build\" GOTOOLCHAIN=local go mod verify",
+    "started_utc": "2026-10-09T10:57:10.085Z",
+    "ended_utc": "2026-10-09T10:57:13.037Z",
+    "exit_code": 0,
+    "signal": null,
+    "log": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-55/static.log",
+    "bytes": 90,
+    "sha256": "d9056758603dafeeb6b4ccfd3ce53f6fa6e5c42e6bc87b74b3df975020df33ee",
+    "original_sha256": "d9056758603dafeeb6b4ccfd3ce53f6fa6e5c42e6bc87b74b3df975020df33ee",
+    "absolute_paths_redacted": true
+  },
+  {
+    "command": "GOCACHE=\"$PWD/.cache/go-build\" CGO_ENABLED=1 GOTOOLCHAIN=local go test -race -count=1 ./tests/verification",
+    "started_utc": "2026-10-09T10:57:13.037Z",
+    "ended_utc": "2026-10-09T10:57:15.506Z",
+    "exit_code": 0,
+    "signal": null,
+    "log": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-55/go-wiring.log",
+    "bytes": 43,
+    "sha256": "b7ebbef987348e80d2cf219deaf5fd60525bdca1a9f9a64ec77d772dd1dd520c",
+    "original_sha256": "b7ebbef987348e80d2cf219deaf5fd60525bdca1a9f9a64ec77d772dd1dd520c",
+    "absolute_paths_redacted": true
+  },
+  {
+    "command": "GOCACHE=\"$PWD/.cache/go-build\" CGO_ENABLED=1 GOTOOLCHAIN=local go run ./tests/evidence",
+    "started_utc": "2026-10-09T10:57:15.507Z",
+    "ended_utc": "2026-10-09T10:57:15.605Z",
+    "exit_code": 0,
+    "signal": null,
+    "log": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-55/source-final.log",
+    "bytes": 336,
+    "sha256": "850a2e8b048d192e3a5a5892164552f13034979d3de763f45043dab1b1bc66f9",
+    "original_sha256": "850a2e8b048d192e3a5a5892164552f13034979d3de763f45043dab1b1bc66f9",
+    "absolute_paths_redacted": true
+  }
+]
