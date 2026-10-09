@@ -1,0 +1,59 @@
+[
+  {
+    "command": "node --test tests/browser/readback.test.mjs tests/browser/save-lifecycle.test.mjs",
+    "started_utc": "2026-10-09T10:14:35.004Z",
+    "ended_utc": "2026-10-09T10:14:35.148Z",
+    "exit_code": 0,
+    "signal": null,
+    "log": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-51/affected.log",
+    "bytes": 1265,
+    "sha256": "c9a7e5594ab7a78c256f0470212c93c69a6cd8703d67dc66b2d1c3b1b5ef6876",
+    "original_sha256": "c9a7e5594ab7a78c256f0470212c93c69a6cd8703d67dc66b2d1c3b1b5ef6876",
+    "absolute_paths_redacted": true
+  },
+  {
+    "command": "node --test tests/browser/*.test.mjs",
+    "started_utc": "2026-10-09T10:14:35.149Z",
+    "ended_utc": "2026-10-09T10:14:35.440Z",
+    "exit_code": 1,
+    "signal": null,
+    "log": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-51/node-all.log",
+    "bytes": 27576,
+    "sha256": "cf0deef8368b53b2db3da2af31a97171c22ff6a71decf3cca490c553cbec08ea",
+    "original_sha256": "eb103a75d49947c6bfc62f0bae45102136c7c9fcfc833c579c6f0e169c0cd34d",
+    "absolute_paths_redacted": true
+  },
+  {
+    "command": "node --check internal/relay/web/workspace.js && git diff --check && make format-check vet build && go mod verify",
+    "started_utc": "2026-10-09T10:14:35.440Z",
+    "ended_utc": "2026-10-09T10:14:36.323Z",
+    "exit_code": 0,
+    "signal": null,
+    "log": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-51/static.log",
+    "bytes": 90,
+    "sha256": "d9056758603dafeeb6b4ccfd3ce53f6fa6e5c42e6bc87b74b3df975020df33ee",
+    "original_sha256": "d9056758603dafeeb6b4ccfd3ce53f6fa6e5c42e6bc87b74b3df975020df33ee",
+    "absolute_paths_redacted": true
+  },
+  {
+    "command": "GOCACHE=\"$PWD/.cache/go-build\" CGO_ENABLED=1 GOTOOLCHAIN=local go test -race -count=1 ./tests/verification",
+    "started_utc": "2026-10-09T10:14:36.323Z",
+    "ended_utc": "2026-10-09T10:14:38.848Z",
+    "exit_code": 0,
+    "signal": null,
+    "log": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-51/go-wiring.log",
+    "bytes": 43,
+    "sha256": "d62268541c09b232895cdf8bc5937c723bb61f7bbfe213b5ffa3614c33c6a169",
+    "original_sha256": "d62268541c09b232895cdf8bc5937c723bb61f7bbfe213b5ffa3614c33c6a169",
+    "absolute_paths_redacted": true
+  },
+  {
+    "command": "GOCACHE=\"$PWD/.cache/go-build\" CGO_ENABLED=1 GOTOOLCHAIN=local go run ./tests/evidence",
+    "started_utc": "2026-10-09T10:16:37.675Z",
+    "ended_utc": "2026-10-09T10:16:37.862Z",
+    "exit_code": 0,
+    "log": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-51/source-final.log",
+    "bytes": 336,
+    "sha256": "49c3d39acf259972fd9f75d9a5b18a8b017119e50a7a75d17bc082c4312bf7fe"
+  }
+]

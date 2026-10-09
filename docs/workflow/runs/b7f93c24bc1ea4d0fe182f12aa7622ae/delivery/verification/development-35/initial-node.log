@@ -1,0 +1,31 @@
+✔ capture requires pixels in title and main content, not only nonuniform sidebar (4.47325ms)
+✔ original PNG uniformity distinguishes a whole blank image from sidebar-only ink without accepting either (1.517583ms)
+✔ render diagnostics whitelist ancestors, lifecycle and hit ownership without text or CSS payloads (1.009709ms)
+✔ render observer failure remains unavailable, never serialized as a raw browser error (0.146208ms)
+✔ single-capture lifecycle distinguishes transient viewport and visibility from stable endpoints (0.677708ms)
+✔ lifecycle samples are bounded and observers dispose on success or failure without raw errors (0.937416ms)
+✔ lifecycle observes the original single PNG and cleans up on blank or screenshot failure (7.037959ms)
+✔ frame trace projects bounded draw-time geometry and correlates page without retaining IDs or raw trace (0.7715ms)
+✔ frame trace unavailable, lost, closed or unattributed observations cannot become a render verdict (0.284542ms)
+✔ frame tracing preserves sole original screenshot options and failure identity and always cleans up (2.46625ms)
+✔ compositor observer bounds layer and paint events and never records protocol payloads (0.469917ms)
+✔ missing compositor domain or layout is unavailable, not proof of rendering (0.092292ms)
+✔ capture detaches compositor on original pixel failure without another screenshot (0.997917ms)
+✔ capture rejects displaced content and geometry movement without retry (0.63025ms)
+✔ live boundary whitelist captures viewport, root, scroll owners and table ink anchors without text (0.835959ms)
+✔ content anchor respects table clipping instead of sampling an occluded header (2.704625ms)
+✔ clipping does not remove the mandatory substantive anchor or misplace document coordinates (0.659875ms)
+✔ content anchor excludes a header covered by the scroll container border (0.395542ms)
+✔ PNG audit rejects unsupported and incomplete bytes (0.318375ms)
+✔ failed capture preserves image receipt and original error identity with bounded facts (2.840584ms)
+✔ diagnostic observer does not replace the original failure or retry the single PNG (0.963959ms)
+✔ successful capture names persisted sidecar and original PNG digest (0.768334ms)
+✔ all visual and continuous/self-hosted screenshots use integrity gate after existing secret checks (0.3465ms)
+ℹ tests 23
+ℹ suites 0
+ℹ pass 23
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 103.586084

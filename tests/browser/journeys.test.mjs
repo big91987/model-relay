@@ -46,6 +46,60 @@ test('J06 reconciled detail activates the records entry',()=>{
   assert.ok(journey.includes("const confirmedDetail=await requestDetail(admin,unknown.id,'records');"));
 });
 
+function billDetailContract(change={}) {
+  const events=[];
+  let showDetail,started;
+  const visible=new Promise(resolve=>{showDetail=resolve;});
+  const waiting=new Promise(resolve=>{started=resolve;});
+  const response={url:()=> 'http://controlled.test/admin/api/bills/closed?tenant=scope',request:()=>({method:()=> 'GET'}),status:()=>change.status??200,json:async()=>{events.push('body');return {id:change.id??'closed'};}};
+  const page={
+    waitForResponse:predicate=>{
+      events.push('armed');assert.equal(predicate(response),true);
+      assert.equal(predicate({...response,request:()=>({method:()=> 'POST'})}),false);
+      assert.equal(predicate({...response,url:()=> 'http://controlled.test/admin/api/bills/other'}),false);
+      return Promise.resolve(response);
+    },
+    locator:selector=>selector==='#detail'?{waitFor:async options=>{assert.equal(options.state,'visible');events.push('visibility-wait');started();await visible;if(change.visibilityError)throw change.visibilityError;events.push('visible');}}:{textContent:async()=>{assert.equal(selector,'#detail-title');events.push('title');return change.title??'已结账，原金额不可覆写（调整仅计入各调整周期一次）';}}
+  };
+  const context=vm.createContext({assert,URL,action:'',page,row:(target,period)=>{
+    assert.equal(target,page);assert.equal(period,'2026-10');return {getByRole:(role,options)=>{
+      assert.equal(role,'button');assert.deepEqual(JSON.parse(JSON.stringify(options)),{name:'详情 / 更正',exact:true});
+      return {click:async()=>{events.push('click');if(change.clickError)throw change.clickError;}};
+    }};
+  }});
+  const helper=journey.slice(journey.indexOf('async function billDetail('),journey.indexOf('async function editKey('));
+  const result=vm.runInContext(helper+"billDetail(page,'2026-10','closed');",context);
+  return {result,events,waiting,showDetail};
+}
+test('bill detail completion requires one native activation, exact GET and visible rendered detail',async()=>{
+  const contract=billDetailContract();let completed=false;
+  const result=contract.result.then(value=>{completed=true;contract.events.push('capture-boundary');return value;});
+  await contract.waiting;
+  assert.equal(completed,false);assert.deepEqual(contract.events,['armed','click','body','visibility-wait']);
+  contract.showDetail();assert.equal((await result).id,'closed');
+  assert.deepEqual(contract.events,['armed','click','body','visibility-wait','visible','title','capture-boundary']);
+});
+test('bill detail preserves failed activation and missing visible detail without retries',async()=>{
+  for(const field of ['clickError','visibilityError']) {
+    const error=new Error('controlled-failure'),contract=billDetailContract({[field]:error});contract.showDetail();
+    await assert.rejects(contract.result,value=>value===error);
+    assert.equal(contract.events.filter(value=>value==='click').length,1);
+    assert.equal(contract.events.includes('title'),false);
+  }
+});
+test('bill detail rejects failed HTTP, different bill and wrong rendered title',async()=>{
+  for(const change of [{status:503},{id:'other'},{title:'stale-detail'}]) {
+    const contract=billDetailContract(change);contract.showDetail();await assert.rejects(contract.result);
+    assert.equal(contract.events.filter(value=>value==='click').length,1);
+  }
+});
+test('J06 opens both bill details through completion synchronization before original capture',()=>{
+  const segment=journey.slice(journey.indexOf("  mark('J06-close-correction')"),journey.indexOf("complete('J06');"));
+  assert.equal(segment.split('await billDetail(admin,period,bill.id)').length-1,2);
+  assert.ok(segment.includes("await billDetail(admin,period,bill.id);await safeCurrentScreenshot(admin,'after-correction')"));
+  assert.equal(segment.includes("getByRole('button',{name:'详情 / 更正'"),false);
+});
+
 async function visualActivityContract(change={}) {
   const events=[];
   const before={today:'2026-11-01',period:'2026-11',requests_today:0,trend:[]};
@@ -272,7 +326,7 @@ test('request-detail log navigation keeps tenant and existing safe filters',asyn
   const state={tenant:'controlled-tenant',filters:{key:'controlled-key',model:'controlled-model',from:'2026-10-01T00:00:00Z'},pageNumber:2};
   let action,navigation;
   const dialog={showModal(){}};
-  const context=vm.createContext({state,byId:id=>id==='detail'?dialog:{replaceChildren(){},append(){},focus(){}},limitSummary:()=>({}),button:(label,handler)=>{action=handler;return {};},navigate:async(page,preserve)=>{navigation={page,preserve};}});
+  const context=vm.createContext({state,openModal:dialog=>dialog.showModal(),closeModal:dialog=>dialog.close(),byId:id=>id==='detail'?dialog:{replaceChildren(){},append(){},focus(){}},limitSummary:()=>({}),button:(label,handler)=>{action=handler;return {};},navigate:async(page,preserve)=>{navigation={page,preserve};}});
   const segment=workspace.slice(workspace.indexOf('function detail('),workspace.indexOf("byId('detail-close').onclick"));
   vm.runInContext(segment+"\ndetail('请求详情 · controlled-request',{id:'controlled-request'});",context);
   await action();

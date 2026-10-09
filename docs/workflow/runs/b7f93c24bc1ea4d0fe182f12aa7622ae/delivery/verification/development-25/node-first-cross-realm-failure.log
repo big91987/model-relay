@@ -1,0 +1,46 @@
+✔ known call, check, invitation, source and role labels express the actual business result (1.207875ms)
+✔ unknown enum values remain distinguishable and prototype keys cannot pretend to be states (0.08375ms)
+✔ full technical identifiers use native text, retain exact content and expose keyboard scroll access (0.081625ms)
+✔ technical region names preserve each public identity instead of replacing it with scroll instructions (0.074917ms)
+✔ empty error codes are absent facts, not empty scrollable identifiers (0.045292ms)
+✔ readability gate rejects overflow, hidden or clipped identifiers and unreachable table columns (0.725959ms)
+✔ failed native layout evidence retains bounded facts, never arbitrary page text or paths (0.848625ms)
+✔ scroll driver measures the open dialog instead of trying to focus inert background tables (0.166875ms)
+✔ scroll boundary diagnostic retains only finite geometry and boolean hit facts (0.24325ms)
+✖ passive event diagnostics are bounded, phase-labelled and removed without driving the page (1.515916ms)
+✔ event receipts whitelist fields and dispose unavailable diagnostics (0.188625ms)
+✔ keyboard completion requires own-region movement then scrollend, with bounded timeout and cleanup (1.12ms)
+✔ rightmost timeout preserves original assertion and one native input sequence with bounded before/after evidence (0.534583ms)
+✔ wheel waits for keyboard completion and does not run after a missing completion (0.404916ms)
+✔ original right-column capture failure retains events observed through capture and disposes once (0.901834ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 14
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 93.861542
+
+✖ failing tests:
+
+test at tests/browser/readability.test.mjs:91:1
+✖ passive event diagnostics are bounded, phase-labelled and removed without driving the page (1.515916ms)
+  AssertionError [ERR_ASSERTION]: Values have same structure but are not reference-equal:
+  
+  [
+    'wheel-dispatch-start',
+    'capture-start',
+    'capture-end'
+  ]
+  
+      at TestContext.<anonymous> (file://[workspace]/tests/browser/readability.test.mjs:117:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'wheel-dispatch-start', 'capture-start', 'capture-end' ],
+    expected: [ 'wheel-dispatch-start', 'capture-start', 'capture-end' ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

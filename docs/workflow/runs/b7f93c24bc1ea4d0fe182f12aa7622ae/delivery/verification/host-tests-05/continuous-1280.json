@@ -1,0 +1,48 @@
+{
+  "suite": "continuous-console",
+  "width": 1280,
+  "result": "failed",
+  "stage": "model-save-readback-disable",
+  "action": "navigation",
+  "last_status": 201,
+  "initial_counts": {
+    "upstreams": 0,
+    "models": 0,
+    "tenants": 0
+  },
+  "call_facts": {},
+  "usage_facts": {},
+  "read_facts": {
+    "expected_status": 200,
+    "actual_status": 200
+  },
+  "membership_facts": {},
+  "ledger_facts": {},
+  "self_hosted_facts": {},
+  "self_hosted_progress": {
+    "steps": [],
+    "screenshots": []
+  },
+  "failure_boundary": {
+    "source": "tests/browser/console-summary.mjs",
+    "line": 19,
+    "column": 12
+  },
+  "summary_cell": {
+    "available": true,
+    "check": "row-count",
+    "column": "model-status",
+    "row_count": 0
+  },
+  "readability_facts": {
+    "available": false
+  },
+  "checkpoints": [],
+  "error_kind": "assertion",
+  "editor_open": false,
+  "editor_invalid": 0,
+  "editor_failure": false,
+  "content_loading": false,
+  "workspace_visible": true,
+  "secret_present": false
+}

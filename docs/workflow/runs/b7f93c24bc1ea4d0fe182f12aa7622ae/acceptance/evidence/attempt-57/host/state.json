@@ -1,0 +1,143 @@
+{
+  "started_utc": "2026-10-09T11:00:42.841521Z",
+  "finished_utc": "2026-10-09T11:11:53.351221Z",
+  "command": "make verify -\u003e isolated make verify-gates",
+  "isolation": "new private candidate; git history read-only",
+  "node_modules_before": false,
+  "clean_start_measured": true,
+  "npm_cache_before": false,
+  "node_modules_after": true,
+  "npm_cache_after": true,
+  "source_unchanged": true,
+  "candidate_unchanged": true,
+  "NODE_PATH": "unset",
+  "manual_preinstall": "none",
+  "source_before": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "dc667be6f0f5db892748ac8a214d799264c2d451004da8c80a5e06e6c38f338c"
+  },
+  "source_after": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "dc667be6f0f5db892748ac8a214d799264c2d451004da8c80a5e06e6c38f338c"
+  },
+  "versions": {
+    "go": "go version go1.25.6 darwin/arm64",
+    "node": "v26.0.0",
+    "npm": "11.12.1"
+  },
+  "dependency_receipt": "playwright=1.59.1; resolution=candidate/node_modules\nplaywright-core=1.59.1; resolution=candidate/node_modules\nchromium=Google Chrome for Testing 147.0.7727.15",
+  "gate_exit": 0,
+  "exit_code": 0,
+  "log_sha256": "5f9b70c0e3c0837abd821048aca9a8b2787626441497ad735891481719b32f22",
+  "log_bytes": 729471,
+  "cleanup": "owned_process_group_cleanup_attempted; candidate_removed",
+  "owned_group_absent": true,
+  "auxiliary_commands": [
+    {
+      "stage": "source-inventory",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-09T11:00:42.842004Z",
+      "budget_ms": 119999,
+      "execute_ms": 24,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "git-directory",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-09T11:00:48.07814Z",
+      "budget_ms": 119999,
+      "execute_ms": 14,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-09T11:00:48.093344Z",
+      "budget_ms": 119999,
+      "execute_ms": 2445,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-09T11:00:50.539036Z",
+      "budget_ms": 119999,
+      "execute_ms": 77,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "prerequisite-go",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-09T11:00:50.616567Z",
+      "budget_ms": 119999,
+      "execute_ms": 5,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "prerequisite-node",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-09T11:00:50.622352Z",
+      "budget_ms": 119999,
+      "execute_ms": 20,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "prerequisite-npm",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-09T11:00:50.642635Z",
+      "budget_ms": 119999,
+      "execute_ms": 115,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-09T11:11:52.289511Z",
+      "budget_ms": 119999,
+      "execute_ms": 174,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-09T11:11:52.464211Z",
+      "budget_ms": 119999,
+      "execute_ms": 91,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "dependency-probe",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-09T11:11:52.556243Z",
+      "budget_ms": 119999,
+      "execute_ms": 258,
+      "group_check_ms": 0
+    }
+  ]
+}

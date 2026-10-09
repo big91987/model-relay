@@ -1,0 +1,200 @@
+{
+  "recovery_date": "2026-10-09",
+  "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+  "last_verified_candidate": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "cd3175b1ec0a5254aa6460274b3921b56d8cf4639d0485d95e2603280d4d9e45"
+  },
+  "host": {
+    "started_utc": "2026-10-09T06:33:15.943627Z",
+    "finished_utc": "2026-10-09T06:44:41.916723Z",
+    "gate_exit": 2,
+    "runner_exit": 1,
+    "source_unchanged": true,
+    "candidate_unchanged": true,
+    "owned_group_absent": true,
+    "log_sha256": "2d66a94afd054763a0e42ba616ad62d5ce31d122077f3e15e92e50be05a2e610",
+    "log_bytes": 560672
+  },
+  "interruption": {
+    "platform_stop": "reported by user; not inferred as command success",
+    "replayed_uncertain_operations": false,
+    "process_listing": "ps rejected by unchanged sandbox; no broad process absence claim",
+    "git_mutations": "none in recovery turn"
+  },
+  "material": {
+    "version": "design-v0.2.0",
+    "status": "frozen-for-test-implementation",
+    "archive_sha256": "5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7",
+    "manifest": ".workflow-input/b7f93c24bc1ea4d0fe182f12aa7622ae/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/manifest.json",
+    "files": [
+      {
+        "path": ".workflow-input/b7f93c24bc1ea4d0fe182f12aa7622ae/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/docs/acceptance.md",
+        "sha256": "2792740b1579d614780856a13b6257d192736e1efc0309f1dc41405a665bef7a",
+        "bytes": 5730
+      },
+      {
+        "path": ".workflow-input/b7f93c24bc1ea4d0fe182f12aa7622ae/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/docs/interactions.md",
+        "sha256": "95f3490ef003fa9b19dd6b9e864dd3b0429619b8cd9d0ecec853919d6a12c801",
+        "bytes": 6329
+      },
+      {
+        "path": ".workflow-input/b7f93c24bc1ea4d0fe182f12aa7622ae/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/docs/prd.md",
+        "sha256": "e768b4f26b4471e714d92b0db6e3187c89f37a25a697c01a12c6079af07de547",
+        "bytes": 12605
+      }
+    ]
+  },
+  "capture": {
+    "sha256": "78a7b304df77dac78964e27f6571f81f2ac48376e545786f9778a183028bff53",
+    "pixels": {
+      "width": 1280,
+      "height": 1149,
+      "surface": {
+        "uniform_rgb": true,
+        "first_pixel_rgb": [
+          243,
+          246,
+          250
+        ]
+      },
+      "anchors": [
+        {
+          "inside": true,
+          "samples": 11592,
+          "contrast": 0,
+          "dark_pixels": 0,
+          "ink_present": false
+        },
+        {
+          "inside": true,
+          "samples": 4840,
+          "contrast": 0,
+          "dark_pixels": 0,
+          "ink_present": false
+        },
+        {
+          "inside": true,
+          "samples": 4840,
+          "contrast": 0,
+          "dark_pixels": 0,
+          "ink_present": false
+        },
+        {
+          "inside": true,
+          "samples": 21230,
+          "contrast": 0,
+          "dark_pixels": 0,
+          "ink_present": false
+        }
+      ]
+    },
+    "trace": {
+      "available": true,
+      "complete": true,
+      "data_loss": true,
+      "page_associated": true,
+      "snapshot_events": 8,
+      "markers": [
+        {
+          "kind": "relay-capture-call",
+          "timestamp_us": 4538900869922
+        }
+      ],
+      "ignored_events": 1345,
+      "snapshots": [
+        {
+          "timestamp_us": 4538900871414,
+          "identity_shape": {
+            "argument_numeric": false,
+            "snapshot_numeric": false,
+            "object_hex": true,
+            "local_object_hex": false,
+            "global_object_hex": false
+          },
+          "page_association": "unattributed"
+        },
+        {
+          "timestamp_us": 4538900876362,
+          "identity_shape": {
+            "argument_numeric": false,
+            "snapshot_numeric": false,
+            "object_hex": true,
+            "local_object_hex": false,
+            "global_object_hex": false
+          },
+          "page_association": "unattributed"
+        },
+        {
+          "timestamp_us": 4538900888435,
+          "identity_shape": {
+            "argument_numeric": false,
+            "snapshot_numeric": false,
+            "object_hex": true,
+            "local_object_hex": false,
+            "global_object_hex": false
+          },
+          "page_association": "unattributed"
+        },
+        {
+          "timestamp_us": 4538900896721,
+          "identity_shape": {
+            "argument_numeric": false,
+            "snapshot_numeric": false,
+            "object_hex": true,
+            "local_object_hex": false,
+            "global_object_hex": false
+          },
+          "page_association": "unattributed"
+        },
+        {
+          "timestamp_us": 4538900905566,
+          "identity_shape": {
+            "argument_numeric": false,
+            "snapshot_numeric": false,
+            "object_hex": true,
+            "local_object_hex": false,
+            "global_object_hex": false
+          },
+          "page_association": "unattributed"
+        },
+        {
+          "timestamp_us": 4538900921100,
+          "identity_shape": {
+            "argument_numeric": false,
+            "snapshot_numeric": false,
+            "object_hex": true,
+            "local_object_hex": false,
+            "global_object_hex": false
+          },
+          "page_association": "unattributed"
+        },
+        {
+          "timestamp_us": 4538900930482,
+          "identity_shape": {
+            "argument_numeric": false,
+            "snapshot_numeric": false,
+            "object_hex": true,
+            "local_object_hex": false,
+            "global_object_hex": false
+          },
+          "page_association": "unattributed"
+        },
+        {
+          "timestamp_us": 4538900938848,
+          "identity_shape": {
+            "argument_numeric": false,
+            "snapshot_numeric": false,
+            "object_hex": true,
+            "local_object_hex": false,
+            "global_object_hex": false
+          },
+          "page_association": "unattributed"
+        }
+      ]
+    }
+  }
+}

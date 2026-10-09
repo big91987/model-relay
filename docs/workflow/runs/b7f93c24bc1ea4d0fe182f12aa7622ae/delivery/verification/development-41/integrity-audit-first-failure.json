@@ -1,0 +1,17 @@
+{
+  "recorded_utc": "2026-10-09T07:47:15.833Z",
+  "command_kind": "post-validation artifact audit",
+  "exit_code": 1,
+  "boundary": "nonempty-log assertion",
+  "actual": {
+    "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-41/syntax-diff.log",
+    "bytes": 0,
+    "command_exit": 0
+  },
+  "cause": "artifact audit incorrectly required nonempty output from successful silent JS syntax and git diff checks",
+  "final_integrity_written_before_resume": false,
+  "source_final_written_before_resume": true,
+  "tests_rerun_on_resume": false,
+  "product_or_provider_calls_on_resume": false,
+  "raw_tool_stack_not_persisted": "contains an absolute local path; safe diagnostic fields retained"
+}

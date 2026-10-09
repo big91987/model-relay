@@ -1,0 +1,24 @@
+{
+  "scope": "local development first attempt, not host receipt",
+  "command": "go test -race ./tests/verify -count=1 -v",
+  "execution": {
+    "name": "go-runner",
+    "command": "go test -race ./tests/verify -count=1 -v",
+    "started_utc": "2026-10-09T04:33:09.287Z",
+    "finished_utc": "2026-10-09T04:33:22.721Z",
+    "exit_code": 1,
+    "signal": null,
+    "scope": "local_not_complete_host_gate; original Makefile workspace Go cache; no listening browser",
+    "log": "go-runner.log"
+  },
+  "original_metadata": "local-checks-first.json",
+  "retained_failure_log": "go-runner-first-failure.log",
+  "redaction": "workspace/home/temp roots and Go toolchain paths replaced; derived redacted local log, not claimed host original bytes",
+  "failure": "new TestCaptureCommandTiming success/nonzero fixtures passed bare bytes.Buffer to concurrent stdout/stderr copy goroutines; actual race and capture assertion failed",
+  "product_runtime": "unchanged execute; real run already uses mutex-protected cleanLog",
+  "fix": "test fixture uses original cleanLog and flushes after capture; no deadline or assertion relaxation",
+  "source_snapshots_retained": false,
+  "first_collection_note": "original metadata log names are names at collection time; only the failing runner log is retained separately, other paths now contain final-check outputs",
+  "race_report_present": true,
+  "final_runner_exit": 0
+}

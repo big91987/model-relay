@@ -1,0 +1,99 @@
+{
+  "execution": 47,
+  "baseline": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+  "previous": {
+    "execution": 46,
+    "source": {
+      "files": 154,
+      "go": "go1.25.6",
+      "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+      "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+      "working_tree_sha256": "88794346a0c678b418671a625365a555a28bd0626c2533492c692428cfc9a0a8"
+    },
+    "archive": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-46/archive-index.json",
+    "runner_utc": {
+      "started": "2026-10-09T09:16:32.660132Z",
+      "finished": "2026-10-09T09:27:55.881033Z"
+    },
+    "connector_exit": 2,
+    "gate_exit": 2,
+    "runner_exit": 1,
+    "log_bytes": 654614,
+    "log_sha256": "2319748e441f3e87f0351a61a8946dc3a20582e750d6c6443bbbcb573e10e3b0",
+    "owned_group_absent": true,
+    "source_unchanged": true,
+    "node_tests_passed": 264,
+    "relay_race_seconds": 282.668,
+    "passed": [
+      "migration",
+      "legacy-ui",
+      "routing",
+      "console",
+      "three-width J01-J07 and summary",
+      "1280/1440 visual and first-self-hosted"
+    ],
+    "failure": {
+      "width": 390,
+      "phase": "keys-editor",
+      "boundary": "original fullPage screenshot document geometry",
+      "computed_dialog_position": "fixed",
+      "background_scroll_delta_y": 145,
+      "dialog_viewport_delta_y": 0,
+      "png_nonblank": true,
+      "kind": "assertion_not_timeout_not_listening_limit"
+    },
+    "not_completed": [
+      "390 later visual checkpoints",
+      "390 first-self-hosted"
+    ]
+  },
+  "current": {
+    "source": {
+      "files": 154,
+      "go": "go1.25.6",
+      "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+      "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+      "working_tree_sha256": "dcdab7fc4bbdbbcc944377450a30d36cb6e20a67c65443cfb950de22a779f193"
+    },
+    "product_change": "CSS modal-only root overflow:clip; native dialog own overflow:auto and JS lifecycle unchanged",
+    "gate_change": "additional actual modal root scroll, close unlock and exact trigger focus checks; original screenshot and document/pixel gate unchanged",
+    "host_result": "Not Run on this candidate",
+    "historical_blank_png_and_R28_04_cause": "unresolved"
+  },
+  "materials": {
+    "version": "design-v0.2.0",
+    "status": "frozen-for-test-implementation",
+    "archive_sha256": "5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7",
+    "manifest_path": ".workflow-input/b7f93c24bc1ea4d0fe182f12aa7622ae/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/manifest.json",
+    "references": [
+      {
+        "path": ".workflow-input/b7f93c24bc1ea4d0fe182f12aa7622ae/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/docs/prd.md",
+        "sha256": "e768b4f26b4471e714d92b0db6e3187c89f37a25a697c01a12c6079af07de547",
+        "bytes": 12605
+      },
+      {
+        "path": ".workflow-input/b7f93c24bc1ea4d0fe182f12aa7622ae/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/docs/interactions.md",
+        "sha256": "95f3490ef003fa9b19dd6b9e864dd3b0429619b8cd9d0ecec853919d6a12c801",
+        "bytes": 6329
+      },
+      {
+        "path": ".workflow-input/b7f93c24bc1ea4d0fe182f12aa7622ae/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/docs/acceptance.md",
+        "sha256": "2792740b1579d614780856a13b6257d192736e1efc0309f1dc41405a665bef7a",
+        "bytes": 5730
+      }
+    ]
+  },
+  "local_failures": [
+    {
+      "check": "node-regressions",
+      "exit": 1,
+      "cause": "playwright-core/package.json not installed in native workspace; no manual dependency installation; original fixed entry owns locked dependency preparation"
+    },
+    {
+      "check": "go-wiring",
+      "exit": 1,
+      "cause": "direct go used inaccessible default user cache; corrected using existing Makefile workspace GOCACHE and rechecked successfully"
+    }
+  ],
+  "no_business_side_effects": true
+}

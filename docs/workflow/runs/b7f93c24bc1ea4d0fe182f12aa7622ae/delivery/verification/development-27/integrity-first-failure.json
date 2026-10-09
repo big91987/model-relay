@@ -1,0 +1,7 @@
+{
+  "check": "final evidence audit",
+  "exit_code": 1,
+  "reason": "nonempty guard included syntax-diff.log; successful node syntax and git diff checks emitted zero bytes",
+  "scope": "evidence-index audit, not product or regression failure",
+  "resolution": "retain empty raw log; local-checks.json retains actual command/UTC/exit; omit empty file from handoff artifacts"
+}

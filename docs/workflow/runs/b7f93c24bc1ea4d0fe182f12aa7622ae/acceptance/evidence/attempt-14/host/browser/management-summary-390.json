@@ -1,0 +1,14 @@
+{
+  "suite": "management-summary",
+  "width": 390,
+  "result": "passed",
+  "provider": "controlled_http_not_supplier",
+  "facts": {
+    "models": 2,
+    "tenants": 2,
+    "services": 1,
+    "keys": 5,
+    "api_values_match": true,
+    "context_actions": true
+  }
+}

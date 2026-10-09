@@ -1,0 +1,10 @@
+{
+  "result": "failed",
+  "utc": "2026-10-09T05:26:46.577Z",
+  "boundary": "absolute_machine_path_scan",
+  "artifact": "go-fixture.log",
+  "cause": "Go linker warning contained an owned temporary path; no test failure",
+  "original_log_sha256": "31168f34437160db63b802bd439473c3ef9e5fcd1406ef49473d10936f09f6bf",
+  "repair": "only temporary prefix redacted; warning retained; original retained in ignored test-results",
+  "source_change": false
+}

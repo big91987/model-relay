@@ -1,0 +1,97 @@
+{
+  "utc": "2026-10-09T07:47:15.834Z",
+  "source": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "d041dcdacbc5375fd5adb99bde3a917418b249ad69f0f64b276a2527ad578ab6"
+  },
+  "local_source_unchanged": true,
+  "resumed_source_matches": true,
+  "archive_files": 91,
+  "archive_digest_matches": true,
+  "local_checks_exit_zero": true,
+  "logs": [
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-41/source.log",
+      "bytes": 336,
+      "sha256": "3a00494603fba852be2566cdfef9e089f75dd5e22827d4ed9634a6d3a14d71e2",
+      "empty_output": false
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-41/node-targeted.log",
+      "bytes": 10806,
+      "sha256": "7bd0a0866ffc7f3ac785debabf0f454e190c88596b95086968414c12f6671a51",
+      "empty_output": false
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-41/go-runner.log",
+      "bytes": 27546,
+      "sha256": "7df7e3a1aadcc311285f3dc78f0c355b84018b805f6b17c33acb65b38517527d",
+      "empty_output": false
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-41/go-wiring.log",
+      "bytes": 878,
+      "sha256": "f16d0fe7675de596ca1ec622ddeee542f606f9e0800d6e2af4991a2199a29f63",
+      "empty_output": false
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-41/static.log",
+      "bytes": 90,
+      "sha256": "d9056758603dafeeb6b4ccfd3ce53f6fa6e5c42e6bc87b74b3df975020df33ee",
+      "empty_output": false
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-41/go-fixture.log",
+      "bytes": 704,
+      "sha256": "b95a3f808c3bd2b6538b2b2970c8a441fce3b3e50833b3f176368a93b26a8046",
+      "empty_output": false
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-41/syntax-diff.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "empty_output": true
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-41/source-after.log",
+      "bytes": 336,
+      "sha256": "3a00494603fba852be2566cdfef9e089f75dd5e22827d4ed9634a6d3a14d71e2",
+      "empty_output": false
+    }
+  ],
+  "material": {
+    "version": "design-v0.2.0",
+    "status": "frozen-for-test-implementation",
+    "archive_sha256": "5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7",
+    "references": [
+      {
+        "path": ".workflow-input/b7f93c24bc1ea4d0fe182f12aa7622ae/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/docs/prd.md",
+        "sha256": "e768b4f26b4471e714d92b0db6e3187c89f37a25a697c01a12c6079af07de547",
+        "bytes": 12605
+      },
+      {
+        "path": ".workflow-input/b7f93c24bc1ea4d0fe182f12aa7622ae/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/docs/interactions.md",
+        "sha256": "95f3490ef003fa9b19dd6b9e864dd3b0429619b8cd9d0ecec853919d6a12c801",
+        "bytes": 6329
+      },
+      {
+        "path": ".workflow-input/b7f93c24bc1ea4d0fe182f12aa7622ae/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/docs/acceptance.md",
+        "sha256": "2792740b1579d614780856a13b6257d192736e1efc0309f1dc41405a665bef7a",
+        "bytes": 5730
+      }
+    ]
+  },
+  "fixed_entry_and_locks_changed": false,
+  "resume": {
+    "user_reported_platform_stop": true,
+    "pre_stop_checks_completed": true,
+    "initial_audit_exit": 1,
+    "initial_audit_failure": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-41/integrity-audit-first-failure.json",
+    "no_unknown_operations_replayed": true,
+    "no_test_or_provider_replay": true
+  },
+  "scope": "local checks and archive integrity only; full host verification and independent QA remain pending"
+}

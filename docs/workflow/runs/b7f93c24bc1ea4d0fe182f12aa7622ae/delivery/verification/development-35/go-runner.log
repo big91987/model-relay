@@ -1,0 +1,396 @@
+=== RUN   TestCandidateCopyAndEnvironment
+--- PASS: TestCandidateCopyAndEnvironment (0.00s)
+=== RUN   TestCopyRejectsParentEscape
+--- PASS: TestCopyRejectsParentEscape (0.00s)
+=== RUN   TestCopyRootAndTargetBoundaries
+=== RUN   TestCopyRootAndTargetBoundaries/normal_nested
+=== RUN   TestCopyRootAndTargetBoundaries/source_root
+=== RUN   TestCopyRootAndTargetBoundaries/target_root
+=== RUN   TestCopyRootAndTargetBoundaries/source_parent_internal
+=== RUN   TestCopyRootAndTargetBoundaries/target_parent
+=== RUN   TestCopyRootAndTargetBoundaries/target_file
+--- PASS: TestCopyRootAndTargetBoundaries (0.01s)
+    --- PASS: TestCopyRootAndTargetBoundaries/normal_nested (0.00s)
+    --- PASS: TestCopyRootAndTargetBoundaries/source_root (0.00s)
+    --- PASS: TestCopyRootAndTargetBoundaries/target_root (0.00s)
+    --- PASS: TestCopyRootAndTargetBoundaries/source_parent_internal (0.00s)
+    --- PASS: TestCopyRootAndTargetBoundaries/target_parent (0.00s)
+    --- PASS: TestCopyRootAndTargetBoundaries/target_file (0.00s)
+=== RUN   TestInventoryCancellationReceipt
+verification_receipt=test-results/verification/20261009T055423Z-2906713334
+COMMAND_START stage=source-inventory started_utc=2026-10-09T05:54:23.587765Z budget_ms=49
+
+COMMAND_END stage=source-inventory exit=-1 cancelled=true execute_ms=51 group_check_ms=0
+FAILED: source inventory: source-inventory: signal: terminated
+context deadline exceeded
+--- PASS: TestInventoryCancellationReceipt (0.06s)
+=== RUN   TestRealNPMIsolatedConfig
+--- PASS: TestRealNPMIsolatedConfig (0.33s)
+=== RUN   TestDependencyProbeChromiumFailureOutput
+--- PASS: TestDependencyProbeChromiumFailureOutput (0.58s)
+=== RUN   TestVerifySignalHelper
+--- PASS: TestVerifySignalHelper (0.00s)
+=== RUN   TestRunnerSIGTERMPersistsCleanup
+--- PASS: TestRunnerSIGTERMPersistsCleanup (0.44s)
+=== RUN   TestCaptureChunkBoundariesAndFailure
+--- PASS: TestCaptureChunkBoundariesAndFailure (0.01s)
+=== RUN   TestOwnedGroupCancellation
+--- PASS: TestOwnedGroupCancellation (0.10s)
+=== RUN   TestCaptureCommandTiming
+=== RUN   TestCaptureCommandTiming/success
+=== RUN   TestCaptureCommandTiming/nonzero
+=== RUN   TestCaptureCommandTiming/cancelled
+--- PASS: TestCaptureCommandTiming (0.01s)
+    --- PASS: TestCaptureCommandTiming/success (0.01s)
+    --- PASS: TestCaptureCommandTiming/nonzero (0.01s)
+    --- PASS: TestCaptureCommandTiming/cancelled (0.00s)
+=== RUN   TestFixedRunnerReceipts
+=== RUN   TestFixedRunnerReceipts/green_fixture
+verification_receipt=test-results/verification/20261009T055425Z-1552832023
+COMMAND_START stage=source-inventory started_utc=2026-10-09T05:54:25.115516Z budget_ms=7999
+input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=464 group_check_ms=0
+COMMAND_START stage=git-directory started_utc=2026-10-09T05:54:25.580873Z budget_ms=7533
+/fixture/history
+
+COMMAND_END stage=git-directory exit=0 cancelled=false execute_ms=5 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T05:54:25.58683Z budget_ms=7527
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=408 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T05:54:25.996004Z budget_ms=7118
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=7 group_check_ms=0
+COMMAND_START stage=prerequisite-go started_utc=2026-10-09T05:54:26.003811Z budget_ms=7110
+go-fixture
+
+COMMAND_END stage=prerequisite-go exit=0 cancelled=false execute_ms=6 group_check_ms=0
+PREREQUISITE tool=go output=go-fixture
+COMMAND_START stage=prerequisite-node started_utc=2026-10-09T05:54:26.010206Z budget_ms=7104
+node-fixture
+
+COMMAND_END stage=prerequisite-node exit=0 cancelled=false execute_ms=420 group_check_ms=0
+PREREQUISITE tool=node output=node-fixture
+COMMAND_START stage=prerequisite-npm started_utc=2026-10-09T05:54:26.431065Z budget_ms=6683
+npm-fixture
+
+COMMAND_END stage=prerequisite-npm exit=0 cancelled=false execute_ms=531 group_check_ms=0
+PREREQUISITE tool=npm output=npm-fixture
+CLEAN_START {"started_utc":"2026-10-09T05:54:25.114809Z","finished_utc":"","command":"make verify -\u003e isolated make verify-gates","isolation":"new private candidate; git history read-only","node_modules_before":false,"clean_start_measured":true,"npm_cache_before":false,"node_modules_after":false,"npm_cache_after":false,"source_unchanged":false,"candidate_unchanged":false,"NODE_PATH":"unset","manual_preinstall":"none","source_before":{"head":"fixture","working_tree_sha256":"fixture"},"versions":{"go":"go-fixture","node":"node-fixture","npm":"npm-fixture"},"gate_exit":-1,"exit_code":1,"log_sha256":"","log_bytes":0,"cleanup":"not_started","auxiliary_commands":[{"stage":"source-inventory","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T05:54:25.115516Z","budget_ms":7999,"execute_ms":464,"group_check_ms":0},{"stage":"git-directory","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T05:54:25.580873Z","budget_ms":7533,"execute_ms":5,"group_check_ms":0},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T05:54:25.58683Z","budget_ms":7527,"execute_ms":408,"group_check_ms":0},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T05:54:25.996004Z","budget_ms":7118,"execute_ms":7,"group_check_ms":0},{"stage":"prerequisite-go","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T05:54:26.003811Z","budget_ms":7110,"execute_ms":6,"group_check_ms":0},{"stage":"prerequisite-node","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T05:54:26.010206Z","budget_ms":7104,"execute_ms":420,"group_check_ms":0},{"stage":"prerequisite-npm","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T05:54:26.431065Z","budget_ms":6683,"execute_ms":531,"group_check_ms":0}]}
+fixture gates stdout
+fixture gates stderr
+COMMAND_START stage=source-evidence started_utc=2026-10-09T05:54:27.374354Z budget_ms=5740
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=5 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T05:54:27.380008Z budget_ms=5734
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=5 group_check_ms=0
+COMMAND_START stage=dependency-probe started_utc=2026-10-09T05:54:27.385195Z budget_ms=5729
+locked-local-fixture
+
+COMMAND_END stage=dependency-probe exit=0 cancelled=false execute_ms=4 group_check_ms=0
+CLEAN_END gate_exit=0 source_unchanged=true NODE_PATH=unset
+=== RUN   TestFixedRunnerReceipts/failed_fixture
+verification_receipt=test-results/verification/20261009T055427Z-2579637380
+COMMAND_START stage=source-inventory started_utc=2026-10-09T05:54:27.394834Z budget_ms=7999
+input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=164 group_check_ms=0
+COMMAND_START stage=git-directory started_utc=2026-10-09T05:54:27.560336Z budget_ms=7833
+/fixture/history
+
+COMMAND_END stage=git-directory exit=0 cancelled=false execute_ms=5 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T05:54:27.566558Z budget_ms=7827
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=159 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T05:54:27.726282Z budget_ms=7667
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=7 group_check_ms=0
+COMMAND_START stage=prerequisite-go started_utc=2026-10-09T05:54:27.733932Z budget_ms=7660
+go-fixture
+
+COMMAND_END stage=prerequisite-go exit=0 cancelled=false execute_ms=6 group_check_ms=0
+PREREQUISITE tool=go output=go-fixture
+COMMAND_START stage=prerequisite-node started_utc=2026-10-09T05:54:27.740642Z budget_ms=7653
+node-fixture
+
+COMMAND_END stage=prerequisite-node exit=0 cancelled=false execute_ms=189 group_check_ms=0
+PREREQUISITE tool=node output=node-fixture
+COMMAND_START stage=prerequisite-npm started_utc=2026-10-09T05:54:27.930753Z budget_ms=7463
+npm-fixture
+
+COMMAND_END stage=prerequisite-npm exit=0 cancelled=false execute_ms=176 group_check_ms=0
+PREREQUISITE tool=npm output=npm-fixture
+CLEAN_START {"started_utc":"2026-10-09T05:54:27.394243Z","finished_utc":"","command":"make verify -\u003e isolated make verify-gates","isolation":"new private candidate; git history read-only","node_modules_before":false,"clean_start_measured":true,"npm_cache_before":false,"node_modules_after":false,"npm_cache_after":false,"source_unchanged":false,"candidate_unchanged":false,"NODE_PATH":"unset","manual_preinstall":"none","source_before":{"head":"fixture","working_tree_sha256":"fixture"},"versions":{"go":"go-fixture","node":"node-fixture","npm":"npm-fixture"},"gate_exit":-1,"exit_code":1,"log_sha256":"","log_bytes":0,"cleanup":"not_started","auxiliary_commands":[{"stage":"source-inventory","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T05:54:27.394834Z","budget_ms":7999,"execute_ms":164,"group_check_ms":0},{"stage":"git-directory","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T05:54:27.560336Z","budget_ms":7833,"execute_ms":5,"group_check_ms":0},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T05:54:27.566558Z","budget_ms":7827,"execute_ms":159,"group_check_ms":0},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T05:54:27.726282Z","budget_ms":7667,"execute_ms":7,"group_check_ms":0},{"stage":"prerequisite-go","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T05:54:27.733932Z","budget_ms":7660,"execute_ms":6,"group_check_ms":0},{"stage":"prerequisite-node","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T05:54:27.740642Z","budget_ms":7653,"execute_ms":189,"group_check_ms":0},{"stage":"prerequisite-npm","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T05:54:27.930753Z","budget_ms":7463,"execute_ms":176,"group_check_ms":0}]}
+fixture gates stdout
+fixture gates stderr
+COMMAND_START stage=source-evidence started_utc=2026-10-09T05:54:28.523182Z budget_ms=6870
+{"head":"fixture","working_tree_sha256":"fixture"}
+evidence-stderr-success
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=7 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T05:54:28.531146Z budget_ms=6862
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=7 group_check_ms=0
+CLEAN_END gate_exit=23 source_unchanged=true NODE_PATH=unset
+FAILED: exit status 23
+=== RUN   TestFixedRunnerReceipts/prerequisite_failed_fixture
+verification_receipt=test-results/verification/20261009T055428Z-2072766796
+COMMAND_START stage=source-inventory started_utc=2026-10-09T05:54:28.545453Z budget_ms=7999
+input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=169 group_check_ms=0
+COMMAND_START stage=git-directory started_utc=2026-10-09T05:54:28.71592Z budget_ms=7828
+/fixture/history
+
+COMMAND_END stage=git-directory exit=0 cancelled=false execute_ms=8 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T05:54:28.724773Z budget_ms=7819
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=157 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T05:54:28.882868Z budget_ms=7661
+{"head":"fixture","working_tree_sha256":"fixture"}
+evidence-stderr-success
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=6 group_check_ms=0
+COMMAND_START stage=prerequisite-go started_utc=2026-10-09T05:54:28.889879Z budget_ms=7654
+go-fixture
+
+COMMAND_END stage=prerequisite-go exit=0 cancelled=false execute_ms=6 group_check_ms=0
+PREREQUISITE tool=go output=go-fixture
+COMMAND_START stage=prerequisite-node started_utc=2026-10-09T05:54:28.896168Z budget_ms=7648
+node-fixture
+
+COMMAND_END stage=prerequisite-node exit=0 cancelled=false execute_ms=165 group_check_ms=0
+PREREQUISITE tool=node output=node-fixture
+COMMAND_START stage=prerequisite-npm started_utc=2026-10-09T05:54:29.061746Z budget_ms=7482
+prerequisite-stderr-diagnostic
+
+COMMAND_END stage=prerequisite-npm exit=24 cancelled=false execute_ms=429 group_check_ms=0
+PREREQUISITE tool=npm output=
+FAILED: npm prerequisite: prerequisite-npm: exit status 24
+=== RUN   TestFixedRunnerReceipts/evidence_failed_fixture
+verification_receipt=test-results/verification/20261009T055429Z-711257041
+COMMAND_START stage=source-inventory started_utc=2026-10-09T05:54:29.49892Z budget_ms=7998
+input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=165 group_check_ms=0
+COMMAND_START stage=git-directory started_utc=2026-10-09T05:54:29.665314Z budget_ms=7832
+/fixture/history
+
+COMMAND_END stage=git-directory exit=0 cancelled=false execute_ms=8 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T05:54:29.674897Z budget_ms=7822
+evidence-stderr-diagnostic
+evidence-stdout-diagnostic
+
+COMMAND_END stage=source-evidence exit=25 cancelled=false execute_ms=402 group_check_ms=0
+FAILED: source digest: source-evidence: exit status 25
+=== RUN   TestFixedRunnerReceipts/probe_failed_fixture
+verification_receipt=test-results/verification/20261009T055430Z-3303800943
+COMMAND_START stage=source-inventory started_utc=2026-10-09T05:54:30.082569Z budget_ms=7999
+input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=158 group_check_ms=0
+COMMAND_START stage=git-directory started_utc=2026-10-09T05:54:30.242069Z budget_ms=7839
+/fixture/history
+
+COMMAND_END stage=git-directory exit=0 cancelled=false execute_ms=7 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T05:54:30.250211Z budget_ms=7831
+{"head":"fixture","working_tree_sha256":"fixture"}
+evidence-stderr-success
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=164 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T05:54:30.415379Z budget_ms=7666
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=8 group_check_ms=0
+COMMAND_START stage=prerequisite-go started_utc=2026-10-09T05:54:30.424489Z budget_ms=7657
+go-fixture
+
+COMMAND_END stage=prerequisite-go exit=0 cancelled=false execute_ms=6 group_check_ms=0
+PREREQUISITE tool=go output=go-fixture
+COMMAND_START stage=prerequisite-node started_utc=2026-10-09T05:54:30.431674Z budget_ms=7650
+node-fixture
+
+COMMAND_END stage=prerequisite-node exit=0 cancelled=false execute_ms=413 group_check_ms=0
+PREREQUISITE tool=node output=node-fixture
+COMMAND_START stage=prerequisite-npm started_utc=2026-10-09T05:54:30.845673Z budget_ms=7236
+npm-fixture
+
+COMMAND_END stage=prerequisite-npm exit=0 cancelled=false execute_ms=162 group_check_ms=0
+PREREQUISITE tool=npm output=npm-fixture
+CLEAN_START {"started_utc":"2026-10-09T05:54:30.082125Z","finished_utc":"","command":"make verify -\u003e isolated make verify-gates","isolation":"new private candidate; git history read-only","node_modules_before":false,"clean_start_measured":true,"npm_cache_before":false,"node_modules_after":false,"npm_cache_after":false,"source_unchanged":false,"candidate_unchanged":false,"NODE_PATH":"unset","manual_preinstall":"none","source_before":{"head":"fixture","working_tree_sha256":"fixture"},"versions":{"go":"go-fixture","node":"node-fixture","npm":"npm-fixture"},"gate_exit":-1,"exit_code":1,"log_sha256":"","log_bytes":0,"cleanup":"not_started","auxiliary_commands":[{"stage":"source-inventory","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T05:54:30.082569Z","budget_ms":7999,"execute_ms":158,"group_check_ms":0},{"stage":"git-directory","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T05:54:30.242069Z","budget_ms":7839,"execute_ms":7,"group_check_ms":0},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T05:54:30.250211Z","budget_ms":7831,"execute_ms":164,"group_check_ms":0},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T05:54:30.415379Z","budget_ms":7666,"execute_ms":8,"group_check_ms":0},{"stage":"prerequisite-go","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T05:54:30.424489Z","budget_ms":7657,"execute_ms":6,"group_check_ms":0},{"stage":"prerequisite-node","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T05:54:30.431674Z","budget_ms":7650,"execute_ms":413,"group_check_ms":0},{"stage":"prerequisite-npm","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T05:54:30.845673Z","budget_ms":7236,"execute_ms":162,"group_check_ms":0}]}
+fixture gates stdout
+fixture gates stderr
+COMMAND_START stage=source-evidence started_utc=2026-10-09T05:54:31.173081Z budget_ms=6908
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=6 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T05:54:31.179838Z budget_ms=6902
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=5 group_check_ms=0
+COMMAND_START stage=dependency-probe started_utc=2026-10-09T05:54:31.185497Z budget_ms=6896
+probe-stderr-diagnostic
+probe-stdout-diagnostic
+
+COMMAND_END stage=dependency-probe exit=26 cancelled=false execute_ms=5 group_check_ms=0
+CLEAN_END gate_exit=0 source_unchanged=true NODE_PATH=unset
+FAILED: dependency-probe: exit status 26
+=== RUN   TestFixedRunnerReceipts/copy_failed_fixture
+verification_receipt=test-results/verification/20261009T055431Z-2905373075
+COMMAND_START stage=source-inventory started_utc=2026-10-09T05:54:31.196772Z budget_ms=7999
+input.txt\0internal/input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=412 group_check_ms=0
+FAILED: source parent must be a real directory
+=== RUN   TestFixedRunnerReceipts/cancel_inventory
+verification_receipt=test-results/verification/20261009T055431Z-3211554619
+COMMAND_START stage=source-inventory started_utc=2026-10-09T05:54:31.61617Z budget_ms=7999
+auxiliary-ready
+
+COMMAND_END stage=source-inventory exit=-1 cancelled=true execute_ms=413 group_check_ms=0
+FAILED: source inventory: source-inventory: signal: terminated
+context canceled
+=== RUN   TestFixedRunnerReceipts/cancel_git_directory
+verification_receipt=test-results/verification/20261009T055432Z-1224980113
+COMMAND_START stage=source-inventory started_utc=2026-10-09T05:54:32.035217Z budget_ms=7998
+input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=415 group_check_ms=0
+COMMAND_START stage=git-directory started_utc=2026-10-09T05:54:32.451095Z budget_ms=7583
+auxiliary-ready
+
+COMMAND_END stage=git-directory exit=-1 cancelled=true execute_ms=10 group_check_ms=0
+FAILED: git-directory: signal: terminated
+context canceled
+=== RUN   TestFixedRunnerReceipts/cancel_evidence
+verification_receipt=test-results/verification/20261009T055432Z-1968595593
+COMMAND_START stage=source-inventory started_utc=2026-10-09T05:54:32.467443Z budget_ms=7998
+input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=171 group_check_ms=0
+COMMAND_START stage=git-directory started_utc=2026-10-09T05:54:32.639559Z budget_ms=7826
+/fixture/history
+
+COMMAND_END stage=git-directory exit=0 cancelled=false execute_ms=6 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T05:54:32.646729Z budget_ms=7819
+auxiliary-ready
+
+COMMAND_END stage=source-evidence exit=-1 cancelled=true execute_ms=169 group_check_ms=0
+FAILED: source digest: source-evidence: signal: terminated
+context canceled
+=== RUN   TestFixedRunnerReceipts/cancel_prerequisite
+verification_receipt=test-results/verification/20261009T055432Z-2240884349
+COMMAND_START stage=source-inventory started_utc=2026-10-09T05:54:32.822636Z budget_ms=7999
+input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=199 group_check_ms=0
+COMMAND_START stage=git-directory started_utc=2026-10-09T05:54:33.02251Z budget_ms=7799
+/fixture/history
+
+COMMAND_END stage=git-directory exit=0 cancelled=false execute_ms=8 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T05:54:33.031393Z budget_ms=7790
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=164 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T05:54:33.196703Z budget_ms=7625
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=9 group_check_ms=0
+COMMAND_START stage=prerequisite-go started_utc=2026-10-09T05:54:33.206595Z budget_ms=7615
+go-fixture
+
+COMMAND_END stage=prerequisite-go exit=0 cancelled=false execute_ms=8 group_check_ms=0
+PREREQUISITE tool=go output=go-fixture
+COMMAND_START stage=prerequisite-node started_utc=2026-10-09T05:54:33.215563Z budget_ms=7606
+node-fixture
+
+COMMAND_END stage=prerequisite-node exit=0 cancelled=false execute_ms=185 group_check_ms=0
+PREREQUISITE tool=node output=node-fixture
+COMMAND_START stage=prerequisite-npm started_utc=2026-10-09T05:54:33.401153Z budget_ms=7420
+auxiliary-ready
+
+COMMAND_END stage=prerequisite-npm exit=-1 cancelled=true execute_ms=161 group_check_ms=0
+PREREQUISITE tool=npm output=auxiliary-ready
+FAILED: npm prerequisite: prerequisite-npm: signal: terminated
+context canceled
+=== RUN   TestFixedRunnerReceipts/cancel_probe
+verification_receipt=test-results/verification/20261009T055433Z-861617466
+COMMAND_START stage=source-inventory started_utc=2026-10-09T05:54:33.568128Z budget_ms=7999
+input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=191 group_check_ms=0
+COMMAND_START stage=git-directory started_utc=2026-10-09T05:54:33.760578Z budget_ms=7806
+/fixture/history
+
+COMMAND_END stage=git-directory exit=0 cancelled=false execute_ms=8 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T05:54:33.769675Z budget_ms=7797
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=167 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T05:54:33.93748Z budget_ms=7629
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=8 group_check_ms=0
+COMMAND_START stage=prerequisite-go started_utc=2026-10-09T05:54:33.946478Z budget_ms=7620
+go-fixture
+
+COMMAND_END stage=prerequisite-go exit=0 cancelled=false execute_ms=7 group_check_ms=0
+PREREQUISITE tool=go output=go-fixture
+COMMAND_START stage=prerequisite-node started_utc=2026-10-09T05:54:33.954027Z budget_ms=7613
+node-fixture
+
+COMMAND_END stage=prerequisite-node exit=0 cancelled=false execute_ms=489 group_check_ms=0
+PREREQUISITE tool=node output=node-fixture
+COMMAND_START stage=prerequisite-npm started_utc=2026-10-09T05:54:34.444352Z budget_ms=7122
+npm-fixture
+
+COMMAND_END stage=prerequisite-npm exit=0 cancelled=false execute_ms=164 group_check_ms=0
+PREREQUISITE tool=npm output=npm-fixture
+CLEAN_START {"started_utc":"2026-10-09T05:54:33.567561Z","finished_utc":"","command":"make verify -\u003e isolated make verify-gates","isolation":"new private candidate; git history read-only","node_modules_before":false,"clean_start_measured":true,"npm_cache_before":false,"node_modules_after":false,"npm_cache_after":false,"source_unchanged":false,"candidate_unchanged":false,"NODE_PATH":"unset","manual_preinstall":"none","source_before":{"head":"fixture","working_tree_sha256":"fixture"},"versions":{"go":"go-fixture","node":"node-fixture","npm":"npm-fixture"},"gate_exit":-1,"exit_code":1,"log_sha256":"","log_bytes":0,"cleanup":"not_started","auxiliary_commands":[{"stage":"source-inventory","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T05:54:33.568128Z","budget_ms":7999,"execute_ms":191,"group_check_ms":0},{"stage":"git-directory","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T05:54:33.760578Z","budget_ms":7806,"execute_ms":8,"group_check_ms":0},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T05:54:33.769675Z","budget_ms":7797,"execute_ms":167,"group_check_ms":0},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T05:54:33.93748Z","budget_ms":7629,"execute_ms":8,"group_check_ms":0},{"stage":"prerequisite-go","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T05:54:33.946478Z","budget_ms":7620,"execute_ms":7,"group_check_ms":0},{"stage":"prerequisite-node","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T05:54:33.954027Z","budget_ms":7613,"execute_ms":489,"group_check_ms":0},{"stage":"prerequisite-npm","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T05:54:34.444352Z","budget_ms":7122,"execute_ms":164,"group_check_ms":0}]}
+fixture gates stdout
+fixture gates stderr
+COMMAND_START stage=source-evidence started_utc=2026-10-09T05:54:34.772203Z budget_ms=6795
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=7 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T05:54:34.780289Z budget_ms=6787
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=6 group_check_ms=0
+COMMAND_START stage=dependency-probe started_utc=2026-10-09T05:54:34.786867Z budget_ms=6780
+auxiliary-ready
+
+COMMAND_END stage=dependency-probe exit=-1 cancelled=true execute_ms=6 group_check_ms=0
+CLEAN_END gate_exit=0 source_unchanged=true NODE_PATH=unset
+FAILED: dependency-probe: signal: terminated
+context canceled
+--- PASS: TestFixedRunnerReceipts (9.68s)
+    --- PASS: TestFixedRunnerReceipts/green_fixture (2.28s)
+    --- PASS: TestFixedRunnerReceipts/failed_fixture (1.15s)
+    --- PASS: TestFixedRunnerReceipts/prerequisite_failed_fixture (0.95s)
+    --- PASS: TestFixedRunnerReceipts/evidence_failed_fixture (0.58s)
+    --- PASS: TestFixedRunnerReceipts/probe_failed_fixture (1.11s)
+    --- PASS: TestFixedRunnerReceipts/copy_failed_fixture (0.42s)
+    --- PASS: TestFixedRunnerReceipts/cancel_inventory (0.42s)
+    --- PASS: TestFixedRunnerReceipts/cancel_git_directory (0.43s)
+    --- PASS: TestFixedRunnerReceipts/cancel_evidence (0.36s)
+    --- PASS: TestFixedRunnerReceipts/cancel_prerequisite (0.74s)
+    --- PASS: TestFixedRunnerReceipts/cancel_probe (1.23s)
+PASS
+ok  	model-relay/tests/verify	12.851s

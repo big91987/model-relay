@@ -1,0 +1,12 @@
+{
+  "name": "syntax-diff",
+  "command": "node --check tests/browser/capture-integrity.mjs && node --check tests/browser/capture-integrity.test.mjs && git diff --check",
+  "started_utc": "2026-10-09T03:10:00.901Z",
+  "finished_utc": "2026-10-09T03:10:01.040Z",
+  "exit_code": 0,
+  "scope": "local_not_complete_host_gate",
+  "log": "syntax-diff.log",
+  "stdout_bytes": 0,
+  "stderr_bytes": 0,
+  "note": "silent command; exit and UTC retained by local runner"
+}

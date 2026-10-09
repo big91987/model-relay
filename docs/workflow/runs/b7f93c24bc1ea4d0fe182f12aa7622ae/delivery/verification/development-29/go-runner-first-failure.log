@@ -1,0 +1,894 @@
+=== RUN   TestCandidateCopyAndEnvironment
+--- PASS: TestCandidateCopyAndEnvironment (0.00s)
+=== RUN   TestCopyRejectsParentEscape
+--- PASS: TestCopyRejectsParentEscape (0.00s)
+=== RUN   TestCopyRootAndTargetBoundaries
+=== RUN   TestCopyRootAndTargetBoundaries/normal_nested
+=== RUN   TestCopyRootAndTargetBoundaries/source_root
+=== RUN   TestCopyRootAndTargetBoundaries/target_root
+=== RUN   TestCopyRootAndTargetBoundaries/source_parent_internal
+=== RUN   TestCopyRootAndTargetBoundaries/target_parent
+=== RUN   TestCopyRootAndTargetBoundaries/target_file
+--- PASS: TestCopyRootAndTargetBoundaries (0.01s)
+    --- PASS: TestCopyRootAndTargetBoundaries/normal_nested (0.00s)
+    --- PASS: TestCopyRootAndTargetBoundaries/source_root (0.00s)
+    --- PASS: TestCopyRootAndTargetBoundaries/target_root (0.00s)
+    --- PASS: TestCopyRootAndTargetBoundaries/source_parent_internal (0.00s)
+    --- PASS: TestCopyRootAndTargetBoundaries/target_parent (0.00s)
+    --- PASS: TestCopyRootAndTargetBoundaries/target_file (0.00s)
+=== RUN   TestInventoryCancellationReceipt
+verification_receipt=test-results/verification/20261009T043312Z-1784804598
+COMMAND_START stage=source-inventory started_utc=2026-10-09T04:33:12.952069Z budget_ms=48
+
+COMMAND_END stage=source-inventory exit=-1 cancelled=true execute_ms=48 group_check_ms=0
+FAILED: source inventory: source-inventory: signal: terminated
+context deadline exceeded
+--- PASS: TestInventoryCancellationReceipt (0.06s)
+=== RUN   TestRealNPMIsolatedConfig
+--- PASS: TestRealNPMIsolatedConfig (0.33s)
+=== RUN   TestDependencyProbeChromiumFailureOutput
+--- PASS: TestDependencyProbeChromiumFailureOutput (0.46s)
+=== RUN   TestVerifySignalHelper
+--- PASS: TestVerifySignalHelper (0.00s)
+=== RUN   TestRunnerSIGTERMPersistsCleanup
+--- PASS: TestRunnerSIGTERMPersistsCleanup (0.43s)
+=== RUN   TestCaptureChunkBoundariesAndFailure
+--- PASS: TestCaptureChunkBoundariesAndFailure (0.01s)
+=== RUN   TestOwnedGroupCancellation
+--- PASS: TestOwnedGroupCancellation (0.10s)
+=== RUN   TestCaptureCommandTiming
+=== RUN   TestCaptureCommandTiming/success
+==================
+WARNING: DATA RACE
+Write at 0x00c0001fdeb0 by goroutine 45:
+  bytes.(*Buffer).Write()
+      <go-toolchain>/src/bytes/buffer.go:182 +0x38
+  io.(*multiWriter).Write()
+      <go-toolchain>/src/io/multi.go:85 +0xa0
+  io.copyBuffer()
+      <go-toolchain>/src/io/io.go:431 +0x24c
+  io.copyBuffer()
+      <go-toolchain>/src/io/io.go:429 +0x20c
+  io.Copy()
+      <go-toolchain>/src/io/io.go:388 +0x64
+  os.genericWriteTo()
+      <go-toolchain>/src/os/file.go:295 +0x18
+  os.(*File).WriteTo()
+      <go-toolchain>/src/os/file.go:273 +0x8c
+  io.copyBuffer()
+      <go-toolchain>/src/io/io.go:411 +0xa8
+  io.Copy()
+      <go-toolchain>/src/io/io.go:388 +0x58
+  os/exec.(*Cmd).writerDescriptor.func1()
+      <go-toolchain>/src/os/exec/exec.go:596 +0x34
+  os/exec.(*Cmd).Start.func2()
+      <go-toolchain>/src/os/exec/exec.go:749 +0x38
+  os/exec.(*Cmd).Start.gowrap1()
+      <go-toolchain>/src/os/exec/exec.go:761 +0x40
+
+Previous write at 0x00c0001fdeb0 by goroutine 46:
+  bytes.(*Buffer).ReadFrom()
+      <go-toolchain>/src/bytes/buffer.go:213 +0x38
+  io.copyBuffer()
+      <go-toolchain>/src/io/io.go:415 +0x1bc
+  io.Copy()
+      <go-toolchain>/src/io/io.go:388 +0x64
+  os.genericWriteTo()
+      <go-toolchain>/src/os/file.go:295 +0x18
+  os.(*File).WriteTo()
+      <go-toolchain>/src/os/file.go:273 +0x8c
+  io.copyBuffer()
+      <go-toolchain>/src/io/io.go:411 +0xa8
+  io.Copy()
+      <go-toolchain>/src/io/io.go:388 +0x58
+  os/exec.(*Cmd).writerDescriptor.func1()
+      <go-toolchain>/src/os/exec/exec.go:596 +0x34
+  os/exec.(*Cmd).Start.func2()
+      <go-toolchain>/src/os/exec/exec.go:749 +0x38
+  os/exec.(*Cmd).Start.gowrap1()
+      <go-toolchain>/src/os/exec/exec.go:761 +0x40
+
+Goroutine 45 (running) created at:
+  os/exec.(*Cmd).Start()
+      <go-toolchain>/src/os/exec/exec.go:748 +0xb28
+  model-relay/tests/verify.execute()
+      <local>/tests/verify/main.go:414 +0x238
+  model-relay/tests/verify.captureCommand()
+      <local>/tests/verify/main.go:383 +0x78c
+  model-relay/tests/verify.TestCaptureCommandTiming.func1()
+      <local>/tests/verify/main_test.go:351 +0x21c
+  testing.tRunner()
+      <go-toolchain>/src/testing/testing.go:1934 +0x164
+  testing.(*T).Run.gowrap1()
+      <go-toolchain>/src/testing/testing.go:1997 +0x3c
+
+Goroutine 46 (running) created at:
+  os/exec.(*Cmd).Start()
+      <go-toolchain>/src/os/exec/exec.go:748 +0xb28
+  model-relay/tests/verify.execute()
+      <local>/tests/verify/main.go:414 +0x238
+  model-relay/tests/verify.captureCommand()
+      <local>/tests/verify/main.go:383 +0x78c
+  model-relay/tests/verify.TestCaptureCommandTiming.func1()
+      <local>/tests/verify/main_test.go:351 +0x21c
+  testing.tRunner()
+      <go-toolchain>/src/testing/testing.go:1934 +0x164
+  testing.(*T).Run.gowrap1()
+      <go-toolchain>/src/testing/testing.go:1997 +0x3c
+==================
+==================
+WARNING: DATA RACE
+Read at 0x00c0001fde90 by goroutine 45:
+  bytes.(*Buffer).tryGrowByReslice()
+      <go-toolchain>/src/bytes/buffer.go:122 +0x44
+  bytes.(*Buffer).Write()
+      <go-toolchain>/src/bytes/buffer.go:183 +0xac
+  io.(*multiWriter).Write()
+      <go-toolchain>/src/io/multi.go:85 +0xa0
+  io.copyBuffer()
+      <go-toolchain>/src/io/io.go:431 +0x24c
+  io.copyBuffer()
+      <go-toolchain>/src/io/io.go:429 +0x20c
+  io.Copy()
+      <go-toolchain>/src/io/io.go:388 +0x64
+  os.genericWriteTo()
+      <go-toolchain>/src/os/file.go:295 +0x18
+  os.(*File).WriteTo()
+      <go-toolchain>/src/os/file.go:273 +0x8c
+  io.copyBuffer()
+      <go-toolchain>/src/io/io.go:411 +0xa8
+  io.Copy()
+      <go-toolchain>/src/io/io.go:388 +0x58
+  os/exec.(*Cmd).writerDescriptor.func1()
+      <go-toolchain>/src/os/exec/exec.go:596 +0x34
+  os/exec.(*Cmd).Start.func2()
+      <go-toolchain>/src/os/exec/exec.go:749 +0x38
+  os/exec.(*Cmd).Start.gowrap1()
+      <go-toolchain>/src/os/exec/exec.go:761 +0x40
+
+Previous write at 0x00c0001fde90 by goroutine 46:
+  bytes.(*Buffer).grow()
+      <go-toolchain>/src/bytes/buffer.go:157 +0x228
+  bytes.(*Buffer).ReadFrom()
+      <go-toolchain>/src/bytes/buffer.go:215 +0x5c
+  io.copyBuffer()
+      <go-toolchain>/src/io/io.go:415 +0x1bc
+  io.Copy()
+      <go-toolchain>/src/io/io.go:388 +0x64
+  os.genericWriteTo()
+      <go-toolchain>/src/os/file.go:295 +0x18
+  os.(*File).WriteTo()
+      <go-toolchain>/src/os/file.go:273 +0x8c
+  io.copyBuffer()
+      <go-toolchain>/src/io/io.go:411 +0xa8
+  io.Copy()
+      <go-toolchain>/src/io/io.go:388 +0x58
+  os/exec.(*Cmd).writerDescriptor.func1()
+      <go-toolchain>/src/os/exec/exec.go:596 +0x34
+  os/exec.(*Cmd).Start.func2()
+      <go-toolchain>/src/os/exec/exec.go:749 +0x38
+  os/exec.(*Cmd).Start.gowrap1()
+      <go-toolchain>/src/os/exec/exec.go:761 +0x40
+
+Goroutine 45 (running) created at:
+  os/exec.(*Cmd).Start()
+      <go-toolchain>/src/os/exec/exec.go:748 +0xb28
+  model-relay/tests/verify.execute()
+      <local>/tests/verify/main.go:414 +0x238
+  model-relay/tests/verify.captureCommand()
+      <local>/tests/verify/main.go:383 +0x78c
+  model-relay/tests/verify.TestCaptureCommandTiming.func1()
+      <local>/tests/verify/main_test.go:351 +0x21c
+  testing.tRunner()
+      <go-toolchain>/src/testing/testing.go:1934 +0x164
+  testing.(*T).Run.gowrap1()
+      <go-toolchain>/src/testing/testing.go:1997 +0x3c
+
+Goroutine 46 (running) created at:
+  os/exec.(*Cmd).Start()
+      <go-toolchain>/src/os/exec/exec.go:748 +0xb28
+  model-relay/tests/verify.execute()
+      <local>/tests/verify/main.go:414 +0x238
+  model-relay/tests/verify.captureCommand()
+      <local>/tests/verify/main.go:383 +0x78c
+  model-relay/tests/verify.TestCaptureCommandTiming.func1()
+      <local>/tests/verify/main_test.go:351 +0x21c
+  testing.tRunner()
+      <go-toolchain>/src/testing/testing.go:1934 +0x164
+  testing.(*T).Run.gowrap1()
+      <go-toolchain>/src/testing/testing.go:1997 +0x3c
+==================
+==================
+WARNING: DATA RACE
+Write at 0x00c0002142dc by goroutine 45:
+  runtime.slicecopy()
+      <go-toolchain>/src/runtime/slice.go:355 +0x0
+  bytes.(*Buffer).Write()
+      <go-toolchain>/src/bytes/buffer.go:187 +0xfc
+  io.(*multiWriter).Write()
+      <go-toolchain>/src/io/multi.go:85 +0xa0
+  io.copyBuffer()
+      <go-toolchain>/src/io/io.go:431 +0x24c
+  io.copyBuffer()
+      <go-toolchain>/src/io/io.go:429 +0x20c
+  io.Copy()
+      <go-toolchain>/src/io/io.go:388 +0x64
+  os.genericWriteTo()
+      <go-toolchain>/src/os/file.go:295 +0x18
+  os.(*File).WriteTo()
+      <go-toolchain>/src/os/file.go:273 +0x8c
+  io.copyBuffer()
+      <go-toolchain>/src/io/io.go:411 +0xa8
+  io.Copy()
+      <go-toolchain>/src/io/io.go:388 +0x58
+  os/exec.(*Cmd).writerDescriptor.func1()
+      <go-toolchain>/src/os/exec/exec.go:596 +0x34
+  os/exec.(*Cmd).Start.func2()
+      <go-toolchain>/src/os/exec/exec.go:749 +0x38
+  os/exec.(*Cmd).Start.gowrap1()
+      <go-toolchain>/src/os/exec/exec.go:761 +0x40
+
+Previous write at 0x00c0002142d8 by goroutine 46:
+  runtime.slicecopy()
+      <go-toolchain>/src/runtime/slice.go:355 +0x0
+  bytes.growSlice()
+      <go-toolchain>/src/bytes/buffer.go:255 +0x110
+  bytes.(*Buffer).grow()
+      <go-toolchain>/src/bytes/buffer.go:157 +0x214
+  bytes.(*Buffer).ReadFrom()
+      <go-toolchain>/src/bytes/buffer.go:215 +0x5c
+  io.copyBuffer()
+      <go-toolchain>/src/io/io.go:415 +0x1bc
+  io.Copy()
+      <go-toolchain>/src/io/io.go:388 +0x64
+  os.genericWriteTo()
+      <go-toolchain>/src/os/file.go:295 +0x18
+  os.(*File).WriteTo()
+      <go-toolchain>/src/os/file.go:273 +0x8c
+  io.copyBuffer()
+      <go-toolchain>/src/io/io.go:411 +0xa8
+  io.Copy()
+      <go-toolchain>/src/io/io.go:388 +0x58
+  os/exec.(*Cmd).writerDescriptor.func1()
+      <go-toolchain>/src/os/exec/exec.go:596 +0x34
+  os/exec.(*Cmd).Start.func2()
+      <go-toolchain>/src/os/exec/exec.go:749 +0x38
+  os/exec.(*Cmd).Start.gowrap1()
+      <go-toolchain>/src/os/exec/exec.go:761 +0x40
+
+Goroutine 45 (running) created at:
+  os/exec.(*Cmd).Start()
+      <go-toolchain>/src/os/exec/exec.go:748 +0xb28
+  model-relay/tests/verify.execute()
+      <local>/tests/verify/main.go:414 +0x238
+  model-relay/tests/verify.captureCommand()
+      <local>/tests/verify/main.go:383 +0x78c
+  model-relay/tests/verify.TestCaptureCommandTiming.func1()
+      <local>/tests/verify/main_test.go:351 +0x21c
+  testing.tRunner()
+      <go-toolchain>/src/testing/testing.go:1934 +0x164
+  testing.(*T).Run.gowrap1()
+      <go-toolchain>/src/testing/testing.go:1997 +0x3c
+
+Goroutine 46 (running) created at:
+  os/exec.(*Cmd).Start()
+      <go-toolchain>/src/os/exec/exec.go:748 +0xb28
+  model-relay/tests/verify.execute()
+      <local>/tests/verify/main.go:414 +0x238
+  model-relay/tests/verify.captureCommand()
+      <local>/tests/verify/main.go:383 +0x78c
+  model-relay/tests/verify.TestCaptureCommandTiming.func1()
+      <local>/tests/verify/main_test.go:351 +0x21c
+  testing.tRunner()
+      <go-toolchain>/src/testing/testing.go:1934 +0x164
+  testing.(*T).Run.gowrap1()
+      <go-toolchain>/src/testing/testing.go:1997 +0x3c
+==================
+==================
+WARNING: DATA RACE
+Read at 0x00c0001fde90 by goroutine 46:
+  bytes.(*Buffer).ReadFrom()
+      <go-toolchain>/src/bytes/buffer.go:222 +0x104
+  bytes.(*Buffer).ReadFrom()
+      <go-toolchain>/src/bytes/buffer.go:217 +0xec
+  io.copyBuffer()
+      <go-toolchain>/src/io/io.go:415 +0x1bc
+  io.Copy()
+      <go-toolchain>/src/io/io.go:388 +0x64
+  os.genericWriteTo()
+      <go-toolchain>/src/os/file.go:295 +0x18
+  os.(*File).WriteTo()
+      <go-toolchain>/src/os/file.go:273 +0x8c
+  io.copyBuffer()
+      <go-toolchain>/src/io/io.go:411 +0xa8
+  io.Copy()
+      <go-toolchain>/src/io/io.go:388 +0x58
+  os/exec.(*Cmd).writerDescriptor.func1()
+      <go-toolchain>/src/os/exec/exec.go:596 +0x34
+  os/exec.(*Cmd).Start.func2()
+      <go-toolchain>/src/os/exec/exec.go:749 +0x38
+  os/exec.(*Cmd).Start.gowrap1()
+      <go-toolchain>/src/os/exec/exec.go:761 +0x40
+
+Previous write at 0x00c0001fde90 by goroutine 45:
+  bytes.(*Buffer).tryGrowByReslice()
+      <go-toolchain>/src/bytes/buffer.go:123 +0x98
+  bytes.(*Buffer).Write()
+      <go-toolchain>/src/bytes/buffer.go:183 +0xac
+  io.(*multiWriter).Write()
+      <go-toolchain>/src/io/multi.go:85 +0xa0
+  io.copyBuffer()
+      <go-toolchain>/src/io/io.go:431 +0x24c
+  io.copyBuffer()
+      <go-toolchain>/src/io/io.go:429 +0x20c
+  io.Copy()
+      <go-toolchain>/src/io/io.go:388 +0x64
+  os.genericWriteTo()
+      <go-toolchain>/src/os/file.go:295 +0x18
+  os.(*File).WriteTo()
+      <go-toolchain>/src/os/file.go:273 +0x8c
+  io.copyBuffer()
+      <go-toolchain>/src/io/io.go:411 +0xa8
+  io.Copy()
+      <go-toolchain>/src/io/io.go:388 +0x58
+  os/exec.(*Cmd).writerDescriptor.func1()
+      <go-toolchain>/src/os/exec/exec.go:596 +0x34
+  os/exec.(*Cmd).Start.func2()
+      <go-toolchain>/src/os/exec/exec.go:749 +0x38
+  os/exec.(*Cmd).Start.gowrap1()
+      <go-toolchain>/src/os/exec/exec.go:761 +0x40
+
+Goroutine 46 (running) created at:
+  os/exec.(*Cmd).Start()
+      <go-toolchain>/src/os/exec/exec.go:748 +0xb28
+  model-relay/tests/verify.execute()
+      <local>/tests/verify/main.go:414 +0x238
+  model-relay/tests/verify.captureCommand()
+      <local>/tests/verify/main.go:383 +0x78c
+  model-relay/tests/verify.TestCaptureCommandTiming.func1()
+      <local>/tests/verify/main_test.go:351 +0x21c
+  testing.tRunner()
+      <go-toolchain>/src/testing/testing.go:1934 +0x164
+  testing.(*T).Run.gowrap1()
+      <go-toolchain>/src/testing/testing.go:1997 +0x3c
+
+Goroutine 45 (running) created at:
+  os/exec.(*Cmd).Start()
+      <go-toolchain>/src/os/exec/exec.go:748 +0xb28
+  model-relay/tests/verify.execute()
+      <local>/tests/verify/main.go:414 +0x238
+  model-relay/tests/verify.captureCommand()
+      <local>/tests/verify/main.go:383 +0x78c
+  model-relay/tests/verify.TestCaptureCommandTiming.func1()
+      <local>/tests/verify/main_test.go:351 +0x21c
+  testing.tRunner()
+      <go-toolchain>/src/testing/testing.go:1934 +0x164
+  testing.(*T).Run.gowrap1()
+      <go-toolchain>/src/testing/testing.go:1997 +0x3c
+==================
+    main_test.go:369: capture changed semantics: {Stage:timing-fixture Exit:0 Cancelled:false GroupAbsent:0xc0000b473f StartedUTC:2026-10-09T04:33:14.347017Z BudgetMilliseconds:119999 ExecuteMilliseconds:12 GroupCheckMilliseconds:0}
+    testing.go:1617: race detected during execution of test
+=== RUN   TestCaptureCommandTiming/nonzero
+==================
+WARNING: DATA RACE
+Read at 0x00c0002aebd0 by goroutine 49:
+  bytes.(*Buffer).tryGrowByReslice()
+      <go-toolchain>/src/bytes/buffer.go:122 +0x44
+  bytes.(*Buffer).Write()
+      <go-toolchain>/src/bytes/buffer.go:183 +0xac
+  io.(*multiWriter).Write()
+      <go-toolchain>/src/io/multi.go:85 +0xa0
+  io.copyBuffer()
+      <go-toolchain>/src/io/io.go:431 +0x24c
+  io.copyBuffer()
+      <go-toolchain>/src/io/io.go:429 +0x20c
+  io.Copy()
+      <go-toolchain>/src/io/io.go:388 +0x64
+  os.genericWriteTo()
+      <go-toolchain>/src/os/file.go:295 +0x18
+  os.(*File).WriteTo()
+      <go-toolchain>/src/os/file.go:273 +0x8c
+  io.copyBuffer()
+      <go-toolchain>/src/io/io.go:411 +0xa8
+  io.Copy()
+      <go-toolchain>/src/io/io.go:388 +0x58
+  os/exec.(*Cmd).writerDescriptor.func1()
+      <go-toolchain>/src/os/exec/exec.go:596 +0x34
+  os/exec.(*Cmd).Start.func2()
+      <go-toolchain>/src/os/exec/exec.go:749 +0x38
+  os/exec.(*Cmd).Start.gowrap1()
+      <go-toolchain>/src/os/exec/exec.go:761 +0x40
+
+Previous write at 0x00c0002aebd0 by goroutine 50:
+  bytes.(*Buffer).ReadFrom()
+      <go-toolchain>/src/bytes/buffer.go:222 +0x128
+  bytes.(*Buffer).ReadFrom()
+      <go-toolchain>/src/bytes/buffer.go:217 +0xec
+  io.copyBuffer()
+      <go-toolchain>/src/io/io.go:415 +0x1bc
+  io.Copy()
+      <go-toolchain>/src/io/io.go:388 +0x64
+  os.genericWriteTo()
+      <go-toolchain>/src/os/file.go:295 +0x18
+  os.(*File).WriteTo()
+      <go-toolchain>/src/os/file.go:273 +0x8c
+  io.copyBuffer()
+      <go-toolchain>/src/io/io.go:411 +0xa8
+  io.Copy()
+      <go-toolchain>/src/io/io.go:388 +0x58
+  os/exec.(*Cmd).writerDescriptor.func1()
+      <go-toolchain>/src/os/exec/exec.go:596 +0x34
+  os/exec.(*Cmd).Start.func2()
+      <go-toolchain>/src/os/exec/exec.go:749 +0x38
+  os/exec.(*Cmd).Start.gowrap1()
+      <go-toolchain>/src/os/exec/exec.go:761 +0x40
+
+Goroutine 49 (running) created at:
+  os/exec.(*Cmd).Start()
+      <go-toolchain>/src/os/exec/exec.go:748 +0xb28
+  model-relay/tests/verify.execute()
+      <local>/tests/verify/main.go:414 +0x238
+  model-relay/tests/verify.captureCommand()
+      <local>/tests/verify/main.go:383 +0x78c
+  model-relay/tests/verify.TestCaptureCommandTiming.func1()
+      <local>/tests/verify/main_test.go:351 +0x21c
+  testing.tRunner()
+      <go-toolchain>/src/testing/testing.go:1934 +0x164
+  testing.(*T).Run.gowrap1()
+      <go-toolchain>/src/testing/testing.go:1997 +0x3c
+
+Goroutine 50 (running) created at:
+  os/exec.(*Cmd).Start()
+      <go-toolchain>/src/os/exec/exec.go:748 +0xb28
+  model-relay/tests/verify.execute()
+      <local>/tests/verify/main.go:414 +0x238
+  model-relay/tests/verify.captureCommand()
+      <local>/tests/verify/main.go:383 +0x78c
+  model-relay/tests/verify.TestCaptureCommandTiming.func1()
+      <local>/tests/verify/main_test.go:351 +0x21c
+  testing.tRunner()
+      <go-toolchain>/src/testing/testing.go:1934 +0x164
+  testing.(*T).Run.gowrap1()
+      <go-toolchain>/src/testing/testing.go:1997 +0x3c
+==================
+==================
+WARNING: DATA RACE
+Read at 0x00c0002aebd0 by goroutine 50:
+  bytes.(*Buffer).ReadFrom()
+      <go-toolchain>/src/bytes/buffer.go:222 +0x104
+  bytes.(*Buffer).ReadFrom()
+      <go-toolchain>/src/bytes/buffer.go:217 +0xec
+  bytes.(*Buffer).ReadFrom()
+      <go-toolchain>/src/bytes/buffer.go:217 +0xec
+  io.copyBuffer()
+      <go-toolchain>/src/io/io.go:415 +0x1bc
+  io.Copy()
+      <go-toolchain>/src/io/io.go:388 +0x64
+  os.genericWriteTo()
+      <go-toolchain>/src/os/file.go:295 +0x18
+  os.(*File).WriteTo()
+      <go-toolchain>/src/os/file.go:273 +0x8c
+  io.copyBuffer()
+      <go-toolchain>/src/io/io.go:411 +0xa8
+  io.Copy()
+      <go-toolchain>/src/io/io.go:388 +0x58
+  os/exec.(*Cmd).writerDescriptor.func1()
+      <go-toolchain>/src/os/exec/exec.go:596 +0x34
+  os/exec.(*Cmd).Start.func2()
+      <go-toolchain>/src/os/exec/exec.go:749 +0x38
+  os/exec.(*Cmd).Start.gowrap1()
+      <go-toolchain>/src/os/exec/exec.go:761 +0x40
+
+Previous write at 0x00c0002aebd0 by goroutine 49:
+  bytes.(*Buffer).tryGrowByReslice()
+      <go-toolchain>/src/bytes/buffer.go:123 +0x98
+  bytes.(*Buffer).Write()
+      <go-toolchain>/src/bytes/buffer.go:183 +0xac
+  io.(*multiWriter).Write()
+      <go-toolchain>/src/io/multi.go:85 +0xa0
+  io.copyBuffer()
+      <go-toolchain>/src/io/io.go:431 +0x24c
+  io.copyBuffer()
+      <go-toolchain>/src/io/io.go:429 +0x20c
+  io.Copy()
+      <go-toolchain>/src/io/io.go:388 +0x64
+  os.genericWriteTo()
+      <go-toolchain>/src/os/file.go:295 +0x18
+  os.(*File).WriteTo()
+      <go-toolchain>/src/os/file.go:273 +0x8c
+  io.copyBuffer()
+      <go-toolchain>/src/io/io.go:411 +0xa8
+  io.Copy()
+      <go-toolchain>/src/io/io.go:388 +0x58
+  os/exec.(*Cmd).writerDescriptor.func1()
+      <go-toolchain>/src/os/exec/exec.go:596 +0x34
+  os/exec.(*Cmd).Start.func2()
+      <go-toolchain>/src/os/exec/exec.go:749 +0x38
+  os/exec.(*Cmd).Start.gowrap1()
+      <go-toolchain>/src/os/exec/exec.go:761 +0x40
+
+Goroutine 50 (running) created at:
+  os/exec.(*Cmd).Start()
+      <go-toolchain>/src/os/exec/exec.go:748 +0xb28
+  model-relay/tests/verify.execute()
+      <local>/tests/verify/main.go:414 +0x238
+  model-relay/tests/verify.captureCommand()
+      <local>/tests/verify/main.go:383 +0x78c
+  model-relay/tests/verify.TestCaptureCommandTiming.func1()
+      <local>/tests/verify/main_test.go:351 +0x21c
+  testing.tRunner()
+      <go-toolchain>/src/testing/testing.go:1934 +0x164
+  testing.(*T).Run.gowrap1()
+      <go-toolchain>/src/testing/testing.go:1997 +0x3c
+
+Goroutine 49 (finished) created at:
+  os/exec.(*Cmd).Start()
+      <go-toolchain>/src/os/exec/exec.go:748 +0xb28
+  model-relay/tests/verify.execute()
+      <local>/tests/verify/main.go:414 +0x238
+  model-relay/tests/verify.captureCommand()
+      <local>/tests/verify/main.go:383 +0x78c
+  model-relay/tests/verify.TestCaptureCommandTiming.func1()
+      <local>/tests/verify/main_test.go:351 +0x21c
+  testing.tRunner()
+      <go-toolchain>/src/testing/testing.go:1934 +0x164
+  testing.(*T).Run.gowrap1()
+      <go-toolchain>/src/testing/testing.go:1997 +0x3c
+==================
+    testing.go:1617: race detected during execution of test
+=== RUN   TestCaptureCommandTiming/cancelled
+--- FAIL: TestCaptureCommandTiming (0.02s)
+    --- FAIL: TestCaptureCommandTiming/success (0.01s)
+    --- FAIL: TestCaptureCommandTiming/nonzero (0.01s)
+    --- PASS: TestCaptureCommandTiming/cancelled (0.00s)
+=== RUN   TestFixedRunnerReceipts
+=== RUN   TestFixedRunnerReceipts/green_fixture
+verification_receipt=test-results/verification/20261009T043314Z-1548078791
+COMMAND_START stage=source-inventory started_utc=2026-10-09T04:33:14.371571Z budget_ms=7998
+input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=212 group_check_ms=0
+COMMAND_START stage=git-directory started_utc=2026-10-09T04:33:14.584392Z budget_ms=7786
+/fixture/history
+
+COMMAND_END stage=git-directory exit=0 cancelled=false execute_ms=5 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T04:33:14.590794Z budget_ms=7779
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=161 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T04:33:14.752679Z budget_ms=7617
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=5 group_check_ms=0
+COMMAND_START stage=prerequisite-go started_utc=2026-10-09T04:33:14.758734Z budget_ms=7611
+go-fixture
+
+COMMAND_END stage=prerequisite-go exit=0 cancelled=false execute_ms=5 group_check_ms=0
+PREREQUISITE tool=go output=go-fixture
+COMMAND_START stage=prerequisite-node started_utc=2026-10-09T04:33:14.764133Z budget_ms=7606
+node-fixture
+
+COMMAND_END stage=prerequisite-node exit=0 cancelled=false execute_ms=169 group_check_ms=0
+PREREQUISITE tool=node output=node-fixture
+COMMAND_START stage=prerequisite-npm started_utc=2026-10-09T04:33:14.933924Z budget_ms=7436
+npm-fixture
+
+COMMAND_END stage=prerequisite-npm exit=0 cancelled=false execute_ms=169 group_check_ms=0
+PREREQUISITE tool=npm output=npm-fixture
+CLEAN_START {"started_utc":"2026-10-09T04:33:14.370787Z","finished_utc":"","command":"make verify -\u003e isolated make verify-gates","isolation":"new private candidate; git history read-only","node_modules_before":false,"clean_start_measured":true,"npm_cache_before":false,"node_modules_after":false,"npm_cache_after":false,"source_unchanged":false,"candidate_unchanged":false,"NODE_PATH":"unset","manual_preinstall":"none","source_before":{"head":"fixture","working_tree_sha256":"fixture"},"versions":{"go":"go-fixture","node":"node-fixture","npm":"npm-fixture"},"gate_exit":-1,"exit_code":1,"log_sha256":"","log_bytes":0,"cleanup":"not_started","auxiliary_commands":[{"stage":"source-inventory","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T04:33:14.371571Z","budget_ms":7998,"execute_ms":212,"group_check_ms":0},{"stage":"git-directory","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T04:33:14.584392Z","budget_ms":7786,"execute_ms":5,"group_check_ms":0},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T04:33:14.590794Z","budget_ms":7779,"execute_ms":161,"group_check_ms":0},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T04:33:14.752679Z","budget_ms":7617,"execute_ms":5,"group_check_ms":0},{"stage":"prerequisite-go","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T04:33:14.758734Z","budget_ms":7611,"execute_ms":5,"group_check_ms":0},{"stage":"prerequisite-node","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T04:33:14.764133Z","budget_ms":7606,"execute_ms":169,"group_check_ms":0},{"stage":"prerequisite-npm","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T04:33:14.933924Z","budget_ms":7436,"execute_ms":169,"group_check_ms":0}]}
+fixture gates stdout
+fixture gates stderr
+COMMAND_START stage=source-evidence started_utc=2026-10-09T04:33:15.295894Z budget_ms=7074
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=7 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T04:33:15.303867Z budget_ms=7066
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=8 group_check_ms=0
+COMMAND_START stage=dependency-probe started_utc=2026-10-09T04:33:15.312328Z budget_ms=7058
+locked-local-fixture
+
+COMMAND_END stage=dependency-probe exit=0 cancelled=false execute_ms=6 group_check_ms=0
+CLEAN_END gate_exit=0 source_unchanged=true NODE_PATH=unset
+=== RUN   TestFixedRunnerReceipts/failed_fixture
+verification_receipt=test-results/verification/20261009T043315Z-2405233471
+COMMAND_START stage=source-inventory started_utc=2026-10-09T04:33:15.324941Z budget_ms=7999
+input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=172 group_check_ms=0
+COMMAND_START stage=git-directory started_utc=2026-10-09T04:33:15.498361Z budget_ms=7825
+/fixture/history
+
+COMMAND_END stage=git-directory exit=0 cancelled=false execute_ms=8 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T04:33:15.508057Z budget_ms=7816
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=167 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T04:33:15.675581Z budget_ms=7648
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=12 group_check_ms=0
+COMMAND_START stage=prerequisite-go started_utc=2026-10-09T04:33:15.688071Z budget_ms=7636
+go-fixture
+
+COMMAND_END stage=prerequisite-go exit=0 cancelled=false execute_ms=6 group_check_ms=0
+PREREQUISITE tool=go output=go-fixture
+COMMAND_START stage=prerequisite-node started_utc=2026-10-09T04:33:15.695229Z budget_ms=7628
+node-fixture
+
+COMMAND_END stage=prerequisite-node exit=0 cancelled=false execute_ms=164 group_check_ms=0
+PREREQUISITE tool=node output=node-fixture
+COMMAND_START stage=prerequisite-npm started_utc=2026-10-09T04:33:15.860007Z budget_ms=7464
+npm-fixture
+
+COMMAND_END stage=prerequisite-npm exit=0 cancelled=false execute_ms=164 group_check_ms=0
+PREREQUISITE tool=npm output=npm-fixture
+CLEAN_START {"started_utc":"2026-10-09T04:33:15.324448Z","finished_utc":"","command":"make verify -\u003e isolated make verify-gates","isolation":"new private candidate; git history read-only","node_modules_before":false,"clean_start_measured":true,"npm_cache_before":false,"node_modules_after":false,"npm_cache_after":false,"source_unchanged":false,"candidate_unchanged":false,"NODE_PATH":"unset","manual_preinstall":"none","source_before":{"head":"fixture","working_tree_sha256":"fixture"},"versions":{"go":"go-fixture","node":"node-fixture","npm":"npm-fixture"},"gate_exit":-1,"exit_code":1,"log_sha256":"","log_bytes":0,"cleanup":"not_started","auxiliary_commands":[{"stage":"source-inventory","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T04:33:15.324941Z","budget_ms":7999,"execute_ms":172,"group_check_ms":0},{"stage":"git-directory","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T04:33:15.498361Z","budget_ms":7825,"execute_ms":8,"group_check_ms":0},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T04:33:15.508057Z","budget_ms":7816,"execute_ms":167,"group_check_ms":0},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T04:33:15.675581Z","budget_ms":7648,"execute_ms":12,"group_check_ms":0},{"stage":"prerequisite-go","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T04:33:15.688071Z","budget_ms":7636,"execute_ms":6,"group_check_ms":0},{"stage":"prerequisite-node","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T04:33:15.695229Z","budget_ms":7628,"execute_ms":164,"group_check_ms":0},{"stage":"prerequisite-npm","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T04:33:15.860007Z","budget_ms":7464,"execute_ms":164,"group_check_ms":0}]}
+fixture gates stdout
+fixture gates stderr
+COMMAND_START stage=source-evidence started_utc=2026-10-09T04:33:16.438239Z budget_ms=6885
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=7 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T04:33:16.44632Z budget_ms=6877
+{"head":"fixture","working_tree_sha256":"fixture"}
+evidence-stderr-success
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=6 group_check_ms=0
+CLEAN_END gate_exit=23 source_unchanged=true NODE_PATH=unset
+FAILED: exit status 23
+=== RUN   TestFixedRunnerReceipts/prerequisite_failed_fixture
+verification_receipt=test-results/verification/20261009T043316Z-3332177459
+COMMAND_START stage=source-inventory started_utc=2026-10-09T04:33:16.459178Z budget_ms=7999
+input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=170 group_check_ms=0
+COMMAND_START stage=git-directory started_utc=2026-10-09T04:33:16.630256Z budget_ms=7827
+/fixture/history
+
+COMMAND_END stage=git-directory exit=0 cancelled=false execute_ms=8 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T04:33:16.639961Z budget_ms=7818
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=196 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T04:33:16.836606Z budget_ms=7621
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=9 group_check_ms=0
+COMMAND_START stage=prerequisite-go started_utc=2026-10-09T04:33:16.846651Z budget_ms=7611
+go-fixture
+
+COMMAND_END stage=prerequisite-go exit=0 cancelled=false execute_ms=6 group_check_ms=0
+PREREQUISITE tool=go output=go-fixture
+COMMAND_START stage=prerequisite-node started_utc=2026-10-09T04:33:16.852994Z budget_ms=7605
+node-fixture
+
+COMMAND_END stage=prerequisite-node exit=0 cancelled=false execute_ms=169 group_check_ms=0
+PREREQUISITE tool=node output=node-fixture
+COMMAND_START stage=prerequisite-npm started_utc=2026-10-09T04:33:17.022668Z budget_ms=7435
+prerequisite-stderr-diagnostic
+
+COMMAND_END stage=prerequisite-npm exit=24 cancelled=false execute_ms=410 group_check_ms=0
+PREREQUISITE tool=npm output=
+FAILED: npm prerequisite: prerequisite-npm: exit status 24
+=== RUN   TestFixedRunnerReceipts/evidence_failed_fixture
+verification_receipt=test-results/verification/20261009T043317Z-1576643555
+COMMAND_START stage=source-inventory started_utc=2026-10-09T04:33:17.439401Z budget_ms=7999
+input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=166 group_check_ms=0
+COMMAND_START stage=git-directory started_utc=2026-10-09T04:33:17.606664Z budget_ms=7831
+/fixture/history
+
+COMMAND_END stage=git-directory exit=0 cancelled=false execute_ms=8 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T04:33:17.61645Z budget_ms=7822
+evidence-stderr-diagnostic
+evidence-stdout-diagnostic
+
+COMMAND_END stage=source-evidence exit=25 cancelled=false execute_ms=412 group_check_ms=0
+FAILED: source digest: source-evidence: exit status 25
+=== RUN   TestFixedRunnerReceipts/probe_failed_fixture
+verification_receipt=test-results/verification/20261009T043318Z-4078570862
+COMMAND_START stage=source-inventory started_utc=2026-10-09T04:33:18.036336Z budget_ms=7998
+input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=170 group_check_ms=0
+COMMAND_START stage=git-directory started_utc=2026-10-09T04:33:18.207605Z budget_ms=7827
+/fixture/history
+
+COMMAND_END stage=git-directory exit=0 cancelled=false execute_ms=8 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T04:33:18.216666Z budget_ms=7818
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=243 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T04:33:18.460627Z budget_ms=7574
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=8 group_check_ms=0
+COMMAND_START stage=prerequisite-go started_utc=2026-10-09T04:33:18.469253Z budget_ms=7565
+go-fixture
+
+COMMAND_END stage=prerequisite-go exit=0 cancelled=false execute_ms=7 group_check_ms=0
+PREREQUISITE tool=go output=go-fixture
+COMMAND_START stage=prerequisite-node started_utc=2026-10-09T04:33:18.477092Z budget_ms=7558
+node-fixture
+
+COMMAND_END stage=prerequisite-node exit=0 cancelled=false execute_ms=394 group_check_ms=0
+PREREQUISITE tool=node output=node-fixture
+COMMAND_START stage=prerequisite-npm started_utc=2026-10-09T04:33:18.87152Z budget_ms=7163
+npm-fixture
+
+COMMAND_END stage=prerequisite-npm exit=0 cancelled=false execute_ms=163 group_check_ms=0
+PREREQUISITE tool=npm output=npm-fixture
+CLEAN_START {"started_utc":"2026-10-09T04:33:18.035496Z","finished_utc":"","command":"make verify -\u003e isolated make verify-gates","isolation":"new private candidate; git history read-only","node_modules_before":false,"clean_start_measured":true,"npm_cache_before":false,"node_modules_after":false,"npm_cache_after":false,"source_unchanged":false,"candidate_unchanged":false,"NODE_PATH":"unset","manual_preinstall":"none","source_before":{"head":"fixture","working_tree_sha256":"fixture"},"versions":{"go":"go-fixture","node":"node-fixture","npm":"npm-fixture"},"gate_exit":-1,"exit_code":1,"log_sha256":"","log_bytes":0,"cleanup":"not_started","auxiliary_commands":[{"stage":"source-inventory","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T04:33:18.036336Z","budget_ms":7998,"execute_ms":170,"group_check_ms":0},{"stage":"git-directory","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T04:33:18.207605Z","budget_ms":7827,"execute_ms":8,"group_check_ms":0},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T04:33:18.216666Z","budget_ms":7818,"execute_ms":243,"group_check_ms":0},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T04:33:18.460627Z","budget_ms":7574,"execute_ms":8,"group_check_ms":0},{"stage":"prerequisite-go","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T04:33:18.469253Z","budget_ms":7565,"execute_ms":7,"group_check_ms":0},{"stage":"prerequisite-node","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T04:33:18.477092Z","budget_ms":7558,"execute_ms":394,"group_check_ms":0},{"stage":"prerequisite-npm","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T04:33:18.87152Z","budget_ms":7163,"execute_ms":163,"group_check_ms":0}]}
+fixture gates stdout
+fixture gates stderr
+COMMAND_START stage=source-evidence started_utc=2026-10-09T04:33:19.197791Z budget_ms=6837
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=7 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T04:33:19.205126Z budget_ms=6830
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=6 group_check_ms=0
+COMMAND_START stage=dependency-probe started_utc=2026-10-09T04:33:19.211545Z budget_ms=6823
+probe-stderr-diagnostic
+probe-stdout-diagnostic
+
+COMMAND_END stage=dependency-probe exit=26 cancelled=false execute_ms=5 group_check_ms=0
+CLEAN_END gate_exit=0 source_unchanged=true NODE_PATH=unset
+FAILED: dependency-probe: exit status 26
+=== RUN   TestFixedRunnerReceipts/copy_failed_fixture
+verification_receipt=test-results/verification/20261009T043319Z-128454999
+COMMAND_START stage=source-inventory started_utc=2026-10-09T04:33:19.222862Z budget_ms=7999
+input.txt\0internal/input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=408 group_check_ms=0
+FAILED: source parent must be a real directory
+=== RUN   TestFixedRunnerReceipts/cancel_inventory
+verification_receipt=test-results/verification/20261009T043319Z-2850058466
+COMMAND_START stage=source-inventory started_utc=2026-10-09T04:33:19.637861Z budget_ms=7999
+auxiliary-ready
+
+COMMAND_END stage=source-inventory exit=-1 cancelled=true execute_ms=427 group_check_ms=0
+FAILED: source inventory: source-inventory: signal: terminated
+context canceled
+=== RUN   TestFixedRunnerReceipts/cancel_git_directory
+verification_receipt=test-results/verification/20261009T043320Z-2686207306
+COMMAND_START stage=source-inventory started_utc=2026-10-09T04:33:20.070863Z budget_ms=7998
+input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=410 group_check_ms=0
+COMMAND_START stage=git-directory started_utc=2026-10-09T04:33:20.482621Z budget_ms=7587
+auxiliary-ready
+
+COMMAND_END stage=git-directory exit=-1 cancelled=true execute_ms=11 group_check_ms=0
+FAILED: git-directory: signal: terminated
+context canceled
+=== RUN   TestFixedRunnerReceipts/cancel_evidence
+verification_receipt=test-results/verification/20261009T043320Z-654232149
+COMMAND_START stage=source-inventory started_utc=2026-10-09T04:33:20.499766Z budget_ms=7999
+input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=174 group_check_ms=0
+COMMAND_START stage=git-directory started_utc=2026-10-09T04:33:20.674994Z budget_ms=7823
+/fixture/history
+
+COMMAND_END stage=git-directory exit=0 cancelled=false execute_ms=10 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T04:33:20.686003Z budget_ms=7812
+auxiliary-ready
+
+COMMAND_END stage=source-evidence exit=-1 cancelled=true execute_ms=185 group_check_ms=0
+FAILED: source digest: source-evidence: signal: terminated
+context canceled
+=== RUN   TestFixedRunnerReceipts/cancel_prerequisite
+verification_receipt=test-results/verification/20261009T043320Z-3898380594
+COMMAND_START stage=source-inventory started_utc=2026-10-09T04:33:20.87918Z budget_ms=7998
+input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=173 group_check_ms=0
+COMMAND_START stage=git-directory started_utc=2026-10-09T04:33:21.053149Z budget_ms=7824
+/fixture/history
+
+COMMAND_END stage=git-directory exit=0 cancelled=false execute_ms=8 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T04:33:21.062163Z budget_ms=7815
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=173 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T04:33:21.235767Z budget_ms=7642
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=7 group_check_ms=0
+COMMAND_START stage=prerequisite-go started_utc=2026-10-09T04:33:21.243887Z budget_ms=7634
+go-fixture
+
+COMMAND_END stage=prerequisite-go exit=0 cancelled=false execute_ms=6 group_check_ms=0
+PREREQUISITE tool=go output=go-fixture
+COMMAND_START stage=prerequisite-node started_utc=2026-10-09T04:33:21.250534Z budget_ms=7627
+node-fixture
+
+COMMAND_END stage=prerequisite-node exit=0 cancelled=false execute_ms=156 group_check_ms=0
+PREREQUISITE tool=node output=node-fixture
+COMMAND_START stage=prerequisite-npm started_utc=2026-10-09T04:33:21.407392Z budget_ms=7470
+auxiliary-ready
+
+COMMAND_END stage=prerequisite-npm exit=-1 cancelled=true execute_ms=163 group_check_ms=0
+PREREQUISITE tool=npm output=auxiliary-ready
+FAILED: npm prerequisite: prerequisite-npm: signal: terminated
+context canceled
+=== RUN   TestFixedRunnerReceipts/cancel_probe
+verification_receipt=test-results/verification/20261009T043321Z-2076453362
+COMMAND_START stage=source-inventory started_utc=2026-10-09T04:33:21.577852Z budget_ms=7999
+input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=163 group_check_ms=0
+COMMAND_START stage=git-directory started_utc=2026-10-09T04:33:21.742319Z budget_ms=7834
+/fixture/history
+
+COMMAND_END stage=git-directory exit=0 cancelled=false execute_ms=7 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T04:33:21.75088Z budget_ms=7826
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=171 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T04:33:21.92294Z budget_ms=7654
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=9 group_check_ms=0
+COMMAND_START stage=prerequisite-go started_utc=2026-10-09T04:33:21.932717Z budget_ms=7644
+go-fixture
+
+COMMAND_END stage=prerequisite-go exit=0 cancelled=false execute_ms=8 group_check_ms=0
+PREREQUISITE tool=go output=go-fixture
+COMMAND_START stage=prerequisite-node started_utc=2026-10-09T04:33:21.941283Z budget_ms=7635
+node-fixture
+
+COMMAND_END stage=prerequisite-node exit=0 cancelled=false execute_ms=413 group_check_ms=0
+PREREQUISITE tool=node output=node-fixture
+COMMAND_START stage=prerequisite-npm started_utc=2026-10-09T04:33:22.354912Z budget_ms=7222
+npm-fixture
+
+COMMAND_END stage=prerequisite-npm exit=0 cancelled=false execute_ms=162 group_check_ms=0
+PREREQUISITE tool=npm output=npm-fixture
+CLEAN_START {"started_utc":"2026-10-09T04:33:21.577321Z","finished_utc":"","command":"make verify -\u003e isolated make verify-gates","isolation":"new private candidate; git history read-only","node_modules_before":false,"clean_start_measured":true,"npm_cache_before":false,"node_modules_after":false,"npm_cache_after":false,"source_unchanged":false,"candidate_unchanged":false,"NODE_PATH":"unset","manual_preinstall":"none","source_before":{"head":"fixture","working_tree_sha256":"fixture"},"versions":{"go":"go-fixture","node":"node-fixture","npm":"npm-fixture"},"gate_exit":-1,"exit_code":1,"log_sha256":"","log_bytes":0,"cleanup":"not_started","auxiliary_commands":[{"stage":"source-inventory","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T04:33:21.577852Z","budget_ms":7999,"execute_ms":163,"group_check_ms":0},{"stage":"git-directory","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T04:33:21.742319Z","budget_ms":7834,"execute_ms":7,"group_check_ms":0},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T04:33:21.75088Z","budget_ms":7826,"execute_ms":171,"group_check_ms":0},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T04:33:21.92294Z","budget_ms":7654,"execute_ms":9,"group_check_ms":0},{"stage":"prerequisite-go","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T04:33:21.932717Z","budget_ms":7644,"execute_ms":8,"group_check_ms":0},{"stage":"prerequisite-node","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T04:33:21.941283Z","budget_ms":7635,"execute_ms":413,"group_check_ms":0},{"stage":"prerequisite-npm","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-09T04:33:22.354912Z","budget_ms":7222,"execute_ms":162,"group_check_ms":0}]}
+fixture gates stdout
+fixture gates stderr
+COMMAND_START stage=source-evidence started_utc=2026-10-09T04:33:22.684311Z budget_ms=6892
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=7 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-09T04:33:22.691997Z budget_ms=6885
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=6 group_check_ms=0
+COMMAND_START stage=dependency-probe started_utc=2026-10-09T04:33:22.698776Z budget_ms=6878
+auxiliary-ready
+
+COMMAND_END stage=dependency-probe exit=-1 cancelled=true execute_ms=7 group_check_ms=0
+CLEAN_END gate_exit=0 source_unchanged=true NODE_PATH=unset
+FAILED: dependency-probe: signal: terminated
+context canceled
+--- PASS: TestFixedRunnerReceipts (8.34s)
+    --- PASS: TestFixedRunnerReceipts/green_fixture (0.96s)
+    --- PASS: TestFixedRunnerReceipts/failed_fixture (1.13s)
+    --- PASS: TestFixedRunnerReceipts/prerequisite_failed_fixture (0.98s)
+    --- PASS: TestFixedRunnerReceipts/evidence_failed_fixture (0.60s)
+    --- PASS: TestFixedRunnerReceipts/probe_failed_fixture (1.19s)
+    --- PASS: TestFixedRunnerReceipts/copy_failed_fixture (0.41s)
+    --- PASS: TestFixedRunnerReceipts/cancel_inventory (0.43s)
+    --- PASS: TestFixedRunnerReceipts/cancel_git_directory (0.43s)
+    --- PASS: TestFixedRunnerReceipts/cancel_evidence (0.38s)
+    --- PASS: TestFixedRunnerReceipts/cancel_prerequisite (0.70s)
+    --- PASS: TestFixedRunnerReceipts/cancel_probe (1.13s)
+FAIL
+FAIL	model-relay/tests/verify	12.980s
+FAIL

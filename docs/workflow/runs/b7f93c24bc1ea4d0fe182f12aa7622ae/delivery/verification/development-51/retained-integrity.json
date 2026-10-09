@@ -1,0 +1,33 @@
+{
+  "checked_utc": "2026-10-09T10:14:35.004Z",
+  "checked": [
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-49/final-integrity.json",
+      "unchanged_files": 21,
+      "intended_changed_files": [
+        ".trellis/spec/frontend/workspace-contracts.md"
+      ]
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-44/archive-index.json",
+      "unchanged_files": 275,
+      "intended_changed_files": []
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-46/archive-index.json",
+      "unchanged_files": 275,
+      "intended_changed_files": []
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-48/archive-index.json",
+      "unchanged_files": 93,
+      "intended_changed_files": []
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-50/archive-index.json",
+      "unchanged_files": 2,
+      "intended_changed_files": []
+    }
+  ],
+  "diagnostic": "First generic recursive integrity scan failed on material-relative docs/acceptance.md after host50 archive was saved; archive not replayed. Rechecked exact entries arrays, material uses its own root."
+}

@@ -1,0 +1,107 @@
+{
+  "execution": 44,
+  "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+  "candidate": "6be11e323f52fc3bf47f20397ec84786f725c9bccf401cacebb797cc82e1d11f",
+  "started_utc": "2026-10-09T08:31:02.611438Z",
+  "finished_utc": "2026-10-09T08:42:39.263198Z",
+  "gate_exit": 2,
+  "exit_code": 1,
+  "source_unchanged": true,
+  "owned_group_absent": true,
+  "archive_files": 275,
+  "log_sha256": "60d642573908e25980493aba6c3ea9ddbd8407b72aaea774114cb7743d8f16b7",
+  "png_sha256": "0e37bd86cb1fad8f63ec660deb038d47de0c4a9fe79bbb66617f09de08be688e",
+  "failure_boundary": "integrity",
+  "before_window": {
+    "x": 0,
+    "y": 182,
+    "width": 390,
+    "height": 900
+  },
+  "after_window": {
+    "x": 0,
+    "y": 327,
+    "width": 390,
+    "height": 900
+  },
+  "before_title": {
+    "left": 35,
+    "top": 273.75,
+    "width": 103.875,
+    "height": 27,
+    "scroll_left": 0,
+    "scroll_top": 0,
+    "client_width": 104,
+    "client_height": 27,
+    "scroll_width": 104,
+    "scroll_height": 27
+  },
+  "after_title": {
+    "left": 35,
+    "top": 418.75,
+    "width": 103.875,
+    "height": 27,
+    "scroll_left": 0,
+    "scroll_top": 0,
+    "client_width": 104,
+    "client_height": 27,
+    "scroll_width": 104,
+    "scroll_height": 27
+  },
+  "before_content": {
+    "left": 16,
+    "top": 254.75,
+    "width": 358,
+    "height": 754.5,
+    "scroll_left": 0,
+    "scroll_top": 0,
+    "client_width": 356,
+    "client_height": 753,
+    "scroll_width": 356,
+    "scroll_height": 753
+  },
+  "after_content": {
+    "left": 16,
+    "top": 399.75,
+    "width": 358,
+    "height": 754.5,
+    "scroll_left": 0,
+    "scroll_top": 0,
+    "client_width": 356,
+    "client_height": 753,
+    "scroll_width": 356,
+    "scroll_height": 753
+  },
+  "pixels": {
+    "width": 390,
+    "height": 1227,
+    "surface": {
+      "uniform_rgb": false,
+      "first_pixel_rgb": [
+        255,
+        255,
+        255
+      ]
+    },
+    "anchors": [
+      {
+        "inside": true,
+        "samples": 2912,
+        "contrast": 135,
+        "dark_pixels": 69,
+        "ink_present": true
+      },
+      {
+        "inside": true,
+        "samples": 7040,
+        "contrast": 108,
+        "dark_pixels": 7040,
+        "ink_present": true
+      }
+    ]
+  },
+  "relay_race_seconds": 284.183,
+  "previous_relay_race_seconds": 320.136,
+  "relay_wall_difference_seconds": 35.953,
+  "conclusion": "Nonblank original PNG; unchanged strict document geometry assertion fails after scroll-correlated modal displacement. Neither total timeout nor listener failure. Historical root cause not closed."
+}

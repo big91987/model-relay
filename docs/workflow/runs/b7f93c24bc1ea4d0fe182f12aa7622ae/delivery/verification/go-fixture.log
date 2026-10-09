@@ -1,0 +1,12 @@
+# model-relay/tests/browser.test
+ld: warning: '<temporary>/go-link-2841278103/000023.o' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestContinuousUpstreamResponseContract
+=== RUN   TestContinuousUpstreamResponseContract/known
+=== RUN   TestContinuousUpstreamResponseContract/unknown
+--- PASS: TestContinuousUpstreamResponseContract (0.00s)
+    --- PASS: TestContinuousUpstreamResponseContract/known (0.00s)
+    --- PASS: TestContinuousUpstreamResponseContract/unknown (0.00s)
+=== RUN   TestContinuousUpstreamStreamContract
+--- PASS: TestContinuousUpstreamStreamContract (0.00s)
+PASS
+ok  	model-relay/tests/browser	1.664s

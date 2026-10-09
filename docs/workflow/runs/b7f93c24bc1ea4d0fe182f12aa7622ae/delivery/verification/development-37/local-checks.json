@@ -1,0 +1,85 @@
+[
+  {
+    "name": "source",
+    "command": "go run ./tests/evidence",
+    "started_utc": "2026-10-09T06:26:20.781Z",
+    "finished_utc": "2026-10-09T06:26:20.898Z",
+    "exit_code": 0,
+    "signal": null,
+    "scope": "local_not_complete_host_gate; no browser or HTTP listening",
+    "log": "source.json"
+  },
+  {
+    "name": "node-targeted",
+    "command": "node --test tests/browser/capture-integrity.test.mjs tests/browser/console-visual.test.mjs tests/browser/journeys.test.mjs tests/browser/readability.test.mjs",
+    "started_utc": "2026-10-09T06:26:20.899Z",
+    "finished_utc": "2026-10-09T06:26:21.081Z",
+    "exit_code": 0,
+    "signal": null,
+    "scope": "local_not_complete_host_gate; no browser or HTTP listening",
+    "log": "node-targeted.log"
+  },
+  {
+    "name": "go-runner",
+    "command": "go test -race ./tests/verify -count=1 -v",
+    "started_utc": "2026-10-09T06:26:21.081Z",
+    "finished_utc": "2026-10-09T06:26:34.823Z",
+    "exit_code": 0,
+    "signal": null,
+    "scope": "local_not_complete_host_gate; no browser or HTTP listening",
+    "log": "go-runner.log"
+  },
+  {
+    "name": "go-wiring",
+    "command": "go test -race ./tests/verification -count=1 -v",
+    "started_utc": "2026-10-09T06:26:34.823Z",
+    "finished_utc": "2026-10-09T06:26:38.009Z",
+    "exit_code": 0,
+    "signal": null,
+    "scope": "local_not_complete_host_gate; no browser or HTTP listening",
+    "log": "go-wiring.log"
+  },
+  {
+    "name": "static",
+    "command": "make format-check vet build",
+    "started_utc": "2026-10-09T06:26:38.010Z",
+    "finished_utc": "2026-10-09T06:26:38.532Z",
+    "exit_code": 0,
+    "signal": null,
+    "scope": "local_not_complete_host_gate; no browser or HTTP listening",
+    "log": "static.log"
+  },
+  {
+    "name": "go-fixture",
+    "command": "go test -race ./tests/browser -run \"^TestContinuousUpstream(Response|Stream)Contract$\" -count=1 -v",
+    "started_utc": "2026-10-09T06:26:38.533Z",
+    "finished_utc": "2026-10-09T06:26:40.789Z",
+    "exit_code": 0,
+    "signal": null,
+    "scope": "local_not_complete_host_gate; no browser or HTTP listening",
+    "log": "go-fixture.log",
+    "original_log_sha256": "249b5d591dda9fab78844c8634cbe80af3019cf8a70b7723524c8841073c0531",
+    "redactions": 1,
+    "log_representation": "complete with owned temporary paths redacted"
+  },
+  {
+    "name": "syntax-diff",
+    "command": "node --check tests/browser/capture-integrity.mjs && node --check tests/browser/capture-integrity.test.mjs && git diff --check",
+    "started_utc": "2026-10-09T06:26:40.790Z",
+    "finished_utc": "2026-10-09T06:26:40.949Z",
+    "exit_code": 0,
+    "signal": null,
+    "scope": "local_not_complete_host_gate; no browser or HTTP listening",
+    "log": "syntax-diff.log"
+  },
+  {
+    "name": "source-after",
+    "command": "go run ./tests/evidence",
+    "started_utc": "2026-10-09T06:26:40.950Z",
+    "finished_utc": "2026-10-09T06:26:41.044Z",
+    "exit_code": 0,
+    "signal": null,
+    "scope": "local_not_complete_host_gate; no browser or HTTP listening",
+    "log": "source-after.json"
+  }
+]

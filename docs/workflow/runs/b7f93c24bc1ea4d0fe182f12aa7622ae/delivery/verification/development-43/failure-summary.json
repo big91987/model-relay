@@ -1,0 +1,103 @@
+{
+  "execution": 42,
+  "conclusion": "failed_total_gate_deadline_not_listener_restriction",
+  "source": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "d041dcdacbc5375fd5adb99bde3a917418b249ad69f0f64b276a2527ad578ab6"
+  },
+  "gate_deadline_ms": 720000,
+  "runner_started_utc": "2026-10-09T07:49:21.873088Z",
+  "runner_finished_utc": "2026-10-09T08:01:30.131956Z",
+  "package_race_seconds": 320.136,
+  "selected_sequential_tests": [
+    {
+      "test": "TestInstallationRecovery",
+      "seconds": 5.06
+    },
+    {
+      "test": "TestInterruptedAndVersion",
+      "seconds": 1.25
+    },
+    {
+      "test": "TestSourceAndLoginLimits",
+      "seconds": 13.87
+    },
+    {
+      "test": "TestHTTPManagementAndOrdinary",
+      "seconds": 2.6
+    },
+    {
+      "test": "TestTransparentParametersAndLocalReject",
+      "seconds": 3.09
+    },
+    {
+      "test": "TestSSEBarrierAndUsage",
+      "seconds": 2.54
+    },
+    {
+      "test": "TestStorageFailClosed",
+      "seconds": 7.81
+    },
+    {
+      "test": "TestConsoleOverviewAndExactRecords",
+      "seconds": 2.61
+    },
+    {
+      "test": "TestConsoleEvidenceConfigurationRace",
+      "seconds": 2.62
+    },
+    {
+      "test": "TestConsoleDeniedMetadataAndStorage",
+      "seconds": 2.57
+    },
+    {
+      "test": "TestConsoleRealHTTP",
+      "seconds": 2.54
+    },
+    {
+      "test": "TestRoutingSelectionAndEvidence",
+      "seconds": 2.59
+    },
+    {
+      "test": "TestRoutingBoundedAndStop",
+      "seconds": 5.08
+    }
+  ],
+  "selected_sequential_seconds": 54.22999999999999,
+  "browser_phases": [
+    "BROWSER_PHASE name=migration state=start utc=2026-10-09T07:56:06.971448Z",
+    "BROWSER_PHASE name=migration state=end utc=2026-10-09T07:56:21.283748Z elapsed_ms=14312 ok=true",
+    "BROWSER_PHASE name=legacy-ui state=start utc=2026-10-09T07:56:21.421493Z",
+    "BROWSER_PHASE name=legacy-ui state=end utc=2026-10-09T07:57:58.231707Z elapsed_ms=96808 ok=true",
+    "BROWSER_PHASE name=routing state=start utc=2026-10-09T07:57:58.231811Z",
+    "BROWSER_PHASE name=routing state=end utc=2026-10-09T08:00:06.652812Z elapsed_ms=128419 ok=true",
+    "BROWSER_PHASE name=console state=start utc=2026-10-09T08:00:06.653761Z",
+    "BROWSER_PHASE name=console state=end utc=2026-10-09T08:00:21.953854Z elapsed_ms=15299 ok=true",
+    "BROWSER_PHASE name=full-console state=start utc=2026-10-09T08:00:21.953867Z"
+  ],
+  "passed_full_viewports": [
+    1280,
+    1440
+  ],
+  "interrupted_viewport": {
+    "width": 390,
+    "stage": "J06-close-correction",
+    "action": "personnel-login",
+    "checkpoints": [
+      "J01",
+      "J02",
+      "J03",
+      "J04",
+      "J05",
+      "J07"
+    ],
+    "self_hosted": "not_run"
+  },
+  "supplier": "controlled_http_not_supplier",
+  "historical_root_cause": "not_proven",
+  "cleanup": "owned_process_group_cleanup_attempted; candidate_removed",
+  "owned_group_absent": true
+}

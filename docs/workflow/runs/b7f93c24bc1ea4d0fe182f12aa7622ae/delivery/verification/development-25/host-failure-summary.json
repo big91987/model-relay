@@ -1,0 +1,162 @@
+{
+  "execution": 24,
+  "receipt": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-24/state.json",
+  "utc": {
+    "start": "2026-10-09T03:36:44.095917Z",
+    "end": "2026-10-09T03:47:40.215191Z"
+  },
+  "gate_exit": 2,
+  "runner_exit": 1,
+  "connector_exit": 2,
+  "source": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "6ce878eb3a41ec7fa0a18488c6625c09f9ef6c3d243ee66812036550ccf6a65b"
+  },
+  "source_unchanged": true,
+  "cleanup": "owned_process_group_cleanup_attempted; candidate_removed",
+  "owned_group_absent": true,
+  "archived_files": 91,
+  "runner_log": {
+    "bytes": 455775,
+    "sha256": "3a9b740790f8d2e54f04c0f8492b21e52bb4e3152d337d1c223f71abddd19c01"
+  },
+  "connector_log": {
+    "bytes": 455956,
+    "truncated": false,
+    "byte_equivalent_to_runner": false
+  },
+  "node": {
+    "tests": 248,
+    "pass": 248,
+    "fail": 0
+  },
+  "failure": {
+    "stage": "visual-keys",
+    "boundary": "integrity",
+    "png_sha256": "78a7b304df77dac78964e27f6571f81f2ac48376e545786f9778a183028bff53",
+    "pixels": {
+      "width": 1280,
+      "height": 1149,
+      "surface": {
+        "uniform_rgb": true,
+        "first_pixel_rgb": [
+          243,
+          246,
+          250
+        ]
+      },
+      "anchors": [
+        {
+          "inside": true,
+          "samples": 11592,
+          "contrast": 0,
+          "dark_pixels": 0,
+          "ink_present": false
+        },
+        {
+          "inside": true,
+          "samples": 4840,
+          "contrast": 0,
+          "dark_pixels": 0,
+          "ink_present": false
+        },
+        {
+          "inside": true,
+          "samples": 4840,
+          "contrast": 0,
+          "dark_pixels": 0,
+          "ink_present": false
+        },
+        {
+          "inside": true,
+          "samples": 21230,
+          "contrast": 0,
+          "dark_pixels": 0,
+          "ink_present": false
+        }
+      ]
+    },
+    "window": {
+      "x": 0,
+      "y": 148,
+      "width": 1280,
+      "height": 900
+    },
+    "layout_before": {
+      "available": true,
+      "utc": "2026-10-09T03:47:39.186Z",
+      "layout_viewport": {
+        "pageX": 0,
+        "pageY": 148,
+        "clientWidth": 1280,
+        "clientHeight": 900,
+        "offsetX": null,
+        "offsetY": null,
+        "scale": null,
+        "zoom": null
+      },
+      "visual_viewport": {
+        "pageX": 0,
+        "pageY": 148,
+        "clientWidth": 1280,
+        "clientHeight": 900,
+        "offsetX": 0,
+        "offsetY": 0,
+        "scale": 1,
+        "zoom": 1
+      },
+      "content_size": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 1149
+      }
+    },
+    "layout_after": {
+      "available": true,
+      "utc": "2026-10-09T03:47:39.276Z",
+      "layout_viewport": {
+        "pageX": 0,
+        "pageY": 148,
+        "clientWidth": 1280,
+        "clientHeight": 900,
+        "offsetX": null,
+        "offsetY": null,
+        "scale": null,
+        "zoom": null
+      },
+      "visual_viewport": {
+        "pageX": 0,
+        "pageY": 148,
+        "clientWidth": 1280,
+        "clientHeight": 900,
+        "offsetX": 0,
+        "offsetY": 0,
+        "scale": 1,
+        "zoom": 1
+      },
+      "content_size": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 1149
+      }
+    },
+    "compositor": {
+      "available": true,
+      "tree_events": 3,
+      "paint_events": 13,
+      "detached": true
+    },
+    "native_input_evidence": "overwritten_to_unavailable_by_previous_catch; not evidence of missing input"
+  },
+  "not_run": [
+    "remaining full-console visual widths and current self_hosted journey after fail-fast",
+    "independent QA for new candidate",
+    "real supplier/payment/identity",
+    "Owner preview authenticated operation"
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "checked_utc": "2026-10-09T03:59:27.569Z",
+  "source_unchanged": true,
+  "source": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "bce88d0683991cef837feea8b321cc67a75a18da9b09a71760105b816f4c7824"
+  },
+  "archive_files_verified": 91,
+  "scope": "local integrity; not host acceptance",
+  "outputs": [
+    {
+      "path": "go-fixture-workspace-cache.log",
+      "bytes": 702,
+      "sha256": "d4dd9a85013be26144fa6c9c72cc1f9608c834c589edf7cc47a803dd2e6b040b"
+    },
+    {
+      "path": "go-fixture.log",
+      "bytes": 190,
+      "sha256": "f84ff4db8691b9b611d02f22a9bc7bf32d48e7836c722c1f94a8b15b054b2042"
+    },
+    {
+      "path": "host-failure-summary.json",
+      "bytes": 4033,
+      "sha256": "2b88dd1779c432b6d052fe87919ff08263135f038ac4c12c0c02d85095f492b3"
+    },
+    {
+      "path": "local-checks.json",
+      "bytes": 3363,
+      "sha256": "30bbe1ad6d89a9ade296f80ca0ccd927ae20f5fe13d42f363c855d8f3bbda88a"
+    },
+    {
+      "path": "node-first-cross-realm-failure.log",
+      "bytes": 2559,
+      "sha256": "77b1ab43efc1500fb77bb400d7249d787bd42de73dbae019f390f7f0f8e87787"
+    },
+    {
+      "path": "node-readability.log",
+      "bytes": 1710,
+      "sha256": "1698b27ca5856c4a13bd4d9b3a0350339c7302ddfa35ee67d766d9c71057f989"
+    },
+    {
+      "path": "node-targeted.log",
+      "bytes": 6502,
+      "sha256": "13111b6e9e2bd2bdb054a9e745d0bf10516b47a9e13186575fc131ce026e0b57"
+    },
+    {
+      "path": "source-after-workspace-cache.log",
+      "bytes": 336,
+      "sha256": "d8ad1cf6b7cb8d5c7d003a5e891a7fa84f39a3adce7c0992c9380b6c0754c5d1"
+    },
+    {
+      "path": "source-after.json",
+      "bytes": 336,
+      "sha256": "d8ad1cf6b7cb8d5c7d003a5e891a7fa84f39a3adce7c0992c9380b6c0754c5d1"
+    },
+    {
+      "path": "source-after.log",
+      "bytes": 131,
+      "sha256": "124b9b7a37342a9061036db5b9132c9579b361f0ba402b53d23b23f487884031"
+    },
+    {
+      "path": "source-before-workspace-cache.log",
+      "bytes": 336,
+      "sha256": "d8ad1cf6b7cb8d5c7d003a5e891a7fa84f39a3adce7c0992c9380b6c0754c5d1"
+    },
+    {
+      "path": "source-before.log",
+      "bytes": 131,
+      "sha256": "124b9b7a37342a9061036db5b9132c9579b361f0ba402b53d23b23f487884031"
+    },
+    {
+      "path": "source.json",
+      "bytes": 336,
+      "sha256": "d8ad1cf6b7cb8d5c7d003a5e891a7fa84f39a3adce7c0992c9380b6c0754c5d1"
+    },
+    {
+      "path": "static.log",
+      "bytes": 69,
+      "sha256": "deb218d2d47a07979cc802ccb2849898388f8f3dfb362ba6fd6a5a1e84775fb1"
+    },
+    {
+      "path": "syntax-diff.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

@@ -74,7 +74,7 @@ export async function managementSummaryJourney(page,{tenants,models,nav,read,sco
     const related=routes.filter(model=>model.candidates.some(candidate=>candidate.upstream_id===service.id)),row=exactRow(service.name);
     assert.equal(related.length,2,'both actual model routes reference this service');
     await summaryCell(row,'关联模型',related.length+' 个 · '+related.map(model=>model.alias+'（候选优先级 '+model.candidates.find(candidate=>candidate.upstream_id===service.id).priority+'）').join('；'));
-    await summaryCell(row,'核验事实',service.check?.applicable?service.check.state:'未知 / 配置已变更');
+    await summaryCell(row,'核验事实',service.check?.applicable?({checking:'核验中',success:'核验通过',failed:'核验失败',canceled:'已取消'}[service.check.state]??'未知（'+service.check.state+'）'):'未知 / 配置已变更');
     await summaryCell(row,'核验时间 / 配置版本',(service.check?.finished_at??'未核验')+' · 当前执行版本 '+service.execution_revision+' · '+(service.check?'核验版本 '+service.check.execution_revision+(service.check.applicable?'（适用）':'（不适用）'):'无核验记录'));
     await row.getByRole('button',{name:'关联模型',exact:true}).click();
     await page.getByRole('heading',{name:'服务关联模型（优先级属于各模型候选）',exact:true}).waitFor();

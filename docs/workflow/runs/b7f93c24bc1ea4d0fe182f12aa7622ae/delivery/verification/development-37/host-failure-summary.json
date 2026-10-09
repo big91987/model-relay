@@ -1,0 +1,400 @@
+{
+  "execution": 36,
+  "started_utc": "2026-10-09T06:02:16.03872Z",
+  "finished_utc": "2026-10-09T06:13:17.058101Z",
+  "gate_exit": 2,
+  "runner_exit": 1,
+  "connector_exit": 2,
+  "candidate_sha256": "d885da49ab2fe52cbc062c56dbd67293078c3fa8ed45235f776159b3572d519c",
+  "source_unchanged": true,
+  "clean_start": true,
+  "owned_group_absent": true,
+  "archive_files": 91,
+  "log_bytes": 546664,
+  "log_sha256": "4c1ca6cd64ae2944172d77cf8d271be6e0bc7201204aaf16a9ea7cb7458a2193",
+  "failure": "visual-keys screenshot-content-integrity; self_hosted not reached",
+  "png_sha256": "78a7b304df77dac78964e27f6571f81f2ac48376e545786f9778a183028bff53",
+  "pixels": {
+    "uniform_rgb": true,
+    "first_pixel_rgb": [
+      243,
+      246,
+      250
+    ]
+  },
+  "trace": {
+    "available": true,
+    "complete": true,
+    "data_loss": true,
+    "page_associated": true,
+    "snapshot_events": 4,
+    "associations": [
+      "unattributed",
+      "unattributed",
+      "unattributed",
+      "unattributed"
+    ],
+    "markers": [
+      {
+        "kind": "relay-capture-call",
+        "timestamp_us": 4537016056656
+      }
+    ],
+    "ignored_events": 6854,
+    "snapshots": [
+      {
+        "timestamp_us": 4537016058017,
+        "device_viewport": {
+          "width": 1280,
+          "height": 900
+        },
+        "draw_layers": [
+          {
+            "opacity": 1,
+            "quad": [
+              -3761,
+              -148,
+              -2481,
+              -148,
+              -2481,
+              1001,
+              -3761,
+              1001
+            ]
+          },
+          {
+            "opacity": 1,
+            "quad": [
+              -3533,
+              83,
+              -2514,
+              83,
+              -2514,
+              900,
+              -3533,
+              900
+            ]
+          },
+          {
+            "opacity": 1,
+            "quad": [
+              -3503,
+              -132,
+              -2513,
+              -132,
+              -2513,
+              969,
+              -3503,
+              969
+            ]
+          },
+          {
+            "opacity": 1,
+            "quad": [
+              -3518,
+              96,
+              -2531,
+              96,
+              -2531,
+              887,
+              -3518,
+              887
+            ]
+          },
+          {
+            "opacity": 1,
+            "quad": [
+              -3509,
+              76,
+              -2507,
+              76,
+              -2507,
+              907,
+              -3509,
+              907
+            ]
+          },
+          {
+            "opacity": 1,
+            "quad": [
+              0,
+              0,
+              226,
+              0,
+              226,
+              900,
+              0,
+              900
+            ]
+          }
+        ],
+        "layers_omitted": 0
+      },
+      {
+        "timestamp_us": 4537016074785,
+        "device_viewport": {
+          "width": 1280,
+          "height": 1149
+        },
+        "draw_layers": [
+          {
+            "opacity": 1,
+            "quad": [
+              -3761,
+              0,
+              -2481,
+              0,
+              -2481,
+              1149,
+              -3761,
+              1149
+            ]
+          },
+          {
+            "opacity": 1,
+            "quad": [
+              -3533,
+              231,
+              -2514,
+              231,
+              -2514,
+              1048,
+              -3533,
+              1048
+            ]
+          },
+          {
+            "opacity": 1,
+            "quad": [
+              -3503,
+              16,
+              -2513,
+              16,
+              -2513,
+              1117,
+              -3503,
+              1117
+            ]
+          },
+          {
+            "opacity": 1,
+            "quad": [
+              -3518,
+              244,
+              -2531,
+              244,
+              -2531,
+              1035,
+              -3518,
+              1035
+            ]
+          },
+          {
+            "opacity": 1,
+            "quad": [
+              -3509,
+              224,
+              -2507,
+              224,
+              -2507,
+              1055,
+              -3509,
+              1055
+            ]
+          },
+          {
+            "opacity": 1,
+            "quad": [
+              -3761,
+              148,
+              -3535,
+              148,
+              -3535,
+              1048,
+              -3761,
+              1048
+            ]
+          }
+        ],
+        "layers_omitted": 0
+      },
+      {
+        "timestamp_us": 4537016084167,
+        "device_viewport": {
+          "width": 1280,
+          "height": 1149
+        },
+        "draw_layers": [
+          {
+            "opacity": 1,
+            "quad": [
+              -2718,
+              0,
+              -1438,
+              0,
+              -1438,
+              1149,
+              -2718,
+              1149
+            ]
+          },
+          {
+            "opacity": 1,
+            "quad": [
+              -2490,
+              231,
+              -1471,
+              231,
+              -1471,
+              1048,
+              -2490,
+              1048
+            ]
+          },
+          {
+            "opacity": 1,
+            "quad": [
+              -2460,
+              16,
+              -1470,
+              16,
+              -1470,
+              1117,
+              -2460,
+              1117
+            ]
+          },
+          {
+            "opacity": 1,
+            "quad": [
+              -2475,
+              244,
+              -1488,
+              244,
+              -1488,
+              1035,
+              -2475,
+              1035
+            ]
+          },
+          {
+            "opacity": 1,
+            "quad": [
+              -2466,
+              224,
+              -1464,
+              224,
+              -1464,
+              1055,
+              -2466,
+              1055
+            ]
+          },
+          {
+            "opacity": 1,
+            "quad": [
+              -2718,
+              148,
+              -2492,
+              148,
+              -2492,
+              1048,
+              -2718,
+              1048
+            ]
+          }
+        ],
+        "layers_omitted": 0
+      },
+      {
+        "timestamp_us": 4537016091537,
+        "device_viewport": {
+          "width": 1280,
+          "height": 1149
+        },
+        "draw_layers": [
+          {
+            "opacity": 1,
+            "quad": [
+              -2479,
+              0,
+              -1199,
+              0,
+              -1199,
+              1149,
+              -2479,
+              1149
+            ]
+          },
+          {
+            "opacity": 1,
+            "quad": [
+              -2251,
+              231,
+              -1232,
+              231,
+              -1232,
+              1048,
+              -2251,
+              1048
+            ]
+          },
+          {
+            "opacity": 1,
+            "quad": [
+              -2221,
+              16,
+              -1231,
+              16,
+              -1231,
+              1117,
+              -2221,
+              1117
+            ]
+          },
+          {
+            "opacity": 1,
+            "quad": [
+              -2236,
+              244,
+              -1249,
+              244,
+              -1249,
+              1035,
+              -2236,
+              1035
+            ]
+          },
+          {
+            "opacity": 1,
+            "quad": [
+              -2227,
+              224,
+              -1225,
+              224,
+              -1225,
+              1055,
+              -2227,
+              1055
+            ]
+          },
+          {
+            "opacity": 1,
+            "quad": [
+              -2479,
+              148,
+              -2253,
+              148,
+              -2253,
+              1048,
+              -2479,
+              1048
+            ]
+          }
+        ],
+        "layers_omitted": 0
+      }
+    ]
+  },
+  "conclusion": "lost/unattributed trace is insufficient for compositor root cause; fix diagnostic filter only"
+}

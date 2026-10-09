@@ -1,0 +1,16 @@
+=== RUN   TestCleanVerificationDependencyOrder
+=== RUN   TestCleanVerificationDependencyOrder/frontend-test
+=== RUN   TestCleanVerificationDependencyOrder/browser
+=== RUN   TestCleanVerificationDependencyOrder/verify
+--- PASS: TestCleanVerificationDependencyOrder (0.06s)
+    --- PASS: TestCleanVerificationDependencyOrder/frontend-test (0.02s)
+    --- PASS: TestCleanVerificationDependencyOrder/browser (0.01s)
+    --- PASS: TestCleanVerificationDependencyOrder/verify (0.03s)
+=== RUN   TestDependencyFailureStopsConsumers
+=== RUN   TestDependencyFailureStopsConsumers/frontend-test
+=== RUN   TestDependencyFailureStopsConsumers/browser
+--- PASS: TestDependencyFailureStopsConsumers (0.61s)
+    --- PASS: TestDependencyFailureStopsConsumers/frontend-test (0.42s)
+    --- PASS: TestDependencyFailureStopsConsumers/browser (0.18s)
+PASS
+ok  	model-relay/tests/verification	2.131s

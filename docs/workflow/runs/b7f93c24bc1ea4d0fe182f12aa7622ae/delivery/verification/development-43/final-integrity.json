@@ -1,0 +1,99 @@
+{
+  "audited_utc": "2026-10-09T08:29:30.746Z",
+  "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+  "source": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "6be11e323f52fc3bf47f20397ec84786f725c9bccf401cacebb797cc82e1d11f"
+  },
+  "resumed_source_sha256": "d041dcdacbc5375fd5adb99bde3a917418b249ad69f0f64b276a2527ad578ab6",
+  "resumed_source_read_only_reconstruction": true,
+  "only_new_code_edits": "13 t.Parallel() lines; all previous test bodies unchanged",
+  "material": {
+    "manifest_path": ".workflow-input/b7f93c24bc1ea4d0fe182f12aa7622ae/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/manifest.json",
+    "version": "design-v0.2.0",
+    "status": "frozen-for-test-implementation",
+    "archive_sha256": "5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7",
+    "references": [
+      {
+        "path": ".workflow-input/b7f93c24bc1ea4d0fe182f12aa7622ae/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/docs/prd.md",
+        "sha256": "e768b4f26b4471e714d92b0db6e3187c89f37a25a697c01a12c6079af07de547",
+        "bytes": 12605
+      },
+      {
+        "path": ".workflow-input/b7f93c24bc1ea4d0fe182f12aa7622ae/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/docs/interactions.md",
+        "sha256": "95f3490ef003fa9b19dd6b9e864dd3b0429619b8cd9d0ecec853919d6a12c801",
+        "bytes": 6329
+      },
+      {
+        "path": ".workflow-input/b7f93c24bc1ea4d0fe182f12aa7622ae/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/docs/acceptance.md",
+        "sha256": "2792740b1579d614780856a13b6257d192736e1efc0309f1dc41405a665bef7a",
+        "bytes": 5730
+      }
+    ]
+  },
+  "archive_files": 242,
+  "archive_integrity": true,
+  "runner_owned_group_absent": true,
+  "native_process_listing": "not_permitted; no claim of independent process enumeration",
+  "entry_and_locks": [
+    {
+      "path": "Makefile",
+      "sha256": "4997a2baaa4068306bb480bb2aad2254ebe700bcfb3345cd0dda6a2841708302",
+      "same_as_head": true
+    },
+    {
+      "path": "go.mod",
+      "sha256": "43a61905ab453f007d88c21bd3066453570fb6d9bd533247b94b81612b615477",
+      "same_as_head": true
+    },
+    {
+      "path": "go.sum",
+      "sha256": "9afb7f3a178eab537ac50d13d8f518553386f2ebf4e0fce528cbc6b2f8be99d5",
+      "same_as_head": true
+    },
+    {
+      "path": "package.json",
+      "sha256": "1a2755144abab6752719532bd09707cc2a09067d29d60e406cb3835999e89a3a",
+      "same_as_head": true
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "05459652f98128ebcb6786e2d80bf694d23c437c0d4f7d45c56371da511bc688",
+      "same_as_head": true
+    }
+  ],
+  "local_checks": 9,
+  "all_local_checks_exit_zero": true,
+  "full_host_verification": "pending_current_candidate",
+  "independent_qa": "pending; QA14 No-Go unchanged",
+  "artifacts": [
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-43.md",
+      "bytes": 7273,
+      "sha256": "f5698510a19e8509db26138a275c7e7be59447f0e1780cbe97b8aec80be14a73"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-43/source-final.json",
+      "bytes": 357,
+      "sha256": "2444e7c7ca3c5dc99e88a56908902109171d9db4c2c719d1981cb3c155600be3"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-43/failure-summary.json",
+      "bytes": 3125,
+      "sha256": "1cd868088ad879bf77b540a7489c5d0c05777e0912318e94a1e9bf35a9ddbbce"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-43/local-checks.json",
+      "bytes": 6041,
+      "sha256": "a1c401421e5309774309adac9a46d5b7646494aab1fd506f9f6085d52456fdb5"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-42/archive-index.json",
+      "bytes": 66346,
+      "sha256": "003f54d15d1b78641371c7f5c19c13c49ef6ad2ff5da88c51fcb2dee986b1884"
+    }
+  ]
+}

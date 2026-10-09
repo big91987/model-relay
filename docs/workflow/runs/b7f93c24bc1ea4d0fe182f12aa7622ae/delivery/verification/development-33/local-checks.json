@@ -1,0 +1,85 @@
+[
+  {
+    "name": "source",
+    "command": "go run ./tests/evidence",
+    "started_utc": "2026-10-09T05:22:13.383Z",
+    "finished_utc": "2026-10-09T05:22:13.549Z",
+    "exit_code": 0,
+    "signal": null,
+    "scope": "local_not_complete_host_gate; original Makefile workspace Go cache; no listening browser",
+    "log": "source.json"
+  },
+  {
+    "name": "node-targeted",
+    "command": "node --test tests/browser/capture-integrity.test.mjs tests/browser/console-visual.test.mjs tests/browser/journeys.test.mjs tests/browser/readability.test.mjs",
+    "started_utc": "2026-10-09T05:22:13.550Z",
+    "finished_utc": "2026-10-09T05:22:13.720Z",
+    "exit_code": 0,
+    "signal": null,
+    "scope": "local_not_complete_host_gate; original Makefile workspace Go cache; no listening browser",
+    "log": "node-targeted.log"
+  },
+  {
+    "name": "go-runner",
+    "command": "go test -race ./tests/verify -count=1 -v",
+    "started_utc": "2026-10-09T05:22:13.720Z",
+    "finished_utc": "2026-10-09T05:22:27.568Z",
+    "exit_code": 0,
+    "signal": null,
+    "scope": "local_not_complete_host_gate; original Makefile workspace Go cache; no listening browser",
+    "log": "go-runner.log"
+  },
+  {
+    "name": "go-wiring",
+    "command": "go test -race ./tests/verification -count=1 -v",
+    "started_utc": "2026-10-09T05:22:27.568Z",
+    "finished_utc": "2026-10-09T05:22:29.855Z",
+    "exit_code": 0,
+    "signal": null,
+    "scope": "local_not_complete_host_gate; original Makefile workspace Go cache; no listening browser",
+    "log": "go-wiring.log"
+  },
+  {
+    "name": "static",
+    "command": "make format-check vet build",
+    "started_utc": "2026-10-09T05:22:29.855Z",
+    "finished_utc": "2026-10-09T05:22:30.373Z",
+    "exit_code": 0,
+    "signal": null,
+    "scope": "local_not_complete_host_gate; original Makefile workspace Go cache; no listening browser",
+    "log": "static.log"
+  },
+  {
+    "name": "go-fixture",
+    "command": "go test -race ./tests/browser -run \"^TestContinuousUpstream(Response|Stream)Contract$\" -count=1 -v",
+    "started_utc": "2026-10-09T05:22:30.373Z",
+    "finished_utc": "2026-10-09T05:22:32.610Z",
+    "exit_code": 0,
+    "signal": null,
+    "scope": "local_not_complete_host_gate; original Makefile workspace Go cache; no listening browser",
+    "log": "go-fixture.log",
+    "log_representation": "complete with single owned temporary path redacted",
+    "original_log_sha256": "31168f34437160db63b802bd439473c3ef9e5fcd1406ef49473d10936f09f6bf",
+    "redactions": 1
+  },
+  {
+    "name": "syntax-diff",
+    "command": "node --check tests/browser/capture-integrity.mjs && node --check tests/browser/capture-integrity.test.mjs && git diff --check",
+    "started_utc": "2026-10-09T05:22:32.610Z",
+    "finished_utc": "2026-10-09T05:22:32.739Z",
+    "exit_code": 0,
+    "signal": null,
+    "scope": "local_not_complete_host_gate; original Makefile workspace Go cache; no listening browser",
+    "log": "syntax-diff.log"
+  },
+  {
+    "name": "source-after",
+    "command": "go run ./tests/evidence",
+    "started_utc": "2026-10-09T05:22:32.739Z",
+    "finished_utc": "2026-10-09T05:22:32.825Z",
+    "exit_code": 0,
+    "signal": null,
+    "scope": "local_not_complete_host_gate; original Makefile workspace Go cache; no listening browser",
+    "log": "source-after.json"
+  }
+]

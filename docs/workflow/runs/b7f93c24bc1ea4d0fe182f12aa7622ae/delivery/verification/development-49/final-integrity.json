@@ -1,0 +1,170 @@
+{
+  "execution": 49,
+  "checked_utc": "2026-10-09T10:09:04.028Z",
+  "source": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "2741f58b06c600037e412c7216df8cd0d59fae02cad1fbf8687cc02513b8dac2"
+  },
+  "source_recomputed_unchanged": true,
+  "retained_evidence": {
+    "checked_utc": "2026-10-09T10:06:22.956Z",
+    "archives": [
+      {
+        "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-44/archive-index.json",
+        "files": 275,
+        "all_original_hashes_match": true
+      },
+      {
+        "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-46/archive-index.json",
+        "files": 275,
+        "all_original_hashes_match": true
+      },
+      {
+        "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-48/archive-index.json",
+        "files": 93,
+        "all_original_hashes_match": true
+      }
+    ],
+    "development47_unchanged_artifacts": 14,
+    "scope": "Original receipts only. Current product/spec/docs intentionally changed; no historical acceptance rewrite."
+  },
+  "local_logs_match": true,
+  "material": {
+    "version": "design-v0.2.0",
+    "archive_sha256": "5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7",
+    "manifest_path": ".workflow-input/b7f93c24bc1ea4d0fe182f12aa7622ae/5f51d35fdc15ed7214749f9413879b4238097f1d6b6bbe2cc0d508d8e103cef7/files/manifest.json",
+    "references": [
+      {
+        "path": "docs/acceptance.md",
+        "sha256": "2792740b1579d614780856a13b6257d192736e1efc0309f1dc41405a665bef7a",
+        "bytes": 5730
+      },
+      {
+        "path": "docs/interactions.md",
+        "sha256": "95f3490ef003fa9b19dd6b9e864dd3b0429619b8cd9d0ecec853919d6a12c801",
+        "bytes": 6329
+      },
+      {
+        "path": "docs/prd.md",
+        "sha256": "e768b4f26b4471e714d92b0db6e3187c89f37a25a697c01a12c6079af07de547",
+        "bytes": 12605
+      }
+    ]
+  },
+  "entries": [
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/README.md",
+      "bytes": 15771,
+      "sha256": "dd1bfc711663e055d951526c36a1b56b74570ab04faa86a456c7ca93a796936c"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/tasks/T001-console.md",
+      "bytes": 22255,
+      "sha256": "d65a6d3732d3b274d77c2253e2dffc6af01c19061953f35bb5197c0340a3873a"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/milestones/M01-console.md",
+      "bytes": 10968,
+      "sha256": "42c4ec7cd66d4739d624a028ab4460748997c4413c3ac01e968e8640ade908d8"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-49.md",
+      "bytes": 7217,
+      "sha256": "85f20b2d799d255ebc223fae3ecd95848e6a14ff70ed7a867b08ea2d041eb890"
+    },
+    {
+      "path": "internal/relay/web/workspace.css",
+      "bytes": 5994,
+      "sha256": "a1c089fe3313334a17e8ca044a3647dbc3b022a54d9b1ac6a3142744ca8f7323"
+    },
+    {
+      "path": "internal/relay/web/workspace.js",
+      "bytes": 59603,
+      "sha256": "29344df60f0848c10e8843bdd5d73f399c3d80b034c38df1677f7ab2446dcb6c"
+    },
+    {
+      "path": "tests/browser/console-visual.mjs",
+      "bytes": 19025,
+      "sha256": "1a12e42884fc214932fcc2616b6ce07e97ef2570071beedd11fe0bae7be5b67f"
+    },
+    {
+      "path": "tests/browser/console-visual.test.mjs",
+      "bytes": 8927,
+      "sha256": "5b5c98d193c19d6fb086f1be344dd45e2db4abf40f94e65ea7d06b9eee661145"
+    },
+    {
+      "path": "tests/browser/journeys.test.mjs",
+      "bytes": 26250,
+      "sha256": "738948819b0293b26b9cc3a9d925d6baeb730d02d7cd6ce4533a2124607c4254"
+    },
+    {
+      "path": "tests/browser/workspace.test.mjs",
+      "bytes": 33815,
+      "sha256": "21835ec2ce1ebe49886ef5964f957f84b9337235430e0021a2ec85612d6e2ae7"
+    },
+    {
+      "path": ".trellis/spec/frontend/workspace-contracts.md",
+      "bytes": 110522,
+      "sha256": "6ad3c3ce1c1b42eb303ec9922009dbf2deb2b782be85675337f0a3611b676fa1"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-49/failure-summary.json",
+      "bytes": 4198,
+      "sha256": "ce3e8cd607a3a67b3c8199380f3d595e9d096ea8f6348c70dc8b15040ca1a456"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-49/go-wiring.log",
+      "bytes": 43,
+      "sha256": "691d26047e6e8e559065db69855d88a5b514c2c5a69242a0dd5fe431be7f5956"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-49/local-checks.json",
+      "bytes": 3946,
+      "sha256": "d6e2130ed6edc984dd437d520b0e6d656b1792bcd54e54cd4aae805b3366b2be"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-49/node-regressions-final.log",
+      "bytes": 11667,
+      "sha256": "937469e983d18e095b27e6e59c554117e1750df93682ee4658511a3a38edd046"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-49/node-regressions.log",
+      "bytes": 13344,
+      "sha256": "bf112165a2b8815647aa79fb2d200a615f7d5a2ed914ef4caa35802385a8f792"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-49/retained-integrity.json",
+      "bytes": 822,
+      "sha256": "87f5548b9f4ff888ab269ed36f7165e7578349454c2ba455c3405cb821fb3dc1"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-49/source-final.json",
+      "bytes": 336,
+      "sha256": "5468a8fb89e6992f04ffa6491e8b1a27af413c3cafa4effe66e87c2ae6987b2c"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-49/source-final.log",
+      "bytes": 336,
+      "sha256": "5468a8fb89e6992f04ffa6491e8b1a27af413c3cafa4effe66e87c2ae6987b2c"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-49/static-final.log",
+      "bytes": 90,
+      "sha256": "d9056758603dafeeb6b4ccfd3ce53f6fa6e5c42e6bc87b74b3df975020df33ee"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-49/static.log",
+      "bytes": 90,
+      "sha256": "d9056758603dafeeb6b4ccfd3ce53f6fa6e5c42e6bc87b74b3df975020df33ee"
+    },
+    {
+      "path": "docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-48/archive-index.json",
+      "bytes": 24788,
+      "sha256": "3fbdfc3403138593d6a41a69ac02515224be685d2924dc4d8a86d54083d303f8"
+    }
+  ],
+  "scope": "Implementation and local validation only; complete host/native browser effect and independent QA pending"
+}

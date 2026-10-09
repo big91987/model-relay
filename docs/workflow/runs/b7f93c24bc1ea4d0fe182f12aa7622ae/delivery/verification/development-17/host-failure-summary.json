@@ -1,0 +1,104 @@
+{
+  "host_receipt": "20261009T020525Z-219316244",
+  "source": {
+    "files": 154,
+    "go": "go1.25.6",
+    "head": "3f9cee1615e87e002a2c2300f2d29778072ec3f5",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "4a5046dee6b66429a75652f7ad8c5344a60dff1448a10c7293f9423bad1cf10c"
+  },
+  "started_utc": "2026-10-09T02:05:25.156229Z",
+  "finished_utc": "2026-10-09T02:16:25.574845Z",
+  "gate_exit": 2,
+  "runner_exit": 1,
+  "source_unchanged": true,
+  "cleanup": "owned_process_group_cleanup_attempted; candidate_removed",
+  "owned_group_absent": true,
+  "log_sha256": "14c76b25a180472050f271bf57c64223b366cf9bcdb0e2692981b27b33a36b02",
+  "log_bytes": 401083,
+  "node_tests": 234,
+  "scope": "execution16 original host facts; not new candidate verification",
+  "failure": {
+    "stage": "J06-close-correction",
+    "screenshot": "../host-tests-16/browser/continuous-1280-after-correction-78043.png",
+    "sidecar": "../host-tests-16/browser/continuous-1280-after-correction-78043.png.integrity.json",
+    "capture_started_utc": "2026-10-09T02:16:24.636Z",
+    "capture_finished_utc": "2026-10-09T02:16:24.708Z",
+    "before_dialog": false,
+    "after_dialog": true,
+    "before_content": {
+      "left": 258,
+      "top": 252,
+      "width": 990,
+      "height": 509,
+      "scroll_left": 0,
+      "scroll_top": 0,
+      "client_width": 990,
+      "client_height": 509,
+      "scroll_width": 990,
+      "scroll_height": 509
+    },
+    "after_content": {
+      "left": 620,
+      "top": 0,
+      "width": 660,
+      "height": 900,
+      "scroll_left": 0,
+      "scroll_top": 0,
+      "client_width": 658,
+      "client_height": 898,
+      "scroll_width": 658,
+      "scroll_height": 1147
+    },
+    "pixels": {
+      "width": 1280,
+      "height": 900,
+      "anchors": [
+        {
+          "inside": true,
+          "samples": 12636,
+          "contrast": 192,
+          "dark_pixels": 1280,
+          "ink_present": true
+        },
+        {
+          "inside": true,
+          "samples": 26730,
+          "contrast": 192,
+          "dark_pixels": 1536,
+          "ink_present": true
+        },
+        {
+          "inside": true,
+          "samples": 7568,
+          "contrast": 131,
+          "dark_pixels": 187,
+          "ink_present": true
+        },
+        {
+          "inside": true,
+          "samples": 10492,
+          "contrast": 201,
+          "dark_pixels": 221,
+          "ink_present": true
+        },
+        {
+          "inside": true,
+          "samples": 7875,
+          "contrast": 131,
+          "dark_pixels": 170,
+          "ink_present": true
+        },
+        {
+          "inside": true,
+          "samples": 10850,
+          "contrast": 201,
+          "dark_pixels": 159,
+          "ink_present": true
+        }
+      ]
+    },
+    "failure_boundary": "integrity"
+  },
+  "security_scan": "68 original files; no known controlled fixture credentials or absolute user paths in text; PNG reviewed at failure boundary; no full acceptance claim"
+}

@@ -1,0 +1,20 @@
+✔ unknown mutation retains operation reference and retry through read failure and recovery (2.509875ms)
+✔ safe reads deduplicate concurrent clicks and ignore scope-late results (0.409334ms)
+✔ closing unknown editor isolates its late recovery detail (0.361792ms)
+✔ isolated previous-editor reconstruction reproduces the QA35 DOM retry deletion (0.564125ms)
+✔ current editor retains its lock through tenants and DOM commit, rejects duplicate submit (1.614125ms)
+✔ acknowledged tenants read failure stays failed, never unknown write or old success (0.885625ms)
+✔ acknowledged catalog read failure stays failed, never unknown write or old success (0.427416ms)
+✔ old tenant read cannot start a new-scope renderer or release the new edit lock (0.355333ms)
+✔ old catalog settlement cannot mark a new editor complete or overwrite its lock (0.317208ms)
+✔ one-time secrets retain their separate editor lifecycle without page-read completion (0.327667ms)
+✔ actual syncTenants discards a collection settled after scope invalidation (0.946208ms)
+✔ actual renderPage returns failed without old rows after catalog read failure (1.050209ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 82.457459

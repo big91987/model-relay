@@ -1,0 +1,90 @@
+{"files":158,"go":"go1.25.6","head":"8917f942cb38af2f56aa93914ab62e763bf9cc6e","scope":"product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference","working_tree_sha256":"6e359667d5f7521f6b8c421454c6fc7cbe5ccb8c74aa87bb1e5955c194c202cc"}
+
+COMMAND make format-check
+EXIT 0
+
+COMMAND go mod verify
+all modules verified
+EXIT 0
+
+COMMAND go vet ./...
+EXIT 0
+
+COMMAND make build
+go build -trimpath -o bin/model-relay ./cmd/model-relay
+EXIT 0
+
+COMMAND go test ./... -run ^$
+ok  	model-relay/cmd/model-relay	0.592s [no tests to run]
+?   	model-relay/docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/acceptance	[no test files]
+ok  	model-relay/internal/relay	0.879s [no tests to run]
+ok  	model-relay/tests/browser	1.336s [no tests to run]
+?   	model-relay/tests/browser/legacy	[no test files]
+?   	model-relay/tests/browser/schema2	[no test files]
+?   	model-relay/tests/evidence	[no test files]
+ok  	model-relay/tests/health-history	(cached) [no tests to run]
+ok  	model-relay/tests/review-history	(cached) [no tests to run]
+ok  	model-relay/tests/verification	(cached) [no tests to run]
+ok  	model-relay/tests/verify	1.744s [no tests to run]
+EXIT 0
+
+COMMAND git diff --check HEAD
+docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-15/node-fixture-first-failure.log:65: trailing whitespace.
++  
+docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-15/node-fixture-first-failure.log:67: trailing whitespace.
++  
+docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-19/anchor-fixture-too-small.log:24: trailing whitespace.
++  
+docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-19/anchor-fixture-too-small.log:26: trailing whitespace.
++  
+docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-19/anchor-red.log:24: trailing whitespace.
++  
+docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-19/anchor-red.log:26: trailing whitespace.
++  
+docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-19/anchor-red.log:42: trailing whitespace.
++  
+docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-19/anchor-red.log:56: trailing whitespace.
++  
+docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-25/node-first-cross-realm-failure.log:30: trailing whitespace.
++  
+docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-25/node-first-cross-realm-failure.log:36: trailing whitespace.
++  
+docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-49/node-regressions.log:133: trailing whitespace.
++  
+docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-55/affected-first-failure.log:149: trailing whitespace.
++  
+docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/development-55/affected-first-failure.log:252: trailing whitespace.
++  
+docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-50/verify.log:544: trailing whitespace.
++  
+docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-50/verify.log:562: trailing whitespace.
++  
+docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-50/verify.log:580: trailing whitespace.
++  
+docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-50/verify.log:598: trailing whitespace.
++  
+docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-50/verify.log:616: trailing whitespace.
++  
+docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-50/verify.log:634: trailing whitespace.
++  
+docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-50/verify.log:652: trailing whitespace.
++  
+docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-50/verify.log:670: trailing whitespace.
++  
+docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-50/verify.log:688: trailing whitespace.
++  
+docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/host-tests-50/verify.log:706: trailing whitespace.
++  
+docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/node-first-failure.log:100: trailing whitespace.
++  
+docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/node-first-failure.log:118: trailing whitespace.
++  
+docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/node-first-failure.log:136: trailing whitespace.
++  
+docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/node-first-failure.log:154: trailing whitespace.
++  
+docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/node-first-failure.log:172: trailing whitespace.
++  
+docs/workflow/runs/b7f93c24bc1ea4d0fe182f12aa7622ae/delivery/verification/node-first-failure.log:190: trailing whitespace.
++  
+EXIT 2

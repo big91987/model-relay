@@ -18,7 +18,7 @@ function element() {
 function fixture(read,editorHandler=handler) {
   const elements=new Map(['editor','editor-fields','editor-title','editor-error','editor-save','editor-form'].map(id=>[id,element()]));
   const counts={mutations:0,reads:0,details:0},state={epoch:1,busy:false};
-  const context=vm.createContext({state,crypto:{randomUUID:()=> 'controlled-operation'},byId:id=>elements.get(id),clearSensitive(){},
+  const context=vm.createContext({state,crypto:{randomUUID:()=> 'controlled-operation'},byId:id=>elements.get(id),clearSensitive(){},openModal:dialog=>dialog.showModal(),closeModal:dialog=>dialog.close(),
     node(tag,text=''){const value=element();value.textContent=text;return value;},
     button(label,onclick){const value=element();value.textContent=label;value.onclick=onclick;return value;},
     api:async path=>{counts.reads++;assert.equal(path,'operations/controlled-operation');return read(counts.reads);},
