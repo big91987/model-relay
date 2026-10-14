@@ -1,0 +1,152 @@
+from pathlib import Path
+import collections, hashlib, json, os, re, subprocess, sys
+root = Path.cwd()
+run_id = '2b6a366cc7b3d48870e1b887757f229f'
+run = Path('docs/workflow/runs') / run_id
+archive = run / 'qa-07/full-review'
+def sha(raw):
+    return hashlib.sha256(raw).hexdigest()
+def record(path):
+    raw = path.read_bytes()
+    return {'path': str(path), 'bytes': len(raw), 'sha256': sha(raw)}
+def save(name, value):
+    (archive / name).write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n')
+head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+assert head == '30b4e13c19e36d51b72ef1186468d6adf39ac822'
+subprocess.run(['git', 'merge-base', '--is-ancestor', '6d2552d331fd7a0ec8d205f5d18ba3bcd34d6995', 'HEAD'], check=True)
+assert subprocess.check_output(['git', 'diff', 'HEAD', '--name-only']) == b''
+subprocess.run(['git', 'diff', '--check'], check=True)
+manifest = json.loads((run / 'first-round/source-manifest.json').read_text())
+combined = hashlib.sha256()
+for item in sorted(manifest['files'], key=lambda item: item['path']):
+    raw = Path(item['path']).read_bytes()
+    assert len(raw) == item['bytes'] and sha(raw) == item['sha256'], item['path']
+    combined.update(f"{item['path']}\0{len(raw)}\0".encode())
+    combined.update(raw)
+assert len(manifest['files']) == 163
+assert combined.hexdigest() == '991c79ca919b3d0ccf148c066c3b24d993090fcb78ab864c0e4637cfff8040ba'
+for directory in ('cmd', 'internal', 'tests', '.trellis/spec'):
+    assert {str(path) for path in Path(directory).rglob('*') if path.is_file()} == {item['path'] for item in manifest['files'] if item['path'].startswith(directory + '/')}
+template = json.loads(Path('.harness/agent-platform/SOURCE.json').read_text())
+assert template['commit'] == 'bc43314eca15f5af042afd9e3d212469eabd10ea'
+for name, item in template['files'].items():
+    assert sha((Path('.harness/agent-platform') / name).read_bytes()) == item['sha256'], name
+assert len(template['files']) == 146
+for name in ('Makefile', 'docs/harness/opensandbox-run-sharing.md'):
+    assert Path(name).read_bytes() == subprocess.check_output(['git', 'show', 'HEAD:' + name])
+for stage in ('qa-04', 'development-05', 'qa-07'):
+    for line in (run / stage / 'SHA256SUMS').read_text().splitlines():
+        expected, name = line.split('  ', 1)
+        historical = run / 'qa-04/qa.md' if name == 'harness-output/qa.md' else Path(name)
+        assert sha(historical.read_bytes()) == expected, name
+first = (run / 'first-round/opensandbox-publish-recovery.md').read_bytes()
+current = Path('docs/harness/opensandbox-publish-recovery.md').read_bytes()
+assert sha(first) == '35e5eb5af37a83c81344cbad95cb89b866193179605ba5b9c772dc2dc1562be9'
+assert current.startswith(first)
+assert sha(current) == 'd1a7112600467ae85d9af9000e3349f78ee9590e0317fc935cd4e1560d5f4209'
+assert current == (run / 'development-05/opensandbox-publish-recovery.md').read_bytes()
+assert len([line for line in current.decode().splitlines() if line.startswith('## ')]) == 7
+for phrase in ('重复 stop', '同 Run、同节点', '正式 resume', '正式 decision', '正式环境生命周期入口释放', '不表示停止、恢复、确认或释放已经执行'):
+    assert phrase in current.decode()
+receipts = [
+    {'seq': 3, 'path': f'workflow-output/{run_id}/command-3.log', 'bytes': 1174629, 'sha256': '754f5242f9a567dd52b2f40b10667b34c18819099b6094d28940e48f661d310e', 'truncated': False},
+    {'seq': 6, 'path': f'workflow-output/{run_id}/command-6.log', 'bytes': 1177433, 'sha256': 'ec2540257de3d6a6c0717f165a045ceee8712b30380bb1cba4c56691e4bf6caf', 'truncated': False}
+]
+save('export-receipts.json', {'source': 'actual native read_command_output(seq,save_to_workspace=true) responses independently checked against files, not maintainer message', 'run_id': run_id, 'receipts': receipts})
+reviews = []
+for receipt in receipts:
+    seq = receipt['seq']
+    attempt = '20261014T192852Z-1089328441' if seq == 3 else '20261014T195523Z-3543396171'
+    stage = 'qa-04/tests03' if seq == 3 else 'qa-07/tests06'
+    outer_path = Path(receipt['path'])
+    outer_raw = outer_path.read_bytes()
+    assert len(outer_raw) == receipt['bytes'] and sha(outer_raw) == receipt['sha256']
+    outer = outer_raw.decode('utf-8', errors='strict')
+    inner_raw = (run / (stage + '.verify.log')).read_bytes()
+    state_raw = (run / (stage + '.state.json')).read_bytes()
+    state = json.loads(state_raw)
+    assert inner_raw == (Path('test-results/verification') / attempt / 'verify.log').read_bytes()
+    assert state_raw == (Path('test-results/verification') / attempt / 'state.json').read_bytes()
+    assert len(inner_raw) == state['log_bytes'] and sha(inner_raw) == state['log_sha256']
+    inner = inner_raw.decode('utf-8', errors='strict')
+    lines = inner.splitlines()
+    assert state['exit_code'] == state['gate_exit'] == 0
+    assert state['gate_configured_budget_ms'] == 1440000
+    assert state['gate']['execute_ms'] < state['gate_configured_budget_ms']
+    assert not state['gate']['cancelled'] and state['gate']['owned_group_absent']
+    for key in ('clean_start_measured', 'source_unchanged', 'candidate_unchanged', 'owned_group_absent'):
+        assert state[key]
+    assert not state['node_modules_before'] and not state['npm_cache_before']
+    assert state['manual_preinstall'] == 'none' and state['NODE_PATH'] == 'unset'
+    assert 'candidate_removed' in state['cleanup']
+    assert state['source_before'] == state['source_after'] and state['source_before']['head'] == head
+    assert state['source_before']['working_tree_sha256'] == combined.hexdigest()
+    assert all(item['exit'] == 0 and not item['cancelled'] and item['owned_group_absent'] for item in state['auxiliary_commands'])
+    assert state['resources_before']['values']['memory.max'] == '8589934592'
+    assert state['resources_before']['values']['cpu.max'] == '200000 100000'
+    assert state['resources_before']['runtime_gomaxprocs'] == 2
+    assert state['resource_delta']['counters']['memory.events.oom'] == 0
+    assert state['resource_delta']['counters']['memory.events.oom_kill'] == 0
+    events = re.findall(r'\{"Event":"(?:init|ping|execution_complete)","Data":"(?:\\.|[^"\\])*","ID":""\}\n?', outer)
+    parsed_events = [json.loads(item) for item in events]
+    event_counts = collections.Counter(item['Event'] for item in parsed_events)
+    assert event_counts['init'] == event_counts['execution_complete'] == 1
+    init = json.loads(next(item['Data'] for item in parsed_events if item['Event'] == 'init'))
+    complete = json.loads(next(item['Data'] for item in parsed_events if item['Event'] == 'execution_complete'))
+    assert init['text'] == ('48b9533c70bf4d6285ac76aca19dd530' if seq == 3 else '354f6de569b44a4fa596e8576fc55edb')
+    assert complete['execution_time'] == complete['timestamp'] - init['timestamp']
+    assert complete['execution_time'] < 1800000
+    body = outer
+    for event in events:
+        body = body.replace(event, '', 1)
+    normalize = lambda text: text.replace('\r', '').replace('\n', '')
+    prefix = 'go run ./tests/verifyverification_receipt=test-results/verification/' + attempt
+    assert normalize(body) == prefix + normalize(inner), 'full outer/inner transport comparison failed'
+    assert '[... output omitted;' not in outer and 'chars truncated' not in outer
+    assert '# tests 283' in inner and '# pass 283' in inner and '# fail 0' in inner
+    assert 'all modules verified' in inner
+    assert not any(line.startswith(('--- FAIL:', 'FAIL\t', 'FAIL ', 'not ok')) for line in lines)
+    assert not re.search(r'WARNING: DATA RACE|^panic:', inner, re.M)
+    historical_outputs = []
+    for line in lines:
+        if line.startswith('{"Time":'):
+            value = json.loads(line)
+            if '--- FAIL' in value.get('Output', ''):
+                assert value['Test'].startswith('TestHealthMethodsHTTP')
+                historical_outputs.append(value['Test'])
+    assert len(historical_outputs) == 25
+    assert sum(name.count('/') == 2 for name in historical_outputs) == 21
+    assert 'PASS expected historical HTTP red: 21 method failures with exact status/Allow diagnostics; 12 query/recovery passes' in inner
+    failure_attribution = []
+    for index, line in enumerate(lines):
+        if line.startswith('FAILED:'):
+            preceding = next(item for item in reversed(lines[:index]) if item.startswith('=== RUN   '))
+            test = preceding.removeprefix('=== RUN   ')
+            assert test == 'TestInventoryCancellationReceipt' or test.startswith('TestFixedRunnerReceipts/')
+            root_test = test.split('/')[0]
+            assert '--- PASS: ' + root_test in inner
+            failure_attribution.append({'line': index + 1, 'test': test, 'diagnostic': line})
+    nonzero_gates = []
+    for index,line in enumerate(lines):
+        if line.startswith('GATE_END') and 'exit=0 ' not in line:
+            test = next(item.removeprefix('=== RUN   ') for item in reversed(lines[:index]) if item.startswith('=== RUN   '))
+            assert test.startswith('TestFixedRunnerReceipts/')
+            nonzero_gates.append({'line': index + 1, 'test': test, 'diagnostic': line})
+    packages = [line for line in lines if line.startswith('ok') and 'model-relay/' in line]
+    for package in ('internal/relay', 'tests/verify', 'tests/health-history'):
+        assert any('model-relay/' + package + '\t' in line for line in packages)
+    browser_phases = [line for line in lines if line.startswith('BROWSER_PHASE') and 'state=end' in line]
+    for phase in ('migration', 'legacy-ui', 'routing', 'console', 'full-console'):
+        assert any('name=' + phase + ' ' in line and 'ok=true' in line for line in browser_phases)
+    routing_calls = [json.loads(line) for line in lines if line.startswith('{"routing_call":')]
+    assert all(item.get('ok') is True for item in routing_calls if item['routing_call'] == 'end')
+    reviews.append({'seq': seq, 'outer': record(outer_path), 'inner': record(run / (stage + '.verify.log')), 'state': record(run / (stage + '.state.json')), 'original_attempt': 'test-results/verification/' + attempt, 'whole_file_read': True, 'comparison': 'All non-platform-event payload matches entire inner log after CR/LF transport normalization, plus exact command/attempt prefix; original files are never normalized or rewritten', 'event_counts': dict(event_counts), 'init': init, 'execution_complete': complete, 'outer_timeout_seconds': 1800, 'outer_exit_code': 0, 'exit_code_source': 'formal user supplied tests receipt, corroborated complete event and inner state; completion event does not carry exit code', 'inner_lines': len(lines), 'historical_expected_method_failures': 21, 'historical_parent_failures': 4, 'injected_failure_diagnostics': failure_attribution, 'nonzero_fixture_gates': nonzero_gates, 'passed_packages': packages, 'browser_phases': browser_phases, 'gate': state['gate'], 'clean_start': {'node_modules_before': state['node_modules_before'], 'npm_cache_before': state['npm_cache_before'], 'manual_preinstall': state['manual_preinstall'], 'scope': 'isolated candidate, not globally cold shared workspace'}, 'source_unchanged': state['source_unchanged'], 'candidate_unchanged': state['candidate_unchanged'], 'owned_group_absent': state['owned_group_absent'], 'cleanup': state['cleanup']})
+assert (run / 'qa-07/independent-regression.exit.txt').read_text().strip() == '0'
+regression = (run / 'qa-07/independent-regression.log').read_text()
+assert 'runner_exit=0' in regression and 'http_exit=0' in regression
+assert len(re.findall(r'^--- PASS:', regression, re.M)) == 9
+save('full-review.json', {'run_id': run_id, 'qa_execution': 7, 'workflow_revision': 3, 'version': 'development05-lifecycle-rework', 'head': head, 'source_files': 163, 'source_sha256': combined.hexdigest(), 'template_files': 146, 'template_commit': template['commit'], 'document': record(Path('docs/harness/opensandbox-publish-recovery.md')), 'reviews': reviews, 'nine_independent_regressions': 'same-source QA07 prior actual tests, not rerun now', 'credential_presence_only': {name: name in os.environ for name in ('GITHUB_TOKEN', 'GH_TOKEN', 'GIT_ASKPASS')}, 'findings': {'QA04-D01': 'CLOSED by actual document rework and independent verification', 'QA04-E01': 'CLOSED now by formal full original export + independent full review', 'QA07-E01': 'CLOSED now by formal full original export + independent full review', 'QA07-capability-blocker': 'RESOLVED now; old blocked record remains historical'}, 'decision': 'QA pass to approval only; not final PR/product/provider acceptance'})
+sys.path.insert(0, str(root / '.harness/agent-platform/examples/platform-workflows'))
+from repository import check_publish_files
+check_publish_files(root)
+print(json.dumps({'full_outer_files_read_and_verified': 2, 'source_sha256': combined.hexdigest(), 'document_sha256': sha(current), 'offline_scan': 'passed', 'qa_decision': 'pass_to_approval', 'historical_records': 'preserved'}, ensure_ascii=False))

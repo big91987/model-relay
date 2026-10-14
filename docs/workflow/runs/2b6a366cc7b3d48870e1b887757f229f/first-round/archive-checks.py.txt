@@ -1,0 +1,93 @@
+import hashlib
+import json
+import os
+import subprocess
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+root = Path.cwd()
+archive = Path('docs/workflow/runs/2b6a366cc7b3d48870e1b887757f229f')
+first = archive / 'first-round'
+
+def digest(path):
+    raw = path.read_bytes()
+    return {'path': path.as_posix(), 'bytes': len(raw), 'sha256': hashlib.sha256(raw).hexdigest()}
+
+def save(path, value):
+    path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n')
+
+frozen = json.loads(Path('/tmp/agent-platform-input-2b6a366cc7b3d48870e1b887757f229f-1.json').read_text())
+parameters = frozen['parameters']
+prepared = json.loads(Path('.git/agent-platform-prepared.json').read_text())
+head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+assert head == parameters['repository_commit'] == prepared['commit'] == '30b4e13c19e36d51b72ef1186468d6adf39ac822'
+assert frozen['run_id'] == prepared['run_id'] == '2b6a366cc7b3d48870e1b887757f229f'
+assert parameters['repository'] == prepared['repository'] == 'big91987/model-relay'
+assert str(parameters['issue_number']) == '48'
+credentials = {name: name in os.environ for name in ('GITHUB_TOKEN', 'GH_TOKEN', 'GIT_ASKPASS')}
+assert not any(credentials.values())
+save(archive / 'frozen-identity.json', {
+    'run_id': frozen['run_id'], 'node': 'development', 'execution': 2,
+    'workflow_revision': 3, 'workflow_revision_source': 'current platform node context and frozen task',
+    'parameters_observed': {name: parameters[name] for name in ('issue_number', 'repository', 'repository_commit')},
+    'prepared_identity_observed': {name: prepared[name] for name in ('repository', 'commit', 'run_id')},
+    'frozen_task_utf8_bytes': len(frozen['input'].encode()),
+    'frozen_task_sha256': hashlib.sha256(frozen['input'].encode()).hexdigest(),
+    'task_declared': {'workflow_id': '83f08f81f7040fcd0c12e6ff4e2acd2d', 'platform_version': 'afebd27', 'base': 'codex/issue44-reviewed-candidate', 'main': '6d2552d331fd7a0ec8d205f5d18ba3bcd34d6995', 'hours': 4, 'memory_gib': 8, 'cpu': 2, 'max_steps': 40},
+    'prepare_receipt_supplied': {'execution': 1, 'exit_code': 0, 'truncated': False, 'prepared': True, 'reused': False},
+    'credential_presence_only': credentials,
+    'scope': 'Identity whitelist; no credential values/config copy; task declarations are not independent platform/resource measurements.'
+})
+paths = ['.gitignore','Makefile','README.md','go.mod','go.sum','package.json','package-lock.json','docs/workflow/task.md','docs/workflow/requirements.md','docs/workflow/design.md','docs/product-brief.md','docs/roadmap.md','docs/releases/v0.1.0.md','docs/local-deployment.md']
+for name in ['product-definition.md','console-architecture.md','console-interaction.md','routing-architecture.md','routing-interaction.md','routing-validation.md','adr-001-storage-upgrade.md','deployment-upgrade-contract.md','architecture.md','implementation-contract.md','migration-and-operations.md','verification-design.md','acceptance-matrix.md']:
+    paths.extend(path.as_posix() for path in Path('docs/workflow/runs').glob('*/' + name))
+for name in ('cmd', 'internal', 'tests', '.trellis/spec'):
+    paths.extend(path.as_posix() for path in Path(name).rglob('*') if path.is_file())
+source_hash = hashlib.sha256()
+for name in sorted(paths):
+    raw = Path(name).read_bytes()
+    source_hash.update(f'{name}\0{len(raw)}\0'.encode())
+    source_hash.update(raw)
+assert len(paths) == 163 and source_hash.hexdigest() == '991c79ca919b3d0ccf148c066c3b24d993090fcb78ab864c0e4637cfff8040ba'
+save(first / 'source-manifest.json', {
+    'head': head, 'source_files': len(paths), 'working_tree_sha256': source_hash.hexdigest(),
+    'algorithm': 'tests/evidence/main.go: sorted path UTF-8 + NUL + decimal byte length + NUL + raw bytes, SHA-256',
+    'scope': 'same source inventory as project evidence; computed without Go execution or compilation',
+    'files': [digest(Path(name)) for name in sorted(paths)],
+    'archive_mapping': [{'original_path': 'docs/harness/opensandbox-publish-recovery.md', 'snapshot_path': (first / 'opensandbox-publish-recovery.md').as_posix(), **digest(Path('docs/harness/opensandbox-publish-recovery.md'))}],
+    'source_archive': 'identity manifest only; no compilable source copies created'
+})
+source = json.loads(Path('.harness/agent-platform/SOURCE.json').read_text())
+assert source['commit'] == 'bc43314eca15f5af042afd9e3d212469eabd10ea'
+for name, expected in source['files'].items():
+    assert digest(Path('.harness/agent-platform') / name)['sha256'] == expected['sha256'], name
+assert Path('docs/harness/opensandbox-publish-recovery.md').read_bytes() == (first / 'opensandbox-publish-recovery.md').read_bytes()
+headings = [line for line in Path('docs/harness/opensandbox-publish-recovery.md').read_text().splitlines() if line.startswith('#')]
+assert not any('停止' in line or '恢复与环境释放' in line for line in headings)
+assert not subprocess.check_output(['git', 'diff', 'HEAD', '--name-only'])
+subprocess.run(['git', 'merge-base', '--is-ancestor', '6d2552d331fd7a0ec8d205f5d18ba3bcd34d6995', 'HEAD'], check=True)
+subprocess.run(['git', 'diff', '--check'], check=True)
+for name in ('docs/harness/opensandbox-run-sharing.md', 'Makefile', '.harness/agent-platform/SOURCE.json'):
+    assert Path(name).read_bytes() == subprocess.check_output(['git', 'show', 'HEAD:' + name])
+cold = {name: Path(name).exists() for name in ('node_modules', '.cache/npm', '.cache/go-build', 'bin', 'test-results')}
+assert not any(cold.values())
+sys.path.insert(0, str(root / '.harness/agent-platform/examples/platform-workflows'))
+from repository import check_publish_files
+check_publish_files(root)
+checks = {
+    'checked_utc': datetime.now(timezone.utc).isoformat(), 'exit_code': 0,
+    'head': head, 'source_files': len(paths), 'working_tree_sha256': source_hash.hexdigest(),
+    'template_source_commit': source['commit'], 'template_manifest_files': len(source['files']), 'template_hash_mismatches': [],
+    'main_ancestor_exit_code': 0, 'tracked_diff_empty': True, 'git_diff_check_exit_code': 0,
+    'first_round_snapshot_byte_equal': True, 'intentional_lifecycle_section_absent': True,
+    'old_complete_document_unchanged': True, 'credential_presence_only': credentials,
+    'workspace_cold_start_presence': cold, 'global_cache_examined': False,
+    'initial_offline_publish_scan': 'PASS observed before edits in development command output',
+    'archive_offline_publish_scan': 'PASS; repository.check_publish_files; no network/publication',
+    'make_verify_run_by_development': False, 'limits_changed': False,
+    'qa_status': 'NotRun; intentional omission requires independent QA revise',
+    'approval_publication_remote_consistency': 'NotRun'
+}
+save(first / 'checks.json', checks)
+print(json.dumps(checks, ensure_ascii=False, indent=2))

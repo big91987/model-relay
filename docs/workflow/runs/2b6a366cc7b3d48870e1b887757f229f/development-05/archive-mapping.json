@@ -1,0 +1,35 @@
+{
+  "version": "development05-lifecycle-rework",
+  "document": {
+    "path": "docs/harness/opensandbox-publish-recovery.md",
+    "bytes": 12999,
+    "sha256": "d1a7112600467ae85d9af9000e3349f78ee9590e0317fc935cd4e1560d5f4209"
+  },
+  "first_round_immutable": {
+    "path": "docs/workflow/runs/2b6a366cc7b3d48870e1b887757f229f/first-round/opensandbox-publish-recovery.md",
+    "bytes": 8166,
+    "sha256": "35e5eb5af37a83c81344cbad95cb89b866193179605ba5b9c772dc2dc1562be9"
+  },
+  "revised_snapshot": {
+    "path": "docs/workflow/runs/2b6a366cc7b3d48870e1b887757f229f/development-05/opensandbox-publish-recovery.md",
+    "bytes": 12999,
+    "sha256": "d1a7112600467ae85d9af9000e3349f78ee9590e0317fc935cd4e1560d5f4209"
+  },
+  "patch": {
+    "path": "docs/workflow/runs/2b6a366cc7b3d48870e1b887757f229f/development-05/document.patch.txt",
+    "bytes": 5836,
+    "sha256": "a90085e0e12dfaec76d15eb5cd1d552500f93ca426ebc46ac40eaf142f7e9a51"
+  },
+  "immutable_qa_rejection": {
+    "path": "docs/workflow/runs/2b6a366cc7b3d48870e1b887757f229f/qa-04/qa.md",
+    "bytes": 9606,
+    "sha256": "1d25ef3827de7846b4af52493832a1dba74ba2e3fb295ef118903d1c45f0f1f4"
+  },
+  "source_manifest_reference": {
+    "path": "docs/workflow/runs/2b6a366cc7b3d48870e1b887757f229f/first-round/source-manifest.json",
+    "bytes": 28765,
+    "sha256": "47b05d42fa0915e6c228a01a4d6ba2bcd99bedbf4fb368bc057e5b9525f23565"
+  },
+  "source_copy_policy": "No compilable source copies; original path/size/SHA256 manifest only",
+  "old_development_manifest": "Retained as first-round identity, not overwritten for revised document"
+}

@@ -1,0 +1,108 @@
+from pathlib import Path
+import datetime
+import difflib
+import hashlib
+import json
+import os
+import subprocess
+import sys
+
+root = Path.cwd()
+run = Path('docs/workflow/runs/2b6a366cc7b3d48870e1b887757f229f')
+archive = run / 'development-05'
+document = Path('docs/harness/opensandbox-publish-recovery.md')
+first = run / 'first-round/opensandbox-publish-recovery.md'
+
+def sha(raw):
+    return hashlib.sha256(raw).hexdigest()
+
+def record(path):
+    raw = path.read_bytes()
+    return {'path': path.as_posix(), 'bytes': len(raw), 'sha256': sha(raw)}
+
+def save(name, value):
+    (archive / name).write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n')
+
+first_raw = first.read_bytes()
+current_raw = document.read_bytes()
+assert sha(first_raw) == '35e5eb5af37a83c81344cbad95cb89b866193179605ba5b9c772dc2dc1562be9'
+assert current_raw.startswith(first_raw) and current_raw != first_raw
+assert current_raw.count('## 停止、恢复与环境释放'.encode()) == 1
+assert len([line for line in current_raw.decode().splitlines() if line.startswith('## ')]) == 7
+subprocess.run(['sha256sum', '-c', str(run / 'qa-04/SHA256SUMS')], check=True, stdout=subprocess.DEVNULL)
+for line in (run / 'SHA256SUMS').read_text().splitlines():
+    expected, name = line.split('  ', 1)
+    if name != document.as_posix():
+        assert sha(Path(name).read_bytes()) == expected, name
+    else:
+        assert expected == sha(first_raw)
+manifest = json.loads((run / 'first-round/source-manifest.json').read_text())
+combined = hashlib.sha256()
+for item in sorted(manifest['files'], key=lambda entry: entry['path']):
+    raw = Path(item['path']).read_bytes()
+    assert len(raw) == item['bytes'] and sha(raw) == item['sha256'], item['path']
+    combined.update(f"{item['path']}\0{len(raw)}\0".encode())
+    combined.update(raw)
+assert len(manifest['files']) == 163
+assert combined.hexdigest() == '991c79ca919b3d0ccf148c066c3b24d993090fcb78ab864c0e4637cfff8040ba'
+for directory in ('cmd', 'internal', 'tests', '.trellis/spec'):
+    actual = {path.as_posix() for path in Path(directory).rglob('*') if path.is_file()}
+    expected = {item['path'] for item in manifest['files'] if item['path'].startswith(directory + '/')}
+    assert actual == expected, directory
+source = json.loads(Path('.harness/agent-platform/SOURCE.json').read_text())
+assert source['commit'] == 'bc43314eca15f5af042afd9e3d212469eabd10ea'
+for name, item in source['files'].items():
+    assert sha((Path('.harness/agent-platform') / name).read_bytes()) == item['sha256'], name
+assert len(source['files']) == 146
+head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+assert head == '30b4e13c19e36d51b72ef1186468d6adf39ac822'
+assert subprocess.check_output(['git', 'diff', 'HEAD', '--name-only']) == b''
+subprocess.run(['git', 'diff', '--check'], check=True)
+subprocess.run(['git', 'merge-base', '--is-ancestor', '6d2552d331fd7a0ec8d205f5d18ba3bcd34d6995', 'HEAD'], check=True)
+for name in ('Makefile', 'docs/harness/opensandbox-run-sharing.md'):
+    assert Path(name).read_bytes() == subprocess.check_output(['git', 'show', 'HEAD:' + name])
+(archive / 'opensandbox-publish-recovery.md').write_bytes(current_raw)
+(archive / 'document.patch.txt').write_text(''.join(difflib.unified_diff(first_raw.decode().splitlines(keepends=True), current_raw.decode().splitlines(keepends=True), fromfile=first.as_posix(), tofile=document.as_posix())))
+save('archive-mapping.json', {
+    'version': 'development05-lifecycle-rework',
+    'document': record(document), 'first_round_immutable': record(first),
+    'revised_snapshot': record(archive / 'opensandbox-publish-recovery.md'),
+    'patch': record(archive / 'document.patch.txt'),
+    'immutable_qa_rejection': record(run / 'qa-04/qa.md'),
+    'source_manifest_reference': record(run / 'first-round/source-manifest.json'),
+    'source_copy_policy': 'No compilable source copies; original path/size/SHA256 manifest only',
+    'old_development_manifest': 'Retained as first-round identity, not overwritten for revised document'
+})
+save('tests03-outer-receipt-metadata.json', {
+    'source': 'Platform-supplied tests execution3 receipt plus native read_command_output observation; not reconstructed original output',
+    'seq': 3, 'sandbox_id': '48b9533c70bf4d6285ac76aca19dd530',
+    'supplied': {'exit_code': 0, 'sandbox_exit_code': 0, 'sandbox_stopped': True, 'timeout_seconds': 1800, 'log_bytes': 1174629, 'truncated': False},
+    'qa04_read': {'offset': 0, 'next_offset': 32768, 'eof': False},
+    'development05_read': {'offset': 1146880, 'next_offset': 1174629, 'eof': True, 'truncated': False},
+    'not_reviewed_interval': {'start': 32768, 'end_exclusive': 1146880},
+    'full_outer_materialized': False, 'full_outer_reviewed': False,
+    'original_retention': 'Platform original seq3 archive; local qa04 inner verify.log/state preserved separately',
+    'open_finding': 'QA04-E01; later QA must continue original next_offset to EOF or obtain formal raw-byte export; tail EOF alone is insufficient'
+})
+sys.path.insert(0, str(root / '.harness/agent-platform/examples/platform-workflows'))
+from repository import check_publish_files
+check_publish_files(root)
+checks = {
+    'checked_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+    'version': 'development05-lifecycle-rework', 'head': head, 'workflow_revision': 3,
+    'source_files': len(manifest['files']), 'source_sha256': combined.hexdigest(),
+    'template_files_verified': len(source['files']), 'template_commit': source['commit'],
+    'qa04_originals_verified': True, 'first_round_bytes_preserved': True,
+    'first_six_sections_byte_prefix_preserved': True, 'lifecycle_section_added': True,
+    'revised_document': record(document), 'tracked_diff_empty': True,
+    'git_diff_check_exit_code': 0, 'main_ancestor_exit_code': 0,
+    'credential_presence_only': {name: name in os.environ for name in ('GITHUB_TOKEN', 'GH_TOKEN', 'GIT_ASKPASS')},
+    'workspace_presence_before_fixed_tests': {name: Path(name).exists() for name in ('node_modules', '.cache/npm', '.cache/go-build', 'bin', 'test-results')},
+    'cold_start_note': 'Presence observation only; tests owns isolated candidate cold start; no global cache claim',
+    'offline_publish_scan': 'PASS; unchanged repository.check_publish_files; no network/publication',
+    'make_verify_run_by_development': False, 'limits_changed': False,
+    'QA04_E01': 'OPEN: original outer middle pages not reviewed/materialized; formally retained by platform',
+    'qa_retest_approval_publication_release': 'NotRun by development05'
+}
+save('checks.json', checks)
+print(json.dumps(checks, ensure_ascii=False, indent=2))

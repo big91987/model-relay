@@ -1,0 +1,42 @@
+{
+  "old_paths_preserved": [
+    {
+      "old_path": "harness-output/qa.md",
+      "old_bytes": 9606,
+      "old_sha256": "1d25ef3827de7846b4af52493832a1dba74ba2e3fb295ef118903d1c45f0f1f4",
+      "immutable_history": "docs/workflow/runs/2b6a366cc7b3d48870e1b887757f229f/qa-04/qa.md",
+      "reason": "latest QA report updated after real independent full-log review; QA04 manifests retained unchanged"
+    },
+    {
+      "old_path": "docs/harness/opensandbox-publish-recovery.md",
+      "immutable_history": "docs/workflow/runs/2b6a366cc7b3d48870e1b887757f229f/first-round/opensandbox-publish-recovery.md",
+      "old_sha256": "35e5eb5af37a83c81344cbad95cb89b866193179605ba5b9c772dc2dc1562be9",
+      "reason": "authorized first-round omission followed by development05 rework; old manifest remains first-round identity"
+    }
+  ],
+  "old_qa07_records": [
+    {
+      "path": "docs/workflow/runs/2b6a366cc7b3d48870e1b887757f229f/qa-07/qa.md",
+      "bytes": 9221,
+      "sha256": "5971c0ea3e9d713317e178f56a1923142f3e025850681964b3f0a7cc1e41ef14"
+    },
+    {
+      "path": "docs/workflow/runs/2b6a366cc7b3d48870e1b887757f229f/qa-07/capability-blocker.md",
+      "bytes": 3417,
+      "sha256": "8bc5084acfdeb87271c4fe05e9200bcfc21465b30fe1d35347b91c151d95fc39"
+    },
+    {
+      "path": "docs/workflow/runs/2b6a366cc7b3d48870e1b887757f229f/qa-07/outer-receipt-metadata.json",
+      "bytes": 1355,
+      "sha256": "215d9d27153c4b15aeed0b828b473d7b2be57e607f8211bd830ba3e9fd03b1c9"
+    },
+    {
+      "path": "docs/workflow/runs/2b6a366cc7b3d48870e1b887757f229f/qa-07/maintainer-corroboration.json",
+      "bytes": 1384,
+      "sha256": "9732ff11acbf6c5173091f5bd8b23f7b0078f5f43ea1a9a079d5ab51e15076e1"
+    }
+  ],
+  "current_report": "harness-output/qa.md",
+  "current_report_archive": "docs/workflow/runs/2b6a366cc7b3d48870e1b887757f229f/qa-07/full-review/qa.md",
+  "no_history_modified": true
+}

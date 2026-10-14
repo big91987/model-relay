@@ -1,0 +1,32 @@
+{
+  "source": "Platform-supplied tests execution3 receipt plus native read_command_output observation; not reconstructed original output",
+  "seq": 3,
+  "sandbox_id": "48b9533c70bf4d6285ac76aca19dd530",
+  "supplied": {
+    "exit_code": 0,
+    "sandbox_exit_code": 0,
+    "sandbox_stopped": true,
+    "timeout_seconds": 1800,
+    "log_bytes": 1174629,
+    "truncated": false
+  },
+  "qa04_read": {
+    "offset": 0,
+    "next_offset": 32768,
+    "eof": false
+  },
+  "development05_read": {
+    "offset": 1146880,
+    "next_offset": 1174629,
+    "eof": true,
+    "truncated": false
+  },
+  "not_reviewed_interval": {
+    "start": 32768,
+    "end_exclusive": 1146880
+  },
+  "full_outer_materialized": false,
+  "full_outer_reviewed": false,
+  "original_retention": "Platform original seq3 archive; local qa04 inner verify.log/state preserved separately",
+  "open_finding": "QA04-E01; later QA must continue original next_offset to EOF or obtain formal raw-byte export; tail EOF alone is insufficient"
+}

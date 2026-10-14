@@ -1,0 +1,49 @@
+{
+  "checked_utc": "2026-10-14T19:49:11.320362+00:00",
+  "run_id": "2b6a366cc7b3d48870e1b887757f229f",
+  "qa_execution": 4,
+  "head": "30b4e13c19e36d51b72ef1186468d6adf39ac822",
+  "source_files": 163,
+  "source_sha256": "991c79ca919b3d0ccf148c066c3b24d993090fcb78ab864c0e4637cfff8040ba",
+  "template_commit": "bc43314eca15f5af042afd9e3d212469eabd10ea",
+  "template_files_verified": 146,
+  "tracked_changes": [],
+  "first_round_manifest_verified": true,
+  "credential_presence_only": {
+    "GITHUB_TOKEN": false,
+    "GH_TOKEN": false,
+    "GIT_ASKPASS": false
+  },
+  "document_sha256": "35e5eb5af37a83c81344cbad95cb89b866193179605ba5b9c772dc2dc1562be9",
+  "first_round_snapshot_unchanged": true,
+  "document_headings": [
+    "# OpenSandbox Harness 发布与失败处理",
+    "## 项目自有模板安装与版本边界",
+    "## 共享工作区与原生角色交接",
+    "## 固定验证与独立 QA 返工",
+    "## 正式操作者确认与报告",
+    "## 固定发布门禁与失败处理",
+    "## 材料保存与历史关联"
+  ],
+  "lifecycle_section_missing": true,
+  "reproduced_acceptance_defect": "QA04-D01",
+  "qa_decision": "revise",
+  "offline_publish_scan": "PASS; existing unchanged repository.check_publish_files",
+  "inner_receipt_verified": true,
+  "inner_log_bytes": 1144558,
+  "inner_log_sha256": "afdbb354a9181d8fd950d2d16159283c9379d56552269eadbe4cd3f283ed101a",
+  "outer_receipt": {
+    "seq": 3,
+    "supplied_exit_code": 0,
+    "supplied_timeout_seconds": 1800,
+    "supplied_bytes": 1174629,
+    "supplied_truncated": false,
+    "read_offsets": [
+      0
+    ],
+    "next_offset": 32768,
+    "eof_reviewed": false,
+    "limitation": "Full outer archive not materialized; no full outer log approval claim"
+  },
+  "scope": "Read-only independent identity and acceptance reproduction; no product edits or replacement full test run"
+}

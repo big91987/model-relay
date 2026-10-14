@@ -1,0 +1,375 @@
+{
+  "run_id": "2b6a366cc7b3d48870e1b887757f229f",
+  "qa_execution": 7,
+  "workflow_revision": 3,
+  "version": "development05-lifecycle-rework",
+  "head": "30b4e13c19e36d51b72ef1186468d6adf39ac822",
+  "source_files": 163,
+  "source_sha256": "991c79ca919b3d0ccf148c066c3b24d993090fcb78ab864c0e4637cfff8040ba",
+  "template_files": 146,
+  "template_commit": "bc43314eca15f5af042afd9e3d212469eabd10ea",
+  "document": {
+    "path": "docs/harness/opensandbox-publish-recovery.md",
+    "bytes": 12999,
+    "sha256": "d1a7112600467ae85d9af9000e3349f78ee9590e0317fc935cd4e1560d5f4209"
+  },
+  "reviews": [
+    {
+      "seq": 3,
+      "outer": {
+        "path": "workflow-output/2b6a366cc7b3d48870e1b887757f229f/command-3.log",
+        "bytes": 1174629,
+        "sha256": "754f5242f9a567dd52b2f40b10667b34c18819099b6094d28940e48f661d310e"
+      },
+      "inner": {
+        "path": "docs/workflow/runs/2b6a366cc7b3d48870e1b887757f229f/qa-04/tests03.verify.log",
+        "bytes": 1144558,
+        "sha256": "afdbb354a9181d8fd950d2d16159283c9379d56552269eadbe4cd3f283ed101a"
+      },
+      "state": {
+        "path": "docs/workflow/runs/2b6a366cc7b3d48870e1b887757f229f/qa-04/tests03.state.json",
+        "bytes": 7944,
+        "sha256": "12f82273e84b1cfdc542373ec0f7b86e065285dd22654545849951728327c2d9"
+      },
+      "original_attempt": "test-results/verification/20261014T192852Z-1089328441",
+      "whole_file_read": true,
+      "comparison": "All non-platform-event payload matches entire inner log after CR/LF transport normalization, plus exact command/attempt prefix; original files are never normalized or rewritten",
+      "event_counts": {
+        "init": 1,
+        "ping": 342,
+        "execution_complete": 1
+      },
+      "init": {
+        "type": "init",
+        "text": "48b9533c70bf4d6285ac76aca19dd530",
+        "timestamp": 1792006124728
+      },
+      "execution_complete": {
+        "type": "execution_complete",
+        "execution_time": 1024495,
+        "timestamp": 1792007149222
+      },
+      "outer_timeout_seconds": 1800,
+      "outer_exit_code": 0,
+      "exit_code_source": "formal user supplied tests receipt, corroborated complete event and inner state; completion event does not carry exit code",
+      "inner_lines": 4588,
+      "historical_expected_method_failures": 21,
+      "historical_parent_failures": 4,
+      "injected_failure_diagnostics": [
+        {
+          "line": 3540,
+          "test": "TestInventoryCancellationReceipt",
+          "diagnostic": "FAILED: source inventory: source-inventory: signal: terminated"
+        },
+        {
+          "line": 3674,
+          "test": "TestFixedRunnerReceipts/failed_fixture",
+          "diagnostic": "FAILED: exit status 23"
+        },
+        {
+          "line": 3712,
+          "test": "TestFixedRunnerReceipts/prerequisite_failed_fixture",
+          "diagnostic": "FAILED: npm prerequisite: prerequisite-npm: exit status 24"
+        },
+        {
+          "line": 3730,
+          "test": "TestFixedRunnerReceipts/evidence_failed_fixture",
+          "diagnostic": "FAILED: source digest: source-evidence: exit status 25"
+        },
+        {
+          "line": 3789,
+          "test": "TestFixedRunnerReceipts/probe_failed_fixture",
+          "diagnostic": "FAILED: dependency-probe: exit status 26"
+        },
+        {
+          "line": 3798,
+          "test": "TestFixedRunnerReceipts/copy_failed_fixture",
+          "diagnostic": "FAILED: source parent must be a real directory"
+        },
+        {
+          "line": 3808,
+          "test": "TestFixedRunnerReceipts/cancel_inventory",
+          "diagnostic": "FAILED: source inventory: source-inventory: signal: terminated"
+        },
+        {
+          "line": 3822,
+          "test": "TestFixedRunnerReceipts/cancel_git_directory",
+          "diagnostic": "FAILED: git-directory: signal: terminated"
+        },
+        {
+          "line": 3840,
+          "test": "TestFixedRunnerReceipts/cancel_evidence",
+          "diagnostic": "FAILED: source digest: source-evidence: signal: terminated"
+        },
+        {
+          "line": 3879,
+          "test": "TestFixedRunnerReceipts/cancel_prerequisite",
+          "diagnostic": "FAILED: npm prerequisite: prerequisite-npm: signal: terminated"
+        },
+        {
+          "line": 3938,
+          "test": "TestFixedRunnerReceipts/cancel_probe",
+          "diagnostic": "FAILED: dependency-probe: signal: terminated"
+        },
+        {
+          "line": 3944,
+          "test": "TestFixedRunnerReceipts/resource_start_failed_fixture",
+          "diagnostic": "FAILED: resource sample before failed: controlled resource read failure"
+        },
+        {
+          "line": 4002,
+          "test": "TestFixedRunnerReceipts/resource_end_failed_fixture",
+          "diagnostic": "FAILED: resource sample after failed: controlled resource read failure"
+        },
+        {
+          "line": 4056,
+          "test": "TestFixedRunnerReceipts/resource_end_failed_gate_fixture",
+          "diagnostic": "FAILED: exit status 23"
+        },
+        {
+          "line": 4167,
+          "test": "TestFixedRunnerReceipts/unsupported_metrics_failed_gate_fixture",
+          "diagnostic": "FAILED: exit status 23"
+        }
+      ],
+      "nonzero_fixture_gates": [
+        {
+          "line": 3660,
+          "test": "TestFixedRunnerReceipts/failed_fixture",
+          "diagnostic": "GATE_END exit=23 cancelled=false execute_ms=3 group_check_ms=0"
+        },
+        {
+          "line": 4043,
+          "test": "TestFixedRunnerReceipts/resource_end_failed_gate_fixture",
+          "diagnostic": "GATE_END exit=23 cancelled=false execute_ms=1 group_check_ms=0"
+        },
+        {
+          "line": 4154,
+          "test": "TestFixedRunnerReceipts/unsupported_metrics_failed_gate_fixture",
+          "diagnostic": "GATE_END exit=23 cancelled=false execute_ms=1 group_check_ms=0"
+        }
+      ],
+      "passed_packages": [
+        "ok  \tmodel-relay/cmd/model-relay\t6.334s",
+        "ok  \tmodel-relay/internal/relay\t99.919s",
+        "ok  \tmodel-relay/tests/browser\t4.635s",
+        "ok  \tmodel-relay/tests/health-history\t2.289s",
+        "ok  \tmodel-relay/tests/review-history\t22.538s",
+        "ok  \tmodel-relay/tests/verification\t1.035s",
+        "ok  \tmodel-relay/tests/verify\t2.589s"
+      ],
+      "browser_phases": [
+        "BROWSER_PHASE name=migration state=end utc=2026-10-14T19:33:47.863694056Z elapsed_ms=15593 ok=true",
+        "BROWSER_PHASE name=legacy-ui state=end utc=2026-10-14T19:37:15.118201461Z elapsed_ms=207012 ok=true",
+        "BROWSER_PHASE name=routing state=end utc=2026-10-14T19:41:10.976115257Z elapsed_ms=235857 ok=true",
+        "BROWSER_PHASE name=console state=end utc=2026-10-14T19:41:47.363062837Z elapsed_ms=36385 ok=true",
+        "BROWSER_PHASE name=full-console state=end utc=2026-10-14T19:45:48.054613631Z elapsed_ms=240691 ok=true"
+      ],
+      "gate": {
+        "stage": "verify-gates",
+        "exit": 0,
+        "cancelled": false,
+        "owned_group_absent": true,
+        "started_utc": "2026-10-14T19:29:07.486687723Z",
+        "budget_ms": 1439999,
+        "execute_ms": 1000606,
+        "group_check_ms": 0
+      },
+      "clean_start": {
+        "node_modules_before": false,
+        "npm_cache_before": false,
+        "manual_preinstall": "none",
+        "scope": "isolated candidate, not globally cold shared workspace"
+      },
+      "source_unchanged": true,
+      "candidate_unchanged": true,
+      "owned_group_absent": true,
+      "cleanup": "owned_process_group_cleanup_attempted; candidate_removed"
+    },
+    {
+      "seq": 6,
+      "outer": {
+        "path": "workflow-output/2b6a366cc7b3d48870e1b887757f229f/command-6.log",
+        "bytes": 1177433,
+        "sha256": "ec2540257de3d6a6c0717f165a045ceee8712b30380bb1cba4c56691e4bf6caf"
+      },
+      "inner": {
+        "path": "docs/workflow/runs/2b6a366cc7b3d48870e1b887757f229f/qa-07/tests06.verify.log",
+        "bytes": 1147466,
+        "sha256": "61dadc32700ffe860c9a03800b30e13b6c406f2a56dd43bedc1d71c14c3ba797"
+      },
+      "state": {
+        "path": "docs/workflow/runs/2b6a366cc7b3d48870e1b887757f229f/qa-07/tests06.state.json",
+        "bytes": 7961,
+        "sha256": "04deda8e1d87f9067e77cc80a525535abd7b2a66a53ead5f076ff7b18c3f9333"
+      },
+      "original_attempt": "test-results/verification/20261014T195523Z-3543396171",
+      "whole_file_read": true,
+      "comparison": "All non-platform-event payload matches entire inner log after CR/LF transport normalization, plus exact command/attempt prefix; original files are never normalized or rewritten",
+      "event_counts": {
+        "init": 1,
+        "ping": 341,
+        "execution_complete": 1
+      },
+      "init": {
+        "type": "init",
+        "text": "354f6de569b44a4fa596e8576fc55edb",
+        "timestamp": 1792007723479
+      },
+      "execution_complete": {
+        "type": "execution_complete",
+        "execution_time": 1020683,
+        "timestamp": 1792008744161
+      },
+      "outer_timeout_seconds": 1800,
+      "outer_exit_code": 0,
+      "exit_code_source": "formal user supplied tests receipt, corroborated complete event and inner state; completion event does not carry exit code",
+      "inner_lines": 4592,
+      "historical_expected_method_failures": 21,
+      "historical_parent_failures": 4,
+      "injected_failure_diagnostics": [
+        {
+          "line": 3544,
+          "test": "TestInventoryCancellationReceipt",
+          "diagnostic": "FAILED: source inventory: source-inventory: signal: terminated"
+        },
+        {
+          "line": 3678,
+          "test": "TestFixedRunnerReceipts/failed_fixture",
+          "diagnostic": "FAILED: exit status 23"
+        },
+        {
+          "line": 3716,
+          "test": "TestFixedRunnerReceipts/prerequisite_failed_fixture",
+          "diagnostic": "FAILED: npm prerequisite: prerequisite-npm: exit status 24"
+        },
+        {
+          "line": 3734,
+          "test": "TestFixedRunnerReceipts/evidence_failed_fixture",
+          "diagnostic": "FAILED: source digest: source-evidence: exit status 25"
+        },
+        {
+          "line": 3793,
+          "test": "TestFixedRunnerReceipts/probe_failed_fixture",
+          "diagnostic": "FAILED: dependency-probe: exit status 26"
+        },
+        {
+          "line": 3802,
+          "test": "TestFixedRunnerReceipts/copy_failed_fixture",
+          "diagnostic": "FAILED: source parent must be a real directory"
+        },
+        {
+          "line": 3812,
+          "test": "TestFixedRunnerReceipts/cancel_inventory",
+          "diagnostic": "FAILED: source inventory: source-inventory: signal: terminated"
+        },
+        {
+          "line": 3826,
+          "test": "TestFixedRunnerReceipts/cancel_git_directory",
+          "diagnostic": "FAILED: git-directory: signal: terminated"
+        },
+        {
+          "line": 3844,
+          "test": "TestFixedRunnerReceipts/cancel_evidence",
+          "diagnostic": "FAILED: source digest: source-evidence: signal: terminated"
+        },
+        {
+          "line": 3883,
+          "test": "TestFixedRunnerReceipts/cancel_prerequisite",
+          "diagnostic": "FAILED: npm prerequisite: prerequisite-npm: signal: terminated"
+        },
+        {
+          "line": 3942,
+          "test": "TestFixedRunnerReceipts/cancel_probe",
+          "diagnostic": "FAILED: dependency-probe: signal: terminated"
+        },
+        {
+          "line": 3948,
+          "test": "TestFixedRunnerReceipts/resource_start_failed_fixture",
+          "diagnostic": "FAILED: resource sample before failed: controlled resource read failure"
+        },
+        {
+          "line": 4006,
+          "test": "TestFixedRunnerReceipts/resource_end_failed_fixture",
+          "diagnostic": "FAILED: resource sample after failed: controlled resource read failure"
+        },
+        {
+          "line": 4060,
+          "test": "TestFixedRunnerReceipts/resource_end_failed_gate_fixture",
+          "diagnostic": "FAILED: exit status 23"
+        },
+        {
+          "line": 4171,
+          "test": "TestFixedRunnerReceipts/unsupported_metrics_failed_gate_fixture",
+          "diagnostic": "FAILED: exit status 23"
+        }
+      ],
+      "nonzero_fixture_gates": [
+        {
+          "line": 3664,
+          "test": "TestFixedRunnerReceipts/failed_fixture",
+          "diagnostic": "GATE_END exit=23 cancelled=false execute_ms=2 group_check_ms=0"
+        },
+        {
+          "line": 4047,
+          "test": "TestFixedRunnerReceipts/resource_end_failed_gate_fixture",
+          "diagnostic": "GATE_END exit=23 cancelled=false execute_ms=1 group_check_ms=0"
+        },
+        {
+          "line": 4158,
+          "test": "TestFixedRunnerReceipts/unsupported_metrics_failed_gate_fixture",
+          "diagnostic": "GATE_END exit=23 cancelled=false execute_ms=1 group_check_ms=0"
+        }
+      ],
+      "passed_packages": [
+        "ok  \tmodel-relay/cmd/model-relay\t6.388s",
+        "ok  \tmodel-relay/internal/relay\t99.384s",
+        "ok  \tmodel-relay/tests/browser\t4.495s",
+        "ok  \tmodel-relay/tests/health-history\t2.304s",
+        "ok  \tmodel-relay/tests/review-history\t22.545s",
+        "ok  \tmodel-relay/tests/verification\t1.040s",
+        "ok  \tmodel-relay/tests/verify\t2.498s"
+      ],
+      "browser_phases": [
+        "BROWSER_PHASE name=migration state=end utc=2026-10-14T20:00:15.698785067Z elapsed_ms=15568 ok=true",
+        "BROWSER_PHASE name=legacy-ui state=end utc=2026-10-14T20:03:42.607890238Z elapsed_ms=206654 ok=true",
+        "BROWSER_PHASE name=routing state=end utc=2026-10-14T20:07:42.365936134Z elapsed_ms=239757 ok=true",
+        "BROWSER_PHASE name=console state=end utc=2026-10-14T20:08:19.546297576Z elapsed_ms=37178 ok=true",
+        "BROWSER_PHASE name=full-console state=end utc=2026-10-14T20:12:22.986154729Z elapsed_ms=243439 ok=true"
+      ],
+      "gate": {
+        "stage": "verify-gates",
+        "exit": 0,
+        "cancelled": false,
+        "owned_group_absent": true,
+        "started_utc": "2026-10-14T19:55:38.294667593Z",
+        "budget_ms": 1439999,
+        "execute_ms": 1004725,
+        "group_check_ms": 0
+      },
+      "clean_start": {
+        "node_modules_before": false,
+        "npm_cache_before": false,
+        "manual_preinstall": "none",
+        "scope": "isolated candidate, not globally cold shared workspace"
+      },
+      "source_unchanged": true,
+      "candidate_unchanged": true,
+      "owned_group_absent": true,
+      "cleanup": "owned_process_group_cleanup_attempted; candidate_removed"
+    }
+  ],
+  "nine_independent_regressions": "same-source QA07 prior actual tests, not rerun now",
+  "credential_presence_only": {
+    "GITHUB_TOKEN": false,
+    "GH_TOKEN": false,
+    "GIT_ASKPASS": false
+  },
+  "findings": {
+    "QA04-D01": "CLOSED by actual document rework and independent verification",
+    "QA04-E01": "CLOSED now by formal full original export + independent full review",
+    "QA07-E01": "CLOSED now by formal full original export + independent full review",
+    "QA07-capability-blocker": "RESOLVED now; old blocked record remains historical"
+  },
+  "decision": "QA pass to approval only; not final PR/product/provider acceptance"
+}
