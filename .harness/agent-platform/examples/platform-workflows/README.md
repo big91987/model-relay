@@ -319,7 +319,7 @@ PR正文由GitHub Connector原样发布，报告阶段应核对对外证据链�
 
 ### 命令日志诊断
 
-平台新版为新命令执行保存最多 8 MiB 的脱敏日志；运行页每条命令回执旁可打开“查看命令日志”。研发/QA 的当前节点可用 `read_command_output` 按原测试 seq 分页读取，不必重复测试只为取回被简短回执截掉的失败断言。`truncated=true` 明确仍有未保存输出，旧回执没有日志时继续保留未测/证据不足判断。SDK 调用 `workflow_command_output(run_id, seq, offset=0)` 并跟随 `next_offset` 至 `eof`。该能力来自平台二进制的标准升级，安装模板不复制日志实现；升级前先等待或按正式入口停止在途工作，旧 Run 历史保持原样。
+平台新版为新命令执行保存最多 8 MiB 的脱敏日志；运行页每条命令回执旁可打开“查看命令日志”。研发/QA 的当前节点可用 `read_command_output` 按原测试 seq 分页读取，不必重复测试只为取回被简短回执截掉的失败断言。`truncated=true` 明确仍有未保存输出，旧回执没有日志时继续保留未测/证据不足判断。较长日志可由当前节点调用同一工具 `read_command_output(seq=原步骤, save_to_workspace=true)`，把全部已保留的脱敏原字节保存为共享工作区 `workflow-output/<Run ID>/command-<seq>.log`，返回路径、字节数、SHA-256 与 `truncated`，随后独立检查文件。导出需要当前会话可写工作区，只读会话仍可分页读取。导出随 Run 停止取消；沙箱命令结果未知时先通过正式环境核对入口确认原进程已停止，不能重发或推进交接。导出只接受 offset=0；已有同内容文件可复用，冲突/链接拒绝覆盖，中断分块仅在已写前缀一致时继续；不会恢复已被截断的内容。运行环境释放后不能导出到原工作区，应先归档。该选项随平台二进制标准升级获得，不改冻结流程或临时增加Agent凭据。SDK 调用 `workflow_command_output(run_id, seq, offset=0)` 并跟随 `next_offset` 至 `eof`。该能力来自平台二进制的标准升级，安装模板不复制日志实现；升级前先等待或按正式入口停止在途工作，旧 Run 历史保持原样。
 
 
 项目完整测试默认预算 900 秒，可用 `--test-timeout-seconds <1..1800>` 明确配置并在升级时保留。预算是当前管理员策略，新执行采样后固定；它不改变已运行命令的 deadline，也不替换已有 Run 的冻结命令。超时须先检查副作用，经 stop/静止/return 原测试节点显式重试，不能靠改预算自动重放。回执的 `timeout_seconds` 为该次实际预算。升级先确认无在途执行，通过原 manifest 应用预算及原固定测试命令。
@@ -453,7 +453,7 @@ python3 .harness/agent-platform/examples/platform-workflows/sandbox_delivery.py 
 
 将受信导出的本目录与SDK复制到项目 `.harness/agent-platform` 后按项目调整，通过平台管理API/画布安装生成的图。`sandbox_prepare.py` 使用执行节点选定的运行时环境认证，固定入站repo/commit及所属Run；不复制宿主checkout，不接管不明工作区或把秘密放进Git remote/图。Git凭据只配置准备/发布节点，Agent和tests不继承。专用Issue标签 `harness-opensandbox` 由项目自有Actions和sandbox_entry.py选择新图，旧入口排除该标签；GitHub Runner只转发，平台申请/运行/释放环境。
 
-`sandbox_publish.py` 只发布同Run分支，核对固定基线以来完整线性提交、当前文件和实际index的范围与秘密，不跟随认证重定向/项目Git Hook/URL改写。合并历史和删除交付文件需项目单独设计，不伪称本示例已支持全部Git流程。QA及报告先保存在可查看的 `harness-output`（Git exclude），人工确认后将原文保留到 `docs/harness/run-*` 并创建同版草稿PR；草稿PR不是合并或部署完成。报告交付前不要释放环境，正式发布以后以GitHub产物为持久入口。
+`sandbox_publish.py` 只发布同Run分支，核对固定基线以来完整线性提交、当前文件和实际index的范围与秘密，不跟随认证重定向/项目Git Hook/URL改写。合并历史和删除交付文件需项目单独设计，不伪称本示例已支持全部Git流程。QA及报告先保存在可查看的 `harness-output`（Git exclude），人工确认后将原文保留到 `docs/harness/run-*` 并创建同版草稿PR；草稿PR不是合并或部署完成。报告交付前不要释放环境，正式发布以后以GitHub产物为持久入口。 `report.json.files` 只列要提交的仓库文件，不列 `harness-output/qa.md` 或 `harness-output/report.json`；这两项仍作为节点交接 artifacts。发布器在生成交付文件或修改暂存区之前检查所有清单和固定输出的 Git 忽略规则，不强制添加被忽略文件。旧 Run 沿正式回退入口纠正报告清单，保持已确认正文/QA及固定生成文件同版；不得删除已有交付文件来绕过不同内容冲突。新版发布器先逐字节确认固定QA/正文，再将其加入本次范围检查，因此已暂存或已提交的同版固定输出可以接续；不同字节（含提交历史）仍拒绝。旧冻结发布器需要在报告清单显式列入两份已生成的同版交付文件，再由正式入口接续。
 
 证据副本不能成为新的构建输入。归档源码时使用文本、补丁或项目明确不参与构建的材料形式，记录原路径和字节摘要；例如将 Go 文件按原字节保存为 `.go.txt`，避免文档目录中的 `.go` 被 `go vet ./...` 当作包扫描。不要靠修改正常构建入口或减少测试来容纳归档。交接和发布应列具体文件；目录可用于组织，但不能替代可核验文件清单。已有 Run 保留冻结指令，通过正式补充输入处理当前归档问题；从维护源同步项目副本并重新生成、更新工作流后，新 Run 才采用更新后的角色约定。
 
