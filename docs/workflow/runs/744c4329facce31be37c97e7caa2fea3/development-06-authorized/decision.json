@@ -1,0 +1,16 @@
+{
+  "source": "maintainer explicit user authorization after independently reviewing execution 5 and execution 6 correction",
+  "run_id": "744c4329facce31be37c97e7caa2fea3",
+  "workflow_revision": 2,
+  "frozen_head": "1d581652736fbac4e8862b70367181c8a9f2f8b2",
+  "standard_environment_confirmed_by_maintainer": {"cpu_quota": 2, "memory_gib": 8, "configuration_drift": false},
+  "previous_temporary_constraint": "keep 12 minutes and attribute first; now superseded by explicit authorization",
+  "authorized_once": "bounded source-controlled cumulative verify-gates budget calibration",
+  "maximum_gate_minutes": 24,
+  "fixed_connector_seconds": 1800,
+  "public_budget_configuration": "none; fixed project source constant, not a Run environment override",
+  "preserve": ["gate order", "dependency-cold isolation", "all tests and strict assertions", "historical classifications", "individual request/action deadlines", "failure exit", "process-group cancellation and cleanup"],
+  "if_24_minutes_still_expires": "formal blocked with new primary stage evidence; no automatic time extension or full-suite retry",
+  "qa": "independent review of budget and assertion integrity; authorized missing chapter must still be actually rejected and revised",
+  "not_run": ["full verification by development", "QA", "PR", "real supplier", "payments", "external identity"]
+}

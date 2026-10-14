@@ -1,0 +1,11 @@
+--- /workspace/docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/upstream-original.go.txt	2026-10-14 17:25:43.873985055 +0000
++++ tests/browser/journeys.go	2026-10-14 17:25:43.899985117 +0000
+@@ -143,7 +143,7 @@
+ 			writer.Header().Set("Content-Type", "text/event-stream")
+ 			fmt.Fprint(writer, "data: {\"id\":\"controlled\",\"choices\":[{\"delta\":{\"role\":\"assistant\",\"content\":\"controlled stream\"},\"finish_reason\":null}]}\n\n")
+ 			writer.(http.Flusher).Flush()
+-			fmt.Fprint(writer, "data: {\"id\":\"controlled\",\"choices\":[{\"delta\":{},\"finish_reason\":\"stop\"}],\"usage\":{\"prompt_tokens\":3,\"completion_tokens\":4,\"total_tokens\":7}}\n\ndata: [DONE]\n\n")
++			fmt.Fprint(writer, "data: {\"id\":\"controlled\",\"choices\":[{\"delta\":{},\"finish_reason\":\"stop\"}],\"usage\":{\"prompt_tokens\":3,\"completion_tokens\":4,\"total_tokens\":7}}\n\n")
+ 			return
+ 		}
+ 		if len(input.Messages) > 0 && input.Messages[0].Content == "controlled unknown usage" {

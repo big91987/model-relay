@@ -110,6 +110,11 @@ func TestRoutingRealHTTPSelectionFailoverAndRecovery(t *testing.T) {
 		fmt.Fprint(writer, `{"choices":[{"message":{"role":"assistant","content":"controlled actual HTTP"}}],"usage":{"prompt_tokens":1,"completion_tokens":2,"total_tokens":3}}`)
 	})
 	configureHTTPPair(t, value, 3)
+	snapshot, err := value.server.snapshot("alpha")
+	if err != nil {
+		t.Fatal(err)
+	}
+	primaryHealthKey := healthKey("alpha", snapshot.Model.Candidates[0], snapshot.Upstreams[1])
 	var wait sync.WaitGroup
 	for index := 0; index < 40; index++ {
 		wait.Add(1)
@@ -119,7 +124,7 @@ func TestRoutingRealHTTPSelectionFailoverAndRecovery(t *testing.T) {
 	if primary.Load() != 30 || secondary.Load() != 10 {
 		t.Fatal("actual SWRR visits", primary.Load(), secondary.Load())
 	}
-	value.server.Config.Cooldown = 15 * time.Millisecond
+	value.server.Config.Cooldown = time.Hour
 	failPrimary.Store(true)
 	response := value.call(t, ordinary)
 	if response.StatusCode != 200 {
@@ -133,14 +138,64 @@ func TestRoutingRealHTTPSelectionFailoverAndRecovery(t *testing.T) {
 		t.Fatal("actual attempt accounting", record)
 	}
 	before := primary.Load()
-	expect(t, value.call(t, ordinary), 200)
-	if primary.Load() != before {
+	value.server.mu.Lock()
+	health := value.server.health[primaryHealthKey]
+	if health == nil {
+		value.server.mu.Unlock()
+		t.Fatal("actual primary failure did not establish health")
+	}
+	observed, deadline := health.Observed, health.Cooldown
+	value.server.mu.Unlock()
+	if deadline.Sub(observed) != value.server.Config.Cooldown {
+		t.Fatal("actual cooldown duration", deadline.Sub(observed))
+	}
+	response = value.call(t, ordinary)
+	nextID := response.Header.Get("X-Request-ID")
+	expect(t, response, 200)
+	decode(t, value.admin(t, "GET", "requests/"+nextID, nil), &record)
+	if len(record.Attempts) != 1 || record.Attempts[0].UpstreamID != 2 {
+		t.Fatal("cooling request did not exclusively use secondary", record.Attempts)
+	}
+	coolingDecision := false
+	for _, decision := range record.Decisions {
+		if decision.UpstreamID == 1 {
+			selectedAt, err := time.Parse(time.RFC3339Nano, decision.Observed)
+			if err != nil || !selectedAt.Before(deadline) || decision.Reason != "cooling" || decision.Cooldown == nil || *decision.Cooldown != deadline.UTC().Format(time.RFC3339Nano) {
+				t.Fatal("actual unexpired cooldown decision", decision)
+			}
+			coolingDecision = true
+		}
+	}
+	if !coolingDecision || primary.Load() != before {
 		t.Fatal("cooldown did not exclude actual primary")
 	}
 	failPrimary.Store(false)
-	time.Sleep(25 * time.Millisecond)
-	expect(t, value.call(t, ordinary), 200)
-	if primary.Load() != before+1 {
+	value.server.mu.Lock()
+	if value.server.health[primaryHealthKey] != health || !health.Cooldown.Equal(deadline) {
+		value.server.mu.Unlock()
+		t.Fatal("cooling phase changed primary health")
+	}
+	expiredDeadline := observed.Add(-time.Nanosecond)
+	health.Cooldown = expiredDeadline
+	value.server.mu.Unlock()
+	response = value.call(t, ordinary)
+	recoveryID := response.Header.Get("X-Request-ID")
+	expect(t, response, 200)
+	decode(t, value.admin(t, "GET", "requests/"+recoveryID, nil), &record)
+	if len(record.Attempts) != 1 || record.Attempts[0].UpstreamID != 1 {
+		t.Fatal("expired primary did not recover exclusively", record.Attempts)
+	}
+	recoveryDecision := false
+	for _, decision := range record.Decisions {
+		if decision.UpstreamID == 1 {
+			selectedAt, err := time.Parse(time.RFC3339Nano, decision.Observed)
+			if err != nil || selectedAt.Before(expiredDeadline) || decision.Reason != "selected" || decision.Cooldown != nil {
+				t.Fatal("actual expired cooldown decision", decision)
+			}
+			recoveryDecision = true
+		}
+	}
+	if !recoveryDecision || primary.Load() != before+1 {
 		t.Fatal("primary did not passively recover")
 	}
 }

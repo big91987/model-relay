@@ -1,0 +1,1295 @@
+{
+  "started_utc": "2026-10-14T18:34:10.195Z",
+  "finished_utc": "2026-10-14T18:34:10.214Z",
+  "manifest_sha256": "1ce553146e21a910a47454d9c4cf6efa83a8527e19711c41ca7bc46e3801fdb3",
+  "entries": 214,
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "expected": "2c3f008e790e61c2a7b3a91c6beeba3c0e4864bd4dcbcf9e9b5c6db513832834",
+      "actual": "2c3f008e790e61c2a7b3a91c6beeba3c0e4864bd4dcbcf9e9b5c6db513832834",
+      "ok": true
+    },
+    {
+      "path": "Makefile",
+      "expected": "4997a2baaa4068306bb480bb2aad2254ebe700bcfb3345cd0dda6a2841708302",
+      "actual": "4997a2baaa4068306bb480bb2aad2254ebe700bcfb3345cd0dda6a2841708302",
+      "ok": true
+    },
+    {
+      "path": "docs/harness/issue42-candidate-continuation.md",
+      "expected": "b2bb7f989681161060ec20b28ac8efd1e972afccb1f792dc7277a7fd86156a91",
+      "actual": "b2bb7f989681161060ec20b28ac8efd1e972afccb1f792dc7277a7fd86156a91",
+      "ok": true
+    },
+    {
+      "path": "docs/harness/opensandbox-run-sharing.md",
+      "expected": "3d881a85cbeaa5fcec0c72de2568a143988e7bc967bfc0f2e3f1cffa0185aff8",
+      "actual": "3d881a85cbeaa5fcec0c72de2568a143988e7bc967bfc0f2e3f1cffa0185aff8",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-02.md",
+      "expected": "3d8dd3477b8cf1670375665bae4cb49137dc60cab6cd20e69f995c2c4dba933b",
+      "actual": "3d8dd3477b8cf1670375665bae4cb49137dc60cab6cd20e69f995c2c4dba933b",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-04.md",
+      "expected": "218c58a7fc8ec077db05f9a51cc4f29a6f1d56fae5a6893014cf6a7d17050556",
+      "actual": "218c58a7fc8ec077db05f9a51cc4f29a6f1d56fae5a6893014cf6a7d17050556",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-04/SHA256SUMS",
+      "expected": "6f1deda0def4cd4d9235ec44dc7d550b46671b1df25fe23946643ece825553d9",
+      "actual": "6f1deda0def4cd4d9235ec44dc7d550b46671b1df25fe23946643ece825553d9",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-04/check-result.json",
+      "expected": "3e16d90dfc10ce3a4eb52a2a390a384c0a8855f3f927af6ef65b1914b8aaf957",
+      "actual": "3e16d90dfc10ce3a4eb52a2a390a384c0a8855f3f927af6ef65b1914b8aaf957",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-04/check.cjs",
+      "expected": "948bf21ff33b31dee9305959670af086dd6aa3fcbdf75e1b3e0f7a7b6dda7029",
+      "actual": "948bf21ff33b31dee9305959670af086dd6aa3fcbdf75e1b3e0f7a7b6dda7029",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-04/packages-after.stderr",
+      "expected": "31c9af3c7e4ef1d586ab8163e7c1368d78407b9d17f7f3efae04bce042a7456b",
+      "actual": "31c9af3c7e4ef1d586ab8163e7c1368d78407b9d17f7f3efae04bce042a7456b",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-04/packages-after.stdout",
+      "expected": "37ed429ee5e1934449ba50225fa069e3bfb388522581d54a0224dec95f019dcd",
+      "actual": "37ed429ee5e1934449ba50225fa069e3bfb388522581d54a0224dec95f019dcd",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-04/tests-03-state.json",
+      "expected": "16b152cc6df3b98b63ce9da62b000d58d8f2f13ccf5141071dbf87bebf8fdd0c",
+      "actual": "16b152cc6df3b98b63ce9da62b000d58d8f2f13ccf5141071dbf87bebf8fdd0c",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-04/tests-03-verify.log",
+      "expected": "9294aeca06d921ba05c74d2a6266bb25fead4b7d447ee9bc6e6f14fcc8d11efd",
+      "actual": "9294aeca06d921ba05c74d2a6266bb25fead4b7d447ee9bc6e6f14fcc8d11efd",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-04/vet-status.txt",
+      "expected": "0d14fc57d76a47d8d4067f5115ee14cea7d0c959c59a2cbdb4899b0d8dc0d926",
+      "actual": "0d14fc57d76a47d8d4067f5115ee14cea7d0c959c59a2cbdb4899b0d8dc0d926",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-04/vet.stderr",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-04/vet.stdout",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-authorized.md",
+      "expected": "5ea6870de4f866fc38101617a4f8bd0b69ce558c3c1abcf87f573fef06d33887",
+      "actual": "5ea6870de4f866fc38101617a4f8bd0b69ce558c3c1abcf87f573fef06d33887",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-authorized/SHA256SUMS",
+      "expected": "046026bc37f7337a867cd3b3748d4a3875684bfd49b884581eddc45a15910b84",
+      "actual": "046026bc37f7337a867cd3b3748d4a3875684bfd49b884581eddc45a15910b84",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-authorized/check-result.json",
+      "expected": "ed52196630ca1716cd85e3df83235896eb7f8004dc8e87db1ff390899eee8788",
+      "actual": "ed52196630ca1716cd85e3df83235896eb7f8004dc8e87db1ff390899eee8788",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-authorized/check.cjs",
+      "expected": "f601918981ffd3f9ca73b1bf7a46edf11bb3728fde386a29dab111a1760ba7d1",
+      "actual": "f601918981ffd3f9ca73b1bf7a46edf11bb3728fde386a29dab111a1760ba7d1",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-authorized/decision.json",
+      "expected": "76b177e1db967412680aed2f4510a01ca9ea3d430d1c0a2809318e71a1c4ddee",
+      "actual": "76b177e1db967412680aed2f4510a01ca9ea3d430d1c0a2809318e71a1c4ddee",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-authorized/final-checks.txt",
+      "expected": "59a98afa525f0fe0d1109fecc86237fea08de129aabe4892fb35d7ad3d49811b",
+      "actual": "59a98afa525f0fe0d1109fecc86237fea08de129aabe4892fb35d7ad3d49811b",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-authorized/gate.go.txt",
+      "expected": "5e8b0d484794c7241def93a81db4301436ef7023a2548b6e5bbfd875e334ab19",
+      "actual": "5e8b0d484794c7241def93a81db4301436ef7023a2548b6e5bbfd875e334ab19",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-authorized/gate_resources_test.go.txt",
+      "expected": "f9caa6e436fcfd523a9e32f17c7dc3ca5708850ccef32ab46c225baa8d2cc6b0",
+      "actual": "f9caa6e436fcfd523a9e32f17c7dc3ca5708850ccef32ab46c225baa8d2cc6b0",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-authorized/implementation.patch",
+      "expected": "10b4f9bd6b27587848982b5d487d4f036add31c4ff3649208618cbfea4f68de2",
+      "actual": "10b4f9bd6b27587848982b5d487d4f036add31c4ff3649208618cbfea4f68de2",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-authorized/main.go.txt",
+      "expected": "62997a1abe93a06cc7b29acc4176b3e799a94c207738f6e376cf8a90d273f549",
+      "actual": "62997a1abe93a06cc7b29acc4176b3e799a94c207738f6e376cf8a90d273f549",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-authorized/main_test.go.txt",
+      "expected": "37f05d86ab4032ad1129ca7198720ef4b1b1d84a4b1d15d068150f598461da19",
+      "actual": "37f05d86ab4032ad1129ca7198720ef4b1b1d84a4b1d15d068150f598461da19",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-authorized/resources.go.txt",
+      "expected": "f3bf7f064b47861ddb3357376c3b4751b186b3d9545c9d26775b315978709c0c",
+      "actual": "f3bf7f064b47861ddb3357376c3b4751b186b3d9545c9d26775b315978709c0c",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-authorized/source-evidence.json",
+      "expected": "fb5edc859cc53495f9cdd1524df325448ee09379f5bb40a59a892b7b8fb29c65",
+      "actual": "fb5edc859cc53495f9cdd1524df325448ee09379f5bb40a59a892b7b8fb29c65",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-authorized/source-evidence.stderr",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-authorized/targeted.stderr",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-authorized/targeted.stdout",
+      "expected": "f4f4199ce6975d313548e246b4f6dfa922682fe264a697c77da0c25d18a81a9b",
+      "actual": "f4f4199ce6975d313548e246b4f6dfa922682fe264a697c77da0c25d18a81a9b",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-authorized/validation-status.txt",
+      "expected": "dcee9aafb303e4883c42d09707067dde58a8eacaf0c350835416193b3a34c16f",
+      "actual": "dcee9aafb303e4883c42d09707067dde58a8eacaf0c350835416193b3a34c16f",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-authorized/vet.stderr",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-authorized/vet.stdout",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility.md",
+      "expected": "134c04422293ed5cb3e3a95f110050dcb11ddb8a2a2304793341410846ab9702",
+      "actual": "134c04422293ed5cb3e3a95f110050dcb11ddb8a2a2304793341410846ab9702",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/SHA256SUMS",
+      "expected": "d8798a76f04c61ff4bb740dbd0981ee98c77d3a5effa22a0356cbb5e9f81be4e",
+      "actual": "d8798a76f04c61ff4bb740dbd0981ee98c77d3a5effa22a0356cbb5e9f81be4e",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/attempt-01/SHA256SUMS",
+      "expected": "7fefa88761208f70f0ee74dcc78dba464b2f6c4648959dc7e0f3707906f4e962",
+      "actual": "7fefa88761208f70f0ee74dcc78dba464b2f6c4648959dc7e0f3707906f4e962",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/attempt-01/check-result.json",
+      "expected": "c9e634f206da2269682c65ae77a28af12b506260bd3b2a3eeeff331e45b6a4dd",
+      "actual": "c9e634f206da2269682c65ae77a28af12b506260bd3b2a3eeeff331e45b6a4dd",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/attempt-01/check.cjs",
+      "expected": "d0e9d1bac993bc5f3ffccc8ee2c90ac4155c9789e8d12523b4599e10bde40660",
+      "actual": "d0e9d1bac993bc5f3ffccc8ee2c90ac4155c9789e8d12523b4599e10bde40660",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/attempt-01/darwin-arm64-compile.stderr",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/attempt-01/darwin-arm64-compile.stdout",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/attempt-01/darwin-arm64-format.txt",
+      "expected": "c521b0acb0961b29dbb344cbb66aaed8ec33f2a40a51fada0bbb632db8af08fe",
+      "actual": "c521b0acb0961b29dbb344cbb66aaed8ec33f2a40a51fada0bbb632db8af08fe",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/attempt-01/final-checks.txt",
+      "expected": "59a98afa525f0fe0d1109fecc86237fea08de129aabe4892fb35d7ad3d49811b",
+      "actual": "59a98afa525f0fe0d1109fecc86237fea08de129aabe4892fb35d7ad3d49811b",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/attempt-01/gate.go.txt",
+      "expected": "5e8b0d484794c7241def93a81db4301436ef7023a2548b6e5bbfd875e334ab19",
+      "actual": "5e8b0d484794c7241def93a81db4301436ef7023a2548b6e5bbfd875e334ab19",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/attempt-01/gate_resources_test.go.txt",
+      "expected": "a6cc33257cb2e093231b83e1573ee7a98708c2a882d6ea43ceede1dd5a505b4c",
+      "actual": "a6cc33257cb2e093231b83e1573ee7a98708c2a882d6ea43ceede1dd5a505b4c",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/attempt-01/implementation-record.md",
+      "expected": "6bbc40170afffdc02f7ed8fec39352791b9afeeaa9d041e68964ebb17b5057c7",
+      "actual": "6bbc40170afffdc02f7ed8fec39352791b9afeeaa9d041e68964ebb17b5057c7",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/attempt-01/implementation.patch",
+      "expected": "7c625c842040038b2ca21baf882b4e11ec8a724f69991c26b06168690bdef720",
+      "actual": "7c625c842040038b2ca21baf882b4e11ec8a724f69991c26b06168690bdef720",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/attempt-01/input-identity.json",
+      "expected": "878276bb0c6155f5279c9df99bae2920b01ac6730840e09a1474bba59cd04447",
+      "actual": "878276bb0c6155f5279c9df99bae2920b01ac6730840e09a1474bba59cd04447",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/attempt-01/main.go.txt",
+      "expected": "62997a1abe93a06cc7b29acc4176b3e799a94c207738f6e376cf8a90d273f549",
+      "actual": "62997a1abe93a06cc7b29acc4176b3e799a94c207738f6e376cf8a90d273f549",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/attempt-01/main_test.go.txt",
+      "expected": "df22f4a4046a10729a517db2f0489b8e0c76dc1db146ada51e3519ba1c064f79",
+      "actual": "df22f4a4046a10729a517db2f0489b8e0c76dc1db146ada51e3519ba1c064f79",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/attempt-01/resources.go.txt",
+      "expected": "3c83e6c5f06efab525c7c7bf8f69b471f4e89302e82e6f1ca1dc135421a915a9",
+      "actual": "3c83e6c5f06efab525c7c7bf8f69b471f4e89302e82e6f1ca1dc135421a915a9",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/attempt-01/source-evidence.json",
+      "expected": "0e7000c9317a3a6f05c24fedef19840cdbfea14232fd13480b7d086ca44841d6",
+      "actual": "0e7000c9317a3a6f05c24fedef19840cdbfea14232fd13480b7d086ca44841d6",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/attempt-01/source-evidence.stderr",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/attempt-01/targeted.stderr",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/attempt-01/targeted.stdout",
+      "expected": "2fa094deefe3d76d8684a393e8e2004f703e4dfb3ecc9c0d0b03944156c2de16",
+      "actual": "2fa094deefe3d76d8684a393e8e2004f703e4dfb3ecc9c0d0b03944156c2de16",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/attempt-01/validation-status.txt",
+      "expected": "1144e4d474ab7c367654718f47950877db0d2ff92220ac4fa87cd4b22b2a63c9",
+      "actual": "1144e4d474ab7c367654718f47950877db0d2ff92220ac4fa87cd4b22b2a63c9",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/attempt-01/vet.stderr",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/attempt-01/vet.stdout",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/check-result.json",
+      "expected": "d30c725b1c8593869d99d1336f0cdb234c2635320658235eb62b239124d81411",
+      "actual": "d30c725b1c8593869d99d1336f0cdb234c2635320658235eb62b239124d81411",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/check.cjs",
+      "expected": "71042536f711b552bf6ddd372f034fd87267a58f247d7fd2ea0779b672f868fb",
+      "actual": "71042536f711b552bf6ddd372f034fd87267a58f247d7fd2ea0779b672f868fb",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/darwin-arm64-compile.stderr",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/darwin-arm64-compile.stdout",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/darwin-arm64-format.txt",
+      "expected": "c521b0acb0961b29dbb344cbb66aaed8ec33f2a40a51fada0bbb632db8af08fe",
+      "actual": "c521b0acb0961b29dbb344cbb66aaed8ec33f2a40a51fada0bbb632db8af08fe",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/final-checks.txt",
+      "expected": "59a98afa525f0fe0d1109fecc86237fea08de129aabe4892fb35d7ad3d49811b",
+      "actual": "59a98afa525f0fe0d1109fecc86237fea08de129aabe4892fb35d7ad3d49811b",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/gate.go.txt",
+      "expected": "5e8b0d484794c7241def93a81db4301436ef7023a2548b6e5bbfd875e334ab19",
+      "actual": "5e8b0d484794c7241def93a81db4301436ef7023a2548b6e5bbfd875e334ab19",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/gate_resources_test.go.txt",
+      "expected": "6c3bc8da1061f2de266d323637df2b71e6437bff9975bb38ba816dbf17c60789",
+      "actual": "6c3bc8da1061f2de266d323637df2b71e6437bff9975bb38ba816dbf17c60789",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/implementation.patch",
+      "expected": "13661da04f3dbca1520199ac45bb14ab08c0a1b5d86f27426fda8bfab8174e8c",
+      "actual": "13661da04f3dbca1520199ac45bb14ab08c0a1b5d86f27426fda8bfab8174e8c",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/input-identity.json",
+      "expected": "878276bb0c6155f5279c9df99bae2920b01ac6730840e09a1474bba59cd04447",
+      "actual": "878276bb0c6155f5279c9df99bae2920b01ac6730840e09a1474bba59cd04447",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/main.go.txt",
+      "expected": "62997a1abe93a06cc7b29acc4176b3e799a94c207738f6e376cf8a90d273f549",
+      "actual": "62997a1abe93a06cc7b29acc4176b3e799a94c207738f6e376cf8a90d273f549",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/main_test.go.txt",
+      "expected": "df22f4a4046a10729a517db2f0489b8e0c76dc1db146ada51e3519ba1c064f79",
+      "actual": "df22f4a4046a10729a517db2f0489b8e0c76dc1db146ada51e3519ba1c064f79",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/resources.go.txt",
+      "expected": "3c83e6c5f06efab525c7c7bf8f69b471f4e89302e82e6f1ca1dc135421a915a9",
+      "actual": "3c83e6c5f06efab525c7c7bf8f69b471f4e89302e82e6f1ca1dc135421a915a9",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/source-evidence.json",
+      "expected": "f93293819f473096ee53b775908d4cd881f30b9f8ed7fee2419cf0355ef4e5f2",
+      "actual": "f93293819f473096ee53b775908d4cd881f30b9f8ed7fee2419cf0355ef4e5f2",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/source-evidence.stderr",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/targeted.stderr",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/targeted.stdout",
+      "expected": "f105a231d4a5f34109262818f4151224f34108a6e87833b72663e39b7929841a",
+      "actual": "f105a231d4a5f34109262818f4151224f34108a6e87833b72663e39b7929841a",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/validation-status.txt",
+      "expected": "1144e4d474ab7c367654718f47950877db0d2ff92220ac4fa87cd4b22b2a63c9",
+      "actual": "1144e4d474ab7c367654718f47950877db0d2ff92220ac4fa87cd4b22b2a63c9",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/vet.stderr",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-compatibility/vet.stdout",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-correction.md",
+      "expected": "1e301257b5df1a52d27918fdbbfce08fa6c7abc2af7704907e56cb944ddabef9",
+      "actual": "1e301257b5df1a52d27918fdbbfce08fa6c7abc2af7704907e56cb944ddabef9",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-correction/SHA256SUMS",
+      "expected": "dc8d105971d862b51c64e6bbe04f69067461ef80dbfecafe2f63595da86d99ee",
+      "actual": "dc8d105971d862b51c64e6bbe04f69067461ef80dbfecafe2f63595da86d99ee",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-correction/analyze-main.cjs",
+      "expected": "bedfcd10c57fb4ff02e0a45072dcf0ce8fd2d664910757fa1f797a0bbf2108fd",
+      "actual": "bedfcd10c57fb4ff02e0a45072dcf0ce8fd2d664910757fa1f797a0bbf2108fd",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-correction/main-analysis.json",
+      "expected": "ec90213755bace3b172aa95ba5aaa91f61972739e04abc5c62a0749533b04e23",
+      "actual": "ec90213755bace3b172aa95ba5aaa91f61972739e04abc5c62a0749533b04e23",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-correction/maintainer-output-receipt.json",
+      "expected": "c740e542c0bffdbe297c5de44390e133f04391da41f40b8d86eacd50bdfab3b7",
+      "actual": "c740e542c0bffdbe297c5de44390e133f04391da41f40b8d86eacd50bdfab3b7",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-correction/resource-sample.cjs",
+      "expected": "a491919583168772beb78bf6c999c030541de0743552d4e3ade7f77a840a8088",
+      "actual": "a491919583168772beb78bf6c999c030541de0743552d4e3ade7f77a840a8088",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-correction/resource-sample.json",
+      "expected": "d58f9e43eeec27d04ad2883099b382a6216f71a0ea8434575a22efb45ff95bd7",
+      "actual": "d58f9e43eeec27d04ad2883099b382a6216f71a0ea8434575a22efb45ff95bd7",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06-correction/restoration-checks.txt",
+      "expected": "ddbe30793bbb72206c1c0616f9e6c165309047bb42ecc1d173ac2f09bc3842a7",
+      "actual": "ddbe30793bbb72206c1c0616f9e6c165309047bb42ecc1d173ac2f09bc3842a7",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06.md",
+      "expected": "158b29eb9beb69715099ed9295c22e77b87eb376066c72324511bc1c6b39c317",
+      "actual": "158b29eb9beb69715099ed9295c22e77b87eb376066c72324511bc1c6b39c317",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06/SHA256SUMS",
+      "expected": "4ca274f1a1448d56b2650ef6b8747d547dca52987d44569482136b12b0a51deb",
+      "actual": "4ca274f1a1448d56b2650ef6b8747d547dca52987d44569482136b12b0a51deb",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06/check-result.json",
+      "expected": "5e801c0d8146ca9a94517d4885f86b1818ace93fc60eda36c4d1a8c234f9c38a",
+      "actual": "5e801c0d8146ca9a94517d4885f86b1818ace93fc60eda36c4d1a8c234f9c38a",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06/check.cjs",
+      "expected": "eb335856ea21067d2c9b9ddb2e9ad5e8e8300ac63e33d6247756da1901b315e7",
+      "actual": "eb335856ea21067d2c9b9ddb2e9ad5e8e8300ac63e33d6247756da1901b315e7",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06/final-checks.txt",
+      "expected": "59a98afa525f0fe0d1109fecc86237fea08de129aabe4892fb35d7ad3d49811b",
+      "actual": "59a98afa525f0fe0d1109fecc86237fea08de129aabe4892fb35d7ad3d49811b",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06/source-evidence.json",
+      "expected": "1fcfd707c5b2cb2ee8fd2ff9cdb9f1e2c62756c6fbf89ab3e311c4bfcaad99ab",
+      "actual": "1fcfd707c5b2cb2ee8fd2ff9cdb9f1e2c62756c6fbf89ab3e311c4bfcaad99ab",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06/source-evidence.stderr",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06/state.json",
+      "expected": "0f08a6944bf1ef200eba769d2b03c7838536b485e8ed772cefc2383352146cf2",
+      "actual": "0f08a6944bf1ef200eba769d2b03c7838536b485e8ed772cefc2383352146cf2",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06/targeted.stderr",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06/targeted.stdout",
+      "expected": "5abed51730f390d3ee8c65804ebeff3438dd2716eb3c3fa1344095d41ccb48bc",
+      "actual": "5abed51730f390d3ee8c65804ebeff3438dd2716eb3c3fa1344095d41ccb48bc",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06/validation-status.txt",
+      "expected": "dcee9aafb303e4883c42d09707067dde58a8eacaf0c350835416193b3a34c16f",
+      "actual": "dcee9aafb303e4883c42d09707067dde58a8eacaf0c350835416193b3a34c16f",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06/verification-budget.patch",
+      "expected": "d8f1a3f33b85b2d6cef474563c77edbb77cb9393df21312f55e64cbffdc675c0",
+      "actual": "d8f1a3f33b85b2d6cef474563c77edbb77cb9393df21312f55e64cbffdc675c0",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06/verify.log",
+      "expected": "8361a3d64091f4557be14e80d436754d016bccfa1395b4f91bf3e041e1265735",
+      "actual": "8361a3d64091f4557be14e80d436754d016bccfa1395b4f91bf3e041e1265735",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06/vet.stderr",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-06/vet.stdout",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08.md",
+      "expected": "8c256303a5abe59005789aac68bc73ceeed54319a9f04bf984fc157ad6487f22",
+      "actual": "8c256303a5abe59005789aac68bc73ceeed54319a9f04bf984fc157ad6487f22",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/SHA256SUMS",
+      "expected": "dcab3a6e7f3d6f2c7a991557a1cea0df1df7cbdf043d8ba31fb9393a96591448",
+      "actual": "dcab3a6e7f3d6f2c7a991557a1cea0df1df7cbdf043d8ba31fb9393a96591448",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/SOURCE-BASELINE.txt",
+      "expected": "1e2a6bb6dcc9b013a2fa499d81a8342f7e86dc297701a91f7b56c78183c99cad",
+      "actual": "1e2a6bb6dcc9b013a2fa499d81a8342f7e86dc297701a91f7b56c78183c99cad",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/capture-unit-initial-syntax.stdout",
+      "expected": "5ba127438729366af6f62cfdecb9c7f8c9535d2db07287b54db44943e24849c7",
+      "actual": "5ba127438729366af6f62cfdecb9c7f8c9535d2db07287b54db44943e24849c7",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/capture-unit-status.txt",
+      "expected": "39d784df56425fe4ce726e09bc13b0bbfd8a2a29007da4267ec75c5ab08f38c3",
+      "actual": "39d784df56425fe4ce726e09bc13b0bbfd8a2a29007da4267ec75c5ab08f38c3",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/capture-unit.stderr",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/capture-unit.stdout",
+      "expected": "d800ff140a42d37f1e5a3bc89f1a1fcf8a4776e75bad43f04770f53f88c734b9",
+      "actual": "d800ff140a42d37f1e5a3bc89f1a1fcf8a4776e75bad43f04770f53f88c734b9",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/cleanup.json",
+      "expected": "1aed94ab6ef0e1e86fda629b1afe9b87e48f532b9d4a836268683846d9e7791a",
+      "actual": "1aed94ab6ef0e1e86fda629b1afe9b87e48f532b9d4a836268683846d9e7791a",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/diagnostic-journeys.mjs.txt",
+      "expected": "32447692b38d05844bb212dcf5171bcbca7a7da49425f62e8671db466faa499c",
+      "actual": "32447692b38d05844bb212dcf5171bcbca7a7da49425f62e8671db466faa499c",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/diagnostic-status.txt",
+      "expected": "0ef79039468f65e8756846f7414db6632090d4feee18853777f23d802fcb1e3d",
+      "actual": "0ef79039468f65e8756846f7414db6632090d4feee18853777f23d802fcb1e3d",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/diagnostic.stderr",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/diagnostic.stdout",
+      "expected": "883595cc99a6f0af0dbb008e65373aa1a04a4547691e5af282209854617d6da0",
+      "actual": "883595cc99a6f0af0dbb008e65373aa1a04a4547691e5af282209854617d6da0",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/fixed-journey-status.txt",
+      "expected": "cfcea8fe1dd2d2a98ef043ff0a1f5355c55cf5945494a33012e323dd9499328c",
+      "actual": "cfcea8fe1dd2d2a98ef043ff0a1f5355c55cf5945494a33012e323dd9499328c",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/fixed-journey.stderr",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/fixed-journey.stdout",
+      "expected": "a94255184625b0212177b08a8cc4a00e8693569ea7c5d0f48fd6cefd056d1fa8",
+      "actual": "a94255184625b0212177b08a8cc4a00e8693569ea7c5d0f48fd6cefd056d1fa8",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/fixed-journeys.mjs.txt",
+      "expected": "e7d5f719cf002c1933aae12da62349133d63f2ef10bacd42274c657c5bcefc47",
+      "actual": "e7d5f719cf002c1933aae12da62349133d63f2ef10bacd42274c657c5bcefc47",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/journeys.patch",
+      "expected": "32bcb5dc34affa1aa01e7cf4a06a8f14428b4444e09fbe820ff97dfa1ef981bc",
+      "actual": "32bcb5dc34affa1aa01e7cf4a06a8f14428b4444e09fbe820ff97dfa1ef981bc",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/missing-done-mutation.patch",
+      "expected": "c07bb97e3d4b953ef918d5cf4acd6517f0a0688335e4106a99713b4543d1e716",
+      "actual": "c07bb97e3d4b953ef918d5cf4acd6517f0a0688335e4106a99713b4543d1e716",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/missing-done-status.txt",
+      "expected": "d2b38186cd54e4bb7f7032a6eca8815a950b131e4664ff0b17c9e87173632e22",
+      "actual": "d2b38186cd54e4bb7f7032a6eca8815a950b131e4664ff0b17c9e87173632e22",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/missing-done.stderr",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/missing-done.stdout",
+      "expected": "c132cd9c28e439faaa29c920c51dbd6e05077ba4755f316c8d9ca43b9e4682a1",
+      "actual": "c132cd9c28e439faaa29c920c51dbd6e05077ba4755f316c8d9ca43b9e4682a1",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/self-hosted-1280-47736.json",
+      "expected": "35b8f3fdabe3409c5ca1d6834876097153bd156617c32766a6e331a7096972fd",
+      "actual": "35b8f3fdabe3409c5ca1d6834876097153bd156617c32766a6e331a7096972fd",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/self-hosted-1280-48077.json",
+      "expected": "0f3ffa6b50e8d3d84a5c17645cbfcc2d4f6e572b2949364713c40d0b0f171919",
+      "actual": "0f3ffa6b50e8d3d84a5c17645cbfcc2d4f6e572b2949364713c40d0b0f171919",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/self-hosted-1280-48336.json",
+      "expected": "858ebaf0c0b87c820cc6966fc67a7bb5be7f6c6df8765a609da4dd93ee805dce",
+      "actual": "858ebaf0c0b87c820cc6966fc67a7bb5be7f6c6df8765a609da4dd93ee805dce",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/setup-no-tests-status.txt",
+      "expected": "ab64e85f4049fca1911f9e39489d35af34c569908cec1058d11dc3ea2e0e35a1",
+      "actual": "ab64e85f4049fca1911f9e39489d35af34c569908cec1058d11dc3ea2e0e35a1",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/setup-no-tests.stderr",
+      "expected": "31c9af3c7e4ef1d586ab8163e7c1368d78407b9d17f7f3efae04bce042a7456b",
+      "actual": "31c9af3c7e4ef1d586ab8163e7c1368d78407b9d17f7f3efae04bce042a7456b",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/setup-no-tests.stdout",
+      "expected": "1532111cb9ba245f92cec646ebe4e0ca5d56c6f2b07444831507e8a08a56395a",
+      "actual": "1532111cb9ba245f92cec646ebe4e0ca5d56c6f2b07444831507e8a08a56395a",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/source-evidence-status.txt",
+      "expected": "58ad7895ee64e24a4530f1320492d084ca6b6046da429069a23c4a87f71e34fd",
+      "actual": "58ad7895ee64e24a4530f1320492d084ca6b6046da429069a23c4a87f71e34fd",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/source-evidence.json",
+      "expected": "363b1d50c4fc873de429bf1f38a0912ec590cc5bee941539eb32b5a0b7421cf9",
+      "actual": "363b1d50c4fc873de429bf1f38a0912ec590cc5bee941539eb32b5a0b7421cf9",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/source-evidence.stderr",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/sse_diagnostic_test.go.txt",
+      "expected": "d154a6d706df900f9aba1b573ffdc8b9dccaad1258a83cb7a7f31379d4d9f1eb",
+      "actual": "d154a6d706df900f9aba1b573ffdc8b9dccaad1258a83cb7a7f31379d4d9f1eb",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/state.json",
+      "expected": "ddc71cb67e54b2937073a09168053a477c3be9678fd416e9fc0bce8b44a04a01",
+      "actual": "ddc71cb67e54b2937073a09168053a477c3be9678fd416e9fc0bce8b44a04a01",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/stream-capture.mjs.txt",
+      "expected": "c707bb56c6fe8eb0f293c9f51e6ef27f315fd601d83ad1faa4372fc726054cc3",
+      "actual": "c707bb56c6fe8eb0f293c9f51e6ef27f315fd601d83ad1faa4372fc726054cc3",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/stream-capture.test.mjs.txt",
+      "expected": "4a6c8ef86763026014bcf7e52a22da07f6ec9d873d60050e31e995d97bf15edf",
+      "actual": "4a6c8ef86763026014bcf7e52a22da07f6ec9d873d60050e31e995d97bf15edf",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/tests07-self-hosted.json",
+      "expected": "42a6f7c8f3f2898912cdafb0d2a86f765cdd82f7a41f8ce0891719198ca77669",
+      "actual": "42a6f7c8f3f2898912cdafb0d2a86f765cdd82f7a41f8ce0891719198ca77669",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/upstream-original.go.txt",
+      "expected": "954a774b0c629cba1d1654c5c5f1c5f4b2626121c7cef5d892d779cd22040ca2",
+      "actual": "954a774b0c629cba1d1654c5c5f1c5f4b2626121c7cef5d892d779cd22040ca2",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/verify.log",
+      "expected": "efd55d375788bd9620b35af4e370b5cd498a74325df22427839d648a383f40a9",
+      "actual": "efd55d375788bd9620b35af4e370b5cd498a74325df22427839d648a383f40a9",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-11-correction.md",
+      "expected": "4d6e3f09270360fc35404743afa42f6bdf037c9f1bfa03f7bceef21838f60425",
+      "actual": "4d6e3f09270360fc35404743afa42f6bdf037c9f1bfa03f7bceef21838f60425",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-11-correction/baseline.cjs",
+      "expected": "0ef948ce6834995ea527bbb868f5fd99b285b5ac04f175f3c42253ded3f56920",
+      "actual": "0ef948ce6834995ea527bbb868f5fd99b285b5ac04f175f3c42253ded3f56920",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-11-correction/check-status.txt",
+      "expected": "8c99e2b363d46b44ef6d4ecfc0d000718a6431029f609ad6015dcf3f408ae3be",
+      "actual": "8c99e2b363d46b44ef6d4ecfc0d000718a6431029f609ad6015dcf3f408ae3be",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-11-correction/diff-check.stderr",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-11-correction/diff-check.stdout",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-11-correction/document-boundary.patch",
+      "expected": "6f8534e307d6fb7c32e3cb73df71528e89f94543564f087fcb35b9246f2ae031",
+      "actual": "6f8534e307d6fb7c32e3cb73df71528e89f94543564f087fcb35b9246f2ae031",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-11-correction/git-status.txt",
+      "expected": "cb4bc89f9742b609282cb778b4e7a622382111936a3869268bf1819d6a722769",
+      "actual": "cb4bc89f9742b609282cb778b4e7a622382111936a3869268bf1819d6a722769",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-11-correction/implementation-before-correction.md",
+      "expected": "55688b7cb010bbb77f451c38476d8b036a51220cef5f4557ecda636798e4d0a7",
+      "actual": "55688b7cb010bbb77f451c38476d8b036a51220cef5f4557ecda636798e4d0a7",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-11-correction/opensandbox-run-sharing.md",
+      "expected": "3d881a85cbeaa5fcec0c72de2568a143988e7bc967bfc0f2e3f1cffa0185aff8",
+      "actual": "3d881a85cbeaa5fcec0c72de2568a143988e7bc967bfc0f2e3f1cffa0185aff8",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-11-correction/prior-manifest-check.stdout",
+      "expected": "824af56fca4f51f53fed939994df028a5b31f95975a1b9e867a2ad1928cb42ab",
+      "actual": "824af56fca4f51f53fed939994df028a5b31f95975a1b9e867a2ad1928cb42ab",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-11.md",
+      "expected": "69e56e1a612406c186c31b1e984fc0aa2126ce099d9fd420fd03194e174a980b",
+      "actual": "69e56e1a612406c186c31b1e984fc0aa2126ce099d9fd420fd03194e174a980b",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-11/SHA256SUMS",
+      "expected": "9a887d1a9777ef2b153faf117413178ab9c0fa54a25a755ed7eb7b6b7a0dc42b",
+      "actual": "9a887d1a9777ef2b153faf117413178ab9c0fa54a25a755ed7eb7b6b7a0dc42b",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-11/baseline-check.txt",
+      "expected": "bc4b430f02c71aaa3acde25316547f415b9b8ea43649b84368d323da872f8fff",
+      "actual": "bc4b430f02c71aaa3acde25316547f415b9b8ea43649b84368d323da872f8fff",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-11/check.cjs",
+      "expected": "68813e0bc6392013bfc53c7214a2ab0a3283d83520a065fb129a0051d03832f4",
+      "actual": "68813e0bc6392013bfc53c7214a2ab0a3283d83520a065fb129a0051d03832f4",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-11/check.stderr",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-11/check.stdout",
+      "expected": "97a8ad79514da8152c40676ea270061685d5b52232a7ae3b10cf22b7c8f362c1",
+      "actual": "97a8ad79514da8152c40676ea270061685d5b52232a7ae3b10cf22b7c8f362c1",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-11/diff-check.stderr",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-11/diff-check.stdout",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-11/document.patch",
+      "expected": "86d3ef859e5f86fe0bb917b60f2155aa1139a0e87207ec7bae562eed5a09d33a",
+      "actual": "86d3ef859e5f86fe0bb917b60f2155aa1139a0e87207ec7bae562eed5a09d33a",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-11/git-status.txt",
+      "expected": "cb4bc89f9742b609282cb778b4e7a622382111936a3869268bf1819d6a722769",
+      "actual": "cb4bc89f9742b609282cb778b4e7a622382111936a3869268bf1819d6a722769",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-11/opensandbox-run-sharing.md",
+      "expected": "e3e3131708b3017cd5545ed792c3e3179cb648cf3889356d26c58f98b496f9b6",
+      "actual": "e3e3131708b3017cd5545ed792c3e3179cb648cf3889356d26c58f98b496f9b6",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-11/source-evidence-initial.stderr",
+      "expected": "f5282d6b3ee668dfe5c21c3b916356e0dd4719987ba9d32a5b0e4da572ebe4f3",
+      "actual": "f5282d6b3ee668dfe5c21c3b916356e0dd4719987ba9d32a5b0e4da572ebe4f3",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-11/source-evidence-initial.stdout",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-11/source-evidence.json",
+      "expected": "363b1d50c4fc873de429bf1f38a0912ec590cc5bee941539eb32b5a0b7421cf9",
+      "actual": "363b1d50c4fc873de429bf1f38a0912ec590cc5bee941539eb32b5a0b7421cf9",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-11/source-evidence.stderr",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-11/validation-initial-status.txt",
+      "expected": "3a618dfa4136844025c80ba8b97efd55b21313cf053591a30cd2c1657d37b29f",
+      "actual": "3a618dfa4136844025c80ba8b97efd55b21313cf053591a30cd2c1657d37b29f",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-11/validation-status.txt",
+      "expected": "5e09c44df69c4a81842ed05abffa15413ef1e6cbae2992f9a75efee16486be44",
+      "actual": "5e09c44df69c4a81842ed05abffa15413ef1e6cbae2992f9a75efee16486be44",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/first-round/SHA256SUMS",
+      "expected": "9b5c1f5e8a87a229d324c5a72ee910ad6e542fe2cf924c45939e8a7a80a11a7f",
+      "actual": "9b5c1f5e8a87a229d324c5a72ee910ad6e542fe2cf924c45939e8a7a80a11a7f",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/first-round/candidate/README.md",
+      "expected": "a6cc95367efb18da2c63ff5c4a861beb362a6ab75fc8287f2f9a0f113d1664ad",
+      "actual": "a6cc95367efb18da2c63ff5c4a861beb362a6ab75fc8287f2f9a0f113d1664ad",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/first-round/candidate/docs/harness/issue42-candidate-continuation.md",
+      "expected": "b2bb7f989681161060ec20b28ac8efd1e972afccb1f792dc7277a7fd86156a91",
+      "actual": "b2bb7f989681161060ec20b28ac8efd1e972afccb1f792dc7277a7fd86156a91",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/first-round/candidate/docs/workflow/runs/e65c964ce9faf29e35271270d751cedb/harness-cooldown-fixture-fix.md",
+      "expected": "68c7df51b776ee067182c7e751051f72b23d4bcefcc3e86656302c47d579559c",
+      "actual": "68c7df51b776ee067182c7e751051f72b23d4bcefcc3e86656302c47d579559c",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/first-round/candidate/docs/workflow/runs/e65c964ce9faf29e35271270d751cedb/harness-verifier-fix.md",
+      "expected": "e2bb231fb451ad07fed06ea1da632597e9a9e54ece6f4a56f0ec8dfec1592e1f",
+      "actual": "e2bb231fb451ad07fed06ea1da632597e9a9e54ece6f4a56f0ec8dfec1592e1f",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/first-round/candidate/go.mod",
+      "expected": "63ef5d4f16b95a56d4ac6ee09fb236039aef09f1d06c1f574ac36ea7e6fb2e20",
+      "actual": "63ef5d4f16b95a56d4ac6ee09fb236039aef09f1d06c1f574ac36ea7e6fb2e20",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/first-round/candidate/internal/relay/routing_http_test.go",
+      "expected": "0018956b4e78f792ad26b789b215e66c31a75bf12a7f683e4ba9eb2249ae8572",
+      "actual": "0018956b4e78f792ad26b789b215e66c31a75bf12a7f683e4ba9eb2249ae8572",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/first-round/candidate/tests/review-history/main.go",
+      "expected": "eaa988821fccf011d9fc63795ea5933f3f7acb734ffe22830cbff8f6eafcf355",
+      "actual": "eaa988821fccf011d9fc63795ea5933f3f7acb734ffe22830cbff8f6eafcf355",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/first-round/candidate/tests/review-history/main_test.go",
+      "expected": "ebdd0554efd7f73155324f9d5034e71a72fe1baaced6747c066485f5443a8bfa",
+      "actual": "ebdd0554efd7f73155324f9d5034e71a72fe1baaced6747c066485f5443a8bfa",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/first-round/checks.txt",
+      "expected": "5cfefd87f2eab4a63ae604e4a1e2cdedb3ccaad0ccf099ee1cd930cf9e0b6e4d",
+      "actual": "5cfefd87f2eab4a63ae604e4a1e2cdedb3ccaad0ccf099ee1cd930cf9e0b6e4d",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/first-round/opensandbox-run-sharing.md",
+      "expected": "7792bfaafcb7202f1f2ac5901a1672a078cec18eac5445705dc3bf8e0707184b",
+      "actual": "7792bfaafcb7202f1f2ac5901a1672a078cec18eac5445705dc3bf8e0707184b",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/frozen-identity.json",
+      "expected": "80d604d440b86fbb560457831cfe946af3d5ef9643d1fd23dd7aa90a14d4803a",
+      "actual": "80d604d440b86fbb560457831cfe946af3d5ef9643d1fd23dd7aa90a14d4803a",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/qa-10.md",
+      "expected": "bca2159b81a59ead2f8056cab5d64dedd33853106d9faabe95bfabcbd9a831c6",
+      "actual": "bca2159b81a59ead2f8056cab5d64dedd33853106d9faabe95bfabcbd9a831c6",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/qa-10/SHA256SUMS",
+      "expected": "4c0c1179c525493f3e4552b2d18d5a9f9b16866fc2fec4e0d6e65a123193884a",
+      "actual": "4c0c1179c525493f3e4552b2d18d5a9f9b16866fc2fec4e0d6e65a123193884a",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/qa-10/audit-after.json",
+      "expected": "9b556d179f78b4e62ac5a4e4f8df2b3af642e569e35b1c81013db2161918e52f",
+      "actual": "9b556d179f78b4e62ac5a4e4f8df2b3af642e569e35b1c81013db2161918e52f",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/qa-10/audit-after.stderr",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/qa-10/audit-before.json",
+      "expected": "56db2ed5a0f134918f5cfd888a6f47b31e59267f24ea357191234129b6cb0ea4",
+      "actual": "56db2ed5a0f134918f5cfd888a6f47b31e59267f24ea357191234129b6cb0ea4",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/qa-10/audit-before.stderr",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/qa-10/audit.cjs",
+      "expected": "f0fd219575c2029383d6ece60eeb0bd309abcfbd776531bd0ac7dffef2a93d36",
+      "actual": "f0fd219575c2029383d6ece60eeb0bd309abcfbd776531bd0ac7dffef2a93d36",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/qa-10/go-facility.stderr",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/qa-10/go-facility.stdout",
+      "expected": "5d0ea1582b159dd8970d4bb59561c6f274c585d644e3ddf6c67800a6855dd265",
+      "actual": "5d0ea1582b159dd8970d4bb59561c6f274c585d644e3ddf6c67800a6855dd265",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/qa-10/routing-http.stderr",
+      "expected": "c7a0835f12f5a79d37b8222bff50f192bb29e6416c0cb4f4e113871c5104110b",
+      "actual": "c7a0835f12f5a79d37b8222bff50f192bb29e6416c0cb4f4e113871c5104110b",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/qa-10/routing-http.stdout",
+      "expected": "37b0916dd43c02263c38c7a978265f315070e549474d11739e06f36eb8fcbe30",
+      "actual": "37b0916dd43c02263c38c7a978265f315070e549474d11739e06f36eb8fcbe30",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/qa-10/source-evidence.json",
+      "expected": "363b1d50c4fc873de429bf1f38a0912ec590cc5bee941539eb32b5a0b7421cf9",
+      "actual": "363b1d50c4fc873de429bf1f38a0912ec590cc5bee941539eb32b5a0b7421cf9",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/qa-10/source-evidence.stderr",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/qa-10/status.txt",
+      "expected": "71f58230677d21ea2f453b3ddf7890f7a84f7beaec0775946c0b1b979ff0eb31",
+      "actual": "71f58230677d21ea2f453b3ddf7890f7a84f7beaec0775946c0b1b979ff0eb31",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/qa-10/stream-capture.stderr",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/qa-10/stream-capture.stdout",
+      "expected": "621b009b2faf7f551c87b8d8c26b45ba3e453952435054724fe0e83324efefde",
+      "actual": "621b009b2faf7f551c87b8d8c26b45ba3e453952435054724fe0e83324efefde",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/qa-10/tests09-state.json",
+      "expected": "25b92b76d3ea1e6456fe07e99c37f82492c82d01bb5138354fceef6ae8508188",
+      "actual": "25b92b76d3ea1e6456fe07e99c37f82492c82d01bb5138354fceef6ae8508188",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/qa-10/tests09-verify.log",
+      "expected": "6b689697cbd4243c31d122feec3a7ee48fbfbf8e0107060a9538a18b5cc44254",
+      "actual": "6b689697cbd4243c31d122feec3a7ee48fbfbf8e0107060a9538a18b5cc44254",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/e65c964ce9faf29e35271270d751cedb/harness-cooldown-fixture-fix.md",
+      "expected": "68c7df51b776ee067182c7e751051f72b23d4bcefcc3e86656302c47d579559c",
+      "actual": "68c7df51b776ee067182c7e751051f72b23d4bcefcc3e86656302c47d579559c",
+      "ok": true
+    },
+    {
+      "path": "docs/workflow/runs/e65c964ce9faf29e35271270d751cedb/harness-verifier-fix.md",
+      "expected": "e2bb231fb451ad07fed06ea1da632597e9a9e54ece6f4a56f0ec8dfec1592e1f",
+      "actual": "e2bb231fb451ad07fed06ea1da632597e9a9e54ece6f4a56f0ec8dfec1592e1f",
+      "ok": true
+    },
+    {
+      "path": "go.mod",
+      "expected": "43a61905ab453f007d88c21bd3066453570fb6d9bd533247b94b81612b615477",
+      "actual": "43a61905ab453f007d88c21bd3066453570fb6d9bd533247b94b81612b615477",
+      "ok": true
+    },
+    {
+      "path": "go.sum",
+      "expected": "9afb7f3a178eab537ac50d13d8f518553386f2ebf4e0fce528cbc6b2f8be99d5",
+      "actual": "9afb7f3a178eab537ac50d13d8f518553386f2ebf4e0fce528cbc6b2f8be99d5",
+      "ok": true
+    },
+    {
+      "path": "harness-output/qa-revise-10.md",
+      "expected": "bca2159b81a59ead2f8056cab5d64dedd33853106d9faabe95bfabcbd9a831c6",
+      "actual": "bca2159b81a59ead2f8056cab5d64dedd33853106d9faabe95bfabcbd9a831c6",
+      "ok": true
+    },
+    {
+      "path": "internal/relay/routing_http_test.go",
+      "expected": "0018956b4e78f792ad26b789b215e66c31a75bf12a7f683e4ba9eb2249ae8572",
+      "actual": "0018956b4e78f792ad26b789b215e66c31a75bf12a7f683e4ba9eb2249ae8572",
+      "ok": true
+    },
+    {
+      "path": "package-lock.json",
+      "expected": "05459652f98128ebcb6786e2d80bf694d23c437c0d4f7d45c56371da511bc688",
+      "actual": "05459652f98128ebcb6786e2d80bf694d23c437c0d4f7d45c56371da511bc688",
+      "ok": true
+    },
+    {
+      "path": "package.json",
+      "expected": "1a2755144abab6752719532bd09707cc2a09067d29d60e406cb3835999e89a3a",
+      "actual": "1a2755144abab6752719532bd09707cc2a09067d29d60e406cb3835999e89a3a",
+      "ok": true
+    },
+    {
+      "path": "tests/browser/journeys.mjs",
+      "expected": "e7d5f719cf002c1933aae12da62349133d63f2ef10bacd42274c657c5bcefc47",
+      "actual": "e7d5f719cf002c1933aae12da62349133d63f2ef10bacd42274c657c5bcefc47",
+      "ok": true
+    },
+    {
+      "path": "tests/browser/stream-capture.mjs",
+      "expected": "c707bb56c6fe8eb0f293c9f51e6ef27f315fd601d83ad1faa4372fc726054cc3",
+      "actual": "c707bb56c6fe8eb0f293c9f51e6ef27f315fd601d83ad1faa4372fc726054cc3",
+      "ok": true
+    },
+    {
+      "path": "tests/browser/stream-capture.test.mjs",
+      "expected": "4a6c8ef86763026014bcf7e52a22da07f6ec9d873d60050e31e995d97bf15edf",
+      "actual": "4a6c8ef86763026014bcf7e52a22da07f6ec9d873d60050e31e995d97bf15edf",
+      "ok": true
+    },
+    {
+      "path": "tests/review-history/main.go",
+      "expected": "eaa988821fccf011d9fc63795ea5933f3f7acb734ffe22830cbff8f6eafcf355",
+      "actual": "eaa988821fccf011d9fc63795ea5933f3f7acb734ffe22830cbff8f6eafcf355",
+      "ok": true
+    },
+    {
+      "path": "tests/review-history/main_test.go",
+      "expected": "ebdd0554efd7f73155324f9d5034e71a72fe1baaced6747c066485f5443a8bfa",
+      "actual": "ebdd0554efd7f73155324f9d5034e71a72fe1baaced6747c066485f5443a8bfa",
+      "ok": true
+    },
+    {
+      "path": "tests/verify/gate.go",
+      "expected": "5e8b0d484794c7241def93a81db4301436ef7023a2548b6e5bbfd875e334ab19",
+      "actual": "5e8b0d484794c7241def93a81db4301436ef7023a2548b6e5bbfd875e334ab19",
+      "ok": true
+    },
+    {
+      "path": "tests/verify/gate_resources_test.go",
+      "expected": "6c3bc8da1061f2de266d323637df2b71e6437bff9975bb38ba816dbf17c60789",
+      "actual": "6c3bc8da1061f2de266d323637df2b71e6437bff9975bb38ba816dbf17c60789",
+      "ok": true
+    },
+    {
+      "path": "tests/verify/main.go",
+      "expected": "62997a1abe93a06cc7b29acc4176b3e799a94c207738f6e376cf8a90d273f549",
+      "actual": "62997a1abe93a06cc7b29acc4176b3e799a94c207738f6e376cf8a90d273f549",
+      "ok": true
+    },
+    {
+      "path": "tests/verify/main_test.go",
+      "expected": "df22f4a4046a10729a517db2f0489b8e0c76dc1db146ada51e3519ba1c064f79",
+      "actual": "df22f4a4046a10729a517db2f0489b8e0c76dc1db146ada51e3519ba1c064f79",
+      "ok": true
+    },
+    {
+      "path": "tests/verify/resources.go",
+      "expected": "3c83e6c5f06efab525c7c7bf8f69b471f4e89302e82e6f1ca1dc135421a915a9",
+      "actual": "3c83e6c5f06efab525c7c7bf8f69b471f4e89302e82e6f1ca1dc135421a915a9",
+      "ok": true
+    }
+  ],
+  "baseline_bindings_unchanged": true,
+  "exit_code": 0,
+  "scope": "QA followup independently reread all 214 delivery files; not runner sampling"
+}

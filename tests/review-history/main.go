@@ -6,6 +6,7 @@ import (
 	"context"
 	"crypto/sha256"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
 	"os/exec"
@@ -49,16 +50,23 @@ func run() error {
 	defer cancel()
 	command := exec.CommandContext(ctx, "go", "test", "-json", "-race", "-count=1", "-run", "^TestConsoleReview.*ActualHTTP$", "./internal/relay")
 	command.Dir = directory
-	output, runErr := command.CombinedOutput()
+	var output, diagnostics bytes.Buffer
+	command.Stdout, command.Stderr = &output, &diagnostics
+	runErr := command.Run()
+	fmt.Fprint(os.Stderr, diagnostics.String())
+	reject := func(err error) error {
+		fmt.Fprintf(os.Stderr, "historical stdout:\n%s", output.Bytes())
+		return err
+	}
 	var failed []string
 	observations := []map[string]string{}
 	var evidence strings.Builder
-	scanner := bufio.NewScanner(bytes.NewReader(output))
+	scanner := bufio.NewScanner(bytes.NewReader(output.Bytes()))
 	scanner.Buffer(make([]byte, 4096), 1024*1024)
 	for scanner.Scan() {
 		var event struct{ Action, Test, Output string }
-		if json.Unmarshal(scanner.Bytes(), &event) != nil {
-			return fmt.Errorf("unparsed baseline output")
+		if err := json.Unmarshal(scanner.Bytes(), &event); err != nil {
+			return reject(fmt.Errorf("unparsed baseline output: %w", err))
 		}
 		if event.Action == "fail" && event.Test != "" {
 			failed = append(failed, event.Test)
@@ -69,16 +77,23 @@ func run() error {
 		}
 	}
 	if err := scanner.Err(); err != nil {
-		return err
+		return reject(err)
 	}
 	if ctx.Err() != nil {
-		return fmt.Errorf("historical test timed out")
+		return reject(fmt.Errorf("historical test timed out"))
 	}
 	if runErr == nil {
-		return fmt.Errorf("baseline did not fail")
+		return reject(fmt.Errorf("baseline did not fail"))
+	}
+	var exitError *exec.ExitError
+	if !errors.As(runErr, &exitError) || exitError.ExitCode() != 1 {
+		return reject(fmt.Errorf("historical execution failed; not business red: %w", runErr))
 	}
 	if err := assess(failed, evidence.String()); err != nil {
-		return err
+		return reject(err)
+	}
+	if err := assess(failed, evidence.String()+diagnostics.String()); err != nil {
+		return reject(err)
 	}
 	fmt.Printf("historical controlled actual HTTP reconstruction (not original development-time receipt) baseline=%s archive_sha256=%x regression_sha256=%x exit_code=1\n", baseline, sha256.Sum256(archive), sha256.Sum256(source))
 	if err := json.NewEncoder(os.Stdout).Encode(map[string]any{"historical_actual_http_assertions": observations}); err != nil {

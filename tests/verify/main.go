@@ -38,6 +38,11 @@ type receipt struct {
 	Versions           map[string]string `json:"versions"`
 	DependencyReceipt  string            `json:"dependency_receipt,omitempty"`
 	GateExit           int               `json:"gate_exit"`
+	GateBudgetMS       int64             `json:"gate_configured_budget_ms"`
+	Gate               *commandReceipt   `json:"gate,omitempty"`
+	ResourcesBefore    resourceSnapshot  `json:"resources_before"`
+	ResourcesAfter     resourceSnapshot  `json:"resources_after"`
+	ResourceDelta      *resourceDelta    `json:"resource_delta,omitempty"`
 	Exit               int               `json:"exit_code"`
 	LogSHA256          string            `json:"log_sha256"`
 	LogBytes           int64             `json:"log_bytes"`
@@ -68,6 +73,10 @@ func main() {
 }
 
 func run(ctx context.Context) (result error) {
+	return runWithSampler(ctx, sampleResources)
+}
+
+func runWithSampler(ctx context.Context, sampler func() resourceSnapshot) (result error) {
 	source, err := os.Getwd()
 	if err != nil {
 		return err
@@ -82,12 +91,25 @@ func run(ctx context.Context) (result error) {
 	}
 	fmt.Println("verification_receipt=" + filepath.ToSlash(strings.TrimPrefix(output, source+string(os.PathSeparator))))
 	state := receipt{StartedUTC: time.Now().UTC().Format(time.RFC3339Nano), Command: "make verify -> isolated make verify-gates", Isolation: "new private candidate; git history read-only", NodePath: "unset", ManualPreinstall: "none", Versions: map[string]string{}, GateExit: -1, Exit: 1, Cleanup: "not_started"}
+	state.GateBudgetMS = verificationGateBudget.Milliseconds()
 	logFile, err := os.OpenFile(filepath.Join(output, "verify.log"), os.O_CREATE|os.O_EXCL|os.O_WRONLY, 0600)
 	if err != nil {
 		return err
 	}
 	redaction := newLog(io.MultiWriter(logFile, os.Stdout), source, "", os.Getenv("HOME"))
 	defer func() {
+		state.ResourcesAfter = sampler()
+		var deltaErr error
+		state.ResourceDelta, deltaErr = resourceDifference(state.ResourcesBefore, state.ResourcesAfter)
+		result = errors.Join(result, resourceSampleError("after", state.ResourcesAfter), deltaErr)
+		resourceData, _ := json.Marshal(state.ResourcesAfter)
+		_, resourceWriteErr := fmt.Fprintln(redaction, "RESOURCE_AFTER", string(resourceData))
+		result = errors.Join(result, resourceWriteErr)
+		if state.ResourceDelta != nil {
+			deltaData, _ := json.Marshal(state.ResourceDelta)
+			_, deltaWriteErr := fmt.Fprintln(redaction, "RESOURCE_DELTA", string(deltaData))
+			result = errors.Join(result, deltaWriteErr)
+		}
 		if result != nil {
 			fmt.Fprintln(redaction, "FAILED:", result)
 		}
@@ -123,6 +145,14 @@ func run(ctx context.Context) (result error) {
 		}
 	}()
 	redaction.replacer = pathRedactor(source, temporary, os.TempDir(), os.Getenv("HOME"))
+	state.ResourcesBefore = sampler()
+	resourceData, _ := json.Marshal(state.ResourcesBefore)
+	if _, err = fmt.Fprintln(redaction, "RESOURCE_BEFORE", string(resourceData)); err != nil {
+		return err
+	}
+	if err = resourceSampleError("before", state.ResourcesBefore); err != nil {
+		return err
+	}
 	files, err := captureCommand(ctx, "source-inventory", exec.Command("git", "ls-files", "--cached", "--others", "--exclude-standard", "-z"), redaction, &state)
 	if err != nil {
 		return fmt.Errorf("source inventory: %w", err)
@@ -176,21 +206,7 @@ func run(ctx context.Context) (result error) {
 	}
 	encoded, _ := json.Marshal(state)
 	fmt.Fprintln(redaction, "CLEAN_START", string(encoded))
-	gateCtx, gateCancel := context.WithTimeout(ctx, 12*time.Minute)
-	defer gateCancel()
-	command := exec.CommandContext(gateCtx, "make", "verify-gates")
-	command.Dir, command.Env = temporary, environment
-	state.GateExit, err = execute(gateCtx, command, redaction)
-	if command.Process != nil {
-		state.Cleanup = "owned_process_group_cleanup_attempted"
-		absent := ownedGroupAbsent(command.Process.Pid)
-		state.OwnedGroupAbsent = &absent
-		if !absent {
-			err = errors.Join(err, errors.New("owned process group remains after bounded cleanup"))
-		}
-	} else {
-		state.Cleanup = "gate_process_not_started"
-	}
+	err = executeVerificationGate(ctx, exec.Command("make", "verify-gates"), temporary, environment, redaction, &state, verificationGateBudget)
 	state.After, result = sourceEvidence(ctx, temporary, environment, redaction, &state)
 	result = errors.Join(err, result)
 	state.NodeModulesAfter = exists(filepath.Join(temporary, "node_modules"))

@@ -1,0 +1,84 @@
+{
+  "sample_utc": "2026-10-14T17:52:23.446Z",
+  "head": "1d581652736fbac4e8862b70367181c8a9f2f8b2",
+  "delivery": {
+    "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-08/SHA256SUMS",
+    "sha256": "dcab3a6e7f3d6f2c7a991557a1cea0df1df7cbdf043d8ba31fb9393a96591448",
+    "entries": 164,
+    "all_match": true
+  },
+  "first_round": {
+    "path": "docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/first-round/SHA256SUMS",
+    "sha256": "9b5c1f5e8a87a229d324c5a72ee910ad6e542fe2cf924c45939e8a7a80a11a7f",
+    "entries": 11,
+    "all_match": true
+  },
+  "document_sha256": "7792bfaafcb7202f1f2ac5901a1672a078cec18eac5445705dc3bf8e0707184b",
+  "missing_required_section": true,
+  "tests9": {
+    "project_receipt": "test-results/verification/20261014T173037Z-3756242626",
+    "log_bytes": 1150513,
+    "log_sha256": "6b689697cbd4243c31d122feec3a7ee48fbfbf8e0107060a9538a18b5cc44254",
+    "full_local_log_read": true,
+    "platform_log_review": "seq9 first page and final page to EOF; middle pages not fetched; no claim of full platform-envelope traversal",
+    "exit": 0,
+    "cold_start": true,
+    "source": {
+      "files": 163,
+      "go": "go1.25.6",
+      "head": "1d581652736fbac4e8862b70367181c8a9f2f8b2",
+      "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+      "working_tree_sha256": "991c79ca919b3d0ccf148c066c3b24d993090fcb78ab864c0e4637cfff8040ba"
+    },
+    "gate": {
+      "stage": "verify-gates",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T17:30:49.025696893Z",
+      "budget_ms": 1439999,
+      "execute_ms": 971282,
+      "group_check_ms": 0
+    },
+    "phases": [
+      {
+        "name": "migration",
+        "utc": "2026-10-14T17:35:38.571079Z",
+        "elapsed_ms": 15493,
+        "ok": "true"
+      },
+      {
+        "name": "legacy-ui",
+        "utc": "2026-10-14T17:38:52.927624516Z",
+        "elapsed_ms": 194099,
+        "ok": "true"
+      },
+      {
+        "name": "routing",
+        "utc": "2026-10-14T17:42:26.804846754Z",
+        "elapsed_ms": 213877,
+        "ok": "true"
+      },
+      {
+        "name": "console",
+        "utc": "2026-10-14T17:43:01.494627084Z",
+        "elapsed_ms": 34688,
+        "ok": "true"
+      },
+      {
+        "name": "full-console",
+        "utc": "2026-10-14T17:47:00.290118661Z",
+        "elapsed_ms": 238795,
+        "ok": "true"
+      }
+    ],
+    "cleanup": "owned_process_group_cleanup_attempted; candidate_removed",
+    "resource_delta_recomputed": true,
+    "resource_scope": "shared visible cgroup between samples; not per-process or sole causal attribution"
+  },
+  "credential_presence_only": {
+    "GITHUB_TOKEN": false,
+    "GH_TOKEN": false,
+    "GIT_ASKPASS": false
+  }
+}

@@ -1,0 +1,235 @@
+{
+  "started_utc": "2026-10-14T18:07:56.252877974Z",
+  "finished_utc": "2026-10-14T18:24:51.32045181Z",
+  "command": "make verify -\u003e isolated make verify-gates",
+  "isolation": "new private candidate; git history read-only",
+  "node_modules_before": false,
+  "clean_start_measured": true,
+  "npm_cache_before": false,
+  "node_modules_after": true,
+  "npm_cache_after": true,
+  "source_unchanged": true,
+  "candidate_unchanged": true,
+  "NODE_PATH": "unset",
+  "manual_preinstall": "none",
+  "source_before": {
+    "files": 163,
+    "go": "go1.25.6",
+    "head": "1d581652736fbac4e8862b70367181c8a9f2f8b2",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "991c79ca919b3d0ccf148c066c3b24d993090fcb78ab864c0e4637cfff8040ba"
+  },
+  "source_after": {
+    "files": 163,
+    "go": "go1.25.6",
+    "head": "1d581652736fbac4e8862b70367181c8a9f2f8b2",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "991c79ca919b3d0ccf148c066c3b24d993090fcb78ab864c0e4637cfff8040ba"
+  },
+  "versions": {
+    "go": "go version go1.25.6 linux/amd64",
+    "node": "v22.22.0",
+    "npm": "10.9.4"
+  },
+  "dependency_receipt": "playwright=1.59.1; resolution=candidate/node_modules\nplaywright-core=1.59.1; resolution=candidate/node_modules\nchromium=Google Chrome for Testing 147.0.7727.15",
+  "gate_exit": 0,
+  "gate_configured_budget_ms": 1440000,
+  "gate": {
+    "stage": "verify-gates",
+    "exit": 0,
+    "cancelled": false,
+    "owned_group_absent": true,
+    "started_utc": "2026-10-14T18:08:11.314675731Z",
+    "budget_ms": 1439999,
+    "execute_ms": 998870,
+    "group_check_ms": 0
+  },
+  "resources_before": {
+    "goos": "linux",
+    "cgroup_metrics_status": "available",
+    "sample_started_utc": "2026-10-14T18:07:56.253326543Z",
+    "sample_finished_utc": "2026-10-14T18:07:56.253647561Z",
+    "cgroup_identity_sha256": "8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1",
+    "values": {
+      "cpu.max": "200000 100000",
+      "cpu.stat": "usage_usec 4323293247\nuser_usec 3581725785\nsystem_usec 741567461\ncore_sched.force_idle_usec 0\nnr_periods 59495\nnr_throttled 7018\nthrottled_usec 331959080\nnr_bursts 0\nburst_usec 0",
+      "cpuset.cpus.effective": "0-111",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+      "memory.max": "8589934592",
+      "process_allowed_cpu_list": "0-111"
+    },
+    "counters": {
+      "cpu.stat.nr_periods": 59495,
+      "cpu.stat.nr_throttled": 7018,
+      "cpu.stat.system_usec": 741567461,
+      "cpu.stat.throttled_usec": 331959080,
+      "cpu.stat.usage_usec": 4323293247,
+      "cpu.stat.user_usec": 3581725785,
+      "memory.events.high": 0,
+      "memory.events.low": 0,
+      "memory.events.max": 0,
+      "memory.events.oom": 0,
+      "memory.events.oom_group_kill": 0,
+      "memory.events.oom_kill": 0
+    },
+    "runtime_num_cpu": 112,
+    "runtime_gomaxprocs": 2
+  },
+  "resources_after": {
+    "goos": "linux",
+    "cgroup_metrics_status": "available",
+    "sample_started_utc": "2026-10-14T18:24:51.318447735Z",
+    "sample_finished_utc": "2026-10-14T18:24:51.318704952Z",
+    "cgroup_identity_sha256": "8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1",
+    "values": {
+      "cpu.max": "200000 100000",
+      "cpu.stat": "usage_usec 5694810235\nuser_usec 4713900259\nsystem_usec 980909975\ncore_sched.force_idle_usec 0\nnr_periods 69087\nnr_throttled 9067\nthrottled_usec 419721510\nnr_bursts 0\nburst_usec 0",
+      "cpuset.cpus.effective": "0-111",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+      "memory.max": "8589934592",
+      "process_allowed_cpu_list": "0-111"
+    },
+    "counters": {
+      "cpu.stat.nr_periods": 69087,
+      "cpu.stat.nr_throttled": 9067,
+      "cpu.stat.system_usec": 980909975,
+      "cpu.stat.throttled_usec": 419721510,
+      "cpu.stat.usage_usec": 5694810235,
+      "cpu.stat.user_usec": 4713900259,
+      "memory.events.high": 0,
+      "memory.events.low": 0,
+      "memory.events.max": 0,
+      "memory.events.oom": 0,
+      "memory.events.oom_group_kill": 0,
+      "memory.events.oom_kill": 0
+    },
+    "runtime_num_cpu": 112,
+    "runtime_gomaxprocs": 2
+  },
+  "resource_delta": {
+    "from_utc": "2026-10-14T18:07:56.253647561Z",
+    "to_utc": "2026-10-14T18:24:51.318704952Z",
+    "scope": "shared visible cgroup between samples; not per-process or sole causal attribution",
+    "counters": {
+      "cpu.stat.nr_periods": 9592,
+      "cpu.stat.nr_throttled": 2049,
+      "cpu.stat.system_usec": 239342514,
+      "cpu.stat.throttled_usec": 87762430,
+      "cpu.stat.usage_usec": 1371516988,
+      "cpu.stat.user_usec": 1132174474,
+      "memory.events.high": 0,
+      "memory.events.low": 0,
+      "memory.events.max": 0,
+      "memory.events.oom": 0,
+      "memory.events.oom_group_kill": 0,
+      "memory.events.oom_kill": 0
+    }
+  },
+  "exit_code": 0,
+  "log_sha256": "9856236d5b7cdd9e31970e46dc3a5020d9e166c3659f25626c366abfdb23dc82",
+  "log_bytes": 1155178,
+  "cleanup": "owned_process_group_cleanup_attempted; candidate_removed",
+  "owned_group_absent": true,
+  "auxiliary_commands": [
+    {
+      "stage": "source-inventory",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T18:07:56.25376663Z",
+      "budget_ms": 119999,
+      "execute_ms": 18,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "git-directory",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T18:08:03.985473224Z",
+      "budget_ms": 119999,
+      "execute_ms": 3,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T18:08:03.989719128Z",
+      "budget_ms": 119999,
+      "execute_ms": 7151,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T18:08:11.141252775Z",
+      "budget_ms": 119999,
+      "execute_ms": 80,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "prerequisite-go",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T18:08:11.221908136Z",
+      "budget_ms": 119999,
+      "execute_ms": 3,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "prerequisite-node",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T18:08:11.225921618Z",
+      "budget_ms": 119999,
+      "execute_ms": 5,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "prerequisite-npm",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T18:08:11.231721414Z",
+      "budget_ms": 119999,
+      "execute_ms": 81,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T18:24:50.185181133Z",
+      "budget_ms": 119999,
+      "execute_ms": 72,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T18:24:50.258109514Z",
+      "budget_ms": 119999,
+      "execute_ms": 71,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "dependency-probe",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T18:24:50.329543069Z",
+      "budget_ms": 119999,
+      "execute_ms": 304,
+      "group_check_ms": 0
+    }
+  ]
+}

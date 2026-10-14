@@ -1,0 +1,19 @@
+{
+  "run_id": "744c4329facce31be37c97e7caa2fea3",
+  "execution": 4,
+  "node": "development",
+  "full_local_log_bytes_read": 704694,
+  "local_log_sha256": "9294aeca06d921ba05c74d2a6266bb25fead4b7d447ee9bc6e6f14fcc8d11efd",
+  "parsed_json_lines": 200,
+  "historical_test_fail_events": 26,
+  "failure": "archive source compiled as root-module package by unchanged go vet ./...",
+  "connector_exit": 2,
+  "verification_exit": 1,
+  "gate_exit": 2,
+  "first_round_original_files_verified": 11,
+  "candidate_source_copies_equal": true,
+  "root_packages_after": 11,
+  "archived_candidate_excluded": true,
+  "full_verify_rerun": "NotRun by development; delegated to tests",
+  "qa": "NotRun; authorized missing chapter preserved"
+}

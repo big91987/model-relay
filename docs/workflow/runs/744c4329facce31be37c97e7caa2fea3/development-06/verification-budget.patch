@@ -1,0 +1,107 @@
+diff --git a/tests/verify/main.go b/tests/verify/main.go
+index 21913a2..107b11b 100644
+--- a/tests/verify/main.go
++++ b/tests/verify/main.go
+@@ -19,6 +19,8 @@ import (
+ 	"time"
+ )
+ 
++const verificationGateBudget = 24 * time.Minute
++
+ type receipt struct {
+ 	StartedUTC         string            `json:"started_utc"`
+ 	FinishedUTC        string            `json:"finished_utc"`
+@@ -38,6 +40,10 @@ type receipt struct {
+ 	Versions           map[string]string `json:"versions"`
+ 	DependencyReceipt  string            `json:"dependency_receipt,omitempty"`
+ 	GateExit           int               `json:"gate_exit"`
++	GateStartedUTC     string            `json:"gate_started_utc,omitempty"`
++	GateBudgetMS       int64             `json:"gate_budget_ms"`
++	GateExecuteMS      int64             `json:"gate_execute_ms"`
++	GateCancelled      bool              `json:"gate_cancelled"`
+ 	Exit               int               `json:"exit_code"`
+ 	LogSHA256          string            `json:"log_sha256"`
+ 	LogBytes           int64             `json:"log_bytes"`
+@@ -176,11 +182,19 @@ func run(ctx context.Context) (result error) {
+ 	}
+ 	encoded, _ := json.Marshal(state)
+ 	fmt.Fprintln(redaction, "CLEAN_START", string(encoded))
+-	gateCtx, gateCancel := context.WithTimeout(ctx, 12*time.Minute)
++	gateCtx, gateCancel := verificationGateContext(ctx)
+ 	defer gateCancel()
++	gateStarted := time.Now()
++	gateDeadline, _ := gateCtx.Deadline()
++	state.GateStartedUTC = gateStarted.UTC().Format(time.RFC3339Nano)
++	state.GateBudgetMS = max(0, gateDeadline.Sub(gateStarted).Milliseconds())
++	fmt.Fprintf(redaction, "GATE_START started_utc=%s budget_ms=%d\n", state.GateStartedUTC, state.GateBudgetMS)
+ 	command := exec.CommandContext(gateCtx, "make", "verify-gates")
+ 	command.Dir, command.Env = temporary, environment
+ 	state.GateExit, err = execute(gateCtx, command, redaction)
++	state.GateExecuteMS = time.Since(gateStarted).Milliseconds()
++	state.GateCancelled = gateCtx.Err() != nil
++	fmt.Fprintf(redaction, "GATE_END exit=%d cancelled=%t execute_ms=%d\n", state.GateExit, state.GateCancelled, state.GateExecuteMS)
+ 	if command.Process != nil {
+ 		state.Cleanup = "owned_process_group_cleanup_attempted"
+ 		absent := ownedGroupAbsent(command.Process.Pid)
+@@ -221,6 +235,10 @@ func run(ctx context.Context) (result error) {
+ 
+ const dependencyProbe = `const path=require('node:path'); const fs=require('node:fs'); const lock=JSON.parse(fs.readFileSync('package-lock.json')); for(const name of ['playwright','playwright-core']) { const resolved=require.resolve(name+'/package.json'); if(!resolved.startsWith(path.join(process.cwd(),'node_modules')+path.sep)) throw Error('nonlocal dependency'); const version=require(resolved).version; if(version!==lock.packages['node_modules/'+name].version) throw Error('lock mismatch'); console.log(name+'='+version+'; resolution=candidate/node_modules'); } const browser=require('node:child_process').spawnSync(require('playwright').chromium.executablePath(),['--version'],{encoding:'utf8'}); if(browser.status!==0) { process.stdout.write(browser.stdout||''); process.stderr.write(browser.stderr||''); console.error('CHROMIUM_PROBE exit='+browser.status+' signal='+browser.signal+' error='+(browser.error?.code||'none')); throw Error('Chromium version unavailable'); } console.log('chromium='+browser.stdout.trim());`
+ 
++func verificationGateContext(parent context.Context) (context.Context, context.CancelFunc) {
++	return context.WithTimeout(parent, verificationGateBudget)
++}
++
+ func exists(path string) bool { _, err := os.Lstat(path); return err == nil }
+ 
+ func writeReceipt(directory string, state receipt) error {
+diff --git a/tests/verify/main_test.go b/tests/verify/main_test.go
+index 6d375b6..cd01286 100644
+--- a/tests/verify/main_test.go
++++ b/tests/verify/main_test.go
+@@ -319,6 +319,34 @@ func TestCaptureChunkBoundariesAndFailure(test *testing.T) {
+ 	}
+ }
+ 
++func TestVerificationGateContext(test *testing.T) {
++	started := time.Now()
++	ctx, cancel := verificationGateContext(context.Background())
++	defer cancel()
++	deadline, bounded := ctx.Deadline()
++	if !bounded || deadline.Before(started.Add(24*time.Minute)) || deadline.After(time.Now().Add(24*time.Minute)) {
++		test.Fatal("gate must retain a bounded 24-minute cumulative budget")
++	}
++	parent, parentCancel := context.WithTimeout(context.Background(), 50*time.Millisecond)
++	defer parentCancel()
++	child, childCancel := verificationGateContext(parent)
++	defer childCancel()
++	parentDeadline, _ := parent.Deadline()
++	childDeadline, _ := child.Deadline()
++	if !childDeadline.Equal(parentDeadline) {
++		test.Fatal("gate extended the parent deadline")
++	}
++	var output bytes.Buffer
++	command := exec.CommandContext(child, "/bin/sh", "-c", "sleep 30 & wait")
++	code, err := execute(child, command, &output)
++	if err == nil || code == 0 || child.Err() != context.DeadlineExceeded || time.Since(started) > 8*time.Second {
++		test.Fatalf("gate deadline lost: code=%d err=%v", code, err)
++	}
++	if command.Process == nil || !ownedGroupAbsent(command.Process.Pid) {
++		test.Fatal("gate cancellation left its process group")
++	}
++}
++
+ func TestOwnedGroupCancellation(test *testing.T) {
+ 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Millisecond)
+ 	defer cancel()
+@@ -484,6 +512,11 @@ func TestFixedRunnerReceipts(test *testing.T) {
+ 			if scenario == "failed_fixture" && (state.GateExit != 23 || state.Exit == 0) {
+ 				test.Fatalf("lost failure: %+v", state)
+ 			}
++			if scenario == "green_fixture" || scenario == "failed_fixture" || scenario == "probe_failed_fixture" {
++				if state.GateStartedUTC == "" || state.GateBudgetMS <= 0 || state.GateBudgetMS > 8000 || state.GateExecuteMS < 0 || state.GateCancelled {
++					test.Fatalf("lost gate timing or parent budget: %+v", state)
++				}
++			}
+ 			log, err := os.ReadFile(filepath.Join(filepath.Dir(matches[0]), "verify.log"))
+ 			if err != nil {
+ 				test.Fatal(err)

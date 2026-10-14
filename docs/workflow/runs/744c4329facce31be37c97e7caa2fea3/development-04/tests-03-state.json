@@ -1,0 +1,132 @@
+{
+  "started_utc": "2026-10-14T15:29:30.090915415Z",
+  "finished_utc": "2026-10-14T15:32:37.315446849Z",
+  "command": "make verify -\u003e isolated make verify-gates",
+  "isolation": "new private candidate; git history read-only",
+  "node_modules_before": false,
+  "clean_start_measured": true,
+  "npm_cache_before": false,
+  "node_modules_after": false,
+  "npm_cache_after": false,
+  "source_unchanged": true,
+  "candidate_unchanged": true,
+  "NODE_PATH": "unset",
+  "manual_preinstall": "none",
+  "source_before": {
+    "files": 158,
+    "go": "go1.25.6",
+    "head": "1d581652736fbac4e8862b70367181c8a9f2f8b2",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "a6f4ec9a2a4e9f87f501aee7f48251ccede244d46082fc09b415ea9953a03b3e"
+  },
+  "source_after": {
+    "files": 158,
+    "go": "go1.25.6",
+    "head": "1d581652736fbac4e8862b70367181c8a9f2f8b2",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "a6f4ec9a2a4e9f87f501aee7f48251ccede244d46082fc09b415ea9953a03b3e"
+  },
+  "versions": {
+    "go": "go version go1.25.6 linux/amd64",
+    "node": "v22.22.0",
+    "npm": "10.9.4"
+  },
+  "gate_exit": 2,
+  "exit_code": 1,
+  "log_sha256": "9294aeca06d921ba05c74d2a6266bb25fead4b7d447ee9bc6e6f14fcc8d11efd",
+  "log_bytes": 704694,
+  "cleanup": "owned_process_group_cleanup_attempted; candidate_removed",
+  "owned_group_absent": true,
+  "auxiliary_commands": [
+    {
+      "stage": "source-inventory",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T15:29:30.091457651Z",
+      "budget_ms": 119999,
+      "execute_ms": 23,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "git-directory",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T15:29:34.31365886Z",
+      "budget_ms": 119999,
+      "execute_ms": 2,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T15:29:34.316273381Z",
+      "budget_ms": 119999,
+      "execute_ms": 10044,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T15:29:44.361378289Z",
+      "budget_ms": 119999,
+      "execute_ms": 480,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "prerequisite-go",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T15:29:44.841605262Z",
+      "budget_ms": 119999,
+      "execute_ms": 7,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "prerequisite-node",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T15:29:44.848703432Z",
+      "budget_ms": 119999,
+      "execute_ms": 7,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "prerequisite-npm",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T15:29:44.855909047Z",
+      "budget_ms": 119999,
+      "execute_ms": 122,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T15:32:36.56224813Z",
+      "budget_ms": 119999,
+      "execute_ms": 131,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T15:32:36.694155993Z",
+      "budget_ms": 119999,
+      "execute_ms": 123,
+      "group_check_ms": 0
+    }
+  ]
+}
