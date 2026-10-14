@@ -17,3 +17,5 @@ Runner私有配置字段为base_url、workflow_id、repository、issue_label、b
 ## 维护
 
 从明确源版本导出到新目录，比较SOURCE.json与已有项目调整，经审阅合入；不自动覆盖定制，不把平台源码路径塞回Actions。入口修改后更新.github/agent-platform*-entry-source.json实际摘要。GitHub通知使用正式App身份，审批与执行失败附处理入口；未知发送结果先查外部回执，不盲重发。配置缺失先修标准入口，不临时修改Run、凭据或权限。
+
+入站支持私有配置的git_proxy，Issue/commit查询、Owner补充及通知使用同一GitHub子进程代理；平台API与全局环境保持。当前模板源版本以SOURCE.json为准，平台Go运行版本仍3261b34。入口失败日志提供安全阶段及HTTP/传输类别，不公开底层响应、命令或私有路径；先核原Run，再正式恢复原Issue。
