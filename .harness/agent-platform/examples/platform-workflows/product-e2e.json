@@ -1,0 +1,273 @@
+{
+  "name": "产品端到端测试 · 真实用户旅程",
+  "enabled": true,
+  "entry": "prepare",
+  "start_nodes": [],
+  "authorized_users": [],
+  "max_steps": 100,
+  "nodes": [
+    {
+      "id": "prepare",
+      "name": "准备独立测试工作区",
+      "kind": "connector",
+      "x": 60,
+      "y": 70,
+      "connector_id": "prepare"
+    },
+    {
+      "id": "issue",
+      "name": "记录产品测试目标",
+      "kind": "connector",
+      "x": 360,
+      "y": 70,
+      "connector_id": "issue",
+      "connector_input": {
+        "title": "{{input}}",
+        "issue_parameter": "issue_number"
+      }
+    },
+    {
+      "id": "e2e_plan",
+      "name": "制定真实用户旅程测试计划",
+      "kind": "agent",
+      "x": 660,
+      "y": 70,
+      "agent": {
+        "executor": "codex",
+        "instructions": "执行专用产品测试角色；产品实现和产品修复不属于此流水线。"
+      },
+      "exit_mode": "handoff"
+    },
+    {
+      "id": "e2e_plan_review",
+      "name": "基于文档评审测试计划",
+      "kind": "agent",
+      "x": 60,
+      "y": 270,
+      "agent": {
+        "executor": "codex",
+        "instructions": "执行独立测试计划评审；产品实现和产品修复不属于此流水线。"
+      },
+      "exit_mode": "handoff"
+    },
+    {
+      "id": "e2e_execute",
+      "name": "准备浏览器与测试执行",
+      "kind": "agent",
+      "x": 360,
+      "y": 270,
+      "agent": {
+        "executor": "codex",
+        "instructions": "执行专用产品测试角色；产品实现和产品修复不属于此流水线。"
+      },
+      "exit_mode": "handoff"
+    },
+    {
+      "id": "tests",
+      "name": "执行产品端到端测试",
+      "kind": "connector",
+      "x": 660,
+      "y": 270,
+      "connector_id": "tests"
+    },
+    {
+      "id": "e2e_review",
+      "name": "独立实操与失败复核",
+      "kind": "agent",
+      "x": 60,
+      "y": 470,
+      "agent": {
+        "executor": "codex",
+        "instructions": "执行专用产品测试角色；产品实现和产品修复不属于此流水线。"
+      },
+      "exit_mode": "handoff"
+    },
+    {
+      "id": "e2e_report",
+      "name": "发布产品测试结论",
+      "kind": "agent",
+      "x": 360,
+      "y": 470,
+      "agent": {
+        "executor": "codex",
+        "instructions": "执行专用产品测试角色；产品实现和产品修复不属于此流水线。"
+      },
+      "exit_mode": "handoff"
+    },
+    {
+      "id": "report_publish",
+      "name": "上传并核验报告附件",
+      "kind": "connector",
+      "x": 660,
+      "y": 470,
+      "connector_id": "report_publish"
+    },
+    {
+      "id": "report_notify",
+      "name": "在Issue提供报告链接",
+      "kind": "connector",
+      "x": 60,
+      "y": 670,
+      "connector_id": "comment",
+      "connector_input": {
+        "issue_node": "issue",
+        "body_file": "docs/workflow/runs/{{run_id}}/report-publication-receipt.md"
+      }
+    },
+    {
+      "id": "done",
+      "name": "测试报告完成",
+      "kind": "end",
+      "x": 660,
+      "y": 670
+    }
+  ],
+  "edges": [
+    {
+      "source": "prepare",
+      "route": "next",
+      "target": "issue",
+      "mode": "automatic",
+      "description": "交接"
+    },
+    {
+      "source": "issue",
+      "route": "next",
+      "target": "e2e_plan",
+      "mode": "automatic",
+      "description": "交接"
+    },
+    {
+      "source": "e2e_plan",
+      "route": "next",
+      "target": "e2e_plan_review",
+      "mode": "handoff",
+      "description": "交接"
+    },
+    {
+      "source": "e2e_plan_review",
+      "route": "next",
+      "target": "e2e_execute",
+      "mode": "handoff",
+      "description": "计划评审通过"
+    },
+    {
+      "source": "e2e_plan_review",
+      "route": "rework",
+      "target": "e2e_plan",
+      "mode": "handoff",
+      "description": "补齐计划后复审"
+    },
+    {
+      "source": "e2e_plan_review",
+      "route": "blocked",
+      "target": "e2e_report",
+      "mode": "handoff",
+      "description": "无法继续测试，交付阻断及未执行报告"
+    },
+    {
+      "source": "e2e_execute",
+      "route": "next",
+      "target": "tests",
+      "mode": "handoff",
+      "description": "交接"
+    },
+    {
+      "source": "e2e_execute",
+      "route": "plan_review",
+      "target": "e2e_plan_review",
+      "mode": "handoff",
+      "description": "实质计划变更重新评审"
+    },
+    {
+      "source": "tests",
+      "route": "next",
+      "target": "e2e_review",
+      "mode": "automatic",
+      "description": "交接"
+    },
+    {
+      "source": "tests",
+      "route": "failed",
+      "target": "e2e_review",
+      "mode": "automatic",
+      "description": "失败复核"
+    },
+    {
+      "source": "e2e_review",
+      "route": "test_repair",
+      "target": "e2e_execute",
+      "mode": "handoff",
+      "description": "修订测试设施"
+    },
+    {
+      "source": "e2e_review",
+      "route": "next",
+      "target": "e2e_report",
+      "mode": "handoff",
+      "description": "交接"
+    },
+    {
+      "source": "e2e_report",
+      "route": "review",
+      "target": "e2e_review",
+      "mode": "handoff",
+      "description": "交接"
+    },
+    {
+      "source": "e2e_report",
+      "route": "next",
+      "target": "report_publish",
+      "mode": "handoff",
+      "description": "交接"
+    },
+    {
+      "source": "report_publish",
+      "route": "next",
+      "target": "report_notify",
+      "mode": "automatic",
+      "description": "远端附件摘要已核验"
+    },
+    {
+      "source": "report_publish",
+      "route": "failed",
+      "target": "e2e_report",
+      "mode": "automatic",
+      "description": "记录发布阻断，核外部回执后再决定接续"
+    },
+    {
+      "source": "report_notify",
+      "route": "next",
+      "target": "done",
+      "mode": "automatic",
+      "description": "Issue报告链接已确认"
+    }
+  ],
+  "hooks": [
+    {
+      "event": "node.started",
+      "connector_id": "comment",
+      "input": {
+        "issue_node": "issue"
+      },
+      "body": "**{{node_name}} 已启动**\n\n[查看本次运行]({{run_url}})"
+    },
+    {
+      "event": "agent.reply.completed",
+      "connector_id": "comment",
+      "input": {
+        "issue_node": "issue"
+      },
+      "body": "{{text}}\n\n[在平台继续]({{conversation_url}})"
+    },
+    {
+      "event": "run.completed",
+      "connector_id": "comment",
+      "input": {
+        "issue_node": "issue"
+      },
+      "body": "产品测试报告已交付，产品是否通过以报告中的 Go/No-Go/Blocked 及逐项结果为准。\n\n[查看本次测试运行与证据]({{run_url}})"
+    }
+  ],
+  "context_version": 2
+}
