@@ -1,25 +1,19 @@
 # Model Relay 的独立 OpenSandbox Harness 入口
 
-本仓库复制并维护 `.harness/agent-platform` 内的 SDK、样例及工程工具。GitHub Issue 入口直接执行这些文件；Runner 不再查找另一份 Agent Platform checkout 或使用其虚拟环境。`SOURCE.json` 记录初始固定源版本和文件摘要，项目调整由本仓库 Git 记录，升级需审阅差异。
+本仓库复制并维护 `.harness/agent-platform` 内的固定SDK、模板及工具，Actions直接执行仓库内脚本。`SOURCE.json`记录初始源版本和文件摘要，项目调整由本仓库Git记录，升级需审阅差异。
 
-## 两条入口
+原产品入口沿用AGENT_PLATFORM_WORKFLOW_CONFIG、Owner检查和Mac ARM64/he-full Runner，排除新标签。新入口选择标题【Harness验证】具体目标和harness-opensandbox标签，使用独立AGENT_PLATFORM_SANDBOX_CONFIG；手动入口也核当前Issue及标签。Owner评论续接原会话，机器人输出不作为用户输入。
 
-- 原产品研发入口保留原配置变量 `AGENT_PLATFORM_WORKFLOW_CONFIG`、Owner 身份检查、Mac ARM64/he-full Runner 和每 Issue 串行策略。已有 Issue/Run 沿用原流程。
-- 新验证入口由标题 `【Harness验证】具体目标` 和标签 `harness-opensandbox` 共同选择，使用独立 `AGENT_PLATFORM_SANDBOX_CONFIG`。新标签被旧入口排除；手动 dispatch 也由适配器读取当前 Issue 再核验，不能把新任务送入旧本机流程。
-- 新入口把固定 repository_commit、用户目标和原始 GitHub 关联提交给平台，要求 `expected_environment=opensandbox`，不在 Runner 创建 Agent 工作区。平台中的执行节点负责准备同 Run 的 `/workspace`，各角色共享该工作区、保持各自会话。
-- 初次和重复投递使用同一 GitHub Issue 请求键；已受理后不因 Issue 编辑改变原启动输入。评论属于原 Issue、由 Owner 发出时才送到现有会话，不能创建替代 Run。
+Runner提交repository、固定repository_commit与原目标，要求expected_environment=opensandbox，不克隆Agent工作区。平台在所属Run中准备共享/workspace，各节点执行保持独立持久会话；同节点澄清接续保留会话，显式QA返工产生新step并保留旧历史。未知受理先按原request_id核对，不创建替代Run。
 
-## 新入口的启用条件
+## 当前安装及使用
 
-本次只安装入口与仓库自有工程文件，**尚未创建新的验证 Issue、安装实际 Agent Pipeline 或验证原生模型**。创建验证任务前须完成：
+独立平台使用维护源3261b340a7d3b20b29f524739d346dd1b4025cda，标准升级保持原账号与运行历史。正式安装：[研发与独立QA流程](http://10.1.20.112:8795/workflows/83f08f81f7040fcd0c12e6ff4e2acd2d)。流程为准备→研发→固定make verify→独立QA→人工确认→报告→草稿PR，固定测试失败或QA返工返回研发。准备/发布节点选择私有Git凭据引用，Agent/tests不继承；报告、QA原文在发布前保留工作区，发布后通过GitHub产物查看。
 
-1. 112 隔离平台的原生 Codex/gpt-6.1-sol、工作区权限、角色交接、停止与恢复实际验证。
-2. 通过正式 API 安装独立 OpenSandbox Workflow，保存准备、Agent、固定验证、独立 QA/报告和人工确认路径；不复用旧产品 Run。
-3. 在 Runner 的私有目录设置该 Workflow 的配置与 API 凭据文件，再设置仓库变量 `AGENT_PLATFORM_SANDBOX_CONFIG` 指向配置文件。配置中的 `repository` 为 `big91987/model-relay`，`issue_label` 为 `harness-opensandbox`，`base_url` 指向独立实例，`workflow_id` 为正式安装回执，`base` 为 `main`，`token_file` 指向私有凭据。实际路径、token 和供应商凭据不得进入仓库或 Issue。
-4. 确认 Runner 能访问隔离实例后，再由 Owner 创建唯一新 Issue 并附此标签。缺条件的入站失败或任务受理不代表测试通过。
+Runner私有配置字段为base_url、workflow_id、repository、issue_label、base及token_file；这里使用big91987/model-relay、harness-opensandbox和main。仓库变量AGENT_PLATFORM_SANDBOX_CONFIG指向该私有文件。真实路径与值不写入仓库或Issue。标签与私有配置就绪并核对Runner能访问后，Owner创建唯一新Issue；原Issue重投找回原Run，完成Run不复活。
 
-验证应覆盖真实独立角色与共享文件、交接、固定测试、独立 QA、返工、重复投递、停止/接续、外部失败及报告发布。产品实现与产品验收仍交对应 Pipeline Agent，本次入口迁移不改 Model Relay 业务逻辑。已有产品任务、部署入口、账户及数据不在本次范围。
+配置安装、任务受理、固定测试、独立QA、报告发布和合并必须分别核验。当前复制入口本身不修改产品，不代表新的仓库Pipeline已验证，更不代表产品商用验收。旧业务账号、数据、部署入口及产品Run不在本次范围。
 
-## 项目维护
+## 维护
 
-更新工程文件时从明确源版本导出到新目录，审阅并合并本项目调整；不要覆盖已有定制。修改入口后更新对应 `.github/agent-platform*-entry-source.json` 的实际文件摘要。原配置变量及在途任务保持，配置缺失先补齐条件，不自动重建任务或放宽权限。
+从明确源版本导出到新目录，比较SOURCE.json与已有项目调整，经审阅合入；不自动覆盖定制，不把平台源码路径塞回Actions。入口修改后更新.github/agent-platform*-entry-source.json实际摘要。GitHub通知使用正式App身份，审批与执行失败附处理入口；未知发送结果先查外部回执，不盲重发。配置缺失先修标准入口，不临时修改Run、凭据或权限。
