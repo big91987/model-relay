@@ -1,0 +1,75 @@
+from pathlib import Path
+import hashlib, json, os, subprocess, sys
+root = Path.cwd()
+run = Path('docs/workflow/runs/2b6a366cc7b3d48870e1b887757f229f')
+archive = run / 'qa-07'
+def sha(raw):
+    return hashlib.sha256(raw).hexdigest()
+def record(path):
+    raw = path.read_bytes()
+    return {'path': str(path), 'bytes': len(raw), 'sha256': sha(raw)}
+manifest = json.loads((run / 'first-round/source-manifest.json').read_text())
+combined = hashlib.sha256()
+for item in sorted(manifest['files'], key=lambda item: item['path']):
+    raw = Path(item['path']).read_bytes()
+    assert len(raw) == item['bytes'] and sha(raw) == item['sha256'], item['path']
+    combined.update(f"{item['path']}\0{len(raw)}\0".encode())
+    combined.update(raw)
+assert len(manifest['files']) == 163
+assert combined.hexdigest() == '991c79ca919b3d0ccf148c066c3b24d993090fcb78ab864c0e4637cfff8040ba'
+for directory in ('cmd', 'internal', 'tests', '.trellis/spec'):
+    actual = {str(path) for path in Path(directory).rglob('*') if path.is_file()}
+    expected = {item['path'] for item in manifest['files'] if item['path'].startswith(directory + '/')}
+    assert actual == expected, directory
+source = json.loads(Path('.harness/agent-platform/SOURCE.json').read_text())
+assert source['commit'] == 'bc43314eca15f5af042afd9e3d212469eabd10ea'
+for name, item in source['files'].items():
+    assert sha((Path('.harness/agent-platform') / name).read_bytes()) == item['sha256']
+assert len(source['files']) == 146
+assert subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip() == '30b4e13c19e36d51b72ef1186468d6adf39ac822'
+assert subprocess.check_output(['git', 'diff', 'HEAD', '--name-only']) == b''
+subprocess.run(['git', 'diff', '--check'], check=True)
+subprocess.run(['git', 'merge-base', '--is-ancestor', '6d2552d331fd7a0ec8d205f5d18ba3bcd34d6995', 'HEAD'], check=True)
+for name in ('Makefile', 'docs/harness/opensandbox-run-sharing.md'):
+    assert Path(name).read_bytes() == subprocess.check_output(['git', 'show', 'HEAD:' + name])
+for stage in ('qa-04', 'development-05'):
+    subprocess.run(['sha256sum', '-c', str(run / stage / 'SHA256SUMS')], check=True, stdout=subprocess.DEVNULL)
+first = (run / 'first-round/opensandbox-publish-recovery.md').read_bytes()
+current = Path('docs/harness/opensandbox-publish-recovery.md').read_bytes()
+assert sha(first) == '35e5eb5af37a83c81344cbad95cb89b866193179605ba5b9c772dc2dc1562be9'
+assert current.startswith(first) and sha(current) == 'd1a7112600467ae85d9af9000e3349f78ee9590e0317fc935cd4e1560d5f4209'
+assert current == (run / 'development-05/opensandbox-publish-recovery.md').read_bytes()
+assert len([line for line in current.decode().splitlines() if line.startswith('## ')]) == 7
+for phrase in ('重复 stop', '同 Run、同节点', '正式 resume', '正式 decision', '正式环境生命周期入口释放', '不表示停止、恢复、确认或释放已经执行'):
+    assert phrase in current.decode(), phrase
+receipt = Path('test-results/verification/20261014T195523Z-3543396171')
+state = json.loads((receipt / 'state.json').read_text())
+log = (receipt / 'verify.log').read_bytes()
+assert len(log) == state['log_bytes'] and sha(log) == state['log_sha256']
+assert state['exit_code'] == state['gate_exit'] == 0 and state['gate_configured_budget_ms'] == 1440000
+for key in ('source_unchanged', 'candidate_unchanged', 'owned_group_absent', 'clean_start_measured'):
+    assert state[key], key
+assert not state['node_modules_before'] and not state['npm_cache_before']
+assert state['source_before'] == state['source_after']
+assert state['source_before']['working_tree_sha256'] == combined.hexdigest()
+assert 'candidate_removed' in state['cleanup']
+assert all(item['exit'] == 0 and not item['cancelled'] for item in state['auxiliary_commands'])
+text = log.decode()
+assert '# fail 0' in text and 'PASS expected historical HTTP red: 21 method failures with exact status/Allow diagnostics; 12 query/recovery passes' in text
+assert not any(line.startswith('--- FAIL:') for line in text.splitlines())
+for name in ('TestFixedRunnerReceipts', 'TestInventoryCancellationReceipt'):
+    assert '--- PASS: ' + name in text
+for package in ('internal/relay', 'tests/verify', 'tests/health-history'):
+    assert any(line.startswith('ok') and 'model-relay/' + package + '\t' in line for line in text.splitlines()), package
+for name in ('migration', 'legacy-ui', 'routing', 'console', 'full-console'):
+    assert any('BROWSER_PHASE name=' + name in line and 'state=end' in line and 'ok=true' in line for line in text.splitlines()), name
+for name in ('verify.log', 'state.json'):
+    (archive / ('tests06.' + name)).write_bytes((receipt / name).read_bytes())
+mapping = {'source_policy': 'manifest only; no compilable source copies', 'entries': [{'source': str(receipt / name), 'archive': record(archive / ('tests06.' + name))} for name in ('verify.log', 'state.json')], 'immutable_rejection': record(run / 'qa-04/qa.md'), 'source_manifest': record(run / 'first-round/source-manifest.json')}
+(archive / 'archive-mapping.json').write_text(json.dumps(mapping, ensure_ascii=False, indent=2) + '\n')
+sys.path.insert(0, str(root / '.harness/agent-platform/examples/platform-workflows'))
+from repository import check_publish_files
+check_publish_files(root)
+result = {'run_id': '2b6a366cc7b3d48870e1b887757f229f', 'qa_execution': 7, 'version': 'development05-lifecycle-rework', 'head': '30b4e13c19e36d51b72ef1186468d6adf39ac822', 'source_sha256': combined.hexdigest(), 'source_files': 163, 'template_files': 146, 'document_sha256': sha(current), 'qa04_d01': 'fixed document verified; no lifecycle execution claim', 'tests06_inner_full_read': True, 'tests06_log_bytes': len(log), 'tests06_log_sha256': sha(log), 'tests06_lines': len(text.splitlines()), 'expected_historical_failure_events': text.count('--- FAIL'), 'scan': 'existing offline full repository check_publish_files passed', 'credential_presence_only': {name: name in os.environ for name in ('GITHUB_TOKEN', 'GH_TOKEN', 'GIT_ASKPASS')}, 'outer_full_review': False, 'qa04_e01': 'OPEN; original seq3 gap not closed', 'tests06_outer': 'only native offset0 page observed; no full raw export'}
+(archive / 'checks.json').write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
+print(json.dumps(result, ensure_ascii=False))

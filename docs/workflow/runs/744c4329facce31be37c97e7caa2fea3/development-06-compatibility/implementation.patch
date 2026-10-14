@@ -1,0 +1,636 @@
+diff --git a/tests/verify/main.go b/tests/verify/main.go
+index 21913a2..5b63bfa 100644
+--- a/tests/verify/main.go
++++ b/tests/verify/main.go
+@@ -38,6 +38,11 @@ type receipt struct {
+ 	Versions           map[string]string `json:"versions"`
+ 	DependencyReceipt  string            `json:"dependency_receipt,omitempty"`
+ 	GateExit           int               `json:"gate_exit"`
++	GateBudgetMS       int64             `json:"gate_configured_budget_ms"`
++	Gate               *commandReceipt   `json:"gate,omitempty"`
++	ResourcesBefore    resourceSnapshot  `json:"resources_before"`
++	ResourcesAfter     resourceSnapshot  `json:"resources_after"`
++	ResourceDelta      *resourceDelta    `json:"resource_delta,omitempty"`
+ 	Exit               int               `json:"exit_code"`
+ 	LogSHA256          string            `json:"log_sha256"`
+ 	LogBytes           int64             `json:"log_bytes"`
+@@ -68,6 +73,10 @@ func main() {
+ }
+ 
+ func run(ctx context.Context) (result error) {
++	return runWithSampler(ctx, sampleResources)
++}
++
++func runWithSampler(ctx context.Context, sampler func() resourceSnapshot) (result error) {
+ 	source, err := os.Getwd()
+ 	if err != nil {
+ 		return err
+@@ -82,12 +91,25 @@ func run(ctx context.Context) (result error) {
+ 	}
+ 	fmt.Println("verification_receipt=" + filepath.ToSlash(strings.TrimPrefix(output, source+string(os.PathSeparator))))
+ 	state := receipt{StartedUTC: time.Now().UTC().Format(time.RFC3339Nano), Command: "make verify -> isolated make verify-gates", Isolation: "new private candidate; git history read-only", NodePath: "unset", ManualPreinstall: "none", Versions: map[string]string{}, GateExit: -1, Exit: 1, Cleanup: "not_started"}
++	state.GateBudgetMS = verificationGateBudget.Milliseconds()
+ 	logFile, err := os.OpenFile(filepath.Join(output, "verify.log"), os.O_CREATE|os.O_EXCL|os.O_WRONLY, 0600)
+ 	if err != nil {
+ 		return err
+ 	}
+ 	redaction := newLog(io.MultiWriter(logFile, os.Stdout), source, "", os.Getenv("HOME"))
+ 	defer func() {
++		state.ResourcesAfter = sampler()
++		var deltaErr error
++		state.ResourceDelta, deltaErr = resourceDifference(state.ResourcesBefore, state.ResourcesAfter)
++		result = errors.Join(result, resourceSampleError("after", state.ResourcesAfter), deltaErr)
++		resourceData, _ := json.Marshal(state.ResourcesAfter)
++		_, resourceWriteErr := fmt.Fprintln(redaction, "RESOURCE_AFTER", string(resourceData))
++		result = errors.Join(result, resourceWriteErr)
++		if state.ResourceDelta != nil {
++			deltaData, _ := json.Marshal(state.ResourceDelta)
++			_, deltaWriteErr := fmt.Fprintln(redaction, "RESOURCE_DELTA", string(deltaData))
++			result = errors.Join(result, deltaWriteErr)
++		}
+ 		if result != nil {
+ 			fmt.Fprintln(redaction, "FAILED:", result)
+ 		}
+@@ -123,6 +145,14 @@ func run(ctx context.Context) (result error) {
+ 		}
+ 	}()
+ 	redaction.replacer = pathRedactor(source, temporary, os.TempDir(), os.Getenv("HOME"))
++	state.ResourcesBefore = sampler()
++	resourceData, _ := json.Marshal(state.ResourcesBefore)
++	if _, err = fmt.Fprintln(redaction, "RESOURCE_BEFORE", string(resourceData)); err != nil {
++		return err
++	}
++	if err = resourceSampleError("before", state.ResourcesBefore); err != nil {
++		return err
++	}
+ 	files, err := captureCommand(ctx, "source-inventory", exec.Command("git", "ls-files", "--cached", "--others", "--exclude-standard", "-z"), redaction, &state)
+ 	if err != nil {
+ 		return fmt.Errorf("source inventory: %w", err)
+@@ -176,21 +206,7 @@ func run(ctx context.Context) (result error) {
+ 	}
+ 	encoded, _ := json.Marshal(state)
+ 	fmt.Fprintln(redaction, "CLEAN_START", string(encoded))
+-	gateCtx, gateCancel := context.WithTimeout(ctx, 12*time.Minute)
+-	defer gateCancel()
+-	command := exec.CommandContext(gateCtx, "make", "verify-gates")
+-	command.Dir, command.Env = temporary, environment
+-	state.GateExit, err = execute(gateCtx, command, redaction)
+-	if command.Process != nil {
+-		state.Cleanup = "owned_process_group_cleanup_attempted"
+-		absent := ownedGroupAbsent(command.Process.Pid)
+-		state.OwnedGroupAbsent = &absent
+-		if !absent {
+-			err = errors.Join(err, errors.New("owned process group remains after bounded cleanup"))
+-		}
+-	} else {
+-		state.Cleanup = "gate_process_not_started"
+-	}
++	err = executeVerificationGate(ctx, exec.Command("make", "verify-gates"), temporary, environment, redaction, &state, verificationGateBudget)
+ 	state.After, result = sourceEvidence(ctx, temporary, environment, redaction, &state)
+ 	result = errors.Join(err, result)
+ 	state.NodeModulesAfter = exists(filepath.Join(temporary, "node_modules"))
+diff --git a/tests/verify/main_test.go b/tests/verify/main_test.go
+index 6d375b6..6936406 100644
+--- a/tests/verify/main_test.go
++++ b/tests/verify/main_test.go
+@@ -382,9 +382,9 @@ func TestCaptureCommandTiming(test *testing.T) {
+ }
+ 
+ func TestFixedRunnerReceipts(test *testing.T) {
+-	for _, scenario := range []string{"green_fixture", "failed_fixture", "prerequisite_failed_fixture", "evidence_failed_fixture", "probe_failed_fixture", "copy_failed_fixture", "cancel_inventory", "cancel_git_directory", "cancel_evidence", "cancel_prerequisite", "cancel_probe"} {
++	for _, scenario := range []string{"green_fixture", "failed_fixture", "prerequisite_failed_fixture", "evidence_failed_fixture", "probe_failed_fixture", "copy_failed_fixture", "cancel_inventory", "cancel_git_directory", "cancel_evidence", "cancel_prerequisite", "cancel_probe", "resource_start_failed_fixture", "resource_end_failed_fixture", "resource_end_failed_gate_fixture", "unsupported_metrics_fixture", "unsupported_metrics_failed_gate_fixture"} {
+ 		test.Run(scenario, func(test *testing.T) {
+-			failure := scenario != "green_fixture"
++			failure := scenario != "green_fixture" && scenario != "unsupported_metrics_fixture"
+ 			root := test.TempDir()
+ 			tools := filepath.Join(root, "tools")
+ 			if err := os.MkdirAll(tools, 0700); err != nil {
+@@ -398,7 +398,7 @@ func TestFixedRunnerReceipts(test *testing.T) {
+ 				"tools/node": "#!/bin/sh\nif [ \"$1\" = --version ]; then echo node-fixture; else test -d node_modules && echo locked-local-fixture; fi\n",
+ 				"tools/make": "#!/bin/sh\n[ \"$1\" = verify-gates ] || exit 19\ntest ! -e node_modules || exit 20\ntest ! -e .cache/npm || exit 21\ntest -z \"${NODE_PATH+x}\" || exit 22\nmkdir node_modules\nprintf 'fixture gates stdout\\n'; printf 'fixture gates stderr\\n' >&2\n",
+ 			}
+-			if scenario == "failed_fixture" {
++			if scenario == "failed_fixture" || scenario == "resource_end_failed_gate_fixture" || scenario == "unsupported_metrics_failed_gate_fixture" {
+ 				files["tools/make"] += "exit 23\n"
+ 			}
+ 			if scenario == "prerequisite_failed_fixture" {
+@@ -457,7 +457,22 @@ func TestFixedRunnerReceipts(test *testing.T) {
+ 					cancel()
+ 				}()
+ 			}
+-			err := run(ctx)
++			samples := 0
++			err := runWithSampler(ctx, func() resourceSnapshot {
++				samples++
++				if strings.HasPrefix(scenario, "unsupported_metrics_") {
++					return readResourcesForPlatform("darwin", func(string) ([]byte, error) {
++						test.Fatal("unsupported platform attempted a cgroup read")
++						return nil, nil
++					})
++				}
++				snapshot := sampleResources()
++				if (scenario == "resource_start_failed_fixture" && samples == 1) || (strings.HasPrefix(scenario, "resource_end_failed_") && samples == 2) {
++					snapshot.Errors = append(snapshot.Errors, "controlled resource read failure")
++					snapshot.MetricsStatus = "error"
++				}
++				return snapshot
++			})
+ 			runErr := err
+ 			matches, err := filepath.Glob("test-results/verification/*/state.json")
+ 			if err != nil || len(matches) != 1 {
+@@ -477,13 +492,27 @@ func TestFixedRunnerReceipts(test *testing.T) {
+ 				}
+ 				test.Fatalf("err=%v failure=%t", runErr, failure)
+ 			}
+-			earlyFailure := scenario == "copy_failed_fixture" || scenario == "cancel_inventory" || scenario == "cancel_git_directory"
++			earlyFailure := scenario == "copy_failed_fixture" || scenario == "cancel_inventory" || scenario == "cancel_git_directory" || scenario == "resource_start_failed_fixture"
+ 			if state.CleanStartMeasured == earlyFailure || state.NodeModulesBefore || state.NPMCacheBefore || state.NodePath != "unset" || !strings.Contains(state.Cleanup, "candidate_removed") || state.FinishedUTC == "" {
+ 				test.Fatalf("bad state: %+v", state)
+ 			}
+ 			if scenario == "failed_fixture" && (state.GateExit != 23 || state.Exit == 0) {
+ 				test.Fatalf("lost failure: %+v", state)
+ 			}
++			if state.GateBudgetMS != verificationGateBudget.Milliseconds() || state.ResourcesBefore.StartedUTC == "" || state.ResourcesAfter.FinishedUTC == "" {
++				test.Fatalf("missing budget/resource receipt: %+v", state)
++			}
++			if !strings.HasPrefix(scenario, "resource_") && state.ResourcesBefore.MetricsStatus == "available" && state.ResourceDelta == nil {
++				test.Fatal("missing actual start/end resource delta")
++			}
++			if state.ResourcesBefore.MetricsStatus == "unsupported" && (state.ResourcesAfter.MetricsStatus == "available" || state.ResourceDelta != nil) {
++				test.Fatal("unsupported metrics were falsely verified")
++			}
++			if scenario == "green_fixture" || scenario == "failed_fixture" {
++				if state.Gate == nil || state.Gate.BudgetMilliseconds <= 0 || state.Gate.BudgetMilliseconds > 8000 || state.Gate.Cancelled {
++					test.Fatal("gate lost shorter parent budget or completion")
++				}
++			}
+ 			log, err := os.ReadFile(filepath.Join(filepath.Dir(matches[0]), "verify.log"))
+ 			if err != nil {
+ 				test.Fatal(err)
+@@ -492,7 +521,32 @@ func TestFixedRunnerReceipts(test *testing.T) {
+ 				test.Fatal("log digest mismatch")
+ 			}
+ 			markers := []string{"CLEAN_START", "fixture gates stdout", "fixture gates stderr", "CLEAN_END"}
+-			if scenario == "prerequisite_failed_fixture" {
++			if strings.HasPrefix(scenario, "unsupported_metrics_") {
++				if state.ResourcesBefore.GOOS != "darwin" || state.ResourcesAfter.GOOS != "darwin" || state.ResourcesBefore.MetricsStatus != "unsupported" || state.ResourcesAfter.MetricsStatus != "unsupported" || state.ResourceDelta != nil {
++					test.Fatal("unsupported platform receipt missing or fabricated")
++				}
++				wanted := 0
++				if scenario == "unsupported_metrics_failed_gate_fixture" {
++					wanted = 23
++				}
++				if state.GateExit != wanted || (state.Exit == 0) != (wanted == 0) {
++					test.Fatal("unsupported metrics altered original gate result")
++				}
++			} else if strings.HasPrefix(scenario, "resource_") {
++				markers = []string{"RESOURCE_BEFORE", "RESOURCE_AFTER", "controlled resource read failure", "FAILED:"}
++				if state.Exit == 0 || state.ResourceDelta != nil {
++					test.Fatal("sampling failure produced a green receipt")
++				}
++				if scenario == "resource_start_failed_fixture" && state.Gate != nil {
++					test.Fatal("invalid initial resource snapshot did not stop gates")
++				}
++				if scenario == "resource_end_failed_fixture" && state.GateExit != 0 {
++					test.Fatal("controlled end sampling failure did not follow successful gate")
++				}
++				if scenario == "resource_end_failed_gate_fixture" && (state.GateExit != 23 || !strings.Contains(runErr.Error(), "exit status 23")) {
++					test.Fatal("sampling failure hid original gate failure")
++				}
++			} else if scenario == "prerequisite_failed_fixture" {
+ 				markers = []string{"prerequisite-stderr-diagnostic", "COMMAND_END stage=prerequisite-npm exit=24", "FAILED: npm prerequisite:"}
+ 				if state.GateExit != -1 || state.Exit == 0 || bytes.Contains(log, []byte("fixture gates stdout")) {
+ 					test.Fatalf("prerequisite failure did not stop gates: %+v", state)
+diff --git a/tests/verify/gate.go b/tests/verify/gate.go
+new file mode 100644
+index 0000000..8666977
+--- /dev/null
++++ b/tests/verify/gate.go
+@@ -0,0 +1,49 @@
++package main
++
++import (
++	"context"
++	"errors"
++	"fmt"
++	"io"
++	"os/exec"
++	"time"
++)
++
++const verificationGateBudget = 24 * time.Minute
++
++func executeVerificationGate(parent context.Context, requested *exec.Cmd, directory string, environment []string, output io.Writer, state *receipt, budget time.Duration) error {
++	if budget <= 0 || budget > verificationGateBudget {
++		return errors.New("verification gate budget must be positive and at most 24 minutes")
++	}
++	ctx, cancel := context.WithTimeout(parent, budget)
++	defer cancel()
++	deadline, _ := ctx.Deadline()
++	entry := &commandReceipt{Stage: "verify-gates", StartedUTC: time.Now().UTC().Format(time.RFC3339Nano), BudgetMilliseconds: max(0, time.Until(deadline).Milliseconds()), Exit: -1}
++	state.Gate, state.GateBudgetMS = entry, budget.Milliseconds()
++	if ctx.Err() != nil {
++		entry.BudgetMilliseconds = 0
++	}
++	if _, err := fmt.Fprintf(output, "GATE_START started_utc=%s configured_budget_ms=%d effective_budget_ms=%d\n", entry.StartedUTC, state.GateBudgetMS, entry.BudgetMilliseconds); err != nil {
++		return err
++	}
++	command := exec.CommandContext(ctx, requested.Path, requested.Args[1:]...)
++	command.Dir, command.Env = directory, environment
++	started := time.Now()
++	code, err := execute(ctx, command, output)
++	entry.ExecuteMilliseconds = time.Since(started).Milliseconds()
++	entry.Exit, entry.Cancelled, state.GateExit = code, ctx.Err() != nil, code
++	if command.Process != nil {
++		state.Cleanup = "owned_process_group_cleanup_attempted"
++		checkStarted := time.Now()
++		absent := ownedGroupAbsent(command.Process.Pid)
++		entry.GroupCheckMilliseconds = time.Since(checkStarted).Milliseconds()
++		entry.GroupAbsent, state.OwnedGroupAbsent = &absent, &absent
++		if !absent {
++			err = errors.Join(err, errors.New("owned process group remains after bounded cleanup"))
++		}
++	} else {
++		state.Cleanup = "gate_process_not_started"
++	}
++	_, writeErr := fmt.Fprintf(output, "GATE_END exit=%d cancelled=%t execute_ms=%d group_check_ms=%d\n", code, entry.Cancelled, entry.ExecuteMilliseconds, entry.GroupCheckMilliseconds)
++	return errors.Join(err, writeErr)
++}
+diff --git a/tests/verify/resources.go b/tests/verify/resources.go
+new file mode 100644
+index 0000000..d4052a1
+--- /dev/null
++++ b/tests/verify/resources.go
+@@ -0,0 +1,167 @@
++package main
++
++import (
++	"crypto/sha256"
++	"errors"
++	"fmt"
++	"os"
++	"path/filepath"
++	"runtime"
++	"strconv"
++	"strings"
++	"time"
++)
++
++type resourceSnapshot struct {
++	GOOS           string            `json:"goos"`
++	MetricsStatus  string            `json:"cgroup_metrics_status"`
++	MetricsReason  string            `json:"cgroup_metrics_reason,omitempty"`
++	StartedUTC     string            `json:"sample_started_utc"`
++	FinishedUTC    string            `json:"sample_finished_utc"`
++	CgroupIdentity string            `json:"cgroup_identity_sha256,omitempty"`
++	Values         map[string]string `json:"values"`
++	Counters       map[string]uint64 `json:"counters"`
++	RuntimeCPUs    int               `json:"runtime_num_cpu"`
++	GOMAXPROCS     int               `json:"runtime_gomaxprocs"`
++	Errors         []string          `json:"errors,omitempty"`
++}
++
++type resourceDelta struct {
++	FromUTC  string            `json:"from_utc"`
++	ToUTC    string            `json:"to_utc"`
++	Scope    string            `json:"scope"`
++	Counters map[string]uint64 `json:"counters"`
++}
++
++func sampleResources() resourceSnapshot {
++	return readResources(os.ReadFile)
++}
++
++func readResources(read func(string) ([]byte, error)) (snapshot resourceSnapshot) {
++	return readResourcesForPlatform(runtime.GOOS, read)
++}
++
++func readResourcesForPlatform(goos string, read func(string) ([]byte, error)) (snapshot resourceSnapshot) {
++	snapshot = resourceSnapshot{GOOS: goos, MetricsStatus: "available", StartedUTC: time.Now().UTC().Format(time.RFC3339Nano), Values: map[string]string{}, Counters: map[string]uint64{}, RuntimeCPUs: runtime.NumCPU(), GOMAXPROCS: runtime.GOMAXPROCS(0)}
++	defer func() {
++		snapshot.FinishedUTC = time.Now().UTC().Format(time.RFC3339Nano)
++		if len(snapshot.Errors) != 0 {
++			snapshot.MetricsStatus = "error"
++		}
++	}()
++	if goos != "linux" {
++		snapshot.MetricsStatus = "unsupported"
++		snapshot.MetricsReason = "cgroup metrics are not supported on this operating system"
++		return snapshot
++	}
++	readValue := func(name, path string) string {
++		data, err := read(path)
++		if err != nil || len(data) > 64*1024 {
++			snapshot.Errors = append(snapshot.Errors, name+": read failed or oversized")
++			return ""
++		}
++		return strings.TrimSpace(string(data))
++	}
++	membership := readValue("cgroup membership", "/proc/self/cgroup")
++	var cgroupPath string
++	for _, line := range strings.Split(membership, "\n") {
++		if strings.HasPrefix(line, "0::") {
++			cgroupPath = strings.TrimPrefix(line, "0::")
++		}
++	}
++	if !filepath.IsAbs(cgroupPath) || filepath.Clean(cgroupPath) != cgroupPath {
++		snapshot.Errors = append(snapshot.Errors, "current cgroup v2 membership unavailable")
++		return snapshot
++	}
++	snapshot.CgroupIdentity = fmt.Sprintf("%x", sha256.Sum256([]byte(cgroupPath)))
++	for _, name := range []string{"cpu.max", "cpu.stat", "memory.max", "memory.events", "cpuset.cpus.effective"} {
++		snapshot.Values[name] = readValue(name, filepath.Join("/sys/fs/cgroup", cgroupPath, name))
++	}
++	status := readValue("process affinity", "/proc/self/status")
++	for _, line := range strings.Split(status, "\n") {
++		if strings.HasPrefix(line, "Cpus_allowed_list:") {
++			snapshot.Values["process_allowed_cpu_list"] = strings.TrimSpace(strings.TrimPrefix(line, "Cpus_allowed_list:"))
++		}
++	}
++	if snapshot.Values["process_allowed_cpu_list"] == "" {
++		snapshot.Errors = append(snapshot.Errors, "process affinity unavailable")
++	}
++	positive := func(value string) bool {
++		number, err := strconv.ParseUint(value, 10, 64)
++		return err == nil && number > 0
++	}
++	cpuMax := strings.Fields(snapshot.Values["cpu.max"])
++	if len(cpuMax) != 2 || (cpuMax[0] != "max" && !positive(cpuMax[0])) || !positive(cpuMax[1]) {
++		snapshot.Errors = append(snapshot.Errors, "cpu.max: invalid quota/period")
++	}
++	if value := snapshot.Values["memory.max"]; value != "max" && !positive(value) {
++		snapshot.Errors = append(snapshot.Errors, "memory.max: invalid limit")
++	}
++	groups := map[string][]string{
++		"cpu.stat":      {"usage_usec", "user_usec", "system_usec", "nr_periods", "nr_throttled", "throttled_usec"},
++		"memory.events": {"low", "high", "max", "oom", "oom_kill", "oom_group_kill"},
++	}
++	for name, required := range groups {
++		for _, counter := range required {
++			found := false
++			for _, line := range strings.Split(snapshot.Values[name], "\n") {
++				fields := strings.Fields(line)
++				if len(fields) == 2 && fields[0] == counter {
++					number, err := strconv.ParseUint(fields[1], 10, 64)
++					if err == nil && !found {
++						snapshot.Counters[name+"."+counter] = number
++						found = true
++					} else {
++						snapshot.Errors = append(snapshot.Errors, name+"."+counter+": invalid or duplicate counter")
++					}
++				}
++			}
++			if !found {
++				snapshot.Errors = append(snapshot.Errors, name+"."+counter+": missing valid counter")
++			}
++		}
++	}
++	return snapshot
++}
++
++func resourceSampleError(phase string, snapshot resourceSnapshot) error {
++	if len(snapshot.Errors) != 0 {
++		return fmt.Errorf("resource sample %s failed: %s", phase, strings.Join(snapshot.Errors, "; "))
++	}
++	if snapshot.MetricsStatus == "available" && snapshot.GOOS == "linux" {
++		return nil
++	}
++	if snapshot.MetricsStatus == "unsupported" && snapshot.GOOS != "linux" && snapshot.GOOS != "" && snapshot.MetricsReason != "" && snapshot.CgroupIdentity == "" && len(snapshot.Values) == 0 && len(snapshot.Counters) == 0 {
++		return nil
++	}
++	return fmt.Errorf("resource sample %s failed: invalid platform/metrics status", phase)
++}
++
++func resourceDifference(before, after resourceSnapshot) (*resourceDelta, error) {
++	if err := errors.Join(resourceSampleError("before", before), resourceSampleError("after", after)); err != nil {
++		return nil, err
++	}
++	if before.GOOS != after.GOOS || before.MetricsStatus != after.MetricsStatus {
++		return nil, errors.New("resource delta unavailable: platform or metrics availability changed")
++	}
++	if before.MetricsStatus == "unsupported" {
++		return nil, nil
++	}
++	if len(before.Errors) != 0 || len(after.Errors) != 0 || before.CgroupIdentity == "" || before.CgroupIdentity != after.CgroupIdentity {
++		return nil, errors.New("resource delta unavailable: incomplete samples or changed cgroup")
++	}
++	for _, name := range []string{"cpu.max", "memory.max", "cpuset.cpus.effective", "process_allowed_cpu_list"} {
++		if before.Values[name] != after.Values[name] {
++			return nil, errors.New("resource delta unavailable: changed limits or affinity")
++		}
++	}
++	delta := &resourceDelta{FromUTC: before.FinishedUTC, ToUTC: after.FinishedUTC, Scope: "shared visible cgroup between samples; not per-process or sole causal attribution", Counters: map[string]uint64{}}
++	for name, initial := range before.Counters {
++		final, exists := after.Counters[name]
++		if !exists || final < initial {
++			return nil, errors.New("resource delta unavailable: missing or decreased counter")
++		}
++		delta.Counters[name] = final - initial
++	}
++	return delta, nil
++}
+diff --git a/tests/verify/gate_resources_test.go b/tests/verify/gate_resources_test.go
+new file mode 100644
+index 0000000..a132864
+--- /dev/null
++++ b/tests/verify/gate_resources_test.go
+@@ -0,0 +1,199 @@
++package main
++
++import (
++	"bytes"
++	"context"
++	"errors"
++	"fmt"
++	"os"
++	"os/exec"
++	"path/filepath"
++	"strings"
++	"syscall"
++	"testing"
++	"time"
++)
++
++func TestVerificationGateBudgetAndCancellation(test *testing.T) {
++	if verificationGateBudget != 24*time.Minute {
++		test.Fatal("production cumulative budget must remain fixed at 24 minutes")
++	}
++	for _, scenario := range []string{"success", "nonzero", "short-budget", "parent-deadline", "parent-cancelled", "zero", "negative", "over-limit"} {
++		test.Run(scenario, func(test *testing.T) {
++			parent, cancel := context.WithCancel(context.Background())
++			defer cancel()
++			budget := verificationGateBudget
++			script := "printf 'gate-stdout'; printf 'gate-stderr' >&2"
++			ready := filepath.Join(test.TempDir(), "child")
++			switch scenario {
++			case "nonzero":
++				script += "; exit 23"
++			case "short-budget", "parent-deadline":
++				script = "sleep 30 & child=$!; printf '%s' \"$child\" > \"$READY\"; wait"
++				if scenario == "short-budget" {
++					budget = 100 * time.Millisecond
++				} else {
++					var deadlineCancel context.CancelFunc
++					parent, deadlineCancel = context.WithTimeout(parent, 100*time.Millisecond)
++					defer deadlineCancel()
++				}
++			case "parent-cancelled":
++				cancel()
++			case "zero":
++				budget = 0
++			case "negative":
++				budget = -time.Second
++			case "over-limit":
++				budget++
++			}
++			var output bytes.Buffer
++			state := receipt{GateExit: -1}
++			started := time.Now()
++			err := executeVerificationGate(parent, exec.Command("/bin/sh", "-c", script), "", append(os.Environ(), "READY="+ready), &output, &state, budget)
++			if scenario == "zero" || scenario == "negative" || scenario == "over-limit" {
++				if err == nil || state.Gate != nil || output.Len() != 0 || state.GateExit != -1 {
++					test.Fatal("invalid budget started a command")
++				}
++				return
++			}
++			if state.Gate == nil || state.GateBudgetMS != budget.Milliseconds() || !strings.Contains(output.String(), "GATE_START") || !strings.Contains(output.String(), "GATE_END") {
++				test.Fatal("missing auditable gate budget/outcome")
++			}
++			if scenario == "success" || scenario == "nonzero" {
++				wanted := 0
++				if scenario == "nonzero" {
++					wanted = 23
++				}
++				if (err != nil) != (wanted != 0) || state.GateExit != wanted || state.Gate.Cancelled || state.OwnedGroupAbsent == nil || !*state.OwnedGroupAbsent || !strings.Contains(output.String(), "gate-stdout") || !strings.Contains(output.String(), "gate-stderr") {
++					test.Fatalf("gate semantics lost: state=%+v err=%v", state.Gate, err)
++				}
++				return
++			}
++			wanted := context.DeadlineExceeded
++			if scenario == "parent-cancelled" {
++				wanted = context.Canceled
++			}
++			if !errors.Is(err, wanted) || state.GateExit == 0 || !state.Gate.Cancelled || time.Since(started) > 8*time.Second || state.Gate.BudgetMilliseconds > 100 {
++				test.Fatalf("gate not bounded/cancelled: %+v err=%v", state.Gate, err)
++			}
++			if scenario != "parent-cancelled" {
++				if state.OwnedGroupAbsent == nil || !*state.OwnedGroupAbsent {
++					test.Fatal("gate left its process group")
++				}
++				data, readErr := os.ReadFile(ready)
++				var child int
++				if readErr != nil {
++					test.Fatal("real child did not start before cancellation")
++				}
++				if _, scanErr := fmt.Sscanf(string(data), "%d", &child); scanErr != nil || syscall.Kill(child, 0) != syscall.ESRCH {
++					test.Fatal("cancelled child remains")
++				}
++			}
++		})
++	}
++}
++
++func resourceFixtureRead(test *testing.T, overrides map[string]string, failed string) func(string) ([]byte, error) {
++	test.Helper()
++	values := map[string]string{
++		"cgroup": "0::/\n", "status": "Cpus_allowed_list:\t0-111\n",
++		"cpu.max": "200000 100000", "memory.max": "8589934592", "cpuset.cpus.effective": "0-111",
++		"cpu.stat":      "usage_usec 10\nuser_usec 6\nsystem_usec 4\nnr_periods 3\nnr_throttled 2\nthrottled_usec 7\n",
++		"memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
++	}
++	for key, value := range overrides {
++		values[key] = value
++	}
++	return func(path string) ([]byte, error) {
++		name := filepath.Base(path)
++		if name == failed {
++			return nil, errors.New("controlled read failure; must not expose this path")
++		}
++		value, exists := values[name]
++		if !exists {
++			test.Fatalf("unexpected resource read: %s", name)
++		}
++		return []byte(value), nil
++	}
++}
++
++func TestResourceSamplingAndDelta(test *testing.T) {
++	before := readResourcesForPlatform("linux", resourceFixtureRead(test, nil, ""))
++	after := readResourcesForPlatform("linux", resourceFixtureRead(test, map[string]string{"cpu.stat": "usage_usec 15\nuser_usec 9\nsystem_usec 6\nnr_periods 4\nnr_throttled 3\nthrottled_usec 11\n"}, ""))
++	delta, err := resourceDifference(before, after)
++	if resourceSampleError("before", before) != nil || err != nil || delta.Counters["cpu.stat.usage_usec"] != 5 || delta.Counters["cpu.stat.throttled_usec"] != 4 || delta.FromUTC != before.FinishedUTC || delta.ToUTC != after.FinishedUTC || !strings.Contains(delta.Scope, "not per-process") || before.RuntimeCPUs < 1 || before.GOMAXPROCS < 1 {
++		test.Fatalf("invalid resource/delta receipt: %+v err=%v", delta, err)
++	}
++	for _, scenario := range []string{"read-failure", "bad-quota", "bad-counter", "missing-counter", "decrease", "changed-cgroup", "changed-limit"} {
++		test.Run(scenario, func(test *testing.T) {
++			overrides := map[string]string{}
++			failed := ""
++			switch scenario {
++			case "read-failure":
++				failed = "cpu.stat"
++			case "bad-quota":
++				overrides["cpu.max"] = "0 100000"
++			case "bad-counter":
++				overrides["memory.events"] = "oom_kill invalid"
++			case "missing-counter":
++				overrides["cpu.stat"] = "usage_usec 1"
++			case "decrease":
++				overrides["cpu.stat"] = strings.Replace(before.Values["cpu.stat"], "usage_usec 10", "usage_usec 9", 1)
++			case "changed-cgroup":
++				overrides["cgroup"] = "0::/other"
++			case "changed-limit":
++				overrides["cpu.max"] = "400000 100000"
++			}
++			changed := readResourcesForPlatform("linux", resourceFixtureRead(test, overrides, failed))
++			if result, deltaErr := resourceDifference(before, changed); result != nil || deltaErr == nil {
++				test.Fatal("invalid samples produced a misleading delta")
++			}
++		})
++	}
++}
++
++func TestResourceUnsupportedPlatform(test *testing.T) {
++	before := readResourcesForPlatform("darwin", func(string) ([]byte, error) {
++		test.Fatal("Darwin must not read Linux proc/cgroup files")
++		return nil, nil
++	})
++	after := before
++	if before.GOOS != "darwin" || before.MetricsStatus != "unsupported" || before.MetricsReason == "" || before.RuntimeCPUs < 1 || before.GOMAXPROCS < 1 || len(before.Values) != 0 || len(before.Counters) != 0 || before.CgroupIdentity != "" || resourceSampleError("before", before) != nil {
++		test.Fatal("unsupported receipt fabricated metrics or suppressed runtime CPU")
++	}
++	if delta, err := resourceDifference(before, after); err != nil || delta != nil {
++		test.Fatal("unsupported metrics must not fail gates or fabricate a zero delta")
++	}
++	after.GOOS = "linux"
++	if resourceSampleError("after", after) == nil {
++		test.Fatal("Linux cannot bypass required sampling as unsupported")
++	}
++	if delta, err := resourceDifference(before, after); err == nil || delta != nil {
++		test.Fatal("platform change was hidden")
++	}
++}
++
++func TestLinuxResourceReadFailureRemainsFatal(test *testing.T) {
++	validReader := resourceFixtureRead(test, nil, "")
++	missing := filepath.Join(test.TempDir(), "missing-cpu-stat")
++	readFailed := false
++	failed := readResourcesForPlatform("linux", func(path string) ([]byte, error) {
++		if filepath.Base(path) == "cpu.stat" {
++			data, err := os.ReadFile(missing)
++			readFailed = os.IsNotExist(err)
++			return data, err
++		}
++		return validReader(path)
++	})
++	if !readFailed {
++		test.Fatal("isolated real filesystem read did not produce ENOENT")
++	}
++	if failed.GOOS != "linux" || failed.MetricsStatus != "error" || resourceSampleError("before", failed) == nil {
++		test.Fatal("actual Linux read failure was mislabeled unsupported")
++	}
++	valid := readResourcesForPlatform("linux", resourceFixtureRead(test, nil, ""))
++	if delta, err := resourceDifference(valid, failed); delta != nil || err == nil {
++		test.Fatal("Linux read failure produced a false valid delta")
++	}
++	test.Log("LINUX_READ_ERROR_FIXTURE errno=ENOENT metrics_status=error fatal=true delta=absent")
++}

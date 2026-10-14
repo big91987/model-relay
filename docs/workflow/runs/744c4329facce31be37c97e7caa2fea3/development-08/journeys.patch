@@ -1,0 +1,32 @@
+diff --git a/tests/browser/journeys.mjs b/tests/browser/journeys.mjs
+index 3d060b1..4def1d0 100644
+--- a/tests/browser/journeys.mjs
++++ b/tests/browser/journeys.mjs
+@@ -1,6 +1,7 @@
+ import assert from 'node:assert/strict';
+ import {mkdir, readFile, writeFile} from 'node:fs/promises';
+ import {chromium} from 'playwright';
++import {installStreamingCapture,readStreamingCapture} from './stream-capture.mjs';
+ import {consoleVisualReview} from './console-visual.mjs';
+ import {managementSummaryJourney,summaryCell,summaryFailureFacts} from './console-summary.mjs';
+ import {modelSaveReadbackJourney,waitForSaveReadback} from './model-save-readback.mjs';
+@@ -229,6 +230,9 @@ async function call(page,key,model,status=200,message='controlled journey input'
+   await page.getByLabel('公共模型名',{exact:true}).fill(model);await page.getByLabel('消息',{exact:true}).fill(message);
+   await page.getByLabel('SSE流式',{exact:true}).setChecked(stream);
+   const before=(await control()).dispatches;
++  const captureStream=stream&&status===200;
++  if(captureStream)await page.evaluate(installStreamingCapture);
++  try {
+   const receipt=page.waitForResponse(response=>new URL(response.url()).pathname==='/v1/chat/completions');
+   await button(page,'发送').click();const response=await receipt;lastStatus=response.status();
+   callFacts={expected_status:status,dispatch_delta:(await control()).dispatches-before};
+@@ -250,7 +254,8 @@ async function call(page,key,model,status=200,message='controlled journey input'
+   const id=response.headers()['x-request-id'];assert.ok(id);
+   if(status===200)await page.locator('#call-output').filter({hasText:'controlled'}).waitFor();
+   else await page.locator('#call-output').filter({hasText:'调用失败：'}).waitFor();
+-  return {id,value:stream&&status===200?await response.text():await response.json()};
++  return {id,value:captureStream?await page.evaluate(readStreamingCapture):await response.json()};
++  } finally {if(captureStream)await page.evaluate(()=>window.__relayStreamCapture?.restore());}
+ }
+ function completionFacts(value) {
+   const states=['started','success','rejected','upstream_failed','upstream_rejected','stream_interrupted','timeout','canceled'];

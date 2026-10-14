@@ -1,0 +1,29 @@
+{
+  "run_id": "744c4329facce31be37c97e7caa2fea3",
+  "authorized_candidate_source": {
+    "files": 161,
+    "go": "go1.25.6",
+    "head": "1d581652736fbac4e8862b70367181c8a9f2f8b2",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "a026e6b9122f78b43c62d53834f5eba6e7f6242186fbc12c302695831f5bd165"
+  },
+  "source_snapshots_equal": 5,
+  "first_round_original_checks_passed": 11,
+  "unchanged_candidates_and_history": 6,
+  "unchanged_entry_locks_and_protocol_classifiers": true,
+  "fresh_targeted_test_log_bytes": 84704,
+  "fresh_targeted_test_log_sha256": "f4f4199ce6975d313548e246b4f6dfa922682fe264a697c77da0c25d18a81a9b",
+  "fresh_resource_before_records": 15,
+  "fresh_resource_delta_records": 12,
+  "production_gate_budget_ms": 1440000,
+  "budget_override_environment": "none",
+  "short_budget_and_parent_cancellation": "fresh real child-process regression passed",
+  "resource_sampling_failures": "start/end and failed-gate+failed-sampling rejected; original exit 23 preserved",
+  "full_make_verify": "NotRun by development; one fixed tests handoff requested",
+  "qa": "NotRun; first-round missing chapter preserved",
+  "credential_presence_only": {
+    "GITHUB_TOKEN": false,
+    "GH_TOKEN": false,
+    "GIT_ASKPASS": false
+  }
+}

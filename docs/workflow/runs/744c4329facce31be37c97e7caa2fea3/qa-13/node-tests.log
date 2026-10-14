@@ -1,0 +1,43 @@
+2026-10-14T18:27:37Z
+TAP version 13
+# Subtest: captures the same native response without another dispatch and restores fetch
+ok 1 - captures the same native response without another dispatch and restores fetch
+  ---
+  duration_ms: 22.992801
+  type: 'test'
+  ...
+# Subtest: missing capture fails rather than inventing SSE frames
+ok 2 - missing capture fails rather than inventing SSE frames
+  ---
+  duration_ms: 0.442836
+  type: 'test'
+  ...
+# Subtest: failed clone read fails rather than hiding the error
+ok 3 - failed clone read fails rather than hiding the error
+  ---
+  duration_ms: 0.274958
+  type: 'test'
+  ...
+# Subtest: unrelated reads are not captured and cancellation restores fetch
+ok 4 - unrelated reads are not captured and cancellation restores fetch
+  ---
+  duration_ms: 0.283541
+  type: 'test'
+  ...
+# Subtest: transport rejection remains a failure
+ok 5 - transport rejection remains a failure
+  ---
+  duration_ms: 0.270206
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 83.899432
+node_tests_exit=0
+2026-10-14T18:27:37Z

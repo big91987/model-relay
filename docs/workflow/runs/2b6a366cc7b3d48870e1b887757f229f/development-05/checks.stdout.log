@@ -1,0 +1,40 @@
+{
+  "checked_utc": "2026-10-14T19:54:19.796879+00:00",
+  "version": "development05-lifecycle-rework",
+  "head": "30b4e13c19e36d51b72ef1186468d6adf39ac822",
+  "workflow_revision": 3,
+  "source_files": 163,
+  "source_sha256": "991c79ca919b3d0ccf148c066c3b24d993090fcb78ab864c0e4637cfff8040ba",
+  "template_files_verified": 146,
+  "template_commit": "bc43314eca15f5af042afd9e3d212469eabd10ea",
+  "qa04_originals_verified": true,
+  "first_round_bytes_preserved": true,
+  "first_six_sections_byte_prefix_preserved": true,
+  "lifecycle_section_added": true,
+  "revised_document": {
+    "path": "docs/harness/opensandbox-publish-recovery.md",
+    "bytes": 12999,
+    "sha256": "d1a7112600467ae85d9af9000e3349f78ee9590e0317fc935cd4e1560d5f4209"
+  },
+  "tracked_diff_empty": true,
+  "git_diff_check_exit_code": 0,
+  "main_ancestor_exit_code": 0,
+  "credential_presence_only": {
+    "GITHUB_TOKEN": false,
+    "GH_TOKEN": false,
+    "GIT_ASKPASS": false
+  },
+  "workspace_presence_before_fixed_tests": {
+    "node_modules": false,
+    ".cache/npm": false,
+    ".cache/go-build": true,
+    "bin": false,
+    "test-results": true
+  },
+  "cold_start_note": "Presence observation only; tests owns isolated candidate cold start; no global cache claim",
+  "offline_publish_scan": "PASS; unchanged repository.check_publish_files; no network/publication",
+  "make_verify_run_by_development": false,
+  "limits_changed": false,
+  "QA04_E01": "OPEN: original outer middle pages not reviewed/materialized; formally retained by platform",
+  "qa_retest_approval_publication_release": "NotRun by development05"
+}

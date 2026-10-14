@@ -1,0 +1,224 @@
+{
+  "started_utc": "2026-10-14T17:02:10.62804575Z",
+  "finished_utc": "2026-10-14T17:16:33.259492534Z",
+  "command": "make verify -\u003e isolated make verify-gates",
+  "isolation": "new private candidate; git history read-only",
+  "node_modules_before": false,
+  "clean_start_measured": true,
+  "npm_cache_before": false,
+  "node_modules_after": true,
+  "npm_cache_after": true,
+  "source_unchanged": true,
+  "candidate_unchanged": true,
+  "NODE_PATH": "unset",
+  "manual_preinstall": "none",
+  "source_before": {
+    "files": 161,
+    "go": "go1.25.6",
+    "head": "1d581652736fbac4e8862b70367181c8a9f2f8b2",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "e637c8f9a92859a8766e9c6e23e2c08f53d9b40d96b5c0a247c455e7e19bac9b"
+  },
+  "source_after": {
+    "files": 161,
+    "go": "go1.25.6",
+    "head": "1d581652736fbac4e8862b70367181c8a9f2f8b2",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "e637c8f9a92859a8766e9c6e23e2c08f53d9b40d96b5c0a247c455e7e19bac9b"
+  },
+  "versions": {
+    "go": "go version go1.25.6 linux/amd64",
+    "node": "v22.22.0",
+    "npm": "10.9.4"
+  },
+  "gate_exit": 2,
+  "gate_configured_budget_ms": 1440000,
+  "gate": {
+    "stage": "verify-gates",
+    "exit": 2,
+    "cancelled": false,
+    "owned_group_absent": true,
+    "started_utc": "2026-10-14T17:02:25.367922988Z",
+    "budget_ms": 1439999,
+    "execute_ms": 847083,
+    "group_check_ms": 0
+  },
+  "resources_before": {
+    "goos": "linux",
+    "cgroup_metrics_status": "available",
+    "sample_started_utc": "2026-10-14T17:02:10.62855975Z",
+    "sample_finished_utc": "2026-10-14T17:02:10.628927095Z",
+    "cgroup_identity_sha256": "8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1",
+    "values": {
+      "cpu.max": "200000 100000",
+      "cpu.stat": "usage_usec 1605552407\nuser_usec 1338943915\nsystem_usec 266608491\ncore_sched.force_idle_usec 0\nnr_periods 30072\nnr_throttled 2960\nthrottled_usec 144694764\nnr_bursts 0\nburst_usec 0",
+      "cpuset.cpus.effective": "0-111",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+      "memory.max": "8589934592",
+      "process_allowed_cpu_list": "0-111"
+    },
+    "counters": {
+      "cpu.stat.nr_periods": 30072,
+      "cpu.stat.nr_throttled": 2960,
+      "cpu.stat.system_usec": 266608491,
+      "cpu.stat.throttled_usec": 144694764,
+      "cpu.stat.usage_usec": 1605552407,
+      "cpu.stat.user_usec": 1338943915,
+      "memory.events.high": 0,
+      "memory.events.low": 0,
+      "memory.events.max": 0,
+      "memory.events.oom": 0,
+      "memory.events.oom_group_kill": 0,
+      "memory.events.oom_kill": 0
+    },
+    "runtime_num_cpu": 112,
+    "runtime_gomaxprocs": 2
+  },
+  "resources_after": {
+    "goos": "linux",
+    "cgroup_metrics_status": "available",
+    "sample_started_utc": "2026-10-14T17:16:33.256274644Z",
+    "sample_finished_utc": "2026-10-14T17:16:33.256719471Z",
+    "cgroup_identity_sha256": "8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1",
+    "values": {
+      "cpu.max": "200000 100000",
+      "cpu.stat": "usage_usec 2705805369\nuser_usec 2244062260\nsystem_usec 461743108\ncore_sched.force_idle_usec 0\nnr_periods 38114\nnr_throttled 4466\nthrottled_usec 201134987\nnr_bursts 0\nburst_usec 0",
+      "cpuset.cpus.effective": "0-111",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+      "memory.max": "8589934592",
+      "process_allowed_cpu_list": "0-111"
+    },
+    "counters": {
+      "cpu.stat.nr_periods": 38114,
+      "cpu.stat.nr_throttled": 4466,
+      "cpu.stat.system_usec": 461743108,
+      "cpu.stat.throttled_usec": 201134987,
+      "cpu.stat.usage_usec": 2705805369,
+      "cpu.stat.user_usec": 2244062260,
+      "memory.events.high": 0,
+      "memory.events.low": 0,
+      "memory.events.max": 0,
+      "memory.events.oom": 0,
+      "memory.events.oom_group_kill": 0,
+      "memory.events.oom_kill": 0
+    },
+    "runtime_num_cpu": 112,
+    "runtime_gomaxprocs": 2
+  },
+  "resource_delta": {
+    "from_utc": "2026-10-14T17:02:10.628927095Z",
+    "to_utc": "2026-10-14T17:16:33.256719471Z",
+    "scope": "shared visible cgroup between samples; not per-process or sole causal attribution",
+    "counters": {
+      "cpu.stat.nr_periods": 8042,
+      "cpu.stat.nr_throttled": 1506,
+      "cpu.stat.system_usec": 195134617,
+      "cpu.stat.throttled_usec": 56440223,
+      "cpu.stat.usage_usec": 1100252962,
+      "cpu.stat.user_usec": 905118345,
+      "memory.events.high": 0,
+      "memory.events.low": 0,
+      "memory.events.max": 0,
+      "memory.events.oom": 0,
+      "memory.events.oom_group_kill": 0,
+      "memory.events.oom_kill": 0
+    }
+  },
+  "exit_code": 1,
+  "log_sha256": "efd55d375788bd9620b35af4e370b5cd498a74325df22427839d648a383f40a9",
+  "log_bytes": 1146109,
+  "cleanup": "owned_process_group_cleanup_attempted; candidate_removed",
+  "owned_group_absent": true,
+  "auxiliary_commands": [
+    {
+      "stage": "source-inventory",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T17:02:10.62908318Z",
+      "budget_ms": 119999,
+      "execute_ms": 27,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "git-directory",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T17:02:15.118715916Z",
+      "budget_ms": 119999,
+      "execute_ms": 2,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T17:02:15.12151999Z",
+      "budget_ms": 119999,
+      "execute_ms": 10078,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T17:02:25.200648835Z",
+      "budget_ms": 119999,
+      "execute_ms": 75,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "prerequisite-go",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T17:02:25.276716459Z",
+      "budget_ms": 119999,
+      "execute_ms": 2,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "prerequisite-node",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T17:02:25.279675827Z",
+      "budget_ms": 119999,
+      "execute_ms": 4,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "prerequisite-npm",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T17:02:25.284039737Z",
+      "budget_ms": 119999,
+      "execute_ms": 82,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T17:16:32.451566516Z",
+      "budget_ms": 119999,
+      "execute_ms": 101,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T17:16:32.553087305Z",
+      "budget_ms": 119999,
+      "execute_ms": 72,
+      "group_check_ms": 0
+    }
+  ]
+}

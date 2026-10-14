@@ -1,0 +1,20 @@
+{
+  "source": "actual native read_command_output(seq,save_to_workspace=true) responses independently checked against files, not maintainer message",
+  "run_id": "2b6a366cc7b3d48870e1b887757f229f",
+  "receipts": [
+    {
+      "seq": 3,
+      "path": "workflow-output/2b6a366cc7b3d48870e1b887757f229f/command-3.log",
+      "bytes": 1174629,
+      "sha256": "754f5242f9a567dd52b2f40b10667b34c18819099b6094d28940e48f661d310e",
+      "truncated": false
+    },
+    {
+      "seq": 6,
+      "path": "workflow-output/2b6a366cc7b3d48870e1b887757f229f/command-6.log",
+      "bytes": 1177433,
+      "sha256": "ec2540257de3d6a6c0717f165a045ceee8712b30380bb1cba4c56691e4bf6caf",
+      "truncated": false
+    }
+  ]
+}

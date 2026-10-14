@@ -1,0 +1,28 @@
+{
+  "run_id": "744c4329facce31be37c97e7caa2fea3",
+  "source": {
+    "files": 161,
+    "go": "go1.25.6",
+    "head": "1d581652736fbac4e8862b70367181c8a9f2f8b2",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "e637c8f9a92859a8766e9c6e23e2c08f53d9b40d96b5c0a247c455e7e19bac9b"
+  },
+  "previous_24_minute_gate_and_runner_entry_unchanged": true,
+  "current_source_snapshots_equal": 5,
+  "first_round_checks": 11,
+  "fresh_targeted_log_bytes": 98838,
+  "fresh_targeted_log_sha256": "f105a231d4a5f34109262818f4151224f34108a6e87833b72663e39b7929841a",
+  "unsupported_metrics_fixture_receipts": 2,
+  "linux_available_resource_delta_receipts": 12,
+  "native_test_host": "linux",
+  "darwin_arm64": "verification package compile only; native runtime/full journey NotRun",
+  "unsupported_behavior": "no proc/cgroup reads, no metric data or delta; normal and nonzero original gate semantics preserved",
+  "linux_behavior": "required target metrics; actual read/parse errors remain fatal; valid start/end deltas retained",
+  "full_make_verify": "NotRun by development; fixed tests handoff pending",
+  "qa": "NotRun; compatibility must be independently reviewed and first-round missing chapter rejected",
+  "credential_presence_only": {
+    "GITHUB_TOKEN": false,
+    "GH_TOKEN": false,
+    "GIT_ASKPASS": false
+  }
+}

@@ -1,0 +1,206 @@
+{
+  "main_attempt": "20261014T154026Z-2753749201",
+  "project_log_bytes": 1054470,
+  "project_log_sha256": "8361a3d64091f4557be14e80d436754d016bccfa1395b4f91bf3e041e1265735",
+  "parsed_json_records": 526,
+  "main_clean_start_line": 31,
+  "main_clean_end_line": 4188,
+  "embedded_verify_fixture_region": {
+    "first_line": 1935,
+    "last_line": 3836,
+    "scope": "race package test region contains isolated runner attempts; their COMMAND/CLEAN events are not main attempt phase timings"
+  },
+  "main_state_auxiliary_commands": [
+    {
+      "stage": "source-inventory",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T15:40:26.83614522Z",
+      "budget_ms": 119999,
+      "execute_ms": 21,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "git-directory",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T15:40:31.193765946Z",
+      "budget_ms": 119999,
+      "execute_ms": 2,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T15:40:31.196646531Z",
+      "budget_ms": 119999,
+      "execute_ms": 10288,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T15:40:41.485555441Z",
+      "budget_ms": 119999,
+      "execute_ms": 116,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "prerequisite-go",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T15:40:41.602455086Z",
+      "budget_ms": 119999,
+      "execute_ms": 4,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "prerequisite-node",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T15:40:41.607128496Z",
+      "budget_ms": 119999,
+      "execute_ms": 6,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "prerequisite-npm",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T15:40:41.613750092Z",
+      "budget_ms": 119999,
+      "execute_ms": 115,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T15:52:41.802656755Z",
+      "budget_ms": 119999,
+      "execute_ms": 105,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T15:52:41.908127578Z",
+      "budget_ms": 119999,
+      "execute_ms": 70,
+      "group_check_ms": 0
+    }
+  ],
+  "stages": [
+    {
+      "command": "go run ./tests/evidence",
+      "line": 32,
+      "result": "completed before subsequent stage",
+      "duration_ms": null
+    },
+    {
+      "command": "go run ./tests/review-history",
+      "line": 34,
+      "result": "completed before subsequent stage",
+      "duration_ms": null
+    },
+    {
+      "command": "make health-history",
+      "line": 38,
+      "result": "completed before subsequent stage",
+      "duration_ms": null
+    },
+    {
+      "command": "make format-check",
+      "line": 242,
+      "result": "completed before subsequent stage",
+      "duration_ms": null
+    },
+    {
+      "command": "go mod verify",
+      "line": 243,
+      "result": "completed before subsequent stage",
+      "duration_ms": null
+    },
+    {
+      "command": "make vet",
+      "line": 245,
+      "result": "completed before subsequent stage",
+      "duration_ms": null
+    },
+    {
+      "command": "make frontend-test",
+      "line": 247,
+      "result": "completed before subsequent stage",
+      "duration_ms": null
+    },
+    {
+      "command": "make test",
+      "line": 1935,
+      "result": "completed before subsequent stage",
+      "duration_ms": null
+    },
+    {
+      "command": "make build",
+      "line": 3837,
+      "result": "completed before subsequent stage",
+      "duration_ms": null
+    },
+    {
+      "command": "make browser",
+      "line": 3839,
+      "result": "terminated during console; full-console not started",
+      "duration_ms": null
+    }
+  ],
+  "browser_phases": [
+    "BROWSER_PHASE name=migration state=start utc=2026-10-14T15:45:49.114684828Z",
+    "BROWSER_PHASE name=migration state=end utc=2026-10-14T15:46:04.523263344Z elapsed_ms=15408 ok=true",
+    "BROWSER_PHASE name=legacy-ui state=start utc=2026-10-14T15:46:04.736472378Z",
+    "BROWSER_PHASE name=legacy-ui state=end utc=2026-10-14T15:49:02.902224848Z elapsed_ms=178165 ok=true",
+    "BROWSER_PHASE name=routing state=start utc=2026-10-14T15:49:02.902534005Z",
+    "BROWSER_PHASE name=routing state=end utc=2026-10-14T15:52:36.969101595Z elapsed_ms=214066 ok=true",
+    "BROWSER_PHASE name=console state=start utc=2026-10-14T15:52:36.969904929Z"
+  ],
+  "frontend_result": {
+    "tests": 278,
+    "passed": 278,
+    "failed": 0,
+    "tap_duration_ms": 1634.151786,
+    "scope": "TAP runtime only, not installation/build or entire frontend stage"
+  },
+  "race_package_receipts": [
+    "ok  \tmodel-relay/cmd/model-relay\t6.280s",
+    "ok  \tmodel-relay/internal/relay\t102.070s",
+    "ok  \tmodel-relay/tests/browser\t4.685s",
+    "ok  \tmodel-relay/tests/health-history\t2.203s",
+    "ok  \tmodel-relay/tests/review-history\t22.556s",
+    "ok  \tmodel-relay/tests/verification\t1.075s",
+    "ok  \tmodel-relay/tests/verify\t2.112s"
+  ],
+  "run_started_utc": "2026-10-14T15:40:26.835575262Z",
+  "run_finished_utc": "2026-10-14T15:52:42.63948322Z",
+  "entire_main_wall_ms": 735804,
+  "before_first_browser_phase_ms": 322279,
+  "completed_browser_phase_sum_ms": 407639,
+  "classification": "main cumulative gate deadline; not Owner stop; no proof of a single stuck action or independent pre-cancellation console assertion failure",
+  "current_gate_budget_minutes": 12,
+  "verification_source_restored_to_head": true,
+  "original_first_round_checks_passed": 11,
+  "resource_sample_utc": "2026-10-14T16:09:07.260Z",
+  "visible_cpu_quota_equivalent": 2,
+  "resource_caveat": "post-failure cumulative cgroup counters; no execution-5 start sample, delta or process attribution; CPU quota is a constraint, not proven unique cause",
+  "full_verification_rerun": "NotRun",
+  "qa": "NotRun; authorized missing chapter unchanged"
+}

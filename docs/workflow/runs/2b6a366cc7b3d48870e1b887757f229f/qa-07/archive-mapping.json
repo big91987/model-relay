@@ -1,0 +1,31 @@
+{
+  "source_policy": "manifest only; no compilable source copies",
+  "entries": [
+    {
+      "source": "test-results/verification/20261014T195523Z-3543396171/verify.log",
+      "archive": {
+        "path": "docs/workflow/runs/2b6a366cc7b3d48870e1b887757f229f/qa-07/tests06.verify.log",
+        "bytes": 1147466,
+        "sha256": "61dadc32700ffe860c9a03800b30e13b6c406f2a56dd43bedc1d71c14c3ba797"
+      }
+    },
+    {
+      "source": "test-results/verification/20261014T195523Z-3543396171/state.json",
+      "archive": {
+        "path": "docs/workflow/runs/2b6a366cc7b3d48870e1b887757f229f/qa-07/tests06.state.json",
+        "bytes": 7961,
+        "sha256": "04deda8e1d87f9067e77cc80a525535abd7b2a66a53ead5f076ff7b18c3f9333"
+      }
+    }
+  ],
+  "immutable_rejection": {
+    "path": "docs/workflow/runs/2b6a366cc7b3d48870e1b887757f229f/qa-04/qa.md",
+    "bytes": 9606,
+    "sha256": "1d25ef3827de7846b4af52493832a1dba74ba2e3fb295ef118903d1c45f0f1f4"
+  },
+  "source_manifest": {
+    "path": "docs/workflow/runs/2b6a366cc7b3d48870e1b887757f229f/first-round/source-manifest.json",
+    "bytes": 28765,
+    "sha256": "47b05d42fa0915e6c228a01a4d6ba2bcd99bedbf4fb368bc057e5b9525f23565"
+  }
+}

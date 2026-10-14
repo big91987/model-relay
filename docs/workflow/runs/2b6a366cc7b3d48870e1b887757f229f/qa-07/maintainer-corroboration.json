@@ -1,0 +1,33 @@
+{
+  "source": "maintainer user message supplied after unaccepted handoff; corroboration only, not independent QA reading or exported originals",
+  "seq3": {
+    "bytes": 1174629,
+    "sha256": "754f5242f9a567dd52b2f40b10667b34c18819099b6094d28940e48f661d310e",
+    "exit": 0,
+    "truncated": false,
+    "attempt": "20261014T192852Z-1089328441",
+    "inner_bytes": 1144558,
+    "inner_sha256": "afdbb354a9181d8fd950d2d16159283c9379d56552269eadbe4cd3f283ed101a"
+  },
+  "seq6": {
+    "bytes": 1177433,
+    "sha256": "ec2540257de3d6a6c0717f165a045ceee8712b30380bb1cba4c56691e4bf6caf",
+    "exit": 0,
+    "truncated": false,
+    "attempt": "20261014T195523Z-3543396171",
+    "inner_bytes": 1147466,
+    "inner_sha256": "61dadc32700ffe860c9a03800b30e13b6c406f2a56dd43bedc1d71c14c3ba797"
+  },
+  "maintainer_reads": "formal workflow_command_output next_offset to EOF; originals retained in platform only; not copied into workspace",
+  "qa07_additional_observation": {
+    "seq": 3,
+    "offset": 32768,
+    "next_offset": 65536,
+    "eof": false,
+    "truncated": false,
+    "visible_content": "source inventory paths; tool response presentation contains omission marker; cannot treat as full original bytes"
+  },
+  "qa04_e01": "OPEN; not closed by maintainer corroboration",
+  "handoff_status": "not accepted; prior user input pending delivery; now handled",
+  "candidate_changed": false
+}

@@ -1,0 +1,77 @@
+from pathlib import Path
+import datetime, hashlib, json, os, subprocess, sys
+root = Path.cwd()
+run = root / 'docs/workflow/runs/2b6a366cc7b3d48870e1b887757f229f'
+archive = run / 'qa-04'
+def sha(raw):
+    return hashlib.sha256(raw).hexdigest()
+manifest = json.loads((run / 'first-round/source-manifest.json').read_text())
+combined = hashlib.sha256()
+for item in sorted(manifest['files'], key=lambda entry: entry['path']):
+    raw = (root / item['path']).read_bytes()
+    assert len(raw) == item['bytes'] and sha(raw) == item['sha256'], item['path']
+    combined.update(f"{item['path']}\0{len(raw)}\0".encode())
+    combined.update(raw)
+assert combined.hexdigest() == manifest['working_tree_sha256']
+source = json.loads((root / '.harness/agent-platform/SOURCE.json').read_text())
+for name, item in source['files'].items():
+    assert sha((root / '.harness/agent-platform' / name).read_bytes()) == item['sha256'], name
+subprocess.run(['sha256sum', '-c', str(run / 'SHA256SUMS')], check=True, stdout=subprocess.DEVNULL)
+subprocess.run(['git', 'diff', '--check'], check=True)
+assert subprocess.check_output(['git', 'diff', 'HEAD', '--name-only']) == b''
+subprocess.run(['git', 'merge-base', '--is-ancestor', '6d2552d331fd7a0ec8d205f5d18ba3bcd34d6995', 'HEAD'], check=True)
+for name in ('Makefile', 'docs/harness/opensandbox-run-sharing.md'):
+    assert (root / name).read_bytes() == subprocess.check_output(['git', 'show', 'HEAD:' + name])
+document = (root / 'docs/harness/opensandbox-publish-recovery.md').read_bytes()
+assert document == (run / 'first-round/opensandbox-publish-recovery.md').read_bytes()
+headings = [line for line in document.decode().splitlines() if line.startswith('#')]
+missing = not any('停止' in line or '恢复与环境释放' in line for line in headings)
+assert missing
+state = json.loads((archive / 'tests03.state.json').read_text())
+log = (archive / 'tests03.verify.log').read_bytes()
+assert sha(log) == state['log_sha256'] and len(log) == state['log_bytes']
+assert state['exit_code'] == state['gate_exit'] == 0
+assert state['source_unchanged'] and state['candidate_unchanged'] and state['owned_group_absent']
+assert state['clean_start_measured'] and not state['node_modules_before'] and not state['npm_cache_before']
+assert state['gate_configured_budget_ms'] == 1440000
+assert state['source_before'] == state['source_after']
+assert state['source_before']['working_tree_sha256'] == combined.hexdigest()
+assert 'candidate_removed' in state['cleanup']
+decoded = log.decode()
+assert not any(line.startswith('--- FAIL:') for line in decoded.splitlines())
+assert '# fail 0' in decoded
+assert 'PASS expected historical HTTP red: 21 method failures with exact status/Allow diagnostics; 12 query/recovery passes' in decoded
+assert '--- PASS: TestFixedRunnerReceipts' in decoded
+assert '--- PASS: TestInventoryCancellationReceipt' in decoded
+for package in ('internal/relay', 'tests/verify', 'tests/health-history'):
+    assert any(line.startswith('ok') and 'model-relay/' + package + '\t' in line for line in decoded.splitlines())
+sys.path.insert(0, str(root / '.harness/agent-platform/examples/platform-workflows'))
+from repository import check_publish_files
+check_publish_files(root)
+result = {
+    'checked_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+    'run_id': '2b6a366cc7b3d48870e1b887757f229f', 'qa_execution': 4,
+    'head': subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(),
+    'source_files': len(manifest['files']), 'source_sha256': combined.hexdigest(),
+    'template_commit': source['commit'], 'template_files_verified': len(source['files']),
+    'tracked_changes': [], 'first_round_manifest_verified': True,
+    'credential_presence_only': {name: name in os.environ for name in ('GITHUB_TOKEN', 'GH_TOKEN', 'GIT_ASKPASS')},
+    'document_sha256': sha(document), 'first_round_snapshot_unchanged': True,
+    'document_headings': headings, 'lifecycle_section_missing': missing,
+    'reproduced_acceptance_defect': 'QA04-D01', 'qa_decision': 'revise',
+    'offline_publish_scan': 'PASS; existing unchanged repository.check_publish_files',
+    'inner_receipt_verified': True, 'inner_log_bytes': len(log), 'inner_log_sha256': sha(log),
+    'outer_receipt': {'seq': 3, 'supplied_exit_code': 0, 'supplied_timeout_seconds': 1800,
+        'supplied_bytes': 1174629, 'supplied_truncated': False,
+        'read_offsets': [0], 'next_offset': 32768, 'eof_reviewed': False,
+        'limitation': 'Full outer archive not materialized; no full outer log approval claim'},
+    'scope': 'Read-only independent identity and acceptance reproduction; no product edits or replacement full test run'
+}
+(archive / 'checks.json').write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
+print(json.dumps(result, ensure_ascii=False, indent=2))
+mapping = []
+for original, archived in [('test-results/verification/20261014T192852Z-1089328441/verify.log', 'tests03.verify.log'), ('test-results/verification/20261014T192852Z-1089328441/state.json', 'tests03.state.json')]:
+    raw = (archive / archived).read_bytes()
+    assert raw == (root / original).read_bytes()
+    mapping.append({'original_path': original, 'archived_path': (archive / archived).relative_to(root).as_posix(), 'bytes': len(raw), 'sha256': sha(raw)})
+(archive / 'archive-mapping.json').write_text(json.dumps({'files': mapping, 'source_snapshots': 'No compilable source copies; original source-manifest.json retained'}, ensure_ascii=False, indent=2) + '\n')

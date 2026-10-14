@@ -1,0 +1,31 @@
+{
+  "run_id": "744c4329facce31be37c97e7caa2fea3",
+  "node": "development",
+  "execution": 2,
+  "workflow_revision": 2,
+  "parameters_observed_in_prepare_input": {
+    "issue_number": "44",
+    "repository": "big91987/model-relay",
+    "repository_commit": "1d581652736fbac4e8862b70367181c8a9f2f8b2"
+  },
+  "task_declared": {
+    "workflow_id": "83f08f81f7040fcd0c12e6ff4e2acd2d",
+    "platform_installation": "f409c0a6f4e3208100291b8a88459a937ea6d4ca",
+    "trusted_base": "codex/issue42-test-fixture-candidate",
+    "environment_hours": 4,
+    "environment_memory_gib": 8
+  },
+  "prepare_receipt_observed": {
+    "execution": 1,
+    "exit_code": 0,
+    "log_truncated": false,
+    "prepared": true,
+    "reused": false
+  },
+  "credential_presence_only": {
+    "GITHUB_TOKEN": false,
+    "GH_TOKEN": false,
+    "GIT_ASKPASS": false
+  },
+  "scope": "Identity whitelist extracted from frozen prepare input and current task/receipt; not a complete frozen-input copy and not independent resource verification."
+}

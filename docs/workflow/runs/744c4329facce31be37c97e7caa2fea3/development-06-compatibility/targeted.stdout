@@ -1,0 +1,712 @@
+=== RUN   TestVerificationGateBudgetAndCancellation
+=== RUN   TestVerificationGateBudgetAndCancellation/success
+=== RUN   TestVerificationGateBudgetAndCancellation/nonzero
+=== RUN   TestVerificationGateBudgetAndCancellation/short-budget
+=== RUN   TestVerificationGateBudgetAndCancellation/parent-deadline
+=== RUN   TestVerificationGateBudgetAndCancellation/parent-cancelled
+=== RUN   TestVerificationGateBudgetAndCancellation/zero
+=== RUN   TestVerificationGateBudgetAndCancellation/negative
+=== RUN   TestVerificationGateBudgetAndCancellation/over-limit
+--- PASS: TestVerificationGateBudgetAndCancellation (0.21s)
+    --- PASS: TestVerificationGateBudgetAndCancellation/success (0.00s)
+    --- PASS: TestVerificationGateBudgetAndCancellation/nonzero (0.00s)
+    --- PASS: TestVerificationGateBudgetAndCancellation/short-budget (0.10s)
+    --- PASS: TestVerificationGateBudgetAndCancellation/parent-deadline (0.10s)
+    --- PASS: TestVerificationGateBudgetAndCancellation/parent-cancelled (0.00s)
+    --- PASS: TestVerificationGateBudgetAndCancellation/zero (0.00s)
+    --- PASS: TestVerificationGateBudgetAndCancellation/negative (0.00s)
+    --- PASS: TestVerificationGateBudgetAndCancellation/over-limit (0.00s)
+=== RUN   TestResourceSamplingAndDelta
+=== RUN   TestResourceSamplingAndDelta/read-failure
+=== RUN   TestResourceSamplingAndDelta/bad-quota
+=== RUN   TestResourceSamplingAndDelta/bad-counter
+=== RUN   TestResourceSamplingAndDelta/missing-counter
+=== RUN   TestResourceSamplingAndDelta/decrease
+=== RUN   TestResourceSamplingAndDelta/changed-cgroup
+=== RUN   TestResourceSamplingAndDelta/changed-limit
+--- PASS: TestResourceSamplingAndDelta (0.00s)
+    --- PASS: TestResourceSamplingAndDelta/read-failure (0.00s)
+    --- PASS: TestResourceSamplingAndDelta/bad-quota (0.00s)
+    --- PASS: TestResourceSamplingAndDelta/bad-counter (0.00s)
+    --- PASS: TestResourceSamplingAndDelta/missing-counter (0.00s)
+    --- PASS: TestResourceSamplingAndDelta/decrease (0.00s)
+    --- PASS: TestResourceSamplingAndDelta/changed-cgroup (0.00s)
+    --- PASS: TestResourceSamplingAndDelta/changed-limit (0.00s)
+=== RUN   TestResourceUnsupportedPlatform
+--- PASS: TestResourceUnsupportedPlatform (0.00s)
+=== RUN   TestLinuxResourceReadFailureRemainsFatal
+    gate_resources_test.go:198: LINUX_READ_ERROR_FIXTURE errno=ENOENT metrics_status=error fatal=true delta=absent
+--- PASS: TestLinuxResourceReadFailureRemainsFatal (0.00s)
+=== RUN   TestCandidateCopyAndEnvironment
+--- PASS: TestCandidateCopyAndEnvironment (0.00s)
+=== RUN   TestCopyRejectsParentEscape
+--- PASS: TestCopyRejectsParentEscape (0.00s)
+=== RUN   TestCopyRootAndTargetBoundaries
+=== RUN   TestCopyRootAndTargetBoundaries/normal_nested
+=== RUN   TestCopyRootAndTargetBoundaries/source_root
+=== RUN   TestCopyRootAndTargetBoundaries/target_root
+=== RUN   TestCopyRootAndTargetBoundaries/source_parent_internal
+=== RUN   TestCopyRootAndTargetBoundaries/target_parent
+=== RUN   TestCopyRootAndTargetBoundaries/target_file
+--- PASS: TestCopyRootAndTargetBoundaries (0.01s)
+    --- PASS: TestCopyRootAndTargetBoundaries/normal_nested (0.00s)
+    --- PASS: TestCopyRootAndTargetBoundaries/source_root (0.00s)
+    --- PASS: TestCopyRootAndTargetBoundaries/target_root (0.00s)
+    --- PASS: TestCopyRootAndTargetBoundaries/source_parent_internal (0.00s)
+    --- PASS: TestCopyRootAndTargetBoundaries/target_parent (0.00s)
+    --- PASS: TestCopyRootAndTargetBoundaries/target_file (0.00s)
+=== RUN   TestInventoryCancellationReceipt
+verification_receipt=test-results/verification/20261014T165248Z-3531536818
+RESOURCE_BEFORE {"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:48.377695071Z","sample_finished_utc":"2026-10-14T16:52:48.378366585Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1556441052\nuser_usec 1297977271\nsystem_usec 258463781\ncore_sched.force_idle_usec 0\nnr_periods 28346\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28346,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258463781,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1556441052,"cpu.stat.user_usec":1297977271,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2}
+COMMAND_START stage=source-inventory started_utc=2026-10-14T16:52:48.378771405Z budget_ms=47
+
+COMMAND_END stage=source-inventory exit=-1 cancelled=true execute_ms=48 group_check_ms=0
+RESOURCE_AFTER {"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:48.42810189Z","sample_finished_utc":"2026-10-14T16:52:48.429866037Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1556449891\nuser_usec 1297980759\nsystem_usec 258469131\ncore_sched.force_idle_usec 0\nnr_periods 28346\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28346,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258469131,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1556449891,"cpu.stat.user_usec":1297980759,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2}
+RESOURCE_DELTA {"from_utc":"2026-10-14T16:52:48.378366585Z","to_utc":"2026-10-14T16:52:48.429866037Z","scope":"shared visible cgroup between samples; not per-process or sole causal attribution","counters":{"cpu.stat.nr_periods":0,"cpu.stat.nr_throttled":0,"cpu.stat.system_usec":5350,"cpu.stat.throttled_usec":0,"cpu.stat.usage_usec":8839,"cpu.stat.user_usec":3488,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0}}
+FAILED: source inventory: source-inventory: signal: terminated
+context deadline exceeded
+--- PASS: TestInventoryCancellationReceipt (0.06s)
+=== RUN   TestRealNPMIsolatedConfig
+--- PASS: TestRealNPMIsolatedConfig (0.29s)
+=== RUN   TestDependencyProbeChromiumFailureOutput
+--- PASS: TestDependencyProbeChromiumFailureOutput (0.03s)
+=== RUN   TestVerifySignalHelper
+--- PASS: TestVerifySignalHelper (0.00s)
+=== RUN   TestRunnerSIGTERMPersistsCleanup
+--- PASS: TestRunnerSIGTERMPersistsCleanup (0.02s)
+=== RUN   TestCaptureChunkBoundariesAndFailure
+--- PASS: TestCaptureChunkBoundariesAndFailure (0.00s)
+=== RUN   TestOwnedGroupCancellation
+--- PASS: TestOwnedGroupCancellation (0.10s)
+=== RUN   TestCaptureCommandTiming
+=== RUN   TestCaptureCommandTiming/success
+=== RUN   TestCaptureCommandTiming/nonzero
+=== RUN   TestCaptureCommandTiming/cancelled
+--- PASS: TestCaptureCommandTiming (0.01s)
+    --- PASS: TestCaptureCommandTiming/success (0.00s)
+    --- PASS: TestCaptureCommandTiming/nonzero (0.00s)
+    --- PASS: TestCaptureCommandTiming/cancelled (0.00s)
+=== RUN   TestFixedRunnerReceipts
+=== RUN   TestFixedRunnerReceipts/green_fixture
+verification_receipt=test-results/verification/20261014T165248Z-1502078816
+RESOURCE_BEFORE {"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:48.899281053Z","sample_finished_utc":"2026-10-14T16:52:48.899886478Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1556873469\nuser_usec 1298294284\nsystem_usec 258579184\ncore_sched.force_idle_usec 0\nnr_periods 28351\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28351,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258579184,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1556873469,"cpu.stat.user_usec":1298294284,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2}
+COMMAND_START stage=source-inventory started_utc=2026-10-14T16:52:48.900286985Z budget_ms=7998
+input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=git-directory started_utc=2026-10-14T16:52:48.901565654Z budget_ms=7997
+/fixture/history
+
+COMMAND_END stage=git-directory exit=0 cancelled=false execute_ms=1 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:48.904248331Z budget_ms=7994
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=1 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:48.906556755Z budget_ms=7992
+{"head":"fixture","working_tree_sha256":"fixture"}
+evidence-stderr-success
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=2 group_check_ms=0
+COMMAND_START stage=prerequisite-go started_utc=2026-10-14T16:52:48.90882985Z budget_ms=7989
+go-fixture
+
+COMMAND_END stage=prerequisite-go exit=0 cancelled=false execute_ms=1 group_check_ms=0
+PREREQUISITE tool=go output=go-fixture
+COMMAND_START stage=prerequisite-node started_utc=2026-10-14T16:52:48.910772762Z budget_ms=7987
+node-fixture
+
+COMMAND_END stage=prerequisite-node exit=0 cancelled=false execute_ms=1 group_check_ms=0
+PREREQUISITE tool=node output=node-fixture
+COMMAND_START stage=prerequisite-npm started_utc=2026-10-14T16:52:48.912721148Z budget_ms=7985
+npm-fixture
+
+COMMAND_END stage=prerequisite-npm exit=0 cancelled=false execute_ms=1 group_check_ms=0
+PREREQUISITE tool=npm output=npm-fixture
+CLEAN_START {"started_utc":"2026-10-14T16:52:48.898811812Z","finished_utc":"","command":"make verify -\u003e isolated make verify-gates","isolation":"new private candidate; git history read-only","node_modules_before":false,"clean_start_measured":true,"npm_cache_before":false,"node_modules_after":false,"npm_cache_after":false,"source_unchanged":false,"candidate_unchanged":false,"NODE_PATH":"unset","manual_preinstall":"none","source_before":{"head":"fixture","working_tree_sha256":"fixture"},"versions":{"go":"go-fixture","node":"node-fixture","npm":"npm-fixture"},"gate_exit":-1,"gate_configured_budget_ms":1440000,"resources_before":{"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:48.899281053Z","sample_finished_utc":"2026-10-14T16:52:48.899886478Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1556873469\nuser_usec 1298294284\nsystem_usec 258579184\ncore_sched.force_idle_usec 0\nnr_periods 28351\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28351,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258579184,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1556873469,"cpu.stat.user_usec":1298294284,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2},"resources_after":{"goos":"","cgroup_metrics_status":"","sample_started_utc":"","sample_finished_utc":"","values":null,"counters":null,"runtime_num_cpu":0,"runtime_gomaxprocs":0},"exit_code":1,"log_sha256":"","log_bytes":0,"cleanup":"not_started","auxiliary_commands":[{"stage":"source-inventory","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:48.900286985Z","budget_ms":7998,"execute_ms":0,"group_check_ms":0},{"stage":"git-directory","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:48.901565654Z","budget_ms":7997,"execute_ms":1,"group_check_ms":0},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:48.904248331Z","budget_ms":7994,"execute_ms":1,"group_check_ms":0},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:48.906556755Z","budget_ms":7992,"execute_ms":2,"group_check_ms":0},{"stage":"prerequisite-go","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:48.90882985Z","budget_ms":7989,"execute_ms":1,"group_check_ms":0},{"stage":"prerequisite-node","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:48.910772762Z","budget_ms":7987,"execute_ms":1,"group_check_ms":0},{"stage":"prerequisite-npm","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:48.912721148Z","budget_ms":7985,"execute_ms":1,"group_check_ms":0}]}
+GATE_START started_utc=2026-10-14T16:52:48.915864203Z configured_budget_ms=1440000 effective_budget_ms=7982
+fixture gates stdout
+fixture gates stderr
+GATE_END exit=0 cancelled=false execute_ms=3 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:48.919628062Z budget_ms=7978
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=2 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:48.922071225Z budget_ms=7976
+{"head":"fixture","working_tree_sha256":"fixture"}
+evidence-stderr-success
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=1 group_check_ms=0
+COMMAND_START stage=dependency-probe started_utc=2026-10-14T16:52:48.923791215Z budget_ms=7974
+locked-local-fixture
+
+COMMAND_END stage=dependency-probe exit=0 cancelled=false execute_ms=1 group_check_ms=0
+CLEAN_END gate_exit=0 source_unchanged=true NODE_PATH=unset
+RESOURCE_AFTER {"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:48.925620179Z","sample_finished_utc":"2026-10-14T16:52:48.926364234Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1556907859\nuser_usec 1298307770\nsystem_usec 258600088\ncore_sched.force_idle_usec 0\nnr_periods 28351\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28351,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258600088,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1556907859,"cpu.stat.user_usec":1298307770,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2}
+RESOURCE_DELTA {"from_utc":"2026-10-14T16:52:48.899886478Z","to_utc":"2026-10-14T16:52:48.926364234Z","scope":"shared visible cgroup between samples; not per-process or sole causal attribution","counters":{"cpu.stat.nr_periods":0,"cpu.stat.nr_throttled":0,"cpu.stat.system_usec":20904,"cpu.stat.throttled_usec":0,"cpu.stat.usage_usec":34390,"cpu.stat.user_usec":13486,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0}}
+=== RUN   TestFixedRunnerReceipts/failed_fixture
+verification_receipt=test-results/verification/20261014T165248Z-1662481493
+RESOURCE_BEFORE {"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:48.93269524Z","sample_finished_utc":"2026-10-14T16:52:48.933211806Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1556915276\nuser_usec 1298312265\nsystem_usec 258603011\ncore_sched.force_idle_usec 0\nnr_periods 28351\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28351,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258603011,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1556915276,"cpu.stat.user_usec":1298312265,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2}
+COMMAND_START stage=source-inventory started_utc=2026-10-14T16:52:48.933623999Z budget_ms=7998
+input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=2 group_check_ms=0
+COMMAND_START stage=git-directory started_utc=2026-10-14T16:52:48.936053197Z budget_ms=7996
+/fixture/history
+
+COMMAND_END stage=git-directory exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:48.937454498Z budget_ms=7994
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:48.938428783Z budget_ms=7993
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=prerequisite-go started_utc=2026-10-14T16:52:48.939419511Z budget_ms=7992
+go-fixture
+
+COMMAND_END stage=prerequisite-go exit=0 cancelled=false execute_ms=2 group_check_ms=0
+PREREQUISITE tool=go output=go-fixture
+COMMAND_START stage=prerequisite-node started_utc=2026-10-14T16:52:48.941829097Z budget_ms=7990
+node-fixture
+
+COMMAND_END stage=prerequisite-node exit=0 cancelled=false execute_ms=1 group_check_ms=0
+PREREQUISITE tool=node output=node-fixture
+COMMAND_START stage=prerequisite-npm started_utc=2026-10-14T16:52:48.943876329Z budget_ms=7988
+npm-fixture
+
+COMMAND_END stage=prerequisite-npm exit=0 cancelled=false execute_ms=0 group_check_ms=0
+PREREQUISITE tool=npm output=npm-fixture
+CLEAN_START {"started_utc":"2026-10-14T16:52:48.932313337Z","finished_utc":"","command":"make verify -\u003e isolated make verify-gates","isolation":"new private candidate; git history read-only","node_modules_before":false,"clean_start_measured":true,"npm_cache_before":false,"node_modules_after":false,"npm_cache_after":false,"source_unchanged":false,"candidate_unchanged":false,"NODE_PATH":"unset","manual_preinstall":"none","source_before":{"head":"fixture","working_tree_sha256":"fixture"},"versions":{"go":"go-fixture","node":"node-fixture","npm":"npm-fixture"},"gate_exit":-1,"gate_configured_budget_ms":1440000,"resources_before":{"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:48.93269524Z","sample_finished_utc":"2026-10-14T16:52:48.933211806Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1556915276\nuser_usec 1298312265\nsystem_usec 258603011\ncore_sched.force_idle_usec 0\nnr_periods 28351\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28351,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258603011,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1556915276,"cpu.stat.user_usec":1298312265,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2},"resources_after":{"goos":"","cgroup_metrics_status":"","sample_started_utc":"","sample_finished_utc":"","values":null,"counters":null,"runtime_num_cpu":0,"runtime_gomaxprocs":0},"exit_code":1,"log_sha256":"","log_bytes":0,"cleanup":"not_started","auxiliary_commands":[{"stage":"source-inventory","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:48.933623999Z","budget_ms":7998,"execute_ms":2,"group_check_ms":0},{"stage":"git-directory","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:48.936053197Z","budget_ms":7996,"execute_ms":0,"group_check_ms":0},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:48.937454498Z","budget_ms":7994,"execute_ms":0,"group_check_ms":0},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:48.938428783Z","budget_ms":7993,"execute_ms":0,"group_check_ms":0},{"stage":"prerequisite-go","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:48.939419511Z","budget_ms":7992,"execute_ms":2,"group_check_ms":0},{"stage":"prerequisite-node","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:48.941829097Z","budget_ms":7990,"execute_ms":1,"group_check_ms":0},{"stage":"prerequisite-npm","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:48.943876329Z","budget_ms":7988,"execute_ms":0,"group_check_ms":0}]}
+GATE_START started_utc=2026-10-14T16:52:48.946437066Z configured_budget_ms=1440000 effective_budget_ms=7985
+fixture gates stdout
+fixture gates stderr
+GATE_END exit=23 cancelled=false execute_ms=2 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:48.948812327Z budget_ms=7983
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=1 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:48.950103036Z budget_ms=7982
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=0 group_check_ms=0
+CLEAN_END gate_exit=23 source_unchanged=true NODE_PATH=unset
+RESOURCE_AFTER {"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:48.951455218Z","sample_finished_utc":"2026-10-14T16:52:48.951954676Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1556942830\nuser_usec 1298326627\nsystem_usec 258616203\ncore_sched.force_idle_usec 0\nnr_periods 28351\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28351,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258616203,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1556942830,"cpu.stat.user_usec":1298326627,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2}
+RESOURCE_DELTA {"from_utc":"2026-10-14T16:52:48.933211806Z","to_utc":"2026-10-14T16:52:48.951954676Z","scope":"shared visible cgroup between samples; not per-process or sole causal attribution","counters":{"cpu.stat.nr_periods":0,"cpu.stat.nr_throttled":0,"cpu.stat.system_usec":13192,"cpu.stat.throttled_usec":0,"cpu.stat.usage_usec":27554,"cpu.stat.user_usec":14362,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0}}
+FAILED: exit status 23
+=== RUN   TestFixedRunnerReceipts/prerequisite_failed_fixture
+verification_receipt=test-results/verification/20261014T165248Z-2255105716
+RESOURCE_BEFORE {"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:48.956629997Z","sample_finished_utc":"2026-10-14T16:52:48.957072373Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1556948200\nuser_usec 1298329921\nsystem_usec 258618278\ncore_sched.force_idle_usec 0\nnr_periods 28351\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28351,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258618278,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1556948200,"cpu.stat.user_usec":1298329921,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2}
+COMMAND_START stage=source-inventory started_utc=2026-10-14T16:52:48.957404744Z budget_ms=7998
+input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=1 group_check_ms=0
+COMMAND_START stage=git-directory started_utc=2026-10-14T16:52:48.958826685Z budget_ms=7997
+/fixture/history
+
+COMMAND_END stage=git-directory exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:48.960107613Z budget_ms=7995
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=1 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:48.961929566Z budget_ms=7994
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=prerequisite-go started_utc=2026-10-14T16:52:48.962918498Z budget_ms=7993
+go-fixture
+
+COMMAND_END stage=prerequisite-go exit=0 cancelled=false execute_ms=0 group_check_ms=0
+PREREQUISITE tool=go output=go-fixture
+COMMAND_START stage=prerequisite-node started_utc=2026-10-14T16:52:48.964002692Z budget_ms=7992
+node-fixture
+
+COMMAND_END stage=prerequisite-node exit=0 cancelled=false execute_ms=0 group_check_ms=0
+PREREQUISITE tool=node output=node-fixture
+COMMAND_START stage=prerequisite-npm started_utc=2026-10-14T16:52:48.964891018Z budget_ms=7991
+prerequisite-stderr-diagnostic
+
+COMMAND_END stage=prerequisite-npm exit=24 cancelled=false execute_ms=0 group_check_ms=0
+PREREQUISITE tool=npm output=
+RESOURCE_AFTER {"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:48.966135176Z","sample_finished_utc":"2026-10-14T16:52:48.96657002Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1556961267\nuser_usec 1298336596\nsystem_usec 258624670\ncore_sched.force_idle_usec 0\nnr_periods 28352\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28352,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258624670,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1556961267,"cpu.stat.user_usec":1298336596,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2}
+RESOURCE_DELTA {"from_utc":"2026-10-14T16:52:48.957072373Z","to_utc":"2026-10-14T16:52:48.96657002Z","scope":"shared visible cgroup between samples; not per-process or sole causal attribution","counters":{"cpu.stat.nr_periods":1,"cpu.stat.nr_throttled":0,"cpu.stat.system_usec":6392,"cpu.stat.throttled_usec":0,"cpu.stat.usage_usec":13067,"cpu.stat.user_usec":6675,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0}}
+FAILED: npm prerequisite: prerequisite-npm: exit status 24
+=== RUN   TestFixedRunnerReceipts/evidence_failed_fixture
+verification_receipt=test-results/verification/20261014T165248Z-3872948619
+RESOURCE_BEFORE {"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:48.970950874Z","sample_finished_utc":"2026-10-14T16:52:48.97136095Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1556966457\nuser_usec 1298340753\nsystem_usec 258625704\ncore_sched.force_idle_usec 0\nnr_periods 28352\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28352,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258625704,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1556966457,"cpu.stat.user_usec":1298340753,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2}
+COMMAND_START stage=source-inventory started_utc=2026-10-14T16:52:48.971656003Z budget_ms=7998
+input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=git-directory started_utc=2026-10-14T16:52:48.972690104Z budget_ms=7997
+/fixture/history
+
+COMMAND_END stage=git-directory exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:48.973772007Z budget_ms=7996
+evidence-stdout-diagnostic
+evidence-stderr-diagnostic
+
+COMMAND_END stage=source-evidence exit=25 cancelled=false execute_ms=0 group_check_ms=0
+RESOURCE_AFTER {"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:48.974868064Z","sample_finished_utc":"2026-10-14T16:52:48.975283137Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1556971713\nuser_usec 1298342433\nsystem_usec 258629279\ncore_sched.force_idle_usec 0\nnr_periods 28352\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28352,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258629279,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1556971713,"cpu.stat.user_usec":1298342433,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2}
+RESOURCE_DELTA {"from_utc":"2026-10-14T16:52:48.97136095Z","to_utc":"2026-10-14T16:52:48.975283137Z","scope":"shared visible cgroup between samples; not per-process or sole causal attribution","counters":{"cpu.stat.nr_periods":0,"cpu.stat.nr_throttled":0,"cpu.stat.system_usec":3575,"cpu.stat.throttled_usec":0,"cpu.stat.usage_usec":5256,"cpu.stat.user_usec":1680,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0}}
+FAILED: source digest: source-evidence: exit status 25
+=== RUN   TestFixedRunnerReceipts/probe_failed_fixture
+verification_receipt=test-results/verification/20261014T165248Z-2119360894
+RESOURCE_BEFORE {"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:48.979117198Z","sample_finished_utc":"2026-10-14T16:52:48.979493897Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1556975894\nuser_usec 1298344569\nsystem_usec 258631325\ncore_sched.force_idle_usec 0\nnr_periods 28352\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28352,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258631325,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1556975894,"cpu.stat.user_usec":1298344569,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2}
+COMMAND_START stage=source-inventory started_utc=2026-10-14T16:52:48.979775018Z budget_ms=7998
+input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=git-directory started_utc=2026-10-14T16:52:48.980878989Z budget_ms=7997
+/fixture/history
+
+COMMAND_END stage=git-directory exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:48.982083283Z budget_ms=7996
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:48.982916194Z budget_ms=7995
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=prerequisite-go started_utc=2026-10-14T16:52:48.983958916Z budget_ms=7994
+go-fixture
+
+COMMAND_END stage=prerequisite-go exit=0 cancelled=false execute_ms=0 group_check_ms=0
+PREREQUISITE tool=go output=go-fixture
+COMMAND_START stage=prerequisite-node started_utc=2026-10-14T16:52:48.984844462Z budget_ms=7993
+node-fixture
+
+COMMAND_END stage=prerequisite-node exit=0 cancelled=false execute_ms=0 group_check_ms=0
+PREREQUISITE tool=node output=node-fixture
+COMMAND_START stage=prerequisite-npm started_utc=2026-10-14T16:52:48.985826742Z budget_ms=7992
+npm-fixture
+
+COMMAND_END stage=prerequisite-npm exit=0 cancelled=false execute_ms=2 group_check_ms=0
+PREREQUISITE tool=npm output=npm-fixture
+CLEAN_START {"started_utc":"2026-10-14T16:52:48.978751744Z","finished_utc":"","command":"make verify -\u003e isolated make verify-gates","isolation":"new private candidate; git history read-only","node_modules_before":false,"clean_start_measured":true,"npm_cache_before":false,"node_modules_after":false,"npm_cache_after":false,"source_unchanged":false,"candidate_unchanged":false,"NODE_PATH":"unset","manual_preinstall":"none","source_before":{"head":"fixture","working_tree_sha256":"fixture"},"versions":{"go":"go-fixture","node":"node-fixture","npm":"npm-fixture"},"gate_exit":-1,"gate_configured_budget_ms":1440000,"resources_before":{"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:48.979117198Z","sample_finished_utc":"2026-10-14T16:52:48.979493897Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1556975894\nuser_usec 1298344569\nsystem_usec 258631325\ncore_sched.force_idle_usec 0\nnr_periods 28352\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28352,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258631325,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1556975894,"cpu.stat.user_usec":1298344569,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2},"resources_after":{"goos":"","cgroup_metrics_status":"","sample_started_utc":"","sample_finished_utc":"","values":null,"counters":null,"runtime_num_cpu":0,"runtime_gomaxprocs":0},"exit_code":1,"log_sha256":"","log_bytes":0,"cleanup":"not_started","auxiliary_commands":[{"stage":"source-inventory","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:48.979775018Z","budget_ms":7998,"execute_ms":0,"group_check_ms":0},{"stage":"git-directory","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:48.980878989Z","budget_ms":7997,"execute_ms":0,"group_check_ms":0},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:48.982083283Z","budget_ms":7996,"execute_ms":0,"group_check_ms":0},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:48.982916194Z","budget_ms":7995,"execute_ms":0,"group_check_ms":0},{"stage":"prerequisite-go","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:48.983958916Z","budget_ms":7994,"execute_ms":0,"group_check_ms":0},{"stage":"prerequisite-node","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:48.984844462Z","budget_ms":7993,"execute_ms":0,"group_check_ms":0},{"stage":"prerequisite-npm","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:48.985826742Z","budget_ms":7992,"execute_ms":2,"group_check_ms":0}]}
+GATE_START started_utc=2026-10-14T16:52:48.991770591Z configured_budget_ms=1440000 effective_budget_ms=7986
+fixture gates stdout
+fixture gates stderr
+GATE_END exit=0 cancelled=false execute_ms=2 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:48.994197606Z budget_ms=7984
+{"head":"fixture","working_tree_sha256":"fixture"}
+evidence-stderr-success
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:48.995123798Z budget_ms=7983
+{"head":"fixture","working_tree_sha256":"fixture"}
+evidence-stderr-success
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=dependency-probe started_utc=2026-10-14T16:52:48.995922065Z budget_ms=7982
+probe-stderr-diagnostic
+probe-stdout-diagnostic
+
+COMMAND_END stage=dependency-probe exit=26 cancelled=false execute_ms=0 group_check_ms=0
+CLEAN_END gate_exit=0 source_unchanged=true NODE_PATH=unset
+RESOURCE_AFTER {"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:48.997108767Z","sample_finished_utc":"2026-10-14T16:52:48.997518963Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1556999115\nuser_usec 1298357009\nsystem_usec 258642106\ncore_sched.force_idle_usec 0\nnr_periods 28352\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28352,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258642106,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1556999115,"cpu.stat.user_usec":1298357009,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2}
+RESOURCE_DELTA {"from_utc":"2026-10-14T16:52:48.979493897Z","to_utc":"2026-10-14T16:52:48.997518963Z","scope":"shared visible cgroup between samples; not per-process or sole causal attribution","counters":{"cpu.stat.nr_periods":0,"cpu.stat.nr_throttled":0,"cpu.stat.system_usec":10781,"cpu.stat.throttled_usec":0,"cpu.stat.usage_usec":23221,"cpu.stat.user_usec":12440,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0}}
+FAILED: dependency-probe: exit status 26
+=== RUN   TestFixedRunnerReceipts/copy_failed_fixture
+verification_receipt=test-results/verification/20261014T165249Z-1007038601
+RESOURCE_BEFORE {"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:49.002086008Z","sample_finished_utc":"2026-10-14T16:52:49.002497315Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1557004337\nuser_usec 1298359337\nsystem_usec 258645000\ncore_sched.force_idle_usec 0\nnr_periods 28352\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28352,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258645000,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1557004337,"cpu.stat.user_usec":1298359337,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2}
+COMMAND_START stage=source-inventory started_utc=2026-10-14T16:52:49.002809828Z budget_ms=7998
+input.txt\0internal/input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=0 group_check_ms=0
+RESOURCE_AFTER {"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:49.003925727Z","sample_finished_utc":"2026-10-14T16:52:49.004447181Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1557006689\nuser_usec 1298360622\nsystem_usec 258646066\ncore_sched.force_idle_usec 0\nnr_periods 28352\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28352,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258646066,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1557006689,"cpu.stat.user_usec":1298360622,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2}
+RESOURCE_DELTA {"from_utc":"2026-10-14T16:52:49.002497315Z","to_utc":"2026-10-14T16:52:49.004447181Z","scope":"shared visible cgroup between samples; not per-process or sole causal attribution","counters":{"cpu.stat.nr_periods":0,"cpu.stat.nr_throttled":0,"cpu.stat.system_usec":1066,"cpu.stat.throttled_usec":0,"cpu.stat.usage_usec":2352,"cpu.stat.user_usec":1285,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0}}
+FAILED: source parent must be a real directory
+=== RUN   TestFixedRunnerReceipts/cancel_inventory
+verification_receipt=test-results/verification/20261014T165249Z-3009146940
+RESOURCE_BEFORE {"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:49.009379284Z","sample_finished_utc":"2026-10-14T16:52:49.009730148Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1557014504\nuser_usec 1298364436\nsystem_usec 258650067\ncore_sched.force_idle_usec 0\nnr_periods 28352\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28352,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258650067,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1557014504,"cpu.stat.user_usec":1298364436,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2}
+COMMAND_START stage=source-inventory started_utc=2026-10-14T16:52:49.009997849Z budget_ms=7998
+auxiliary-ready
+
+COMMAND_END stage=source-inventory exit=-1 cancelled=true execute_ms=1 group_check_ms=0
+RESOURCE_AFTER {"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:49.012049702Z","sample_finished_utc":"2026-10-14T16:52:49.012537338Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1557018321\nuser_usec 1298367112\nsystem_usec 258651208\ncore_sched.force_idle_usec 0\nnr_periods 28352\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28352,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258651208,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1557018321,"cpu.stat.user_usec":1298367112,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2}
+RESOURCE_DELTA {"from_utc":"2026-10-14T16:52:49.009730148Z","to_utc":"2026-10-14T16:52:49.012537338Z","scope":"shared visible cgroup between samples; not per-process or sole causal attribution","counters":{"cpu.stat.nr_periods":0,"cpu.stat.nr_throttled":0,"cpu.stat.system_usec":1141,"cpu.stat.throttled_usec":0,"cpu.stat.usage_usec":3817,"cpu.stat.user_usec":2676,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0}}
+FAILED: source inventory: source-inventory: signal: terminated
+context canceled
+=== RUN   TestFixedRunnerReceipts/cancel_git_directory
+verification_receipt=test-results/verification/20261014T165249Z-1188756525
+RESOURCE_BEFORE {"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:49.016515309Z","sample_finished_utc":"2026-10-14T16:52:49.016906044Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1557022728\nuser_usec 1298368425\nsystem_usec 258654303\ncore_sched.force_idle_usec 0\nnr_periods 28352\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28352,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258654303,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1557022728,"cpu.stat.user_usec":1298368425,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2}
+COMMAND_START stage=source-inventory started_utc=2026-10-14T16:52:49.017202716Z budget_ms=7998
+input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=1 group_check_ms=0
+COMMAND_START stage=git-directory started_utc=2026-10-14T16:52:49.018908637Z budget_ms=7997
+auxiliary-ready
+
+COMMAND_END stage=git-directory exit=-1 cancelled=true execute_ms=2 group_check_ms=0
+RESOURCE_AFTER {"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:49.021173037Z","sample_finished_utc":"2026-10-14T16:52:49.021567672Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1557028585\nuser_usec 1298372125\nsystem_usec 258656459\ncore_sched.force_idle_usec 0\nnr_periods 28352\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28352,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258656459,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1557028585,"cpu.stat.user_usec":1298372125,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2}
+RESOURCE_DELTA {"from_utc":"2026-10-14T16:52:49.016906044Z","to_utc":"2026-10-14T16:52:49.021567672Z","scope":"shared visible cgroup between samples; not per-process or sole causal attribution","counters":{"cpu.stat.nr_periods":0,"cpu.stat.nr_throttled":0,"cpu.stat.system_usec":2156,"cpu.stat.throttled_usec":0,"cpu.stat.usage_usec":5857,"cpu.stat.user_usec":3700,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0}}
+FAILED: git-directory: signal: terminated
+context canceled
+=== RUN   TestFixedRunnerReceipts/cancel_evidence
+verification_receipt=test-results/verification/20261014T165249Z-2853448193
+RESOURCE_BEFORE {"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:49.025341715Z","sample_finished_utc":"2026-10-14T16:52:49.025689366Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1557032865\nuser_usec 1298374343\nsystem_usec 258658521\ncore_sched.force_idle_usec 0\nnr_periods 28352\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28352,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258658521,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1557032865,"cpu.stat.user_usec":1298374343,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2}
+COMMAND_START stage=source-inventory started_utc=2026-10-14T16:52:49.02597873Z budget_ms=7998
+input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=git-directory started_utc=2026-10-14T16:52:49.027086593Z budget_ms=7997
+/fixture/history
+
+COMMAND_END stage=git-directory exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:49.028219356Z budget_ms=7996
+auxiliary-ready
+
+COMMAND_END stage=source-evidence exit=-1 cancelled=true execute_ms=2 group_check_ms=0
+RESOURCE_AFTER {"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:49.030873845Z","sample_finished_utc":"2026-10-14T16:52:49.031337141Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1557040331\nuser_usec 1298378374\nsystem_usec 258661957\ncore_sched.force_idle_usec 0\nnr_periods 28352\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28352,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258661957,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1557040331,"cpu.stat.user_usec":1298378374,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2}
+RESOURCE_DELTA {"from_utc":"2026-10-14T16:52:49.025689366Z","to_utc":"2026-10-14T16:52:49.031337141Z","scope":"shared visible cgroup between samples; not per-process or sole causal attribution","counters":{"cpu.stat.nr_periods":0,"cpu.stat.nr_throttled":0,"cpu.stat.system_usec":3436,"cpu.stat.throttled_usec":0,"cpu.stat.usage_usec":7466,"cpu.stat.user_usec":4031,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0}}
+FAILED: source digest: source-evidence: signal: terminated
+context canceled
+=== RUN   TestFixedRunnerReceipts/cancel_prerequisite
+verification_receipt=test-results/verification/20261014T165249Z-1904868341
+RESOURCE_BEFORE {"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:49.035547265Z","sample_finished_utc":"2026-10-14T16:52:49.03594878Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1557044592\nuser_usec 1298380576\nsystem_usec 258664016\ncore_sched.force_idle_usec 0\nnr_periods 28352\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28352,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258664016,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1557044592,"cpu.stat.user_usec":1298380576,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2}
+COMMAND_START stage=source-inventory started_utc=2026-10-14T16:52:49.036266292Z budget_ms=7998
+input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=git-directory started_utc=2026-10-14T16:52:49.037327637Z budget_ms=7997
+/fixture/history
+
+COMMAND_END stage=git-directory exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:49.03844484Z budget_ms=7996
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:49.039343148Z budget_ms=7995
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=prerequisite-go started_utc=2026-10-14T16:52:49.040128833Z budget_ms=7994
+go-fixture
+
+COMMAND_END stage=prerequisite-go exit=0 cancelled=false execute_ms=0 group_check_ms=0
+PREREQUISITE tool=go output=go-fixture
+COMMAND_START stage=prerequisite-node started_utc=2026-10-14T16:52:49.041318179Z budget_ms=7993
+node-fixture
+
+COMMAND_END stage=prerequisite-node exit=0 cancelled=false execute_ms=0 group_check_ms=0
+PREREQUISITE tool=node output=node-fixture
+COMMAND_START stage=prerequisite-npm started_utc=2026-10-14T16:52:49.042291558Z budget_ms=7992
+auxiliary-ready
+
+COMMAND_END stage=prerequisite-npm exit=-1 cancelled=true execute_ms=1 group_check_ms=0
+PREREQUISITE tool=npm output=auxiliary-ready
+RESOURCE_AFTER {"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:49.044619318Z","sample_finished_utc":"2026-10-14T16:52:49.045104367Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1557056474\nuser_usec 1298387274\nsystem_usec 258669199\ncore_sched.force_idle_usec 0\nnr_periods 28352\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28352,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258669199,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1557056474,"cpu.stat.user_usec":1298387274,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2}
+RESOURCE_DELTA {"from_utc":"2026-10-14T16:52:49.03594878Z","to_utc":"2026-10-14T16:52:49.045104367Z","scope":"shared visible cgroup between samples; not per-process or sole causal attribution","counters":{"cpu.stat.nr_periods":0,"cpu.stat.nr_throttled":0,"cpu.stat.system_usec":5183,"cpu.stat.throttled_usec":0,"cpu.stat.usage_usec":11882,"cpu.stat.user_usec":6698,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0}}
+FAILED: npm prerequisite: prerequisite-npm: signal: terminated
+context canceled
+=== RUN   TestFixedRunnerReceipts/cancel_probe
+verification_receipt=test-results/verification/20261014T165249Z-1273370826
+RESOURCE_BEFORE {"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:49.050296494Z","sample_finished_utc":"2026-10-14T16:52:49.050750184Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1557062533\nuser_usec 1298392323\nsystem_usec 258670209\ncore_sched.force_idle_usec 0\nnr_periods 28352\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28352,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258670209,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1557062533,"cpu.stat.user_usec":1298392323,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2}
+COMMAND_START stage=source-inventory started_utc=2026-10-14T16:52:49.051091836Z budget_ms=7998
+input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=git-directory started_utc=2026-10-14T16:52:49.052061103Z budget_ms=7997
+/fixture/history
+
+COMMAND_END stage=git-directory exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:49.053113688Z budget_ms=7996
+{"head":"fixture","working_tree_sha256":"fixture"}
+evidence-stderr-success
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:49.053904144Z budget_ms=7995
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=prerequisite-go started_utc=2026-10-14T16:52:49.054901711Z budget_ms=7994
+go-fixture
+
+COMMAND_END stage=prerequisite-go exit=0 cancelled=false execute_ms=0 group_check_ms=0
+PREREQUISITE tool=go output=go-fixture
+COMMAND_START stage=prerequisite-node started_utc=2026-10-14T16:52:49.055725442Z budget_ms=7993
+node-fixture
+
+COMMAND_END stage=prerequisite-node exit=0 cancelled=false execute_ms=0 group_check_ms=0
+PREREQUISITE tool=node output=node-fixture
+COMMAND_START stage=prerequisite-npm started_utc=2026-10-14T16:52:49.05655012Z budget_ms=7993
+npm-fixture
+
+COMMAND_END stage=prerequisite-npm exit=0 cancelled=false execute_ms=1 group_check_ms=0
+PREREQUISITE tool=npm output=npm-fixture
+CLEAN_START {"started_utc":"2026-10-14T16:52:49.049898375Z","finished_utc":"","command":"make verify -\u003e isolated make verify-gates","isolation":"new private candidate; git history read-only","node_modules_before":false,"clean_start_measured":true,"npm_cache_before":false,"node_modules_after":false,"npm_cache_after":false,"source_unchanged":false,"candidate_unchanged":false,"NODE_PATH":"unset","manual_preinstall":"none","source_before":{"head":"fixture","working_tree_sha256":"fixture"},"versions":{"go":"go-fixture","node":"node-fixture","npm":"npm-fixture"},"gate_exit":-1,"gate_configured_budget_ms":1440000,"resources_before":{"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:49.050296494Z","sample_finished_utc":"2026-10-14T16:52:49.050750184Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1557062533\nuser_usec 1298392323\nsystem_usec 258670209\ncore_sched.force_idle_usec 0\nnr_periods 28352\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28352,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258670209,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1557062533,"cpu.stat.user_usec":1298392323,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2},"resources_after":{"goos":"","cgroup_metrics_status":"","sample_started_utc":"","sample_finished_utc":"","values":null,"counters":null,"runtime_num_cpu":0,"runtime_gomaxprocs":0},"exit_code":1,"log_sha256":"","log_bytes":0,"cleanup":"not_started","auxiliary_commands":[{"stage":"source-inventory","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.051091836Z","budget_ms":7998,"execute_ms":0,"group_check_ms":0},{"stage":"git-directory","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.052061103Z","budget_ms":7997,"execute_ms":0,"group_check_ms":0},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.053113688Z","budget_ms":7996,"execute_ms":0,"group_check_ms":0},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.053904144Z","budget_ms":7995,"execute_ms":0,"group_check_ms":0},{"stage":"prerequisite-go","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.054901711Z","budget_ms":7994,"execute_ms":0,"group_check_ms":0},{"stage":"prerequisite-node","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.055725442Z","budget_ms":7993,"execute_ms":0,"group_check_ms":0},{"stage":"prerequisite-npm","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.05655012Z","budget_ms":7993,"execute_ms":1,"group_check_ms":0}]}
+GATE_START started_utc=2026-10-14T16:52:49.059681896Z configured_budget_ms=1440000 effective_budget_ms=7990
+fixture gates stdout
+fixture gates stderr
+GATE_END exit=0 cancelled=false execute_ms=1 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:49.061649499Z budget_ms=7988
+{"head":"fixture","working_tree_sha256":"fixture"}
+evidence-stderr-success
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:49.062707143Z budget_ms=7987
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=dependency-probe started_utc=2026-10-14T16:52:49.06359463Z budget_ms=7986
+auxiliary-ready
+
+COMMAND_END stage=dependency-probe exit=-1 cancelled=true execute_ms=1 group_check_ms=0
+CLEAN_END gate_exit=0 source_unchanged=true NODE_PATH=unset
+RESOURCE_AFTER {"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:49.065901841Z","sample_finished_utc":"2026-10-14T16:52:49.066261622Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1557083291\nuser_usec 1298399674\nsystem_usec 258683616\ncore_sched.force_idle_usec 0\nnr_periods 28352\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28352,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258683616,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1557083291,"cpu.stat.user_usec":1298399674,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2}
+RESOURCE_DELTA {"from_utc":"2026-10-14T16:52:49.050750184Z","to_utc":"2026-10-14T16:52:49.066261622Z","scope":"shared visible cgroup between samples; not per-process or sole causal attribution","counters":{"cpu.stat.nr_periods":0,"cpu.stat.nr_throttled":0,"cpu.stat.system_usec":13407,"cpu.stat.throttled_usec":0,"cpu.stat.usage_usec":20758,"cpu.stat.user_usec":7351,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0}}
+FAILED: dependency-probe: signal: terminated
+context canceled
+=== RUN   TestFixedRunnerReceipts/resource_start_failed_fixture
+verification_receipt=test-results/verification/20261014T165249Z-3003947507
+RESOURCE_BEFORE {"goos":"linux","cgroup_metrics_status":"error","sample_started_utc":"2026-10-14T16:52:49.072008348Z","sample_finished_utc":"2026-10-14T16:52:49.07243938Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1557090135\nuser_usec 1298405378\nsystem_usec 258684756\ncore_sched.force_idle_usec 0\nnr_periods 28353\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28353,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258684756,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1557090135,"cpu.stat.user_usec":1298405378,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2,"errors":["controlled resource read failure"]}
+RESOURCE_AFTER {"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:49.072782574Z","sample_finished_utc":"2026-10-14T16:52:49.073194206Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1557090197\nuser_usec 1298405430\nsystem_usec 258684767\ncore_sched.force_idle_usec 0\nnr_periods 28353\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28353,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258684767,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1557090197,"cpu.stat.user_usec":1298405430,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2}
+FAILED: resource sample before failed: controlled resource read failure
+resource sample before failed: controlled resource read failure
+=== RUN   TestFixedRunnerReceipts/resource_end_failed_fixture
+verification_receipt=test-results/verification/20261014T165249Z-3057941436
+RESOURCE_BEFORE {"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:49.076776272Z","sample_finished_utc":"2026-10-14T16:52:49.077200511Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1557094370\nuser_usec 1298408570\nsystem_usec 258685799\ncore_sched.force_idle_usec 0\nnr_periods 28353\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28353,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258685799,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1557094370,"cpu.stat.user_usec":1298408570,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2}
+COMMAND_START stage=source-inventory started_utc=2026-10-14T16:52:49.077504584Z budget_ms=7998
+input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=git-directory started_utc=2026-10-14T16:52:49.078572721Z budget_ms=7997
+/fixture/history
+
+COMMAND_END stage=git-directory exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:49.07973641Z budget_ms=7996
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:49.080635953Z budget_ms=7995
+{"head":"fixture","working_tree_sha256":"fixture"}
+evidence-stderr-success
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=prerequisite-go started_utc=2026-10-14T16:52:49.081527519Z budget_ms=7994
+go-fixture
+
+COMMAND_END stage=prerequisite-go exit=0 cancelled=false execute_ms=0 group_check_ms=0
+PREREQUISITE tool=go output=go-fixture
+COMMAND_START stage=prerequisite-node started_utc=2026-10-14T16:52:49.082348335Z budget_ms=7993
+node-fixture
+
+COMMAND_END stage=prerequisite-node exit=0 cancelled=false execute_ms=0 group_check_ms=0
+PREREQUISITE tool=node output=node-fixture
+COMMAND_START stage=prerequisite-npm started_utc=2026-10-14T16:52:49.08314025Z budget_ms=7993
+npm-fixture
+
+COMMAND_END stage=prerequisite-npm exit=0 cancelled=false execute_ms=0 group_check_ms=0
+PREREQUISITE tool=npm output=npm-fixture
+CLEAN_START {"started_utc":"2026-10-14T16:52:49.076425155Z","finished_utc":"","command":"make verify -\u003e isolated make verify-gates","isolation":"new private candidate; git history read-only","node_modules_before":false,"clean_start_measured":true,"npm_cache_before":false,"node_modules_after":false,"npm_cache_after":false,"source_unchanged":false,"candidate_unchanged":false,"NODE_PATH":"unset","manual_preinstall":"none","source_before":{"head":"fixture","working_tree_sha256":"fixture"},"versions":{"go":"go-fixture","node":"node-fixture","npm":"npm-fixture"},"gate_exit":-1,"gate_configured_budget_ms":1440000,"resources_before":{"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:49.076776272Z","sample_finished_utc":"2026-10-14T16:52:49.077200511Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1557094370\nuser_usec 1298408570\nsystem_usec 258685799\ncore_sched.force_idle_usec 0\nnr_periods 28353\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28353,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258685799,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1557094370,"cpu.stat.user_usec":1298408570,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2},"resources_after":{"goos":"","cgroup_metrics_status":"","sample_started_utc":"","sample_finished_utc":"","values":null,"counters":null,"runtime_num_cpu":0,"runtime_gomaxprocs":0},"exit_code":1,"log_sha256":"","log_bytes":0,"cleanup":"not_started","auxiliary_commands":[{"stage":"source-inventory","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.077504584Z","budget_ms":7998,"execute_ms":0,"group_check_ms":0},{"stage":"git-directory","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.078572721Z","budget_ms":7997,"execute_ms":0,"group_check_ms":0},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.07973641Z","budget_ms":7996,"execute_ms":0,"group_check_ms":0},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.080635953Z","budget_ms":7995,"execute_ms":0,"group_check_ms":0},{"stage":"prerequisite-go","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.081527519Z","budget_ms":7994,"execute_ms":0,"group_check_ms":0},{"stage":"prerequisite-node","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.082348335Z","budget_ms":7993,"execute_ms":0,"group_check_ms":0},{"stage":"prerequisite-npm","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.08314025Z","budget_ms":7993,"execute_ms":0,"group_check_ms":0}]}
+GATE_START started_utc=2026-10-14T16:52:49.084931916Z configured_budget_ms=1440000 effective_budget_ms=7991
+fixture gates stdout
+fixture gates stderr
+GATE_END exit=0 cancelled=false execute_ms=1 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:49.086695494Z budget_ms=7989
+{"head":"fixture","working_tree_sha256":"fixture"}
+evidence-stderr-success
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:49.087572915Z budget_ms=7988
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=dependency-probe started_utc=2026-10-14T16:52:49.088370543Z budget_ms=7987
+locked-local-fixture
+
+COMMAND_END stage=dependency-probe exit=0 cancelled=false execute_ms=0 group_check_ms=0
+CLEAN_END gate_exit=0 source_unchanged=true NODE_PATH=unset
+RESOURCE_AFTER {"goos":"linux","cgroup_metrics_status":"error","sample_started_utc":"2026-10-14T16:52:49.089455391Z","sample_finished_utc":"2026-10-14T16:52:49.089881853Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1557111756\nuser_usec 1298416312\nsystem_usec 258695443\ncore_sched.force_idle_usec 0\nnr_periods 28353\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28353,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258695443,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1557111756,"cpu.stat.user_usec":1298416312,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2,"errors":["controlled resource read failure"]}
+FAILED: resource sample after failed: controlled resource read failure
+resource sample after failed: controlled resource read failure
+=== RUN   TestFixedRunnerReceipts/resource_end_failed_gate_fixture
+verification_receipt=test-results/verification/20261014T165249Z-3020550356
+RESOURCE_BEFORE {"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:49.094923006Z","sample_finished_utc":"2026-10-14T16:52:49.095351182Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1557118070\nuser_usec 1298422586\nsystem_usec 258695484\ncore_sched.force_idle_usec 0\nnr_periods 28353\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28353,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258695484,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1557118070,"cpu.stat.user_usec":1298422586,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2}
+COMMAND_START stage=source-inventory started_utc=2026-10-14T16:52:49.095675825Z budget_ms=7998
+input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=1 group_check_ms=0
+COMMAND_START stage=git-directory started_utc=2026-10-14T16:52:49.096999256Z budget_ms=7997
+/fixture/history
+
+COMMAND_END stage=git-directory exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:49.098001329Z budget_ms=7996
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:49.098819171Z budget_ms=7995
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=prerequisite-go started_utc=2026-10-14T16:52:49.099658253Z budget_ms=7994
+go-fixture
+
+COMMAND_END stage=prerequisite-go exit=0 cancelled=false execute_ms=0 group_check_ms=0
+PREREQUISITE tool=go output=go-fixture
+COMMAND_START stage=prerequisite-node started_utc=2026-10-14T16:52:49.100413842Z budget_ms=7993
+node-fixture
+
+COMMAND_END stage=prerequisite-node exit=0 cancelled=false execute_ms=0 group_check_ms=0
+PREREQUISITE tool=node output=node-fixture
+COMMAND_START stage=prerequisite-npm started_utc=2026-10-14T16:52:49.101276761Z budget_ms=7993
+npm-fixture
+
+COMMAND_END stage=prerequisite-npm exit=0 cancelled=false execute_ms=0 group_check_ms=0
+PREREQUISITE tool=npm output=npm-fixture
+CLEAN_START {"started_utc":"2026-10-14T16:52:49.094530272Z","finished_utc":"","command":"make verify -\u003e isolated make verify-gates","isolation":"new private candidate; git history read-only","node_modules_before":false,"clean_start_measured":true,"npm_cache_before":false,"node_modules_after":false,"npm_cache_after":false,"source_unchanged":false,"candidate_unchanged":false,"NODE_PATH":"unset","manual_preinstall":"none","source_before":{"head":"fixture","working_tree_sha256":"fixture"},"versions":{"go":"go-fixture","node":"node-fixture","npm":"npm-fixture"},"gate_exit":-1,"gate_configured_budget_ms":1440000,"resources_before":{"goos":"linux","cgroup_metrics_status":"available","sample_started_utc":"2026-10-14T16:52:49.094923006Z","sample_finished_utc":"2026-10-14T16:52:49.095351182Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1557118070\nuser_usec 1298422586\nsystem_usec 258695484\ncore_sched.force_idle_usec 0\nnr_periods 28353\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28353,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258695484,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1557118070,"cpu.stat.user_usec":1298422586,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2},"resources_after":{"goos":"","cgroup_metrics_status":"","sample_started_utc":"","sample_finished_utc":"","values":null,"counters":null,"runtime_num_cpu":0,"runtime_gomaxprocs":0},"exit_code":1,"log_sha256":"","log_bytes":0,"cleanup":"not_started","auxiliary_commands":[{"stage":"source-inventory","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.095675825Z","budget_ms":7998,"execute_ms":1,"group_check_ms":0},{"stage":"git-directory","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.096999256Z","budget_ms":7997,"execute_ms":0,"group_check_ms":0},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.098001329Z","budget_ms":7996,"execute_ms":0,"group_check_ms":0},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.098819171Z","budget_ms":7995,"execute_ms":0,"group_check_ms":0},{"stage":"prerequisite-go","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.099658253Z","budget_ms":7994,"execute_ms":0,"group_check_ms":0},{"stage":"prerequisite-node","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.100413842Z","budget_ms":7993,"execute_ms":0,"group_check_ms":0},{"stage":"prerequisite-npm","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.101276761Z","budget_ms":7993,"execute_ms":0,"group_check_ms":0}]}
+GATE_START started_utc=2026-10-14T16:52:49.103061451Z configured_budget_ms=1440000 effective_budget_ms=7991
+fixture gates stdout
+fixture gates stderr
+GATE_END exit=23 cancelled=false execute_ms=1 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:49.105021578Z budget_ms=7989
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=2 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:49.107267042Z budget_ms=7987
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=1 group_check_ms=0
+CLEAN_END gate_exit=23 source_unchanged=true NODE_PATH=unset
+RESOURCE_AFTER {"goos":"linux","cgroup_metrics_status":"error","sample_started_utc":"2026-10-14T16:52:49.109672824Z","sample_finished_utc":"2026-10-14T16:52:49.110106259Z","cgroup_identity_sha256":"8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1","values":{"cpu.max":"200000 100000","cpu.stat":"usage_usec 1557136202\nuser_usec 1298430614\nsystem_usec 258705588\ncore_sched.force_idle_usec 0\nnr_periods 28353\nnr_throttled 2802\nthrottled_usec 130479072\nnr_bursts 0\nburst_usec 0","cpuset.cpus.effective":"0-111","memory.events":"low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0","memory.max":"8589934592","process_allowed_cpu_list":"0-111"},"counters":{"cpu.stat.nr_periods":28353,"cpu.stat.nr_throttled":2802,"cpu.stat.system_usec":258705588,"cpu.stat.throttled_usec":130479072,"cpu.stat.usage_usec":1557136202,"cpu.stat.user_usec":1298430614,"memory.events.high":0,"memory.events.low":0,"memory.events.max":0,"memory.events.oom":0,"memory.events.oom_group_kill":0,"memory.events.oom_kill":0},"runtime_num_cpu":112,"runtime_gomaxprocs":2,"errors":["controlled resource read failure"]}
+FAILED: exit status 23
+resource sample after failed: controlled resource read failure
+resource sample after failed: controlled resource read failure
+=== RUN   TestFixedRunnerReceipts/unsupported_metrics_fixture
+verification_receipt=test-results/verification/20261014T165249Z-3704256089
+RESOURCE_BEFORE {"goos":"darwin","cgroup_metrics_status":"unsupported","cgroup_metrics_reason":"cgroup metrics are not supported on this operating system","sample_started_utc":"2026-10-14T16:52:49.113965535Z","sample_finished_utc":"2026-10-14T16:52:49.113968881Z","values":{},"counters":{},"runtime_num_cpu":112,"runtime_gomaxprocs":2}
+COMMAND_START stage=source-inventory started_utc=2026-10-14T16:52:49.114182069Z budget_ms=7999
+input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=git-directory started_utc=2026-10-14T16:52:49.11513232Z budget_ms=7998
+/fixture/history
+
+COMMAND_END stage=git-directory exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:49.116161246Z budget_ms=7997
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=2 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:49.118401301Z budget_ms=7995
+{"head":"fixture","working_tree_sha256":"fixture"}
+evidence-stderr-success
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=prerequisite-go started_utc=2026-10-14T16:52:49.119271441Z budget_ms=7994
+go-fixture
+
+COMMAND_END stage=prerequisite-go exit=0 cancelled=false execute_ms=0 group_check_ms=0
+PREREQUISITE tool=go output=go-fixture
+COMMAND_START stage=prerequisite-node started_utc=2026-10-14T16:52:49.120014569Z budget_ms=7993
+node-fixture
+
+COMMAND_END stage=prerequisite-node exit=0 cancelled=false execute_ms=0 group_check_ms=0
+PREREQUISITE tool=node output=node-fixture
+COMMAND_START stage=prerequisite-npm started_utc=2026-10-14T16:52:49.120908298Z budget_ms=7992
+npm-fixture
+
+COMMAND_END stage=prerequisite-npm exit=0 cancelled=false execute_ms=0 group_check_ms=0
+PREREQUISITE tool=npm output=npm-fixture
+CLEAN_START {"started_utc":"2026-10-14T16:52:49.113691607Z","finished_utc":"","command":"make verify -\u003e isolated make verify-gates","isolation":"new private candidate; git history read-only","node_modules_before":false,"clean_start_measured":true,"npm_cache_before":false,"node_modules_after":false,"npm_cache_after":false,"source_unchanged":false,"candidate_unchanged":false,"NODE_PATH":"unset","manual_preinstall":"none","source_before":{"head":"fixture","working_tree_sha256":"fixture"},"versions":{"go":"go-fixture","node":"node-fixture","npm":"npm-fixture"},"gate_exit":-1,"gate_configured_budget_ms":1440000,"resources_before":{"goos":"darwin","cgroup_metrics_status":"unsupported","cgroup_metrics_reason":"cgroup metrics are not supported on this operating system","sample_started_utc":"2026-10-14T16:52:49.113965535Z","sample_finished_utc":"2026-10-14T16:52:49.113968881Z","values":{},"counters":{},"runtime_num_cpu":112,"runtime_gomaxprocs":2},"resources_after":{"goos":"","cgroup_metrics_status":"","sample_started_utc":"","sample_finished_utc":"","values":null,"counters":null,"runtime_num_cpu":0,"runtime_gomaxprocs":0},"exit_code":1,"log_sha256":"","log_bytes":0,"cleanup":"not_started","auxiliary_commands":[{"stage":"source-inventory","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.114182069Z","budget_ms":7999,"execute_ms":0,"group_check_ms":0},{"stage":"git-directory","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.11513232Z","budget_ms":7998,"execute_ms":0,"group_check_ms":0},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.116161246Z","budget_ms":7997,"execute_ms":2,"group_check_ms":0},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.118401301Z","budget_ms":7995,"execute_ms":0,"group_check_ms":0},{"stage":"prerequisite-go","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.119271441Z","budget_ms":7994,"execute_ms":0,"group_check_ms":0},{"stage":"prerequisite-node","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.120014569Z","budget_ms":7993,"execute_ms":0,"group_check_ms":0},{"stage":"prerequisite-npm","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.120908298Z","budget_ms":7992,"execute_ms":0,"group_check_ms":0}]}
+GATE_START started_utc=2026-10-14T16:52:49.123229652Z configured_budget_ms=1440000 effective_budget_ms=7990
+fixture gates stdout
+fixture gates stderr
+GATE_END exit=0 cancelled=false execute_ms=1 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:49.124944004Z budget_ms=7988
+{"head":"fixture","working_tree_sha256":"fixture"}
+evidence-stderr-success
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:49.12584099Z budget_ms=7987
+{"head":"fixture","working_tree_sha256":"fixture"}
+evidence-stderr-success
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=dependency-probe started_utc=2026-10-14T16:52:49.126871641Z budget_ms=7986
+locked-local-fixture
+
+COMMAND_END stage=dependency-probe exit=0 cancelled=false execute_ms=0 group_check_ms=0
+CLEAN_END gate_exit=0 source_unchanged=true NODE_PATH=unset
+RESOURCE_AFTER {"goos":"darwin","cgroup_metrics_status":"unsupported","cgroup_metrics_reason":"cgroup metrics are not supported on this operating system","sample_started_utc":"2026-10-14T16:52:49.128146103Z","sample_finished_utc":"2026-10-14T16:52:49.128149738Z","values":{},"counters":{},"runtime_num_cpu":112,"runtime_gomaxprocs":2}
+=== RUN   TestFixedRunnerReceipts/unsupported_metrics_failed_gate_fixture
+verification_receipt=test-results/verification/20261014T165249Z-2201535336
+RESOURCE_BEFORE {"goos":"darwin","cgroup_metrics_status":"unsupported","cgroup_metrics_reason":"cgroup metrics are not supported on this operating system","sample_started_utc":"2026-10-14T16:52:49.131293781Z","sample_finished_utc":"2026-10-14T16:52:49.13129916Z","values":{},"counters":{},"runtime_num_cpu":112,"runtime_gomaxprocs":2}
+COMMAND_START stage=source-inventory started_utc=2026-10-14T16:52:49.131474592Z budget_ms=7999
+input.txt\0
+COMMAND_END stage=source-inventory exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=git-directory started_utc=2026-10-14T16:52:49.132476613Z budget_ms=7998
+/fixture/history
+
+COMMAND_END stage=git-directory exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:49.133504803Z budget_ms=7997
+evidence-stderr-success
+{"head":"fixture","working_tree_sha256":"fixture"}
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:49.134652822Z budget_ms=7996
+{"head":"fixture","working_tree_sha256":"fixture"}
+evidence-stderr-success
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=prerequisite-go started_utc=2026-10-14T16:52:49.135664536Z budget_ms=7995
+go-fixture
+
+COMMAND_END stage=prerequisite-go exit=0 cancelled=false execute_ms=0 group_check_ms=0
+PREREQUISITE tool=go output=go-fixture
+COMMAND_START stage=prerequisite-node started_utc=2026-10-14T16:52:49.136546403Z budget_ms=7994
+node-fixture
+
+COMMAND_END stage=prerequisite-node exit=0 cancelled=false execute_ms=0 group_check_ms=0
+PREREQUISITE tool=node output=node-fixture
+COMMAND_START stage=prerequisite-npm started_utc=2026-10-14T16:52:49.137277566Z budget_ms=7993
+npm-fixture
+
+COMMAND_END stage=prerequisite-npm exit=0 cancelled=false execute_ms=0 group_check_ms=0
+PREREQUISITE tool=npm output=npm-fixture
+CLEAN_START {"started_utc":"2026-10-14T16:52:49.13092409Z","finished_utc":"","command":"make verify -\u003e isolated make verify-gates","isolation":"new private candidate; git history read-only","node_modules_before":false,"clean_start_measured":true,"npm_cache_before":false,"node_modules_after":false,"npm_cache_after":false,"source_unchanged":false,"candidate_unchanged":false,"NODE_PATH":"unset","manual_preinstall":"none","source_before":{"head":"fixture","working_tree_sha256":"fixture"},"versions":{"go":"go-fixture","node":"node-fixture","npm":"npm-fixture"},"gate_exit":-1,"gate_configured_budget_ms":1440000,"resources_before":{"goos":"darwin","cgroup_metrics_status":"unsupported","cgroup_metrics_reason":"cgroup metrics are not supported on this operating system","sample_started_utc":"2026-10-14T16:52:49.131293781Z","sample_finished_utc":"2026-10-14T16:52:49.13129916Z","values":{},"counters":{},"runtime_num_cpu":112,"runtime_gomaxprocs":2},"resources_after":{"goos":"","cgroup_metrics_status":"","sample_started_utc":"","sample_finished_utc":"","values":null,"counters":null,"runtime_num_cpu":0,"runtime_gomaxprocs":0},"exit_code":1,"log_sha256":"","log_bytes":0,"cleanup":"not_started","auxiliary_commands":[{"stage":"source-inventory","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.131474592Z","budget_ms":7999,"execute_ms":0,"group_check_ms":0},{"stage":"git-directory","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.132476613Z","budget_ms":7998,"execute_ms":0,"group_check_ms":0},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.133504803Z","budget_ms":7997,"execute_ms":0,"group_check_ms":0},{"stage":"source-evidence","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.134652822Z","budget_ms":7996,"execute_ms":0,"group_check_ms":0},{"stage":"prerequisite-go","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.135664536Z","budget_ms":7995,"execute_ms":0,"group_check_ms":0},{"stage":"prerequisite-node","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.136546403Z","budget_ms":7994,"execute_ms":0,"group_check_ms":0},{"stage":"prerequisite-npm","exit":0,"cancelled":false,"owned_group_absent":true,"started_utc":"2026-10-14T16:52:49.137277566Z","budget_ms":7993,"execute_ms":0,"group_check_ms":0}]}
+GATE_START started_utc=2026-10-14T16:52:49.138860692Z configured_budget_ms=1440000 effective_budget_ms=7991
+fixture gates stdout
+fixture gates stderr
+GATE_END exit=23 cancelled=false execute_ms=1 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:49.140561926Z budget_ms=7990
+{"head":"fixture","working_tree_sha256":"fixture"}
+evidence-stderr-success
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=0 group_check_ms=0
+COMMAND_START stage=source-evidence started_utc=2026-10-14T16:52:49.141337623Z budget_ms=7989
+{"head":"fixture","working_tree_sha256":"fixture"}
+evidence-stderr-success
+
+COMMAND_END stage=source-evidence exit=0 cancelled=false execute_ms=0 group_check_ms=0
+CLEAN_END gate_exit=23 source_unchanged=true NODE_PATH=unset
+RESOURCE_AFTER {"goos":"darwin","cgroup_metrics_status":"unsupported","cgroup_metrics_reason":"cgroup metrics are not supported on this operating system","sample_started_utc":"2026-10-14T16:52:49.14247309Z","sample_finished_utc":"2026-10-14T16:52:49.142477171Z","values":{},"counters":{},"runtime_num_cpu":112,"runtime_gomaxprocs":2}
+FAILED: exit status 23
+--- PASS: TestFixedRunnerReceipts (0.25s)
+    --- PASS: TestFixedRunnerReceipts/green_fixture (0.03s)
+    --- PASS: TestFixedRunnerReceipts/failed_fixture (0.02s)
+    --- PASS: TestFixedRunnerReceipts/prerequisite_failed_fixture (0.01s)
+    --- PASS: TestFixedRunnerReceipts/evidence_failed_fixture (0.01s)
+    --- PASS: TestFixedRunnerReceipts/probe_failed_fixture (0.02s)
+    --- PASS: TestFixedRunnerReceipts/copy_failed_fixture (0.01s)
+    --- PASS: TestFixedRunnerReceipts/cancel_inventory (0.01s)
+    --- PASS: TestFixedRunnerReceipts/cancel_git_directory (0.01s)
+    --- PASS: TestFixedRunnerReceipts/cancel_evidence (0.01s)
+    --- PASS: TestFixedRunnerReceipts/cancel_prerequisite (0.01s)
+    --- PASS: TestFixedRunnerReceipts/cancel_probe (0.02s)
+    --- PASS: TestFixedRunnerReceipts/resource_start_failed_fixture (0.00s)
+    --- PASS: TestFixedRunnerReceipts/resource_end_failed_fixture (0.02s)
+    --- PASS: TestFixedRunnerReceipts/resource_end_failed_gate_fixture (0.02s)
+    --- PASS: TestFixedRunnerReceipts/unsupported_metrics_fixture (0.02s)
+    --- PASS: TestFixedRunnerReceipts/unsupported_metrics_failed_gate_fixture (0.01s)
+PASS
+ok  	model-relay/tests/verify	2.009s

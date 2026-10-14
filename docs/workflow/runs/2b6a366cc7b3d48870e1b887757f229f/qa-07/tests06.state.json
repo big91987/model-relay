@@ -1,0 +1,235 @@
+{
+  "started_utc": "2026-10-14T19:55:23.561967759Z",
+  "finished_utc": "2026-10-14T20:12:24.157026612Z",
+  "command": "make verify -\u003e isolated make verify-gates",
+  "isolation": "new private candidate; git history read-only",
+  "node_modules_before": false,
+  "clean_start_measured": true,
+  "npm_cache_before": false,
+  "node_modules_after": true,
+  "npm_cache_after": true,
+  "source_unchanged": true,
+  "candidate_unchanged": true,
+  "NODE_PATH": "unset",
+  "manual_preinstall": "none",
+  "source_before": {
+    "files": 163,
+    "go": "go1.25.6",
+    "head": "30b4e13c19e36d51b72ef1186468d6adf39ac822",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "991c79ca919b3d0ccf148c066c3b24d993090fcb78ab864c0e4637cfff8040ba"
+  },
+  "source_after": {
+    "files": 163,
+    "go": "go1.25.6",
+    "head": "30b4e13c19e36d51b72ef1186468d6adf39ac822",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "991c79ca919b3d0ccf148c066c3b24d993090fcb78ab864c0e4637cfff8040ba"
+  },
+  "versions": {
+    "go": "go version go1.25.6 linux/amd64",
+    "node": "v22.22.0",
+    "npm": "10.9.4"
+  },
+  "dependency_receipt": "playwright=1.59.1; resolution=candidate/node_modules\nplaywright-core=1.59.1; resolution=candidate/node_modules\nchromium=Google Chrome for Testing 147.0.7727.15",
+  "gate_exit": 0,
+  "gate_configured_budget_ms": 1440000,
+  "gate": {
+    "stage": "verify-gates",
+    "exit": 0,
+    "cancelled": false,
+    "owned_group_absent": true,
+    "started_utc": "2026-10-14T19:55:38.294667593Z",
+    "budget_ms": 1439999,
+    "execute_ms": 1004725,
+    "group_check_ms": 0
+  },
+  "resources_before": {
+    "goos": "linux",
+    "cgroup_metrics_status": "available",
+    "sample_started_utc": "2026-10-14T19:55:23.562489168Z",
+    "sample_finished_utc": "2026-10-14T19:55:23.562873874Z",
+    "cgroup_identity_sha256": "8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1",
+    "values": {
+      "cpu.max": "200000 100000",
+      "cpu.stat": "usage_usec 1480042262\nuser_usec 1216519017\nsystem_usec 263523244\ncore_sched.force_idle_usec 0\nnr_periods 16538\nnr_throttled 2022\nthrottled_usec 102546882\nnr_bursts 0\nburst_usec 0",
+      "cpuset.cpus.effective": "0-111",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+      "memory.max": "8589934592",
+      "process_allowed_cpu_list": "0-111"
+    },
+    "counters": {
+      "cpu.stat.nr_periods": 16538,
+      "cpu.stat.nr_throttled": 2022,
+      "cpu.stat.system_usec": 263523244,
+      "cpu.stat.throttled_usec": 102546882,
+      "cpu.stat.usage_usec": 1480042262,
+      "cpu.stat.user_usec": 1216519017,
+      "memory.events.high": 0,
+      "memory.events.low": 0,
+      "memory.events.max": 0,
+      "memory.events.oom": 0,
+      "memory.events.oom_group_kill": 0,
+      "memory.events.oom_kill": 0
+    },
+    "runtime_num_cpu": 112,
+    "runtime_gomaxprocs": 2
+  },
+  "resources_after": {
+    "goos": "linux",
+    "cgroup_metrics_status": "available",
+    "sample_started_utc": "2026-10-14T20:12:24.15322753Z",
+    "sample_finished_utc": "2026-10-14T20:12:24.153483352Z",
+    "cgroup_identity_sha256": "8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1",
+    "values": {
+      "cpu.max": "200000 100000",
+      "cpu.stat": "usage_usec 2859258662\nuser_usec 2353741594\nsystem_usec 505517067\ncore_sched.force_idle_usec 0\nnr_periods 26247\nnr_throttled 3956\nthrottled_usec 189209435\nnr_bursts 0\nburst_usec 0",
+      "cpuset.cpus.effective": "0-111",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+      "memory.max": "8589934592",
+      "process_allowed_cpu_list": "0-111"
+    },
+    "counters": {
+      "cpu.stat.nr_periods": 26247,
+      "cpu.stat.nr_throttled": 3956,
+      "cpu.stat.system_usec": 505517067,
+      "cpu.stat.throttled_usec": 189209435,
+      "cpu.stat.usage_usec": 2859258662,
+      "cpu.stat.user_usec": 2353741594,
+      "memory.events.high": 0,
+      "memory.events.low": 0,
+      "memory.events.max": 0,
+      "memory.events.oom": 0,
+      "memory.events.oom_group_kill": 0,
+      "memory.events.oom_kill": 0
+    },
+    "runtime_num_cpu": 112,
+    "runtime_gomaxprocs": 2
+  },
+  "resource_delta": {
+    "from_utc": "2026-10-14T19:55:23.562873874Z",
+    "to_utc": "2026-10-14T20:12:24.153483352Z",
+    "scope": "shared visible cgroup between samples; not per-process or sole causal attribution",
+    "counters": {
+      "cpu.stat.nr_periods": 9709,
+      "cpu.stat.nr_throttled": 1934,
+      "cpu.stat.system_usec": 241993823,
+      "cpu.stat.throttled_usec": 86662553,
+      "cpu.stat.usage_usec": 1379216400,
+      "cpu.stat.user_usec": 1137222577,
+      "memory.events.high": 0,
+      "memory.events.low": 0,
+      "memory.events.max": 0,
+      "memory.events.oom": 0,
+      "memory.events.oom_group_kill": 0,
+      "memory.events.oom_kill": 0
+    }
+  },
+  "exit_code": 0,
+  "log_sha256": "61dadc32700ffe860c9a03800b30e13b6c406f2a56dd43bedc1d71c14c3ba797",
+  "log_bytes": 1147466,
+  "cleanup": "owned_process_group_cleanup_attempted; candidate_removed",
+  "owned_group_absent": true,
+  "auxiliary_commands": [
+    {
+      "stage": "source-inventory",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T19:55:23.563019307Z",
+      "budget_ms": 119999,
+      "execute_ms": 19,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "git-directory",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T19:55:31.095411396Z",
+      "budget_ms": 119999,
+      "execute_ms": 3,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T19:55:31.099207815Z",
+      "budget_ms": 119999,
+      "execute_ms": 7015,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T19:55:38.114606098Z",
+      "budget_ms": 119999,
+      "execute_ms": 84,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "prerequisite-go",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T19:55:38.198805278Z",
+      "budget_ms": 119999,
+      "execute_ms": 5,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "prerequisite-node",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T19:55:38.204213128Z",
+      "budget_ms": 119999,
+      "execute_ms": 5,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "prerequisite-npm",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T19:55:38.210260681Z",
+      "budget_ms": 119999,
+      "execute_ms": 83,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T20:12:23.020388863Z",
+      "budget_ms": 119999,
+      "execute_ms": 80,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T20:12:23.100895985Z",
+      "budget_ms": 119999,
+      "execute_ms": 77,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "dependency-probe",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-10-14T20:12:23.178220548Z",
+      "budget_ms": 119999,
+      "execute_ms": 309,
+      "group_check_ms": 0
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "source": "supplied tests06 platform receipt and actual native read_command_output observations; not reconstructed output",
+  "seq": 6,
+  "sandbox_id": "354f6de569b44a4fa596e8576fc55edb",
+  "supplied": {
+    "exit_code": 0,
+    "sandbox_exit_code": 0,
+    "sandbox_stopped": true,
+    "timeout_seconds": 1800,
+    "log_bytes": 1177433,
+    "truncated": false
+  },
+  "qa07_native_reads": [
+    {
+      "offset": 0,
+      "next_offset": 32768,
+      "eof": false,
+      "truncated": false
+    },
+    {
+      "offset": 1146880,
+      "next_offset": 1177433,
+      "eof": true,
+      "truncated": false
+    }
+  ],
+  "not_reviewed_interval": {
+    "start": 32768,
+    "end_exclusive": 1146880
+  },
+  "full_outer_materialized": false,
+  "full_outer_reviewed": false,
+  "raw_api_probe": {
+    "documented_sdk_path": "/api/workflow-runs/{run_id}/steps/{seq}/output?offset={offset}",
+    "authentication": "no credential supplied or read",
+    "http_status": 401,
+    "note": "This unauthenticated HTTP response does not mean the native paginated tool is unavailable; native reads work. No credentials acquired."
+  },
+  "qa04_e01": "OPEN seq3 gap remains unchanged; older metadata is retained",
+  "required": "Complete contiguous original pages or official original-byte export, with mapping/hash and independent full review; EOF tail alone is insufficient"
+}

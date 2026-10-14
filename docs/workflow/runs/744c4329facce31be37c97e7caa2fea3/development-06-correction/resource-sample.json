@@ -1,0 +1,21 @@
+{
+  "sample_started_utc": "2026-10-14T16:09:07.260Z",
+  "sample_finished_utc": "2026-10-14T16:09:07.261Z",
+  "scope": "current process visible cgroup; post-failure cumulative snapshot, not attempt baseline or delta",
+  "cgroup_namespace_path": "/",
+  "cgroup_mount_relative_path": ".",
+  "cgroup": {
+    "cpu.max": "200000 100000",
+    "cpu.stat": "usage_usec 1386224592\nuser_usec 1158551808\nsystem_usec 227672783\ncore_sched.force_idle_usec 0\nnr_periods 19511\nnr_throttled 2254\nthrottled_usec 101809176\nnr_bursts 0\nburst_usec 0",
+    "memory.max": "8589934592",
+    "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "cpuset.cpus.effective": "0-111"
+  },
+  "runtime": {
+    "node_available_parallelism": 2,
+    "node_logical_cpu_count": 112,
+    "nproc": "112",
+    "getconf_nprocessors_onln": "112",
+    "process_allowed_cpu_list": "Cpus_allowed_list:\t0-111"
+  }
+}

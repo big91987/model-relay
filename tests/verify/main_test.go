@@ -382,9 +382,9 @@ func TestCaptureCommandTiming(test *testing.T) {
 }
 
 func TestFixedRunnerReceipts(test *testing.T) {
-	for _, scenario := range []string{"green_fixture", "failed_fixture", "prerequisite_failed_fixture", "evidence_failed_fixture", "probe_failed_fixture", "copy_failed_fixture", "cancel_inventory", "cancel_git_directory", "cancel_evidence", "cancel_prerequisite", "cancel_probe"} {
+	for _, scenario := range []string{"green_fixture", "failed_fixture", "prerequisite_failed_fixture", "evidence_failed_fixture", "probe_failed_fixture", "copy_failed_fixture", "cancel_inventory", "cancel_git_directory", "cancel_evidence", "cancel_prerequisite", "cancel_probe", "resource_start_failed_fixture", "resource_end_failed_fixture", "resource_end_failed_gate_fixture", "unsupported_metrics_fixture", "unsupported_metrics_failed_gate_fixture"} {
 		test.Run(scenario, func(test *testing.T) {
-			failure := scenario != "green_fixture"
+			failure := scenario != "green_fixture" && scenario != "unsupported_metrics_fixture"
 			root := test.TempDir()
 			tools := filepath.Join(root, "tools")
 			if err := os.MkdirAll(tools, 0700); err != nil {
@@ -398,7 +398,7 @@ func TestFixedRunnerReceipts(test *testing.T) {
 				"tools/node": "#!/bin/sh\nif [ \"$1\" = --version ]; then echo node-fixture; else test -d node_modules && echo locked-local-fixture; fi\n",
 				"tools/make": "#!/bin/sh\n[ \"$1\" = verify-gates ] || exit 19\ntest ! -e node_modules || exit 20\ntest ! -e .cache/npm || exit 21\ntest -z \"${NODE_PATH+x}\" || exit 22\nmkdir node_modules\nprintf 'fixture gates stdout\\n'; printf 'fixture gates stderr\\n' >&2\n",
 			}
-			if scenario == "failed_fixture" {
+			if scenario == "failed_fixture" || scenario == "resource_end_failed_gate_fixture" || scenario == "unsupported_metrics_failed_gate_fixture" {
 				files["tools/make"] += "exit 23\n"
 			}
 			if scenario == "prerequisite_failed_fixture" {
@@ -457,7 +457,22 @@ func TestFixedRunnerReceipts(test *testing.T) {
 					cancel()
 				}()
 			}
-			err := run(ctx)
+			samples := 0
+			err := runWithSampler(ctx, func() resourceSnapshot {
+				samples++
+				if strings.HasPrefix(scenario, "unsupported_metrics_") {
+					return readResourcesForPlatform("darwin", func(string) ([]byte, error) {
+						test.Fatal("unsupported platform attempted a cgroup read")
+						return nil, nil
+					})
+				}
+				snapshot := sampleResources()
+				if (scenario == "resource_start_failed_fixture" && samples == 1) || (strings.HasPrefix(scenario, "resource_end_failed_") && samples == 2) {
+					snapshot.Errors = append(snapshot.Errors, "controlled resource read failure")
+					snapshot.MetricsStatus = "error"
+				}
+				return snapshot
+			})
 			runErr := err
 			matches, err := filepath.Glob("test-results/verification/*/state.json")
 			if err != nil || len(matches) != 1 {
@@ -477,12 +492,26 @@ func TestFixedRunnerReceipts(test *testing.T) {
 				}
 				test.Fatalf("err=%v failure=%t", runErr, failure)
 			}
-			earlyFailure := scenario == "copy_failed_fixture" || scenario == "cancel_inventory" || scenario == "cancel_git_directory"
+			earlyFailure := scenario == "copy_failed_fixture" || scenario == "cancel_inventory" || scenario == "cancel_git_directory" || scenario == "resource_start_failed_fixture"
 			if state.CleanStartMeasured == earlyFailure || state.NodeModulesBefore || state.NPMCacheBefore || state.NodePath != "unset" || !strings.Contains(state.Cleanup, "candidate_removed") || state.FinishedUTC == "" {
 				test.Fatalf("bad state: %+v", state)
 			}
 			if scenario == "failed_fixture" && (state.GateExit != 23 || state.Exit == 0) {
 				test.Fatalf("lost failure: %+v", state)
+			}
+			if state.GateBudgetMS != verificationGateBudget.Milliseconds() || state.ResourcesBefore.StartedUTC == "" || state.ResourcesAfter.FinishedUTC == "" {
+				test.Fatalf("missing budget/resource receipt: %+v", state)
+			}
+			if !strings.HasPrefix(scenario, "resource_") && state.ResourcesBefore.MetricsStatus == "available" && state.ResourceDelta == nil {
+				test.Fatal("missing actual start/end resource delta")
+			}
+			if state.ResourcesBefore.MetricsStatus == "unsupported" && (state.ResourcesAfter.MetricsStatus == "available" || state.ResourceDelta != nil) {
+				test.Fatal("unsupported metrics were falsely verified")
+			}
+			if scenario == "green_fixture" || scenario == "failed_fixture" {
+				if state.Gate == nil || state.Gate.BudgetMilliseconds <= 0 || state.Gate.BudgetMilliseconds > 8000 || state.Gate.Cancelled {
+					test.Fatal("gate lost shorter parent budget or completion")
+				}
 			}
 			log, err := os.ReadFile(filepath.Join(filepath.Dir(matches[0]), "verify.log"))
 			if err != nil {
@@ -492,7 +521,32 @@ func TestFixedRunnerReceipts(test *testing.T) {
 				test.Fatal("log digest mismatch")
 			}
 			markers := []string{"CLEAN_START", "fixture gates stdout", "fixture gates stderr", "CLEAN_END"}
-			if scenario == "prerequisite_failed_fixture" {
+			if strings.HasPrefix(scenario, "unsupported_metrics_") {
+				if state.ResourcesBefore.GOOS != "darwin" || state.ResourcesAfter.GOOS != "darwin" || state.ResourcesBefore.MetricsStatus != "unsupported" || state.ResourcesAfter.MetricsStatus != "unsupported" || state.ResourceDelta != nil {
+					test.Fatal("unsupported platform receipt missing or fabricated")
+				}
+				wanted := 0
+				if scenario == "unsupported_metrics_failed_gate_fixture" {
+					wanted = 23
+				}
+				if state.GateExit != wanted || (state.Exit == 0) != (wanted == 0) {
+					test.Fatal("unsupported metrics altered original gate result")
+				}
+			} else if strings.HasPrefix(scenario, "resource_") {
+				markers = []string{"RESOURCE_BEFORE", "RESOURCE_AFTER", "controlled resource read failure", "FAILED:"}
+				if state.Exit == 0 || state.ResourceDelta != nil {
+					test.Fatal("sampling failure produced a green receipt")
+				}
+				if scenario == "resource_start_failed_fixture" && state.Gate != nil {
+					test.Fatal("invalid initial resource snapshot did not stop gates")
+				}
+				if scenario == "resource_end_failed_fixture" && state.GateExit != 0 {
+					test.Fatal("controlled end sampling failure did not follow successful gate")
+				}
+				if scenario == "resource_end_failed_gate_fixture" && (state.GateExit != 23 || !strings.Contains(runErr.Error(), "exit status 23")) {
+					test.Fatal("sampling failure hid original gate failure")
+				}
+			} else if scenario == "prerequisite_failed_fixture" {
 				markers = []string{"prerequisite-stderr-diagnostic", "COMMAND_END stage=prerequisite-npm exit=24", "FAILED: npm prerequisite:"}
 				if state.GateExit != -1 || state.Exit == 0 || bytes.Contains(log, []byte("fixture gates stdout")) {
 					test.Fatalf("prerequisite failure did not stop gates: %+v", state)

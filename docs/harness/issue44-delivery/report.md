@@ -1,0 +1,132 @@
+本 PR 为 Issue #44 验证 Agent Platform 在同一隔离工作区的固定测试、独立 QA 缺章拒绝返工、操作者确认及同版草稿 PR 交付链路；不新增 Model Relay 业务功能。实际结果是修订版冻结 tests12 完整 make verify exit0、独立 QA13 PASS、正式 decision14 操作者确认完成，现交固定 publish 创建主分支目标草稿 PR。报告时新 PR 尚未产生，远端批准文件逐字节核验和环境释放待后续，不能宣称全链路或 M1 完成。
+
+## 真实 Issue、基点与范围
+
+- 关联 Issue #44，明确替代 #42；#43 仅保存旧候选及接续材料，不是本 Pipeline 最终交付。旧 Run e65c964ce9faf29e35271270d751cedb 已正式停止、取消、释放，未全量通过或独立 QA，不恢复其环境、不把历史失败改绿。本报告仅引用关联，不提前关闭 Issue。
+- 本 Run 744c4329facce31be37c97e7caa2fea3，冻结 Workflow revision2，报告执行16。prepare 固定候选 HEAD=1d581652736fbac4e8862b70367181c8a9f2f8b2；已验版为该 HEAD 加本清单中的修订文件，不能仅用 HEAD 代表实际版本。
+- 维护者经 GitHub 正式只读 API 提供当前 main=0c1e22034a8599cc5ea21e31d9e110ae9ae7c46e，共同祖先=5ff456cb6de0ce8d45bb2faac4c964cda9efcbf0，候选与 main 分叉。main 已合并 #45，main侧仅三个模板变动：.harness/agent-platform/SOURCE.json、.harness/agent-platform/examples/platform-workflows/README.md、.harness/agent-platform/examples/platform-workflows/sandbox_delivery.py。本 files 不选这些旧模板，固定 publish 应保留 main 现有模板升级并核对真实 PR 差异。此远端状态来自维护者正式输入，不是报告 Agent 自行联网核验；候选父提交不是当前 main。
+- 候选侧相对共同祖先六项变化全部纳入 files：原候选三源码、接续说明与两份旧研发报告；另纳入本 Run 八项测试设施、新说明及必要原层证据，覆盖相对真实 main 的实际交付变化，不只报告文档。不提交构建产物、依赖目录、数据库、凭据、会话或原生历史。
+
+## 问题与实际改动
+
+1. 原候选历史回归设施曾把冷下载诊断与机器JSON混读，路由夹具阶段不明确。tests/review-history/main.go 分离严格 JSON stdout 与完整 stderr；main_test.go 保留非法 stdout、真实退出错误、意外绿、缺失/重复历史断言和诊断反例。internal/relay/routing_http_test.go 明确未到期排除及到期恢复，保留真实 HTTP、40并发 SWRR 30/10、503回退/计量、一小时冷却期限、映射及凭据哨兵。三源码由旧 Pipeline 编写，本版独立 QA 逐份审查通过，非报告角色代写或代验；到期阶段仅调整测试自有内存 health.Cooldown，非自然等待一小时、产品可控时钟或数据库改值。
+2. 本 Run 执行3因首轮归档可编译 .go 被 go vet ./... 递归发现而失败，执行4改为不参与构建的 .go.txt 文本证据；不排除正常包、不减门禁、不改产品业务。保留原失败 log/state 与实施记录。
+3. 执行5 exit2 来自主gate12分钟累计截止，非 Owner stop、非独立证明的业务断言失败或OOM。约322秒前置和三个成功browser阶段约408秒耗尽累计空间；2CPU/8Gi符合标准冻结配置、无资源漂移，单次累计采样不能作本轮差值或CPU唯一归因。保留旧24分钟提案/撤回、纠正记录与原log/state。维护者后续明确授权一次有界校准：tests/verify 原入口固定24分钟、外层固定tests仍1800秒；覆盖剩余console/full-console与执行余量，入口外取证/清理仍在外层上限内。保持原门禁顺序、冷隔离、全部断言、单请求/单步期限、失败退出及进程组取消清理，未加retry/sleep、环境变量特批或资源升级；不是产品响应SLA。
+4. tests/verify main.go/main_test.go、gate.go、resources.go、gate_resources_test.go 实现固定预算与同版receipt、真实短预算/父截止取消和进程组清理回归、正常/错误预算及原失败退出保持；固定入口前后只读Linux cgroup采样和差值。Linux声明可用读取/解析失败仍失败，采样错误不能刷绿；非Linux记录真实GOOS/runtimeCPU与unsupported，不伪造指标或零差值、不锁死既有macOS入口。Darwin隔离分支与交叉编译不等于macOS实机验证。
+5. 执行7 SSE采集设施失败后，执行8仅修 tests/browser/journeys.mjs 并新增 stream-capture.mjs/test.mjs：克隆同次原生fetch Response采集真实SSE、返回原Response、finally恢复fetch。无额外dispatch、伪造帧或重试；原stream/状态/Request ID/唯一dispatch/UI完成/data/[DONE]/账本断言保留，缺DONE反例与原失败保存。
+6. docs/harness/opensandbox-run-sharing.md 记录Issue接入、固定源码、角色交接、未知执行结果、材料保存及停止/恢复/释放边界。研发02依授权故意缺章，首轮原字节快照保留；固定tests9通过后独立QA10真实REVISE；研发11才补齐“停止、恢复与环境释放”并纠正固定runner不会执行额外清单命令的边界；新版tests12完整通过，QA13关闭QA10-D1。未修改冻结make verify命令或向产品验证器硬编码本Run清单。
+
+## 已验版本、结果与同版依据
+
+- 163项源码摘要：991c79ca919b3d0ccf148c066c3b24d993090fcb78ab864c0e4637cfff8040ba。214项研发清单SHA256：1ce553146e21a910a47454d9c4cf6efa83a8527e19711c41ca7bc46e3801fdb3；235项审批清单SHA256：75f5d969f357e6551e11e96e93b8621c737d9fdc2fb07822d30380e22ad1aed6；说明SHA256：3d881a85cbeaa5fcec0c72de2568a143988e7bc967bfc0f2e3f1cffa0185aff8；QA原文13628bytes/SHA256：82122446a992d746d16555369d1191d061c221f52afd91bfaf82b942142fa1b8。
+- 研发18:06:56.095–.123Z实际逐项baseline → 唯一冻结tests12（18:07:56–18:24:51Z）→ QA13独立全项复核构成QA认定充分的等效同版依据，交接至tests结束无Agent修改交付物。不是固定runner自身完整清单起止采样；固定runner只执行make verify，另核163项源码及隔离副本。报告16再次只读核235项审批清单全部匹配exit0，不重跑全套、不替代独立QA。
+- 主attempt=20261014T180756Z-2810915431、Go1.25.6。完整项目log1155178bytes/SHA256=9856236d5b7cdd9e31970e46dc3a5020d9e166c3659f25626c366abfdb23dc82，与state匹配。外层1184959bytes、exit0、truncated=false；维护者正式输入提供完整平台输出SHA256=704b03399b155dd851d66388b6c9ac10b3aa95545a9080aaa6b546ad3ca9f8f5。QA自行读完整项目log，但平台输出仅读首页/EOF，不冒称QA自行读平台全文。
+- 主gate configured1440000ms、execute998870ms、exit0/cancelled=false；五browser阶段 migration15738ms、legacy-ui205421ms、routing235595ms、console36198ms、full-console239821ms全部ok=true。历史重建、health-history、格式、模块锁、vet、前端、race全量、build及browser通过；历史预期红和内嵌exit23是通过的分类/失败路径反例，非主attempt失败。
+- 候选冷起点node_modules/npm cache不存在、NODE_PATH unset、manual_preinstall none，不证明全局缓存为空。state记录candidate_removed、owned_group_absent=true，不证明整个Run或环境已释放。Linux共享cgroup cpu.max200000/100000、memory.max8589934592、runtimeCPU112/GOMAXPROCS2；区间usage_usec差值1371516988、throttled_usec87762430、OOM相关差值0，不作单进程或CPU唯一归因。
+- QA13独立定向Go验证器/历史分类、node SSE五项及真实HTTP race全exit0，并实际审核同版日志/state及214项和研发baseline；完整原文附后。报告节点不修改批准源码、交付说明或QA原文。
+
+## 操作者确认与报告15受阻历史（不改写QA时点）
+
+本节来源是正式原生输入decision14，不是命令执行日志，也不是报告Agent自行审批。Builder依据用户既有授权调用正式API，非用户本人点击。维护者第二次正式只读API核验已于18:25:42.405–18:30:01.886Z完成：213个可见文件6493619bytes与运行期一致，清单未变；AGENTS.md被API策略排除、未绕行，不称维护者核全214。该新增事实不改写QA原文“第二次尚未结束”的历史时点。
+
+正式stop14→stopped、重复stop14返回同一回执；标准模板15bc98b升级当前Workflow revision3但本Run冻结revision2/私有配置逐值不变。resume14回到waiting、同seq14同14步，前13步及环境/输入/参数/定义不变，全部native processes stopped；恢复后QA/审批清单/说明hash重新读回一致，未在恢复后逐文件读全235项。decision14 approved允许进入report和固定publish，不合并部署；正式前后快照及API回执由维护者保留，本PR不假造未投递原件。
+
+报告15因平台报告输入遗漏已完成操作者确认而真实受阻。维护者修复通用缺陷、标准安装afebd27后人工回退至report16，原tests12/QA13/decision14保持不变，本轮依据补齐的正式输入继续；不重复审批或重跑产品，不删除受阻历史、不将其改绿，也不误记approval仍待完成。
+
+## 发布清单、可访问性与限制
+
+files列经QA绑定需进入本PR的具体仓库相对文件，不用目录替代，至多100项、每文件5MiB。包括原候选三源码与两份旧报告、首轮快照、QA10拒绝、原失败log/state、预算授权/兼容和SSE证据、研发baseline、tests12原log/state、QA13当前审查原件及前次未接受handoff版本。固定publisher另按原字节保存QA到docs/harness/run-744c4329facc/qa.md、body到同目录report.md；报告节点不预先生成或冒称两个未来归档已在GitHub。
+
+235项审批范围不等于PR文件数。完整214/235清单及核验JSON保留全范围身份，本PR按100项上限只选必要证据；未选择的重复诊断/源码快照、浏览器PNG及test-results、原生会话/平台日志中层和维护者私有API回执只保留原工作区或平台，不把清单提及的每个路径伪装成新PR可访问。旧报告私有harness-output层未全部公开。files中材料也须待publish成功才成为GitHub持久入口。证据归档不是新增构建输入。
+
+真实供应商、支付、外部身份、macOS实机均NotRun；受控HTTP/SSE仅确定性设施验证，不是供应商或支付验收。不称性能SLA、新功能或M1完成。QA未独立核原生会话实际模型配置、Issue机器人全链路回写，也未逐屏重做视觉审美验收。报告节点不自行Git提交/push/创建PR/合并/部署；后续固定publish创建main目标真实草稿PR并逐字节核批准范围、保留main模板升级；未知发布结果先核原请求回执，不盲目重放。环境释放尚未执行，待材料可访问保存后由平台生命周期入口执行，不能删除工作区替代释放。
+
+## 报告节点校验边界
+
+报告16核具体选入文件的审批摘要、尺寸、路径、原候选六项/当前源码改动覆盖及QA原文嵌入，不执行产品测试或正式发布。另只读调用旧候选自带 sandbox_publish.py 所引用的全仓 check_publish_files 时，该旧扫描器把未选入PR的 .harness/agent-platform/examples/platform-workflows/report_publication_test.py 中密钥拒绝测试的固定“BEGIN PRIVATE KEY”字符串报为 Potential private credential；这是模板测试字符串命中，不是读取真实凭据，也不是正式publish失败回执。未修改模板或削弱扫描，具体选入文件和QA/body再按原blob扫描器核验，结果单列；正式固定publish及其当前安装行为仍由下一节点验收，不能拿此辅助检查冒称发布通过。
+
+## 同版独立QA13原文（完整原字节嵌入，时点保持不变）
+
+# 独立 QA 返工复核（执行 13）
+
+## 结论：PASS，允许进入 approval；不是整条链路完成
+
+2026-10-14，Issue #44，Run `744c4329facce31be37c97e7caa2fea3`，冻结 Workflow revision2。独立 QA 实际核对 development11 修订版、固定 tests12 原始项目日志及 state、完整交付清单与研发交接前基线，并在共享工作区独立复查必要行为。本版满足本节点交付文档与测试设施验收，QA10-D1 缺章问题已关闭。正式操作者确认、停止/接续去重、最终报告、新草稿 PR 及批准文件的发布字节核验仍待后续节点，不能据此称 Harness 链路完成、产品功能完成或真实供应商验收。
+
+本节点只新增独立 QA 报告与证据，不修改产品、测试设施、交付说明、数据、原清单、预算、环境资源、冻结图或权限；不安装依赖，不重跑全量 make verify，不提交、push、创建 PR、合并或部署。定向检查使用已有 `/usr/local/go/bin/go`；Go 定向命令自行按锁下载模块，不是手装环境依赖。QA 命令日志完整保留合并 stdout/stderr、UTC 与退出码，不冒称分别保存的两路日志。
+
+## 版本和同版依据
+
+- 固定 HEAD：`1d581652736fbac4e8862b70367181c8a9f2f8b2` 加未提交候选。不能用 HEAD 单独识别交付版。
+- 163 项源码摘要：`991c79ca919b3d0ccf148c066c3b24d993090fcb78ab864c0e4637cfff8040ba`。tests12 前后及本 QA 新运行 `go run ./tests/evidence` 均一致。
+- development11 当前 214 项完整清单：`docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/development-11-correction/SHA256SUMS`，SHA256 `1ce553146e21a910a47454d9c4cf6efa83a8527e19711c41ca7bc46e3801fdb3`。QA 定向复查前后逐文件重新读取核验，全部匹配；清单自身未变。具体 UTC、每项期望/实际摘要见 `qa-13/integrity-before.json`、`qa-13/integrity-after.json`。
+- 当前交付文档 SHA256：`3d881a85cbeaa5fcec0c72de2568a143988e7bc967bfc0f2e3f1cffa0185aff8`；首轮原快照仍为 `7792bfaafcb7202f1f2ac5901a1672a078cec18eac5445705dc3bf8e0707184b`。
+- QA 同时逐字节核对 handoff 绑定的研发基线 JSON、空 stderr 和退出状态文件，三摘要均吻合。研发基线实测窗口为 18:06:56.095Z–18:06:56.123Z；不是固定 runner 采样。
+
+**同版等效依据判断：充分用于本 QA 复核。** 实际顺序是研发基线及正式交接 → 唯一固定 tests12（18:07:56Z–18:24:51Z）→ 独立 QA13；交接后至 tests 结束没有 Agent 修改交付物，tests 为冻结执行节点而非 Agent。研发基线逐项与 QA 后验同一 214 项清单一致，固定 runner 又核验自身隔离副本与工作区的 163 项源码前后不变。此分角色链路满足 QA10 允许的可审计等效依据，不是把源码摘要冒充完整交付清单。
+
+固定 tests 仅执行冻结的 make verify，**没有执行额外 sha256sum 命令，也没有本 Issue 硬编码清单采样**。接续收到维护者通过本会话正式投递的只读旁证：18:08:57.909Z–18:13:14.034Z（两端seq12 running）已逐读清单中213个可见文件、6,493,619字节且摘要一致，AGENTS.md被其API策略排除、未绕行；清单自身前后与研发baseline.json原件也匹配。这是维护者报告的已完成运行期旁证，不是QA自行通过该API读取的原件；不称维护者已核全部214项。QA实际再次独立读全214项及三个基线文件均匹配，见 qa-13/maintainer-followup-integrity.json。维护者完成后第二次核验仍进行中，不提前当成完成依据。此旁证增强既有充分等效链路，独立判定不交给维护者；来源与边界另存 qa-13/maintainer-readonly-supplement.md。该判断也不证明所有文件在每个瞬间从未被写后恢复，更不替代最终 PR 的逐字节核验。新 QA 文件不在研发 214 项清单内，另以本节点 `qa-13/SHA256SUMS` 绑定。
+
+## 固定 tests12 原始结果
+
+主 attempt：`20261014T180756Z-2810915431`。完整项目 verify.log **1,155,178 字节**经程序读取，SHA256 `9856236d5b7cdd9e31970e46dc3a5020d9e166c3659f25626c366abfdb23dc82`，精确匹配 state。原字节备份为 `qa-13/tests12-verify.log`、`qa-13/tests12-state.json`。完整日志分析、原阶段、资源重算及图像摘要核验见 `qa-13/fixed-tests-audit.json`。
+
+QA对正式 seq12 留存输出另实际读取首页和末页，末页 EOF=true、truncated=false；外层执行回执 exit0、1800秒、1,184,959字节。QA没有逐页遍历平台事件包裹日志的中间部分，**不声称QA自己已读平台全文**。接续维护者报告其已通过正式output API分页读取外层全文至EOF、truncated=false，SHA256 `704b03399b155dd851d66388b6c9ac10b3aa95545a9080aaa6b546ad3ca9f8f5`；该全文摘要按维护者来源记录，不冒称QA自己的全文核验。通过依据为完整项目日志、匹配 state、同版核验和真实外层回执；项目与平台日志格式及摘要不同，不能混用。
+
+主 gate configured=1,440,000ms、effective=1,439,999ms、execute=998,870ms、exit0/cancelled=false。主 browser 阶段依次全部 ok=true：migration 15,738ms、legacy-ui 205,421ms、routing 235,595ms、console 36,198ms、full-console 239,821ms。完整日志保留原历史重建、health-history、格式、模块锁、vet、前端、race 全集、build 与 browser 门禁。日志中的原历史预期红和内嵌验证器 exit23 反例属于通过的分类/失败路径测试，不能误判为主 attempt 失败。
+
+state 的新隔离候选 node_modules/npm cache 初始不存在、NODE_PATH unset、manual_preinstall none；这是候选冷起点，不证明全局 Go/系统缓存为空。清理为 candidate_removed 且 owned_group_absent=true；不能据命令 sandbox.stopped 推断整个 Run 或环境已释放。
+
+本次真实 Linux 起止资源为 18:07:56.253647561Z–18:24:51.318704952Z，同 cgroup 身份；cpu.max 200000/100000，memory.max 8589934592，runtimeCPU112/GOMAXPROCS2。QA 重算全部差值：usage_usec 1,371,516,988，throttled_usec 87,762,430，OOM相关差值0。只代表共享可见 cgroup 的区间计数，不是单进程独占、CPU唯一归因或性能 SLA。
+
+实际产物检查：1280/1440/390 的 first-self-hosted JSON 均为 passed、各12步、controlled_http_not_supplier；审查原生动作和独立临时 SQLite 声明。134份 PNG 原文件摘要均与其 integrity.json 相符。本 QA 没有重新人工逐屏视觉审美验收，也没有再次运行完整浏览器旅程；完整 UI/API 行为通过依据为固定 tests12，而非静态 browser.check。
+
+## 测试设施源码独立审查
+
+原候选三源码保持原字节，分别为：
+
+| 文件 | SHA256 | 审查结论 |
+| --- | --- | --- |
+| tests/review-history/main.go | eaa988821fccf011d9fc63795ea5933f3f7acb734ffe22830cbff8f6eafcf355 | stdout严格JSON，完整stderr独立保留；非法stdout、真正执行错误、缺失/重复历史断言及race/build/listener仍拒绝。120秒与原四个失败名、两次零预算及回滚断言保留。 |
+| tests/review-history/main_test.go | ebdd0554efd7f73155324f9d5034e71a72fe1baaced6747c066485f5443a8bfa | 隔离命令夹具覆盖冷下载stderr、非法stdout、非预期退出、意外绿、缺断言及诊断异常；完整stderr首尾哨兵保留。 |
+| internal/relay/routing_http_test.go | 0018956b4e78f792ad26b789b215e66c31a75bf12a7f683e4ba9eb2249ae8572 | 真实HTTP、40并发SWRR 30/10、503回退/计量、映射和凭据哨兵保留。一小时原期限、未到期排除、管理API决定记录与已到期恢复严格核验。 |
+
+路由阶段边界持锁核验同一健康实例后，仅调整测试自有内存 health.Cooldown 至 Observed 前1纳秒，构造已到期输入，再通过真实HTTP验证；不是自然等待一小时、产品可控时钟或数据库改值。其余允许列表、最多三候选、禁用后回退、已提交SSE不重放用例仍保留。
+
+新增/修订设施审查覆盖 tests/verify/main.go、main_test.go、gate.go、resources.go、gate_resources_test.go，以及 tests/browser/journeys.mjs、stream-capture.mjs、stream-capture.test.mjs：
+
+- 累计总预算在项目原入口固定24分钟并写入同版receipt，上限不可用环境变量放宽；更短父截止优先。原顺序、请求/单步期限、断言、失败退出及SIGTERM/SIGKILL进程组有界清理没有放宽。预算是冷门禁累计额度，不是产品响应 SLA。
+- Linux采样读取或解析失败明确失败；采样失败通过 errors.Join 保留原gate错误，不能把失败刷绿。合法同cgroup/限额及不倒退计数才生成差值。
+- 非Linux记录GOOS、runtimeCPU与unsupported，不读Linux文件、不编造指标或零差值，不锁死既有macOS入口。既有范围依据为 .github/workflows/deploy-local.yml 的 macOS ARM64 runner 与 docs/local-deployment.md 的完整make verify；隔离Darwin分支测试不等于macOS实机验证。
+- SSE设施克隆同次原生fetch Response，返回原Response，读取真实SSE体，finally恢复fetch；无额外dispatch、制造帧、重试或sleep求绿。原请求stream、HTTP状态、唯一dispatch、Request ID、UI结束、data/[DONE]和账本断言保留。
+
+## QA 自身必要行为复查
+
+2026-10-14 18:26:49Z–18:29:10Z，未再跑全量：
+
+- `go test -count=1 -v ./tests/verify ./tests/review-history`：exit0。真实100ms短预算/父截止子进程取消与清理、正常/非零/非法预算、SIGTERM持久回执、隔离Darwin不可用、Linux真实ENOENT、合法差值和采样失败保留exit23，以及历史分类反例均通过；完整输出在 `qa-13/go-tests.log`。
+- `node --test tests/browser/stream-capture.test.mjs`：exit0，5项通过；原Response身份、单次dispatch、缺采集/读体失败/传输失败及恢复断言均保留；见 `qa-13/node-tests.log`。
+- `go test -race -count=1 -v ./internal/relay -run '^TestRoutingRealHTTPSelectionFailoverAndRecovery$'`：exit0，包耗时1.959秒；真实临时HTTP、隔离持久化fixture，无race；见 `qa-13/routing-tests.log`。
+- `go run ./tests/evidence`：exit0，源码摘要一致；git diff --check exit0；固定日志/资源/134张图像摘要审计exit0，完整214项交付及基线前后核验exit0。
+
+局部测试不独立构成产品全量通过；上述必要复查与同版固定tests12共同支撑本节点结论。QA没有重跑旧研发三个变体反例或另一次实际历史HTTP重建；历史HTTP本次依据固定tests12，变体历史证据仅按原报告标注。
+
+## 原失败、实际拒绝与返工关闭
+
+development02 明确标注授权缺章注入，首轮原文确实没有“停止、恢复与环境释放”；首轮快照和 QA10 拒绝原文字节均保留且包含在214项清单。QA10 真实 REVISE，不是研发代写或协调者代验。development11 在该拒绝之后才补齐完整章节。
+
+QA13 实际读新章节：安全停顿与Run停止/测试取消的区别、未知结果先核原执行、同Run/同版接续和去重、材料保存后平台释放、释放后不可恢复旧环境、旧Run已释放与本Run待确认边界均明确；未编造操作API、点击或未来验收。QA10-D1 影响已消除，关闭。文档明确按研发11时点记录未知未来；QA13更新事实保存在本独立报告，不为更新状态再修改已测试文件。
+
+执行5原exit2/12分钟总量超期（非Owner stop、非业务失败）、旧24分钟提案/撤回、纠正和后续授权、兼容性返工、执行7 SSE采集设施失败、执行8修复、执行9原绿、QA10缺章拒绝、development11修订/边界纠正、tests12新版绿均保留。旧Run未全量通过/未QA的事实不改。原旧报告私有harness-output不全部可读，不声称本工作区有其原始日志。
+
+## 未验、限制及后续要求
+
+- 真实供应商、支付、外部身份、macOS实机：NotRun。没有性能SLA验收或新业务功能交付。
+- 平台安全停顿点的停止/接续去重、整个Run取消/环境释放尚未由本QA实测。approval须由已授权操作者通过正式平台入口保存前后身份、文件清单与去重回执；如实称“操作者确认”，不能称用户本人点击。环境释放应在材料可访问保存后由平台执行，不删除工作区代替。
+- 原生会话实际模型配置、Issue机器人全链路回写仍无独立QA回执。维护者运行期213项只读核验及平台日志全文读取按正式输入旁证记录，QA未自行抓取其API原件；维护者完成后第二次核验尚未结束，未宣称已完成。
+- approval、report.json、主分支目标真实新草稿PR及同版逐字节发布仍未完成。report须覆盖相对真实main的全部实际变化，包括本候选三源码、预算/资源/SSE设施、文档和证据，附本QA原文；不能只报告新说明。当前仅有本地候选分支，未独立解析最新远端main或验证最终PR差异。
+- 新QA报告/证据以 qa-13/SHA256SUMS 绑定，与研发214项清单一起用于审批及发布核验；后续如修改批准范围文件，不能沿用此QA结论冒称同版。不得合并或生产部署。
+
+产物前缀：`docs/workflow/runs/744c4329facce31be37c97e7caa2fea3/`。本报告由独立QA13编写，正式handoff approval，不替人工确认或报告角色完成其职责。
+
+接续补充：首次approval交接因本条用户输入待投递未被接受；现已处理该输入，原QA报告与231项清单保留为历史版本，当前报告及更新审批清单取代它们。新增证据后原214项候选仍不变，不需要因QA旁证记录重跑全量。

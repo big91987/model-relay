@@ -1,0 +1,13 @@
+# Issue44 已审候选接续
+
+本分支原字节保存 Issue44 Pipeline 生成、经固定tests12和独立QA13核验的项目测试设施、文档、报告与原层证据。协调者只通过正式文件API转存并校验，未代写产品或QA。
+
+Issue44 已完成真实共享工作区、原生角色交接、QA10缺章拒绝→研发11返工→tests12完整冷make verify退出0→QA13正式PASS→获授权操作者确认14→报告16。source163 SHA-256 991c79ca919b3d0ccf148c066c3b24d993090fcb78ab864c0e4637cfff8040ba。QA原文和报告原文均保留，包括各自写作时的尚未完成项；本说明不倒写旧结论。
+
+正式publish17在提交前被模板测试样例误触全仓凭据扫描，退出1，没有Pipeline PR。原Run已正式取消并释放。平台确认上下文缺失已修afebd27并在原Run复验；模板样例误报已由唯一维护源bc43314标准导出，经PR46合并main，未放宽扫描规则。本候选以该已升级main为父，不覆盖模板修复。
+
+本草稿是材料接续，不是Pipeline最终PR，不合并或部署。后继Issue须由新Run重新执行原make verify、独立QA实际拒绝/返工/复核、正式操作者确认和固定publisher自行产出草稿PR，再远端核同版。旧Run44测试与QA不当成新Run结果。
+
+原完整外层tests12日志1184959bytes/704b03399b155dd851d66388b6c9ac10b3aa95545a9080aaa6b546ad3ca9f8f5；同轮内层1155178bytes/9856236d5b7cdd9e31970e46dc3a5020d9e166c3659f25626c366abfdb23dc82。原结果覆盖受控HTTP与浏览器旅程，不含真实供应商、支付、外部身份或Mac实机验证。全234份可读历史归档由维护者保留，只有本分支实际文件可作GitHub直接访问链接。
+
+关联 https://github.com/big91987/model-relay/issues/44；替代材料草稿#43，保留其历史关系。
