@@ -1,0 +1,1512 @@
+{
+  "run_id": "197ab169bc1cad067466300038ab6fac",
+  "frozen_workflow_version": 7,
+  "baseline_head": "868530b3e5c15d65bee0ed4ff6af69e96d428b81",
+  "archived_utc": "2026-10-22T02:38:53.764Z",
+  "current_source": {
+    "files": 160,
+    "go": "go1.25.6",
+    "head": "868530b3e5c15d65bee0ed4ff6af69e96d428b81",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "44107d4db03a944c27a7d9b36b03e1802a770b3219c9bae61b19f0d81d4795fd"
+  },
+  "baseline_log_receipt_verified": true,
+  "candidate": {
+    "commit": "a033eb20ea848d3aead77231da367703b1b43fb8",
+    "local_object_available": false,
+    "anonymous_patch_http_status": 404,
+    "applied": false
+  },
+  "snapshots": [
+    {
+      "source": "Makefile",
+      "archive": "harness-output/Makefile.txt",
+      "bytes": 1032,
+      "sha256": "4997a2baaa4068306bb480bb2aad2254ebe700bcfb3345cd0dda6a2841708302",
+      "version": "current-worktree"
+    },
+    {
+      "source": "tests/verify/main.go",
+      "archive": "harness-output/verify-main.go.txt",
+      "bytes": 18549,
+      "sha256": "bbc840e32a3bcb05e3f03b78efeda080e1ab5c147578bc3a7a0970a0377ff99d",
+      "version": "current-worktree"
+    },
+    {
+      "source": "tests/review-history/main.go",
+      "archive": "harness-output/review-history-main.go.txt",
+      "bytes": 4806,
+      "sha256": "bc7eba28062fb0a372e1a0ccf6ccd255d9312b668bcf505836842fff8d7cbd98",
+      "version": "current-worktree"
+    },
+    {
+      "source": "tests/review-history/main_test.go",
+      "archive": "harness-output/review-history-main_test.go.txt",
+      "bytes": 4621,
+      "sha256": "0a860cd4d17fac680af5e0e1f006158409fff3da2776fbd3fa7bb4d1e369f23e",
+      "version": "current-worktree"
+    },
+    {
+      "source": "tests/review-history/main.go",
+      "archive": "harness-output/review-history-before-main.go.txt",
+      "bytes": 4453,
+      "sha256": "f36459f218e4347cadec5a44d2ca2b44867579d5d3aa29fb8991bebdf812bfb3",
+      "version": "868530b3e5c15d65bee0ed4ff6af69e96d428b81"
+    },
+    {
+      "source": "internal/relay/routing_http_test.go",
+      "archive": "harness-output/rework-4-routing_http_test.go.txt",
+      "bytes": 10756,
+      "sha256": "1d70fa05498cb4340b589e2220cee44f61530d9b3f1bb45be29be68f6bc67c58",
+      "version": "development-execution-4"
+    },
+    {
+      "source": "tests/review-history/main.go",
+      "archive": "harness-output/rework-4-review-history-main.go.txt",
+      "bytes": 4806,
+      "sha256": "bc7eba28062fb0a372e1a0ccf6ccd255d9312b668bcf505836842fff8d7cbd98",
+      "version": "development-execution-4"
+    },
+    {
+      "source": "tests/review-history/main_test.go",
+      "archive": "harness-output/rework-4-review-history-main_test.go.txt",
+      "bytes": 4621,
+      "sha256": "0a860cd4d17fac680af5e0e1f006158409fff3da2776fbd3fa7bb4d1e369f23e",
+      "version": "development-execution-4"
+    },
+    {
+      "source": "Makefile",
+      "archive": "harness-output/rework-4-Makefile.txt",
+      "bytes": 1032,
+      "sha256": "4997a2baaa4068306bb480bb2aad2254ebe700bcfb3345cd0dda6a2841708302",
+      "version": "development-execution-4"
+    },
+    {
+      "source": "internal/relay/routing_http_test.go",
+      "archive": "harness-output/rework-4-routing_http_test-before.go.txt",
+      "bytes": 10337,
+      "sha256": "174d8249fd289d2a84145908e8ac2acdcdb4fdddfb97d0d58ab6071f4c37bf53",
+      "version": "868530b3e5c15d65bee0ed4ff6af69e96d428b81"
+    },
+    {
+      "source": "tests/verify/main.go",
+      "archive": "harness-output/rework-6-verify-main-before.go.txt",
+      "version": "development-execution-4",
+      "bytes": 18549,
+      "sha256": "bbc840e32a3bcb05e3f03b78efeda080e1ab5c147578bc3a7a0970a0377ff99d"
+    },
+    {
+      "source": "tests/verify/main_test.go",
+      "archive": "harness-output/rework-6-verify-main_test-before.go.txt",
+      "version": "development-execution-4",
+      "bytes": 23279,
+      "sha256": "f477b4c2b8fb18163d25c172abeb66e07635f9c8db3508f92315f297645ec88a"
+    },
+    {
+      "source": "tests/verify/main.go",
+      "archive": "harness-output/rework-6-verify-main.go.txt",
+      "version": "development-execution-6",
+      "bytes": 18826,
+      "sha256": "4eb68d3338ecd00e224d68837400e17058149d3a6a5be823677ffe429cdc8f07"
+    },
+    {
+      "source": "tests/verify/main_test.go",
+      "archive": "harness-output/rework-6-verify-main_test.go.txt",
+      "version": "development-execution-6",
+      "bytes": 24732,
+      "sha256": "234321737e0fbec3af5a4aa1316c5e57e5891f71b057d76a7f62a4cf50523c7d"
+    },
+    {
+      "source": "tests/review-history/main.go",
+      "archive": "harness-output/rework-8-final-tests-review-history-main.go.txt",
+      "version": "development-execution-8-final",
+      "bytes": 4806,
+      "sha256": "bc7eba28062fb0a372e1a0ccf6ccd255d9312b668bcf505836842fff8d7cbd98"
+    },
+    {
+      "source": "tests/review-history/main_test.go",
+      "archive": "harness-output/rework-8-final-tests-review-history-main_test.go.txt",
+      "version": "development-execution-8-final",
+      "bytes": 4621,
+      "sha256": "0a860cd4d17fac680af5e0e1f006158409fff3da2776fbd3fa7bb4d1e369f23e"
+    },
+    {
+      "source": "internal/relay/routing_http_test.go",
+      "archive": "harness-output/rework-8-final-internal-relay-routing_http_test.go.txt",
+      "version": "development-execution-8-final",
+      "bytes": 10756,
+      "sha256": "1d70fa05498cb4340b589e2220cee44f61530d9b3f1bb45be29be68f6bc67c58"
+    },
+    {
+      "source": "tests/verify/main.go",
+      "archive": "harness-output/rework-8-final-tests-verify-main.go.txt",
+      "version": "development-execution-8-final",
+      "bytes": 18826,
+      "sha256": "4eb68d3338ecd00e224d68837400e17058149d3a6a5be823677ffe429cdc8f07"
+    },
+    {
+      "source": "tests/verify/main_test.go",
+      "archive": "harness-output/rework-8-final-tests-verify-main_test.go.txt",
+      "version": "development-execution-8-final",
+      "bytes": 24732,
+      "sha256": "234321737e0fbec3af5a4aa1316c5e57e5891f71b057d76a7f62a4cf50523c7d"
+    },
+    {
+      "source": "tests/browser/journeys.mjs",
+      "archive": "harness-output/rework-8-final-tests-browser-journeys.mjs.txt",
+      "version": "development-execution-8-final",
+      "bytes": 59867,
+      "sha256": "0295dd672b3ed87ac2021dfe9c96e4184cc00414cd7ff426c4b402a48afc7bd9"
+    },
+    {
+      "source": "tests/browser/call-response.mjs",
+      "archive": "harness-output/rework-8-final-tests-browser-call-response.mjs.txt",
+      "version": "development-execution-8-final",
+      "bytes": 1645,
+      "sha256": "52c1892ec1f3f7eab3d2957dac05aadd19ee18c1125d005b709970b48c30c474"
+    },
+    {
+      "source": "tests/browser/call-response.test.mjs",
+      "archive": "harness-output/rework-8-final-tests-browser-call-response.test.mjs.txt",
+      "version": "development-execution-8-final",
+      "bytes": 3738,
+      "sha256": "0d0bceb83d95ec82204f651749a9faa51b92054b194ba3adf557451938df8f81"
+    },
+    {
+      "source": "tests/browser/journeys.mjs",
+      "archive": "harness-output/rework-8-diagnostic-journeys.mjs.txt",
+      "version": "development-execution-8-diagnostic-reconstructed-from-executed-edits",
+      "bytes": 59853,
+      "sha256": "aa85703a02ce986190402d5d516069f9c86e0b10677368467738d6c312c620e7",
+      "provenance": "Reconstructed from saved pre-edit bytes and the exact executed guarded replacements; no contemporaneous diagnostic source digest was sampled. Not a final-source snapshot."
+    }
+  ],
+  "files": [
+    {
+      "path": "harness-output/Makefile.txt",
+      "bytes": 1032,
+      "sha256": "4997a2baaa4068306bb480bb2aad2254ebe700bcfb3345cd0dda6a2841708302"
+    },
+    {
+      "path": "harness-output/archive-evidence.mjs",
+      "bytes": 3396,
+      "sha256": "7e8fbd7ab27f20a7c913a940ba35878b89c4abee6c12b2be2749e379d0063543"
+    },
+    {
+      "path": "harness-output/baseline-command.json",
+      "bytes": 165,
+      "sha256": "f352b6c200a7af90c81c9ab1006343cf83906d13eedda6d42665d08f181bcba4"
+    },
+    {
+      "path": "harness-output/baseline-make-verify.log",
+      "bytes": 664619,
+      "sha256": "c4e2c61b725ad79c00bb53aaad42ad3343db07db5084c230416ec4276b01c797"
+    },
+    {
+      "path": "harness-output/baseline-runner-state.json",
+      "bytes": 3966,
+      "sha256": "08c553ed01ce9042cdcec067ef5496b696e23ed69fdcb936d45f6ae4e5ec1b4c"
+    },
+    {
+      "path": "harness-output/baseline-runner-verify.log",
+      "bytes": 664425,
+      "sha256": "c8e1374c55d9a71b5d13b3a378f2dbf57310154d4d7d8d44ab7ed8cc3c717bba"
+    },
+    {
+      "path": "harness-output/development-checks-command.json",
+      "bytes": 276,
+      "sha256": "20a474d3e35eb7fe42a2b805cee1ae50acfc2978f78624e419af09d1bff328bc"
+    },
+    {
+      "path": "harness-output/development-checks.log",
+      "bytes": 1195,
+      "sha256": "a27c2493811c09d77d31df47f2143dc6e4723ca7ce0ec496a3f674eaf71d2db8"
+    },
+    {
+      "path": "harness-output/handoff-contract-command.json",
+      "bytes": 247,
+      "sha256": "dc6a4445f7a398aaa81c0192978ffe438c9cc70046912b3985f7efc5bd599b86"
+    },
+    {
+      "path": "harness-output/handoff-contract-tests.log",
+      "bytes": 801,
+      "sha256": "796b491391737f369db9d3e88e63a622cc2dbd07c2403ac06c53f1a040e36e02"
+    },
+    {
+      "path": "harness-output/history-diagnostic-command.json",
+      "bytes": 332,
+      "sha256": "73f47182c7f576ee621f70fa267646e25d2852dfad96726581cc9fb31e1e9ca7"
+    },
+    {
+      "path": "harness-output/history-diagnostic.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "harness-output/history-diagnostic.stdout.log",
+      "bytes": 5838,
+      "sha256": "03f1a736d9a7389f424b2ea9d8eb37062f8ed6006325903cd930e6c17416de9e"
+    },
+    {
+      "path": "harness-output/implementation.patch",
+      "bytes": 5220,
+      "sha256": "a98d84fa7dd61196b48982409f858a7ce53fa5999f99408cc92d881ca360d169"
+    },
+    {
+      "path": "harness-output/linux-candidate-response.txt",
+      "bytes": 9,
+      "sha256": "0019dfc4b32d63c1392aa264aed2253c1e0c2fb09216f8e2cc269bbfb8bb49b5"
+    },
+    {
+      "path": "harness-output/review-history-before-command.json",
+      "bytes": 335,
+      "sha256": "7519f2c8ae4384f8f52ac94931444bdaad1aa8c7d158908a77a340ce14b79235"
+    },
+    {
+      "path": "harness-output/review-history-before-main.go.txt",
+      "bytes": 4453,
+      "sha256": "f36459f218e4347cadec5a44d2ca2b44867579d5d3aa29fb8991bebdf812bfb3"
+    },
+    {
+      "path": "harness-output/review-history-before-regression.log",
+      "bytes": 430,
+      "sha256": "0364d35b8f4667da3ec31860c76a01d99e3d6e982aa8a46ca35ef26db73f2c7f"
+    },
+    {
+      "path": "harness-output/review-history-final-command.json",
+      "bytes": 152,
+      "sha256": "73bf7a64701790eba64299c9afe416c322d2944bc50d00e996f71fe43bb3da48"
+    },
+    {
+      "path": "harness-output/review-history-final-regression.log",
+      "bytes": 1044,
+      "sha256": "c2bdee927caf6fb4aa5b9be8ee562c85cf4b8310d50c09db5942a7f76939b075"
+    },
+    {
+      "path": "harness-output/review-history-main.go.txt",
+      "bytes": 4806,
+      "sha256": "bc7eba28062fb0a372e1a0ccf6ccd255d9312b668bcf505836842fff8d7cbd98"
+    },
+    {
+      "path": "harness-output/review-history-main_test.go.txt",
+      "bytes": 4621,
+      "sha256": "0a860cd4d17fac680af5e0e1f006158409fff3da2776fbd3fa7bb4d1e369f23e"
+    },
+    {
+      "path": "harness-output/review-history-regression.log",
+      "bytes": 762,
+      "sha256": "7bc2413b173653db8172fa895e3d607a23f2f9cfbe5ae19614a28b926ebc787c"
+    },
+    {
+      "path": "harness-output/rework-4-Makefile.txt",
+      "bytes": 1032,
+      "sha256": "4997a2baaa4068306bb480bb2aad2254ebe700bcfb3345cd0dda6a2841708302"
+    },
+    {
+      "path": "harness-output/rework-4-archive.mjs",
+      "bytes": 5273,
+      "sha256": "3397b5c8c04f4b3ece50af68f8bed9ce619b587f51e9a65eb74f1f4f821d39ae"
+    },
+    {
+      "path": "harness-output/rework-4-before-delayed.go.txt",
+      "bytes": 10374,
+      "sha256": "3a46837b543cbbe1de48769a2fb3bea50be0b862be845706925968cf9f178df7"
+    },
+    {
+      "path": "harness-output/rework-4-before-delayed.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "harness-output/rework-4-checks.mjs",
+      "bytes": 3534,
+      "sha256": "793e936a289da6f2bcadd1c16e75a30e71b81568dbc906b30466bfd6d6eb1b8e"
+    },
+    {
+      "path": "harness-output/rework-4-commands.json",
+      "bytes": 615,
+      "sha256": "2dbb12b26b47438d8a5bd11de25822b80eaa7486751455e2c5bec6d7ee7ffc42"
+    },
+    {
+      "path": "harness-output/rework-4-implementation.patch",
+      "bytes": 6985,
+      "sha256": "865a04430dea994923a4a003fcb25f45c97f64b4803b82d3fa572f6d02911dca"
+    },
+    {
+      "path": "harness-output/rework-4-path-after-delayed.go.txt",
+      "bytes": 10793,
+      "sha256": "c423e037e08bffe4f905b85a1b11058dae16d1745580b78a5f2133e605fddfc2"
+    },
+    {
+      "path": "harness-output/rework-4-path-after-delayed.log",
+      "bytes": 39,
+      "sha256": "d270e64b97f001b1c6800d1bfa3ae10264307a1394efc13467a8f5f8a4a9bea6"
+    },
+    {
+      "path": "harness-output/rework-4-path-before-delayed.go.txt",
+      "bytes": 10374,
+      "sha256": "3a46837b543cbbe1de48769a2fb3bea50be0b862be845706925968cf9f178df7"
+    },
+    {
+      "path": "harness-output/rework-4-path-before-delayed.log",
+      "bytes": 323,
+      "sha256": "6035fe93089ed32669173ac83b18cf92c9818e0c00213da19f7288da3c01a9ba"
+    },
+    {
+      "path": "harness-output/rework-4-path-checks.mjs",
+      "bytes": 3569,
+      "sha256": "7c027d304312e960bc2afe88e6f24e8ed4fa89f577cc5d7b1da17ab10c474c24"
+    },
+    {
+      "path": "harness-output/rework-4-path-commands.json",
+      "bytes": 3141,
+      "sha256": "6b55c1408d25ae5e0b7f0bdf3a7f35e1194e80614945f7f9cfa18915f8c55ebf"
+    },
+    {
+      "path": "harness-output/rework-4-path-format.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "harness-output/rework-4-path-targeted.log",
+      "bytes": 1046,
+      "sha256": "8210a953014e574a3783d47954b30db69b520037cc2e40bd9396f05d47ced767"
+    },
+    {
+      "path": "harness-output/rework-4-path-vet.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "harness-output/rework-4-review-history-main.go.txt",
+      "bytes": 4806,
+      "sha256": "bc7eba28062fb0a372e1a0ccf6ccd255d9312b668bcf505836842fff8d7cbd98"
+    },
+    {
+      "path": "harness-output/rework-4-review-history-main_test.go.txt",
+      "bytes": 4621,
+      "sha256": "0a860cd4d17fac680af5e0e1f006158409fff3da2776fbd3fa7bb4d1e369f23e"
+    },
+    {
+      "path": "harness-output/rework-4-routing_http_test-before.go.txt",
+      "bytes": 10337,
+      "sha256": "174d8249fd289d2a84145908e8ac2acdcdb4fdddfb97d0d58ab6071f4c37bf53"
+    },
+    {
+      "path": "harness-output/rework-4-routing_http_test.go.txt",
+      "bytes": 10756,
+      "sha256": "1d70fa05498cb4340b589e2220cee44f61530d9b3f1bb45be29be68f6bc67c58"
+    },
+    {
+      "path": "harness-output/rework-4-source-current.json",
+      "bytes": 336,
+      "sha256": "5eb07714d1133eb4dd1de038cab82c0585dbee67a2623084aa2ef00ba06dd8e6"
+    },
+    {
+      "path": "harness-output/rework-6-archive.mjs",
+      "bytes": 8365,
+      "sha256": "9135ccc015a99343ea440f915341505bd95d6ce5c1bcc877eae260504b34800f"
+    },
+    {
+      "path": "harness-output/rework-6-checks.json",
+      "bytes": 2288,
+      "sha256": "27853499de03fd16bafbd852d3443cd28eecae4ba1e88b69086545b34114af46"
+    },
+    {
+      "path": "harness-output/rework-6-checks.mjs",
+      "bytes": 1513,
+      "sha256": "e22c13741605308dc7d08fe0f96242e7b114be6ce1053d4332fd2b13efaa314a"
+    },
+    {
+      "path": "harness-output/rework-6-diff.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "harness-output/rework-6-final-audit.json",
+      "bytes": 552,
+      "sha256": "5f4fe43da30874c9104242853396084b108df3e11ba40c54108223bfbe7400a3"
+    },
+    {
+      "path": "harness-output/rework-6-format.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "harness-output/rework-6-implementation.patch",
+      "bytes": 11060,
+      "sha256": "378f7d79de748234cb7b723d20d511aabb5d05ff00c15c5994303a392bb9c983"
+    },
+    {
+      "path": "harness-output/rework-6-runner-race.log",
+      "bytes": 28321,
+      "sha256": "816fc6095efd6a2d1b39292ccee8b31677b66c8a12780f55b47896c9a352015c"
+    },
+    {
+      "path": "harness-output/rework-6-runner-vet.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "harness-output/rework-6-source.log",
+      "bytes": 336,
+      "sha256": "f18322a1a79508e9a6af6e875b6361caf98614acd265dfe851c9ff86515d06f1"
+    },
+    {
+      "path": "harness-output/rework-6-verify-main-before.go.txt",
+      "bytes": 18549,
+      "sha256": "bbc840e32a3bcb05e3f03b78efeda080e1ab5c147578bc3a7a0970a0377ff99d"
+    },
+    {
+      "path": "harness-output/rework-6-verify-main.go.txt",
+      "bytes": 18826,
+      "sha256": "4eb68d3338ecd00e224d68837400e17058149d3a6a5be823677ffe429cdc8f07"
+    },
+    {
+      "path": "harness-output/rework-6-verify-main_test-before.go.txt",
+      "bytes": 23279,
+      "sha256": "f477b4c2b8fb18163d25c172abeb66e07635f9c8db3508f92315f297645ec88a"
+    },
+    {
+      "path": "harness-output/rework-6-verify-main_test.go.txt",
+      "bytes": 24732,
+      "sha256": "234321737e0fbec3af5a4aa1316c5e57e5891f71b057d76a7f62a4cf50523c7d"
+    },
+    {
+      "path": "harness-output/rework-8-after-browser.log",
+      "bytes": 765,
+      "sha256": "ccb7954ab60075f2d835534a69efa753eda8a711c0c4820df61ec09571334111"
+    },
+    {
+      "path": "harness-output/rework-8-after-journeys_test.go.txt",
+      "bytes": 10427,
+      "sha256": "638d6b8fc88f85d623c00fc38962090da3a74b382a108b369e6799bbac75d083"
+    },
+    {
+      "path": "harness-output/rework-8-after-overlay.json",
+      "bytes": 136,
+      "sha256": "00f7895448330b5e4ee0920c59393e08cd3c292d9890ee55ebe6d2a36532b836"
+    },
+    {
+      "path": "harness-output/rework-8-archive.mjs",
+      "bytes": 9177,
+      "sha256": "fe3354f19da02b58acd1e3f22318e0d899fb722a025a9f2761c5a4204238960c"
+    },
+    {
+      "path": "harness-output/rework-8-browser-race.log",
+      "bytes": 38,
+      "sha256": "50a52c4dfacf12ef85a4573164866eea24fda80a90d51caea4f51864345d49e8"
+    },
+    {
+      "path": "harness-output/rework-8-browser-vet.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "harness-output/rework-8-checks.json",
+      "bytes": 2393,
+      "sha256": "f49ac04924e63ec96811493551af7bb7d62850d5674dbf2efde9ca12e68a9bb1"
+    },
+    {
+      "path": "harness-output/rework-8-checks.mjs",
+      "bytes": 1496,
+      "sha256": "24b6d6e2a5b442a62089edfab068d231047b2de4fda33864e4b1386c5471b5d3"
+    },
+    {
+      "path": "harness-output/rework-8-commands.json",
+      "bytes": 2404,
+      "sha256": "b3145f9ab02b2d35c3aea1f26bfa1730b751ffeb779acaac3df8d843e68984be"
+    },
+    {
+      "path": "harness-output/rework-8-dependencies.log",
+      "bytes": 315,
+      "sha256": "232f485eae69d4573f1ec92eba791ea703f7b9a8167952084276f885a8aebbb2"
+    },
+    {
+      "path": "harness-output/rework-8-diagnostic-journeys.mjs.txt",
+      "bytes": 59853,
+      "sha256": "aa85703a02ce986190402d5d516069f9c86e0b10677368467738d6c312c620e7"
+    },
+    {
+      "path": "harness-output/rework-8-diagnostic-journeys_test.go.txt",
+      "bytes": 10306,
+      "sha256": "6f2206570815a433e59f1387faea83a0333a436176fe5add6a287315b2804b5f"
+    },
+    {
+      "path": "harness-output/rework-8-diagnostic-overlay.json",
+      "bytes": 141,
+      "sha256": "662d100f78d4a1b4b15e64c7bc2e977c2d34ae93cfe6c631b16be2bf66bd8d20"
+    },
+    {
+      "path": "harness-output/rework-8-diagnostic-unit.log",
+      "bytes": 6476,
+      "sha256": "edc90f66f0ba63fc5191f72104c575c43944edf6e15f27f7186e4773c53e7be0"
+    },
+    {
+      "path": "harness-output/rework-8-diagnostic.log",
+      "bytes": 4315,
+      "sha256": "b9eaa899a043910a73aa06da37e7d534f893238bcf25decb54e79aa0fe643c63"
+    },
+    {
+      "path": "harness-output/rework-8-diff.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "harness-output/rework-8-final-audit.json",
+      "bytes": 1095,
+      "sha256": "d2611d9849f3640eceddcdcc3a2e82a9abe215379576dc2cfa07550511a10fb5"
+    },
+    {
+      "path": "harness-output/rework-8-final-internal-relay-routing_http_test.go.txt",
+      "bytes": 10756,
+      "sha256": "1d70fa05498cb4340b589e2220cee44f61530d9b3f1bb45be29be68f6bc67c58"
+    },
+    {
+      "path": "harness-output/rework-8-final-source.log",
+      "bytes": 336,
+      "sha256": "841fe14d8cea5416447edfd5e2cb26cd27d1ec386afe10a697b9c25a74219a07"
+    },
+    {
+      "path": "harness-output/rework-8-final-tests-browser-call-response.mjs.txt",
+      "bytes": 1645,
+      "sha256": "52c1892ec1f3f7eab3d2957dac05aadd19ee18c1125d005b709970b48c30c474"
+    },
+    {
+      "path": "harness-output/rework-8-final-tests-browser-call-response.test.mjs.txt",
+      "bytes": 3738,
+      "sha256": "0d0bceb83d95ec82204f651749a9faa51b92054b194ba3adf557451938df8f81"
+    },
+    {
+      "path": "harness-output/rework-8-final-tests-browser-journeys.mjs.txt",
+      "bytes": 59867,
+      "sha256": "0295dd672b3ed87ac2021dfe9c96e4184cc00414cd7ff426c4b402a48afc7bd9"
+    },
+    {
+      "path": "harness-output/rework-8-final-tests-review-history-main.go.txt",
+      "bytes": 4806,
+      "sha256": "bc7eba28062fb0a372e1a0ccf6ccd255d9312b668bcf505836842fff8d7cbd98"
+    },
+    {
+      "path": "harness-output/rework-8-final-tests-review-history-main_test.go.txt",
+      "bytes": 4621,
+      "sha256": "0a860cd4d17fac680af5e0e1f006158409fff3da2776fbd3fa7bb4d1e369f23e"
+    },
+    {
+      "path": "harness-output/rework-8-final-tests-verify-main.go.txt",
+      "bytes": 18826,
+      "sha256": "4eb68d3338ecd00e224d68837400e17058149d3a6a5be823677ffe429cdc8f07"
+    },
+    {
+      "path": "harness-output/rework-8-final-tests-verify-main_test.go.txt",
+      "bytes": 24732,
+      "sha256": "234321737e0fbec3af5a4aa1316c5e57e5891f71b057d76a7f62a4cf50523c7d"
+    },
+    {
+      "path": "harness-output/rework-8-frontend.log",
+      "bytes": 66572,
+      "sha256": "1edc679da1a07820012aa2bccd8471a4f7e2ef72ce6fba55ccbbfb484660fe8d"
+    },
+    {
+      "path": "harness-output/rework-8-implementation.patch",
+      "bytes": 21221,
+      "sha256": "5e151785401d1748057adbe59fb06baf47072cb5573972146121b0f0738a4900"
+    },
+    {
+      "path": "harness-output/rework-8-journeys-before.mjs.txt",
+      "bytes": 59460,
+      "sha256": "603149f33a4399e5b515c017c1b9f6ec272482b8691472c03144debcca3ae098"
+    },
+    {
+      "path": "harness-output/rework-8-journeys-test-before.mjs.txt",
+      "bytes": 26284,
+      "sha256": "25c406cc927339458928b2775d5eaf56a36a73f53e72e068bb565f3671658943"
+    },
+    {
+      "path": "harness-output/rework-8-source.log",
+      "bytes": 336,
+      "sha256": "841fe14d8cea5416447edfd5e2cb26cd27d1ec386afe10a697b9c25a74219a07"
+    },
+    {
+      "path": "harness-output/rework-8-targeted-unit.log",
+      "bytes": 7232,
+      "sha256": "7c09258a8894556b6d34047ec85d5a0c4d7f6aedde06830409abcf267b6d20a1"
+    },
+    {
+      "path": "harness-output/rework-8-tracked-only-implementation.patch",
+      "bytes": 15334,
+      "sha256": "6d93ffc57755d06e205b5a860c4b8626c13a67232def5703b248aac42e2ff847"
+    },
+    {
+      "path": "harness-output/source-current.json",
+      "bytes": 336,
+      "sha256": "b7ac5bd6b3edc68224d374efe7f4500ae84fe2d265d3e217aabf6e5b3fa607a0"
+    },
+    {
+      "path": "harness-output/tests-3-platform-export.log",
+      "bytes": 1007152,
+      "sha256": "3c317c58b3dae1c7cab8f8aa4531bf966a60b68cfbf9f4d5cbc8ecf2aecfe021"
+    },
+    {
+      "path": "harness-output/tests-3-platform.log",
+      "bytes": 1007152,
+      "sha256": "3c317c58b3dae1c7cab8f8aa4531bf966a60b68cfbf9f4d5cbc8ecf2aecfe021"
+    },
+    {
+      "path": "harness-output/tests-3-state.json",
+      "bytes": 3962,
+      "sha256": "d0684a842a25ce1a7074541ca5149910faa29fca8c33494dc8f8c56fc6188a65"
+    },
+    {
+      "path": "harness-output/tests-3-verify.log",
+      "bytes": 1002319,
+      "sha256": "8a1fd03de3fbde399723dce7e46bdebdf00417238ce1de29be914b1a69e23383"
+    },
+    {
+      "path": "harness-output/tests-5-analysis.json",
+      "bytes": 2730,
+      "sha256": "7a565cf4ef0e99ccb4444fa9200b6d620365ebe8e110f55fd1b9fc6f1c27bec3"
+    },
+    {
+      "path": "harness-output/tests-5-model-selection-1280.jsonl",
+      "bytes": 1188152,
+      "sha256": "4ac98dbc158b01705fe8133f9b1845e95faa6ec78d19a03d86d8c5faae1b7998"
+    },
+    {
+      "path": "harness-output/tests-5-model-selection-390.jsonl",
+      "bytes": 1140870,
+      "sha256": "c86bd7c7bb559ac0b03ad451ef897c0cb03a24f5dfcb80ecba0a1ee3b9e09429"
+    },
+    {
+      "path": "harness-output/tests-5-platform-export.log",
+      "bytes": 1074530,
+      "sha256": "e7c2bcd4cff176b3907b1135099516cd89811a9c96c61ee8ca399228d4b64700"
+    },
+    {
+      "path": "harness-output/tests-5-routing-selection-30296.jsonl",
+      "bytes": 994029,
+      "sha256": "e141dd4a3db3cdbf1dcb045bd5da1d4a7fc070bd339f28d8e5e6d70719cc140c"
+    },
+    {
+      "path": "harness-output/tests-5-state.json",
+      "bytes": 3966,
+      "sha256": "d979924ed430185754c2152dabd57e38e83a48d48c9b9e7b45b3275c3853b18d"
+    },
+    {
+      "path": "harness-output/tests-5-verify.log",
+      "bytes": 1053522,
+      "sha256": "81990ac7c48a35b17598d6d825a20f586f79e669ed64cb0dd4fde6f6fe5383bd"
+    },
+    {
+      "path": "harness-output/tests-7-analysis.json",
+      "bytes": 8962,
+      "sha256": "c354ff56f4e04c6059d3592778b0dcafa7b771366d1d2524281b8d08eeb3edf1"
+    },
+    {
+      "path": "harness-output/tests-7-platform-export.log",
+      "bytes": 1090507,
+      "sha256": "3bb3ed307415d790e0fbfde139a6e71d48ac4bf8209e8ccef94085f23c332f12"
+    },
+    {
+      "path": "harness-output/tests-7-self-hosted-1440.json",
+      "bytes": 5682,
+      "sha256": "456079fbe8f133848812ec1bb383682486440ec30a77a53c5f21addd73f675ab"
+    },
+    {
+      "path": "harness-output/tests-7-state.json",
+      "bytes": 3964,
+      "sha256": "1220c9d91886bc6d4a4880e2b5c0fb322bcc44e36eebfb2377e7a1713e138eb2"
+    },
+    {
+      "path": "harness-output/tests-7-verify.log",
+      "bytes": 1062773,
+      "sha256": "8d4c6bd0c59b61dc1c775cdacabfc0b6726ba105a9e0894bb2fa3d80ac02f9be"
+    },
+    {
+      "path": "harness-output/user-input-issue-54.json",
+      "bytes": 1547,
+      "sha256": "319bdda078d986a6e7221d1d7c88e96bcdca1ce6494ce481d1c4661fe03db48b"
+    },
+    {
+      "path": "harness-output/verify-main.go.txt",
+      "bytes": 18549,
+      "sha256": "bbc840e32a3bcb05e3f03b78efeda080e1ab5c147578bc3a7a0970a0377ff99d"
+    }
+  ],
+  "publication_files": [
+    "tests/review-history/main.go",
+    "tests/review-history/main_test.go",
+    "internal/relay/routing_http_test.go",
+    "tests/verify/main.go",
+    "tests/verify/main_test.go",
+    "tests/browser/journeys.mjs",
+    "tests/browser/call-response.mjs",
+    "tests/browser/call-response.test.mjs",
+    "docs/harness/run-197ab169bc1cad067466300038ab6fac/development.md",
+    "docs/harness/run-197ab169bc1cad067466300038ab6fac/evidence-manifest.json"
+  ],
+  "stages": {
+    "development": "execution_11_blocked_owner_formal_stop_rollback_to_qa",
+    "fixed_tests": "execution_9_passed_same_source_no_rerun_requested",
+    "qa": "execution_10_technical_pass_complete_platform_supplement_pending_owner_return",
+    "approval": "pending",
+    "report": "pending",
+    "publish": "pending"
+  },
+  "development_execution": 11,
+  "previous_source": {
+    "files": 158,
+    "go": "go1.25.6",
+    "head": "868530b3e5c15d65bee0ed4ff6af69e96d428b81",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "36ff8c2858d68ca62ace90959ca59d55f4af8ad71a6b1cbe775169f319b1edc2"
+  },
+  "fixed_tests_execution_3": {
+    "outer_exit_code": 2,
+    "runner_exit_code": 1,
+    "gate_exit_code": 2,
+    "source_unchanged": true,
+    "source_sha256": "36ff8c2858d68ca62ace90959ca59d55f4af8ad71a6b1cbe775169f319b1edc2",
+    "started_utc": "2026-10-22T01:30:18.710541108Z",
+    "finished_utc": "2026-10-22T01:34:18.412743859Z",
+    "duration_seconds": 239.702,
+    "failure": "TestRoutingRealHTTPSelectionFailoverAndRecovery: cooldown did not exclude actual primary",
+    "platform_log": "harness-output/tests-3-platform.log",
+    "platform_log_bytes": 1007152,
+    "platform_log_sha256": "3c317c58b3dae1c7cab8f8aa4531bf966a60b68cfbf9f4d5cbc8ecf2aecfe021",
+    "platform_log_truncated": false,
+    "runner_log": "harness-output/tests-3-verify.log",
+    "runner_state": "harness-output/tests-3-state.json",
+    "build_and_browser": "not_run"
+  },
+  "rework": {
+    "fixed_test_rework_count": 1,
+    "qa_rework_count": 0,
+    "checks": "harness-output/rework-4-path-commands.json",
+    "setup_failure": "harness-output/rework-4-commands.json",
+    "setup_correction": "process-local PATH addition for existing Go 1.25.6; no install or permissions changed",
+    "original_25_evidence_files_unchanged": true,
+    "makefile_changed": false,
+    "production_code_changed": false,
+    "race_and_assertions_preserved": true,
+    "full_fixed_verify_rerun_in_development": false,
+    "first_observed_utc": "2026-10-22T01:35:39Z",
+    "exact_entry_time_known": false,
+    "checks_finished_utc": "2026-10-22T01:41:22.673Z",
+    "last_observed_utc": "2026-10-22T01:43:23.694Z",
+    "minimum_observed_residence_seconds": 464.694,
+    "development_execution": 4
+  },
+  "archive_relocations": [
+    {
+      "from": "workflow-output/197ab169bc1cad067466300038ab6fac/command-3.log",
+      "to": "harness-output/tests-3-platform-export.log",
+      "bytes": 1007152,
+      "sha256": "3c317c58b3dae1c7cab8f8aa4531bf966a60b68cfbf9f4d5cbc8ecf2aecfe021",
+      "reason": "keep workflow evidence outside unignored build inventory; unchanged bytes; original fixed runner failures retained"
+    },
+    {
+      "from": "workflow-output/197ab169bc1cad067466300038ab6fac/command-5.log",
+      "to": "harness-output/tests-5-platform-export.log",
+      "bytes": 1074530,
+      "sha256": "e7c2bcd4cff176b3907b1135099516cd89811a9c96c61ee8ca399228d4b64700",
+      "reason": "Unchanged full native export moved outside unignored build inventory; original runner receipts remain at test-results/verification/20261022T014805Z-1922967358."
+    },
+    {
+      "from": "workflow-output/197ab169bc1cad067466300038ab6fac/command-7.log",
+      "to": "harness-output/tests-7-platform-export.log",
+      "bytes": 1090507,
+      "sha256": "3bb3ed307415d790e0fbfde139a6e71d48ac4bf8209e8ccef94085f23c332f12",
+      "reason": "Native complete export moved byte-for-byte outside nonignored build inventory; runner originals retained under test-results/verification/20261022T021156Z-2844043151."
+    }
+  ],
+  "issue_association": {
+    "source": "formal_user_input_in_current_conversation",
+    "recorded_utc": "2026-10-22T01:45:49.065Z",
+    "repository": "big91987/model-relay",
+    "issue_number": 54,
+    "issue_url": "https://github.com/big91987/model-relay/issues/54",
+    "issue_title": "【Harness验证】验证统一显式目标交接下的完整研发交付",
+    "run_id": "197ab169bc1cad067466300038ab6fac",
+    "github_inbound_actions_run_ids": [
+      "39703355037",
+      "39703356253"
+    ],
+    "association_basis": "User explicitly supplied both inbound Actions IDs as pointing to this Run.",
+    "external_github_actions_independent_verification": "not_performed; record is user-supplied association, not a fetched Actions receipt",
+    "changes_scope": false,
+    "changes_test_assertions": false,
+    "changes_acceptance_gates": false,
+    "grants_additional_permissions": false,
+    "resolves_limitation": "Issue number was absent from original frozen task materials; now supplied by formal User Input.",
+    "input_file": "harness-output/user-input-issue-54.json"
+  },
+  "user_input_updates": [
+    {
+      "recorded_utc": "2026-10-22T01:45:49.065Z",
+      "type": "issue_reference_supplement",
+      "source": "formal_user_input",
+      "source_changed": false,
+      "test_rerun": false,
+      "resolved_limitations": [
+        "original_issue_number_not_supplied"
+      ],
+      "other_limitations_unchanged": true
+    }
+  ],
+  "handoff_attempt_before_supplement": {
+    "target": "tests",
+    "accepted": false,
+    "reason": "user input is already saved and pending delivery",
+    "source": "native_handoff_tool_response",
+    "followup": "User input delivered and handled; request same tests target again."
+  },
+  "source_versions": {
+    "development_execution_4": {
+      "files": 158,
+      "go": "go1.25.6",
+      "head": "868530b3e5c15d65bee0ed4ff6af69e96d428b81",
+      "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+      "working_tree_sha256": "e53854b0a4ebae7ffb648f968d26c7d5fa3310edd606dd0c5e5d0700f7cc7d30"
+    },
+    "development_execution_6": {
+      "files": 158,
+      "go": "go1.25.6",
+      "head": "868530b3e5c15d65bee0ed4ff6af69e96d428b81",
+      "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+      "working_tree_sha256": "773ecb3d9f47655bfc3e1cf3c99f204e341f2a6b1559982c18c42c04d88a16d9"
+    },
+    "development_execution_8": {
+      "files": 160,
+      "go": "go1.25.6",
+      "head": "868530b3e5c15d65bee0ed4ff6af69e96d428b81",
+      "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+      "working_tree_sha256": "44107d4db03a944c27a7d9b36b03e1802a770b3219c9bae61b19f0d81d4795fd"
+    }
+  },
+  "fixed_tests_execution_5": {
+    "execution": 5,
+    "full_logs_read_and_hashed": true,
+    "original_log_truncated": false,
+    "platform": {
+      "path": "harness-output/tests-5-platform-export.log",
+      "bytes": 1074530,
+      "sha256": "e7c2bcd4cff176b3907b1135099516cd89811a9c96c61ee8ca399228d4b64700"
+    },
+    "runner": {
+      "path": "harness-output/tests-5-verify.log",
+      "bytes": 1053522,
+      "sha256": "81990ac7c48a35b17598d6d825a20f586f79e669ed64cb0dd4fde6f6fe5383bd"
+    },
+    "started_utc": "2026-10-22T01:48:05.454978358Z",
+    "finished_utc": "2026-10-22T02:00:20.906774147Z",
+    "residence_seconds": 735.452,
+    "outer_exit_code": 2,
+    "runner_exit_code": 1,
+    "gate_exit_code": -1,
+    "source_sha256": "e53854b0a4ebae7ffb648f968d26c7d5fa3310edd606dd0c5e5d0700f7cc7d30",
+    "source_unchanged": true,
+    "candidate_unchanged": true,
+    "owned_group_absent": true,
+    "frontend": {
+      "tests": 278,
+      "passed": 278,
+      "failed": 0,
+      "raw_summary_present": true
+    },
+    "race_package_results": [
+      "ok  \tmodel-relay/cmd/model-relay\t6.123s",
+      "ok  \tmodel-relay/internal/relay\t101.482s",
+      "ok  \tmodel-relay/tests/browser\t5.200s",
+      "ok  \tmodel-relay/tests/health-history\t2.313s",
+      "ok  \tmodel-relay/tests/review-history\t2.130s",
+      "ok  \tmodel-relay/tests/verification\t1.060s",
+      "ok  \tmodel-relay/tests/verify\t1.770s"
+    ],
+    "repaired_http_test_pass": true,
+    "browser_phases": [
+      "BROWSER_PHASE name=migration state=start utc=2026-10-22T01:52:44.478313268Z",
+      "BROWSER_PHASE name=migration state=end utc=2026-10-22T01:53:00.198602691Z elapsed_ms=15720 ok=true",
+      "BROWSER_PHASE name=legacy-ui state=start utc=2026-10-22T01:53:00.437641665Z",
+      "BROWSER_PHASE name=legacy-ui state=end utc=2026-10-22T01:56:27.726576322Z elapsed_ms=207288 ok=true",
+      "BROWSER_PHASE name=routing state=start utc=2026-10-22T01:56:27.726730856Z"
+    ],
+    "completed_routing_widths": [
+      1280
+    ],
+    "interrupted_stage": "routing passive recovery 390; SIGTERM at 12 minute runner gate deadline",
+    "not_started_phases": [
+      "console",
+      "full-console",
+      "post-gate dependency probe"
+    ],
+    "result": "failed; not a complete verification pass",
+    "original_budget_seconds": 720,
+    "connector_timeout_seconds": 1800,
+    "new_runner_budget_seconds": 1500,
+    "diagnosis": "Gate began after prerequisites at approximately 01:48:20.009Z; cancellation occurred at 02:00:20Z, not the 30 minute Connector timeout. Browser failure followed process-group cancellation; no independent product failure is established by that interruption.",
+    "expected_failure_caution": "Historical reconstructions and runner negative fixtures intentionally log failures; current package outcomes above are extracted only from the actual race suite boundaries."
+  },
+  "rework_execution_6": {
+    "fixed_test_rework_count": 2,
+    "qa_rework_count": 0,
+    "prior_evidence_files_verified_unchanged": 51,
+    "changed_source_files": [
+      "tests/verify/main.go",
+      "tests/verify/main_test.go"
+    ],
+    "changes": "Runner total gate deadline 12 -> 25 minutes and bounded-context tests; gate budget logged. No product change or test assertion removal.",
+    "makefile_changed": false,
+    "race_downgraded": false,
+    "full_fixed_verify_rerun_in_development": false,
+    "checks": "harness-output/rework-6-checks.json",
+    "first_observed_utc": "2026-10-22T02:01:53Z",
+    "exact_entry_time_known": false,
+    "checks_finished_utc": "2026-10-22T02:04:36.184Z",
+    "candidate_comparison": "candidate object remains unavailable; no dependency, cherry-pick or code adaptation from candidate",
+    "editing_tool_limitation": "apply_patch tool/executable unavailable; guarded unique-literal edits and gofmt used",
+    "minimum_observed_residence_seconds_at_archive": 317.878,
+    "final_audit": "harness-output/rework-6-final-audit.json"
+  },
+  "latest_rework": "rework_execution_6",
+  "fixed_tests_execution_7": {
+    "execution": 7,
+    "full_platform_log": {
+      "path": "harness-output/tests-7-platform-export.log",
+      "bytes": 1090507,
+      "sha256": "3bb3ed307415d790e0fbfde139a6e71d48ac4bf8209e8ccef94085f23c332f12",
+      "truncated": false
+    },
+    "runner_log": {
+      "path": "harness-output/tests-7-verify.log",
+      "bytes": 1062773,
+      "sha256": "8d4c6bd0c59b61dc1c775cdacabfc0b6726ba105a9e0894bb2fa3d80ac02f9be"
+    },
+    "state": "harness-output/tests-7-state.json",
+    "duration_seconds": 938.36,
+    "gate_exit": 2,
+    "runner_exit": 1,
+    "outer_exit": 2,
+    "source_before": {
+      "files": 158,
+      "go": "go1.25.6",
+      "head": "868530b3e5c15d65bee0ed4ff6af69e96d428b81",
+      "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+      "working_tree_sha256": "773ecb3d9f47655bfc3e1cf3c99f204e341f2a6b1559982c18c42c04d88a16d9"
+    },
+    "source_after": {
+      "files": 158,
+      "go": "go1.25.6",
+      "head": "868530b3e5c15d65bee0ed4ff6af69e96d428b81",
+      "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+      "working_tree_sha256": "773ecb3d9f47655bfc3e1cf3c99f204e341f2a6b1559982c18c42c04d88a16d9"
+    },
+    "source_unchanged": true,
+    "candidate_unchanged": true,
+    "owned_group_absent": true,
+    "prior_evidence_verified": 72,
+    "phase_markers": [
+      "BROWSER_PHASE name=migration state=end utc=2026-10-22T02:16:57.35963749Z elapsed_ms=15697 ok=true",
+      "BROWSER_PHASE name=legacy-ui state=end utc=2026-10-22T02:20:20.929622154Z elapsed_ms=203318 ok=true",
+      "BROWSER_PHASE name=routing state=end utc=2026-10-22T02:24:22.407670446Z elapsed_ms=241477 ok=true",
+      "BROWSER_PHASE name=console state=end utc=2026-10-22T02:24:58.805764495Z elapsed_ms=36396 ok=true",
+      "BROWSER_PHASE name=full-console state=end utc=2026-10-22T02:27:34.226322792Z elapsed_ms=155420 ok=false"
+    ],
+    "passed_go_packages": [
+      "ok  \tmodel-relay/cmd/model-relay\t6.128s",
+      "ok  \tmodel-relay/internal/relay\t106.566s",
+      "ok  \tmodel-relay/tests/browser\t4.988s",
+      "ok  \tmodel-relay/tests/health-history\t2.281s",
+      "ok  \tmodel-relay/tests/review-history\t2.119s",
+      "ok  \tmodel-relay/tests/verification\t1.037s",
+      "ok  \tmodel-relay/tests/verify\t1.778s"
+    ],
+    "frontend_summary": "# tests 278\n# suites 0\n# pass 278\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 1535.573684\nmake test\ngo test -race -count=1 -v ./... -parallel=4\n=== RUN   TestDeploymentContractAndIdempote",
+    "gate_start": "GATE_START budget_ms=1499999",
+    "failure": {
+      "suite": "first-self-hosted",
+      "width": 1440,
+      "result": "failed",
+      "stage": "self-hosted-sse",
+      "action": "proxy-call",
+      "last_status": 200,
+      "initial_counts": {
+        "upstreams": 0,
+        "models": 0,
+        "tenants": 0
+      },
+      "call_facts": {
+        "expected_status": 200,
+        "dispatch_delta": 1
+      },
+      "usage_facts": {},
+      "read_facts": {
+        "expected_status": 200,
+        "actual_status": 200
+      },
+      "membership_facts": {},
+      "ledger_facts": {},
+      "self_hosted_facts": {
+        "check_state": "success",
+        "check_code": "",
+        "applicable": true
+      },
+      "self_hosted_progress": {
+        "steps": [
+          {
+            "step": "upstream_connection_failed",
+            "utc": "2026-10-22T02:27:23.525Z",
+            "readability": {
+              "root_fits": true,
+              "tables": 0,
+              "tables_accessible": true,
+              "headers_unbroken": true,
+              "identifiers": 2,
+              "identifiers_complete": true,
+              "actions_unbroken": true,
+              "horizontal_boundaries_isolated": true,
+              "overflowing_tables": 0,
+              "overflowing_identifiers": 0,
+              "keyboard_scrolled_tables": 0,
+              "keyboard_scrolled_identifiers": 0
+            }
+          },
+          {
+            "step": "upstream_rejected",
+            "utc": "2026-10-22T02:27:24.547Z",
+            "readability": {
+              "root_fits": true,
+              "tables": 0,
+              "tables_accessible": true,
+              "headers_unbroken": true,
+              "identifiers": 2,
+              "identifiers_complete": true,
+              "actions_unbroken": true,
+              "horizontal_boundaries_isolated": true,
+              "overflowing_tables": 0,
+              "overflowing_identifiers": 0,
+              "keyboard_scrolled_tables": 0,
+              "keyboard_scrolled_identifiers": 0
+            }
+          },
+          {
+            "step": "verified",
+            "utc": "2026-10-22T02:27:25.432Z",
+            "readability": {
+              "root_fits": true,
+              "tables": 0,
+              "tables_accessible": true,
+              "headers_unbroken": true,
+              "identifiers": 1,
+              "identifiers_complete": true,
+              "actions_unbroken": true,
+              "horizontal_boundaries_isolated": true,
+              "overflowing_tables": 0,
+              "overflowing_identifiers": 0,
+              "keyboard_scrolled_tables": 0,
+              "keyboard_scrolled_identifiers": 0
+            }
+          },
+          {
+            "step": "service-long-address",
+            "utc": "2026-10-22T02:27:26.592Z",
+            "readability": {
+              "root_fits": true,
+              "tables": 1,
+              "tables_accessible": true,
+              "headers_unbroken": true,
+              "identifiers": 1,
+              "identifiers_complete": true,
+              "actions_unbroken": true,
+              "horizontal_boundaries_isolated": true,
+              "overflowing_tables": 1,
+              "overflowing_identifiers": 1,
+              "keyboard_scrolled_tables": 1,
+              "keyboard_scrolled_identifiers": 1
+            }
+          },
+          {
+            "step": "roles",
+            "utc": "2026-10-22T02:27:31.552Z",
+            "readability": {
+              "root_fits": true,
+              "tables": 3,
+              "tables_accessible": true,
+              "headers_unbroken": true,
+              "identifiers": 4,
+              "identifiers_complete": true,
+              "actions_unbroken": true,
+              "horizontal_boundaries_isolated": true,
+              "overflowing_tables": 1,
+              "overflowing_identifiers": 0,
+              "keyboard_scrolled_tables": 1,
+              "keyboard_scrolled_identifiers": 0
+            }
+          },
+          {
+            "step": "key-safe-identifier",
+            "utc": "2026-10-22T02:27:32.484Z",
+            "readability": {
+              "root_fits": true,
+              "tables": 1,
+              "tables_accessible": true,
+              "headers_unbroken": true,
+              "identifiers": 1,
+              "identifiers_complete": true,
+              "actions_unbroken": true,
+              "horizontal_boundaries_isolated": true,
+              "overflowing_tables": 0,
+              "overflowing_identifiers": 0,
+              "keyboard_scrolled_tables": 0,
+              "keyboard_scrolled_identifiers": 0
+            }
+          },
+          {
+            "step": "normal-same-request",
+            "utc": "2026-10-22T02:27:33.766Z",
+            "readability": {
+              "root_fits": true,
+              "tables": 0,
+              "tables_accessible": true,
+              "headers_unbroken": true,
+              "identifiers": 7,
+              "identifiers_complete": true,
+              "actions_unbroken": true,
+              "horizontal_boundaries_isolated": true,
+              "overflowing_tables": 0,
+              "overflowing_identifiers": 1,
+              "keyboard_scrolled_tables": 0,
+              "keyboard_scrolled_identifiers": 1
+            }
+          },
+          {
+            "step": "normal-ledger",
+            "utc": "2026-10-22T02:27:33.818Z",
+            "input_tokens": 3,
+            "output_tokens": 4,
+            "fee_micro_usd": "21",
+            "cost_micro_usd": "7",
+            "same_request": true
+          }
+        ],
+        "screenshots": [
+          "continuous-1440-self-hosted-upstream_connection_failed-41527.png",
+          "continuous-1440-self-hosted-upstream_rejected-41527.png",
+          "continuous-1440-self-hosted-verified-41527.png",
+          "continuous-1440-self-hosted-service-long-address-41527.png",
+          "continuous-1440-self-hosted-roles-41527.png",
+          "continuous-1440-self-hosted-key-safe-identifier-41527.png",
+          "continuous-1440-self-hosted-normal-same-request-41527.png"
+        ]
+      },
+      "failure_boundary": {
+        "available": false
+      },
+      "summary_cell": {
+        "available": false
+      },
+      "readability_facts": {
+        "available": false
+      },
+      "checkpoints": [],
+      "error_kind": "other",
+      "editor_open": false,
+      "editor_invalid": 0,
+      "editor_failure": false,
+      "content_loading": false,
+      "workspace_visible": true,
+      "secret_present": true
+    },
+    "cause": "Not deadline exhaustion. Self-hosted 1440 SSE call failed after HTTP 200; original receipt lacks phase/body failure classification; root cause not yet established.",
+    "rerun_in_development": false
+  },
+  "rework_execution_8": {
+    "fixed_test_rework_count": 3,
+    "qa_rework_count": 0,
+    "prior_evidence_files_verified_unchanged": 72,
+    "source_files_changed_this_execution": [
+      "tests/browser/journeys.mjs",
+      "tests/browser/call-response.mjs",
+      "tests/browser/call-response.test.mjs"
+    ],
+    "root_cause": "Focused reproduction confirms Chromium CDP response-body unavailability for SSE; UI completion and HTTP200 had already succeeded. This is an observer failure, not evidence that billing assertions failed.",
+    "repair": "Capture response.clone().text() in the page around the original fetch, verify exactly one POST and the same X-Request-ID, restore fetch in finally. No second network request, retry, route stub, product change, assertion removal, race reduction or additional gate budget.",
+    "makefile_changed": false,
+    "production_code_changed": false,
+    "budget_changed": false,
+    "original_business_assertions_preserved": true,
+    "full_fixed_verify_pass": false,
+    "commands": "harness-output/rework-8-commands.json",
+    "first_confirmed_utc_sample": "2026-10-22T02:28:34Z",
+    "exact_entry_time_known": false,
+    "minimum_observed_residence_seconds_at_archive": 619.764,
+    "patch_assembly": {
+      "tracked_only": "harness-output/rework-8-tracked-only-implementation.patch",
+      "complete": "harness-output/rework-8-implementation.patch",
+      "reason": "git diff alone omits new untracked helper and test. Added their git diff --no-index /dev/null entries; preserved first tracked-only patch."
+    },
+    "final_audit": "harness-output/rework-8-final-audit.json"
+  },
+  "fixed_tests_execution_9": {
+    "execution": 9,
+    "platform_log": "harness-output/tests-9-platform-export.log",
+    "platform_bytes": 1093069,
+    "platform_sha256": "868edba207d2a972ce2c0b67c3ce5ec2485ed49f61334908d6a7cae30bf0e4ca",
+    "platform_truncated": false,
+    "outer_exit": 0,
+    "runner_exit": 0,
+    "gate_exit": 0,
+    "started_utc": "2026-10-22T02:42:49.44085415Z",
+    "finished_utc": "2026-10-22T02:59:53.800960021Z",
+    "duration_seconds": 1024.36,
+    "runner_log_bytes": 1062735,
+    "runner_log_sha256": "c27a7fce90c4e6769363f5f5d85ea412de3aa3acc7c8d3b2a8fd7ba9cdfc9c5e",
+    "packages": [
+      "ok  \tmodel-relay/cmd/model-relay\t6.446s",
+      "ok  \tmodel-relay/internal/relay\t100.869s",
+      "ok  \tmodel-relay/tests/browser\t4.942s",
+      "ok  \tmodel-relay/tests/health-history\t2.315s",
+      "ok  \tmodel-relay/tests/review-history\t2.125s",
+      "ok  \tmodel-relay/tests/verification\t1.041s",
+      "ok  \tmodel-relay/tests/verify\t1.805s"
+    ],
+    "frontend_passed": 285,
+    "frontend_failed": 0,
+    "phases": [
+      "BROWSER_PHASE name=migration state=end utc=2026-10-22T02:47:44.456405228Z elapsed_ms=15818 ok=true",
+      "BROWSER_PHASE name=legacy-ui state=end utc=2026-10-22T02:51:13.754231875Z elapsed_ms=209102 ok=true",
+      "BROWSER_PHASE name=routing state=end utc=2026-10-22T02:55:12.304789474Z elapsed_ms=238550 ok=true",
+      "BROWSER_PHASE name=console state=end utc=2026-10-22T02:55:48.554739625Z elapsed_ms=36248 ok=true",
+      "BROWSER_PHASE name=full-console state=end utc=2026-10-22T02:59:52.644898206Z elapsed_ms=244090 ok=true"
+    ],
+    "source_unchanged": true,
+    "candidate_unchanged": true,
+    "owned_group_absent": true,
+    "browser": [
+      {
+        "file": "harness-output/tests-9-continuous-1280.json",
+        "suite": "continuous-console",
+        "width": 1280,
+        "result": "passed"
+      },
+      {
+        "file": "harness-output/tests-9-self-hosted-1280.json",
+        "suite": "first-self-hosted",
+        "width": 1280,
+        "result": "passed"
+      },
+      {
+        "file": "harness-output/tests-9-visual-1280.json",
+        "suite": "console-visual",
+        "width": 1280,
+        "result": "passed",
+        "pages": 10,
+        "modal_scroll_checks": 11
+      },
+      {
+        "file": "harness-output/tests-9-continuous-1440.json",
+        "suite": "continuous-console",
+        "width": 1440,
+        "result": "passed"
+      },
+      {
+        "file": "harness-output/tests-9-self-hosted-1440.json",
+        "suite": "first-self-hosted",
+        "width": 1440,
+        "result": "passed"
+      },
+      {
+        "file": "harness-output/tests-9-visual-1440.json",
+        "suite": "console-visual",
+        "width": 1440,
+        "result": "passed",
+        "pages": 10,
+        "modal_scroll_checks": 11
+      },
+      {
+        "file": "harness-output/tests-9-continuous-390.json",
+        "suite": "continuous-console",
+        "width": 390,
+        "result": "passed"
+      },
+      {
+        "file": "harness-output/tests-9-self-hosted-390.json",
+        "suite": "first-self-hosted",
+        "width": 390,
+        "result": "passed"
+      },
+      {
+        "file": "harness-output/tests-9-visual-390.json",
+        "suite": "console-visual",
+        "width": 390,
+        "result": "passed",
+        "pages": 10,
+        "modal_scroll_checks": 11
+      }
+    ]
+  },
+  "qa_execution_10": {
+    "technical_verification": "passed",
+    "overall_verdict": "needs_evidence_rework",
+    "finding": "QA-10-E1",
+    "report": "harness-output/qa.md",
+    "analysis": "harness-output/qa-10-analysis.json",
+    "checks": "harness-output/qa-10-checks.json"
+  },
+  "rework_execution_11": {
+    "created_utc": "2026-10-22T03:13:47.256Z",
+    "status": "blocked_external_platform_evidence",
+    "report": "harness-output/rework-11-evidence.json",
+    "files": "harness-output/rework-11-files.json",
+    "full_gate_rerun": false,
+    "product_or_test_changes": false,
+    "historical_manifest_preserved": {
+      "source": "docs/harness/run-197ab169bc1cad067466300038ab6fac/evidence-manifest.json",
+      "archive": "harness-output/rework-11-before-evidence-manifest.json.txt",
+      "bytes": 49393,
+      "sha256": "1e8932c818f83cd745d2669f2356a236ed6371572199ed22101e5087496c0130",
+      "version": "before-development-execution-11",
+      "byte_equal": true
+    },
+    "historical_development_preserved": {
+      "source": "docs/harness/run-197ab169bc1cad067466300038ab6fac/development.md",
+      "archive": "harness-output/rework-11-before-development.md.txt",
+      "bytes": 28005,
+      "sha256": "9558c838b3d1a7e47d728c2a6f7c97b0002ebaaa12d5fa8caf74a5ba8e7e9757",
+      "version": "before-development-execution-11",
+      "byte_equal": true
+    },
+    "prior_manifest_files_verified_unchanged": 110,
+    "prior_execution8_status_retained_in_snapshot": true,
+    "original_files_array_unchanged": true
+  },
+  "platform_supplement_execution_11": {
+    "received_via": "formal User Input; Builder read-only platform API evidence",
+    "created_utc": "2026-10-22T03:17:42.067Z",
+    "raw_payload": {
+      "path": "harness-output/platform-api-supplement-user-input.json",
+      "bytes": 3368,
+      "sha256": "0b9710923bbc4c17ed8e20dc2e16780a0edef8c3569bbfdce837f37437007dd6"
+    },
+    "assessment": {
+      "path": "harness-output/platform-supplement-assessment.json",
+      "bytes": 6989,
+      "sha256": "7473500e05bf3f2fdad84dd50be704de533b1c728e6119f43fca8a3824c4ba39"
+    },
+    "files": "harness-output/platform-supplement-files.json",
+    "status": "pending_independent_qa_review",
+    "previous_blocker_not_auto_closed": true,
+    "remaining_historical_invocation_payload_gap": true,
+    "full_gate_rerun": false,
+    "source": {
+      "files": 160,
+      "go": "go1.25.6",
+      "head": "868530b3e5c15d65bee0ed4ff6af69e96d428b81",
+      "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+      "working_tree_sha256": "44107d4db03a944c27a7d9b36b03e1802a770b3219c9bae61b19f0d81d4795fd"
+    },
+    "prior_documents": [
+      {
+        "original": "docs/harness/run-197ab169bc1cad067466300038ab6fac/development.md",
+        "archive": "harness-output/platform-supplement-before-development.md.txt",
+        "path": "harness-output/platform-supplement-before-development.md.txt",
+        "bytes": 30264,
+        "sha256": "d188624ed45212dc4a5c053f07dd82ecb84cd2cfdfbe9115c468894b91445295",
+        "byte_equal": true
+      },
+      {
+        "original": "docs/harness/run-197ab169bc1cad067466300038ab6fac/evidence-manifest.json",
+        "archive": "harness-output/platform-supplement-before-evidence-manifest.json.txt",
+        "path": "harness-output/platform-supplement-before-evidence-manifest.json.txt",
+        "bytes": 54347,
+        "sha256": "838d21ab64c502a037ece752c7511606e473ff8704de69501d82ad86a84ce5d8",
+        "byte_equal": true
+      }
+    ],
+    "prior_rework_11_evidence_and_index_preserved": true
+  },
+  "development8_full_platform_event_supplement": {
+    "created_utc": "2026-10-22T03:24:36.062Z",
+    "received_via": "formal User Input",
+    "event_id": 31753,
+    "call_id": "call_ZzFP9Esbj348tnZaiHMlN12l",
+    "raw": {
+      "path": "harness-output/development8-handoff-platform-event-user-input.json",
+      "bytes": 14435,
+      "sha256": "06fb7a17ee584dac7d73248e2bbc0ad69b779624590e34f1a9d6ad2bd9f0ad39"
+    },
+    "audit": {
+      "path": "harness-output/development8-handoff-audit.json",
+      "bytes": 38676,
+      "sha256": "c5e71a0300362a2a8d9489b33b11c72fa79d5daa338935486bffa8bb2e7c9d09"
+    },
+    "audit_script": {
+      "path": "harness-output/development8-handoff-audit.mjs",
+      "bytes": 5763,
+      "sha256": "962bcec115d825ce2cfbe0fcaa19b6c3fa09e044fa87390ad90ce074f194dfeb"
+    },
+    "review": {
+      "path": "harness-output/development8-handoff-review.json",
+      "bytes": 6564,
+      "sha256": "eaacb1c6666f6d42ef9195aa508ea86e9bc8dab6f8641b4e36b02473250dbee2"
+    },
+    "files": "harness-output/development8-handoff-files.json",
+    "historical_payload_supplied": true,
+    "independent_qa_verdict_pending": true,
+    "source_or_test_changes": false,
+    "full_make_verify_rerun": false,
+    "prior_docs": [
+      {
+        "original": "docs/harness/run-197ab169bc1cad067466300038ab6fac/development.md",
+        "archive": "harness-output/development8-event-before-development.md.txt",
+        "path": "harness-output/development8-event-before-development.md.txt",
+        "bytes": 32743,
+        "sha256": "f2f23feafd3596b8ab1e9b397ed0089709cca3d6f23d337ce64fdb60e35a0e77",
+        "byte_equal": true
+      },
+      {
+        "original": "docs/harness/run-197ab169bc1cad067466300038ab6fac/evidence-manifest.json",
+        "archive": "harness-output/development8-event-before-evidence-manifest.json.txt",
+        "path": "harness-output/development8-event-before-evidence-manifest.json.txt",
+        "bytes": 56527,
+        "sha256": "e7460117cd671a0106d77aebc9116f35b0c82b5555b58ed813b53802c8e9f255",
+        "byte_equal": true
+      }
+    ]
+  },
+  "owner_qa_rollback_coordination": {
+    "created_utc": "2026-10-22T03:29:02.630Z",
+    "user_input": {
+      "path": "harness-output/owner-qa-rollback-user-input.json",
+      "bytes": 1077,
+      "sha256": "b0a6605e53d16125aae99e5e2b27aec7f735b4ffc03829198d3c8ca9f5bf4706"
+    },
+    "source_verification": "harness-output/owner-qa-rollback-audit.json",
+    "report": "harness-output/owner-qa-rollback-request.json",
+    "files": "harness-output/owner-qa-rollback-files.json",
+    "source_unchanged_from_tests9_qa10": true,
+    "full_make_verify_rerun": false,
+    "no_new_handoff": true,
+    "frozen_graph_modified": false,
+    "owner_action": "formal_stop_and_manual_rollback_to_qa_after_development_quiet",
+    "owner_action_completed": false,
+    "preserved_documents": [
+      {
+        "original": "docs/harness/run-197ab169bc1cad067466300038ab6fac/development.md",
+        "archive": "harness-output/owner-qa-rollback-before-development.md.txt",
+        "path": "harness-output/owner-qa-rollback-before-development.md.txt",
+        "bytes": 35910,
+        "sha256": "f23311d2c622b7505dc07bc2171b0b37e2c6da4762af9a7846913a39023e85d6",
+        "byte_equal": true
+      },
+      {
+        "original": "docs/harness/run-197ab169bc1cad067466300038ab6fac/evidence-manifest.json",
+        "archive": "harness-output/owner-qa-rollback-before-evidence-manifest.json.txt",
+        "path": "harness-output/owner-qa-rollback-before-evidence-manifest.json.txt",
+        "bytes": 58611,
+        "sha256": "297b487da2ee54c7ec7831e25d7702e43f322ad6aafa486a920d7f2070f41aaa",
+        "byte_equal": true
+      }
+    ]
+  }
+}

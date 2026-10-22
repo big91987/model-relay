@@ -15,6 +15,46 @@ import (
 	"time"
 )
 
+func TestVerificationGateContext(test *testing.T) {
+	test.Run("bounded full suite budget", func(test *testing.T) {
+		started := time.Now()
+		gate, cancel := verificationGateContext(context.Background())
+		defer cancel()
+		deadline, present := gate.Deadline()
+		if !present || deadline.Before(started.Add(25*time.Minute)) || deadline.After(time.Now().Add(25*time.Minute)) {
+			test.Fatal("full verification suite must have a bounded 25 minute budget")
+		}
+		cancel()
+		if gate.Err() != context.Canceled {
+			test.Fatal("gate cancellation was not propagated")
+		}
+	})
+	test.Run("earlier parent deadline", func(test *testing.T) {
+		parent, cancelParent := context.WithTimeout(context.Background(), time.Second)
+		defer cancelParent()
+		gate, cancel := verificationGateContext(parent)
+		defer cancel()
+		parentDeadline, _ := parent.Deadline()
+		gateDeadline, present := gate.Deadline()
+		if !present || !gateDeadline.Equal(parentDeadline) {
+			test.Fatal("gate extended the parent deadline")
+		}
+		cancelParent()
+		if gate.Err() != context.Canceled {
+			test.Fatal("parent cancellation was not propagated")
+		}
+	})
+	test.Run("expired parent", func(test *testing.T) {
+		parent, cancelParent := context.WithDeadline(context.Background(), time.Now().Add(-time.Second))
+		defer cancelParent()
+		gate, cancel := verificationGateContext(parent)
+		defer cancel()
+		if gate.Err() != context.DeadlineExceeded {
+			test.Fatal("expired parent was renewed")
+		}
+	})
+}
+
 func TestCandidateCopyAndEnvironment(test *testing.T) {
 	source, target := test.TempDir(), test.TempDir()
 	if err := os.WriteFile(filepath.Join(source, "package-lock.json"), []byte("locked"), 0600); err != nil {

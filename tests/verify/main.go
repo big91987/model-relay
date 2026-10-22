@@ -176,8 +176,10 @@ func run(ctx context.Context) (result error) {
 	}
 	encoded, _ := json.Marshal(state)
 	fmt.Fprintln(redaction, "CLEAN_START", string(encoded))
-	gateCtx, gateCancel := context.WithTimeout(ctx, 12*time.Minute)
+	gateCtx, gateCancel := verificationGateContext(ctx)
 	defer gateCancel()
+	gateDeadline, _ := gateCtx.Deadline()
+	fmt.Fprintf(redaction, "GATE_START budget_ms=%d\n", max(0, time.Until(gateDeadline).Milliseconds()))
 	command := exec.CommandContext(gateCtx, "make", "verify-gates")
 	command.Dir, command.Env = temporary, environment
 	state.GateExit, err = execute(gateCtx, command, redaction)
@@ -220,6 +222,10 @@ func run(ctx context.Context) (result error) {
 }
 
 const dependencyProbe = `const path=require('node:path'); const fs=require('node:fs'); const lock=JSON.parse(fs.readFileSync('package-lock.json')); for(const name of ['playwright','playwright-core']) { const resolved=require.resolve(name+'/package.json'); if(!resolved.startsWith(path.join(process.cwd(),'node_modules')+path.sep)) throw Error('nonlocal dependency'); const version=require(resolved).version; if(version!==lock.packages['node_modules/'+name].version) throw Error('lock mismatch'); console.log(name+'='+version+'; resolution=candidate/node_modules'); } const browser=require('node:child_process').spawnSync(require('playwright').chromium.executablePath(),['--version'],{encoding:'utf8'}); if(browser.status!==0) { process.stdout.write(browser.stdout||''); process.stderr.write(browser.stderr||''); console.error('CHROMIUM_PROBE exit='+browser.status+' signal='+browser.signal+' error='+(browser.error?.code||'none')); throw Error('Chromium version unavailable'); } console.log('chromium='+browser.stdout.trim());`
+
+func verificationGateContext(parent context.Context) (context.Context, context.CancelFunc) {
+	return context.WithTimeout(parent, 25*time.Minute)
+}
 
 func exists(path string) bool { _, err := os.Lstat(path); return err == nil }
 
