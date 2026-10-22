@@ -23,12 +23,11 @@ def definition(repository, credential_ref, proxy="", no_proxy="127.0.0.1,localho
             NO_PROXY=no_proxy,
         )
 
-    def agent(key, name, instructions, complete=False):
+    def agent(key, name, instructions):
         return {
             "id": key,
             "name": name,
             "kind": "agent",
-            "exit_mode": "complete" if complete else "handoff",
             "allow_user_input": True,
             "continuation_limit": 3,
             "execution_timeout_seconds": 1800,
@@ -75,7 +74,23 @@ def definition(repository, credential_ref, proxy="", no_proxy="127.0.0.1,localho
                 "name": "准备固定仓库版本",
                 "kind": "execution",
                 "execution_timeout_seconds": 240,
+                "rule_handoff": {
+                    "schema_scope": "value",
+                    "rules": [
+                        {
+                            "when": "$ == 0",
+                            "title": "准备完成",
+                            "content": "",
+                            "target": "development",
+                        }
+                    ],
+                    "on_read": {"action": "stop"},
+                    "on_parse": {"action": "stop"},
+                    "on_invalid": {"action": "stop"},
+                    "on_expression": {"action": "stop"},
+                },
                 "execution": {
+                    "output": {"source": "exit_code"},
                     "mode": "code",
                     "language": "python",
                     "code": prepare,
@@ -95,7 +110,29 @@ def definition(repository, credential_ref, proxy="", no_proxy="127.0.0.1,localho
                 "execution": {
                     "mode": "command",
                     "command": "make verify",
+                    "output": {"source": "exit_code"},
                     "env_refs": {k: v for k, v in refs.items() if k != "GITHUB_TOKEN"},
+                },
+                "rule_handoff": {
+                    "schema_scope": "value",
+                    "rules": [
+                        {
+                            "when": "$ == 0",
+                            "title": "测试通过",
+                            "content": "命令退出码为 0，交给独立 QA 复核。",
+                            "target": "qa",
+                        },
+                        {
+                            "when": "$ != 0",
+                            "title": "测试失败",
+                            "content": "命令返回非零退出码，交给研发检查完整回执。",
+                            "target": "development",
+                        },
+                    ],
+                    "on_read": {"action": "stop"},
+                    "on_parse": {"action": "stop"},
+                    "on_invalid": {"action": "stop"},
+                    "on_expression": {"action": "stop"},
                 },
             },
             agent(
@@ -112,15 +149,30 @@ def definition(repository, credential_ref, proxy="", no_proxy="127.0.0.1,localho
             agent(
                 "report",
                 "形成交付报告",
-                "根据本Issue与同版固定tests/独立QA形成可独立阅读的PR报告。生成harness-output/report.json，字段title必须【类别】具体目标，body写明问题/实际改动/已验版本/结果/限制/真实Issue关联，files列本版经QA确认需要提交的仓库相对文件，先用git check-ignore核对可提交。harness-output内的QA和report.json是工作流交接输入，只列artifacts，不列files；固定发布节点会把QA和body原文复制到docs/harness/run-*。不要强制添加Git忽略文件。不要修改产品、不要提交构建目录/凭据/原生历史。通过complete_node交付report.json及QA文件。",
-                True,
+                "根据本Issue与同版固定tests/独立QA形成可独立阅读的PR报告。生成harness-output/report.json，字段title必须【类别】具体目标，body写明问题/实际改动/已验版本/结果/限制/真实Issue关联，files列本版经QA确认需要提交的仓库相对文件，先用git check-ignore核对可提交。harness-output内的QA和report.json是工作流交接输入，只列artifacts，不列files；固定发布节点会把QA和body原文复制到docs/harness/run-*。不要强制添加Git忽略文件。不要修改产品、不要提交构建目录/凭据/原生历史。通过handoff明确target=publish，交付report.json及QA文件。",
             ),
             {
                 "id": "publish",
                 "name": "发布同版草稿PR",
                 "kind": "execution",
                 "execution_timeout_seconds": 240,
+                "rule_handoff": {
+                    "schema_scope": "value",
+                    "rules": [
+                        {
+                            "when": "$ == 0",
+                            "title": "发布完成",
+                            "content": "",
+                            "target": "done",
+                        }
+                    ],
+                    "on_read": {"action": "stop"},
+                    "on_parse": {"action": "stop"},
+                    "on_invalid": {"action": "stop"},
+                    "on_expression": {"action": "stop"},
+                },
                 "execution": {
+                    "output": {"source": "exit_code"},
                     "mode": "command",
                     "command": "python3 .harness/agent-platform/examples/platform-workflows/sandbox_publish.py --repository "
                     + repository,
@@ -132,18 +184,26 @@ def definition(repository, credential_ref, proxy="", no_proxy="127.0.0.1,localho
         "edges": [
             {"source": a, "route": route, "target": b, "mode": mode}
             for a, route, b, mode in [
-                ("prepare", "next", "development", "automatic"),
                 ("development", "tests", "tests", "handoff"),
-                ("tests", "next", "qa", "automatic"),
-                ("tests", "failed", "development", "automatic"),
                 ("qa", "revise", "development", "handoff"),
                 ("qa", "approved", "approval", "handoff"),
                 ("approval", "next", "report", "automatic"),
-                ("report", "next", "publish", "automatic"),
-                ("publish", "next", "done", "automatic"),
+                ("report", "next", "publish", "handoff"),
             ]
         ],
     }
+    for node in graph["nodes"]:
+        for index, rule in enumerate(node.get("rule_handoff", {}).get("rules", [])):
+            graph["edges"].append(
+                {
+                    "source": node["id"],
+                    "route": f"rule_{index + 1}",
+                    "target": rule["target"],
+                    "mode": "automatic",
+                    "title": rule["title"],
+                    "description": rule["content"],
+                }
+            )
     for index, node in enumerate(graph["nodes"]):
         node.update(x=60 + index * 320, y=100)
     return graph
