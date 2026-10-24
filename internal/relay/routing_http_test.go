@@ -119,7 +119,7 @@ func TestRoutingRealHTTPSelectionFailoverAndRecovery(t *testing.T) {
 	if primary.Load() != 30 || secondary.Load() != 10 {
 		t.Fatal("actual SWRR visits", primary.Load(), secondary.Load())
 	}
-	value.server.Config.Cooldown = 15 * time.Millisecond
+	value.server.Config.Cooldown = time.Second
 	failPrimary.Store(true)
 	response := value.call(t, ordinary)
 	if response.StatusCode != 200 {
@@ -132,13 +132,26 @@ func TestRoutingRealHTTPSelectionFailoverAndRecovery(t *testing.T) {
 	if len(record.Attempts) != 2 || record.Attempts[0].UpstreamID != 1 || record.Attempts[1].UpstreamID != 2 || record.Total != nil || record.UsageSummary["total_tokens"].KnownSum != 3 {
 		t.Fatal("actual attempt accounting", record)
 	}
+	var cooldownUntil time.Time
+	for _, decision := range record.Decisions {
+		if decision.UpstreamID == 1 && decision.Reason == "cooling" && decision.Cooldown != nil {
+			var err error
+			cooldownUntil, err = time.Parse(time.RFC3339Nano, *decision.Cooldown)
+			if err != nil {
+				t.Fatal("actual cooldown deadline", err)
+			}
+		}
+	}
+	if cooldownUntil.IsZero() {
+		t.Fatal("actual failover did not record primary cooldown")
+	}
 	before := primary.Load()
 	expect(t, value.call(t, ordinary), 200)
 	if primary.Load() != before {
 		t.Fatal("cooldown did not exclude actual primary")
 	}
 	failPrimary.Store(false)
-	time.Sleep(25 * time.Millisecond)
+	time.Sleep(time.Until(cooldownUntil))
 	expect(t, value.call(t, ordinary), 200)
 	if primary.Load() != before+1 {
 		t.Fatal("primary did not passively recover")

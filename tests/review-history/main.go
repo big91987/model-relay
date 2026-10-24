@@ -49,7 +49,15 @@ func run() error {
 	defer cancel()
 	command := exec.CommandContext(ctx, "go", "test", "-json", "-race", "-count=1", "-run", "^TestConsoleReview.*ActualHTTP$", "./internal/relay")
 	command.Dir = directory
-	output, runErr := command.CombinedOutput()
+	var stderr bytes.Buffer
+	command.Stderr = &stderr
+	output, runErr := command.Output()
+	if _, err := os.Stderr.Write(stderr.Bytes()); err != nil {
+		return fmt.Errorf("write historical diagnostics: %w", err)
+	}
+	if strings.Contains(stderr.String(), "DATA RACE") || strings.Contains(stderr.String(), "build failed") {
+		return fmt.Errorf("historical race or build diagnostic; not business red")
+	}
 	var failed []string
 	observations := []map[string]string{}
 	var evidence strings.Builder
