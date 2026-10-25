@@ -22,6 +22,7 @@ func (server *Server) configurationChanged() {
 	server.configEpoch++
 	server.successID = ""
 	server.routing = make(map[string]*routeRuntime)
+	server.latency = make(map[string]*latencyPool)
 }
 
 func (server *Server) record(writer http.ResponseWriter, request *http.Request) {
@@ -68,6 +69,11 @@ func (server *Server) record(writer http.ResponseWriter, request *http.Request) 
 			}
 			err = rows.Err()
 			rows.Close()
+			if err != nil {
+				failure(writer, 503, "storage_unavailable", "")
+				return
+			}
+			value.RoutingEvidence, value.LatencyEvidence, err = readRoutingEvidence(server.Store.DB, id)
 			if err != nil {
 				failure(writer, 503, "storage_unavailable", "")
 				return

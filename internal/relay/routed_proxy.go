@@ -75,6 +75,10 @@ func (server *Server) routedGenerate(writer http.ResponseWriter, request *http.R
 		token, err := unseal(server.Store.Key, upstream.Encrypted, upstreamAAD(upstream.ID, upstream.URL))
 		output := newAttemptOutput(writer, ctx, server.Config.AttemptTimeout)
 		started := time.Now()
+		measurement := &latencyMeasurement{}
+		defer func(attempt *Attempt, candidate Candidate, measurement *latencyMeasurement) {
+			server.acceptLatency(ctx, record.ID, snapshot, candidate, *attempt, record.Stream, *measurement)
+		}(attempt, *candidate, measurement)
 		temporary := false
 		status := 502
 		state := "upstream_failed"
@@ -133,7 +137,11 @@ func (server *Server) routedGenerate(writer http.ResponseWriter, request *http.R
 				return
 			}
 		}
+		measurement.Started = server.routingNow()
 		response, err := server.client.Do(outgoing)
+		if response != nil && !record.Stream {
+			response.Body = &latencyReader{ReadCloser: response.Body, Measurement: measurement, Now: server.routingNow}
+		}
 		if err != nil {
 			status, state, errorCode = classify(output.child, err, false)
 			temporary = transportTemporary(err) || output.timeout()
@@ -202,7 +210,7 @@ func (server *Server) routedGenerate(writer http.ResponseWriter, request *http.R
 						}
 						return true
 					}
-					server.stream(output, request, output.child, response, record, streamFinish)
+					server.stream(output, request, output.child, response, record, streamFinish, measurement)
 					temporary = state == "timeout" || errorCode == "stream_interrupted"
 					if output.isCommitted() {
 						response.Body.Close()

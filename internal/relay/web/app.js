@@ -328,7 +328,7 @@ async function load(view, token = owner(), pageCursor = '') {
         if (!confirm('确认变更模型状态？')) return;
         await api('models/' + encodeURIComponent(value.alias), 'PATCH', {expected_revision: value.revision, enabled: !value.enabled, candidates: cleanCandidates(value.candidates)}, own); await load('models', own); restoreRowFocus('model-list', value.alias, focused, own); message('模型状态已更新，需重新核验当前配置');
       }, value.alias);
-      row.append(action('编辑映射 ' + value.alias, () => { if (editSaving) { message('映射正在保存，请等待结果。'); return; } editModel = value; element('edit-alias').value = value.alias; renderCandidates('edit', editDraft?.alias === value.alias ? editDraft.candidates : value.candidates); element('model-edit').hidden = false; element('edit-candidates').querySelector('input,select')?.focus(); })); return row;
+      row.append(action('编辑映射 ' + value.alias, () => { if (editSaving) { message('映射正在保存，请等待结果。'); return; } editModel = value; element('edit-alias').value = value.alias; element('edit-routing-strategy').value = value.routing_strategy || 'weighted'; renderCandidates('edit', editDraft?.alias === value.alias ? editDraft.candidates : value.candidates); element('model-edit').hidden = false; element('edit-candidates').querySelector('input,select')?.focus(); })); return row;
     }));
     if (!list.length) showEmpty('model-list', '尚无模型。填写别名与供应商模型名称，创建首个映射；不会创建演示对象。');
     if (!element('create-candidates').children.length) renderCandidates('create', upstreamItems.length ? [defaultCandidate()] : []);
@@ -383,6 +383,7 @@ async function findRecord(token) {
     let evidence = '\n历史记录：没有逐尝试证据，不反推实际上游。';
     if (value.evidence_version === 2) {
       evidence = '\n尝试证据：' + (value.attempts_complete ? '终态已记录' : '尚不完整，登记不证明供应商已执行') + '\n响应提交：' + known(value.committed_at) + '\n配置适用版本：' + known(value.config_revision);
+      evidence += '\n路由策略与选择依据（未知不为零）：' + JSON.stringify(value.routing_decisions || []) + '\n本次观测：' + JSON.stringify(value.latency_observations || []);
       evidence += '\n' + value.attempts.map(attempt => '尝试 ' + attempt.ordinal + ' · ' + attempt.upstream_name + ' → ' + attempt.remote_model + ' · ' + (states[attempt.state] || attempt.state) + ' · ' + known(attempt.started_at) + ' · ' + known(attempt.duration_ms) + 'ms · ' + (attempt.error_code ? friendly(attempt.error_code) : '无错误') + ' · 用量 ' + [attempt.prompt_tokens, attempt.completion_tokens, attempt.total_tokens].map(known).join(' / ')).join('\n');
       evidence += '\n选择说明（不计作生成尝试）：\n' + value.selection_decisions.map(decision => '第 ' + decision.selection_round + ' 轮 · 上游 ' + decision.upstream_id + ' · ' + (decisionReasons[decision.reason] || decision.reason) + (decision.cooldown_until ? ' · 冷却至 ' + decision.cooldown_until : '')).join('\n');
       evidence += '\n用量合计：\n' + Object.entries(value.usage_summary).map(([field, part]) => field + '：完整合计 ' + known(part.total) + '；已知部分 ' + part.known_sum + '；未知尝试 ' + part.unknown_attempts + '；' + part.completeness).join('\n');
@@ -437,7 +438,7 @@ element('refresh-upstream').onclick = () => guarded(element('refresh-upstream'),
   try { await load('upstream', token); message('已重新读取上游状态；保存不代表调用成功。已撤销本页未保存修改。'); }
   catch (error) { if (!error.stale && current(token)) { element('credential-state').textContent = '恢复未确认，保留公开草稿；请重新读取服务器状态。'; error.message = '恢复未确认；输入凭据已清除，公开草稿保留。' + error.message; } throw error; }
 }));
-form('model-form', async token => { if (modelCreateOperation && current(modelCreateOperation.token)) return; const operation = {token}; modelCreateOperation = operation; const input = {alias: element('model-alias').value, candidates: readCandidates('create'), enabled: true}; modelCreateControls(true); let saved = false; try { await api('models', 'POST', input, token); saved = true; element('model-create').open = false; await load('models', token); message('模型已保存；保存不代表生成成功'); } catch (error) { if (!error.stale && current(token) && saved) error.message = '模型已保存，但最新列表读取未确认；请重新读取，不会重复创建。' + error.message; throw error; } finally { if (modelCreateOperation === operation && current(token)) resetModelCreate(); } });
+form('model-form', async token => { if (modelCreateOperation && current(modelCreateOperation.token)) return; const operation = {token}; modelCreateOperation = operation; const input = {alias: element('model-alias').value, routing_strategy: element('create-routing-strategy').value, candidates: readCandidates('create'), enabled: true}; modelCreateControls(true); let saved = false; try { await api('models', 'POST', input, token); saved = true; element('model-create').open = false; await load('models', token); message('模型已保存；保存不代表生成成功'); } catch (error) { if (!error.stale && current(token) && saved) error.message = '模型已保存，但最新列表读取未确认；请重新读取，不会重复创建。' + error.message; throw error; } finally { if (modelCreateOperation === operation && current(token)) resetModelCreate(); } });
 element('cancel-model-create').onclick = () => { if (modelCreateOperation) return; element('model-create').open = false; element('model-create').querySelector('summary')?.focus(); };
 element('cancel-key-create').onclick = () => { element('key-create').open = false; element('key-create').querySelector('summary')?.focus(); };
 form('model-edit-form', async token => {
@@ -445,7 +446,7 @@ form('model-edit-form', async token => {
   editSaving = true; element('cancel-edit').disabled = true;
   const editing = editModel;
   for (const input of element('model-edit-form').querySelectorAll('input,select,button')) input.disabled = true;
-  try { await api('models/' + encodeURIComponent(editing.alias), 'PATCH', {expected_revision: editing.revision, enabled: editing.enabled, candidates: readCandidates('edit')}, token); element('model-edit').hidden = true; editModel = null; editDraft = null; await load('models', token); message('映射已保存，需重新核验'); }
+  try { await api('models/' + encodeURIComponent(editing.alias), 'PATCH', {expected_revision: editing.revision, enabled: editing.enabled, routing_strategy: element('edit-routing-strategy').value, candidates: readCandidates('edit')}, token); element('model-edit').hidden = true; editModel = null; editDraft = null; await load('models', token); message('映射已保存，需重新核验'); }
   finally { if (current(token)) { editSaving = false; element('cancel-edit').disabled = false; for (const input of element('model-edit-form').querySelectorAll('input,select,button')) input.disabled = false; } }
 });
 element('cancel-edit').onclick = () => { if (editSaving) return; const alias = editModel?.alias; if (alias) editDraft = {alias, candidates: readCandidates('edit')}; editModel = null; element('model-edit').hidden = true; const button = [...element('model-list').querySelectorAll('button')].find(value => value.textContent === '编辑映射 ' + alias); if (button) button.focus(); };

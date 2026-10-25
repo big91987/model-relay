@@ -91,6 +91,11 @@ func validateStorage(db *sql.DB, version int) error {
 			return err
 		}
 	}
+	if version >= 2 {
+		if err := routingExtension(transaction, false); err != nil {
+			return err
+		}
+	}
 	return integrity(transaction)
 }
 
@@ -201,6 +206,9 @@ func upgradeTo(directory, keyFile, output string, target int) (UpgradeResult, er
 		if err := validateConsole(transaction); err != nil {
 			return UpgradeResult{}, err
 		}
+	}
+	if err = routingExtension(transaction, true); err != nil {
+		return UpgradeResult{}, err
 	}
 	if err = integrity(transaction); err != nil {
 		return UpgradeResult{}, err

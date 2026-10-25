@@ -10,6 +10,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 	"sync/atomic"
 	"time"
 
@@ -46,8 +47,9 @@ func fullConsoleJourneyMode(width int, mode string) error {
 	if err != nil {
 		return err
 	}
-	defer store.Close()
+	defer func() { store.Close() }()
 	var clock, dispatched atomic.Int64
+	var restartGateway atomic.Value
 	current := time.Now().UTC()
 	clock.Store(time.Date(current.Year(), current.Month(), 1, 12, 0, 0, 0, time.UTC).UnixNano())
 	capability := make([]byte, 32)
@@ -62,6 +64,21 @@ func fullConsoleJourneyMode(width int, mode string) error {
 	control := &http.Server{ReadHeaderTimeout: 5 * time.Second, Handler: http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
 		if request.Header.Get("X-Test-Capability") != controlToken {
 			writer.WriteHeader(403)
+			return
+		}
+		if request.Method == "POST" && request.URL.Path == "/restart" {
+			action, ok := restartGateway.Load().(func() (string, error))
+			if !ok {
+				writer.WriteHeader(503)
+				return
+			}
+			origin, err := action()
+			if err != nil {
+				writer.WriteHeader(500)
+				return
+			}
+			writer.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(writer).Encode(map[string]string{"origin": origin})
 			return
 		}
 		if request.Method == "POST" && request.URL.Path == "/advance" {
@@ -105,7 +122,24 @@ func fullConsoleJourneyMode(width int, mode string) error {
 		Policy: relay.Policy{TestAuthority: upstreamListener.Addr().String()},
 	})}
 	go server.Serve(listener)
-	defer server.Close()
+	defer func() { server.Close() }()
+	authority := listener.Addr().String()
+	restartGateway.Store(func() (string, error) {
+		server.Close()
+		store.Close()
+		var restartErr error
+		store, restartErr = relay.Open(filepath.Join(root, "data"), filepath.Join(root, "key"))
+		if restartErr != nil {
+			return "", restartErr
+		}
+		replacement, restartErr := net.Listen("tcp", authority)
+		if restartErr != nil {
+			return "", restartErr
+		}
+		server = &http.Server{ReadHeaderTimeout: 5 * time.Second, Handler: relay.New(store, relay.Config{Authority: authority, Version: "continuous-controlled-ui", Clock: func() time.Time { return time.Unix(0, clock.Load()).UTC() }, Policy: relay.Policy{TestAuthority: upstreamListener.Addr().String()}})}
+		go server.Serve(replacement)
+		return "http://" + authority, nil
+	})
 	command := exec.Command("node", "tests/browser/journeys.mjs")
 	command.Env = append(os.Environ(), "RELAY_JOURNEY_MODE="+mode, "RELAY_JOURNEY_WIDTH="+fmt.Sprint(width), "RELAY_JOURNEY_ORIGIN=http://"+listener.Addr().String(), "RELAY_JOURNEY_PASSWORD="+password, "RELAY_JOURNEY_UPSTREAM=http://"+upstreamListener.Addr().String()+basePath, "RELAY_JOURNEY_CONTROL=http://"+controlListener.Addr().String(), "RELAY_JOURNEY_CAPABILITY="+controlToken)
 	command.Stdout = os.Stdout
@@ -115,6 +149,12 @@ func fullConsoleJourneyMode(width int, mode string) error {
 
 func continuousUpstream(dispatched *atomic.Int64) http.Handler {
 	return http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
+		for _, prefix := range []string{"/latency-a", "/latency-b"} {
+			if strings.HasPrefix(request.URL.Path, prefix+"/") {
+				request.URL.Path = strings.TrimPrefix(request.URL.Path, prefix)
+				break
+			}
+		}
 		if request.Header.Get("Authorization") != "Bearer controlled-journey-upstream" {
 			writer.WriteHeader(401)
 			return

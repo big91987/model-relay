@@ -179,6 +179,13 @@ func (server *Server) consoleReports(writer http.ResponseWriter, request *http.R
 			failure(writer, 503, "storage_unavailable", "")
 			return
 		}
+		decisions, observations, routingErr := readRoutingEvidence(transaction, parts[1])
+		if routingErr != nil {
+			failure(writer, 503, "storage_unavailable", "")
+			return
+		}
+		values[0]["routing_decisions"] = decisions
+		values[0]["latency_observations"] = observations
 		values[0]["attempts"], values[0]["price_snapshots"], values[0]["charge_entries"] = attempts, prices, entries
 		if err := addConfirmedTokens(transaction, values); err != nil {
 			failure(writer, 503, "storage_unavailable", "")

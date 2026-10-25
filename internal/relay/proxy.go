@@ -181,7 +181,7 @@ func classify(ctx context.Context, err error, stream bool) (int, string, string)
 	}
 	return 502, "upstream_failed", "upstream_connection_failed"
 }
-func (server *Server) stream(writer http.ResponseWriter, request *http.Request, ctx context.Context, response *http.Response, record *Record, finish func(string, string) bool) {
+func (server *Server) stream(writer http.ResponseWriter, request *http.Request, ctx context.Context, response *http.Response, record *Record, finish func(string, string) bool, measurement *latencyMeasurement) {
 	scanner := bufio.NewScanner(response.Body)
 	scanner.Buffer(make([]byte, 4096), 256*1024)
 	var timedOut atomic.Bool
@@ -293,9 +293,14 @@ func (server *Server) stream(writer http.ResponseWriter, request *http.Request, 
 			fail(504, "timeout", "upstream_timeout")
 			return
 		}
+		measured := server.routingNow()
+		effective := outputDelta(value)
 		if write("data: "+strings.Join(dataLines, "\ndata: ")+"\n\n") != nil {
 			finish("canceled", "downstream_write_failed")
 			return
+		}
+		if effective {
+			measurement.mark(measured)
 		}
 	}
 	err := scanner.Err()
