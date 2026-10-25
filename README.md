@@ -133,6 +133,8 @@ make verify
 
 固定 `make verify` 调用项目 Go 执行器 `tests/verify`，按 Git tracked/unignored inventory 复制当前候选到新临时目录（不复制 ignored 的依赖、cache或运行数据），复用原仓库只读历史并核对源码摘要，再执行保留全部原顺序的内部 `make verify-gates`。清除 NODE_PATH/NODE_OPTIONS、继承的 npm 配置变量和 Make 控制参数；npm 用户/全局配置分别指向副本内两个空文件，不共用 `/dev/null`（npm 会拒绝同文件重复加载）。副本内 npm cache与Go build cache从空开始。原工作区已有node_modules保持不动，不作为冷安装证明；`verify-gates` 不是独立验收替代入口。工具版本前置失败时，原始 stdout/stderr 也进入脱敏日志供归因。
 
+2026-10-25 用户授权的执行条件：内部完整 `verify-gates` 预算为25分钟（`gate_timeout_ms=1500000`），取代原写死12分钟；冻结执行器外层30分钟不变，为候选准备和清理留余量。`GATE_START` / `GATE_END` 与 `state.json` 记录配置预算、开始/结束UTC和取消状态，父取消仍优先生效。超时继续非零退出并清理所属进程组和候选，不重试、不再自动提高时限。此调整不代表性能改善，不更改历史失败结论，也不省略历史/迁移、race、真实HTTP/浏览器或严格失败恢复断言。
+
 入口自动打印 `test-results/verification/<UTC>-<unique>/`，流式输出并保存完整脱敏 `verify.log` 和原子更新的 `state.json`：实际干净起点、工具版本、原树/副本前后摘要、结束依赖状态、锁定Playwright/core本地解析及Chromium版本、退出码、日志字节数/SHA256、清理范围。每次新建目录，不覆盖历史，不硬编码Run、候选摘要或机器路径。SIGINT/SIGTERM只终止本次创建的进程组并清理自己的临时副本；强制杀死执行器可能留下未完成state，缺少最终finished_utc/exit0不算通过。原始浏览器产物保存在本次 `browser/`，仍为ignored本地产物，QA须审查隐私与同版后选取实际文件归档当前Run，不能直接提交整目录。
 
 `make health-history` 仍只输出当前重建回执；其成功表示旧版21个方法断言失败与12个查询/恢复通过被精确识别，不表示旧版全绿。原门禁、摘要不一致、日志/回执写入失败均非零退出。新增执行器回归进入原race测试；夹具绿灯只证明隔离/采集/失败传播机制，不代替正式宿主完整冷 npm、HTTP与浏览器验证。

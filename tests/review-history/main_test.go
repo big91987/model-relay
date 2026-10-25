@@ -1,6 +1,24 @@
 package main
 
-import "testing"
+import (
+	"encoding/json"
+	"os/exec"
+	"testing"
+)
+
+func TestHistoricalJSONExcludesDownloadDiagnostics(test *testing.T) {
+	for _, exit := range []string{"0", "1"} {
+		command := exec.Command("/bin/sh", "-c", `printf 'go: downloading controlled-module v1.0.0\n' >&2; printf '{"Action":"fail","Test":"controlled"}\n'; exit `+exit)
+		output, diagnostics, err := historicalOutput(command)
+		var event struct{ Action, Test string }
+		if json.Unmarshal(output, &event) != nil || event.Action != "fail" || event.Test != "controlled" {
+			test.Fatalf("stdout JSON polluted: %q", output)
+		}
+		if string(diagnostics) != "go: downloading controlled-module v1.0.0\n" || (err != nil) != (exit == "1") {
+			test.Fatalf("lost diagnostics or exit: %q %v", diagnostics, err)
+		}
+	}
+}
 
 func TestHistoricalReviewAssessment(test *testing.T) {
 	failed := []string{"TestConsoleReviewZeroSoftBudgetActualHTTP/tenant", "TestConsoleReviewZeroSoftBudgetActualHTTP/key", "TestConsoleReviewZeroSoftBudgetActualHTTP", "TestConsoleReviewClockRollbackActualHTTP"}

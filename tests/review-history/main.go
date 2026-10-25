@@ -49,10 +49,14 @@ func run() error {
 	defer cancel()
 	command := exec.CommandContext(ctx, "go", "test", "-json", "-race", "-count=1", "-run", "^TestConsoleReview.*ActualHTTP$", "./internal/relay")
 	command.Dir = directory
-	output, runErr := command.CombinedOutput()
+	output, diagnostics, runErr := historicalOutput(command)
+	if len(diagnostics) > 0 {
+		fmt.Fprint(os.Stderr, string(diagnostics))
+	}
 	var failed []string
 	observations := []map[string]string{}
 	var evidence strings.Builder
+	evidence.Write(diagnostics)
 	scanner := bufio.NewScanner(bytes.NewReader(output))
 	scanner.Buffer(make([]byte, 4096), 1024*1024)
 	for scanner.Scan() {
@@ -86,6 +90,13 @@ func run() error {
 	}
 	fmt.Println("P1-1 tenant/key budget=0 hard=false: status=200 dispatch_delta=1; P1-2 expired unretired old generation after deadline401 and clock rollback: status=200 dispatch=1. Exact historical assertions observed; current HTTP green still required.")
 	return nil
+}
+
+func historicalOutput(command *exec.Cmd) ([]byte, []byte, error) {
+	var diagnostics bytes.Buffer
+	command.Stderr = &diagnostics
+	output, err := command.Output()
+	return output, diagnostics.Bytes(), err
 }
 
 func assess(failed []string, evidence string) error {

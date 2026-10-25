@@ -1266,6 +1266,20 @@ test('visibility restore enforces known expiry even when uncertain-state timer d
   assert.equal(app.pending.some(value => value.path === '/admin/api/session'), false);
 });
 
+for (const initialFocus of [true, false]) test('keyboard focus checks the current target before native traversal: ' + initialFocus, async () => {
+  const source = readFileSync('tests/browser/journey.mjs', 'utf8');
+  const helper = source.slice(source.indexOf('async function keyboardFocus('), source.indexOf('async function keyboardInput('));
+  const node = {id: 'cancel-edit', tagName: 'BUTTON', getAttribute: () => null, matches: () => true};
+  const document = {activeElement: initialFocus ? node : null};
+  let tabs = 0;
+  const context = vm.createContext({assert, document, checkpoint: '', keyboardProbe: null, getComputedStyle: () => ({outlineStyle: 'solid', outlineWidth: '2px'})});
+  const focus = vm.runInContext(helper + 'keyboardFocus;', context);
+  await focus({keyboard: {press: async key => { assert.equal(key, 'Tab'); tabs++; document.activeElement = node; }}}, {waitFor: async () => {}, evaluate: async callback => callback(node)});
+  assert.equal(tabs, initialFocus ? 0 : 1);
+  node.matches = () => false;
+  await assert.rejects(focus({keyboard: {press: async () => {}}}, {waitFor: async () => {}, evaluate: async callback => callback(node)}), /visible outline/);
+});
+
 function modelKeyboardFixture(commitOnBlur, missing = false, disabled = false, initialIndex = 0, target = 'alpha-390', disabledFirst = false, ignoreTyping = false) {
   const journey = readFileSync(new URL('./journey.mjs', import.meta.url), 'utf8');
   const start = journey.indexOf('async function keyboardModel(');

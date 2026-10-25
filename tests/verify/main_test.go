@@ -382,7 +382,7 @@ func TestCaptureCommandTiming(test *testing.T) {
 }
 
 func TestFixedRunnerReceipts(test *testing.T) {
-	for _, scenario := range []string{"green_fixture", "failed_fixture", "prerequisite_failed_fixture", "evidence_failed_fixture", "probe_failed_fixture", "copy_failed_fixture", "cancel_inventory", "cancel_git_directory", "cancel_evidence", "cancel_prerequisite", "cancel_probe"} {
+	for _, scenario := range []string{"green_fixture", "failed_fixture", "prerequisite_failed_fixture", "evidence_failed_fixture", "probe_failed_fixture", "copy_failed_fixture", "cancel_inventory", "cancel_git_directory", "cancel_evidence", "cancel_prerequisite", "cancel_probe", "cancel_gate", "timeout_gate"} {
 		test.Run(scenario, func(test *testing.T) {
 			failure := scenario != "green_fixture"
 			root := test.TempDir()
@@ -422,6 +422,9 @@ func TestFixedRunnerReceipts(test *testing.T) {
 			}
 			cancelStage := map[string]string{"cancel_inventory": "source-inventory", "cancel_git_directory": "git-directory", "cancel_evidence": "source-evidence", "cancel_prerequisite": "prerequisite-npm", "cancel_probe": "dependency-probe"}[scenario]
 			waitScript := "printf 'auxiliary-ready\\n'; sleep 30 & child=$!; printf '%s\\n' \"$child\" > \"$CANCEL_READY\"; wait\n"
+			if scenario == "cancel_gate" || scenario == "timeout_gate" {
+				files["tools/make"] = "#!/bin/sh\npwd > \"$CANDIDATE_READY\"\n" + waitScript
+			}
 			switch scenario {
 			case "cancel_inventory":
 				files["tools/git"] = "#!/bin/sh\n" + waitScript
@@ -449,7 +452,9 @@ func TestFixedRunnerReceipts(test *testing.T) {
 			defer cancel()
 			ready := filepath.Join(root, "cancel-ready")
 			test.Setenv("CANCEL_READY", ready)
-			if cancelStage != "" {
+			candidateReady := filepath.Join(root, "candidate-ready")
+			test.Setenv("CANDIDATE_READY", candidateReady)
+			if cancelStage != "" || scenario == "cancel_gate" {
 				go func() {
 					for !exists(ready) && ctx.Err() == nil {
 						time.Sleep(time.Millisecond)
@@ -457,7 +462,12 @@ func TestFixedRunnerReceipts(test *testing.T) {
 					cancel()
 				}()
 			}
-			err := run(ctx)
+			var err error
+			if scenario == "timeout_gate" {
+				err = runWithGateTimeout(ctx, 200*time.Millisecond)
+			} else {
+				err = run(ctx)
+			}
 			runErr := err
 			matches, err := filepath.Glob("test-results/verification/*/state.json")
 			if err != nil || len(matches) != 1 {
@@ -491,8 +501,41 @@ func TestFixedRunnerReceipts(test *testing.T) {
 			if state.LogSHA256 != fmtHash(log) || state.LogBytes != int64(len(log)) {
 				test.Fatal("log digest mismatch")
 			}
+			expectedTimeout := int64(25 * 60 * 1000)
+			if scenario == "timeout_gate" {
+				expectedTimeout = 200
+			}
+			if state.GateTimeoutMilliseconds != expectedTimeout {
+				test.Fatalf("wrong gate timeout: %+v", state)
+			}
 			markers := []string{"CLEAN_START", "fixture gates stdout", "fixture gates stderr", "CLEAN_END"}
-			if scenario == "prerequisite_failed_fixture" {
+			if scenario == "cancel_gate" || scenario == "timeout_gate" {
+				markers = []string{"GATE_START", "GATE_END", "cancelled=true", "FAILED:"}
+				if scenario == "timeout_gate" {
+					markers = append(markers, "context deadline exceeded")
+					if ctx.Err() != nil {
+						test.Fatal("gate timeout must precede parent timeout")
+					}
+				}
+				if !state.GateCancelled || state.GateStartedUTC == "" || state.GateFinishedUTC == "" || state.GateExit == 0 || state.Exit == 0 || state.OwnedGroupAbsent == nil || !*state.OwnedGroupAbsent {
+					test.Fatalf("gate cancellation receipt incomplete: %+v", state)
+				}
+				childData, readErr := os.ReadFile(ready)
+				var child int
+				if readErr != nil {
+					test.Fatal(readErr)
+				}
+				if _, scanErr := fmt.Sscanf(string(childData), "%d", &child); scanErr != nil || syscall.Kill(child, 0) != syscall.ESRCH {
+					test.Fatal("gate child remains or has invalid receipt")
+				}
+				candidateData, readErr := os.ReadFile(candidateReady)
+				if readErr != nil {
+					test.Fatal(readErr)
+				}
+				if _, statErr := os.Stat(strings.TrimSpace(string(candidateData))); !os.IsNotExist(statErr) {
+					test.Fatal("actual candidate remains after gate cancellation")
+				}
+			} else if scenario == "prerequisite_failed_fixture" {
 				markers = []string{"prerequisite-stderr-diagnostic", "COMMAND_END stage=prerequisite-npm exit=24", "FAILED: npm prerequisite:"}
 				if state.GateExit != -1 || state.Exit == 0 || bytes.Contains(log, []byte("fixture gates stdout")) {
 					test.Fatalf("prerequisite failure did not stop gates: %+v", state)

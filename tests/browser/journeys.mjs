@@ -6,6 +6,7 @@ import {managementSummaryJourney,summaryCell,summaryFailureFacts} from './consol
 import {modelSaveReadbackJourney,waitForSaveReadback} from './model-save-readback.mjs';
 import {readabilityEvidence,readabilityFailureFacts} from './readability.mjs';
 import {captureIntegrityScreenshot} from './capture-integrity.mjs';
+import {captureStreamBody} from './stream-capture.mjs';
 
 const origin=process.env.RELAY_JOURNEY_ORIGIN;
 const width=Number(process.env.RELAY_JOURNEY_WIDTH);
@@ -228,29 +229,36 @@ async function call(page,key,model,status=200,message='controlled journey input'
   await page.getByLabel('应用API Key（不会保存）').fill(key);
   await page.getByLabel('公共模型名',{exact:true}).fill(model);await page.getByLabel('消息',{exact:true}).fill(message);
   await page.getByLabel('SSE流式',{exact:true}).setChecked(stream);
-  const before=(await control()).dispatches;
-  const receipt=page.waitForResponse(response=>new URL(response.url()).pathname==='/v1/chat/completions');
-  await button(page,'发送').click();const response=await receipt;lastStatus=response.status();
-  callFacts={expected_status:status,dispatch_delta:(await control()).dispatches-before};
-  if(lastStatus!==status){
-    const id=response.headers()['x-request-id'];
-    if(id){
-      try {
-        const detail=await page.request.get(origin+'/admin/api/workspace/requests/'+encodeURIComponent(id),{timeout:5000});
-        callFacts.detail_status=detail.status();
-        if(detail.status()===200)Object.assign(callFacts,completionFacts(await detail.json()));
-      } catch {callFacts.detail_available=false;}
+  const send=async()=>{
+    const before=(await control()).dispatches;
+    const receipt=page.waitForResponse(response=>new URL(response.url()).pathname==='/v1/chat/completions');
+    await button(page,'发送').click();const response=await receipt;lastStatus=response.status();
+    callFacts={expected_status:status,dispatch_delta:(await control()).dispatches-before};
+    if(lastStatus!==status){
+      const id=response.headers()['x-request-id'];
+      if(id){
+        try {
+          const detail=await page.request.get(origin+'/admin/api/workspace/requests/'+encodeURIComponent(id),{timeout:5000});
+          callFacts.detail_status=detail.status();
+          if(detail.status()===200)Object.assign(callFacts,completionFacts(await detail.json()));
+        } catch {callFacts.detail_available=false;}
+      }
     }
+    assert.equal(lastStatus,status);
+    assert.equal(response.request().postDataJSON().stream,stream);
+    await button(page,'发送').waitFor({state:'visible'});await page.waitForFunction(()=>!document.querySelector('#call-form button[type=submit]')?.disabled);
+    const after=(await control()).dispatches;
+    assert.equal(after-before,status===200?1:0);
+    const id=response.headers()['x-request-id'];assert.ok(id);
+    if(status===200)await page.locator('#call-output').filter({hasText:'controlled'}).waitFor();
+    else await page.locator('#call-output').filter({hasText:'调用失败：'}).waitFor();
+    return {id,value:stream&&status===200?null:await response.json()};
+  };
+  if(stream&&status===200) {
+    const captured=await captureStreamBody(page,send);
+    return {...captured.value,value:captured.body};
   }
-  assert.equal(lastStatus,status);
-  assert.equal(response.request().postDataJSON().stream,stream);
-  await button(page,'发送').waitFor({state:'visible'});await page.waitForFunction(()=>!document.querySelector('#call-form button[type=submit]')?.disabled);
-  const after=(await control()).dispatches;
-  assert.equal(after-before,status===200?1:0);
-  const id=response.headers()['x-request-id'];assert.ok(id);
-  if(status===200)await page.locator('#call-output').filter({hasText:'controlled'}).waitFor();
-  else await page.locator('#call-output').filter({hasText:'调用失败：'}).waitFor();
-  return {id,value:stream&&status===200?await response.text():await response.json()};
+  return send();
 }
 function completionFacts(value) {
   const states=['started','success','rejected','upstream_failed','upstream_rejected','stream_interrupted','timeout','canceled'];
