@@ -247,8 +247,7 @@ async function keyboardFocus(page, locator, key = 'input') {
       outlineWidth: parseFloat(style.outlineWidth) || 0
     };
   };
-  let tabCount = 1;
-  await page.keyboard.press('Tab');
+  let tabCount = 0;
   keyboardProbe = {key, tabCount, ...await locator.evaluate(describe)};
   while (!keyboardProbe.focused && tabCount < 80) {
     await page.keyboard.press('Tab');

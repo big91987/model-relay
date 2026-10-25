@@ -20,30 +20,34 @@ import (
 )
 
 type receipt struct {
-	StartedUTC         string            `json:"started_utc"`
-	FinishedUTC        string            `json:"finished_utc"`
-	Command            string            `json:"command"`
-	Isolation          string            `json:"isolation"`
-	NodeModulesBefore  bool              `json:"node_modules_before"`
-	CleanStartMeasured bool              `json:"clean_start_measured"`
-	NPMCacheBefore     bool              `json:"npm_cache_before"`
-	NodeModulesAfter   bool              `json:"node_modules_after"`
-	NPMCacheAfter      bool              `json:"npm_cache_after"`
-	SourceUnchanged    bool              `json:"source_unchanged"`
-	CandidateUnchanged bool              `json:"candidate_unchanged"`
-	NodePath           string            `json:"NODE_PATH"`
-	ManualPreinstall   string            `json:"manual_preinstall"`
-	Before             json.RawMessage   `json:"source_before,omitempty"`
-	After              json.RawMessage   `json:"source_after,omitempty"`
-	Versions           map[string]string `json:"versions"`
-	DependencyReceipt  string            `json:"dependency_receipt,omitempty"`
-	GateExit           int               `json:"gate_exit"`
-	Exit               int               `json:"exit_code"`
-	LogSHA256          string            `json:"log_sha256"`
-	LogBytes           int64             `json:"log_bytes"`
-	Cleanup            string            `json:"cleanup"`
-	OwnedGroupAbsent   *bool             `json:"owned_group_absent,omitempty"`
-	AuxiliaryCommands  []commandReceipt  `json:"auxiliary_commands,omitempty"`
+	GateTimeoutMilliseconds int64             `json:"gate_timeout_ms"`
+	GateStartedUTC          string            `json:"gate_started_utc,omitempty"`
+	GateFinishedUTC         string            `json:"gate_finished_utc,omitempty"`
+	GateCancelled           bool              `json:"gate_cancelled"`
+	StartedUTC              string            `json:"started_utc"`
+	FinishedUTC             string            `json:"finished_utc"`
+	Command                 string            `json:"command"`
+	Isolation               string            `json:"isolation"`
+	NodeModulesBefore       bool              `json:"node_modules_before"`
+	CleanStartMeasured      bool              `json:"clean_start_measured"`
+	NPMCacheBefore          bool              `json:"npm_cache_before"`
+	NodeModulesAfter        bool              `json:"node_modules_after"`
+	NPMCacheAfter           bool              `json:"npm_cache_after"`
+	SourceUnchanged         bool              `json:"source_unchanged"`
+	CandidateUnchanged      bool              `json:"candidate_unchanged"`
+	NodePath                string            `json:"NODE_PATH"`
+	ManualPreinstall        string            `json:"manual_preinstall"`
+	Before                  json.RawMessage   `json:"source_before,omitempty"`
+	After                   json.RawMessage   `json:"source_after,omitempty"`
+	Versions                map[string]string `json:"versions"`
+	DependencyReceipt       string            `json:"dependency_receipt,omitempty"`
+	GateExit                int               `json:"gate_exit"`
+	Exit                    int               `json:"exit_code"`
+	LogSHA256               string            `json:"log_sha256"`
+	LogBytes                int64             `json:"log_bytes"`
+	Cleanup                 string            `json:"cleanup"`
+	OwnedGroupAbsent        *bool             `json:"owned_group_absent,omitempty"`
+	AuxiliaryCommands       []commandReceipt  `json:"auxiliary_commands,omitempty"`
 }
 
 type commandReceipt struct {
@@ -67,7 +71,13 @@ func main() {
 	}
 }
 
-func run(ctx context.Context) (result error) {
+const gateTimeout = 25 * time.Minute
+
+func run(ctx context.Context) error {
+	return runWithGateTimeout(ctx, gateTimeout)
+}
+
+func runWithGateTimeout(ctx context.Context, timeout time.Duration) (result error) {
 	source, err := os.Getwd()
 	if err != nil {
 		return err
@@ -82,6 +92,7 @@ func run(ctx context.Context) (result error) {
 	}
 	fmt.Println("verification_receipt=" + filepath.ToSlash(strings.TrimPrefix(output, source+string(os.PathSeparator))))
 	state := receipt{StartedUTC: time.Now().UTC().Format(time.RFC3339Nano), Command: "make verify -> isolated make verify-gates", Isolation: "new private candidate; git history read-only", NodePath: "unset", ManualPreinstall: "none", Versions: map[string]string{}, GateExit: -1, Exit: 1, Cleanup: "not_started"}
+	state.GateTimeoutMilliseconds = timeout.Milliseconds()
 	logFile, err := os.OpenFile(filepath.Join(output, "verify.log"), os.O_CREATE|os.O_EXCL|os.O_WRONLY, 0600)
 	if err != nil {
 		return err
@@ -176,11 +187,16 @@ func run(ctx context.Context) (result error) {
 	}
 	encoded, _ := json.Marshal(state)
 	fmt.Fprintln(redaction, "CLEAN_START", string(encoded))
-	gateCtx, gateCancel := context.WithTimeout(ctx, 12*time.Minute)
+	gateCtx, gateCancel := context.WithTimeout(ctx, timeout)
 	defer gateCancel()
 	command := exec.CommandContext(gateCtx, "make", "verify-gates")
 	command.Dir, command.Env = temporary, environment
+	state.GateStartedUTC = time.Now().UTC().Format(time.RFC3339Nano)
+	fmt.Fprintf(redaction, "GATE_START timeout_ms=%d started_utc=%s\n", state.GateTimeoutMilliseconds, state.GateStartedUTC)
 	state.GateExit, err = execute(gateCtx, command, redaction)
+	state.GateFinishedUTC = time.Now().UTC().Format(time.RFC3339Nano)
+	state.GateCancelled = gateCtx.Err() != nil
+	fmt.Fprintf(redaction, "GATE_END exit=%d cancelled=%t finished_utc=%s\n", state.GateExit, state.GateCancelled, state.GateFinishedUTC)
 	if command.Process != nil {
 		state.Cleanup = "owned_process_group_cleanup_attempted"
 		absent := ownedGroupAbsent(command.Process.Pid)

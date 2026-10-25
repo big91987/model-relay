@@ -119,7 +119,7 @@ func TestRoutingRealHTTPSelectionFailoverAndRecovery(t *testing.T) {
 	if primary.Load() != 30 || secondary.Load() != 10 {
 		t.Fatal("actual SWRR visits", primary.Load(), secondary.Load())
 	}
-	value.server.Config.Cooldown = 15 * time.Millisecond
+	value.server.Config.Cooldown = 2 * time.Second
 	failPrimary.Store(true)
 	response := value.call(t, ordinary)
 	if response.StatusCode != 200 {
@@ -138,7 +138,7 @@ func TestRoutingRealHTTPSelectionFailoverAndRecovery(t *testing.T) {
 		t.Fatal("cooldown did not exclude actual primary")
 	}
 	failPrimary.Store(false)
-	time.Sleep(25 * time.Millisecond)
+	time.Sleep(value.server.Config.Cooldown + 25*time.Millisecond)
 	expect(t, value.call(t, ordinary), 200)
 	if primary.Load() != before+1 {
 		t.Fatal("primary did not passively recover")
