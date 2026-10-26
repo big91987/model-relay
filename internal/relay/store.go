@@ -175,6 +175,9 @@ func initSchema(directory, keyFile string, version int) (string, error) {
 			return "", err
 		}
 	}
+	if err = routingExtension(transaction, true); err != nil {
+		return "", err
+	}
 	if err = transaction.Commit(); err != nil {
 		return "", err
 	}
@@ -226,6 +229,10 @@ func openInstallation(directory, keyFile string, allowLegacy bool) (*Store, erro
 		return nil, err
 	}
 	if err = validateStorage(db, version); err != nil {
+		store.Close()
+		return nil, err
+	}
+	if err = store.ensureRouting(); err != nil {
 		store.Close()
 		return nil, err
 	}
@@ -314,15 +321,17 @@ type Record struct {
 	Status   *int   `json:"upstream_status"`
 	Duration *int64 `json:"duration_ms"`
 	Usage
-	ConfigRevision     int64                `json:"config_revision"`
-	ModelRevision      int64                `json:"model_revision"`
-	SuccessfulUpstream *int64               `json:"successful_upstream_id"`
-	CommittedAt        *string              `json:"committed_at"`
-	AttemptsComplete   bool                 `json:"attempts_complete"`
-	EvidenceVersion    int                  `json:"evidence_version"`
-	Attempts           []Attempt            `json:"attempts"`
-	Decisions          []RouteDecision      `json:"selection_decisions"`
-	UsageSummary       map[string]UsagePart `json:"usage_summary"`
+	ConfigRevision     int64                  `json:"config_revision"`
+	ModelRevision      int64                  `json:"model_revision"`
+	SuccessfulUpstream *int64                 `json:"successful_upstream_id"`
+	CommittedAt        *string                `json:"committed_at"`
+	AttemptsComplete   bool                   `json:"attempts_complete"`
+	EvidenceVersion    int                    `json:"evidence_version"`
+	Attempts           []Attempt              `json:"attempts"`
+	Decisions          []RouteDecision        `json:"selection_decisions"`
+	UsageSummary       map[string]UsagePart   `json:"usage_summary"`
+	RoutingEvidence    []SelectionObservation `json:"routing_decisions"`
+	LatencyEvidence    []LatencyResult        `json:"latency_observations"`
 }
 
 func (store *Store) Start(record Record) error {

@@ -173,6 +173,10 @@ func TestRoutingPassiveCooldown(t *testing.T) {
 	value := newConsoleFixture(t)
 	multiConfiguration(t, value, 2, nil)
 	value.server.Config.Cooldown = 10 * time.Millisecond
+	var clock atomic.Int64
+	clock.Store(time.Now().UnixNano())
+	value.server.latencyClock = func() time.Time { return time.Unix(0, clock.Load()) }
+	cooldownStarted := clock.Load()
 	counts := map[string]int{}
 	failed := true
 	value.server.client.Transport = roundTrip(func(request *http.Request) (*http.Response, error) {
@@ -186,10 +190,11 @@ func TestRoutingPassiveCooldown(t *testing.T) {
 		t.Fatal("initial recovery")
 	}
 	failed = false
+	clock.Store(cooldownStarted + int64(9*time.Millisecond))
 	if value.call(value.key, ordinary).Code != 200 || counts["/a/v1/chat/completions"] != 1 {
 		t.Fatal("cooling candidate visited")
 	}
-	time.Sleep(15 * time.Millisecond)
+	clock.Store(cooldownStarted + int64(10*time.Millisecond))
 	if value.call(value.key, ordinary).Code != 200 || counts["/a/v1/chat/completions"] != 2 {
 		t.Fatal("passive recovery missing")
 	}

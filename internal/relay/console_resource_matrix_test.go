@@ -98,12 +98,25 @@ func releaseResources(fixture *governedFixture) {
 func TestConsoleResourceMatrixInProcess(test *testing.T)  { resourceMatrixScenario(test, false) }
 func TestConsoleResourceMatrixActualHTTP(test *testing.T) { resourceMatrixScenario(test, true) }
 
-func resourceMatrixScenario(test *testing.T, actual bool) {
+func TestLatencyResourceMatrixActualHTTP(test *testing.T) {
+	resourceMatrixScenario(test, true, "low_latency")
+}
+
+func resourceMatrixScenario(test *testing.T, actual bool, strategies ...string) {
 	for _, scope := range []string{"tenant", "key"} {
 		for _, dimension := range []string{"calls", "rpm", "tpm", "concurrency", "budget"} {
 			test.Run(scope+"/"+dimension, func(test *testing.T) {
 				test.Parallel()
 				fixture := singleResourceInstallation(test, actual)
+				if len(strategies) > 0 {
+					model, err := fixture.store.routeModel("governed")
+					if err != nil {
+						test.Fatal(err)
+					}
+					if status, _ := fixture.admin.call("PATCH", "models/governed", map[string]any{"expected_revision": model.Revision, "enabled": true, "candidates": cleanTestCandidates(model.Candidates), "routing_strategy": strategies[0]}, ""); status != 200 {
+						test.Fatal("low latency resource configuration", status)
+					}
+				}
 				tenantPath := "tenants/" + fixture.tenant
 				keyPath := tenantPath + "/keys/" + fixture.keyID
 				path, revision := tenantPath, int64(2)

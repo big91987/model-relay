@@ -48,6 +48,8 @@ type Server struct {
 	checking           map[int64]bool
 	health             map[string]*routeHealth
 	dispatchSequence   int64
+	latency            map[string]*latencyPool
+	latencyClock       func() time.Time
 }
 
 func New(store *Store, config Config) *Server {
@@ -70,7 +72,7 @@ func New(store *Store, config Config) *Server {
 		config.Cooldown = 30 * time.Second
 	}
 	transport := &http.Transport{Proxy: nil, DialContext: config.Policy.Dial, DisableKeepAlives: true, ForceAttemptHTTP2: false, TLSHandshakeTimeout: 5 * time.Second, ResponseHeaderTimeout: config.HeaderTimeout}
-	return &Server{Store: store, Config: config, sessions: make(map[string]session), routing: make(map[string]*routeRuntime), health: make(map[string]*routeHealth), checking: make(map[int64]bool), passwordSlots: make(chan struct{}, 2), client: &http.Client{Transport: transport, CheckRedirect: func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse }}}
+	return &Server{Store: store, Config: config, latency: make(map[string]*latencyPool), sessions: make(map[string]session), routing: make(map[string]*routeRuntime), health: make(map[string]*routeHealth), checking: make(map[int64]bool), passwordSlots: make(chan struct{}, 2), client: &http.Client{Transport: transport, CheckRedirect: func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse }}}
 }
 func reply(writer http.ResponseWriter, status int, value any) {
 	writer.Header().Set("Content-Type", "application/json")

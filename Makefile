@@ -18,6 +18,7 @@ verify-gates:
 	$(MAKE) frontend-test
 	$(MAKE) test
 	$(MAKE) build
+	go run ./tests/latency-experiment
 	$(MAKE) browser
 
 health-history:

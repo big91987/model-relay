@@ -1,0 +1,251 @@
+{
+  "base": "7709fe2734c370238a49bbb98efac9eddba81c7a",
+  "candidate": "65cc0ad786123a7e38c6118ea450db42b7bc7ddf",
+  "files": [
+    {
+      "path": ".trellis/spec/backend/routing-contracts.md",
+      "bytes": 17520,
+      "sha256": "ebcdced8ec7ebefb7b795f3908a41d3f1466ec482f3cae2673b2b272d1ddd64a"
+    },
+    {
+      "path": "docs/workflow/runs/ba434da8039cca16f6829481112e3d68/budget-baseline-update.md",
+      "bytes": 4912,
+      "sha256": "01eac480d7c49d8c73fda9654020d4efe572b98aad446d43cad4737e915ca00c"
+    },
+    {
+      "path": "docs/workflow/runs/ba434da8039cca16f6829481112e3d68/delivery-handoff.json",
+      "bytes": 11658,
+      "sha256": "f5732f52ed3d24636f4429003e26ddacd27f4a1222c1eb1c5d52f1243d31120d"
+    },
+    {
+      "path": "docs/workflow/runs/ba434da8039cca16f6829481112e3d68/execution-v2.md",
+      "bytes": 5481,
+      "sha256": "27a0227d48dc183688f2f5977781a33639cf5a4a64c24a1acbda4ae8556968f2"
+    },
+    {
+      "path": "docs/workflow/runs/ba434da8039cca16f6829481112e3d68/execution.md",
+      "bytes": 3493,
+      "sha256": "792a22d1f88eb0fcde07041126a37e84c0ed5fb2245e9bfda1ce32cc9038a4e7"
+    },
+    {
+      "path": "docs/workflow/runs/ba434da8039cca16f6829481112e3d68/experiment-results.md",
+      "bytes": 2808,
+      "sha256": "c28ce8b5ba128618f8e0e8481a080094b726d4405bd82c10bb57efcdcd8c59d5"
+    },
+    {
+      "path": "docs/workflow/runs/ba434da8039cca16f6829481112e3d68/experiment-v2.md",
+      "bytes": 14657,
+      "sha256": "4f72f2061bc9c61c7b1f33e3ca1d8f2ab86667c7ea5743d1ed716d5b04727675"
+    },
+    {
+      "path": "docs/workflow/runs/ba434da8039cca16f6829481112e3d68/experiment.md",
+      "bytes": 5714,
+      "sha256": "dfaa3d34c9887d4581aa9678a3d27530dd3acf4e4ea53b2e6d023052348a562f"
+    },
+    {
+      "path": "docs/workflow/runs/ba434da8039cca16f6829481112e3d68/frozen-input.md",
+      "bytes": 9050,
+      "sha256": "48822df095be1b1b2f9b44a4570d94a96ac7a9ba5566f611d34dea408d4ef09f"
+    },
+    {
+      "path": "docs/workflow/runs/ba434da8039cca16f6829481112e3d68/implementation.md",
+      "bytes": 11915,
+      "sha256": "444ba0aa786f2a46bf1470c485762c932f6b25cdc15948b599380b0af6322049"
+    },
+    {
+      "path": "docs/workflow/runs/ba434da8039cca16f6829481112e3d68/latency-comparison.svg",
+      "bytes": 2153,
+      "sha256": "1e26007d96fb5295daab60b0976d44a70f8bcc00d89f7a08a34615c86021f852"
+    },
+    {
+      "path": "docs/workflow/runs/ba434da8039cca16f6829481112e3d68/plan-manifest-v1.json",
+      "bytes": 1026,
+      "sha256": "79fe85720430f0ad840ed592614f6f79236b8e553bf418a9b0986fbb084c51a7"
+    },
+    {
+      "path": "docs/workflow/runs/ba434da8039cca16f6829481112e3d68/plan-v2.md",
+      "bytes": 13754,
+      "sha256": "0944af31943b26633e3813280dfe84efc5120f13dfc340221dcd67356be80a2f"
+    },
+    {
+      "path": "docs/workflow/runs/ba434da8039cca16f6829481112e3d68/plan.md",
+      "bytes": 12104,
+      "sha256": "72d3a2a3a73a440f7e5b013c1a1a918000d6e59a407d8f5e11e472f72f403b13"
+    },
+    {
+      "path": "docs/workflow/runs/ba434da8039cca16f6829481112e3d68/qa-first-no-go.md",
+      "bytes": 15956,
+      "sha256": "f9dd5aec198f2c8ace47136cddab2533f997e59013d3bcf07127b6e0146a80de"
+    },
+    {
+      "path": "docs/workflow/runs/ba434da8039cca16f6829481112e3d68/qa-recheck.md",
+      "bytes": 19621,
+      "sha256": "7c76af462396e657b9921489eac461588f687ffa1aacc015a5f38f2480b1f6ca"
+    },
+    {
+      "path": "docs/workflow/runs/ba434da8039cca16f6829481112e3d68/rework-qa63-01.md",
+      "bytes": 7746,
+      "sha256": "7eb1717b1f8a6a2166ba4a532b5dcd412a51874dd66d9a4013ec55a0e187a6be"
+    },
+    {
+      "path": "docs/workflow/runs/ba434da8039cca16f6829481112e3d68/rework-tests6-cooldown.md",
+      "bytes": 5636,
+      "sha256": "d502489ab108c641b8f8021edc187df11f359474be7db772eeec4d654423927a"
+    },
+    {
+      "path": "internal/relay/configuration.go",
+      "bytes": 23513,
+      "sha256": "4ea688f3d49d792fc2c39345e4518a54c34b421996b8625796e69baf83467483"
+    },
+    {
+      "path": "internal/relay/console_api.go",
+      "bytes": 18407,
+      "sha256": "fa8c48e406c38e7a989c5725791ece3a7fa83baa1247590771264b754663ff78"
+    },
+    {
+      "path": "internal/relay/console_reports.go",
+      "bytes": 12735,
+      "sha256": "a08e2d630eff7eef019103d10548dd16ff2708bc95254ef5aa79170db7feb0b9"
+    },
+    {
+      "path": "internal/relay/console_resource_matrix_test.go",
+      "bytes": 12613,
+      "sha256": "e206271d773fec693e32ce56e88356f63c42a70f4ec4dd423f6c1c950ffdcf4a"
+    },
+    {
+      "path": "internal/relay/console.go",
+      "bytes": 7286,
+      "sha256": "01c1cfa6b6da8e490345e5a16fcdcbf9ea7539c1ebe17097e28d9ddd1e827ef1"
+    },
+    {
+      "path": "internal/relay/proxy.go",
+      "bytes": 9235,
+      "sha256": "3dac32285e36b1b4b1c68e8073dc9751dcdb34890b6f260b775ad89b1883a2eb"
+    },
+    {
+      "path": "internal/relay/routed_proxy.go",
+      "bytes": 9864,
+      "sha256": "2c80cea449cfa2fa1a246763c60587b062379dac12bd209959bf770212c981a7"
+    },
+    {
+      "path": "internal/relay/routing_latency_recovery_test.go",
+      "bytes": 5279,
+      "sha256": "8eb1fab0d4ff24b8ab2a7ea8ab29622c71deb7d55c7fae8e148b877326098ce7"
+    },
+    {
+      "path": "internal/relay/routing_latency_storage.go",
+      "bytes": 3872,
+      "sha256": "ad1fbf8e55c32489d41cb58b180c53a4b45081604e8ef855d1bca1bc334a362d"
+    },
+    {
+      "path": "internal/relay/routing_latency_test.go",
+      "bytes": 24490,
+      "sha256": "18deb212f5654b010fbe690c8df64308644a8956b2a966b4ae5b2704482384b4"
+    },
+    {
+      "path": "internal/relay/routing_latency.go",
+      "bytes": 9703,
+      "sha256": "ce18d8fd65881fd8a2a80d30548e64d2843b16a69ba0f43fda4367d2a408190f"
+    },
+    {
+      "path": "internal/relay/routing_test.go",
+      "bytes": 8391,
+      "sha256": "71007fe71bb1a5a2e3efacc7e09fdbd599d9c4c84752d1575388176daed18ee2"
+    },
+    {
+      "path": "internal/relay/routing.go",
+      "bytes": 16756,
+      "sha256": "8feafc1099c31a9cf2b88ccafff9df646d105f78cb25a267f55997bcc18cb824"
+    },
+    {
+      "path": "internal/relay/server.go",
+      "bytes": 19111,
+      "sha256": "d887e26593810f22372862fa60fc364db003e39a2050064a0528b79ab7b19308"
+    },
+    {
+      "path": "internal/relay/store.go",
+      "bytes": 15002,
+      "sha256": "033ff001a3f1cd1a9b95e027a3b41c0170396d2fcf71987dcbd87f268dcae9a8"
+    },
+    {
+      "path": "internal/relay/upgrade.go",
+      "bytes": 8770,
+      "sha256": "7960fece69fb202fe8ea56b79931477069c305d33d961cfd4c807abb1ea4a9ad"
+    },
+    {
+      "path": "internal/relay/web/app.js",
+      "bytes": 53804,
+      "sha256": "534458755e9a44f7c8cd77094ab65d880f2eed1d1bb563e2de259741b9cced70"
+    },
+    {
+      "path": "internal/relay/web/index.html",
+      "bytes": 10283,
+      "sha256": "cf315e35eef8d3a418047ef9226335f53aa085bfdc97d94f6e5e24b1eaa1c349"
+    },
+    {
+      "path": "internal/relay/web/workspace.js",
+      "bytes": 61885,
+      "sha256": "a7207531a2bc8970db684c8a34764f095c7a5f7d2c4ec68169595d0c0f734283"
+    },
+    {
+      "path": "Makefile",
+      "bytes": 1067,
+      "sha256": "13b8ccb269e180becc9f10d14dfcbe3dde1d992815fc4ffe40f34c5f674ed035"
+    },
+    {
+      "path": "README.md",
+      "bytes": 23900,
+      "sha256": "1db9fb5e91603e3049a06bc7c217e877883fa3a2c3372e83cc6e3582cdc28580"
+    },
+    {
+      "path": "tests/browser/journeys.go",
+      "bytes": 7928,
+      "sha256": "51310c1a2c0258fd21be3a33004a6ef496b5d2f448f37d043c05b1c64e217381"
+    },
+    {
+      "path": "tests/browser/journeys.mjs",
+      "bytes": 60351,
+      "sha256": "0fe19097714e352d975b836bad4981ba046794e8bf87efed789b4f21fb8a2d1f"
+    },
+    {
+      "path": "tests/browser/latency-focus.mjs",
+      "bytes": 1194,
+      "sha256": "abf182d272bc760a5324456d62920a43b3cdb8d1984ba54c37d3e0101a75f403"
+    },
+    {
+      "path": "tests/browser/latency-journey.mjs",
+      "bytes": 9968,
+      "sha256": "d83340fa24e0fe8e0a43020dfba73ef6ff638a0506e0c263e675c753e76d1387"
+    },
+    {
+      "path": "tests/browser/workspace.test.mjs",
+      "bytes": 37166,
+      "sha256": "6295ca36cdc4a11bb1ff388cd92f26c399e3d8329a28210f8c340f575485d0e5"
+    },
+    {
+      "path": "tests/latency-experiment/main_test.go",
+      "bytes": 202,
+      "sha256": "cc2611ea1de3a9c6aaa658af6ba3f1ef26e1023bcc98dd04e489a2b79753a32a"
+    },
+    {
+      "path": "tests/latency-experiment/main.go",
+      "bytes": 14413,
+      "sha256": "3585ab32eaf40cd3b5fe2fea8aa2b5f1fd70aa5b980dd77c0238da6aeb97663f"
+    },
+    {
+      "path": "tests/latency-ui/main.go",
+      "bytes": 2073,
+      "sha256": "7490795bc18d33c03d7cd2a484d56d64d80030e21f212fd33c2899fe8387a19e"
+    },
+    {
+      "path": "tests/latencyfixture/fixture_test.go",
+      "bytes": 470,
+      "sha256": "ffe09debf26a85f345450cf9817269b968a390260c901c370504f48996fbde4d"
+    },
+    {
+      "path": "tests/latencyfixture/fixture.go",
+      "bytes": 9738,
+      "sha256": "6e2396bc1ed4f3dc978338cfa2fbfefe875f5b7712a423f0a9a2548ceb77a5ce"
+    }
+  ]
+}

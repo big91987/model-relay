@@ -3,6 +3,7 @@ package relay
 import (
 	"context"
 	"database/sql"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"math"
@@ -15,13 +16,15 @@ import (
 type routeRuntime struct {
 	Fingerprint string
 	Current     map[int64]int
+	Exploration map[bool]*explorationState
 }
 type routeHealth struct {
-	Sequence          int64
-	Cooldown          time.Time
-	State             string
-	Observed          time.Time
-	CandidateRevision int64
+	Sequence           int64
+	InvalidatedThrough int64
+	Cooldown           time.Time
+	State              string
+	Observed           time.Time
+	CandidateRevision  int64
 }
 type routeSnapshot struct {
 	Model          RouteModel
@@ -189,7 +192,7 @@ func (server *Server) beginAttempt(ctx context.Context, request *http.Request, r
 	if err != nil {
 		return nil, nil, "storage_unavailable"
 	}
-	now := time.Now()
+	now := server.routingNow()
 	decisions := []RouteDecision{}
 	eligible := []Candidate{}
 	priority := -1
@@ -210,6 +213,8 @@ func (server *Server) beginAttempt(ctx context.Context, request *http.Request, r
 		switch {
 		case !current.Enabled || !snapshot.Model.Enabled:
 			decision.Reason = "disabled_model"
+		case snapshot.Epoch != server.configEpoch || current.Revision != snapshot.Model.Revision || upstream.ExecutionRevision != latest.ExecutionRevision:
+			decision.Reason = "configuration_changed"
 		case !upstream.Enabled || !latest.Enabled:
 			decision.Reason = "disabled_upstream"
 		case !candidate.Enabled || !present:
@@ -245,6 +250,7 @@ func (server *Server) beginAttempt(ctx context.Context, request *http.Request, r
 	if fingerprint != snapshot.Runtime.Fingerprint {
 		snapshot.Runtime.Fingerprint = fingerprint
 		snapshot.Runtime.Current = map[int64]int{}
+		snapshot.Runtime.Exploration = nil
 	}
 	total := 0
 	for _, candidate := range group {
@@ -258,6 +264,7 @@ func (server *Server) beginAttempt(ctx context.Context, request *http.Request, r
 	if selected != nil {
 		snapshot.Runtime.Current[selected.UpstreamID] -= total
 	}
+	selected, observations := server.chooseLatency(snapshot, group, record.Stream, round, selected, decisions)
 	for index := range decisions {
 		if decisions[index].Reason != "" {
 			continue
@@ -271,6 +278,11 @@ func (server *Server) beginAttempt(ctx context.Context, request *http.Request, r
 			decisions[index].Reason = "not_selected_same_priority"
 		}
 	}
+	for index := range observations {
+		if observations[index].Reason == "not_selected" {
+			observations[index].Reason = decisions[index].Reason
+		}
+	}
 	cleanup, release := context.WithTimeout(context.Background(), 2*time.Second)
 	defer release()
 	transaction, err := server.Store.DB.BeginTx(cleanup, nil)
@@ -280,6 +292,15 @@ func (server *Server) beginAttempt(ctx context.Context, request *http.Request, r
 	defer transaction.Rollback()
 	for _, decision := range decisions {
 		if _, err = transaction.ExecContext(cleanup, "INSERT INTO request_route_decisions VALUES(?,?,?,?,?,?,?,?,?)", record.ID, round, decision.UpstreamID, decision.Enabled, decision.Priority, decision.Weight, decision.Reason, decision.Observed, decision.Cooldown); err != nil {
+			return nil, nil, "storage_unavailable"
+		}
+	}
+	for _, observation := range observations {
+		raw, marshalErr := json.Marshal(observation)
+		if marshalErr != nil {
+			return nil, nil, "storage_unavailable"
+		}
+		if _, err = transaction.ExecContext(cleanup, "INSERT INTO route_selection_evidence VALUES(?,?,?,?)", record.ID, round, observation.UpstreamID, string(raw)); err != nil {
 			return nil, nil, "storage_unavailable"
 		}
 	}
@@ -331,11 +352,17 @@ func (server *Server) observe(snapshot routeSnapshot, candidate Candidate, attem
 	}
 	key := healthKey(current.Alias, candidate, upstream)
 	previous := server.health[key]
-	if previous != nil && previous.Sequence > attempt.Sequence {
+	if previous != nil && (previous.Sequence > attempt.Sequence || previous.InvalidatedThrough >= attempt.Sequence) {
 		return
 	}
-	health := &routeHealth{Sequence: attempt.Sequence, State: attempt.State, Observed: time.Now(), CandidateRevision: candidate.ExecutionRevision}
+	health := &routeHealth{Sequence: attempt.Sequence, State: attempt.State, Observed: server.routingNow(), CandidateRevision: candidate.ExecutionRevision}
+	if previous != nil {
+		health.InvalidatedThrough = previous.InvalidatedThrough
+	}
 	if temporary {
+		health.InvalidatedThrough = server.dispatchSequence
+		delete(server.latency, latencyKey(snapshot, candidate, false))
+		delete(server.latency, latencyKey(snapshot, candidate, true))
 		health.Cooldown = health.Observed.Add(server.Config.Cooldown)
 	}
 	server.health[key] = health
@@ -399,6 +426,12 @@ func (output *attemptOutput) Flush() {
 	if flusher, ok := output.writer.(http.Flusher); ok && output.isCommitted() {
 		flusher.Flush()
 	}
+}
+func (output *attemptOutput) FlushError() error {
+	if output.isCommitted() {
+		return http.NewResponseController(output.writer).Flush()
+	}
+	return nil
 }
 func (output *attemptOutput) Unwrap() http.ResponseWriter { return output.writer }
 func (output *attemptOutput) isCommitted() bool {

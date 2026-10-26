@@ -330,6 +330,7 @@ func (server *Server) describeModel(value *RouteModel) error {
 }
 
 type RouteModel struct {
+	Strategy   string      `json:"routing_strategy"`
 	Alias      string      `json:"alias"`
 	Enabled    bool        `json:"enabled"`
 	Revision   int64       `json:"revision"`
@@ -339,7 +340,7 @@ type RouteModel struct {
 
 func (store *Store) routeModel(alias string) (RouteModel, error) {
 	value := RouteModel{Candidates: []Candidate{}}
-	err := store.DB.QueryRow("SELECT alias,enabled,revision,legacy_remote_model FROM models WHERE alias=?", alias).Scan(&value.Alias, &value.Enabled, &value.Revision, &value.Legacy)
+	err := store.DB.QueryRow("SELECT m.alias,m.enabled,m.revision,m.legacy_remote_model,coalesce(p.strategy,'weighted') FROM models m LEFT JOIN model_route_policies p ON p.alias=m.alias WHERE m.alias=?", alias).Scan(&value.Alias, &value.Enabled, &value.Revision, &value.Legacy, &value.Strategy)
 	if err != nil {
 		return value, err
 	}
@@ -435,9 +436,10 @@ func (server *Server) routeModels(writer http.ResponseWriter, request *http.Requ
 		return
 	}
 	var input struct {
-		Alias      string `json:"alias"`
-		Enabled    *bool  `json:"enabled"`
-		Expected   *int64 `json:"expected_revision"`
+		Alias      string  `json:"alias"`
+		Strategy   *string `json:"routing_strategy"`
+		Enabled    *bool   `json:"enabled"`
+		Expected   *int64  `json:"expected_revision"`
 		Candidates *[]struct {
 			UpstreamID  int64  `json:"upstream_id"`
 			RemoteModel string `json:"remote_model"`
@@ -448,6 +450,10 @@ func (server *Server) routeModels(writer http.ResponseWriter, request *http.Requ
 	}
 	if jsonInput(writer, request, &input) != nil || input.Enabled == nil || input.Candidates == nil || len(*input.Candidates) > 100 || !creating && (input.Expected == nil || input.Alias != "") {
 		failure(writer, 400, "invalid_request", "")
+		return
+	}
+	if input.Strategy != nil && *input.Strategy != "weighted" && *input.Strategy != "low_latency" {
+		failure(writer, 400, "invalid_routing_strategy", "")
 		return
 	}
 	if creating {
@@ -505,6 +511,17 @@ func (server *Server) routeModels(writer http.ResponseWriter, request *http.Requ
 		_, err = transaction.Exec("UPDATE models SET enabled=?,revision=revision+1,legacy_remote_model=CASE WHEN ? THEN NULL ELSE legacy_remote_model END WHERE alias=?", *input.Enabled, len(*input.Candidates) > 0, alias)
 	}
 	if err != nil {
+		failure(writer, 503, "storage_unavailable", "")
+		return
+	}
+	strategy := current.Strategy
+	if strategy == "" {
+		strategy = "weighted"
+	}
+	if input.Strategy != nil {
+		strategy = *input.Strategy
+	}
+	if _, err = transaction.Exec("INSERT INTO model_route_policies VALUES(?,?) ON CONFLICT(alias) DO UPDATE SET strategy=excluded.strategy", alias, strategy); err != nil {
 		failure(writer, 503, "storage_unavailable", "")
 		return
 	}

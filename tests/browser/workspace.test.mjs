@@ -616,3 +616,11 @@ test('keyboard projection emits only fixed booleans for editor, body, root and m
     assert.ok(!JSON.stringify(snapshot).includes(fixture.secret));
   }
 });
+
+test('latency diagnostics distinguish failure invalidation from success and unknown', () => {
+  const context = vm.createContext({});
+  vm.runInContext(source.slice(source.indexOf('function enumLabel('), source.indexOf('function technicalValue(')), context);
+  assert.equal(context.enumLabel('sample_acceptance', 'invalidated_by_failure'), '故障前在途观测已失效，不采纳');
+  assert.equal(context.enumLabel('sample_acceptance', 'accepted'), '有效成功观测');
+  assert.equal(context.enumLabel('sample_state', 'unknown'), '无本进程样本 / 未知');
+});

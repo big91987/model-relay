@@ -395,7 +395,8 @@ func (server *Server) catalog(writer http.ResponseWriter, request *http.Request,
 	for _, alias := range ids {
 		var enabled bool
 		var revision int64
-		if transaction.QueryRow("SELECT enabled,revision FROM models WHERE alias=?", alias).Scan(&enabled, &revision) != nil {
+		var strategy string
+		if transaction.QueryRow("SELECT m.enabled,m.revision,coalesce(p.strategy,'weighted') FROM models m LEFT JOIN model_route_policies p ON p.alias=m.alias WHERE m.alias=?", alias).Scan(&enabled, &revision, &strategy) != nil {
 			failure(writer, 503, "storage_unavailable", "")
 			return
 		}
@@ -411,7 +412,7 @@ func (server *Server) catalog(writer http.ResponseWriter, request *http.Request,
 			failure(writer, 503, "storage_unavailable", "")
 			return
 		}
-		values = append(values, map[string]any{"alias": alias, "enabled": enabled, "revision": revision, "tenant_input_rate": tenantInput, "tenant_output_rate": tenantOutput, "effective_at": effective, "currency": "USD", "unit": "micro_usd_per_million_tokens", "protocol": "chat.completions", "stream": true, "summary": summary})
+		values = append(values, map[string]any{"alias": alias, "enabled": enabled, "revision": revision, "routing_strategy": strategy, "tenant_input_rate": tenantInput, "tenant_output_rate": tenantOutput, "effective_at": effective, "currency": "USD", "unit": "micro_usd_per_million_tokens", "protocol": "chat.completions", "stream": true, "summary": summary})
 	}
 	replyCollection(writer, request, values)
 }

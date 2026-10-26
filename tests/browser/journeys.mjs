@@ -7,6 +7,7 @@ import {modelSaveReadbackJourney,waitForSaveReadback} from './model-save-readbac
 import {readabilityEvidence,readabilityFailureFacts} from './readability.mjs';
 import {captureIntegrityScreenshot} from './capture-integrity.mjs';
 import {captureStreamBody} from './stream-capture.mjs';
+import {latencyJourney} from './latency-journey.mjs';
 
 const origin=process.env.RELAY_JOURNEY_ORIGIN;
 const width=Number(process.env.RELAY_JOURNEY_WIDTH);
@@ -612,6 +613,7 @@ try {
   console.log(JSON.stringify({suite:'management-summary',width,result:'passed',provider:'controlled_http_not_supplier',facts:summaryFacts}));
   await consoleVisualReview(admin,{width,tenant:firstTenant,objects:{model:models[0],service:'Journey controlled upstream',key:'Primary journey key',request:unknown.id},secrets:[current.key,primary.key,process.env.RELAY_JOURNEY_PASSWORD,'controlled-journey-upstream','controlled-journey-password'],nav:title=>nav(admin,title),step:phase=>{activePage=admin;mark('visual-'+phase);}});
   await safeScreenshot(admin,'final');assert.equal(checkpoints.length,7);
+  if(width===1280||width===390)await latencyJourney(admin,{width,tenant:firstTenant,upstreams:[new URL(process.env.RELAY_JOURNEY_UPSTREAM).origin+'/latency-a/v1',new URL(process.env.RELAY_JOURNEY_UPSTREAM).origin+'/latency-b/v1'],credential:'controlled-journey-upstream',password:process.env.RELAY_JOURNEY_PASSWORD,restart:async()=>{const response=await fetch(process.env.RELAY_JOURNEY_CONTROL+'/restart',{method:'POST',headers:{'X-Test-Capability':process.env.RELAY_JOURNEY_CAPABILITY}});assert.equal(response.status,200);return (await response.json()).origin;}});
   await writeFile(`test-results/continuous-${width}-${process.pid}.json`,JSON.stringify({suite:'continuous-console',width,result:'passed',checkpoints,provider:'controlled_http_not_supplier',clock:'explicit_test_clock_no_database_edits',cleanup:'isolated_directory_servers_contexts'},null,2)+'\n');
   }
 } catch(error) {
