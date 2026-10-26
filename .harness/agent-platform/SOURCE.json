@@ -1,6 +1,81 @@
 {
-  "commit": "f5b43d26d8a33e826e0a1ff08d94fcac7e89b47a",
+  "commit": "c755059479bb5fc398aa84833c277b560f6e90af",
   "files": {
+    "examples/code-review/README.md": {
+      "sha256": "e278c437fd77d88e83285643eddb33cc87b2dcf48ca5ad87d0f8bb1163281b73",
+      "bytes": 4933,
+      "mode": "100644"
+    },
+    "examples/code-review/code-review.yml": {
+      "sha256": "1ad3c3658d61354865bfee73fa2ece6a6e156f33bc5923bc29b1dec2d4f8586b",
+      "bytes": 3981,
+      "mode": "100644"
+    },
+    "examples/code-review/delegate.md": {
+      "sha256": "b3db91116c718bf84d26c7efe9ff0c01b94e7cc67b0177b1a914f5529cd2eb92",
+      "bytes": 1817,
+      "mode": "100644"
+    },
+    "examples/code-review/install.py": {
+      "sha256": "7ca3fe8769aa45f2537ce5f074403d6b8ae02a03038af5d97391d2640dc8c02e",
+      "bytes": 4043,
+      "mode": "100644"
+    },
+    "examples/code-review/install_test.py": {
+      "sha256": "eb0ff3aafdd3a3e5819b9224c659a13706463ad52d99d1a1c3b9184fb1ba910f",
+      "bytes": 3152,
+      "mode": "100644"
+    },
+    "examples/code-review/pr_entry.py": {
+      "sha256": "b1c9078c07fc69900a6c0020fe4722f275b445979074b527054353741ede7bdd",
+      "bytes": 7171,
+      "mode": "100644"
+    },
+    "examples/code-review/pr_entry_test.py": {
+      "sha256": "bf14c356876fb4b17806b4cba2ef0cbd54aff70bda5de906fd5ebceeb065b9de",
+      "bytes": 2442,
+      "mode": "100644"
+    },
+    "examples/code-review/rules.json": {
+      "sha256": "fdee49246056982c82dd8ffff25ffc7920e5db87f932af1b99d5751366b0eaac",
+      "bytes": 862,
+      "mode": "100644"
+    },
+    "examples/code-review/runtime.py": {
+      "sha256": "7562ac055756c98eca163e646d9e68ccc88f4525601249740b0feb83484ca4be",
+      "bytes": 13325,
+      "mode": "100644"
+    },
+    "examples/code-review/runtime_test.py": {
+      "sha256": "6745abd4ee4480322386f206cc3533af73abceddf6bde5dc3aadf4e88844e369",
+      "bytes": 7112,
+      "mode": "100644"
+    },
+    "examples/code-review/skill/LICENSE": {
+      "sha256": "1945665fdb6968a66ea29438ddee0aee23035365c862e5c4a75b62b303340acf",
+      "bytes": 11356,
+      "mode": "100644"
+    },
+    "examples/code-review/skill/SKILL.md": {
+      "sha256": "1ad19cca0a584e3175e171616a314ee8de5d4fb90c31971a40eff9bb2fb1f2f8",
+      "bytes": 9072,
+      "mode": "100644"
+    },
+    "examples/code-review/skill/SOURCE.json": {
+      "sha256": "a1c3e59aa51b2be58f58e1e77f9b2e727b2406e3f20539de5bdee17beee55072",
+      "bytes": 307,
+      "mode": "100644"
+    },
+    "examples/code-review/workflows.py": {
+      "sha256": "0d7ff8c516dc3c7fbb7e8cb872b663ada7e1d2bcfc5be476a3a0327f73dffc72",
+      "bytes": 8173,
+      "mode": "100644"
+    },
+    "examples/code-review/workflows_test.py": {
+      "sha256": "3d4739173d46f9406e1b448fe5115e379decd393decde0a37672263f3e7e0a57",
+      "bytes": 2470,
+      "mode": "100644"
+    },
     "examples/github/BROWSER_CHECKS.md": {
       "sha256": "fb3d2a841a2869cba03895e91ed8e91817501e648051e65c8708f583ce2f8cbe",
       "bytes": 4023,
@@ -687,8 +762,8 @@
       "mode": "100644"
     },
     "examples/platform-workflows/sandbox_prepare.py": {
-      "sha256": "74d4c31cb0b0309e4e7a9210d07e3e4df8d42d4bf9a67c0f64fa4c5e9ffc153f",
-      "bytes": 3634,
+      "sha256": "0847578cbddeeccd853052468a435a37477f35a8c2e7a71da6231cdd3eaad813",
+      "bytes": 3891,
       "mode": "100644"
     },
     "examples/platform-workflows/sandbox_prepare_test.py": {
@@ -737,13 +812,13 @@
       "mode": "100644"
     },
     "sdk/python/README.md": {
-      "sha256": "229571c9bffaadac050fafad5f7df162a196b5be5d86a42d7c7049f6c3a85c25",
-      "bytes": 9840,
+      "sha256": "754f6e68de3d431128d108bcdb0e140a261259e7f69d70734097ef19553625d3",
+      "bytes": 10861,
       "mode": "100644"
     },
     "sdk/python/agent_platform_client/__init__.py": {
-      "sha256": "6c4ff73792d096e0d2ed07dc19f97f13a2e343f2b169582b9cb64a58d0348935",
-      "bytes": 16327,
+      "sha256": "cc738d67f043761d58bc53529cdf2c69f01d5971b860275686bc599d0a58817d",
+      "bytes": 17399,
       "mode": "100644"
     },
     "sdk/python/pyproject.toml": {
@@ -752,8 +827,8 @@
       "mode": "100644"
     },
     "sdk/python/tests/test_client.py": {
-      "sha256": "b0702ee69e533da24925818f416aa2358c7b816ba02c08cfd28812c998540204",
-      "bytes": 11234,
+      "sha256": "1b71d10b9ce8bea4626cdf372c86489170e9bd1da75e7160046ef2cee6dac4d5",
+      "bytes": 12500,
       "mode": "100644"
     }
   }
