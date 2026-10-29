@@ -8,8 +8,14 @@ on:
         description: Open pull request number
         required: true
         type: string
+      engine:
+        description: Review engine
+        type: choice
+        options: [both, cli, delegate]
+        default: both
 permissions:
   contents: read
+  pull-requests: read
   statuses: write
 concurrency:
   group: code-review-${{ github.repository }}-${{ github.event.pull_request.number || inputs.pr }}
@@ -20,9 +26,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        engine: [cli, delegate]
+        engine: ${{ fromJSON(inputs.engine == 'cli' && '["cli"]' || inputs.engine == 'delegate' && '["delegate"]' || '["cli","delegate"]') }}
     runs-on: [self-hosted, macOS, ARM64, he-full]
-    timeout-minutes: 50
+    timeout-minutes: 75
     steps:
       - name: Configure GitHub transport
         id: github_transport
@@ -62,6 +68,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.base.sha || github.sha }}
           persist-credentials: false
+          sparse-checkout: .harness/agent-platform
       - name: Run independent review through platform
         env:
           GH_TOKEN: ${{ github.token }}

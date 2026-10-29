@@ -10,6 +10,76 @@ from sandbox_publish import publish
 
 
 class PublicationBoundaryTest(unittest.TestCase):
+    def test_preflight_and_publish_use_restored_reviewed_file_after_staged_deletion(
+        self,
+    ):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            git, report = self.fixture(root)
+            git("rm", "reviewed.txt")
+            (root / "reviewed.txt").write_text("reviewed restoration")
+            index = (root / ".git/index").read_bytes()
+            original = subprocess.run
+
+            def stop_before_network(args, **kwargs):
+                if "push" in args:
+                    raise RuntimeError("fixture network boundary")
+                return original(args, **kwargs)
+
+            with patch("sandbox_publish.Path.cwd", return_value=root):
+                publish("owner/project", report, check_only=True)
+                self.assertEqual(index, (root / ".git/index").read_bytes())
+                with patch(
+                    "sandbox_publish.subprocess.run", side_effect=stop_before_network
+                ):
+                    with self.assertRaisesRegex(
+                        RuntimeError, "fixture network boundary"
+                    ):
+                        publish("owner/project", report)
+            self.assertEqual("reviewed restoration", git("show", "HEAD:reviewed.txt"))
+
+    def test_preflight_rejects_staged_only_paths_and_generated_private_report(self):
+        for kind in ("staged-only", "report-secret"):
+            with self.subTest(kind=kind), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                git, report = self.fixture(root)
+                if kind == "staged-only":
+                    (root / ".env").write_text("staged fixture")
+                    git("add", ".env")
+                    (root / ".env").unlink()
+                    error = "unreviewed staged file"
+                else:
+                    (root / ".git/info/exclude").write_text("report.json\n")
+                    value = json.loads(report.read_text())
+                    value["body"] = "github_pat_" + "a" * 36
+                    report.write_text(json.dumps(value))
+                    error = "private credential"
+                index = (root / ".git/index").read_bytes()
+                with patch("sandbox_publish.Path.cwd", return_value=root):
+                    with self.assertRaisesRegex(ValueError, error):
+                        publish("owner/project", report, check_only=True)
+                self.assertEqual(index, (root / ".git/index").read_bytes())
+                self.assertFalse((root / "docs/harness").exists())
+
+    def test_preflight_checks_real_selection_without_git_or_network_writes(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            git, report = self.fixture(root)
+            (root / "reviewed.txt").write_text("reviewed change")
+            before = {
+                name: (root / name).read_bytes() for name in (".git/index", ".git/HEAD")
+            }
+            head = git("rev-parse", "HEAD")
+            with patch("sandbox_publish.Path.cwd", return_value=root):
+                publish("owner/project", report, check_only=True)
+                (root / "unreviewed.txt").write_text("not in selected files")
+                with self.assertRaisesRegex(ValueError, "unreviewed tracked changes"):
+                    publish("owner/project", report, check_only=True)
+            self.assertEqual(head, git("rev-parse", "HEAD"))
+            for name, raw in before.items():
+                self.assertEqual(raw, (root / name).read_bytes())
+            self.assertFalse((root / "docs/harness").exists())
+
     def fixture(self, root, project_files=()):
         def git(*args):
             return subprocess.check_output(

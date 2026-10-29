@@ -5,6 +5,7 @@ import hashlib
 import json
 import os
 import platform
+import re
 import subprocess
 import time
 import urllib.request
@@ -79,19 +80,19 @@ def install_ocr(directory=STATE):
 
 
 def assess(value, exit_code, expected):
+    comments = value.get("comments")
+    valid_comments = comments is None or (
+        isinstance(comments, list) and all(isinstance(c, dict) for c in comments)
+    )
     result = {
         "status": "incomplete",
-        "comments": value.get("comments", []),
+        "comments": comments if valid_comments and comments is not None else [],
         "summary": value.get("summary", {}),
         "llm": value.get("llm", {}),
     }
     if exit_code:
         return dict(result, status="error")
-    if (
-        value.get("warnings")
-        or not isinstance(result["comments"], list)
-        or not expected
-    ):
+    if value.get("warnings") or not valid_comments or not expected:
         return result
     manifest = value.get("manifest", {})
     if (
@@ -115,7 +116,7 @@ def assess(value, exit_code, expected):
             or not comment.get("content")
             or comment.get("severity") not in ("critical", "high", "medium", "low")
         ):
-            return result
+            return dict(result, comments=[])
     return dict(result, status="findings" if result["comments"] else "clean")
 
 
@@ -152,7 +153,7 @@ def run_tool(arguments, destination, *, llm=False, timeout=120):
             if not os.environ.get(key):
                 raise ValueError("CLI model connection is not configured")
             env[key] = os.environ[key]
-        env["OCR_LLM_TIMEOUT"] = "180"
+        env["OCR_LLM_TIMEOUT"] = "600"
     started = time.monotonic()
     try:
         result = subprocess.run(
@@ -265,12 +266,16 @@ def trusted_source(*, required=False):
         ]
         if prepare:
             receipt = prepare[-1].get("execution_receipt", {})
-            captured = [
-                line.removeprefix("CODE_REVIEW_SOURCE_SHA256=")
-                for line in receipt.get("stdout", "").splitlines()
-                if line.startswith("CODE_REVIEW_SOURCE_SHA256=")
-            ]
-            if len(captured) == 1 and receipt.get("exit_code") == 0:
+            # OpenSandbox may omit stream chunk separators in the captured log.
+            captured = re.findall(
+                r"CODE_REVIEW_SOURCE_SHA256=([0-9a-f]{64})(?![0-9a-f])",
+                receipt.get("output", ""),
+            )
+            if (
+                len(captured) == 1
+                and receipt.get("exit_code") == 0
+                and not receipt.get("log", {}).get("truncated", False)
+            ):
                 raw = (OUTPUT / "source.json").read_bytes()
                 if hashlib.sha256(raw).hexdigest() != captured[0]:
                     raise ValueError(
@@ -350,13 +355,13 @@ def cli_review(binary=None):
             "--concurrency",
             "2",
             "--timeout",
-            "10",
+            "30",
             "--max-tokens-budget",
-            "500000",
+            "3000000",
         ],
         OUTPUT / "raw.json",
         llm=True,
-        timeout=1200,
+        timeout=2700,
     )
     try:
         value = json.loads((OUTPUT / "raw.json").read_text())

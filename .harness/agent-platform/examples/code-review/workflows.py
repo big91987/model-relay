@@ -8,7 +8,13 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent / "platform-workflows"))
 
-from sandbox_delivery import definition as delivery_definition  # noqa: E402
+from sandbox_delivery import (  # noqa: E402
+    definition as delivery_definition,
+)
+from sandbox_delivery import (  # noqa: E402
+    preparation_code,
+    python_command,
+)
 
 ARTIFACTS = [
     "preview.json",
@@ -48,11 +54,10 @@ def execution(name, code, *, refs=None, artifacts=False):
         "id": name,
         "name": name,
         "kind": "execution",
-        "execution_timeout_seconds": 1500,
+        "execution_timeout_seconds": 3000,
         "execution": {
-            "mode": "code",
-            "language": "python",
-            "code": code,
+            "mode": "command",
+            "command": python_command(code),
             "output": {"source": "exit_code"},
             "env_refs": refs or {},
             "artifacts": ["harness-output/code-review/" + p for p in ARTIFACTS]
@@ -82,15 +87,14 @@ def definition(repository, credential_ref, engine, skill="", model_refs=None, pr
     original = delivery_definition(repository, credential_ref, proxy)
     prepare = original["nodes"][0]
     prepare["execution_timeout_seconds"] = 600
-    prepare["execution"]["code"] += program(
+    code = preparation_code(repository) + program(
         "context=json.loads(Path(os.environ['WORKFLOW_INPUT_FILE']).read_text())\n"
         "(STATE).mkdir(parents=True,exist_ok=True)\n"
         f"(STATE/'rules.json').write_text({(HERE / 'rules.json').read_text()!r})\n"
         "preview(context['parameters']['review_base_commit'],context['parameters']['repository_commit'])"
     )
-    prepare["execution"]["code"] += (
-        "\nprint('CODE_REVIEW_SOURCE_SHA256='+hashlib.sha256((OUTPUT/'source.json').read_bytes()).hexdigest())\n"
-    )
+    code += "\nprint('CODE_REVIEW_SOURCE_SHA256='+hashlib.sha256((OUTPUT/'source.json').read_bytes()).hexdigest())\n"
+    prepare["execution"]["command"] = python_command(code)
     prepare["rule_handoff"] = {
         **rule("review"),
         "rules": [
@@ -101,7 +105,14 @@ def definition(repository, credential_ref, engine, skill="", model_refs=None, pr
         review = execution(
             "review",
             program("raise SystemExit(cli_review())"),
-            refs=model_refs,
+            refs={
+                **{
+                    key: value
+                    for key, value in prepare["execution"]["env_refs"].items()
+                    if key != "GITHUB_TOKEN"
+                },
+                **model_refs,
+            },
             artifacts=True,
         )
     else:
@@ -112,16 +123,18 @@ def definition(repository, credential_ref, engine, skill="", model_refs=None, pr
             "execution_timeout_seconds": 1800,
             "agent": {
                 "executor": "codex",
+                "turn_timeout_seconds": 1800,
                 "model": "gpt-6.1-sol",
                 "instructions": (HERE / "delegate.md").read_text(),
                 "skills": [skill],
                 "sandbox": "workspace-write",
-                "network_access": False,
+                "network_access": True,
                 "allow_elevation": False,
                 "approvals_reviewer": "auto_review",
                 "inherit_env": False,
                 "env": {
-                    "PATH": "/workspace/.git/agent-platform-review:/opt/agent-runtime/node_modules/.bin:/usr/local/go/bin:/usr/local/bin:/usr/bin:/bin"
+                    **original["nodes"][1]["agent"]["env"],
+                    "PATH": "/workspace/.git/agent-platform-review:/opt/agent-runtime/node_modules/.bin:/usr/local/go/bin:/usr/local/bin:/usr/bin:/bin",
                 },
             },
         }
@@ -190,7 +203,19 @@ def add_cli_review(graph, model_refs):
         "preview(base,head)\n"
         "raise SystemExit(cli_review())"
     )
-    node = execution("code_review", code, refs=model_refs, artifacts=True)
+    node = execution(
+        "code_review",
+        code,
+        refs={
+            **{
+                key: value
+                for key, value in nodes["prepare"]["execution"]["env_refs"].items()
+                if key != "GITHUB_TOKEN"
+            },
+            **model_refs,
+        },
+        artifacts=True,
+    )
     node.update(name="独立代码审查", x=nodes["qa"].get("x", 1000) - 120, y=340)
     node["rule_handoff"] = {
         **rule("qa"),

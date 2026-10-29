@@ -1,3 +1,4 @@
+import shlex
 import unittest
 from pathlib import Path
 
@@ -23,7 +24,9 @@ class ReviewWorkflowTest(unittest.TestCase):
         )
         for node in nodes.values():
             if node["kind"] == "execution":
-                compile(node["execution"]["code"], node["id"], "exec")
+                compile(
+                    shlex.split(node["execution"]["command"])[-1], node["id"], "exec"
+                )
 
     def test_delegate_uses_official_skill_and_no_credential_refs(self):
         graph = definition(
@@ -59,4 +62,121 @@ class ReviewWorkflowTest(unittest.TestCase):
             ],
             [("$ == 0", "qa"), ("$ == 10", "development")],
         )
-        compile(nodes["code_review"]["execution"]["code"], "embedded-review", "exec")
+        compile(
+            shlex.split(nodes["code_review"]["execution"]["command"])[-1],
+            "embedded-review",
+            "exec",
+        )
+
+    def test_cli_inherits_only_explicit_proxy_refs_from_preparation(self):
+        from sandbox_delivery import definition as delivery
+        from workflows import add_cli_review
+
+        refs = {
+            key: "REVIEW_" + key
+            for key in (
+                "OCR_LLM_URL",
+                "OCR_LLM_MODEL",
+                "OCR_LLM_PROTOCOL",
+                "OCR_LLM_TOKEN",
+            )
+        }
+        for graph in (
+            definition(
+                "owner/project",
+                "GIT_TOKEN",
+                "cli",
+                model_refs=refs,
+                proxy="http://proxy:7890",
+            ),
+            add_cli_review(
+                delivery("owner/project", "GIT_TOKEN", proxy="http://proxy:7890"), refs
+            ),
+        ):
+            node = next(
+                n for n in graph["nodes"] if n["id"] in ("review", "code_review")
+            )
+            actual = node["execution"]["env_refs"]
+            self.assertEqual(actual["https_proxy"], "PIPELINE_HTTPS_PROXY")
+            self.assertEqual(actual["OCR_LLM_TOKEN"], refs["OCR_LLM_TOKEN"])
+            self.assertNotIn("GITHUB_TOKEN", actual)
+
+    def test_pr_module_cannot_run_during_trusted_review_imports(self):
+        import subprocess
+        import tempfile
+
+        from sandbox_delivery import python_command
+        from workflows import program
+
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            (root / "hashlib.py").write_text(
+                "open('pr-executed', 'w').write('executed')\nraise RuntimeError('PR code ran')\n"
+            )
+            (root / "sitecustomize.py").write_text(
+                "open('startup-executed', 'w').write('executed')\n"
+            )
+            for code in (
+                program("print(hashlib.sha256(b'fixture').hexdigest())"),
+                "import hashlib; print(hashlib.sha256(b'fixture').hexdigest())",
+            ):
+                result = subprocess.run(
+                    python_command(code),
+                    shell=True,
+                    cwd=root,
+                    capture_output=True,
+                    text=True,
+                )
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertFalse((root / "pr-executed").exists())
+                self.assertFalse((root / "startup-executed").exists())
+            graph = definition(
+                "owner/project",
+                "TOKEN",
+                "cli",
+                model_refs={
+                    key: "REVIEW_" + key
+                    for key in (
+                        "OCR_LLM_URL",
+                        "OCR_LLM_TOKEN",
+                        "OCR_LLM_MODEL",
+                        "OCR_LLM_PROTOCOL",
+                    )
+                },
+            )
+            for node in graph["nodes"]:
+                if node["kind"] != "execution":
+                    continue
+                subprocess.run(
+                    node["execution"]["command"],
+                    shell=True,
+                    cwd=root,
+                    capture_output=True,
+                )
+                self.assertFalse((root / "pr-executed").exists())
+                self.assertFalse((root / "startup-executed").exists())
+            text = "$(touch shell-executed) `touch shell-executed` ' \""
+            result = subprocess.run(
+                python_command("print(" + repr(text) + ")"),
+                shell=True,
+                cwd=root,
+                capture_output=True,
+                text=True,
+            )
+            self.assertEqual(result.stdout.strip(), text)
+            self.assertFalse((root / "shell-executed").exists())
+
+    def test_delegate_keeps_explicit_proxy_without_git_or_model_secrets(self):
+        graph = definition(
+            "owner/project",
+            "TOKEN",
+            "delegate",
+            skill="/official/skill",
+            proxy="http://proxy:7890",
+        )
+        agent = next(node for node in graph["nodes"] if node["id"] == "review")["agent"]
+        self.assertEqual(agent["env"]["https_proxy"], "http://proxy:7890")
+        self.assertEqual(agent["env"]["HTTPS_PROXY"], "http://proxy:7890")
+        self.assertNotIn("GITHUB_TOKEN", agent["env"])
+        self.assertNotIn("OCR_LLM_TOKEN", agent["env"])
+        self.assertFalse(agent["inherit_env"])
