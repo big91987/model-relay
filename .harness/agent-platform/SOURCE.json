@@ -1,13 +1,13 @@
 {
-  "commit": "639bbe8ab0918788d8ffd99b7589b467d0f323d7",
+  "commit": "2e9d4534ee5feeaed0ce7178a0f251b2d6c86b6c",
   "files": {
     "examples/code-review/README.md": {
-      "sha256": "3da66c244ab2c9d57509560716991abd61163fd0d470b8cc047880de537eb914",
-      "bytes": 5605,
+      "sha256": "b7ad7798a0f116772d8b9f3c6d95d62419b8db2670f895072c30b6e9fe358ceb",
+      "bytes": 5606,
       "mode": "100644"
     },
     "examples/code-review/code-review.yml": {
-      "sha256": "6c0825ac3e095259a2807087d0fd3ab80dd75736c1571c51890b9de7652fc091",
+      "sha256": "f27b7cfa14cb3672acb535fad4777a8abfd50f3ca02a7f72940c1e05934f6917",
       "bytes": 4295,
       "mode": "100644"
     },
@@ -27,7 +27,7 @@
       "mode": "100644"
     },
     "examples/code-review/pr_entry.py": {
-      "sha256": "692f1397d27b483fd9596ef2f934f5cdcab7b36bc7c4b9ac846c16cdab022e12",
+      "sha256": "07ef4586c96bae328f884adbd982859d168ac24c3bdc5d22d8efd551a5a247ae",
       "bytes": 8082,
       "mode": "100644"
     },
@@ -42,8 +42,8 @@
       "mode": "100644"
     },
     "examples/code-review/runtime.py": {
-      "sha256": "51d2f235ad1991d8e0d7963be91d669cfee9833f669019a0270a9fdc48453076",
-      "bytes": 13631,
+      "sha256": "5604eec63a0fc3a663785bc59ec6644c81bbbabf97be3e963de16fb037cf5898",
+      "bytes": 13632,
       "mode": "100644"
     },
     "examples/code-review/runtime_test.py": {
@@ -67,8 +67,8 @@
       "mode": "100644"
     },
     "examples/code-review/workflows.py": {
-      "sha256": "1076f15fa3b64f22eee60be5497c0bae86a36a1a22275152acbc6a7f0cdaa04c",
-      "bytes": 8822,
+      "sha256": "cd03cbe17ea7f809b81a99281ffffe2e1820a4fa88147be5fd4f28785099b60e",
+      "bytes": 8868,
       "mode": "100644"
     },
     "examples/code-review/workflows_test.py": {
@@ -522,8 +522,8 @@
       "mode": "100755"
     },
     "examples/platform-workflows/README.md": {
-      "sha256": "41b01b015fe4f3f87a83bf45b3750811749b245e1d8e3976c33bacbcc2a892cf",
-      "bytes": 75831,
+      "sha256": "8ab41324a67bb9f843a23ee4de4a0e538238b8937d3dc279ffd945ccd7a87105",
+      "bytes": 76873,
       "mode": "100644"
     },
     "examples/platform-workflows/browser_tool.py": {
@@ -572,8 +572,8 @@
       "mode": "100644"
     },
     "examples/platform-workflows/install.py": {
-      "sha256": "d68b3f63f2227ad44d5230e56e18cb8523a7d6a49709caec353dd204d8f464a9",
-      "bytes": 30247,
+      "sha256": "615d4e2dd40090849001f1bc123df6cc89eab905ff96d3db9551cfc232604a72",
+      "bytes": 30856,
       "mode": "100644"
     },
     "examples/platform-workflows/install_github_entry.py": {
@@ -597,8 +597,8 @@
       "mode": "100644"
     },
     "examples/platform-workflows/node_agent_install_test.py": {
-      "sha256": "5d0eb91a0e1ac60b89d6dc269b21c7676925513b2e211845bb81f2f16b40af54",
-      "bytes": 20024,
+      "sha256": "67f13e2841061df79b7b6b5150f0ee12ef0c64c41fea31371b3a6d1f259ad1c8",
+      "bytes": 20700,
       "mode": "100644"
     },
     "examples/platform-workflows/opensandbox-runtime-check.json": {
@@ -702,8 +702,8 @@
       "mode": "100644"
     },
     "examples/platform-workflows/prompts/sandbox-report.md": {
-      "sha256": "8d15cbfda2345c4bec8b2b233dc8e22a1f9b54f646f70ce2294088911247d4f6",
-      "bytes": 1414,
+      "sha256": "100b6bed553413e060275e943b0579d62a49fbf91ce0f0c6ce9b93caa44cd7af",
+      "bytes": 1813,
       "mode": "100644"
     },
     "examples/platform-workflows/qa-rework.json": {
@@ -742,8 +742,8 @@
       "mode": "100644"
     },
     "examples/platform-workflows/sandbox_delivery.py": {
-      "sha256": "1e14fe6d97270efbe3fde53ed95281114137f4bce6b9aefabb75a18f3e1ce3fb",
-      "bytes": 8464,
+      "sha256": "dfc1da0b69d33f6a9e013e274eaaa6107c73036843316e6628daec149ba37b19",
+      "bytes": 8592,
       "mode": "100644"
     },
     "examples/platform-workflows/sandbox_delivery_test.py": {
@@ -772,13 +772,13 @@
       "mode": "100644"
     },
     "examples/platform-workflows/sandbox_publish.py": {
-      "sha256": "eca4dda3c7cad96f78bc48339967f1f4c2e32e6118173b341e46c76158e1de37",
-      "bytes": 12583,
+      "sha256": "1f79aabed1a9b233039721097d6ed17578e68b6a2ef368c73c47555249a7cdca",
+      "bytes": 13125,
       "mode": "100644"
     },
     "examples/platform-workflows/sandbox_publish_test.py": {
-      "sha256": "6be6ef2d9e8eda840c9c456b4858480bff0c84af3d0256cd540dce2a4783dd35",
-      "bytes": 14524,
+      "sha256": "3ad736dbe2ea72dfa13659363126388cd5dc23671108e1da2a47b30a59cc4deb",
+      "bytes": 16889,
       "mode": "100644"
     },
     "examples/platform-workflows/software-delivery.json": {
