@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>软件工厂实验离线看板</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1020;--panel:#141c30;--line:#293653;--text:#edf2ff;--muted:#aab7d3;--ok:#45d49b;--bad:#ff6b7a;--warn:#f6c85f;--blue:#67a5ff}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}main{max-width:1180px;margin:auto;padding:28px 20px 60px}h1{font-size:clamp(28px,5vw,52px);line-height:1.05;margin:.2em 0}.lead{color:var(--muted);max-width:850px}.notice{border-left:5px solid var(--bad);background:#291923;padding:16px 18px;margin:24px 0;border-radius:8px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}.card,details,.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}.metric{font-size:30px;font-weight:750}.label,.small{color:var(--muted);font-size:13px}.bad{color:var(--bad)}.ok{color:var(--ok)}.warn{color:var(--warn)}h2{margin-top:38px}table{width:100%;border-collapse:collapse}th,td{text-align:left;border-bottom:1px solid var(--line);padding:9px 7px;vertical-align:top}th{color:var(--muted)}.timeline{overflow-x:auto}.axis{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;margin-left:255px}.row{display:grid;grid-template-columns:245px minmax(560px,1fr);gap:10px;align-items:center;margin:7px 0}.name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.track{position:relative;height:22px;background:#0d1426;border-radius:5px;overflow:hidden}.bar{position:absolute;height:100%;min-width:2px;border-radius:5px;background:linear-gradient(90deg,#3b76dc,var(--blue))}.bar.fail{background:repeating-linear-gradient(135deg,#b34a5a,#b34a5a 8px,#792e3b 8px,#792e3b 16px)}.bar span{position:absolute;right:5px;color:white;font-size:11px;line-height:22px}.legend{display:flex;gap:18px;flex-wrap:wrap;color:var(--muted)}.dot{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;background:var(--blue)}.dot.fail{background:var(--bad)}details{margin:10px 0}summary{cursor:pointer;font-weight:700}a{color:#8bb8ff}.tag{font-size:12px;border:1px solid var(--line);border-radius:99px;padding:2px 8px;margin-right:5px}.facts{border-color:#4268a1}.risks{border-color:#8b6641}.advice{border-color:#3f806c}@media(max-width:700px){.row{grid-template-columns:170px minmax(560px,1fr)}.axis{margin-left:180px}.timeline{font-size:12px}}
+</style>
+</head>
+<body><main>
+<p class="small">软件工厂实验 · 2026-11-01 · 离线附件</p>
+<h1>并发可运行，产品仍然 NO-GO</h1>
+<p class="lead">这是一份后置实验评估，不是产品功能、发布门禁或公开部署页面。页面完全自包含；禁用网络仍可阅读。完整论证和相对证据链接见 <a href="README.md">README 报告</a>，机器摘要见 <a href="summary.json">summary.json</a>。</p>
+<div class="notice"><strong>最终产品裁决：<span class="bad">NO-GO</span></strong><br>原 QA 执行仍是 <code>BLOCKED—RETURN TO PLAN REVIEW</code>。A02/A03 Bearer 合法形式与 B05 Restore 原子性失败；B03/B04 未完成，X01–X03 未执行，C05 证据不足。生成本看板不等于产品通过。</div>
+
+<section class="grid">
+ <div class="card"><div class="metric bad">NO-GO</div><div class="label">独立 QA 最终裁决</div></div>
+ <div class="card"><div class="metric">17 / 20</div><div class="label">首轮有效 handoff</div></div>
+ <div class="card"><div class="metric">191.086s</div><div class="label">首轮并发墙钟跨度</div></div>
+ <div class="card"><div class="metric">20 / 21</div><div class="label">Worker / 全部 Native 峰值</div></div>
+ <div class="card"><div class="metric">8 + 20</div><div class="label">工程 + 最终产品静态审查</div></div>
+ <div class="card"><div class="metric">44</div><div class="label">固定工厂源码隔离回归</div></div>
+</section>
+
+<h2>事实分层</h2>
+<section class="grid">
+ <div class="card facts"><span class="tag">已核对事实</span><p>HEAD <code>abe2841…</code> 包含独立 QA integration <code>d2e70fd…</code>；归档哈希一致。首轮三项 Native exit 0 却无 handoff；最终通过恢复达到 20/20 静态报告合入。</p></div>
+ <div class="card risks"><span class="tag">静态风险/缺陷假设</span><p>8 项工程审查和 20 项产品审查中的其他发现，没有动态证据时不称漏洞。静态报告数不能替代 QA。</p></div>
+ <div class="card advice"><span class="tag">建议</span><p>先修两个 P0 产品缺陷，补 B03/B04/C05，独立 readiness 后以新冻结版本从头执行，再独立 Go/No-Go。</p></div>
+</section>
+
+<h2>首轮 20 项真实时间条</h2>
+<p class="small">共同原点为最早 start。蓝色为首轮有 handoff；红色斜纹为 Native exit 0 但没有 handoff。跨度 191.08635807037354s；持续时间中位数 115.54100668430328s。</p>
+<div class="legend"><span><i class="dot"></i>有效 handoff（17）</span><span><i class="dot fail"></i>无 handoff（3）</span></div>
+<div class="panel timeline"><div class="axis"><span>0s</span><span>50s</span><span>100s</span><span>150s</span><span>191.086s</span></div><div id="timeline"></div></div>
+
+<h2>从原型到 Git 汇合</h2>
+<div class="panel"><table><thead><tr><th>部分</th><th>真实关系</th><th>边界</th></tr></thead><tbody>
+<tr><td>Leader</td><td>显式 plan 时运行一次并写任务库</td><td>不是常驻自驱；协调者仍手动启批、审查和选汇合</td></tr>
+<tr><td>SQLite / 控制器</td><td>持久化任务、依赖、消息、执行、submission/result 和事件；原子领取</td><td>消息不等于授权，exit 0 不等于任务完成</td></tr>
+<tr><td>Native Worker</td><td>独立 SID、分支、worktree 和沙箱；经 MCP get_task/send_message/handoff</td><td>不能提交、推送、合并或部署</td></tr>
+<tr><td>Git 汇合</td><td>控制器检查范围并保存候选；人工选择 ready 后 squash 到实验分支</td><td>candidate commit 与公开 integration commit 分开</td></tr>
+</tbody></table></div>
+
+<h2>质量证据与反例</h2>
+<div class="grid">
+ <div class="card"><strong class="ok">工厂设施</strong><p>固定维护版本 <code>f264161…</code> 在本机与执行机通过 44 项源码隔离回归；另有 20/20 纯工具发现回归。都不是产品 QA。</p></div>
+ <div class="card"><strong class="warn">候选门禁</strong><p>三个实现候选各自原样 <code>make verify</code> 约 20.5 分钟；第六轮批次 1264.136s。绿色门禁仍固化过错误 Bearer 合同。</p></div>
+ <div class="card"><strong class="bad">动态反例</strong><p>独立 QA 确认合法 Bearer 形式被拒；Restore 最终 rename 失败后 existing-empty 目标 10/10 被删除。</p></div>
+</div>
+
+<h2>优先建议</h2>
+<details open><summary>测试仓工程设施</summary><p><b>P0</b> 修 Bearer 与 Restore 并补齐 B03/B04/C05；<b>P1</b> 执行前机械校验矩阵—测试—receipt 覆盖；<b>P2</b> 优化约 20.5 分钟的隔离门禁准备，但不跳过质量阶段。</p></details>
+<details><summary>通用工具 / Agent Platform</summary><p><b>P0</b> 固化延迟工具发现、启动就绪、首调前补充输入及 handoff 缺失协议，推进仍开放的 Issue 7；<b>P1</b> 导出脱敏逐项事件与版本映射；<b>P2</b> 设计不确定集成恢复及跨机队列。平台不替仓库决定业务合同。</p></details>
+<details><summary>软件工厂流程</summary><p><b>P0</b> 合同与 QA 矩阵前置冻结；<b>P1</b> candidate/integration/哈希/裁决成为必填交接；<b>P2</b> 下一轮只走“修复 → 独立 readiness → 新 F 全量执行 → 独立裁决”的最小闭环。</p></details>
+
+<h2>发布与效率边界</h2>
+<div class="panel"><p>首批实验 HEAD <code>aade8d2f72d42ca66349d6127cfd78a3a012b1cf</code> 已经正式 bundle 发布并远端读回；后续材料仍待控制器汇合发布。没有 main/master 合并、部署或真实供应商联调。</p><p>并发缩短的是静态审查墙钟时间，不是 20 倍端到端效率。截至采集点总 elapsed 约 4.78 小时，包含准备、工具修复、重试、QA 多轮、等待与人工协调。单机 worktree/Native 沙箱也不是多机队列或多租户容器隔离。</p></div>
+
+<details><summary>证据与版本</summary><p>最终 QA：<a href="qa/01-contract-plan-v4.md">计划 v4</a> · <a href="qa/02-readiness-v4.md">readiness v4</a> · <a href="qa/03-execution.md">执行报告</a> · <a href="qa/evidence/03-execution/receipt-index.md">脱敏索引</a> · <a href="qa/04-go-no-go.md">独立 NO-GO</a>。实现：<a href="strict-bearer-auth.md">Bearer</a> · <a href="strict-backup-manifest.md">Backup</a> · <a href="single-clock-advance.md">Clock</a>。设施：<a href="qa/restore-testability.md">Restore seam</a> · <a href="qa/clock-fault-fixture.md">Clock fixture</a>。</p></details>
+
+<p class="small">页面验证仅覆盖此报告制品：离线结构、数据一致性、链接和敏感模式；不是 Model Relay 浏览器 QA。</p>
+</main>
+<script>
+const data=[
+['auth-session',1793509458.2766232,1793509569.1592066,110.88258337974548,1],['members-roles',1793509458.2377396,1793509562.7996576,104.56191802024841,1],['invitation-consumption',1793509458.282815,1793509628.4270551,170.14424014091492,1],['console-isolation',1793509458.259671,1793509583.528349,125.2686779499054,1],['app-key-lifecycle',1793509458.2904894,1793509554.0307715,95.74028205871582,1],['model-authorization',1793509458.3460004,1793509552.8145325,94.4685320854187,0],['upstream-secrets',1793509458.383274,1793509569.9550862,111.57181215286255,1],['request-boundaries',1793509458.4500237,1793509575.2976491,116.8476254940033,1],['weighted-routing',1793509458.5478916,1793509597.1607318,138.61284017562866,1],['latency-routing',1793509458.4656763,1793509589.1581008,130.69242453575134,1],['health-cooldown',1793509458.5077832,1793509576.2134576,117.70567440986633,1],['retry-replay',1793509458.5708182,1793509589.1976242,130.6268060207367,1],['rate-limits',1793509458.663356,1793509568.9257526,110.26239657402039,1],['quota-billing',1793509458.5948644,1793509649.3240976,190.7292332649231,1],['concurrency-admission',1793509458.708534,1793509579.6210825,120.9125485420227,1],['sse-lifecycle',1793509458.6807268,1793509568.168731,109.48800420761108,1],['history-diagnostics',1793509458.6880908,1793509612.7383614,154.05027055740356,1],['network-boundaries',1793509458.783883,1793509573.018271,114.23438787460327,0],['sqlite-integrity',1793509458.775413,1793509567.1073895,108.3319764137268,1],['frontend-state',1793509458.7806137,1793509568.255091,109.47447729110718,0]];
+const origin=Math.min(...data.map(x=>x[1])),end=Math.max(...data.map(x=>x[2])),span=end-origin,root=document.querySelector('#timeline');
+for(const [name,start,finish,duration,ok] of data){const row=document.createElement('div');row.className='row';const label=document.createElement('div');label.className='name';label.textContent=name;const track=document.createElement('div');track.className='track';const bar=document.createElement('div');bar.className='bar'+(ok?'':' fail');bar.style.left=((start-origin)/span*100)+'%';bar.style.width=(duration/span*100)+'%';bar.title=`start +${(start-origin).toFixed(3)}s · end +${(finish-origin).toFixed(3)}s · ${duration.toFixed(3)}s · handoff ${ok?'yes':'no'}`;const text=document.createElement('span');text.textContent=duration.toFixed(1)+'s';bar.append(text);track.append(bar);row.append(label,track);root.append(row)}
+</script></body></html>

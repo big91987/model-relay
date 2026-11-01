@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "report_date": "2026-11-01",
+  "product_qa": {
+    "decision": "NO-GO",
+    "source": "qa/04-go-no-go.md",
+    "integration_commit": "d2e70fd79dfe35126ef47e65b5fbe54cac546f14",
+    "execution_status": "BLOCKED—RETURN TO PLAN REVIEW"
+  },
+  "versions": {
+    "report_base_head": "abe28416703013c204037545ee68a2837381b933",
+    "qa_execution_candidate": "ca6ba0129b58cd07673c9a122512a094e9a57ec3",
+    "qa_archive_integration": "abe28416703013c204037545ee68a2837381b933",
+    "first_published_experiment_head": "aade8d2f72d42ca66349d6127cfd78a3a012b1cf",
+    "factory_revision": "f264161e7961e4fc4a2e0d65c9bf7f9959e85c32",
+    "factory_branch": "codex/agent-team-factory-experiment",
+    "product_experiment_branch": "agent-team/experiment"
+  },
+  "metrics": {
+    "engineering_audits": 8,
+    "product_static_audits_planned": 20,
+    "product_static_first_handoffs": 17,
+    "product_static_final_integrated": 20,
+    "first_round_span_seconds": 191.08635807037354,
+    "first_round_median_seconds": 115.54100668430328,
+    "worker_peak": 20,
+    "all_native_peak": 21,
+    "factory_source_isolation_tests": 44,
+    "factory_tool_discovery_regression_handoffs": 20,
+    "factory_tool_discovery_regression_total": 20,
+    "captured_elapsed_seconds": 17196.41137933731,
+    "candidate_verify_batch_seconds": 1264.136
+  },
+  "first_round_timing": [
+    {"id":"product-audit-auth-session","start":1793509458.2766232,"end":1793509569.1592066,"duration_seconds":110.88258337974548,"native_exit":0,"first_handoff":true},
+    {"id":"product-audit-members-roles","start":1793509458.2377396,"end":1793509562.7996576,"duration_seconds":104.56191802024841,"native_exit":0,"first_handoff":true},
+    {"id":"product-audit-invitation-consumption","start":1793509458.282815,"end":1793509628.4270551,"duration_seconds":170.14424014091492,"native_exit":0,"first_handoff":true},
+    {"id":"product-audit-console-isolation","start":1793509458.259671,"end":1793509583.528349,"duration_seconds":125.2686779499054,"native_exit":0,"first_handoff":true},
+    {"id":"product-audit-app-key-lifecycle","start":1793509458.2904894,"end":1793509554.0307715,"duration_seconds":95.74028205871582,"native_exit":0,"first_handoff":true},
+    {"id":"product-audit-model-authorization","start":1793509458.3460004,"end":1793509552.8145325,"duration_seconds":94.4685320854187,"native_exit":0,"first_handoff":false},
+    {"id":"product-audit-upstream-secrets","start":1793509458.383274,"end":1793509569.9550862,"duration_seconds":111.57181215286255,"native_exit":0,"first_handoff":true},
+    {"id":"product-audit-request-boundaries","start":1793509458.4500237,"end":1793509575.2976491,"duration_seconds":116.8476254940033,"native_exit":0,"first_handoff":true},
+    {"id":"product-audit-weighted-routing","start":1793509458.5478916,"end":1793509597.1607318,"duration_seconds":138.61284017562866,"native_exit":0,"first_handoff":true},
+    {"id":"product-audit-latency-routing","start":1793509458.4656763,"end":1793509589.1581008,"duration_seconds":130.69242453575134,"native_exit":0,"first_handoff":true},
+    {"id":"product-audit-health-cooldown","start":1793509458.5077832,"end":1793509576.2134576,"duration_seconds":117.70567440986633,"native_exit":0,"first_handoff":true},
+    {"id":"product-audit-retry-replay","start":1793509458.5708182,"end":1793509589.1976242,"duration_seconds":130.6268060207367,"native_exit":0,"first_handoff":true},
+    {"id":"product-audit-rate-limits","start":1793509458.663356,"end":1793509568.9257526,"duration_seconds":110.26239657402039,"native_exit":0,"first_handoff":true},
+    {"id":"product-audit-quota-billing","start":1793509458.5948644,"end":1793509649.3240976,"duration_seconds":190.7292332649231,"native_exit":0,"first_handoff":true},
+    {"id":"product-audit-concurrency-admission","start":1793509458.708534,"end":1793509579.6210825,"duration_seconds":120.9125485420227,"native_exit":0,"first_handoff":true},
+    {"id":"product-audit-sse-lifecycle","start":1793509458.6807268,"end":1793509568.168731,"duration_seconds":109.48800420761108,"native_exit":0,"first_handoff":true},
+    {"id":"product-audit-history-diagnostics","start":1793509458.6880908,"end":1793509612.7383614,"duration_seconds":154.05027055740356,"native_exit":0,"first_handoff":true},
+    {"id":"product-audit-network-boundaries","start":1793509458.783883,"end":1793509573.018271,"duration_seconds":114.23438787460327,"native_exit":0,"first_handoff":false},
+    {"id":"product-audit-sqlite-integrity","start":1793509458.775413,"end":1793509567.1073895,"duration_seconds":108.3319764137268,"native_exit":0,"first_handoff":true},
+    {"id":"product-audit-frontend-state","start":1793509458.7806137,"end":1793509568.255091,"duration_seconds":109.47447729110718,"native_exit":0,"first_handoff":false}
+  ],
+  "files": {
+    "dashboard": "index.html",
+    "report": "README.md",
+    "summary": "summary.json"
+  }
+}
