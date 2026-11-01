@@ -388,7 +388,10 @@ func expiryExpands(next, previous *string) bool {
 }
 
 func (server *Server) controlledAppID(request *http.Request) (string, bool) {
-	credential := strings.TrimPrefix(request.Header.Get("Authorization"), "Bearer ")
+	credential, found := strings.CutPrefix(request.Header.Get("Authorization"), "Bearer ")
+	if !found {
+		return "", false
+	}
 	if !strings.HasPrefix(credential, "mr_") || len(credential) != 46 {
 		return "", false
 	}
