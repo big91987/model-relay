@@ -2,6 +2,7 @@ package relay
 
 import (
 	"archive/tar"
+	"bytes"
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
@@ -14,6 +15,46 @@ import (
 type manifest struct {
 	Version int    `json:"version"`
 	SHA256  string `json:"sha256"`
+}
+
+func decodeManifest(data []byte) (manifest, error) {
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	token, err := decoder.Token()
+	if err != nil || token != json.Delim('{') {
+		return manifest{}, errors.New("manifest must be an object")
+	}
+	var value manifest
+	seen := map[string]bool{}
+	for decoder.More() {
+		token, err = decoder.Token()
+		name, ok := token.(string)
+		if err != nil || !ok || seen[name] {
+			return manifest{}, errors.New("invalid manifest field")
+		}
+		seen[name] = true
+		switch name {
+		case "version":
+			err = decoder.Decode(&value.Version)
+		case "sha256":
+			err = decoder.Decode(&value.SHA256)
+		default:
+			return manifest{}, errors.New("unknown manifest field")
+		}
+		if err != nil {
+			return manifest{}, errors.New("invalid manifest field value")
+		}
+	}
+	if token, err = decoder.Token(); err != nil || token != json.Delim('}') || !seen["version"] || !seen["sha256"] {
+		return manifest{}, errors.New("incomplete manifest")
+	}
+	if token, err = decoder.Token(); err != io.EOF {
+		return manifest{}, errors.New("trailing manifest data")
+	}
+	digest, err := hex.DecodeString(value.SHA256)
+	if err != nil || len(digest) != sha256.Size || hex.EncodeToString(digest) != value.SHA256 {
+		return manifest{}, errors.New("invalid manifest checksum")
+	}
+	return value, nil
 }
 
 func Backup(directory, output string) error {
@@ -137,7 +178,11 @@ func Restore(input, directory, keyFile string) error {
 				return errors.New("manifest too large")
 			}
 			data, err := io.ReadAll(archive)
-			if err != nil || json.Unmarshal(data, &metadata) != nil {
+			if err != nil {
+				return errors.New("invalid manifest")
+			}
+			metadata, err = decodeManifest(data)
+			if err != nil {
 				return errors.New("invalid manifest")
 			}
 		case "relay.db":
