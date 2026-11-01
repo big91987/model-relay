@@ -138,6 +138,10 @@ func backupLocked(directory, output string) error {
 	return destination.Close()
 }
 func Restore(input, directory, keyFile string) error {
+	return restoreWithRename(input, directory, keyFile, os.Rename)
+}
+
+func restoreWithRename(input, directory, keyFile string, rename func(string, string) error) error {
 	if entries, err := os.ReadDir(directory); err == nil && len(entries) > 0 {
 		return errors.New("restore directory must be empty")
 	} else if err != nil && !os.IsNotExist(err) {
@@ -227,5 +231,5 @@ func Restore(input, directory, keyFile string) error {
 			return err
 		}
 	}
-	return os.Rename(temporary, directory)
+	return rename(temporary, directory)
 }
