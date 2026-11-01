@@ -129,8 +129,21 @@ func (server *Server) ServeHTTP(writer http.ResponseWriter, request *http.Reques
 		failure(writer, 403, "invalid_host", "")
 		return
 	}
-	if request.URL.Path != "/healthz" && !server.advanceClock(writer) {
-		return
+	if request.URL.Path != "/healthz" {
+		// The effective clock advances exactly once per external request. Align
+		// that observation with the lock used by management and routing work so
+		// a request queued behind a transaction observes time after that wait.
+		if !server.mu.TryLock() {
+			// Sampling while queued preserves the request-arrival observation used
+			// by clock diagnostics; the only persisted advance happens below.
+			_ = server.Store.wallTime()
+			server.mu.Lock()
+		}
+		advanced := server.advanceClock(writer)
+		server.mu.Unlock()
+		if !advanced {
+			return
+		}
 	}
 	switch {
 	case request.URL.Path == "/healthz":
@@ -511,9 +524,6 @@ func (server *Server) appID(request *http.Request) (string, bool) {
 func (server *Server) listModels(writer http.ResponseWriter, request *http.Request) {
 	server.mu.RLock()
 	defer server.mu.RUnlock()
-	if !server.advanceClock(writer) {
-		return
-	}
 	keyID, ok := server.appID(request)
 	if !ok {
 		failure(writer, 401, "unauthorized", "")
