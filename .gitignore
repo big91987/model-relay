@@ -23,3 +23,7 @@ data/
 
 # Private, pinned Workflow input materials
 /.workflow-input/
+
+# Architecture inspection history and parser dependencies
+harness-output/
+.harness/archcheck/node_modules/

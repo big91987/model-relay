@@ -1,0 +1,43 @@
+{
+  "source_roots": [
+    "cmd",
+    "internal"
+  ],
+  "languages": [
+    "go",
+    "typescript"
+  ],
+  "exclude": [
+    "**/*_test.go"
+  ],
+  "documents": [
+    "AGENTS.md",
+    "docs/roadmap.md",
+    "docs/engineering/architecture-checks.md"
+  ],
+  "modules": [
+    {
+      "name": "startup",
+      "paths": [
+        "cmd/**"
+      ],
+      "allow": [
+        "relay"
+      ]
+    },
+    {
+      "name": "relay",
+      "paths": [
+        "internal/relay/*.go"
+      ],
+      "allow": []
+    },
+    {
+      "name": "console",
+      "paths": [
+        "internal/relay/web/**"
+      ],
+      "allow": []
+    }
+  ]
+}

@@ -15,3 +15,7 @@ Provide a project-owned Go verification entry such as make verify or scripts/ver
 The platform's existing browser.check tool serves static roots only: use it for design prototypes, not as evidence that backend APIs work. Backend UI journeys must start the actual Go service and use the project verification entry; the fixed project test Connector runs host-only verification. Independent QA checks real receipts, code/version consistency and failure coverage; do not require broad Agent sandbox elevation to repeat a host-only listening test. Preserve sandbox limitations separately.
 
 Git branch, publishing and draft PR are handled by platform Connectors. Do not merge the source branch, trigger production deployment, change unrelated repositories or widen permissions. No stage should claim real provider validation before credentials and provider responses are actually available.
+
+## Architecture checks
+
+[architecture.json](architecture.json) declares current production package boundaries. Run `make architecture-check`; read [the integration and scope](docs/engineering/architecture-checks.md). The installed tool in `.harness/archcheck` is versioned from Agent Platform, not maintained locally. Keep its SOURCE.json and use the maintenance installer for upgrades. Rule success does not prove domain-model quality or product acceptance.
