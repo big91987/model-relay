@@ -39,5 +39,23 @@
       ],
       "allow": []
     }
+  ],
+  "review_checks": [
+    {
+      "name": "saas_responsibilities",
+      "requirement": "For rule-rich SaaS capabilities, HTTP adapts requests to application use cases; independent domain packages own business rules, and infrastructure implements operation-level atomic storage. Preserve transactions and avoid forcing rich models on trivial CRUD."
+    },
+    {
+      "name": "gateway_request_lifecycle",
+      "requirement": "The gateway owns request/attempt lifecycle, cancellation, timeout, output commitment and retry policy. Do not infer runtime correctness from static inspection."
+    },
+    {
+      "name": "gateway_upstream_separation",
+      "requirement": "The gateway coordinates through explicit interfaces while upstream adapters own network/protocol implementation. Routing owns policy and runtime state without HTTP or SQL; do not require four business layers for algorithms."
+    },
+    {
+      "name": "frontend_features",
+      "requirement": "Features own business UI, interaction state, business API and cleanup; shared transport is business-neutral, public entry points constrain dependencies. Apply these responsibilities to vanilla JS too; absence of Vue alone is not a defect."
+    }
   ]
 }
