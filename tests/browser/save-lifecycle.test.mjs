@@ -58,7 +58,7 @@ test('one-time secrets retain their separate editor lifecycle without page-read 
 test('actual syncTenants discards a collection settled after scope invalidation',async()=>{
   const collection=deferred(),state={epoch:1,tenants:[{id:'current'}],tenant:'current'},select={replaceChildren(){throw new Error('stale DOM mutation');}};
   const context=vm.createContext({state,collection:()=>collection.promise,byId:()=>select});
-  vm.runInContext(source.slice(source.indexOf('async function syncTenants('),source.indexOf('async function api(')),context);
+  vm.runInContext(source.slice(source.indexOf('async function syncTenants('),source.indexOf('const transport=')),context);
   const reading=vm.runInContext('syncTenants()',context);state.epoch++;
   collection.resolve([{id:'old'}]);await reading;
   assert.deepEqual(state.tenants,[{id:'current'}]);assert.equal(state.tenant,'current');
@@ -69,7 +69,7 @@ test('actual renderPage returns failed without old rows after catalog read failu
   const elements=new Map(['content','page-action','page-title','page-description','breadcrumb'].map(id=>[id,node('div')]));
   elements.get('content').children=[node('table','old model')];
   const context=vm.createContext({state:{epoch:1,page:'models',user:{platform:true}},pages:{models:['模型托管','scope']},byId:id=>elements.get(id),node,scoped:path=>path,collection:async()=>{throw new Error('controlled read failed');},button:(text,onclick)=>({...node('button',text),onclick})});
-  vm.runInContext(source.slice(source.indexOf('async function renderPage('),source.indexOf('function callForm(')),context);
+  vm.runInContext(source.slice(source.indexOf('async function renderPage('),source.indexOf('async function navigate(')),context);
   assert.equal(await vm.runInContext('renderPage()',context),false);
   assert.equal(elements.get('content').children[0].className,'error');
   assert.match(elements.get('content').children[0].textContent,/controlled read failed/);

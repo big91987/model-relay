@@ -4,6 +4,7 @@ import (
 	"embed"
 	"io/fs"
 	"net/http"
+	"strings"
 )
 
 //go:embed web/*
@@ -43,6 +44,10 @@ func serveConsoleWeb(writer http.ResponseWriter, request *http.Request) {
 		name = "workspace.js"
 	case "/admin/workspace.css":
 		name = "workspace.css"
+	case "/admin/shared/transport.mjs":
+		name = "shared/transport.mjs"
+	case "/admin/features/playground/index.mjs":
+		name = "features/playground/index.mjs"
 	default:
 		http.NotFound(writer, request)
 		return
@@ -53,7 +58,7 @@ func serveConsoleWeb(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 	kind := "text/html; charset=utf-8"
-	if name == "workspace.js" {
+	if name == "workspace.js" || strings.HasSuffix(name, ".mjs") {
 		kind = "text/javascript; charset=utf-8"
 	}
 	if name == "workspace.css" {

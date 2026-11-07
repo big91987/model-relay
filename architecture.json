@@ -13,7 +13,9 @@
   "documents": [
     "AGENTS.md",
     "docs/roadmap.md",
-    "docs/engineering/architecture-checks.md"
+    "docs/engineering/architecture-checks.md",
+    "docs/engineering/architecture.md",
+    ".trellis/spec/backend/index.md"
   ],
   "modules": [
     {
@@ -30,14 +32,71 @@
       "paths": [
         "internal/relay/*.go"
       ],
-      "allow": []
+      "allow": [
+        "routing",
+        "accounting"
+      ]
     },
     {
       "name": "console",
       "paths": [
-        "internal/relay/web/**"
+        "internal/relay/web/app.js",
+        "internal/relay/web/index.html",
+        "internal/relay/web/style.css",
+        "internal/relay/web/workspace.js",
+        "internal/relay/web/workspace.html",
+        "internal/relay/web/workspace.css"
       ],
-      "allow": []
+      "allow": [
+        "console_transport",
+        "console_playground"
+      ]
+    },
+    {
+      "name": "routing",
+      "paths": [
+        "internal/routing/**"
+      ],
+      "allow": [],
+      "allow_external": [],
+      "forbid_imports": [
+        "net/http*",
+        "database/sql*"
+      ]
+    },
+    {
+      "name": "accounting",
+      "paths": [
+        "internal/accounting/**"
+      ],
+      "allow": [],
+      "allow_external": [],
+      "forbid_imports": [
+        "net/http*",
+        "database/sql*"
+      ]
+    },
+    {
+      "name": "console_transport",
+      "paths": [
+        "internal/relay/web/shared/**"
+      ],
+      "public": [
+        "internal/relay/web/shared/transport.mjs"
+      ],
+      "allow": [],
+      "allow_external": []
+    },
+    {
+      "name": "console_playground",
+      "paths": [
+        "internal/relay/web/features/playground/**"
+      ],
+      "public": [
+        "internal/relay/web/features/playground/index.mjs"
+      ],
+      "allow": [],
+      "allow_external": []
     }
   ],
   "review_checks": [

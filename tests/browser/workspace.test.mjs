@@ -95,7 +95,7 @@ test('workspace invalidation closes both native dialogs before synchronously rel
   const calls=[];
   const dialogs=new Map(['editor','detail'].map(name=>[name,{open:true,close(){this.open=false;calls.push(name);}}]));
   dialogs.set('editor-form',{dataset:{}});
-  const context=vm.createContext({state:{epoch:0,controllers:new Set(),call:null,busy:true},byId:name=>dialogs.get(name),releaseModalScroll(){assert.equal(dialogs.get('editor').open,false);assert.equal(dialogs.get('detail').open,false);calls.push('release');},clearSensitive(){calls.push('clear');}});
+  const context=vm.createContext({state:{epoch:0,busy:true},transport:{cancel(){}},playground:null,byId:name=>dialogs.get(name),releaseModalScroll(){assert.equal(dialogs.get('editor').open,false);assert.equal(dialogs.get('detail').open,false);calls.push('release');},clearSensitive(){calls.push('clear');}});
   vm.runInContext(source.slice(source.indexOf('function invalidate('),source.indexOf('function signedOut(')),context);
   context.invalidate();assert.deepEqual(calls,['editor','detail','release','clear']);
 });
@@ -319,7 +319,7 @@ test('workspace Key budget cards render the shared resource contract instead of 
     limitSummary(value){summarized.push(value);return node('resource-summary');},
     mainAction(){},button:()=>node('button')
   });
-  const render=source.slice(source.indexOf('async function renderPage('),source.indexOf('function callForm('));
+  const render=source.slice(source.indexOf('async function renderPage('),source.indexOf('async function navigate('));
   await vm.runInContext(render+'\nrenderPage();',context);
   assert.equal(summarized.length,2);
   assert.ok(summarized.every(value=>value===resource));
@@ -375,7 +375,7 @@ async function serviceCheckFixture(rejected = false) {
     detail(title, value) { details.push({ title, value }); },
     notice(value) { notices.push(value); }
   });
-  const renderSource = source.slice(source.indexOf('async function renderPage()'), source.indexOf('function callForm()'));
+  const renderSource = source.slice(source.indexOf('async function renderPage()'), source.indexOf('async function navigate('));
   await vm.runInContext(renderSource + '\nrenderPage();', context);
   assert.ok(controls.has('核验'), 'actual service row renders check action');
   await controls.get('核验')();

@@ -4,6 +4,8 @@ import (
 	"database/sql"
 	"net/http"
 	"strings"
+
+	"model-relay/internal/routing"
 )
 
 const recordColumns = "id,time,coalesce(key_id,''),coalesce(alias,''),coalesce(model,''),stream,coalesce(revision,0),state,error_code,upstream_status,duration_ms,prompt_tokens,completion_tokens,total_tokens"
@@ -21,8 +23,7 @@ func scanRecord(row rowScanner) (Record, error) {
 func (server *Server) configurationChanged() {
 	server.configEpoch++
 	server.successID = ""
-	server.routing = make(map[string]*routeRuntime)
-	server.latency = make(map[string]*latencyPool)
+	server.router.Reset()
 }
 
 func (server *Server) record(writer http.ResponseWriter, request *http.Request) {
@@ -57,9 +58,9 @@ func (server *Server) record(writer http.ResponseWriter, request *http.Request) 
 				failure(writer, 503, "storage_unavailable", "")
 				return
 			}
-			value.Decisions = []RouteDecision{}
+			value.Decisions = []routing.RouteDecision{}
 			for rows.Next() {
-				var decision RouteDecision
+				var decision routing.RouteDecision
 				if rows.Scan(&decision.Round, &decision.UpstreamID, &decision.Enabled, &decision.Priority, &decision.Weight, &decision.Reason, &decision.Observed, &decision.Cooldown) != nil {
 					rows.Close()
 					failure(writer, 503, "storage_unavailable", "")

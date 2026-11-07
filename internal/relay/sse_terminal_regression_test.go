@@ -56,10 +56,8 @@ func TestSSERealHTTPOverlongLineNeverSwitchesOrCools(testContext *testing.T) {
 			}
 			value.server.mu.RLock()
 			defer value.server.mu.RUnlock()
-			for _, health := range value.server.health {
-				if !health.Cooldown.IsZero() {
-					testContext.Fatal("real HTTP protocol error cooled candidate")
-				}
+			if value.server.router.Stats().CooldownEntries != 0 {
+				testContext.Fatal("real HTTP protocol error cooled candidate")
 			}
 		})
 	}
@@ -117,10 +115,8 @@ func TestSSEOverlongLineNeverSwitchesOrCools(testContext *testing.T) {
 			if response.Code != wantStatus || string(value.overview(testContext)["call_evidence"]) != "null" {
 				testContext.Fatal("HTTP/overview protocol terminal mismatch")
 			}
-			for _, health := range value.server.health {
-				if !health.Cooldown.IsZero() {
-					testContext.Fatal("protocol error cooled candidate")
-				}
+			if value.server.router.Stats().CooldownEntries != 0 {
+				testContext.Fatal("protocol error cooled candidate")
 			}
 		})
 	}

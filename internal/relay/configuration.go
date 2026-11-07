@@ -4,7 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"encoding/json"
-	"fmt"
 	"io"
 	"mime"
 	"net/http"
@@ -310,7 +309,7 @@ func (server *Server) describeModel(value *RouteModel) error {
 			return err
 		}
 		candidate.GenerationHealth = "未知（本次启动）"
-		health := server.health[healthKey(value.Alias, *candidate, upstream)]
+		health := server.router.Health(value.Alias, routingCandidate(*candidate, upstream))
 		if health == nil {
 			continue
 		}
@@ -558,12 +557,7 @@ func (server *Server) routeModels(writer http.ResponseWriter, request *http.Requ
 	for _, candidate := range current.Candidates {
 		for _, replacement := range *input.Candidates {
 			if candidate.UpstreamID == replacement.UpstreamID && candidate.RemoteModel != replacement.RemoteModel {
-				prefix := fmt.Sprintf("%s:%d:", alias, candidate.UpstreamID)
-				for key := range server.health {
-					if strings.HasPrefix(key, prefix) {
-						delete(server.health, key)
-					}
-				}
+				server.router.ForgetCandidate(alias, candidate.UpstreamID)
 			}
 		}
 	}

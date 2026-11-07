@@ -4,34 +4,18 @@ import (
 	"context"
 	"database/sql"
 	"encoding/json"
-	"errors"
-	"fmt"
 	"math"
 	"net/http"
-	"sort"
-	"sync"
 	"time"
+
+	"model-relay/internal/routing"
 )
 
-type routeRuntime struct {
-	Fingerprint string
-	Current     map[int64]int
-	Exploration map[bool]*explorationState
-}
-type routeHealth struct {
-	Sequence           int64
-	InvalidatedThrough int64
-	Cooldown           time.Time
-	State              string
-	Observed           time.Time
-	CandidateRevision  int64
-}
 type routeSnapshot struct {
 	Model          RouteModel
 	Upstreams      map[int64]Upstream
 	ConfigRevision int64
 	Epoch          uint64
-	Runtime        *routeRuntime
 }
 
 type Attempt struct {
@@ -50,16 +34,6 @@ type Attempt struct {
 	Status             *int    `json:"upstream_status"`
 	Usage
 	Sequence int64 `json:"-"`
-}
-type RouteDecision struct {
-	Round      int     `json:"selection_round"`
-	UpstreamID int64   `json:"upstream_id"`
-	Enabled    bool    `json:"snapshot_enabled"`
-	Priority   int     `json:"snapshot_priority"`
-	Weight     int     `json:"snapshot_weight"`
-	Reason     string  `json:"reason"`
-	Observed   string  `json:"observed_at"`
-	Cooldown   *string `json:"cooldown_until"`
 }
 type UsagePart struct {
 	KnownSum        int64  `json:"known_sum"`
@@ -156,16 +130,7 @@ func (server *Server) snapshot(alias string) (routeSnapshot, error) {
 		}
 		snapshot.Upstreams[candidate.UpstreamID] = value
 	}
-	key := fmt.Sprintf("%s:%d:%d", alias, snapshot.ConfigRevision, model.Revision)
-	if server.routing[key] == nil {
-		server.routing[key] = &routeRuntime{Current: map[int64]int{}}
-	}
-	snapshot.Runtime = server.routing[key]
 	return snapshot, nil
-}
-
-func healthKey(alias string, candidate Candidate, upstream Upstream) string {
-	return fmt.Sprintf("%s:%d:%d:%s", alias, upstream.ID, upstream.ExecutionRevision, candidate.RemoteModel)
 }
 
 func (server *Server) beginAttempt(ctx context.Context, request *http.Request, record *Record, snapshot routeSnapshot, tried map[int64]bool, round int) (*Candidate, *Attempt, string) {
@@ -193,12 +158,9 @@ func (server *Server) beginAttempt(ctx context.Context, request *http.Request, r
 		return nil, nil, "storage_unavailable"
 	}
 	now := server.routingNow()
-	decisions := []RouteDecision{}
-	eligible := []Candidate{}
-	priority := -1
-	for _, candidate := range snapshot.Model.Candidates {
+	policy := routingSnapshot(snapshot, now)
+	for index, candidate := range snapshot.Model.Candidates {
 		upstream := snapshot.Upstreams[candidate.UpstreamID]
-		decision := RouteDecision{Round: round, UpstreamID: candidate.UpstreamID, Enabled: candidate.Enabled, Priority: candidate.Priority, Weight: candidate.Weight, Observed: now.UTC().Format(time.RFC3339Nano)}
 		latest, err := server.Store.upstreamByID(candidate.UpstreamID)
 		if err != nil {
 			return nil, nil, "storage_unavailable"
@@ -209,78 +171,31 @@ func (server *Server) beginAttempt(ctx context.Context, request *http.Request, r
 				present = true
 			}
 		}
-		health := server.health[healthKey(snapshot.Model.Alias, candidate, upstream)]
+		reason := ""
 		switch {
 		case !current.Enabled || !snapshot.Model.Enabled:
-			decision.Reason = "disabled_model"
+			reason = "disabled_model"
 		case snapshot.Epoch != server.configEpoch || current.Revision != snapshot.Model.Revision || upstream.ExecutionRevision != latest.ExecutionRevision:
-			decision.Reason = "configuration_changed"
+			reason = "configuration_changed"
 		case !upstream.Enabled || !latest.Enabled:
-			decision.Reason = "disabled_upstream"
+			reason = "disabled_upstream"
 		case !candidate.Enabled || !present:
-			decision.Reason = "disabled_candidate"
+			reason = "disabled_candidate"
 		case !upstream.CredentialConfigured:
-			decision.Reason = "credential_missing"
-		case health != nil && health.Cooldown.After(now):
-			decision.Reason = "cooling"
-			until := health.Cooldown.UTC().Format(time.RFC3339Nano)
-			decision.Cooldown = &until
-		case tried[candidate.UpstreamID]:
-			decision.Reason = "already_attempted"
-		default:
-			eligible = append(eligible, candidate)
-			if candidate.Priority > priority {
-				priority = candidate.Priority
-			}
+			reason = "credential_missing"
 		}
-		decisions = append(decisions, decision)
+		policy.Candidates[index].Unavailable = reason
 	}
-	group := []Candidate{}
-	for _, candidate := range eligible {
-		if candidate.Priority == priority {
-			group = append(group, candidate)
-		}
-	}
-	sort.Slice(group, func(left, right int) bool { return group[left].UpstreamID < group[right].UpstreamID })
+	selection := server.router.Select(policy, record.Stream, round, tried)
+	decisions, observations := selection.Decisions, selection.Observations
 	var selected *Candidate
-	fingerprint := ""
-	for _, candidate := range group {
-		fingerprint += fmt.Sprintf("%d/%d/%d/%d;", candidate.UpstreamID, candidate.Priority, candidate.Weight, candidate.ExecutionRevision)
-	}
-	if fingerprint != snapshot.Runtime.Fingerprint {
-		snapshot.Runtime.Fingerprint = fingerprint
-		snapshot.Runtime.Current = map[int64]int{}
-		snapshot.Runtime.Exploration = nil
-	}
-	total := 0
-	for _, candidate := range group {
-		snapshot.Runtime.Current[candidate.UpstreamID] += candidate.Weight
-		total += candidate.Weight
-		if selected == nil || snapshot.Runtime.Current[candidate.UpstreamID] > snapshot.Runtime.Current[selected.UpstreamID] {
-			copy := candidate
-			selected = &copy
-		}
-	}
-	if selected != nil {
-		snapshot.Runtime.Current[selected.UpstreamID] -= total
-	}
-	selected, observations := server.chooseLatency(snapshot, group, record.Stream, round, selected, decisions)
-	for index := range decisions {
-		if decisions[index].Reason != "" {
-			continue
-		}
-		switch {
-		case selected != nil && decisions[index].UpstreamID == selected.UpstreamID:
-			decisions[index].Reason = "selected"
-		case decisions[index].Priority < priority:
-			decisions[index].Reason = "lower_priority"
-		default:
-			decisions[index].Reason = "not_selected_same_priority"
-		}
-	}
-	for index := range observations {
-		if observations[index].Reason == "not_selected" {
-			observations[index].Reason = decisions[index].Reason
+	if selection.Candidate != nil {
+		for _, candidate := range snapshot.Model.Candidates {
+			if candidate.UpstreamID == selection.Candidate.UpstreamID {
+				copy := candidate
+				selected = &copy
+				break
+			}
 		}
 	}
 	cleanup, release := context.WithTimeout(context.Background(), 2*time.Second)
@@ -307,8 +222,8 @@ func (server *Server) beginAttempt(ctx context.Context, request *http.Request, r
 	var attempt *Attempt
 	if selected != nil {
 		upstream := snapshot.Upstreams[selected.UpstreamID]
-		server.dispatchSequence++
-		attempt = &Attempt{Ordinal: len(tried) + 1, UpstreamID: upstream.ID, UpstreamName: upstream.Name, RemoteModel: selected.RemoteModel, UpstreamRevision: upstream.Revision, UpstreamExecution: upstream.ExecutionRevision, CandidateExecution: selected.ExecutionRevision, Started: now.UTC().Format(time.RFC3339Nano), State: "dispatching", Sequence: server.dispatchSequence}
+		sequence := server.router.NextSequence()
+		attempt = &Attempt{Ordinal: len(tried) + 1, UpstreamID: upstream.ID, UpstreamName: upstream.Name, RemoteModel: selected.RemoteModel, UpstreamRevision: upstream.Revision, UpstreamExecution: upstream.ExecutionRevision, CandidateExecution: selected.ExecutionRevision, Started: now.UTC().Format(time.RFC3339Nano), State: "dispatching", Sequence: sequence}
 		if _, err = transaction.ExecContext(cleanup, "INSERT INTO request_attempts(request_id,ordinal,upstream_id,upstream_name,remote_model,upstream_revision,upstream_execution_revision,candidate_execution_revision,started_at,state,error_code) VALUES(?,?,?,?,?,?,?,?,?,'dispatching','')", record.ID, attempt.Ordinal, attempt.UpstreamID, attempt.UpstreamName, attempt.RemoteModel, attempt.UpstreamRevision, attempt.UpstreamExecution, attempt.CandidateExecution, attempt.Started); err != nil {
 			return nil, nil, "storage_unavailable"
 		}
@@ -350,120 +265,21 @@ func (server *Server) observe(snapshot routeSnapshot, candidate Candidate, attem
 	if !valid {
 		return
 	}
-	key := healthKey(current.Alias, candidate, upstream)
-	previous := server.health[key]
-	if previous != nil && (previous.Sequence > attempt.Sequence || previous.InvalidatedThrough >= attempt.Sequence) {
-		return
-	}
-	health := &routeHealth{Sequence: attempt.Sequence, State: attempt.State, Observed: server.routingNow(), CandidateRevision: candidate.ExecutionRevision}
-	if previous != nil {
-		health.InvalidatedThrough = previous.InvalidatedThrough
-	}
-	if temporary {
-		health.InvalidatedThrough = server.dispatchSequence
-		delete(server.latency, latencyKey(snapshot, candidate, false))
-		delete(server.latency, latencyKey(snapshot, candidate, true))
-		health.Cooldown = health.Observed.Add(server.Config.Cooldown)
-	}
-	server.health[key] = health
+	server.router.Observe(routingSnapshot(snapshot, time.Time{}), routingCandidate(candidate, upstream), routing.Observation{Cooldown: server.Config.Cooldown, Sequence: attempt.Sequence, State: attempt.State, Temporary: temporary, ObservedAt: server.routingNow()})
 }
 
 func temporaryStatus(status int) bool {
 	return status == 408 || status == 429 || status == 500 || status == 502 || status == 503 || status == 504
 }
 
-type attemptOutput struct {
-	writer      http.ResponseWriter
-	parent      context.Context
-	child       context.Context
-	cancel      context.CancelFunc
-	mu          sync.Mutex
-	timer       *time.Timer
-	timedOut    bool
-	committed   bool
-	committedAt string
-	header      http.Header
+func routingCandidate(candidate Candidate, upstream Upstream) routing.Candidate {
+	return routing.Candidate{UpstreamID: candidate.UpstreamID, RemoteModel: candidate.RemoteModel, Enabled: candidate.Enabled, Priority: candidate.Priority, Weight: candidate.Weight, ExecutionRevision: candidate.ExecutionRevision, UpstreamExecution: upstream.ExecutionRevision}
 }
 
-func newAttemptOutput(writer http.ResponseWriter, parent context.Context, duration time.Duration) *attemptOutput {
-	child, cancel := context.WithCancel(parent)
-	output := &attemptOutput{writer: writer, parent: parent, child: child, cancel: cancel, header: make(http.Header)}
-	output.timer = time.AfterFunc(duration, func() {
-		output.mu.Lock()
-		defer output.mu.Unlock()
-		if !output.committed {
-			output.timedOut = true
-			cancel()
-		}
-	})
-	return output
-}
-func (output *attemptOutput) Header() http.Header    { return output.header }
-func (output *attemptOutput) WriteHeader(status int) {}
-func (output *attemptOutput) Write(data []byte) (int, error) {
-	output.mu.Lock()
-	defer output.mu.Unlock()
-	if output.header.Get("Content-Type") != "text/event-stream" {
-		return len(data), nil
+func routingSnapshot(snapshot routeSnapshot, observed time.Time) routing.Snapshot {
+	policy := routing.Snapshot{Alias: snapshot.Model.Alias, Strategy: snapshot.Model.Strategy, Revision: snapshot.Model.Revision, ConfigRevision: snapshot.ConfigRevision, Epoch: snapshot.Epoch, ObservedAt: observed}
+	for _, candidate := range snapshot.Model.Candidates {
+		policy.Candidates = append(policy.Candidates, routingCandidate(candidate, snapshot.Upstreams[candidate.UpstreamID]))
 	}
-	if output.parent.Err() != nil {
-		return 0, output.parent.Err()
-	}
-	if output.timedOut {
-		return 0, context.DeadlineExceeded
-	}
-	if !output.committed {
-		if !output.timer.Stop() {
-			return 0, context.DeadlineExceeded
-		}
-		output.committed = true
-		output.committedAt = time.Now().UTC().Format(time.RFC3339Nano)
-		output.writer.Header().Set("Content-Type", "text/event-stream")
-	}
-	return output.writer.Write(data)
-}
-func (output *attemptOutput) Flush() {
-	if flusher, ok := output.writer.(http.Flusher); ok && output.isCommitted() {
-		flusher.Flush()
-	}
-}
-func (output *attemptOutput) FlushError() error {
-	if output.isCommitted() {
-		return http.NewResponseController(output.writer).Flush()
-	}
-	return nil
-}
-func (output *attemptOutput) Unwrap() http.ResponseWriter { return output.writer }
-func (output *attemptOutput) isCommitted() bool {
-	output.mu.Lock()
-	defer output.mu.Unlock()
-	return output.committed
-}
-func (output *attemptOutput) timeout() bool {
-	output.mu.Lock()
-	defer output.mu.Unlock()
-	return output.timedOut
-}
-func (output *attemptOutput) stop() {
-	output.mu.Lock()
-	output.timer.Stop()
-	output.mu.Unlock()
-	output.cancel()
-}
-func (output *attemptOutput) commitNormal() error {
-	output.mu.Lock()
-	defer output.mu.Unlock()
-	if output.parent.Err() != nil {
-		return output.parent.Err()
-	}
-	if output.timedOut || !output.timer.Stop() {
-		return context.DeadlineExceeded
-	}
-	output.committed = true
-	output.committedAt = time.Now().UTC().Format(time.RFC3339Nano)
-	return nil
-}
-
-func transportTemporary(err error) bool {
-	return err != nil && !errors.Is(err, context.Canceled) && !errors.Is(err, errDestinationForbidden)
+	return policy
 }

@@ -16,6 +16,8 @@ import (
 
 	_ "github.com/mattn/go-sqlite3"
 	"golang.org/x/crypto/argon2"
+
+	"model-relay/internal/routing"
 )
 
 type Store struct {
@@ -321,17 +323,17 @@ type Record struct {
 	Status   *int   `json:"upstream_status"`
 	Duration *int64 `json:"duration_ms"`
 	Usage
-	ConfigRevision     int64                  `json:"config_revision"`
-	ModelRevision      int64                  `json:"model_revision"`
-	SuccessfulUpstream *int64                 `json:"successful_upstream_id"`
-	CommittedAt        *string                `json:"committed_at"`
-	AttemptsComplete   bool                   `json:"attempts_complete"`
-	EvidenceVersion    int                    `json:"evidence_version"`
-	Attempts           []Attempt              `json:"attempts"`
-	Decisions          []RouteDecision        `json:"selection_decisions"`
-	UsageSummary       map[string]UsagePart   `json:"usage_summary"`
-	RoutingEvidence    []SelectionObservation `json:"routing_decisions"`
-	LatencyEvidence    []LatencyResult        `json:"latency_observations"`
+	ConfigRevision     int64                          `json:"config_revision"`
+	ModelRevision      int64                          `json:"model_revision"`
+	SuccessfulUpstream *int64                         `json:"successful_upstream_id"`
+	CommittedAt        *string                        `json:"committed_at"`
+	AttemptsComplete   bool                           `json:"attempts_complete"`
+	EvidenceVersion    int                            `json:"evidence_version"`
+	Attempts           []Attempt                      `json:"attempts"`
+	Decisions          []routing.RouteDecision        `json:"selection_decisions"`
+	UsageSummary       map[string]UsagePart           `json:"usage_summary"`
+	RoutingEvidence    []routing.SelectionObservation `json:"routing_decisions"`
+	LatencyEvidence    []routing.LatencyResult        `json:"latency_observations"`
 }
 
 func (store *Store) Start(record Record) error {

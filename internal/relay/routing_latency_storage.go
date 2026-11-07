@@ -4,6 +4,8 @@ import (
 	"database/sql"
 	"encoding/json"
 	"errors"
+
+	"model-relay/internal/routing"
 )
 
 const routingExtensionSchema = `CREATE TABLE routing_extension_meta(version INTEGER NOT NULL CHECK(version=1));
@@ -59,16 +61,16 @@ func (store *Store) ensureRouting() error {
 	return transaction.Commit()
 }
 
-func readRoutingEvidence(query materialQuery, id string) ([]SelectionObservation, []LatencyResult, error) {
-	decisions := []SelectionObservation{}
-	attempts := []LatencyResult{}
+func readRoutingEvidence(query materialQuery, id string) ([]routing.SelectionObservation, []routing.LatencyResult, error) {
+	decisions := []routing.SelectionObservation{}
+	attempts := []routing.LatencyResult{}
 	rows, err := query.Query("SELECT evidence FROM route_selection_evidence WHERE request_id=? ORDER BY selection_round,upstream_id", id)
 	if err != nil {
 		return nil, nil, err
 	}
 	for rows.Next() {
 		var raw string
-		var value SelectionObservation
+		var value routing.SelectionObservation
 		if err = rows.Scan(&raw); err != nil {
 			break
 		}
@@ -91,7 +93,7 @@ func readRoutingEvidence(query materialQuery, id string) ([]SelectionObservation
 	}
 	for rows.Next() {
 		var raw string
-		var value LatencyResult
+		var value routing.LatencyResult
 		if err = rows.Scan(&raw); err != nil {
 			break
 		}
@@ -106,4 +108,13 @@ func readRoutingEvidence(query materialQuery, id string) ([]SelectionObservation
 		return nil, nil, err
 	}
 	return decisions, attempts, rowErr
+}
+
+func (store *Store) writeLatencyEvidence(id string, result routing.LatencyResult) error {
+	raw, err := json.Marshal(result)
+	if err != nil {
+		return err
+	}
+	_, err = store.DB.Exec("INSERT INTO route_latency_evidence VALUES(?,?,?) ON CONFLICT(request_id,ordinal) DO UPDATE SET evidence=excluded.evidence", id, result.Ordinal, string(raw))
+	return err
 }

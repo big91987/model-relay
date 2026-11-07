@@ -10,6 +10,8 @@ import (
 	"reflect"
 	"testing"
 	"time"
+
+	"model-relay/internal/accounting"
 )
 
 func singleResourceInstallation(test *testing.T, actual bool) *governedFixture {
@@ -19,7 +21,7 @@ func singleResourceInstallation(test *testing.T, actual bool) *governedFixture {
 	if status, _ := fixture.admin.call("PATCH", "models/governed", map[string]any{"expected_revision": 1, "enabled": true, "candidates": []map[string]any{{"upstream_id": 3, "remote_model": "controlled", "enabled": true, "priority": 1, "weight": 1}}}, ""); status != 200 {
 		test.Fatal("single controlled route", status)
 	}
-	if status, _ := fixture.admin.call("PUT", "tenants/"+fixture.tenant+"/limits", ResourceLimits{Revision: 1, Hard: true}, ""); status != 200 {
+	if status, _ := fixture.admin.call("PUT", "tenants/"+fixture.tenant+"/limits", accounting.ResourceLimits{Revision: 1, Hard: true}, ""); status != 200 {
 		test.Fatal("unlimited initial tenant", status)
 	}
 	return fixture
@@ -53,10 +55,10 @@ func resourceGenerate(fixture *governedFixture, secret string) resourceReceipt {
 	return resourceReceipt{status: response.StatusCode, id: response.Header.Get("X-Request-ID"), err: err}
 }
 
-func resourceUsage(test *testing.T, fixture *governedFixture, path string) ResourceUsage {
+func resourceUsage(test *testing.T, fixture *governedFixture, path string) accounting.ResourceUsage {
 	test.Helper()
 	status, report := fixture.admin.call("GET", path+"/limits", nil, "")
-	var usage ResourceUsage
+	var usage accounting.ResourceUsage
 	data, err := json.Marshal(report["usage"])
 	if status != 200 || err != nil || json.Unmarshal(data, &usage) != nil {
 		test.Fatal("authoritative resource usage", status)
@@ -123,8 +125,8 @@ func resourceMatrixScenario(test *testing.T, actual bool, strategies ...string) 
 				if scope == "key" {
 					path, revision = keyPath, 1
 				}
-				limit := func(value *int64) ResourceLimits {
-					limits := ResourceLimits{Revision: revision, Hard: true}
+				limit := func(value *int64) accounting.ResourceLimits {
+					limits := accounting.ResourceLimits{Revision: revision, Hard: true}
 					switch dimension {
 					case "calls":
 						limits.Calls = value
@@ -232,7 +234,7 @@ func sharedResourcesScenario(test *testing.T, actual bool) {
 			if mode == "old_new_generation" {
 				path, revision = keyPath, 1
 			}
-			if status, _ := fixture.admin.call("PUT", path+"/limits", ResourceLimits{Revision: revision, Concurrency: ptrInt64(2), Hard: true}, ""); status != 200 {
+			if status, _ := fixture.admin.call("PUT", path+"/limits", accounting.ResourceLimits{Revision: revision, Concurrency: ptrInt64(2), Hard: true}, ""); status != 200 {
 				test.Fatal("shared capacity", status)
 			}
 			fixture.block, fixture.entered = make(chan struct{}), make(chan struct{}, 2)

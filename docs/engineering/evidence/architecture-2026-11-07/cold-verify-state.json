@@ -1,0 +1,136 @@
+{
+  "gate_timeout_ms": 1500000,
+  "gate_started_utc": "2026-11-07T11:27:24.427879Z",
+  "gate_finished_utc": "2026-11-07T11:29:10.603488Z",
+  "gate_cancelled": false,
+  "started_utc": "2026-11-07T11:27:14.289803Z",
+  "finished_utc": "2026-11-07T11:29:11.351443Z",
+  "command": "make verify -\u003e isolated make verify-gates",
+  "isolation": "new private candidate; git history read-only",
+  "node_modules_before": false,
+  "clean_start_measured": true,
+  "npm_cache_before": false,
+  "node_modules_after": false,
+  "npm_cache_after": true,
+  "source_unchanged": true,
+  "candidate_unchanged": true,
+  "NODE_PATH": "unset",
+  "manual_preinstall": "none",
+  "source_before": {
+    "files": 184,
+    "go": "go1.25.6",
+    "head": "42b79a00d3ff7b8ed8957f87a97fd5b4c83abe64",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "8274f43d1cdd431249bf6d50af3a0982253ef204906ce3e8afb91e759341f1c8"
+  },
+  "source_after": {
+    "files": 184,
+    "go": "go1.25.6",
+    "head": "42b79a00d3ff7b8ed8957f87a97fd5b4c83abe64",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "8274f43d1cdd431249bf6d50af3a0982253ef204906ce3e8afb91e759341f1c8"
+  },
+  "versions": {
+    "go": "go version go1.25.6 darwin/arm64",
+    "node": "v26.0.0",
+    "npm": "11.12.1"
+  },
+  "gate_exit": 2,
+  "exit_code": 1,
+  "log_sha256": "f51601353084fbf2e013bea590538b506f6d3cd3cc713f65df009caaabce3596",
+  "log_bytes": 710840,
+  "cleanup": "owned_process_group_cleanup_attempted; candidate_removed",
+  "owned_group_absent": true,
+  "auxiliary_commands": [
+    {
+      "stage": "source-inventory",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-11-07T11:27:14.29031Z",
+      "budget_ms": 119999,
+      "execute_ms": 26,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "git-directory",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-11-07T11:27:21.266245Z",
+      "budget_ms": 119999,
+      "execute_ms": 15,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-11-07T11:27:21.282709Z",
+      "budget_ms": 119999,
+      "execute_ms": 2894,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-11-07T11:27:24.177632Z",
+      "budget_ms": 119999,
+      "execute_ms": 95,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "prerequisite-go",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-11-07T11:27:24.273032Z",
+      "budget_ms": 119999,
+      "execute_ms": 6,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "prerequisite-node",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-11-07T11:27:24.279559Z",
+      "budget_ms": 119999,
+      "execute_ms": 23,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "prerequisite-npm",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-11-07T11:27:24.30295Z",
+      "budget_ms": 119999,
+      "execute_ms": 124,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-11-07T11:29:10.603599Z",
+      "budget_ms": 119999,
+      "execute_ms": 100,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-11-07T11:29:10.704322Z",
+      "budget_ms": 119999,
+      "execute_ms": 100,
+      "group_check_ms": 0
+    }
+  ]
+}

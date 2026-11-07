@@ -1,6 +1,6 @@
 # Go backend specs
 
-Single Go module; no package map is needed. Runtime ownership is cmd/model-relay (CLI) and internal/relay (HTTP, persistence, proxy). Node is test-only.
+One Go module with explicit package ownership. Read the [package map and dependency rules](../../../docs/engineering/architecture.md). cmd/model-relay assembles the application; internal/relay owns HTTP and persistence adapters; internal/routing owns selection policy and runtime state without HTTP or SQL. internal/accounting owns resource and money rules. Node is test-only.
 
 ## Pre-Development Checklist
 Read [runtime contracts](runtime-contracts.md), [console contracts](console-contracts.md) and [multi-upstream contracts](routing-contracts.md), then the relevant source and HTTP tests. Read ../guides/index.md. Do not change authentication or storage for DOM-only features.

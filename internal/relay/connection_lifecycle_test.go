@@ -56,7 +56,7 @@ func TestConnectionCancelDeduplicatesAndPreservesRouting(testContext *testing.T)
 		testContext.Fatal("cancellation result")
 	}
 	stored, _ := value.server.Store.upstreamByID(1)
-	if !stored.Enabled || stored.ExecutionRevision != upstream.ExecutionRevision || stored.Check.State != "canceled" || len(value.server.health) != 0 {
+	if !stored.Enabled || stored.ExecutionRevision != upstream.ExecutionRevision || stored.Check.State != "canceled" || value.server.router.Stats().HealthEntries != 0 {
 		testContext.Fatal("check cancellation changed execution or health")
 	}
 	value.server.client.Transport = roundTrip(func(request *http.Request) (*http.Response, error) {

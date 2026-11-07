@@ -55,7 +55,7 @@ func TestRoutingHealthEpochSequenceDisableAndRestart(testContext *testing.T) {
 		value.server.observe(snapshot, candidate, attempt, true)
 		attempt.Sequence, attempt.State = 1, "success"
 		value.server.observe(snapshot, candidate, attempt, false)
-		if value.server.health[healthKey("alpha", candidate, upstream)].State != "failed" {
+		if value.server.router.Health("alpha", routingCandidate(candidate, upstream)).State != "failed" {
 			testContext.Fatal("older late success erased cooling")
 		}
 	}
@@ -70,7 +70,7 @@ func TestRoutingHealthEpochSequenceDisableAndRestart(testContext *testing.T) {
 		if response.Code != 200 || json.Unmarshal(response.Body.Bytes(), &upstream) != nil {
 			testContext.Fatal("toggle")
 		}
-		if health := value.server.health[healthKey("alpha", snapshot.Model.Candidates[0], upstream)]; health == nil || !health.Cooldown.After(time.Now()) {
+		if health := value.server.router.Health("alpha", routingCandidate(snapshot.Model.Candidates[0], upstream)); health == nil || !health.Cooldown.After(time.Now()) {
 			testContext.Fatal("manual toggle cleared cooldown")
 		}
 	}
@@ -81,11 +81,11 @@ func TestRoutingHealthEpochSequenceDisableAndRestart(testContext *testing.T) {
 	candidate := snapshot.Model.Candidates[0]
 	value.server.observe(snapshot, candidate, Attempt{UpstreamExecution: snapshot.Upstreams[1].ExecutionRevision, Sequence: 99, State: "failed"}, true)
 	latest, _ := value.server.Store.upstreamByID(1)
-	if value.server.health[healthKey("alpha", candidate, latest)] != nil {
+	if value.server.router.Health("alpha", routingCandidate(candidate, latest)) != nil {
 		testContext.Fatal("old execution poisoned new health")
 	}
 	restarted := New(value.server.Store, value.server.Config)
-	if len(restarted.health) != 0 {
+	if restarted.router.Stats().HealthEntries != 0 {
 		testContext.Fatal("restart retained live health")
 	}
 	current, _ := value.server.Store.routeModel("alpha")
@@ -96,7 +96,7 @@ func TestRoutingHealthEpochSequenceDisableAndRestart(testContext *testing.T) {
 	}
 	value.server.observe(snapshot, candidate, Attempt{UpstreamExecution: latest.ExecutionRevision, Sequence: 100, State: "failed"}, true)
 	current, _ = value.server.Store.routeModel("alpha")
-	if value.server.health[healthKey("alpha", current.Candidates[0], latest)] != nil {
+	if value.server.router.Health("alpha", routingCandidate(current.Candidates[0], latest)) != nil {
 		testContext.Fatal("old candidate poisoned new mapping")
 	}
 }

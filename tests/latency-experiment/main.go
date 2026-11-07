@@ -15,6 +15,8 @@ import (
 
 	"model-relay/internal/relay"
 	"model-relay/tests/latencyfixture"
+
+	"model-relay/internal/routing"
 )
 
 type cell struct {
@@ -27,28 +29,28 @@ type cell struct {
 	Count    int
 }
 type sample struct {
-	Version      string                       `json:"experiment_version"`
-	Cell         string                       `json:"cell"`
-	Scenario     string                       `json:"scenario"`
-	Round        int                          `json:"round"`
-	Stream       bool                         `json:"stream"`
-	Strategy     string                       `json:"strategy"`
-	Index        int                          `json:"index"`
-	Phase        string                       `json:"phase"`
-	Started      string                       `json:"started_utc"`
-	Finished     string                       `json:"finished_utc"`
-	ID           string                       `json:"request_id"`
-	Selected     int64                        `json:"selected_upstream"`
-	Status       int                          `json:"status"`
-	State        string                       `json:"state"`
-	Attempts     int                          `json:"attempt_count"`
-	AttemptFacts []relay.Attempt              `json:"attempts"`
-	Latency      *float64                     `json:"metric_ms"`
-	Duration     float64                      `json:"client_duration_ms"`
-	Upstream     latencyfixture.Timing        `json:"upstream_timing"`
-	Decisions    []relay.SelectionObservation `json:"selection_evidence"`
-	Observations []relay.LatencyResult        `json:"latency_observations"`
-	Charges      int                          `json:"charge_entry_count"`
+	Version      string                         `json:"experiment_version"`
+	Cell         string                         `json:"cell"`
+	Scenario     string                         `json:"scenario"`
+	Round        int                            `json:"round"`
+	Stream       bool                           `json:"stream"`
+	Strategy     string                         `json:"strategy"`
+	Index        int                            `json:"index"`
+	Phase        string                         `json:"phase"`
+	Started      string                         `json:"started_utc"`
+	Finished     string                         `json:"finished_utc"`
+	ID           string                         `json:"request_id"`
+	Selected     int64                          `json:"selected_upstream"`
+	Status       int                            `json:"status"`
+	State        string                         `json:"state"`
+	Attempts     int                            `json:"attempt_count"`
+	AttemptFacts []relay.Attempt                `json:"attempts"`
+	Latency      *float64                       `json:"metric_ms"`
+	Duration     float64                        `json:"client_duration_ms"`
+	Upstream     latencyfixture.Timing          `json:"upstream_timing"`
+	Decisions    []routing.SelectionObservation `json:"selection_evidence"`
+	Observations []routing.LatencyResult        `json:"latency_observations"`
+	Charges      int                            `json:"charge_entry_count"`
 }
 type distribution struct {
 	Mean float64 `json:"mean"`
@@ -155,11 +157,11 @@ func perform(fixture *latencyfixture.Fixture, current cell, index int) (sample, 
 		return result, err
 	}
 	var typed struct {
-		State        string                       `json:"state"`
-		Attempts     []relay.Attempt              `json:"attempts"`
-		Decisions    []relay.SelectionObservation `json:"routing_decisions"`
-		Observations []relay.LatencyResult        `json:"latency_observations"`
-		Charges      []json.RawMessage            `json:"charge_entries"`
+		State        string                         `json:"state"`
+		Attempts     []relay.Attempt                `json:"attempts"`
+		Decisions    []routing.SelectionObservation `json:"routing_decisions"`
+		Observations []routing.LatencyResult        `json:"latency_observations"`
+		Charges      []json.RawMessage              `json:"charge_entries"`
 	}
 	raw, _ := json.Marshal(detail)
 	if err = json.Unmarshal(raw, &typed); err != nil {

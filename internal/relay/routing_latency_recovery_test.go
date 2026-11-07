@@ -129,10 +129,7 @@ func TestLatencyRealHTTPFailureWatermark(t *testing.T) {
 					checkSamples := func(expected int) {
 						value.server.mu.Lock()
 						defer value.server.mu.Unlock()
-						count := 0
-						for _, pool := range value.server.latency {
-							count += len(pool.Samples)
-						}
+						count := value.server.router.Stats().Samples
 						if count != expected {
 							t.Fatalf("sample_count=%d want=%d", count, expected)
 						}
