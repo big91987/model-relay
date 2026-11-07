@@ -11,6 +11,8 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	"model-relay/internal/accounting"
 )
 
 type clockRecoveryState struct {
@@ -39,7 +41,7 @@ func clockRecoveryScenario(test *testing.T, actual bool) {
 	start := time.Unix(0, fixture.clock.Load())
 	deadline := start.Add(time.Hour)
 	tenantPath := "tenants/" + fixture.tenant
-	if status, _ := fixture.admin.call("PUT", tenantPath+"/limits", ResourceLimits{Revision: 2, Calls: ptrInt64(2), RPM: ptrInt64(2), Hard: true}, ""); status != 200 {
+	if status, _ := fixture.admin.call("PUT", tenantPath+"/limits", accounting.ResourceLimits{Revision: 2, Calls: ptrInt64(2), RPM: ptrInt64(2), Hard: true}, ""); status != 200 {
 		test.Fatal("finite window caps", status)
 	}
 	status, rotation := fixture.admin.call("POST", tenantPath+"/keys/"+fixture.keyID+"/rotations", map[string]any{"expected_revision": 1, "transition_hours": 1}, "clock-rotation")

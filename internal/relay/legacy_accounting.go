@@ -4,6 +4,8 @@ import (
 	"database/sql"
 	"net/http"
 	"time"
+
+	"model-relay/internal/accounting"
 )
 
 func (server *Server) reconcileLegacy(writer http.ResponseWriter, request *http.Request, transaction *sql.Tx, principal Principal, requestID string) {
@@ -100,12 +102,12 @@ func (server *Server) reconcileLegacy(writer http.ResponseWriter, request *http.
 				return
 			}
 		}
-		cost, err := microCharge(attempt.Input, attempt.Output, attempt.CostIn, attempt.CostOut)
+		cost, err := accounting.Charge(attempt.Input, attempt.Output, attempt.CostIn, attempt.CostOut)
 		if err != nil {
 			failure(writer, 400, "invalid_amount", "")
 			return
 		}
-		fee, err := microCharge(attempt.Input, attempt.Output, attempt.FeeIn, attempt.FeeOut)
+		fee, err := accounting.Charge(attempt.Input, attempt.Output, attempt.FeeIn, attempt.FeeOut)
 		if err != nil {
 			failure(writer, 400, "invalid_amount", "")
 			return

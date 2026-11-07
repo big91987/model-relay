@@ -13,6 +13,8 @@ import (
 	"sync/atomic"
 	"testing"
 	"time"
+
+	"model-relay/internal/accounting"
 )
 
 type governedFixture struct {
@@ -127,7 +129,7 @@ func governedInstallationWithHandler(test *testing.T, actual bool, controlled fu
 	if status, _ := fixture.admin.call("POST", "models/governed/prices", map[string]any{"prices": prices}, "initial-prices"); status != 201 {
 		test.Fatal("price", status)
 	}
-	if status, _ := fixture.admin.call("PUT", "tenants/"+fixture.tenant+"/limits", ResourceLimits{TPM: ptrInt64(10000), Budget: ptrInt64(10000), Hard: true}, ""); status != 200 {
+	if status, _ := fixture.admin.call("PUT", "tenants/"+fixture.tenant+"/limits", accounting.ResourceLimits{TPM: ptrInt64(10000), Budget: ptrInt64(10000), Hard: true}, ""); status != 200 {
 		test.Fatal("limits", status)
 	}
 	status, key := fixture.admin.call("POST", "tenants/"+fixture.tenant+"/keys", KeyInput{Name: "governed app", Application: "tests", Enabled: true, Models: []string{"governed"}}, "initial-key")
@@ -378,7 +380,7 @@ func TestConsoleResourceDimensionsActualHTTP(test *testing.T) {
 func resourceDimensionScenario(test *testing.T, actual bool) {
 	fixture := governedInstallation(test, actual)
 	body := map[string]any{"model": "governed", "messages": []map[string]string{{"role": "user", "content": "controlled quota input"}}}
-	limits := []ResourceLimits{{Calls: ptrInt64(0)}, {RPM: ptrInt64(0)}, {TPM: ptrInt64(0)}, {Concurrency: ptrInt64(0)}, {Budget: ptrInt64(0), Hard: true}}
+	limits := []accounting.ResourceLimits{{Calls: ptrInt64(0)}, {RPM: ptrInt64(0)}, {TPM: ptrInt64(0)}, {Concurrency: ptrInt64(0)}, {Budget: ptrInt64(0), Hard: true}}
 	for index, limit := range limits {
 		limit.Revision = int64(index + 1)
 		if status, _ := fixture.admin.call("PUT", "tenants/"+fixture.tenant+"/limits", limit, ""); status != 200 {
@@ -391,10 +393,10 @@ func resourceDimensionScenario(test *testing.T, actual bool) {
 	if fixture.hits.Load() != 0 {
 		test.Fatal("zero quota dispatch")
 	}
-	if status, _ := fixture.admin.call("PUT", "tenants/"+fixture.tenant+"/limits", ResourceLimits{Revision: 6, Hard: false}, ""); status != 200 {
+	if status, _ := fixture.admin.call("PUT", "tenants/"+fixture.tenant+"/limits", accounting.ResourceLimits{Revision: 6, Hard: false}, ""); status != 200 {
 		test.Fatal("unlimited tenant", status)
 	}
-	if status, _ := fixture.admin.call("PUT", "tenants/"+fixture.tenant+"/keys/"+fixture.keyID+"/limits", ResourceLimits{Calls: ptrInt64(0), Hard: false, Revision: 1}, ""); status != 200 {
+	if status, _ := fixture.admin.call("PUT", "tenants/"+fixture.tenant+"/keys/"+fixture.keyID+"/limits", accounting.ResourceLimits{Calls: ptrInt64(0), Hard: false, Revision: 1}, ""); status != 200 {
 		test.Fatal("key limit", status)
 	}
 	if status, _ := fixture.generate(body, ""); status != 429 {
@@ -404,10 +406,10 @@ func resourceDimensionScenario(test *testing.T, actual bool) {
 	if status != 200 || usage["usage"].(map[string]any)["calls"] != float64(0) {
 		test.Fatal("partial tenant debit on key rejection")
 	}
-	if status, _ := fixture.admin.call("PUT", "tenants/"+fixture.tenant+"/keys/"+fixture.keyID+"/limits", ResourceLimits{Revision: 2, Hard: false}, ""); status != 200 {
+	if status, _ := fixture.admin.call("PUT", "tenants/"+fixture.tenant+"/keys/"+fixture.keyID+"/limits", accounting.ResourceLimits{Revision: 2, Hard: false}, ""); status != 200 {
 		test.Fatal("restore key limit", status)
 	}
-	if status, _ := fixture.admin.call("PUT", "tenants/"+fixture.tenant+"/limits", ResourceLimits{Revision: 7, Concurrency: ptrInt64(1), Budget: ptrInt64(600), TPM: ptrInt64(600), Hard: true}, ""); status != 200 {
+	if status, _ := fixture.admin.call("PUT", "tenants/"+fixture.tenant+"/limits", accounting.ResourceLimits{Revision: 7, Concurrency: ptrInt64(1), Budget: ptrInt64(600), TPM: ptrInt64(600), Hard: true}, ""); status != 200 {
 		test.Fatal("exact all-attempt reservation", status)
 	}
 	fixture.block = make(chan struct{})
@@ -478,7 +480,7 @@ func pauseUsageScenario(test *testing.T, actual bool) {
 	if status, _ := admin.call("PUT", "models/governed/tenant-grants", map[string]any{"tenants": []string{fixture.tenant, otherID}}, ""); status != 200 {
 		test.Fatal("two tenant grants", status)
 	}
-	if status, _ := admin.call("PUT", "tenants/"+otherID+"/limits", ResourceLimits{Budget: ptrInt64(10000), Hard: true}, ""); status != 200 {
+	if status, _ := admin.call("PUT", "tenants/"+otherID+"/limits", accounting.ResourceLimits{Budget: ptrInt64(10000), Hard: true}, ""); status != 200 {
 		test.Fatal("other tenant budget", status)
 	}
 	status, otherKey := admin.call("POST", "tenants/"+otherID+"/keys", KeyInput{Name: "other app", Application: "pause isolation", Enabled: true, Models: []string{"governed"}}, "pause-other-key")
@@ -499,7 +501,7 @@ func pauseUsageScenario(test *testing.T, actual bool) {
 			test.Fatal("pause conservation generation", status, "want", expected)
 		}
 	}
-	usage := func(tenant string) ResourceUsage {
+	usage := func(tenant string) accounting.ResourceUsage {
 		test.Helper()
 		status, result := admin.call("GET", "tenants/"+tenant+"/limits", nil, "")
 		if status != 200 {
@@ -509,7 +511,7 @@ func pauseUsageScenario(test *testing.T, actual bool) {
 		if err != nil {
 			test.Fatal("usage encoding", err)
 		}
-		var value ResourceUsage
+		var value accounting.ResourceUsage
 		if err := json.Unmarshal(data, &value); err != nil {
 			test.Fatal("usage decoding", err)
 		}

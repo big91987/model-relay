@@ -8,7 +8,7 @@
 
 默认只运行确定规则，不隐式调用外部模型。报告位于忽略的 `harness-output/architecture/`，每次独立保留，`latest-report` 文件用于固定归档入口。退出码 0 为声明规则通过，1 为违规或需复核，2 为检查未完成；未完成不当作通过。
 
-`architecture.json` 声明 `cmd`、`internal` 中的 Go 与 JavaScript 生产代码，测试从依赖规则排除。当前启动包依赖 `relay`，后端与控制台分别归属；`relay` 仍是集中业务包，控制台仍为原生 JavaScript。通过当前规则不代表已经符合目标职责划分，也不代表产品验收通过。
+`architecture.json` 声明 `cmd`、`internal` 中的 Go 与 JavaScript 生产代码，测试从依赖规则排除。当前启动包依赖 `relay`；`relay` 依赖独立 `routing` 与 `accounting` 包，两个规则包禁止 HTTP/SQL 和第三方库依赖。控制台为原生 JavaScript，工作台仅通过公开入口依赖共享传输与调用测试功能，其他管理页仍集中。通过当前规则不代表已经符合目标职责划分，也不代表产品验收通过。
 
 ## 模型架构评审
 
@@ -20,4 +20,4 @@
 
 ## 安装升级
 
-首次采用维护源的 `scaffold.py --install-tool PROJECT`，后续使用 `--update-tool PROJECT`；本地工具源码漂移和运行中的检查会阻止升级。升级后重新安装锁定 npm 依赖并运行项目检查入口。模型评审、产品测试和平台工作流执行分别验收，本次接入不包含产品模块重构或产品 QA。
+首次采用维护源的 `scaffold.py --install-tool PROJECT`，后续使用 `--update-tool PROJECT`；本地工具源码漂移和运行中的检查会阻止升级。升级后重新安装锁定 npm 依赖并运行项目检查入口。模型评审、产品测试和平台工作流执行分别验收，工具初始接入不包含产品模块重构或产品 QA。后续整改记录见 [工具驱动整改](architecture-remediation-2026-11-07.md)，本轮重构的回归不能代替独立产品 QA。

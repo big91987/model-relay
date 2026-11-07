@@ -25,7 +25,7 @@ func reviewZeroSoftBudget(test *testing.T, actual bool) {
 				path, revision = keyPath, 1
 			}
 			update := func(budget *int64) {
-				if status, _ := fixture.admin.call("PUT", path+"/limits", ResourceLimits{Revision: revision, Budget: budget, Hard: false}, ""); status != 200 {
+				if status, _ := fixture.admin.call("PUT", path+"/limits", map[string]any{"calls": nil, "rpm": nil, "tpm": nil, "concurrency": nil, "budget_micro_usd": budget, "hard": false, "revision": revision}, ""); status != 200 {
 					test.Fatal("limits", status)
 				}
 				revision++

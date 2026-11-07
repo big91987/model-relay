@@ -3,6 +3,8 @@ package relay
 import (
 	"database/sql"
 	"time"
+
+	"model-relay/internal/accounting"
 )
 
 func tenantSummary(transaction *sql.Tx, tenantID string, now time.Time) (map[string]any, error) {
@@ -30,12 +32,12 @@ func tenantSummary(transaction *sql.Tx, tenantID string, now time.Time) (map[str
 	if err != nil {
 		return nil, err
 	}
-	var platform ResourceLimits
+	var platform accounting.ResourceLimits
 	err = transaction.QueryRow("SELECT calls,rpm,tpm,concurrency,budget,hard,revision FROM platform_limits WHERE tenant_id=?", tenantID).Scan(&platform.Calls, &platform.RPM, &platform.TPM, &platform.Concurrency, &platform.Budget, &platform.Hard, &platform.Revision)
 	if err != nil && err != sql.ErrNoRows {
 		return nil, err
 	}
-	var cap *ResourceLimits
+	var cap *accounting.ResourceLimits
 	if err == nil {
 		cap = &platform
 	}

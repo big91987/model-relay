@@ -13,6 +13,8 @@ import (
 	"sync/atomic"
 	"testing"
 	"time"
+
+	"model-relay/internal/accounting"
 )
 
 func TestConsoleActualHTTPQuotaBillingAndSSE(testContext *testing.T) {
@@ -91,7 +93,7 @@ func consoleAccountingScenario(testContext *testing.T, actualHTTP bool) {
 		{"PUT", "models/controlled/tenant-grants", map[string]any{"tenants": []string{tenantID}}, "", 200},
 		{"PUT", "models/controlled/bounds", map[string]any{"upstream_id": 1, "max_input": 100, "max_output": 100, "evidence": "controlled-provider-contract-not-supplier"}, "", 200},
 		{"POST", "models/controlled/prices", map[string]any{"prices": []map[string]any{{"upstream_id": 1, "cost_input_rate": 1000000, "cost_output_rate": 2000000, "tenant_input_rate": 3000000, "tenant_output_rate": 4000000}}}, "price-1", 201},
-		{"PUT", "tenants/" + tenantID + "/limits", ResourceLimits{Calls: ptrInt64(2), TPM: ptrInt64(1000), Concurrency: ptrInt64(1), Budget: ptrInt64(5000), Hard: true}, "", 200},
+		{"PUT", "tenants/" + tenantID + "/limits", accounting.ResourceLimits{Calls: ptrInt64(2), TPM: ptrInt64(1000), Concurrency: ptrInt64(1), Budget: ptrInt64(5000), Hard: true}, "", 200},
 	} {
 		if status, _ := admin.call(step.method, step.path, step.body, step.operation); status != step.want {
 			testContext.Fatal("configuration", step.path, status)
@@ -185,7 +187,7 @@ func consoleAccountingScenario(testContext *testing.T, actualHTTP bool) {
 	if status != 200 || bill["original_fee"] != "50" || len(bill["corrections"].([]any)) != 1 {
 		testContext.Fatal("original overwritten")
 	}
-	status, _ = admin.call("PUT", "tenants/"+tenantID+"/limits", ResourceLimits{Calls: ptrInt64(1), Concurrency: ptrInt64(1), Hard: false, Revision: 1}, "")
+	status, _ = admin.call("PUT", "tenants/"+tenantID+"/limits", accounting.ResourceLimits{Calls: ptrInt64(1), Concurrency: ptrInt64(1), Hard: false, Revision: 1}, "")
 	if status != 200 {
 		testContext.Fatal("modify does not reset", status)
 	}

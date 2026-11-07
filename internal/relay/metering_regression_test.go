@@ -13,6 +13,8 @@ import (
 	"sync/atomic"
 	"testing"
 	"time"
+
+	"model-relay/internal/accounting"
 )
 
 type meteringObservation struct {
@@ -121,10 +123,10 @@ func meteringPaths(fixture *governedFixture) (string, string) {
 	return tenant, tenant + "/keys/" + fixture.keyID
 }
 
-func meteringSnapshot(test *testing.T, fixture *governedFixture, path, phase string) ResourceUsage {
+func meteringSnapshot(test *testing.T, fixture *governedFixture, path, phase string) accounting.ResourceUsage {
 	test.Helper()
 	status, report := fixture.admin.call("GET", path+"/limits", nil, "")
-	var usage ResourceUsage
+	var usage accounting.ResourceUsage
 	encoded, err := json.Marshal(report["usage"])
 	if status != 200 || err != nil || json.Unmarshal(encoded, &usage) != nil {
 		test.Fatal("metering snapshot", status)
@@ -137,7 +139,7 @@ func meteringSnapshot(test *testing.T, fixture *governedFixture, path, phase str
 	return usage
 }
 
-func meteringAssert(test *testing.T, fixture *governedFixture, phase string, want ResourceUsage) {
+func meteringAssert(test *testing.T, fixture *governedFixture, phase string, want accounting.ResourceUsage) {
 	test.Helper()
 	tenant, key := meteringPaths(fixture)
 	for _, path := range []string{tenant, key} {
@@ -180,11 +182,11 @@ func meteringSafety(test *testing.T, actual bool) {
 		test.Run(trigger, func(test *testing.T) {
 			fixture := meteringInstallation(test, actual)
 			tenant, key := meteringPaths(fixture.governedFixture)
-			if status, _ := fixture.admin.call("PUT", tenant+"/limits", ResourceLimits{Revision: 1, Hard: true}, ""); status != 200 {
+			if status, _ := fixture.admin.call("PUT", tenant+"/limits", accounting.ResourceLimits{Revision: 1, Hard: true}, ""); status != 200 {
 				test.Fatal("clear initial tenant limits", status)
 			}
 			path, revision := tenant, int64(2)
-			limits := ResourceLimits{Revision: revision, Hard: true, TPM: ptrInt64(10000)}
+			limits := accounting.ResourceLimits{Revision: revision, Hard: true, TPM: ptrInt64(10000)}
 			if trigger == "key_tpm" {
 				path, limits.Revision = key, 1
 			} else if trigger == "hard_budget" {
@@ -238,7 +240,7 @@ func meteringSafety(test *testing.T, actual bool) {
 				}
 				meteringReject(test, fixture.governedFixture, body, 400, invalid.code)
 			}
-			meteringAssert(test, fixture.governedFixture, "bounded_complete", ResourceUsage{Calls: 6, RPM: 6, TPM: 42, Fee: 42})
+			meteringAssert(test, fixture.governedFixture, "bounded_complete", accounting.ResourceUsage{Calls: 6, RPM: 6, TPM: 42, Fee: 42})
 		})
 	}
 }
@@ -267,7 +269,7 @@ func meteringTerminal(test *testing.T, actual bool) {
 			if status != scenario.status || fixture.hits.Load() != 1 {
 				test.Fatal("controlled terminal", status, scenario.status, fixture.hits.Load())
 			}
-			want := ResourceUsage{Calls: 1, RPM: 1, TPM: 200, Reserved: 200, Pending: 1}
+			want := accounting.ResourceUsage{Calls: 1, RPM: 1, TPM: 200, Reserved: 200, Pending: 1}
 			if scenario.known {
 				want.TPM, want.Fee, want.Reserved, want.Pending = 7, 7, 0, 0
 			}
@@ -312,7 +314,7 @@ func meteringWindows(test *testing.T, actual bool) {
 					path, revision = key, 1
 				}
 				update := func(value int64) {
-					limits := ResourceLimits{Revision: revision, Hard: true, TPM: ptrInt64(10000)}
+					limits := accounting.ResourceLimits{Revision: revision, Hard: true, TPM: ptrInt64(10000)}
 					if dimension == "rpm" {
 						limits.RPM = &value
 					} else {
@@ -326,23 +328,23 @@ func meteringWindows(test *testing.T, actual bool) {
 				if status, _ := fixture.generate(meteringBody(false), ""); status != 200 {
 					test.Fatal("known warmup", status)
 				}
-				meteringAssert(test, fixture.governedFixture, "warmup", ResourceUsage{Calls: 1, RPM: 1, TPM: 7, Fee: 7})
+				meteringAssert(test, fixture.governedFixture, "warmup", accounting.ResourceUsage{Calls: 1, RPM: 1, TPM: 7, Fee: 7})
 				if dimension == "rpm" {
 					update(2)
 					if status, _ := fixture.generate(meteringBody(false), ""); status != 200 {
 						test.Fatal("RPM exact N", status)
 					}
-					meteringAssert(test, fixture.governedFixture, "rpm_exact", ResourceUsage{Calls: 2, RPM: 2, TPM: 14, Fee: 14})
+					meteringAssert(test, fixture.governedFixture, "rpm_exact", accounting.ResourceUsage{Calls: 2, RPM: 2, TPM: 14, Fee: 14})
 					meteringReject(test, fixture.governedFixture, meteringBody(false), 429, scope+"_rpm_exceeded")
 					start := time.Unix(0, fixture.clock.Load()).Truncate(time.Minute)
 					fixture.clock.Store(start.Add(time.Minute - time.Nanosecond).UnixNano())
 					meteringReject(test, fixture.governedFixture, meteringBody(false), 429, scope+"_rpm_exceeded")
 					fixture.clock.Store(start.Add(time.Minute).UnixNano())
-					meteringAssert(test, fixture.governedFixture, "new_fixed_minute", ResourceUsage{Calls: 2, Fee: 14})
+					meteringAssert(test, fixture.governedFixture, "new_fixed_minute", accounting.ResourceUsage{Calls: 2, Fee: 14})
 					if status, _ := fixture.generate(meteringBody(true), ""); status != 200 {
 						test.Fatal("explicit next-minute request", status)
 					}
-					meteringAssert(test, fixture.governedFixture, "rpm_recovered", ResourceUsage{Calls: 3, RPM: 1, TPM: 7, Fee: 21})
+					meteringAssert(test, fixture.governedFixture, "rpm_recovered", accounting.ResourceUsage{Calls: 3, RPM: 1, TPM: 7, Fee: 21})
 					return
 				}
 				update(206)
@@ -353,7 +355,7 @@ func meteringWindows(test *testing.T, actual bool) {
 				if status != 200 {
 					test.Fatal("TPM U+B equality", status)
 				}
-				meteringAssert(test, fixture.governedFixture, "unknown_carry", ResourceUsage{Calls: 2, RPM: 2, TPM: 207, Fee: 7, Reserved: 200, Pending: 1})
+				meteringAssert(test, fixture.governedFixture, "unknown_carry", accounting.ResourceUsage{Calls: 2, RPM: 2, TPM: 207, Fee: 7, Reserved: 200, Pending: 1})
 				update(406)
 				meteringReject(test, fixture.governedFixture, meteringBody(false), 429, scope+"_tpm_exceeded")
 				update(407)
@@ -361,9 +363,9 @@ func meteringWindows(test *testing.T, actual bool) {
 				if status, _ := fixture.generate(meteringBody(false), ""); status != 200 {
 					test.Fatal("TPM U+P+B equality", status)
 				}
-				meteringAssert(test, fixture.governedFixture, "known_with_pending", ResourceUsage{Calls: 3, RPM: 3, TPM: 214, Fee: 14, Reserved: 200, Pending: 1})
+				meteringAssert(test, fixture.governedFixture, "known_with_pending", accounting.ResourceUsage{Calls: 3, RPM: 3, TPM: 214, Fee: 14, Reserved: 200, Pending: 1})
 				fixture.clock.Add(int64(time.Minute))
-				meteringAssert(test, fixture.governedFixture, "pending_across_minute", ResourceUsage{Calls: 3, TPM: 200, Fee: 14, Reserved: 200, Pending: 1})
+				meteringAssert(test, fixture.governedFixture, "pending_across_minute", accounting.ResourceUsage{Calls: 3, TPM: 200, Fee: 14, Reserved: 200, Pending: 1})
 				update(399)
 				meteringReject(test, fixture.governedFixture, meteringBody(false), 429, scope+"_tpm_exceeded")
 				update(400)
@@ -376,7 +378,7 @@ func meteringWindows(test *testing.T, actual bool) {
 					if status, _ := fixture.admin.call("POST", reconcilePath, reconciliation, "resolve-unknown"); status != 200 {
 						test.Fatal("append-only reconciliation/replay", status)
 					}
-					meteringAssert(test, fixture.governedFixture, "reconciled_old_minute", ResourceUsage{Calls: 4, RPM: 1, TPM: 7, Fee: 28})
+					meteringAssert(test, fixture.governedFixture, "reconciled_old_minute", accounting.ResourceUsage{Calls: 4, RPM: 1, TPM: 7, Fee: 28})
 				}
 			})
 		}
@@ -421,14 +423,14 @@ func meteringCompetition(test *testing.T, actual bool) {
 				if pool == "old_new_generation" {
 					path = key
 				}
-				limits := ResourceLimits{Revision: 1, Hard: true, TPM: ptrInt64(207)}
+				limits := accounting.ResourceLimits{Revision: 1, Hard: true, TPM: ptrInt64(207)}
 				if dimension == "rpm" {
 					limits.RPM, limits.TPM = ptrInt64(2), ptrInt64(10000)
 				}
 				if status, _ := fixture.admin.call("PUT", path+"/limits", limits, ""); status != 200 {
 					test.Fatal("shared remaining one admission", status)
 				}
-				meteringAssert(test, fixture.governedFixture, "rotation_limit_conservation", ResourceUsage{Calls: 1, RPM: 1, TPM: 7, Fee: 7})
+				meteringAssert(test, fixture.governedFixture, "rotation_limit_conservation", accounting.ResourceUsage{Calls: 1, RPM: 1, TPM: 7, Fee: 7})
 				fixture.block, fixture.entered = make(chan struct{}), make(chan struct{}, 1)
 				defer releaseResources(fixture.governedFixture)
 				gate, finished := make(chan struct{}), make(chan resourceReceipt, 8)
@@ -471,7 +473,7 @@ func meteringCompetition(test *testing.T, actual bool) {
 					}
 				}
 				occupied := meteringSnapshot(test, fixture.governedFixture, tenant, "contenders_blocked")
-				if occupied != (ResourceUsage{Calls: 2, RPM: 2, TPM: 207, Concurrency: 1, Fee: 7, Reserved: 200}) || fixture.hits.Load() != 2 {
+				if occupied != (accounting.ResourceUsage{Calls: 2, RPM: 2, TPM: 207, Concurrency: 1, Fee: 7, Reserved: 200}) || fixture.hits.Load() != 2 {
 					test.Fatal("atomic shared pool overadmitted", occupied, fixture.hits.Load())
 				}
 				if pool == "old_new_generation" && resourceUsage(test, fixture.governedFixture, key) != occupied {
@@ -510,10 +512,10 @@ func meteringCompetition(test *testing.T, actual bool) {
 				}
 				resourceFinish(test, otherFinished, 200)
 				final := resourceUsage(test, fixture.governedFixture, tenant)
-				if final != (ResourceUsage{Calls: 2, RPM: 2, TPM: 14, Fee: 14}) {
+				if final != (accounting.ResourceUsage{Calls: 2, RPM: 2, TPM: 14, Fee: 14}) {
 					test.Fatal("competition settlement", final)
 				}
-				if got := resourceUsage(test, fixture.governedFixture, "tenants/"+otherID); got != (ResourceUsage{Calls: 1, RPM: 1, TPM: 7, Fee: 7}) {
+				if got := resourceUsage(test, fixture.governedFixture, "tenants/"+otherID); got != (accounting.ResourceUsage{Calls: 1, RPM: 1, TPM: 7, Fee: 7}) {
 					test.Fatal("independent metering settlement", got)
 				}
 				test.Logf("METERING_COMPETITION pool=%s dimension=%s contenders=8 accepted=1 denied=7 independent_tenant=1 real_http=%t", pool, dimension, actual)
@@ -537,7 +539,7 @@ func meteringBoundViolation(test *testing.T, actual bool) {
 	if status, _ := fixture.generate(meteringBody(false), ""); status != 200 {
 		test.Fatal("controlled provider violation receipt", status)
 	}
-	meteringAssert(test, fixture.governedFixture, "reported_bound_violation", ResourceUsage{Calls: 1, RPM: 1, TPM: 104, Fee: 104})
+	meteringAssert(test, fixture.governedFixture, "reported_bound_violation", accounting.ResourceUsage{Calls: 1, RPM: 1, TPM: 104, Fee: 104})
 	meteringReject(test, fixture.governedFixture, meteringBody(false), 503, "trusted_bound_required")
 	test.Logf("METERING_BOUND violated_output=101 configured_output=100 next_request_dispatch_delta=0 real_http=%t", actual)
 }
@@ -567,7 +569,7 @@ func TestMeteringUndispatchedInProcess(test *testing.T) {
 	if code, status, _ := fixture.store.admit(record, snapshot, payload, request); status != 200 || code != "" {
 		test.Fatal("undispatched admission", status, code)
 	}
-	meteringAssert(test, fixture.governedFixture, "admitted_before_dispatch", ResourceUsage{Calls: 1, RPM: 1, TPM: 200, Concurrency: 1, Reserved: 200})
+	meteringAssert(test, fixture.governedFixture, "admitted_before_dispatch", accounting.ResourceUsage{Calls: 1, RPM: 1, TPM: 200, Concurrency: 1, Reserved: 200})
 	cancel()
 	fixture.server.routedGenerate(httptest.NewRecorder(), request, ctx, &record, payload, snapshot, func(state, code string) bool {
 		record.State, record.Code = state, code
@@ -576,12 +578,12 @@ func TestMeteringUndispatchedInProcess(test *testing.T) {
 	if record.State != "canceled" || record.Code != "client_canceled" || fixture.hits.Load() != 0 {
 		test.Fatal("undispatched cancel must not call upstream", record.State, record.Code)
 	}
-	meteringAssert(test, fixture.governedFixture, "undispatched_settled", ResourceUsage{Calls: 1, RPM: 1})
+	meteringAssert(test, fixture.governedFixture, "undispatched_settled", accounting.ResourceUsage{Calls: 1, RPM: 1})
 	record.State, record.Code = "success", ""
 	if fixture.store.Finish(record) != nil {
 		test.Fatal("duplicate/late undispatched finish")
 	}
-	meteringAssert(test, fixture.governedFixture, "late_finish_no_second_release", ResourceUsage{Calls: 1, RPM: 1})
+	meteringAssert(test, fixture.governedFixture, "late_finish_no_second_release", accounting.ResourceUsage{Calls: 1, RPM: 1})
 	status, detail := fixture.admin.call("GET", "workspace/requests/"+record.ID, nil, "")
 	if status != 200 || detail["state"] != "canceled" || len(detail["attempts"].([]any)) != 0 {
 		test.Fatal("late result replaced canceled terminal")
@@ -607,7 +609,7 @@ func meteringTimeout(test *testing.T, actual bool) {
 		test.Fatal("controlled post-dispatch timeout", status, fixture.hits.Load())
 	}
 	resourceWait(test, fixture.canceled)
-	meteringAssert(test, fixture.governedFixture, "post_dispatch_timeout", ResourceUsage{Calls: 1, RPM: 1, TPM: 200, Reserved: 200, Pending: 1})
+	meteringAssert(test, fixture.governedFixture, "post_dispatch_timeout", accounting.ResourceUsage{Calls: 1, RPM: 1, TPM: 200, Reserved: 200, Pending: 1})
 	status, detail := fixture.admin.call("GET", "workspace/requests/"+id, nil, "")
 	if status != 200 || detail["state"] != "timeout" || detail["error_code"] != "request_timeout" || len(detail["attempts"].([]any)) != 1 {
 		test.Fatal("timeout diagnostic", status, detail["state"], detail["error_code"])
@@ -684,7 +686,7 @@ func meteringCancellation(test *testing.T, actual bool) {
 	} else {
 		resourceWait(test, fixture.prefix)
 	}
-	meteringAssert(test, fixture.governedFixture, "sse_before_cancel", ResourceUsage{Calls: 1, RPM: 1, TPM: 200, Concurrency: 1, Reserved: 200})
+	meteringAssert(test, fixture.governedFixture, "sse_before_cancel", accounting.ResourceUsage{Calls: 1, RPM: 1, TPM: 200, Concurrency: 1, Reserved: 200})
 	cancel()
 	var receipt resourceReceipt
 	select {
@@ -710,11 +712,11 @@ func meteringCancellation(test *testing.T, actual bool) {
 		}
 		time.Sleep(10 * time.Millisecond)
 	}
-	meteringAssert(test, fixture.governedFixture, "sse_cancel_unknown", ResourceUsage{Calls: 1, RPM: 1, TPM: 200, Reserved: 200, Pending: 1})
+	meteringAssert(test, fixture.governedFixture, "sse_cancel_unknown", accounting.ResourceUsage{Calls: 1, RPM: 1, TPM: 200, Reserved: 200, Pending: 1})
 	if fixture.hits.Load() != 1 {
 		test.Fatal("cancel replayed upstream")
 	}
 	fixture.clock.Add(int64(time.Minute))
-	meteringAssert(test, fixture.governedFixture, "cancel_next_minute", ResourceUsage{Calls: 1, TPM: 200, Reserved: 200, Pending: 1})
+	meteringAssert(test, fixture.governedFixture, "cancel_next_minute", accounting.ResourceUsage{Calls: 1, TPM: 200, Reserved: 200, Pending: 1})
 	test.Logf("METERING_CANCEL request_id=%s first_output_observed=%t upstream_prefix_written=true upstream_context_canceled=true attempts=1 real_http=%t", receipt.id, actual, actual)
 }

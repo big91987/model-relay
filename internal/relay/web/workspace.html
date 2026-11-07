@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zh-CN">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Model Relay · 管理工作台</title><link rel="stylesheet" href="/admin/workspace.css"><script src="/admin/workspace.js" defer></script></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Model Relay · 管理工作台</title><link rel="stylesheet" href="/admin/workspace.css"><script type="module" src="/admin/workspace.js"></script></head>
 <body>
 <section id="login-panel" class="login-card"><div class="brand">Model Relay</div><h1>登录管理工作台</h1><p>人员账户管理权限与应用 API Key 分离。</p><form id="login-form"><label for="account">账号</label><input id="account" autocomplete="username" value="admin" required><label for="password">密码</label><input id="password" type="password" autocomplete="current-password" required><button class="primary" type="submit">登录</button></form><p id="login-error" role="alert"></p></section>
 <section id="invite-panel" class="login-card" hidden><div class="brand">Model Relay</div><h1>接受租户邀请</h1><p>邀请通过管理员手工交付，未发送验证邮件。已有账户须先登录后接受。</p><form id="accept-form"><label for="invitation-password">新账户密码（至少12字符）</label><input id="invitation-password" type="password" minlength="12" autocomplete="new-password" required><button class="primary" type="submit">接受邀请</button><button id="invite-login" type="button">已有账户，先登录</button></form><p id="invite-error" role="alert"></p></section>

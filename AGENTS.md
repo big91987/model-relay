@@ -18,4 +18,4 @@ Git branch, publishing and draft PR are handled by platform Connectors. Do not m
 
 ## Architecture checks
 
-[architecture.json](architecture.json) declares current production package boundaries. Run `make architecture-check`; read [the integration and scope](docs/engineering/architecture-checks.md). The installed tool in `.harness/archcheck` is versioned from Agent Platform, not maintained locally. Keep its SOURCE.json and use the maintenance installer for upgrades. Rule success does not prove domain-model quality or product acceptance.
+[Package responsibilities](docs/engineering/architecture.md) and [architecture.json](architecture.json) declare production package boundaries and dependency directions. Run `make architecture-check`; read [the integration and scope](docs/engineering/architecture-checks.md). The installed tool in `.harness/archcheck` is versioned from Agent Platform, not maintained locally. Keep its SOURCE.json and use the maintenance installer for upgrades. Rule success does not prove domain-model quality or product acceptance.

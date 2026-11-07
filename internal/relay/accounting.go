@@ -5,86 +5,28 @@ import (
 	"database/sql"
 	"encoding/json"
 	"errors"
-	"math/big"
 	"net/http"
-	"sort"
-	"strconv"
 	"strings"
 	"time"
+
+	"model-relay/internal/accounting"
 )
 
-type ResourceLimits struct {
-	Calls       *int64 `json:"calls"`
-	RPM         *int64 `json:"rpm"`
-	TPM         *int64 `json:"tpm"`
-	Concurrency *int64 `json:"concurrency"`
-	Budget      *int64 `json:"budget_micro_usd"`
-	Hard        bool   `json:"hard"`
-	Revision    int64  `json:"revision"`
-}
-
-type ResourceUsage struct {
-	Calls       int64 `json:"calls"`
-	RPM         int64 `json:"rpm"`
-	TPM         int64 `json:"tpm"`
-	Concurrency int64 `json:"concurrency"`
-	Fee         int64 `json:"fee_micro_usd,string"`
-	Reserved    int64 `json:"reserved_micro_usd,string"`
-	Pending     int64 `json:"pending"`
-}
-
-type PriceSnapshot struct {
-	Upstream int64  `json:"upstream_id"`
-	ID       string `json:"price_id"`
-	CostIn   int64  `json:"cost_input_rate"`
-	CostOut  int64  `json:"cost_output_rate"`
-	FeeIn    int64  `json:"tenant_input_rate"`
-	FeeOut   int64  `json:"tenant_output_rate"`
-	Input    int64  `json:"max_input"`
-	Output   int64  `json:"max_output"`
-}
-
-func (price PriceSnapshot) MarshalJSON() ([]byte, error) {
-	return json.Marshal(map[string]any{"upstream_id": price.Upstream, "price_id": price.ID, "cost_input_rate": strconv.FormatInt(price.CostIn, 10), "cost_output_rate": strconv.FormatInt(price.CostOut, 10), "tenant_input_rate": strconv.FormatInt(price.FeeIn, 10), "tenant_output_rate": strconv.FormatInt(price.FeeOut, 10), "max_input": price.Input, "max_output": price.Output})
-}
-
-func microCharge(input, output, inputRate, outputRate int64) (int64, error) {
-	return microAmount(input, output, inputRate, outputRate, 500000)
-}
-
-func microReserve(input, output, inputRate, outputRate int64) (int64, error) {
-	return microAmount(input, output, inputRate, outputRate, 999999)
-}
-
-func microAmount(input, output, inputRate, outputRate, rounding int64) (int64, error) {
-	if input < 0 || output < 0 || inputRate < 0 || outputRate < 0 {
-		return 0, errors.New("invalid_amount")
-	}
-	amount := new(big.Int).Mul(big.NewInt(input), big.NewInt(inputRate))
-	amount.Add(amount, new(big.Int).Mul(big.NewInt(output), big.NewInt(outputRate)))
-	amount.Add(amount, big.NewInt(rounding))
-	amount.Div(amount, big.NewInt(1000000))
-	if !amount.IsInt64() {
-		return 0, errors.New("amount_overflow")
-	}
-	return amount.Int64(), nil
-}
-
-func limitsFor(transaction *sql.Tx, ownerType, ownerID string) (ResourceLimits, error) {
-	var value ResourceLimits
+func limitsFor(transaction *sql.Tx, ownerType, ownerID string) (accounting.ResourceLimits, error) {
+	var value accounting.ResourceLimits
 	err := transaction.QueryRow("SELECT calls,rpm,tpm,concurrency,budget,hard,revision FROM resource_limits WHERE owner_type=? AND owner_id=?", ownerType, ownerID).Scan(&value.Calls, &value.RPM, &value.TPM, &value.Concurrency, &value.Budget, &value.Hard, &value.Revision)
 	if errors.Is(err, sql.ErrNoRows) {
-		return ResourceLimits{Hard: true}, nil
+		return accounting.ResourceLimits{Hard: true}, nil
 	}
 	return value, err
 }
 
-func usageFor(transaction *sql.Tx, ownerType, ownerID, period, minute string) (ResourceUsage, error) {
+func usageFor(transaction *sql.Tx, ownerType, ownerID, period, minute string) (accounting.ResourceUsage, error) {
 	column := "tenant_id"
 	if ownerType == "key" {
 		column = "key_id"
 	}
-	var value ResourceUsage
+	var value accounting.ResourceUsage
 	err := transaction.QueryRow("SELECT coalesce(sum(CASE WHEN period=? THEN 1 ELSE 0 END),0),coalesce(sum(CASE WHEN minute=? THEN 1 ELSE 0 END),0),coalesce(sum(CASE WHEN running=1 THEN 1 ELSE 0 END),0),coalesce(sum(tokens_reserved),0),coalesce(sum(fee_reserved),0),coalesce(sum(pending),0) FROM admissions WHERE "+column+"=?", period, minute, ownerID).Scan(&value.Calls, &value.RPM, &value.Concurrency, &value.TPM, &value.Reserved, &value.Pending)
 	if err != nil {
 		return value, err
@@ -107,10 +49,6 @@ func usageFor(transaction *sql.Tx, ownerType, ownerID, period, minute string) (R
 		value.Fee += adjustment
 	}
 	return value, err
-}
-
-func overLimit(limit *int64, used, additional int64) bool {
-	return limit != nil && (used > *limit || additional > *limit-used)
 }
 
 func admissionClock(transaction *sql.Tx, now time.Time) time.Time {
@@ -184,7 +122,7 @@ func (store *Store) admit(record Record, snapshot routeSnapshot, payload map[str
 	if err != nil {
 		return "storage_unavailable", 503, ""
 	}
-	bounded := tenantLimit.TPM != nil || keyLimit.TPM != nil || tenantLimit.Hard && tenantLimit.Budget != nil || keyLimit.Hard && keyLimit.Budget != nil
+	bounded := tenantLimit.RequiresBounds() || keyLimit.RequiresBounds()
 	if bounded {
 		var pending int
 		if transaction.QueryRow("SELECT count(*) FROM legacy_pending l WHERE l.tenant_id=? AND l.resolved=0", tenantID).Scan(&pending) != nil {
@@ -201,13 +139,13 @@ func (store *Store) admit(record Record, snapshot routeSnapshot, payload map[str
 		}
 	}
 	now := admissionClock(transaction, store.now())
-	prices := []PriceSnapshot{}
+	prices := []accounting.PriceSnapshot{}
 	for _, candidate := range snapshot.Model.Candidates {
 		upstream := snapshot.Upstreams[candidate.UpstreamID]
 		if !candidate.Enabled || !upstream.Enabled {
 			continue
 		}
-		value := PriceSnapshot{Upstream: candidate.UpstreamID}
+		value := accounting.PriceSnapshot{Upstream: candidate.UpstreamID}
 		err := transaction.QueryRow("SELECT id,cost_input,cost_output,tenant_input,tenant_output FROM prices WHERE alias=? AND upstream_id=? AND upstream_execution=? AND candidate_execution=? AND julianday(effective)<=julianday(?) ORDER BY julianday(effective) DESC,id DESC LIMIT 1", record.Alias, candidate.UpstreamID, upstream.ExecutionRevision, candidate.ExecutionRevision, now.Format(time.RFC3339Nano)).Scan(&value.ID, &value.CostIn, &value.CostOut, &value.FeeIn, &value.FeeOut)
 		var legacy bool
 		if transaction.QueryRow("SELECT legacy FROM key_controls WHERE key_id=?", record.KeyID).Scan(&legacy) != nil {
@@ -248,50 +186,26 @@ func (store *Store) admit(record Record, snapshot routeSnapshot, payload map[str
 			return "unsupported_bounded_request", 400, ""
 		}
 	}
-	tokenBounds, feeBounds := []int64{}, []int64{}
-	for _, price := range prices {
-		fee, err := microReserve(price.Input, price.Output, price.FeeIn, price.FeeOut)
-		if err != nil || price.Input > 1000000000 || price.Output > 1000000000 {
-			return "amount_overflow", 503, ""
-		}
-		tokenBounds = append(tokenBounds, price.Input+price.Output)
-		feeBounds = append(feeBounds, fee)
+	tokensReserved, feeReserved, err := accounting.ReserveAttempts(prices)
+	if err != nil {
+		return "amount_overflow", 503, ""
 	}
 	if operation != "" {
 		if _, err := transaction.Exec("INSERT INTO generation_operations VALUES(?,?,?,?)", record.KeyID, operation, fingerprint, record.ID); err != nil {
 			return "storage_unavailable", 503, ""
 		}
 	}
-	sort.Slice(tokenBounds, func(left, right int) bool { return tokenBounds[left] > tokenBounds[right] })
-	sort.Slice(feeBounds, func(left, right int) bool { return feeBounds[left] > feeBounds[right] })
-	var tokensReserved, feeReserved int64
-	for index := 0; index < len(tokenBounds) && index < 3; index++ {
-		tokensReserved += tokenBounds[index]
-		feeReserved += feeBounds[index]
-	}
 	period, minute := now.Format("2006-01"), now.Format("2006-01-02T15:04")
 	for _, owner := range []struct {
 		kind, id string
-		limits   ResourceLimits
+		limits   accounting.ResourceLimits
 	}{{"tenant", tenantID, tenantLimit}, {"key", record.KeyID, keyLimit}} {
 		used, err := usageFor(transaction, owner.kind, owner.id, period, minute)
 		if err != nil {
 			return "storage_unavailable", 503, ""
 		}
-		if overLimit(owner.limits.Calls, used.Calls, 1) {
-			return owner.kind + "_calls_exceeded", 429, ""
-		}
-		if overLimit(owner.limits.RPM, used.RPM, 1) {
-			return owner.kind + "_rpm_exceeded", 429, ""
-		}
-		if overLimit(owner.limits.TPM, used.TPM, tokensReserved) {
-			return owner.kind + "_tpm_exceeded", 429, ""
-		}
-		if overLimit(owner.limits.Concurrency, used.Concurrency, 1) {
-			return owner.kind + "_concurrency_exceeded", 429, ""
-		}
-		if owner.limits.Budget != nil && (*owner.limits.Budget == 0 || owner.limits.Hard && overLimit(owner.limits.Budget, used.Fee+used.Reserved, feeReserved)) {
-			return owner.kind + "_budget_exceeded", 429, ""
+		if code := owner.limits.CheckAdmission(used, tokensReserved, feeReserved); code != "" {
+			return owner.kind + "_" + code, 429, ""
 		}
 	}
 	if _, err := transaction.Exec("INSERT INTO admissions VALUES(?,?,?,?,?,?,1,?,?,0,1)", record.ID, tenantID, record.KeyID, period, minute, now.Format(time.RFC3339Nano), tokensReserved, feeReserved); err != nil {
@@ -356,7 +270,7 @@ func settleAdmission(transaction *sql.Tx, requestID string) error {
 	type attempted struct {
 		ordinal              int
 		input, output, total sql.NullInt64
-		price                PriceSnapshot
+		price                accounting.PriceSnapshot
 	}
 	values := []attempted{}
 	for rows.Next() {
@@ -396,11 +310,11 @@ func settleAdmission(transaction *sql.Tx, requestID string) error {
 			output = 0
 			tokensHeld += value.price.Output
 		}
-		cost, err := microCharge(input, output, value.price.CostIn, value.price.CostOut)
+		cost, err := accounting.Charge(input, output, value.price.CostIn, value.price.CostOut)
 		if err != nil {
 			return err
 		}
-		fee, err := microCharge(input, output, value.price.FeeIn, value.price.FeeOut)
+		fee, err := accounting.Charge(input, output, value.price.FeeIn, value.price.FeeOut)
 		if err != nil {
 			return err
 		}
@@ -418,7 +332,7 @@ func settleAdmission(transaction *sql.Tx, requestID string) error {
 				unknownOutput = max(value.price.Output-output, 0)
 				tokensHeld += unknownInput + unknownOutput
 			}
-			heldTotal, err := microReserve(input+unknownInput, output+unknownOutput, value.price.FeeIn, value.price.FeeOut)
+			heldTotal, err := accounting.Reserve(input+unknownInput, output+unknownOutput, value.price.FeeIn, value.price.FeeOut)
 			if err != nil {
 				return err
 			}

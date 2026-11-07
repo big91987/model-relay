@@ -13,6 +13,8 @@ import (
 	"time"
 
 	"model-relay/internal/relay"
+
+	"model-relay/internal/accounting"
 )
 
 func TestContinuousUpstreamResponseContract(test *testing.T) {
@@ -155,7 +157,7 @@ func TestContinuousUpstreamRelayHTTP(test *testing.T) {
 	admin("PUT", "models/controlled/bounds", map[string]any{"upstream_id": service, "max_input": 100, "max_output": 100, "evidence": "controlled test contract; not supplier validation"}, 200)
 	admin("POST", "models/controlled/prices", map[string]any{"prices": []map[string]any{{"upstream_id": service, "cost_input_rate": 1000000, "cost_output_rate": 1000000, "tenant_input_rate": 2000000, "tenant_output_rate": 2000000}}}, 201)
 	budget := int64(100000)
-	admin("PUT", "tenants/"+tenant+"/limits", relay.ResourceLimits{Budget: &budget, Hard: true}, 200)
+	admin("PUT", "tenants/"+tenant+"/limits", accounting.ResourceLimits{Budget: &budget, Hard: true}, 200)
 	key := admin("POST", "tenants/"+tenant+"/keys", relay.KeyInput{Name: "controlled", Application: "test fixture", Enabled: true, Models: []string{"controlled"}}, 201)["key"].(string)
 	for _, scenario := range []struct {
 		name, message string

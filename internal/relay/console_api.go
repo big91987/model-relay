@@ -7,6 +7,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"model-relay/internal/accounting"
 )
 
 func (server *Server) consoleAPI(writer http.ResponseWriter, request *http.Request, current session) bool {
@@ -109,9 +111,9 @@ func (server *Server) manageLimits(writer http.ResponseWriter, request *http.Req
 			remaining := strconv.FormatInt(*limits.Budget-usage.Fee-usage.Reserved, 10)
 			budgetRemaining = &remaining
 		}
-		var platform *ResourceLimits
+		var platform *accounting.ResourceLimits
 		if ownerType == "tenant" {
-			var cap ResourceLimits
+			var cap accounting.ResourceLimits
 			err := transaction.QueryRow("SELECT calls,rpm,tpm,concurrency,budget,hard,revision FROM platform_limits WHERE tenant_id=?", tenantID).Scan(&cap.Calls, &cap.RPM, &cap.TPM, &cap.Concurrency, &cap.Budget, &cap.Hard, &cap.Revision)
 			if err != nil && err != sql.ErrNoRows {
 				failure(writer, 503, "storage_unavailable", "")
@@ -121,23 +123,21 @@ func (server *Server) manageLimits(writer http.ResponseWriter, request *http.Req
 				platform = &cap
 			}
 		}
-		reply(writer, 200, map[string]any{"limits": limits, "usage": usage, "period": now.Format("2006-01"), "currency": "USD", "unknown_carry": true, "budget_remaining_micro_usd": budgetRemaining, "soft_budget_exceeded": limits.Budget != nil && !limits.Hard && usage.Fee+usage.Reserved >= *limits.Budget, "platform_limits": platform})
+		reply(writer, 200, map[string]any{"limits": limits, "usage": usage, "period": now.Format("2006-01"), "currency": "USD", "unknown_carry": true, "budget_remaining_micro_usd": budgetRemaining, "soft_budget_exceeded": limits.SoftBudgetExceeded(usage), "platform_limits": platform})
 		return
 	}
 	if request.Method != http.MethodPut || role != "administrator" {
 		failure(writer, 403, "forbidden", "")
 		return
 	}
-	var input ResourceLimits
+	var input accounting.ResourceLimits
 	if jsonInput(writer, request, &input) != nil {
 		failure(writer, 400, "invalid_request", "")
 		return
 	}
-	for _, limit := range []*int64{input.Calls, input.RPM, input.TPM, input.Concurrency, input.Budget} {
-		if limit != nil && (*limit < 0 || *limit > 1000000000000) {
-			failure(writer, 400, "invalid_limit", "")
-			return
-		}
+	if !input.Valid() {
+		failure(writer, 400, "invalid_limit", "")
+		return
 	}
 	previous, err := limitsFor(transaction, ownerType, ownerID)
 	if err != nil || previous.Revision != input.Revision {
@@ -145,20 +145,13 @@ func (server *Server) manageLimits(writer http.ResponseWriter, request *http.Req
 		return
 	}
 	if !principal.Platform && ownerType == "tenant" {
-		var cap ResourceLimits
+		var cap accounting.ResourceLimits
 		err := transaction.QueryRow("SELECT calls,rpm,tpm,concurrency,budget,hard,revision FROM platform_limits WHERE tenant_id=?", tenantID).Scan(&cap.Calls, &cap.RPM, &cap.TPM, &cap.Concurrency, &cap.Budget, &cap.Hard, &cap.Revision)
 		if err != nil && err != sql.ErrNoRows {
 			failure(writer, 503, "storage_unavailable", "")
 			return
 		}
-		for index, requested := range []*int64{input.Calls, input.RPM, input.TPM, input.Concurrency, input.Budget} {
-			upper := []*int64{cap.Calls, cap.RPM, cap.TPM, cap.Concurrency, cap.Budget}[index]
-			if upper != nil && (requested == nil || *requested > *upper) {
-				failure(writer, 403, "platform_limit_exceeded", "")
-				return
-			}
-		}
-		if cap.Budget != nil && cap.Hard && !input.Hard {
+		if input.Exceeds(cap) {
 			failure(writer, 403, "platform_limit_exceeded", "")
 			return
 		}
@@ -270,7 +263,7 @@ func (server *Server) manageModelFinance(writer http.ResponseWriter, request *ht
 		defer rows.Close()
 		values := []map[string]any{}
 		for rows.Next() {
-			var price PriceSnapshot
+			var price accounting.PriceSnapshot
 			var effective string
 			if rows.Scan(&price.ID, &price.Upstream, &effective, &price.CostIn, &price.CostOut, &price.FeeIn, &price.FeeOut) != nil {
 				failure(writer, 503, "storage_unavailable", "")
@@ -286,8 +279,8 @@ func (server *Server) manageModelFinance(writer http.ResponseWriter, request *ht
 		return
 	}
 	var input struct {
-		Effective string          `json:"effective_at"`
-		Prices    []PriceSnapshot `json:"prices"`
+		Effective string                     `json:"effective_at"`
+		Prices    []accounting.PriceSnapshot `json:"prices"`
 	}
 	if request.Method != http.MethodPost || jsonInput(writer, request, &input) != nil || len(input.Prices) == 0 || len(input.Prices) > 100 {
 		failure(writer, 400, "invalid_prices", "")
