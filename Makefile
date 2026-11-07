@@ -9,6 +9,7 @@ verify:
 	go run ./tests/verify
 
 verify-gates:
+	$(MAKE) architecture-check
 	go run ./tests/evidence
 	go run ./tests/review-history
 	$(MAKE) health-history
@@ -45,3 +46,8 @@ build:
 
 browser: verification-deps
 	go run ./tests/browser
+
+.PHONY: architecture-check
+architecture-check:
+	npm ci --ignore-scripts --no-audit --no-fund --prefix .harness/archcheck
+	python3 -I .harness/archcheck/inspect_project.py

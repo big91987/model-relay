@@ -1,0 +1,30 @@
+{
+  "version": "0.4.1",
+  "files": {
+    ".gitignore": "82bbc2d5022597e14316bc18c25e626e22b1e6e82fb4911d6424f6f83951650d",
+    "README.md": "062faf7deb31968be6ecb32e81b2955e0978b540a6151aa4e2fca4dfc1e6b99f",
+    "archcheck/__init__.py": "667adb28d33a285bf8f2c5ecffcae6f445c7b2901a5392a58bf9962f46fc271d",
+    "archcheck/analyzers/go.go": "74344c293f16051f30b85c36da5daac9eb9903fdc6d1da468c72ef81ae83baaa",
+    "archcheck/analyzers/typescript.cjs": "9d300d6975ab0bf524cc59603fc29033cdaeed2384d708f51adb6f2a650357a2",
+    "archcheck/cli.py": "304bce93cbce3a2e15815428cefd2c1644c7010836b6a34d2a29f0efc923b785",
+    "archcheck/engine.py": "4dcc48c8901a3c70d46aeda0d6a755e2f92b47a22173b8d9af45fd77bb4e71d6",
+    "archcheck/review.py": "b6807a52749fb0a91e6bc19e4b8790401c547f1bb4ed0952480f7b2efd4e9a61",
+    "archcheck.py": "190b28055a1f9b4cb21c25895faa5fc312b6419e532609cd5865817b7bf3d189",
+    "inspect_project.py": "e60cd5f2fd164f8727217a1f0737f3a518ab368cde80bb1b1a658eff37df7b00",
+    "model_reviewer.py": "ea08cafde3a63c7ef69bd94c119b980526cedb0ad0dc78018ff9767bddf5d04c",
+    "package-lock.json": "906156dad5e290e7cc07239d34b22c31e0c36bd63802bc65d4b4039a0378fcb3",
+    "package.json": "4b8015864ddbf626b7be73328eb34f2aa222b9d6a8feac73546d0553cc2cf33e",
+    "tests/fixtures/layered-misplaced/AGENTS.md": "98c059dd4524618ce58ef921f0230d27f84ed5eb39d59c58d1295dc79c15374d",
+    "tests/fixtures/layered-misplaced/architecture.json": "40337b687becdb08df8a008ea5dc17184a0935022f0c7e7eb99ec4a481d75142",
+    "tests/fixtures/layered-misplaced/go.mod": "e92a3b62e383c921565ee5409a9649a8ffe7028a1b3169f2ba5af41e89d3f7c9",
+    "tests/fixtures/layered-misplaced/internal/application/checkout.go": "7c34b9f713d324b1dbe01f7939910b13890d3954402c8d793f9447ee5ea62659",
+    "tests/fixtures/layered-misplaced/internal/application/quote.go": "09c21671194385e8ef7d691f7e55964a2a6c4ae385086b07fd59b2d1ca058b89",
+    "tests/fixtures/layered-misplaced/internal/domain/order.go": "565adda377ab113b6a9ecb6642858e65f6842161005470b3ba30237df15b2fd1",
+    "tests/fixtures/layered-misplaced.review.json": "71afb6eb03bd0e8e8b59d6592d7328440989f6c0a72dc0d987c83ddd9a45a194",
+    "tests/test_check.py": "e92474053f48255273a5123652e1e103e97bbc26eb3068852b3784a2f00d9ba9",
+    "tests/test_inspection.py": "5955dd96a7c1037d1b65eb3498835da5e696554de4a44af2e5c34e6e21e6bc5b",
+    "tests/test_model_reviewer.py": "a3343ee094bd373162376e4008c4c9a2e0938f6bf9445a1c5c45dde4daed731b",
+    "tests/test_report.py": "efe1f0190501b5617f8ff8b7319822eb397b9cfd4bea073a7d0a3c45bb4bfd3f",
+    "tests/test_review.py": "7900c85b6cfeea7a9e40b49df5712d60e6607538009b97351f515c8687d6e3f5"
+  }
+}
