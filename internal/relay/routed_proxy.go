@@ -1,16 +1,19 @@
 package relay
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
-	"io"
-	"mime"
+	"errors"
+	"model-relay/internal/catalog"
+	"model-relay/internal/httpapi"
+	"model-relay/internal/records"
+	"model-relay/internal/secure"
+	provider "model-relay/internal/upstream"
 	"net/http"
 	"time"
 )
 
-func (server *Server) routedGenerate(writer http.ResponseWriter, request *http.Request, ctx context.Context, record *Record, payload map[string]json.RawMessage, snapshot routeSnapshot, finish func(string, string) bool) {
+func (server *Gateway) routedGenerate(writer http.ResponseWriter, request *http.Request, ctx context.Context, record *records.Record, payload map[string]json.RawMessage, snapshot catalog.Snapshot, finish func(string, string) bool) {
 	tried := map[int64]bool{}
 	respond := func(status int, state, code string) {
 		if request.Context().Err() != nil {
@@ -26,7 +29,7 @@ func (server *Server) routedGenerate(writer http.ResponseWriter, request *http.R
 			status = 503
 			code = "storage_unavailable"
 		}
-		failure(writer, status, code, record.ID)
+		httpapi.Failure(writer, status, code, record.ID)
 	}
 	for round := 1; round <= 4; round++ {
 		if ctx.Err() != nil {
@@ -70,13 +73,13 @@ func (server *Server) routedGenerate(writer http.ResponseWriter, request *http.R
 		record.Model = candidate.RemoteModel
 		record.Revision = upstream.Revision
 		record.Status = nil
-		record.Usage = Usage{}
+		record.Usage = records.Usage{}
 		record.SuccessfulUpstream = nil
-		token, err := unseal(server.Store.Key, upstream.Encrypted, upstreamAAD(upstream.ID, upstream.URL))
+		token, err := secure.Unseal(server.Store.Key, upstream.Encrypted, secure.UpstreamAAD(upstream.ID, upstream.URL))
 		output := newAttemptOutput(writer, ctx, server.Config.AttemptTimeout)
 		started := time.Now()
 		measurement := &latencyMeasurement{}
-		defer func(attempt *Attempt, candidate Candidate, measurement *latencyMeasurement) {
+		defer func(attempt *records.Attempt, candidate catalog.Candidate, measurement *latencyMeasurement) {
 			server.acceptLatency(ctx, record.ID, snapshot, candidate, *attempt, record.Stream, *measurement)
 		}(attempt, *candidate, measurement)
 		temporary := false
@@ -92,7 +95,7 @@ func (server *Server) routedGenerate(writer http.ResponseWriter, request *http.R
 			elapsed := time.Since(started).Milliseconds()
 			attempt.Finished = &ended
 			attempt.Duration = &elapsed
-			if server.Store.finishAttempt(record.ID, attempt) != nil {
+			if server.Records.FinishAttempt(record.ID, attempt) != nil {
 				server.storageFailure()
 				return false
 			}
@@ -105,40 +108,27 @@ func (server *Server) routedGenerate(writer http.ResponseWriter, request *http.R
 			respond(503, "rejected", "storage_unavailable")
 			return
 		}
-		payload["model"], _ = json.Marshal(candidate.RemoteModel)
-		body, err := json.Marshal(payload)
-		if err != nil {
-			persist("rejected", "invalid_request")
-			output.stop()
-			respond(400, "rejected", "invalid_request")
-			return
-		}
-		outgoing, err := http.NewRequestWithContext(output.child, http.MethodPost, upstream.URL+"/chat/completions", bytes.NewReader(body))
-		if err != nil {
-			persist("rejected", "upstream_connection_failed")
-			output.stop()
-			respond(502, "rejected", "upstream_connection_failed")
-			return
-		}
-		outgoing.GetBody = nil
-		outgoing.Header.Set("Content-Type", "application/json")
-		outgoing.Header.Set("Authorization", "Bearer "+token)
-		outgoing.Header.Set("X-Request-ID", record.ID)
-		outgoing.Header.Set("Accept", "application/json")
-		if record.Stream {
-			outgoing.Header.Set("Accept", "text/event-stream")
-		}
-		if server.Store.Schema == 3 {
-			if _, err := server.Store.DB.Exec("UPDATE attempt_dispatches SET possible=1 WHERE request_id=? AND ordinal=?", record.ID, attempt.Ordinal); err != nil {
-				persist("rejected", "storage_unavailable")
-				output.stop()
-				server.storageFailure()
-				respond(503, "rejected", "storage_unavailable")
-				return
+		prepared, prepareErr := provider.PrepareChat(output.child, provider.ChatInput{Endpoint: provider.Endpoint{URL: upstream.URL, Token: token}, Payload: payload, Model: candidate.RemoteModel, RequestID: record.ID, Stream: record.Stream})
+		if prepareErr != nil {
+			code, preparationStatus := "upstream_connection_failed", 502
+			var failure *provider.PreparationError
+			if errors.As(prepareErr, &failure) && failure.Code == "invalid_request" {
+				code, preparationStatus = "invalid_request", 400
 			}
+			persist("rejected", code)
+			output.stop()
+			respond(preparationStatus, "rejected", code)
+			return
+		}
+		if err := server.Records.MarkDispatch(record.ID, attempt.Ordinal); err != nil {
+			persist("rejected", "storage_unavailable")
+			output.stop()
+			server.storageFailure()
+			respond(503, "rejected", "storage_unavailable")
+			return
 		}
 		measurement.Started = server.routingNow()
-		response, err := server.client.Do(outgoing)
+		response, err := server.Upstream.Send(prepared)
 		if response != nil && !record.Stream {
 			response.Body = &latencyReader{ReadCloser: response.Body, Measurement: measurement, Now: server.routingNow}
 		}
@@ -149,12 +139,8 @@ func (server *Server) routedGenerate(writer http.ResponseWriter, request *http.R
 			record.Status = &response.StatusCode
 			if response.StatusCode != 200 {
 				if server.Store.Schema == 3 {
-					data, err := io.ReadAll(io.LimitReader(response.Body, (1<<20)+1))
-					if err == nil && len(data) <= 1<<20 && uniqueJSON(data) {
-						if value, ok := object(data); ok {
-							record.Usage = usageFrom(value)
-						}
-					}
+					usage := provider.ReadErrorUsage(response.Body)
+					record.Usage = records.Usage{Prompt: usage.Prompt, Completion: usage.Completion, Total: usage.Total}
 				}
 				temporary = temporaryStatus(response.StatusCode)
 				errorCode = "upstream_http_error"
@@ -169,12 +155,7 @@ func (server *Server) routedGenerate(writer http.ResponseWriter, request *http.R
 					errorCode = "upstream_rejected"
 				}
 			} else {
-				kind, _, parseErr := mime.ParseMediaType(response.Header.Get("Content-Type"))
-				expected := "application/json"
-				if record.Stream {
-					expected = "text/event-stream"
-				}
-				if parseErr != nil || kind != expected {
+				if provider.ValidateChatResponse(response, record.Stream) != nil {
 					errorCode = "upstream_protocol_error"
 				} else if record.Stream {
 					var saved bool
@@ -231,23 +212,25 @@ func (server *Server) routedGenerate(writer http.ResponseWriter, request *http.R
 						status = 504
 					}
 				} else {
-					result, readErr := io.ReadAll(io.LimitReader(response.Body, (8<<20)+1))
+					completion, readErr := provider.ReadCompletion(response)
+					result := completion.Data
 					if readErr != nil {
-						status, state, errorCode = classify(output.child, readErr, false)
-						temporary = true
-					} else {
-						value, valid := validResponse(result, false)
-						if !valid || len(result) > 8<<20 {
+						if errors.Is(readErr, provider.ErrProtocol) {
 							errorCode = "upstream_protocol_error"
 						} else {
-							record.Usage = usageFrom(value)
+							status, state, errorCode = classify(output.child, readErr, false)
+							temporary = true
+						}
+					} else {
+						{
+							record.Usage = records.Usage{Prompt: completion.Usage.Prompt, Completion: completion.Usage.Completion, Total: completion.Usage.Total}
 							if err = output.commitNormal(); err == nil {
 								record.CommittedAt = &output.committedAt
 								record.SuccessfulUpstream = &attempt.UpstreamID
 								if !persist("success", "") || !finish("success", "") {
 									response.Body.Close()
 									output.stop()
-									failure(writer, 503, "storage_unavailable", record.ID)
+									httpapi.Failure(writer, 503, "storage_unavailable", record.ID)
 									return
 								}
 								server.observe(snapshot, *candidate, *attempt, false)

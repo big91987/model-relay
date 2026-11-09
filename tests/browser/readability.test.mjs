@@ -1,12 +1,12 @@
+import {createFactSummary} from '../../internal/webui/web/shared/facts.mjs';
+import {enumLabel} from '../../internal/webui/web/shared/catalog.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import test from 'node:test';
 import vm from 'node:vm';
 import {assertReadability,readabilityEvidence,readabilityFailureFacts,scrollBoundaryFacts,startScrollEvents,finishScrollEvents,startKeyboardScrollCompletion,startWheelDispatchCompletion} from './readability.mjs';
 
-const source=readFileSync(new URL('../../internal/relay/web/workspace.js',import.meta.url),'utf8');
-const context=vm.createContext({node:(tag,text,className)=>({tag,textContent:text,className,attributes:{},setAttribute(name,value){this.attributes[name]=value;}})});
-vm.runInContext(source.slice(source.indexOf('function enumLabel('),source.indexOf('function modelSources(')),context);
+const context={enumLabel,...createFactSummary({node:(tag,text,className)=>({tag,textContent:text,className,attributes:{},setAttribute(name,value){this.attributes[name]=value;}})})};
 
 test('known call, check, invitation, source and role labels express the actual business result',()=>{
   for(const [field,value,record,expected] of [
@@ -55,7 +55,7 @@ test('readability gate rejects overflow, hidden or clipped identifiers and unrea
 });
 
 test('local horizontal boundary policy is required without disabling normal overflow or vertical page scroll',()=>{
-  const styles=readFileSync(new URL('../../internal/relay/web/workspace.css',import.meta.url),'utf8');
+  const styles=readFileSync(new URL('../../internal/webui/web/workspace.css',import.meta.url),'utf8');
   assert.match(styles,/\.table-wrap,\.technical-value\{overscroll-behavior-x:none\}/);
   assert.doesNotMatch(styles,/overscroll-behavior(?:-y)?\s*:/);
   assert.match(styles,/\.table-wrap\{overflow:auto/);

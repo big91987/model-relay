@@ -5,6 +5,12 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"model-relay/internal/app"
+	"model-relay/internal/installation"
+
+	"model-relay/internal/relay"
+	upstreamclient "model-relay/internal/upstream"
+
 	"net"
 	"net/http"
 	"os"
@@ -13,8 +19,6 @@ import (
 	"strings"
 	"sync/atomic"
 	"time"
-
-	"model-relay/internal/relay"
 )
 
 func fullConsoleJourneys() error {
@@ -39,11 +43,11 @@ func fullConsoleJourneyMode(width int, mode string) error {
 		return err
 	}
 	defer os.RemoveAll(root)
-	password, err := relay.InitConsole(filepath.Join(root, "data"), filepath.Join(root, "key"))
+	password, err := installation.InitConsole(filepath.Join(root, "data"), filepath.Join(root, "key"))
 	if err != nil {
 		return err
 	}
-	store, err := relay.Open(filepath.Join(root, "data"), filepath.Join(root, "key"))
+	store, err := installation.Open(filepath.Join(root, "data"), filepath.Join(root, "key"))
 	if err != nil {
 		return err
 	}
@@ -116,10 +120,10 @@ func fullConsoleJourneyMode(width int, mode string) error {
 	if err != nil {
 		return err
 	}
-	server := &http.Server{ReadHeaderTimeout: 5 * time.Second, Handler: relay.New(store, relay.Config{
+	server := &http.Server{ReadHeaderTimeout: 5 * time.Second, Handler: app.New(store, relay.Config{
 		Authority: listener.Addr().String(), Version: "continuous-controlled-ui",
 		Clock:  func() time.Time { return time.Unix(0, clock.Load()).UTC() },
-		Policy: relay.Policy{TestAuthority: upstreamListener.Addr().String()},
+		Policy: upstreamclient.Policy{TestAuthority: upstreamListener.Addr().String()},
 	})}
 	go server.Serve(listener)
 	defer func() { server.Close() }()
@@ -128,7 +132,7 @@ func fullConsoleJourneyMode(width int, mode string) error {
 		server.Close()
 		store.Close()
 		var restartErr error
-		store, restartErr = relay.Open(filepath.Join(root, "data"), filepath.Join(root, "key"))
+		store, restartErr = installation.Open(filepath.Join(root, "data"), filepath.Join(root, "key"))
 		if restartErr != nil {
 			return "", restartErr
 		}
@@ -136,7 +140,7 @@ func fullConsoleJourneyMode(width int, mode string) error {
 		if restartErr != nil {
 			return "", restartErr
 		}
-		server = &http.Server{ReadHeaderTimeout: 5 * time.Second, Handler: relay.New(store, relay.Config{Authority: authority, Version: "continuous-controlled-ui", Clock: func() time.Time { return time.Unix(0, clock.Load()).UTC() }, Policy: relay.Policy{TestAuthority: upstreamListener.Addr().String()}})}
+		server = &http.Server{ReadHeaderTimeout: 5 * time.Second, Handler: app.New(store, relay.Config{Authority: authority, Version: "continuous-controlled-ui", Clock: func() time.Time { return time.Unix(0, clock.Load()).UTC() }, Policy: upstreamclient.Policy{TestAuthority: upstreamListener.Addr().String()}})}
 		go server.Serve(replacement)
 		return "http://" + authority, nil
 	})

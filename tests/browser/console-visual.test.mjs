@@ -96,7 +96,7 @@ test('capture contract rejects title-only, failure, wrong role/scope, overflow a
 
 test('limits visual editor targets its heading action outside content',async()=>{
   const definition=visualPages.find(page=>page.id==='limits');
-  const html=await readFile(new URL('../../internal/relay/web/workspace.html',import.meta.url),'utf8');
+  const html=await readFile(new URL('../../internal/webui/web/workspace.html',import.meta.url),'utf8');
   assert.match(html,/<div class="page-heading">[\s\S]*id="page-action"[\s\S]*<div id="content"/);
   const expected={};
   const heading={getByRole:(role,options)=>{assert.equal(role,'button');assert.deepEqual(options,{name:'调整租户限额',exact:true});return expected;}};

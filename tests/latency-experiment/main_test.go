@@ -1,6 +1,8 @@
 package main
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestNearestRankStatistics(t *testing.T) {
 	got := statistics([]float64{100, 20, 20, 20})

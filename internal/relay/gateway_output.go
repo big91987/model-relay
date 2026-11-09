@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"sync"
 	"time"
+
+	"model-relay/internal/upstream"
 )
 
 type attemptOutput struct {
@@ -101,5 +103,5 @@ func (output *attemptOutput) commitNormal() error {
 }
 
 func transportTemporary(err error) bool {
-	return err != nil && !errors.Is(err, context.Canceled) && !errors.Is(err, errDestinationForbidden)
+	return err != nil && !errors.Is(err, context.Canceled) && !errors.Is(err, upstream.ErrDestinationForbidden)
 }

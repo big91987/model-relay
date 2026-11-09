@@ -6,6 +6,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"model-relay/internal/app"
+	"model-relay/internal/installation"
+
+	"model-relay/internal/relay"
 	"net"
 	"net/http"
 	"net/http/httptest"
@@ -16,8 +20,6 @@ import (
 	"syscall"
 	"testing"
 	"time"
-
-	"model-relay/internal/relay"
 )
 
 func configureCLIInstallation(t *testing.T, admin func(string, string, any) *http.Response) {
@@ -52,16 +54,16 @@ func configureCLIInstallation(t *testing.T, admin func(string, string, any) *htt
 func TestCLIManagementConfigurationContract(t *testing.T) {
 	root := t.TempDir()
 	directory, keyFile := filepath.Join(root, "data"), filepath.Join(root, "material")
-	password, err := relay.Init(directory, keyFile)
+	password, err := installation.Init(directory, keyFile)
 	if err != nil {
 		t.Fatal("init failed")
 	}
-	store, err := relay.Open(directory, keyFile)
+	store, err := installation.Open(directory, keyFile)
 	if err != nil {
 		t.Fatal("open failed")
 	}
 	defer store.Close()
-	server := relay.New(store, relay.Config{Authority: "cli.test"})
+	server := app.New(store, relay.Config{Authority: "cli.test"})
 	var cookie *http.Cookie
 	csrf := ""
 	admin := func(method, path string, body any) *http.Response {

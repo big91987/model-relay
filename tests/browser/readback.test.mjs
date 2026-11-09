@@ -4,7 +4,7 @@ import test from 'node:test';
 import vm from 'node:vm';
 import {previousEditorAsset} from './console-faults.mjs';
 
-const source=readFileSync('internal/relay/web/workspace.js','utf8');
+const source=readFileSync('internal/webui/web/workspace.js','utf8');
 const handler=source.slice(source.indexOf('function edit('),source.indexOf('function secretDialog('));
 function element() {
   return {

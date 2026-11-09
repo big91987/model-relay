@@ -1,0 +1,39 @@
+{
+  "base": "064eb0b9c52d9b04a72ed3cd1dd70eeac756e58b",
+  "snapshot": "328ccea19f55b02826c37f3b48d89730e3153188fc695003288d1115b7a45fbe",
+  "before_relay": {
+    "files": 27,
+    "bytes": 262743
+  },
+  "after_relay": {
+    "files": 6,
+    "bytes": 31809,
+    "paths": [
+      "internal/relay/gateway.go",
+      "internal/relay/gateway_attempts.go",
+      "internal/relay/gateway_latency.go",
+      "internal/relay/gateway_output.go",
+      "internal/relay/proxy.go",
+      "internal/relay/routed_proxy.go"
+    ]
+  },
+  "frontend_features": [
+    "billing",
+    "keys",
+    "legacy-keys",
+    "legacy-models",
+    "legacy-overview",
+    "legacy-playground",
+    "legacy-records",
+    "legacy-upstreams",
+    "limits",
+    "models",
+    "overview",
+    "playground",
+    "reports",
+    "services",
+    "tenants"
+  ],
+  "tool_version": "0.4.1",
+  "tool_source_drift": []
+}

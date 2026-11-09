@@ -38,10 +38,11 @@ func run() error {
 	if err := extract.Run(); err != nil {
 		return err
 	}
-	source, err := os.ReadFile("internal/relay/console_review_regression_test.go")
+	source, err := os.ReadFile("internal/app/console_review_regression_test.go")
 	if err != nil {
 		return err
 	}
+	source = bytes.Replace(source, []byte("package app"), []byte("package relay"), 1)
 	if err := os.WriteFile(filepath.Join(directory, "internal/relay/console_review_regression_test.go"), source, 0600); err != nil {
 		return err
 	}

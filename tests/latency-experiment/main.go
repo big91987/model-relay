@@ -6,17 +6,16 @@ import (
 	"fmt"
 	"io"
 	"math"
+	"model-relay/internal/records"
+
+	"model-relay/internal/routing"
+	"model-relay/tests/latencyfixture"
 	"net/http"
 	"os"
 	"path/filepath"
 	"sort"
 	"strings"
 	"time"
-
-	"model-relay/internal/relay"
-	"model-relay/tests/latencyfixture"
-
-	"model-relay/internal/routing"
 )
 
 type cell struct {
@@ -44,7 +43,7 @@ type sample struct {
 	Status       int                            `json:"status"`
 	State        string                         `json:"state"`
 	Attempts     int                            `json:"attempt_count"`
-	AttemptFacts []relay.Attempt                `json:"attempts"`
+	AttemptFacts []records.Attempt              `json:"attempts"`
 	Latency      *float64                       `json:"metric_ms"`
 	Duration     float64                        `json:"client_duration_ms"`
 	Upstream     latencyfixture.Timing          `json:"upstream_timing"`
@@ -158,7 +157,7 @@ func perform(fixture *latencyfixture.Fixture, current cell, index int) (sample, 
 	}
 	var typed struct {
 		State        string                         `json:"state"`
-		Attempts     []relay.Attempt                `json:"attempts"`
+		Attempts     []records.Attempt              `json:"attempts"`
 		Decisions    []routing.SelectionObservation `json:"routing_decisions"`
 		Observations []routing.LatencyResult        `json:"latency_observations"`
 		Charges      []json.RawMessage              `json:"charge_entries"`

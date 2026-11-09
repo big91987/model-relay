@@ -1,0 +1,503 @@
+{
+  "scope": "Original Go test ownership migration for complete architecture governance",
+  "original_test_count": 118,
+  "mapped_test_count": 118,
+  "missing_original_test_names": [],
+  "mapping_method": "Go parser collected original and current top-level Test names; fatal/error message counts compared per original test; manually reviewed ownership adaptations. This audit is separate from runtime test results.",
+  "file_mappings": [
+    {
+      "old_file": "internal/relay/boundary_test.go",
+      "new_file": "internal/app/boundary_test.go",
+      "test_names": [
+        "TestHeaderBoundaryAndFailureContract",
+        "TestSpecialInstallationPath"
+      ]
+    },
+    {
+      "old_file": "internal/relay/configuration_test.go",
+      "new_file": "internal/app/configuration_test.go",
+      "test_names": [
+        "TestCandidateWriteRejectsDuplicatesAtomically",
+        "TestConnectionCheckDoesNotGenerateAndScopesLateResults"
+      ]
+    },
+    {
+      "old_file": "internal/relay/connection_lifecycle_test.go",
+      "new_file": "internal/app/connection_lifecycle_test.go",
+      "test_names": [
+        "TestConnectionCancelDeduplicatesAndPreservesRouting",
+        "TestConnectionRealHTTPHeaderAndBodyBudget"
+      ]
+    },
+    {
+      "old_file": "internal/relay/console_clock_queue_test.go",
+      "new_file": "internal/app/console_clock_queue_test.go",
+      "test_names": [
+        "TestConsoleClockQueuedDeadlineActualHTTP",
+        "TestConsoleClockQueuedDeadlineInProcess"
+      ]
+    },
+    {
+      "old_file": "internal/relay/console_clock_recovery_test.go",
+      "new_file": "internal/app/console_clock_recovery_test.go",
+      "test_names": [
+        "TestConsoleClockRecoveryActualHTTP",
+        "TestConsoleClockRecoveryInProcess",
+        "TestConsoleClockRecoveryWorker"
+      ]
+    },
+    {
+      "old_file": "internal/relay/console_contract_test.go",
+      "new_file": "internal/app/console_contract_test.go",
+      "test_names": [
+        "TestConsoleGenerationExactDeadline",
+        "TestConsoleGovernanceActualHTTP",
+        "TestConsoleGovernanceInProcess",
+        "TestConsoleInvitationRateLimit",
+        "TestConsolePauseUsageActualHTTP",
+        "TestConsolePauseUsageInProcess",
+        "TestConsolePeopleScopeActualHTTP",
+        "TestConsolePeopleScopeInProcess",
+        "TestConsoleResourceDimensionsActualHTTP",
+        "TestConsoleResourceDimensionsInProcess"
+      ]
+    },
+    {
+      "old_file": "internal/relay/console_http_test.go",
+      "new_file": "internal/app/console_http_test.go",
+      "test_names": [
+        "TestConsoleAccountingInProcess",
+        "TestConsoleActualHTTPQuotaBillingAndSSE"
+      ]
+    },
+    {
+      "old_file": "internal/relay/console_migration_test.go",
+      "new_file": "internal/app/console_migration_test.go",
+      "test_names": [
+        "TestConsoleMigrationConservation"
+      ]
+    },
+    {
+      "old_file": "internal/relay/console_process_test.go",
+      "new_file": "internal/app/console_process_test.go",
+      "test_names": [
+        "TestConsoleRealProcessCrashRecovery",
+        "TestConsoleRecoveryWorker"
+      ]
+    },
+    {
+      "old_file": "internal/relay/console_resource_matrix_test.go",
+      "new_file": "internal/app/console_resource_matrix_test.go",
+      "test_names": [
+        "TestConsoleResourceMatrixActualHTTP",
+        "TestConsoleResourceMatrixInProcess",
+        "TestConsoleSharedResourcesActualHTTP",
+        "TestConsoleSharedResourcesInProcess",
+        "TestLatencyResourceMatrixActualHTTP"
+      ]
+    },
+    {
+      "old_file": "internal/relay/console_review_regression_test.go",
+      "new_file": "internal/app/console_review_regression_test.go",
+      "test_names": [
+        "TestConsoleReviewClockRollbackActualHTTP",
+        "TestConsoleReviewClockRollbackInProcess",
+        "TestConsoleReviewZeroSoftBudgetActualHTTP",
+        "TestConsoleReviewZeroSoftBudgetInProcess"
+      ]
+    },
+    {
+      "old_file": "internal/relay/console_summaries_test.go",
+      "new_file": "internal/app/console_summaries_test.go",
+      "test_names": [
+        "TestConsoleSummariesActualHTTP",
+        "TestConsoleSummariesInProcess"
+      ]
+    },
+    {
+      "old_file": "internal/relay/console_test.go",
+      "new_file": "internal/app/console_test.go",
+      "test_names": [
+        "TestConsoleDeniedMetadataAndStorage",
+        "TestConsoleEvidenceConfigurationRace",
+        "TestConsoleOverviewAndExactRecords",
+        "TestConsoleRealHTTP"
+      ]
+    },
+    {
+      "old_file": "internal/relay/console_v3_test.go",
+      "new_file": "internal/app/console_v3_test.go",
+      "test_names": [
+        "TestConsoleFreshInstallationEmptyCollections",
+        "TestConsoleIdentityAndKeys",
+        "TestConsoleKeyCollectionContract",
+        "TestConsoleServiceCheckRevisionContract"
+      ]
+    },
+    {
+      "old_file": "internal/relay/crash_test.go",
+      "new_file": "internal/app/crash_test.go",
+      "test_names": [
+        "TestCrashProcessHelper",
+        "TestProcessCrashRecovery"
+      ]
+    },
+    {
+      "old_file": "internal/relay/health_test.go",
+      "new_file": "internal/app/health_test.go",
+      "test_names": [
+        "TestHealthMethodsHTTP",
+        "TestHealthMethodsHandler"
+      ]
+    },
+    {
+      "old_file": "internal/relay/inprocess_test.go",
+      "new_file": "internal/app/inprocess_test.go",
+      "test_names": [
+        "TestInProcessContract"
+      ]
+    },
+    {
+      "old_file": "internal/relay/lifecycle_test.go",
+      "new_file": "internal/app/lifecycle_test.go",
+      "test_names": [
+        "TestHTTPConfigurationChangesAndReenable"
+      ]
+    },
+    {
+      "old_file": "internal/relay/metering_regression_test.go",
+      "new_file": "internal/app/metering_regression_test.go",
+      "test_names": [
+        "TestMeteringBoundViolationActualHTTP",
+        "TestMeteringBoundViolationInProcess",
+        "TestMeteringCancellationActualHTTP",
+        "TestMeteringCancellationInProcess",
+        "TestMeteringCompetitionActualHTTP",
+        "TestMeteringCompetitionInProcess",
+        "TestMeteringSafetyActualHTTP",
+        "TestMeteringSafetyInProcess",
+        "TestMeteringTerminalActualHTTP",
+        "TestMeteringTerminalInProcess",
+        "TestMeteringTimeoutActualHTTP",
+        "TestMeteringTimeoutInProcess",
+        "TestMeteringWindowsActualHTTP",
+        "TestMeteringWindowsInProcess"
+      ]
+    },
+    {
+      "old_file": "internal/relay/metering_regression_test.go",
+      "new_file": "internal/relay/metering_undispatched_test.go",
+      "test_names": [
+        "TestMeteringUndispatchedInProcess"
+      ]
+    },
+    {
+      "old_file": "internal/relay/persistence_test.go",
+      "new_file": "internal/app/persistence_test.go",
+      "test_names": [
+        "TestHTTPRestartAndBackup",
+        "TestInterruptedActualRequest"
+      ]
+    },
+    {
+      "old_file": "internal/relay/persistence_test.go",
+      "new_file": "internal/upstream/original_regression_test.go",
+      "test_names": [
+        "TestUsageSnapshots"
+      ]
+    },
+    {
+      "old_file": "internal/relay/protocol_role_test.go",
+      "new_file": "internal/upstream/protocol_role_test.go",
+      "test_names": [
+        "TestCompletionAssistantRoleContract"
+      ]
+    },
+    {
+      "old_file": "internal/relay/qa_connection_contract_test.go",
+      "new_file": "internal/app/qa_connection_contract_test.go",
+      "test_names": [
+        "TestQAConnectionCheckProtocolAndFailureStates",
+        "TestQAConnectionCheckTenSecondBudget"
+      ]
+    },
+    {
+      "old_file": "internal/relay/relay_test.go",
+      "new_file": "internal/app/relay_test.go",
+      "test_names": [
+        "TestCancellation",
+        "TestHTTPManagementAndOrdinary",
+        "TestInstallationRecovery",
+        "TestInterruptedAndVersion",
+        "TestSSEBarrierAndUsage",
+        "TestSourceAndLoginLimits",
+        "TestStorageFailClosed",
+        "TestTimeoutRedirectAndNetwork",
+        "TestTransparentParametersAndLocalReject",
+        "TestUpstreamFailures"
+      ]
+    },
+    {
+      "old_file": "internal/relay/relay_test.go",
+      "new_file": "internal/upstream/original_regression_test.go",
+      "test_names": [
+        "TestDestinationAndProtocol"
+      ]
+    },
+    {
+      "old_file": "internal/relay/routing_boundary_test.go",
+      "new_file": "internal/app/routing_boundary_test.go",
+      "test_names": [
+        "TestManagementResponseReleasesConfigurationLock",
+        "TestRoutingDeadlineAndCancellationNeverRestart",
+        "TestRoutingPrecommitTimeoutCanSwitchOnce"
+      ]
+    },
+    {
+      "old_file": "internal/relay/routing_boundary_test.go",
+      "new_file": "internal/relay/gateway_output_test.go",
+      "test_names": [
+        "TestAttemptOutputStopsTimerOnFirstCommit"
+      ]
+    },
+    {
+      "old_file": "internal/relay/routing_contract_regression_test.go",
+      "new_file": "internal/app/routing_contract_regression_test.go",
+      "test_names": [
+        "TestCandidateIntegerAndReferenceBoundariesAreAtomic",
+        "TestRoutingHealthEpochSequenceDisableAndRestart"
+      ]
+    },
+    {
+      "old_file": "internal/relay/routing_http_test.go",
+      "new_file": "internal/app/routing_http_test.go",
+      "test_names": [
+        "TestRoutingRealHTTPCommittedStreamNeverReplays",
+        "TestRoutingRealHTTPCommittedToolsStopBoundaries",
+        "TestRoutingRealHTTPDisableBeforeFallback",
+        "TestRoutingRealHTTPFourCandidatesStopAfterThree",
+        "TestRoutingRealHTTPSelectionFailoverAndRecovery",
+        "TestRoutingRealHTTPTemporaryAllowlist"
+      ]
+    },
+    {
+      "old_file": "internal/relay/routing_latency_recovery_test.go",
+      "new_file": "internal/app/routing_latency_recovery_test.go",
+      "test_names": [
+        "TestLatencyRealHTTPFailureWatermark"
+      ]
+    },
+    {
+      "old_file": "internal/relay/routing_latency_test.go",
+      "new_file": "internal/app/routing_latency_test.go",
+      "test_names": [
+        "TestLatencyPolicyMigrationAndCompatibility",
+        "TestLatencyRealHTTPConcurrentGenerationAndSequence",
+        "TestLatencyRealHTTPCooldownRecoverySamples",
+        "TestLatencyRealHTTPHeartbeatCancellation",
+        "TestLatencyRealHTTPMeasurementAgeAndLateConfiguration",
+        "TestLatencyRealHTTPNoOutputAndNewCandidate",
+        "TestLatencyStorageFailureNeverScoresSuccess",
+        "TestLatencyTerminalWriteNeverScoresFailure"
+      ]
+    },
+    {
+      "old_file": "internal/relay/routing_latency_test.go",
+      "new_file": "internal/installation/routing_original_test.go",
+      "test_names": [
+        "TestLatencyMigrationOldSchemaAndCorruption"
+      ]
+    },
+    {
+      "old_file": "internal/relay/routing_latency_test.go",
+      "new_file": "internal/upstream/original_regression_test.go",
+      "test_names": [
+        "TestLatencyOutputDeltaContract"
+      ]
+    },
+    {
+      "old_file": "internal/relay/routing_test.go",
+      "new_file": "internal/app/routing_test.go",
+      "test_names": [
+        "TestRoutingBoundedAndStop",
+        "TestRoutingPassiveCooldown",
+        "TestRoutingSelectionAndEvidence",
+        "TestRoutingTemporaryAllowlistAndUnknownTotals"
+      ]
+    },
+    {
+      "old_file": "internal/relay/sse_terminal_regression_test.go",
+      "new_file": "internal/app/sse_terminal_regression_test.go",
+      "test_names": [
+        "TestSSEDoneTerminalAttribution",
+        "TestSSEOverlongLineNeverSwitchesOrCools",
+        "TestSSERealHTTPOverlongLineNeverSwitchesOrCools"
+      ]
+    },
+    {
+      "old_file": "internal/relay/upgrade_test.go",
+      "new_file": "internal/installation/upgrade_test.go",
+      "test_names": [
+        "TestExplicitUpgradeConservation",
+        "TestUpgradeAtomicFailureAndSchemaValidation",
+        "TestUpgradeRefusalIsNonMigrating"
+      ]
+    },
+    {
+      "old_file": "internal/relay/version_test.go",
+      "new_file": "internal/app/version_test.go",
+      "test_names": [
+        "TestHTTPHealthVersion",
+        "TestHealthVersionContract"
+      ]
+    }
+  ],
+  "moved_private_exceptions": [
+    {
+      "old_file": "internal/relay/boundary_test.go",
+      "original_test": "TestHeaderBoundaryAndFailureContract",
+      "new_file": "internal/relay/gateway_output_test.go",
+      "new_test": "TestUnexpectedEOFClassification",
+      "preserved": "Original unexpected-EOF classification predicate and failure message moved to its private relay owner."
+    },
+    {
+      "old_file": "internal/relay/routing_boundary_test.go",
+      "original_test": "TestAttemptOutputStopsTimerOnFirstCommit",
+      "new_file": "internal/relay/gateway_output_test.go",
+      "preserved": "Original timer/committed-output assertions retained in relay; no public timer hooks added."
+    },
+    {
+      "old_file": "internal/relay/routing_boundary_test.go",
+      "original_test": "TestManagementResponseReleasesConfigurationLock",
+      "new_file": "internal/app/routing_boundary_test.go",
+      "preserved": "Tests acquisition during WriteHeader with goroutine/channel and deadline because owner exposes Lock, not test-only TryLock; original failure message retained."
+    },
+    {
+      "old_file": "internal/relay/routing_latency_test.go",
+      "original_test": "TestLatencyPolicyMigrationAndCompatibility",
+      "new_file": "internal/installation/routing_original_test.go",
+      "new_test": "TestLatencyPolicyStorageValidation",
+      "preserved": "Two storage-validation error guards moved into installation owner; HTTP policy save/reject assertions remain in app."
+    },
+    {
+      "old_file": "internal/relay/routing_latency_test.go",
+      "original_test": "TestLatencyMigrationOldSchemaAndCorruption",
+      "new_file": "internal/installation/routing_original_test.go",
+      "preserved": "Original migration/idempotence/partial-extension rejection assertions run against owner-private ensureRouting."
+    },
+    {
+      "old_file": "internal/relay/console_migration_test.go",
+      "original_test": "TestConsoleMigrationConservation",
+      "new_file": "internal/app/console_migration_test.go",
+      "preserved": "Failed-upgrade version is read directly from meta instead of private legacy-open; same original version assertion retained."
+    },
+    {
+      "old_file": "internal/relay/metering_regression_test.go",
+      "original_test": "TestMeteringUndispatchedInProcess",
+      "new_file": "internal/relay/metering_undispatched_test.go",
+      "preserved": "Independent real-service setup avoids app import cycle. Original exact resource usages, cancel/no-dispatch, duplicate-finish and HTTP200/canceled/zero-attempts assertions retained; final GET uses actual httpconsole controller."
+    },
+    {
+      "old_file": "internal/relay/routing_contract_regression_test.go",
+      "original_test": "TestRoutingHealthEpochSequenceDisableAndRestart",
+      "new_file": "internal/app/routing_contract_regression_test.go",
+      "preserved": "All original visible assertions and configuration HTTP actions remain; explicit Router.Observe handles owner event injection. See coverage gap below for stale Gateway guard protection."
+    },
+    {
+      "old_file": "internal/relay/routing_test.go",
+      "original_test": "TestRoutingTemporaryAllowlistAndUnknownTotals",
+      "new_file": "internal/app/routing_test.go",
+      "preserved": "Expected retry statuses now literal independent test oracle instead of production temporaryStatus helper; original dispatch/result assertions unchanged."
+    },
+    {
+      "old_file": "internal/relay/routing_http_test.go",
+      "new_file": "internal/app/routing_http_test.go",
+      "preserved": "Expected temporary status set is literal; real HTTP dispatch/result assertions unchanged."
+    },
+    {
+      "old_file": "internal/relay/upgrade_test.go",
+      "new_file": "internal/installation/upgrade_test.go",
+      "preserved": "Original upgrade assertions were transferred by installation owner; duplicate old file removed; legacyInstallation fixture retained separately for app tests."
+    }
+  ],
+  "assertion_audit": {
+    "removed_literal_failure_messages": [],
+    "relocated_literal_failure_messages": [
+      {
+        "message": "unexpected EOF classification",
+        "destination": "internal/relay/gateway_output_test.go:TestUnexpectedEOFClassification"
+      }
+    ],
+    "relocated_nonliteral_error_guards": [
+      {
+        "original_test": "TestLatencyPolicyMigrationAndCompatibility",
+        "count": 2,
+        "destination": "internal/installation/routing_original_test.go:TestLatencyPolicyStorageValidation"
+      }
+    ],
+    "additional_checks": "Independent Undispatched setup and installation upgrades add error checks; no original test entry was dropped."
+  },
+  "coverage_gap_for_root": {
+    "status": "closed",
+    "evidence": "internal/relay/observation_guard_test.go",
+    "mutation_results": "observation-guards/mutation-results.json",
+    "result": "real source passes; removing upstream guard, candidate mapping guard or candidate execution comparison fails intended assertions"
+  },
+  "historical_source_gates": [
+    {
+      "program": "tests/health-history/main.go",
+      "input": "internal/app/health_test.go",
+      "baseline_destination": "internal/relay/health_test.go",
+      "baseline": "9b6994ed80de2bdba79ff267419150dccaac1360",
+      "baseline_command_unchanged": "go test -json -race -count=1 -run ^TestHealthMethodsHTTP$ ./internal/relay",
+      "adaptation": [
+        "package app -> package relay",
+        "relay.Config -> Config",
+        "installation.Open -> Open",
+        "newInstallation -> installation",
+        "remove new owner imports"
+      ],
+      "original_functions": 3,
+      "token_changed_function_bodies": [],
+      "unit_command_fixture": "tests/health-history/main_test.go reads and supplies new app input path"
+    },
+    {
+      "program": "tests/review-history/main.go",
+      "input": "internal/app/console_review_regression_test.go",
+      "baseline_destination": "internal/relay/console_review_regression_test.go",
+      "baseline": "66f1328ada75ea90e5638fbf2bd58663ac86347e",
+      "baseline_command_unchanged": "go test -json -race -count=1 -run ^TestConsoleReview.*ActualHTTP$ ./internal/relay",
+      "adaptation": [
+        "package app -> package relay"
+      ],
+      "original_functions": 6,
+      "token_changed_function_bodies": []
+    }
+  ],
+  "verification": {
+    "compile": "All migrated app/relay/upstream/cmd/browser/latency/history Go packages compile with -run ^$.",
+    "vet": "All migrated app/relay/cmd/browser/latency/history packages pass go vet.",
+    "targeted_passes": [
+      "All relay owner tests including restored Undispatched HTTP check",
+      "Original pure upstream protocol/role/usage/output-delta tests",
+      "All installation tests",
+      "App header boundary/health-sequence/response-lock/policy lifecycle subset",
+      "App session/evidence/identity/key composition subset"
+    ],
+    "limitations": "Child sandbox denied real listeners; original baseline Git objects absent in this checkout at initial check. Root owns full host race/browser/historical execution and has delegated baseline retrieval.",
+    "phase_note": "This is the initial migration-audit scope. The final host execution result is recorded separately in verify-state.json and verification-summary.json; initial child listener/history limitations are not the final project outcome."
+  },
+  "integration_go_programs_updated": [
+    "cmd/model-relay/main.go",
+    "cmd/model-relay/main_test.go",
+    "tests/browser/console.go",
+    "tests/browser/journeys.go",
+    "tests/browser/journeys_test.go",
+    "tests/browser/main.go",
+    "tests/browser/migration_test.go",
+    "tests/browser/schema2/main.go",
+    "tests/browser/legacy/main.go",
+    "tests/latencyfixture/fixture.go",
+    "tests/latency-experiment/main.go"
+  ]
+}

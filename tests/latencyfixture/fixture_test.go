@@ -1,6 +1,8 @@
 package latencyfixture
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestControlledSetupUsesPublicManagement(t *testing.T) {
 	fixture, err := New()

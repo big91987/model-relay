@@ -1,0 +1,36 @@
+[
+  {
+    "probe": "clean",
+    "exit_code": 0,
+    "status": "conformant",
+    "findings": []
+  },
+  {
+    "probe": "routing-http-import",
+    "exit_code": 1,
+    "status": "violations",
+    "findings": [
+      {
+        "rule": "forbidden_import",
+        "source": "internal/routing/forbidden_probe.go",
+        "line": 2,
+        "target": null,
+        "message": "routing forbids import net/http"
+      }
+    ]
+  },
+  {
+    "probe": "feature-to-feature-import",
+    "exit_code": 1,
+    "status": "violations",
+    "findings": [
+      {
+        "rule": "dependency",
+        "source": "internal/webui/web/features/keys/index.mjs",
+        "line": 1,
+        "target": "internal/webui/web/features/billing/index.mjs",
+        "message": "console_keys cannot depend on console_billing"
+      }
+    ]
+  }
+]

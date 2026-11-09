@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {createTransport} from '../../internal/relay/web/shared/transport.mjs';
+import {createTransport} from '../../internal/webui/web/shared/transport.mjs';
 
 const deferred=()=>{let resolve;const promise=new Promise(done=>{resolve=done;});return {promise,resolve};};
 test('scope cancellation aborts pending requests and discards a late response',async()=>{

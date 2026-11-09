@@ -1,12 +1,15 @@
+import {keyStatus} from '../../internal/webui/web/features/keys/index.mjs';
+import {createLimits} from '../../internal/webui/web/features/limits/index.mjs';
+import {createReports} from '../../internal/webui/web/features/reports/index.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import test from 'node:test';
 import vm from 'node:vm';
 
-const workspace=readFileSync('internal/relay/web/workspace.js','utf8');
+const workspace=readFileSync('internal/webui/web/workspace.js','utf8');
 const journey=readFileSync('tests/browser/journeys.mjs','utf8');
-const html=readFileSync('internal/relay/web/workspace.html','utf8');
-const backend=readFileSync('internal/relay/console_keys.go','utf8');
+const html=readFileSync('internal/webui/web/workspace.html','utf8');
+const backend=readFileSync('internal/httpconsole/keys.go','utf8');
 
 test('journey failure boundary includes summary assertion source but never raw stack paths or errors',()=>{
   const helper=journey.slice(journey.indexOf('function failureBoundary('),journey.indexOf('function conservationFacts('));
@@ -277,12 +280,6 @@ test('actual fresh-install driver requires zero collections, not migrated legacy
   assert.ok(!journey.includes("read(admin,'tenants/legacy/keys')"));
 });
 
-function keyStatus(value,now) {
-  const segment=workspace.slice(workspace.indexOf('function keyStatus('),workspace.indexOf('async function collection('));
-  const context=vm.createContext({value,now});
-  return vm.runInContext(segment+'\nkeyStatus(value,now);',context);
-}
-
 test('production Key formatter distinguishes safe states and precise grace/expiry boundaries',()=>{
   const now=Date.parse('2026-10-08T00:00:00Z');
   const base={enabled:true,revoked:false,expires_at:null,generations:[{retired:0,expires:null}]};
@@ -300,37 +297,36 @@ test('production Key formatter distinguishes safe states and precise grace/expir
 
 test('continuous driver uses actual product labels and rotation receipt contract',()=>{
   for(const label of ['新账户密码（至少12字符）'])assert.ok(html.includes(label));
-  for(const label of ['邀请接受链接（手工交付）',"['上界',",'供应商可证明最大收费输入Token','包括隐藏推理等最大收费输出Token','有符号更正金额（微美元）'])assert.ok(workspace.includes(label));
+  for(const label of ['邀请接受链接（手工交付）',"['上界',",'供应商可证明最大收费输入Token','包括隐藏推理等最大收费输出Token','有符号更正金额（微美元）'])assert.ok((workspace+readFileSync('internal/webui/web/features/models/index.mjs','utf8')+readFileSync('internal/webui/web/features/billing/index.mjs','utf8')).includes(label));
   assert.ok(journey.includes("getByLabel('新账户密码（至少12字符）')"));
   assert.ok(journey.includes("hasText:'邀请接受链接（手工交付）'"));
   assert.ok(journey.includes("name:'上界',exact:true"));
   assert.ok(journey.includes('hours,status=200'));
-  assert.ok(backend.includes('reply(writer, 200, map[string]any{"id": keyID, "key": secret'));
+  assert.ok(backend.includes('httpapi.Reply(writer, 200, map[string]any{"id": result.ID, "key": result.Secret'));
   assert.ok(!journey.includes("hasText:'手工交付邀请'"));
 });
 
-test('scope-required empty state replaces loading instead of leaving a perpetual loading placeholder',()=>{
+test('scope-required empty state replaces loading instead of leaving a perpetual loading placeholder',async()=>{
+  const node=(tag,text='',className='')=>({tag,text,className,children:[],append(...children){this.children.push(...children);},replaceChildren(...children){this.children=children;}});
   const content={children:[{text:'正在读取当前范围…'}],replaceChildren(...children){this.children=children;}};
-  const state={tenant:''};
-  const segment=workspace.slice(workspace.indexOf('function needTenant('),workspace.indexOf('function role('));
-  const context=vm.createContext({state,byId:()=>content,node:(tag,text,className)=>({tag,text,className})});
-  assert.equal(vm.runInContext(segment+'\nneedTenant();',context),true);
+  const scope={tenant:''};
+  const feature=createLimits({scope,request:async path=>path.includes('limits')?{limits:{},usage:{calls:0,rpm:0,tpm:0,concurrency:0,fee_micro_usd:'0',reserved_micro_usd:'0',pending:0}}:[],ui:{node,table:(columns,values)=>({...node('table'),columns,values}),column:(label,field)=>({label,field}),factSummary:()=>node('facts'),mainAction(){}}});
+  content.replaceChildren(...(await feature.render()).children);
   assert.equal(content.children.length,1);assert.equal(content.children[0].className,'empty');
   assert.ok(!content.children[0].text.includes('正在读取'));
-  state.tenant='controlled-tenant';
-  assert.equal(vm.runInContext('needTenant();',context),false);
+  scope.tenant='controlled-tenant';
+  const rendered=await feature.render();assert.ok(!rendered.children.some(child=>child.className==='empty'));
   assert.equal(content.children.length,1);
 });
 
 test('request-detail log navigation keeps tenant and existing safe filters',async()=>{
-  const state={tenant:'controlled-tenant',filters:{key:'controlled-key',model:'controlled-model',from:'2026-10-01T00:00:00Z'},pageNumber:2};
-  let action,navigation;
-  const dialog={showModal(){}};
-  const context=vm.createContext({state,openModal:dialog=>dialog.showModal(),closeModal:dialog=>dialog.close(),byId:id=>id==='detail'?dialog:{replaceChildren(){},append(){},focus(){}},limitSummary:()=>({}),button:(label,handler)=>{action=handler;return {};},navigate:async(page,preserve)=>{navigation={page,preserve};}});
-  const segment=workspace.slice(workspace.indexOf('function detail('),workspace.indexOf("byId('detail-close').onclick"));
-  vm.runInContext(segment+"\ndetail('请求详情 · controlled-request',{id:'controlled-request'});",context);
-  await action();
-  assert.equal(state.tenant,'controlled-tenant');assert.equal(state.filters.key,'controlled-key');assert.equal(state.filters.model,'controlled-model');assert.equal(state.filters.from,'2026-10-01T00:00:00Z');assert.equal(state.filters.request_id,'controlled-request');assert.equal(state.pageNumber,1);assert.deepEqual(navigation,{page:'records',preserve:true});
+  const scope={tenant:'controlled-tenant',platform:false};
+  let action,navigation,query;
+  const node=(tag,text='')=>({tag,text,children:[],append(...values){this.children.push(...values);},replaceChildren(){},setAttribute(){}});
+  const feature=createReports({scope,request:async path=>{query=new URL('http://test/'+path).searchParams;return path.includes('?page=')?{items:[],total:0,page_size:25}:{id:'controlled-request'};},ui:{node,button:(label,handler)=>{if(label==='在当前范围查看日志')action=handler;return {};},detail(){},table(){return {};},column(){},mainAction(){}},navigate:async(page,preserve)=>{navigation={page,preserve};}});
+  feature.setFilter({key:'controlled-key',model:'controlled-model',from:'2026-10-01T00:00:00Z'});
+  await feature.openRecord('controlled-request');await action();await feature.render('records');
+  assert.equal(scope.tenant,'controlled-tenant');assert.equal(query.get('key'),'controlled-key');assert.equal(query.get('model'),'controlled-model');assert.equal(query.get('from'),'2026-10-01T00:00:00Z');assert.equal(query.get('request_id'),'controlled-request');assert.equal(query.get('page'),'1');assert.deepEqual(navigation,{page:'records',preserve:true});
 });
 
 test('full suite stays additive to make verify with every frozen journey and all viewports',()=>{

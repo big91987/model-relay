@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {createPlayground} from '../../internal/relay/web/features/playground/index.mjs';
+import {createPlayground} from '../../internal/webui/web/features/playground/index.mjs';
 const deferred=()=>{let resolve;const promise=new Promise(done=>{resolve=done;});return {promise,resolve};};
 const document={createElement:tag=>({tag,children:[],dataset:{},value:'',textContent:'',disabled:false,checked:false,append(...children){this.children.push(...children);}})};
 function find(element,predicate){if(predicate(element))return element;for(const child of element.children){const found=find(child,predicate);if(found)return found;}}

@@ -19,3 +19,5 @@ Git branch, publishing and draft PR are handled by platform Connectors. Do not m
 ## Architecture checks
 
 [Package responsibilities](docs/engineering/architecture.md) and [architecture.json](architecture.json) declare production package boundaries and dependency directions. Run `make architecture-check`; read [the integration and scope](docs/engineering/architecture-checks.md). The installed tool in `.harness/archcheck` is versioned from Agent Platform, not maintained locally. Keep its SOURCE.json and use the maintenance installer for upgrades. Rule success does not prove domain-model quality or product acceptance.
+
+新增代码按能力进入对应包：管理 HTTP 只调用能力服务；复杂业务操作拥有完整事务；供应商协议归 `upstream`，网关生命周期归 `relay`。业务服务不依赖 HTTP，HTTP 适配不写 SQL，纯规则和状态包不依赖 HTTP/SQL。入口导航与职责标准见上述包地图。前端每个功能拥有业务请求、交互状态和退出清理，工作台只做组装；不要把新功能重新堆回 shell。

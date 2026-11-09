@@ -7,6 +7,12 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"model-relay/internal/app"
+	"model-relay/internal/installation"
+
+	"model-relay/internal/relay"
+	upstreamclient "model-relay/internal/upstream"
+
 	"net"
 	"net/http"
 	"os"
@@ -14,8 +20,6 @@ import (
 	"strings"
 	"syscall"
 	"time"
-
-	"model-relay/internal/relay"
 )
 
 var buildVersion = "dev"
@@ -45,13 +49,13 @@ func run(args []string) error {
 		}
 		return json.NewEncoder(os.Stdout).Encode(map[string]any{"contract_version": 1, "binary_version": buildVersion, "storage": map[string]any{"init_schema": 3, "serve_schemas": []int{3}, "upgrade_from": []int{1, 2}, "explicit_upgrade": true, "backup_schemas": []int{1, 2, 3}, "restore_schemas": []int{1, 2, 3}}})
 	case "upgrade":
-		result, err := relay.UpgradeConsole(*directory, *keyFile, *output)
+		result, err := installation.UpgradeConsole(*directory, *keyFile, *output)
 		if err != nil {
 			return err
 		}
 		return json.NewEncoder(os.Stdout).Encode(map[string]any{"binary_version": buildVersion, "result": result.Result, "from_schema": result.FromSchema, "schema": result.Schema})
 	case "init":
-		password, err := relay.InitConsole(*directory, *keyFile)
+		password, err := installation.InitConsole(*directory, *keyFile)
 		if err != nil {
 			return err
 		}
@@ -66,7 +70,7 @@ func run(args []string) error {
 			return errors.New("cannot read password input")
 		}
 		password := strings.TrimSuffix(strings.TrimSuffix(string(input), "\n"), "\r")
-		if err := relay.ResetAdminPassword(*directory, *keyFile, password); err != nil {
+		if err := installation.ResetAdminPassword(*directory, *keyFile, password); err != nil {
 			return err
 		}
 		fmt.Println("Password reset complete.")
@@ -75,12 +79,12 @@ func run(args []string) error {
 		if *output == "" {
 			return errors.New("--output required")
 		}
-		return relay.Backup(*directory, *output)
+		return installation.Backup(*directory, *output)
 	case "restore":
 		if *input == "" {
 			return errors.New("--input required")
 		}
-		return relay.Restore(*input, *directory, *keyFile)
+		return installation.Restore(*input, *directory, *keyFile)
 	case "serve":
 		private := []string{}
 		if *privateAuthorities != "" {
@@ -100,7 +104,7 @@ func run(args []string) error {
 		if address == nil || !address.IsLoopback() {
 			return errors.New("v0.1 requires an explicit loopback address")
 		}
-		store, err := relay.Open(*directory, *keyFile)
+		store, err := installation.Open(*directory, *keyFile)
 		if err != nil {
 			return err
 		}
@@ -115,7 +119,7 @@ func run(args []string) error {
 		defer listener.Close()
 		root, cancel := context.WithCancel(context.Background())
 		defer cancel()
-		server := &http.Server{Handler: relay.New(store, relay.Config{Authority: listener.Addr().String(), Version: buildVersion, Policy: relay.Policy{PrivateAuthorities: private}}), ReadHeaderTimeout: 5 * time.Second, IdleTimeout: 60 * time.Second, MaxHeaderBytes: 32 * 1024, BaseContext: func(net.Listener) context.Context { return root }}
+		server := &http.Server{Handler: app.New(store, relay.Config{Authority: listener.Addr().String(), Version: buildVersion, Policy: upstreamclient.Policy{PrivateAuthorities: private}}), ReadHeaderTimeout: 5 * time.Second, IdleTimeout: 60 * time.Second, MaxHeaderBytes: 32 * 1024, BaseContext: func(net.Listener) context.Context { return root }}
 		signals, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 		defer stop()
 		done := make(chan struct{})

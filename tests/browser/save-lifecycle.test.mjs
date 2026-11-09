@@ -1,9 +1,10 @@
+import {createModels} from '../../internal/webui/web/features/models/index.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import test from 'node:test';
 import vm from 'node:vm';
 
-const source=readFileSync('internal/relay/web/workspace.js','utf8');
+const source=readFileSync('internal/webui/web/workspace.js','utf8');
 const editor=source.slice(source.indexOf('function edit('),source.indexOf('function secretDialog('));
 const deferred=()=>{let resolve,reject;const promise=new Promise((success,failure)=>{resolve=success;reject=failure;});return {promise,resolve,reject};};
 function fixture() {
@@ -68,7 +69,7 @@ test('actual renderPage returns failed without old rows after catalog read failu
   const node=(tag,text='',className='')=>({tag,textContent:text,className,children:[],append(...values){this.children.push(...values);},replaceChildren(...values){this.children=values;}});
   const elements=new Map(['content','page-action','page-title','page-description','breadcrumb'].map(id=>[id,node('div')]));
   elements.get('content').children=[node('table','old model')];
-  const context=vm.createContext({state:{epoch:1,page:'models',user:{platform:true}},pages:{models:['模型托管','scope']},byId:id=>elements.get(id),node,scoped:path=>path,collection:async()=>{throw new Error('controlled read failed');},button:(text,onclick)=>({...node('button',text),onclick})});
+  const context=vm.createContext({state:{epoch:1,page:'models',user:{platform:true}},pages:{models:['模型托管','scope']},byId:id=>elements.get(id),node,scoped:path=>path,featurePages:()=>({models:createModels({request:async()=>{throw new Error('controlled read failed');},scope:{platform:true},ui:{node}})}),button:(text,onclick)=>({...node('button',text),onclick})});
   vm.runInContext(source.slice(source.indexOf('async function renderPage('),source.indexOf('async function navigate(')),context);
   assert.equal(await vm.runInContext('renderPage()',context),false);
   assert.equal(elements.get('content').children[0].className,'error');

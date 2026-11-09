@@ -1,0 +1,9 @@
+{
+  "candidate": "identity invitation display and operations audit use time.Now rather than the injected effective clock",
+  "disposition": "not accepted as an architecture change",
+  "basis": "Canonical baseline064eb0b9 uses the same observed wall UTC for display/audit and persisted effective UTC for acceptance/admission. A uniform switch would change product behavior. No additional clock abstraction is required by this ownership refactor.",
+  "preserved_limitation": "After wall-clock rollback, invitation listing can show pending while effective-time acceptance rejects. This presentation behavior is not a new authorization bypass and is not repaired by this architecture task.",
+  "implementation": "Comments identify the two observed responsibilities; runtime behavior is unchanged.",
+  "independent_review": "Read-only reviewer agreed to reject uniform effective-clock replacement; did not claim wall timestamps guarantee real chronology.",
+  "raw_report": "model-review/fe65d5d6c3e34fb9a88639c0e240202b/model-result.json"
+}
