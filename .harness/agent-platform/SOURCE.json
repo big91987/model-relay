@@ -1,9 +1,384 @@
 {
-  "commit": "a3976fe6644a3c143b8923751c0c4f8ef69a6aa7",
+  "commit": "7be8eaefda7c9c93bf727651898790f239852966",
   "files": {
+    "examples/arch-template/AGENTS.md": {
+      "sha256": "4dfcfdb1ffc014a18b5f8c4d7f2e69207ae59fafa6bbf05522da5f308a7cc242",
+      "bytes": 3864,
+      "mode": "100644"
+    },
+    "examples/arch-template/README.md": {
+      "sha256": "388194f3117a56d08782eab7faf9e6e130c97684c3c8971c4f64d3b5a923ea93",
+      "bytes": 4068,
+      "mode": "100644"
+    },
+    "examples/arch-template/backend/go/README.md": {
+      "sha256": "51aa7fa1243ae4befd63bdf54adc48a612fe1697c0b2417251e1f54e1a07113a",
+      "bytes": 2241,
+      "mode": "100644"
+    },
+    "examples/arch-template/backend/go/model-gateway/README.md": {
+      "sha256": "18eabf6c25d1eb2af58474392b85126224c30522aa8dc46c75aa5f9809848564",
+      "bytes": 2985,
+      "mode": "100644"
+    },
+    "examples/arch-template/backend/go/model-gateway/template/AGENTS.md": {
+      "sha256": "4b01b4e8f9e8ba1cdae637a59e6a19e57531db53097c19ccf212bb36ef5686f4",
+      "bytes": 680,
+      "mode": "100644"
+    },
+    "examples/arch-template/backend/go/model-gateway/template/architecture.json": {
+      "sha256": "73b12de782efbe0de91ff5f77cb0d230bbb1339bf2dd5b9ef2a5acdc56dd5a21",
+      "bytes": 1163,
+      "mode": "100644"
+    },
+    "examples/arch-template/backend/go/model-gateway/template/cmd/gateway/main.go": {
+      "sha256": "2d26f1d98c8a4d25257479250ac9487fea495375802d26475f54145ad6974e44",
+      "bytes": 779,
+      "mode": "100644"
+    },
+    "examples/arch-template/backend/go/model-gateway/template/docs/model-gateway.md": {
+      "sha256": "8c1a2576653988edfe4f12ec16f98ae57364a47aff8ee1405be81ea055b8a49b",
+      "bytes": 1911,
+      "mode": "100644"
+    },
+    "examples/arch-template/backend/go/model-gateway/template/go.mod": {
+      "sha256": "98d9d08f7c13316f8c6c12bb9c7f03cb1b2b17276e709dc388097509d0bb8255",
+      "bytes": 38,
+      "mode": "100644"
+    },
+    "examples/arch-template/backend/go/model-gateway/template/internal/gateway/relay.go": {
+      "sha256": "40b6f30b737e87239f006ae5b5121b20a1bc656bbd2e308d1983e1b5017db83a",
+      "bytes": 1242,
+      "mode": "100644"
+    },
+    "examples/arch-template/backend/go/model-gateway/template/internal/httpapi/relay.go": {
+      "sha256": "6ef9aaee0ff8cb771ce4166492c03bcc529eab4a151edd5e9deb7dd04c138c11",
+      "bytes": 1320,
+      "mode": "100644"
+    },
+    "examples/arch-template/backend/go/model-gateway/template/internal/httpapi/relay_test.go": {
+      "sha256": "4d5372c75ba51a65b1ee17a32041be9407e3c305e1a19c3874320634e52a058b",
+      "bytes": 3871,
+      "mode": "100644"
+    },
+    "examples/arch-template/backend/go/model-gateway/template/internal/infrastructure/upstream/client.go": {
+      "sha256": "f686c4508f948dc3a152db88775992807bfcc7b9776a9ac89569874649e7f9f3",
+      "bytes": 857,
+      "mode": "100644"
+    },
+    "examples/arch-template/backend/go/model-gateway/template/internal/routing/pool.go": {
+      "sha256": "a9d363312ac0e4e69dc61c58d8019d4256aa34db7fcb9b68e5a2a13aeb985148",
+      "bytes": 1415,
+      "mode": "100644"
+    },
+    "examples/arch-template/backend/go/model-gateway/template/internal/routing/pool_test.go": {
+      "sha256": "eb71f4bed035e2c1b3bcf077dfa03ffa66ebc039a33f1c137492dfd5efd81b7c",
+      "bytes": 959,
+      "mode": "100644"
+    },
+    "examples/arch-template/backend/go/saas/README.md": {
+      "sha256": "87417d47165d02f7bac7fd884bc433fb0c55f948c088101454be69098b4fd273",
+      "bytes": 3663,
+      "mode": "100644"
+    },
+    "examples/arch-template/backend/go/saas/template/AGENTS.md": {
+      "sha256": "1781a7c29284f0b613dad24ecf44a86db65950de4cfb627b40feba5b4516740e",
+      "bytes": 1195,
+      "mode": "100644"
+    },
+    "examples/arch-template/backend/go/saas/template/architecture.json": {
+      "sha256": "3b584bb0a16d4445dc75c99dac7b48e814427852845e37294ee83108cc6ca563",
+      "bytes": 1593,
+      "mode": "100644"
+    },
+    "examples/arch-template/backend/go/saas/template/cmd/saas/main.go": {
+      "sha256": "8c5a5b205ec95d6ea6c755e975da6435442cc5eff7702722cd609909b6eb87fb",
+      "bytes": 930,
+      "mode": "100644"
+    },
+    "examples/arch-template/backend/go/saas/template/docs/saas.md": {
+      "sha256": "96e29e36692b4f20f38a9e7d227e843bad1eb01d3befdc352e1ac7ff32ae04e2",
+      "bytes": 2679,
+      "mode": "100644"
+    },
+    "examples/arch-template/backend/go/saas/template/go.mod": {
+      "sha256": "f0b9a03b050d0dcbd4d0fe7ac27285204fa0c986163e68bcf33d7d8a2d84e503",
+      "bytes": 84,
+      "mode": "100644"
+    },
+    "examples/arch-template/backend/go/saas/template/go.sum": {
+      "sha256": "9eb975c181ebee792e06f732fc13ef81acad0779d94731f75133ad2bba52c5ca",
+      "bytes": 177,
+      "mode": "100644"
+    },
+    "examples/arch-template/backend/go/saas/template/internal/accounting/application/service.go": {
+      "sha256": "080643788abb5a84026f9a3c8518b1346b71c390d0bd35c5ddc4db9d95681620",
+      "bytes": 1913,
+      "mode": "100644"
+    },
+    "examples/arch-template/backend/go/saas/template/internal/accounting/domain/quota.go": {
+      "sha256": "e6d7a6a5f886145298d84c05efc5a0d2fb6a5ae3303a9cbe377db0b0cb710c06",
+      "bytes": 982,
+      "mode": "100644"
+    },
+    "examples/arch-template/backend/go/saas/template/internal/accounting/domain/quota_test.go": {
+      "sha256": "2e8a113692221f3c1edfe70cbbcdfdda2980aca581802ddb0a5c8b9f34d2cabb",
+      "bytes": 906,
+      "mode": "100644"
+    },
+    "examples/arch-template/backend/go/saas/template/internal/accounting/domain/reservation_test.go": {
+      "sha256": "1bb77c577835b5e9b73805bb4e944b90c7e2c53a6702d4f2bee81b6933453500",
+      "bytes": 718,
+      "mode": "100644"
+    },
+    "examples/arch-template/backend/go/saas/template/internal/httpapi/quota.go": {
+      "sha256": "82be489934aa3539e3cf849d5e649416f590e9a8f241c5b8f0ed8ded2d1c8d20",
+      "bytes": 647,
+      "mode": "100644"
+    },
+    "examples/arch-template/backend/go/saas/template/internal/infrastructure/sqlite/accounting.go": {
+      "sha256": "c2a622d6ce35d1531fb40906555b3ab2ad361f27545751da54472272ae33c582",
+      "bytes": 3899,
+      "mode": "100644"
+    },
+    "examples/arch-template/backend/go/saas/template/internal/infrastructure/sqlite/accounting_test.go": {
+      "sha256": "984fdf247d261ffef41e7d53ac9680a0b943cf1111e12c6bd8c2141dcc94187f",
+      "bytes": 4346,
+      "mode": "100644"
+    },
+    "examples/arch-template/frontend/vue/admin-console/README.md": {
+      "sha256": "7f626ddaae51ca7054f1cbb4fd833e269c78e8a6cfa1d1f802e3e4465e545e25",
+      "bytes": 4401,
+      "mode": "100644"
+    },
+    "examples/arch-template/frontend/vue/admin-console/template/AGENTS.md": {
+      "sha256": "1d96a732c6975722e7c1de4221e701ec15eca7253440fc6c64962fc5e67258ca",
+      "bytes": 636,
+      "mode": "100644"
+    },
+    "examples/arch-template/frontend/vue/admin-console/template/architecture.json": {
+      "sha256": "03e099adad086d0dc0bad2d1bf2f0596d4a805c8188958568fefce4f8e4ee2a0",
+      "bytes": 603,
+      "mode": "100644"
+    },
+    "examples/arch-template/frontend/vue/admin-console/template/docs/admin-console.md": {
+      "sha256": "00011dc2e515f26ec4b9ff04c6662e59ed17db30ab7a33365d4fe3fd9d7121ca",
+      "bytes": 1284,
+      "mode": "100644"
+    },
+    "examples/arch-template/frontend/vue/admin-console/template/index.html": {
+      "sha256": "c7660b81eb15d4a33766422615b4236d802a8e5b1bd57522499f43b2953af556",
+      "bytes": 301,
+      "mode": "100644"
+    },
+    "examples/arch-template/frontend/vue/admin-console/template/package-lock.json": {
+      "sha256": "38a94088fe4f91ae56dbbac636c53e96ee09acde282575d481dcbc5845115acf",
+      "bytes": 63307,
+      "mode": "100644"
+    },
+    "examples/arch-template/frontend/vue/admin-console/template/package.json": {
+      "sha256": "16793a21d38a45eea5c89d341c26e7fae5caa74eb690b159d4c2e73af4a74c35",
+      "bytes": 493,
+      "mode": "100644"
+    },
+    "examples/arch-template/frontend/vue/admin-console/template/src/app/App.vue": {
+      "sha256": "d1f020c8f30fde585a8a9e94d49bdfd314e16afe694dfc43146cb2982d2c772b",
+      "bytes": 137,
+      "mode": "100644"
+    },
+    "examples/arch-template/frontend/vue/admin-console/template/src/app/main.ts": {
+      "sha256": "a9a77d229d3df173585188d0cfcdeb479cf61b5a0028b67353b4f5998c9e3ad9",
+      "bytes": 114,
+      "mode": "100644"
+    },
+    "examples/arch-template/frontend/vue/admin-console/template/src/app/style.css": {
+      "sha256": "6d23520e86a1b6fe7c7f07d3584ad5ebaef95cf86140bda022f46181c7b79c7a",
+      "bytes": 1298,
+      "mode": "100644"
+    },
+    "examples/arch-template/frontend/vue/admin-console/template/src/features/quotas/QuotaPanel.vue": {
+      "sha256": "51ca3c82b2f9a0bae65a017df78d8f8fbfef37699c58dbb49031eff9b2865013",
+      "bytes": 1400,
+      "mode": "100644"
+    },
+    "examples/arch-template/frontend/vue/admin-console/template/src/features/quotas/api.ts": {
+      "sha256": "5e02af80476fce8984e4afd57644130a9588599799d99cabf94240e7cbe027e7",
+      "bytes": 733,
+      "mode": "100644"
+    },
+    "examples/arch-template/frontend/vue/admin-console/template/src/features/quotas/index.ts": {
+      "sha256": "e632f37291f9635f975507819ef04ac2a0e8d8621c29c2a6b98a143bccca6f1b",
+      "bytes": 58,
+      "mode": "100644"
+    },
+    "examples/arch-template/frontend/vue/admin-console/template/src/features/quotas/useQuota.test.ts": {
+      "sha256": "93673543adef06ab1e32612168c145cc10f6f498d358492242488ab3a25cd716",
+      "bytes": 1778,
+      "mode": "100644"
+    },
+    "examples/arch-template/frontend/vue/admin-console/template/src/features/quotas/useQuota.ts": {
+      "sha256": "af51ad75bbfc4c500ccf8e6ff7fd7d9844b03ed41fd7fb6679b5dd0f9dd8f7c9",
+      "bytes": 1016,
+      "mode": "100644"
+    },
+    "examples/arch-template/frontend/vue/admin-console/template/src/shared/api/index.ts": {
+      "sha256": "ad4ad51e352cddf2883e4fe5e59f13209bbef0d4525e4294716afb06952fb049",
+      "bytes": 384,
+      "mode": "100644"
+    },
+    "examples/arch-template/frontend/vue/admin-console/template/tsconfig.json": {
+      "sha256": "0df46eadbb9bbdc5ffe43d887d603d6619db84a71370b31e19b173a2b65c4756",
+      "bytes": 374,
+      "mode": "100644"
+    },
+    "examples/arch-template/frontend/vue/admin-console/template/vite.config.ts": {
+      "sha256": "5d5f09ec2752f4e9a5daba93f915806bef23525d947d82b79745010bd5f81e5d",
+      "bytes": 187,
+      "mode": "100644"
+    },
+    "examples/arch-template/frontend/vue/admin-console/template/vitest.config.ts": {
+      "sha256": "76107d7c8fde1aa99df775cd39be377a68767387b4414e2037f936e9913668ca",
+      "bytes": 138,
+      "mode": "100644"
+    },
+    "examples/arch-template/principles.md": {
+      "sha256": "a84d010abcb1b1cb208629a94a8bc5d5f2b9069932fac688a58d07b9be5591f8",
+      "bytes": 3427,
+      "mode": "100644"
+    },
+    "examples/arch-template/scaffold.py": {
+      "sha256": "bea9d41460ccedc2a590ca9401df90b759a070d2b96df406b187c9257231613c",
+      "bytes": 11451,
+      "mode": "100644"
+    },
+    "examples/arch-template/tests/test_scaffold.py": {
+      "sha256": "4d50ca09d78fde0596e01fb8c28e21cdcab151ce2a06ca2b6ccf9ea01ae1b9aa",
+      "bytes": 7883,
+      "mode": "100644"
+    },
+    "examples/arch-template/tool/README.md": {
+      "sha256": "64f9b9ddc26f37fb881a9e0d31a08f96883d6554af5d642b36c147361d92d99a",
+      "bytes": 9069,
+      "mode": "100644"
+    },
+    "examples/arch-template/tool/archcheck.py": {
+      "sha256": "951793ba6ec057a5aecada4b7573a06c829b10032927e5160ed8aa63d434fb78",
+      "bytes": 862,
+      "mode": "100644"
+    },
+    "examples/arch-template/tool/archcheck/__init__.py": {
+      "sha256": "794e07d9e25db37a28dbdb23cfa9799cdbce4cdb123866d5812263363f01cecd",
+      "bytes": 97,
+      "mode": "100644"
+    },
+    "examples/arch-template/tool/archcheck/analyzers/go.go": {
+      "sha256": "74344c293f16051f30b85c36da5daac9eb9903fdc6d1da468c72ef81ae83baaa",
+      "bytes": 2348,
+      "mode": "100644"
+    },
+    "examples/arch-template/tool/archcheck/analyzers/typescript.cjs": {
+      "sha256": "9d300d6975ab0bf524cc59603fc29033cdaeed2384d708f51adb6f2a650357a2",
+      "bytes": 7788,
+      "mode": "100644"
+    },
+    "examples/arch-template/tool/archcheck/cli.py": {
+      "sha256": "304bce93cbce3a2e15815428cefd2c1644c7010836b6a34d2a29f0efc923b785",
+      "bytes": 3010,
+      "mode": "100644"
+    },
+    "examples/arch-template/tool/archcheck/engine.py": {
+      "sha256": "ce5e0f9d86c95074ebbb620d36a7bcd18427e1d14555234fffc6944d6e34cc89",
+      "bytes": 17029,
+      "mode": "100644"
+    },
+    "examples/arch-template/tool/archcheck/review.py": {
+      "sha256": "f186feb232c6e00e5ecf0afe2bc5423b72bd5c2bff41e53a42a2359520cdf349",
+      "bytes": 9221,
+      "mode": "100644"
+    },
+    "examples/arch-template/tool/model_reviewer.py": {
+      "sha256": "52c9b1f5a3f16f79c90769316e264e8f6af9d566054e8d8c813c35b3d63885b5",
+      "bytes": 3381,
+      "mode": "100644"
+    },
+    "examples/arch-template/tool/package-lock.json": {
+      "sha256": "906156dad5e290e7cc07239d34b22c31e0c36bd63802bc65d4b4039a0378fcb3",
+      "bytes": 8326,
+      "mode": "100644"
+    },
+    "examples/arch-template/tool/package.json": {
+      "sha256": "4b8015864ddbf626b7be73328eb34f2aa222b9d6a8feac73546d0553cc2cf33e",
+      "bytes": 209,
+      "mode": "100644"
+    },
+    "examples/arch-template/tool/tests/fixtures/layered-misplaced.review.json": {
+      "sha256": "71afb6eb03bd0e8e8b59d6592d7328440989f6c0a72dc0d987c83ddd9a45a194",
+      "bytes": 3069,
+      "mode": "100644"
+    },
+    "examples/arch-template/tool/tests/fixtures/layered-misplaced/AGENTS.md": {
+      "sha256": "98c059dd4524618ce58ef921f0230d27f84ed5eb39d59c58d1295dc79c15374d",
+      "bytes": 492,
+      "mode": "100644"
+    },
+    "examples/arch-template/tool/tests/fixtures/layered-misplaced/architecture.json": {
+      "sha256": "40337b687becdb08df8a008ea5dc17184a0935022f0c7e7eb99ec4a481d75142",
+      "bytes": 271,
+      "mode": "100644"
+    },
+    "examples/arch-template/tool/tests/fixtures/layered-misplaced/go.mod": {
+      "sha256": "e92a3b62e383c921565ee5409a9649a8ffe7028a1b3169f2ba5af41e89d3f7c9",
+      "bytes": 38,
+      "mode": "100644"
+    },
+    "examples/arch-template/tool/tests/fixtures/layered-misplaced/internal/application/checkout.go": {
+      "sha256": "7c34b9f713d324b1dbe01f7939910b13890d3954402c8d793f9447ee5ea62659",
+      "bytes": 220,
+      "mode": "100644"
+    },
+    "examples/arch-template/tool/tests/fixtures/layered-misplaced/internal/application/quote.go": {
+      "sha256": "09c21671194385e8ef7d691f7e55964a2a6c4ae385086b07fd59b2d1ca058b89",
+      "bytes": 211,
+      "mode": "100644"
+    },
+    "examples/arch-template/tool/tests/fixtures/layered-misplaced/internal/domain/order.go": {
+      "sha256": "565adda377ab113b6a9ecb6642858e65f6842161005470b3ba30237df15b2fd1",
+      "bytes": 67,
+      "mode": "100644"
+    },
+    "examples/arch-template/tool/tests/test_check.py": {
+      "sha256": "f5530233fe5469267c29b2594b1e5d358859d238e19f109b2e519d326f39550f",
+      "bytes": 16079,
+      "mode": "100644"
+    },
+    "examples/arch-template/tool/tests/test_model_reviewer.py": {
+      "sha256": "9748bd11ff2783cdb4348cbfd7a5831a33956f565b6811ef82c3f416df6c16e7",
+      "bytes": 5285,
+      "mode": "100644"
+    },
+    "examples/arch-template/tool/tests/test_review.py": {
+      "sha256": "64c192152e10db313ec6af4302c77c545d9de1357854733c7162785c15c449eb",
+      "bytes": 7214,
+      "mode": "100644"
+    },
+    "examples/arch-template/validation.json": {
+      "sha256": "2ce369044e8363bbed31422e13a583825964261fb885eb1c5c246c069b012ff5",
+      "bytes": 21720,
+      "mode": "100644"
+    },
+    "examples/arch-template/validation.md": {
+      "sha256": "c4084dd47b1c6ea1a6247e67376728dc75ec21ac188fc7d428b9eadb97193476",
+      "bytes": 7170,
+      "mode": "100644"
+    },
+    "examples/arch-template/verification.md": {
+      "sha256": "04ca58b757107c644a429a9879e4362f8ec201625d07da10c26d62598971502b",
+      "bytes": 11145,
+      "mode": "100644"
+    },
     "examples/code-review/README.md": {
-      "sha256": "fcbf6d5723066c0c0af56138af76f88384b57a62910107a404b6e6333c0df935",
-      "bytes": 6699,
+      "sha256": "74fd7158d9b91227220443331937e0ba07c0c3834b05543456525cb5540ce364",
+      "bytes": 7369,
       "mode": "100644"
     },
     "examples/code-review/code-review.yml": {
@@ -42,13 +417,13 @@
       "mode": "100644"
     },
     "examples/code-review/runtime.py": {
-      "sha256": "5604eec63a0fc3a663785bc59ec6644c81bbbabf97be3e963de16fb037cf5898",
-      "bytes": 13632,
+      "sha256": "071ace522975b3b92dbf0a8127c8d72a116bd0951786dbf2b790fe10513fdc23",
+      "bytes": 14815,
       "mode": "100644"
     },
     "examples/code-review/runtime_test.py": {
-      "sha256": "418ce8079b649caf99be8864deffe296cb445e7876fb941cdca55e870b3b3ec1",
-      "bytes": 11075,
+      "sha256": "74abb01fc015801575d46f98f934bc8c94b7f61a322c405577325921985c915f",
+      "bytes": 12469,
       "mode": "100644"
     },
     "examples/code-review/skill/LICENSE": {
@@ -67,13 +442,13 @@
       "mode": "100644"
     },
     "examples/code-review/workflows.py": {
-      "sha256": "cd03cbe17ea7f809b81a99281ffffe2e1820a4fa88147be5fd4f28785099b60e",
-      "bytes": 8868,
+      "sha256": "4fa8e6cd092e0aea6069268119ab17d0c4ec76be770a3d9ede16545f0b22c1ee",
+      "bytes": 9861,
       "mode": "100644"
     },
     "examples/code-review/workflows_test.py": {
-      "sha256": "7bab7864acc0de106477888ad9a5e3c79f014ef8cdb152d490e34a3118afd3fa",
-      "bytes": 6979,
+      "sha256": "3f9700cbbc5f0b3c6b311f1809eca442adee9c171fc2fb33d8bb3df868efaf6d",
+      "bytes": 8487,
       "mode": "100644"
     },
     "examples/github/BROWSER_CHECKS.md": {
@@ -522,8 +897,13 @@
       "mode": "100755"
     },
     "examples/platform-workflows/README.md": {
-      "sha256": "8ab41324a67bb9f843a23ee4de4a0e538238b8937d3dc279ffd945ccd7a87105",
-      "bytes": 76873,
+      "sha256": "b775461eaa6ae8da75765dec3df790d24ceae76a46256dc7603487a489309440",
+      "bytes": 82491,
+      "mode": "100644"
+    },
+    "examples/platform-workflows/asset_snapshot.py": {
+      "sha256": "f2c9909f020da9aa1fbb9f07091ea6e58130252931ddf76c517ed20d9a83ffd1",
+      "bytes": 10674,
       "mode": "100644"
     },
     "examples/platform-workflows/browser_tool.py": {
@@ -534,6 +914,26 @@
     "examples/platform-workflows/checkout_transport_test.py": {
       "sha256": "b7fbb93d2a83dd77e70e2902a0450e93b5ad62b0d3f2ee24462fac81535dd3df",
       "bytes": 5273,
+      "mode": "100644"
+    },
+    "examples/platform-workflows/claude-entry.yml": {
+      "sha256": "710f3b1b22426bf9088606e41cd51f818e9d2af2358a34fc6d4ea2082acd4869",
+      "bytes": 3731,
+      "mode": "100644"
+    },
+    "examples/platform-workflows/claude-issue.yml": {
+      "sha256": "2a3c9970afebabcc0d33cd99fda01bf69abb9c2cfdc439a7a4694fdf4db81d36",
+      "bytes": 1305,
+      "mode": "100644"
+    },
+    "examples/platform-workflows/claude_profile.py": {
+      "sha256": "e7bc14c1ac2a55158b8be80d83b9b247c2d3aebdacfc753cefcc8662aa0d8dbb",
+      "bytes": 4264,
+      "mode": "100644"
+    },
+    "examples/platform-workflows/claude_profile_test.py": {
+      "sha256": "296ab7c85e0029127c946253dfd585bd393228ea2f8ffe6c42a27e4d036a92c8",
+      "bytes": 22721,
       "mode": "100644"
     },
     "examples/platform-workflows/collaboration-check.json": {
@@ -552,33 +952,33 @@
       "mode": "100644"
     },
     "examples/platform-workflows/github-entry.yml": {
-      "sha256": "b8be4de12fb3af46af92bd97b6715a02e65dd5f56fff7a31600c615ed00063e2",
-      "bytes": 3247,
+      "sha256": "09a5194da3cf720ed6fbeb55c28b25c8054ebc4063370918416ced6185e51dbd",
+      "bytes": 3673,
       "mode": "100644"
     },
     "examples/platform-workflows/github_entry.py": {
-      "sha256": "952e0bc42f00711e659a58b864168f875a5fe7a0689033ed590da7e7ce30d6bd",
-      "bytes": 17851,
+      "sha256": "a4e7f74eca7962dfe1d66cbd8df4aeb619077023bcd574f018577ed697f38a49",
+      "bytes": 20796,
       "mode": "100644"
     },
     "examples/platform-workflows/github_entry_test.py": {
-      "sha256": "c35fa71701cd8d343bdf39e28e748a40b2591a4e83e4097c671a3143f041ad63",
-      "bytes": 23151,
+      "sha256": "7109d10baf4ff52cf74564121ae3dfb4b42bfaf5c5831dee4918c90c5c5aeea1",
+      "bytes": 27614,
       "mode": "100644"
     },
     "examples/platform-workflows/github_install_test.py": {
-      "sha256": "cbf23f35a44908a274d277cd3b6bf8a08fc2fc6512c178879ea8b3816ae904f5",
-      "bytes": 5802,
+      "sha256": "43790bc188cd902d8e9713941dd5dd4ee8dfeb3ff55770685e778554e1c478d2",
+      "bytes": 8449,
       "mode": "100644"
     },
     "examples/platform-workflows/install.py": {
-      "sha256": "615d4e2dd40090849001f1bc123df6cc89eab905ff96d3db9551cfc232604a72",
-      "bytes": 30856,
+      "sha256": "63dff68943492079944d73caf7d34a4f4f07e128289521528d460b4384b542dd",
+      "bytes": 34691,
       "mode": "100644"
     },
     "examples/platform-workflows/install_github_entry.py": {
-      "sha256": "bf98a12f7f070d4a2db9871b89f8038a6af92adc258f067b320fd810bc00a9f9",
-      "bytes": 5218,
+      "sha256": "d94ed148d1f4b99d1ae30a4002ebdc2d49c8783030418df1144ff873c892bc5b",
+      "bytes": 7498,
       "mode": "100644"
     },
     "examples/platform-workflows/install_test.py": {
@@ -597,8 +997,8 @@
       "mode": "100644"
     },
     "examples/platform-workflows/node_agent_install_test.py": {
-      "sha256": "862db36be7d1fae09a4046f44361c9c731e6f857174b66efca4418f5e2cb5937",
-      "bytes": 21832,
+      "sha256": "b0e89e244ba92e62ff92d3acbe81774898e8e9287aee389343fd6532f039e1ac",
+      "bytes": 24448,
       "mode": "100644"
     },
     "examples/platform-workflows/opensandbox-runtime-check.json": {
@@ -609,6 +1009,36 @@
     "examples/platform-workflows/product-e2e.json": {
       "sha256": "9108fabd6c5291139c165bf8a834527f244a81cf11f211681de8e363fd0a4362",
       "bytes": 6567,
+      "mode": "100644"
+    },
+    "examples/platform-workflows/prompts/claude-common.md": {
+      "sha256": "e8edb668d13154cc2982665bd65bcaf27516944b63586235b38bc55887f7e3ee",
+      "bytes": 586,
+      "mode": "100644"
+    },
+    "examples/platform-workflows/prompts/claude-design.md": {
+      "sha256": "490aa5d00718a1caa61592f248935adc19895015a2457a6eece0b9ea1eb29ad9",
+      "bytes": 280,
+      "mode": "100644"
+    },
+    "examples/platform-workflows/prompts/claude-development.md": {
+      "sha256": "7be81e7928db58f7b7b6062af42714899ca0184998d7d04d50bc82320d1417bd",
+      "bytes": 285,
+      "mode": "100644"
+    },
+    "examples/platform-workflows/prompts/claude-qa.md": {
+      "sha256": "823d088781a156ef42a7a56988f6d709b78c205f8c96c55fec63535d19209317",
+      "bytes": 742,
+      "mode": "100644"
+    },
+    "examples/platform-workflows/prompts/claude-report.md": {
+      "sha256": "66f90f33f6c35b26b23951ed3a69bc40ed0bcda7c0ebffa372b597b5ca4ad15c",
+      "bytes": 395,
+      "mode": "100644"
+    },
+    "examples/platform-workflows/prompts/claude-requirements.md": {
+      "sha256": "aa07a75f4012b296986c5be623cf2257612122b54c8a82fb68fa948fae52c53b",
+      "bytes": 227,
       "mode": "100644"
     },
     "examples/platform-workflows/prompts/collaboration.md": {
@@ -722,13 +1152,18 @@
       "mode": "100644"
     },
     "examples/platform-workflows/repository.py": {
-      "sha256": "b873089bfe9a56d0fcfed5657652d82ba4e8b5588a990f5c2a5df46ace0e8b0f",
-      "bytes": 19015,
+      "sha256": "36abce9271701fe4a99a022f48d6249273035955f7ba16846e457b4f57a8a11e",
+      "bytes": 23686,
       "mode": "100644"
     },
     "examples/platform-workflows/repository_test.py": {
       "sha256": "f74633a72b53b534e61cd4d8b36882a79c416612aa9832d9f0e2fec8890cdfe4",
       "bytes": 24179,
+      "mode": "100644"
+    },
+    "examples/platform-workflows/review_pair.py": {
+      "sha256": "f67a8dff16a4bcb197727835f7b40e7d4ff02b4f33d4d7cc3c23a8084b8c30df",
+      "bytes": 9146,
       "mode": "100644"
     },
     "examples/platform-workflows/run_entry.py": {
