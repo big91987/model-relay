@@ -34,7 +34,7 @@ func TestHistoryCommandOutput(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	testSource, err := os.ReadFile(filepath.Join(root, "internal/relay/health_test.go"))
+	testSource, err := os.ReadFile(filepath.Join(root, "internal/app/health_test.go"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -47,7 +47,7 @@ func TestHistoryCommandOutput(t *testing.T) {
 			directory := t.TempDir()
 			files := map[string][]byte{
 				"baseline.tar":                             archive,
-				"internal/relay/health_test.go":            testSource,
+				"internal/app/health_test.go":              testSource,
 				"docs/workflow/health-methods-history.log": []byte("preserved historical receipt\n"),
 				"docs/workflow/runs/prior/tasks/task.md":   []byte("preserved historical task\n"),
 				"tools/git":                                []byte("#!/bin/sh\n[ \"$*\" = \"archive " + baseline + "\" ] || exit 99\ncat \"$HISTORY_TEST_ARCHIVE\"\n"),

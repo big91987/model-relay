@@ -13,7 +13,14 @@
   "documents": [
     "AGENTS.md",
     "docs/roadmap.md",
-    "docs/engineering/architecture-checks.md"
+    "docs/engineering/architecture-checks.md",
+    "docs/engineering/architecture.md",
+    ".trellis/spec/backend/index.md",
+    "internal/app/health_test.go",
+    "internal/app/console_contract_test.go",
+    "internal/records/legacy_test.go",
+    ".trellis/spec/backend/multitenant-contracts.md",
+    "internal/app/console_clock_queue_test.go"
   ],
   "modules": [
     {
@@ -22,7 +29,38 @@
         "cmd/**"
       ],
       "allow": [
-        "relay"
+        "app",
+        "relay",
+        "installation",
+        "upstream"
+      ]
+    },
+    {
+      "name": "app",
+      "paths": [
+        "internal/app/**"
+      ],
+      "allow": [
+        "admission",
+        "apikey",
+        "catalog",
+        "configstate",
+        "finance",
+        "httpapi",
+        "httpconsole",
+        "identity",
+        "installation",
+        "records",
+        "relay",
+        "reporting",
+        "routing",
+        "sessions",
+        "upstream",
+        "webui"
+      ],
+      "allow_external": [],
+      "forbid_imports": [
+        "database/sql*"
       ]
     },
     {
@@ -30,14 +68,606 @@
       "paths": [
         "internal/relay/*.go"
       ],
-      "allow": []
+      "allow": [
+        "admission",
+        "apikey",
+        "catalog",
+        "configstate",
+        "httpapi",
+        "installation",
+        "names",
+        "records",
+        "routing",
+        "secure",
+        "upstream"
+      ],
+      "allow_external": [],
+      "forbid_imports": [
+        "database/sql*"
+      ]
     },
     {
-      "name": "console",
+      "name": "identity",
       "paths": [
-        "internal/relay/web/**"
+        "internal/identity/**"
       ],
-      "allow": []
+      "allow": [
+        "access",
+        "fault",
+        "names",
+        "operations",
+        "secure"
+      ],
+      "allow_external": [
+        "golang.org/x/crypto/argon2"
+      ],
+      "forbid_imports": [
+        "net/http*"
+      ]
+    },
+    {
+      "name": "apikey",
+      "paths": [
+        "internal/apikey/**"
+      ],
+      "allow": [
+        "access",
+        "fault",
+        "names",
+        "operations",
+        "secure",
+        "sqlread",
+        "configstate",
+        "routing"
+      ],
+      "allow_external": [],
+      "forbid_imports": [
+        "net/http*"
+      ]
+    },
+    {
+      "name": "catalog",
+      "paths": [
+        "internal/catalog/**"
+      ],
+      "allow": [
+        "access",
+        "configstate",
+        "fault",
+        "names",
+        "operations",
+        "routing",
+        "secure",
+        "sqlread",
+        "upstream"
+      ],
+      "allow_external": [],
+      "forbid_imports": [
+        "net/http*"
+      ]
+    },
+    {
+      "name": "finance",
+      "paths": [
+        "internal/finance/**"
+      ],
+      "allow": [
+        "access",
+        "accounting",
+        "apikey",
+        "fault",
+        "names",
+        "operations",
+        "secure",
+        "sqlread"
+      ],
+      "allow_external": [],
+      "forbid_imports": [
+        "net/http*"
+      ]
+    },
+    {
+      "name": "admission",
+      "paths": [
+        "internal/admission/**"
+      ],
+      "allow": [
+        "accounting",
+        "apikey",
+        "catalog",
+        "finance",
+        "names",
+        "records",
+        "secure"
+      ],
+      "allow_external": [],
+      "forbid_imports": [
+        "net/http*"
+      ]
+    },
+    {
+      "name": "reporting",
+      "paths": [
+        "internal/reporting/**"
+      ],
+      "allow": [
+        "access",
+        "finance",
+        "fault",
+        "records",
+        "sqlread",
+        "accounting",
+        "identity"
+      ],
+      "allow_external": [],
+      "forbid_imports": [
+        "net/http*"
+      ]
+    },
+    {
+      "name": "records",
+      "paths": [
+        "internal/records/**"
+      ],
+      "allow": [
+        "fault",
+        "finance",
+        "names",
+        "routing"
+      ],
+      "allow_external": [],
+      "forbid_imports": [
+        "net/http*"
+      ]
+    },
+    {
+      "name": "installation",
+      "paths": [
+        "internal/installation/**"
+      ],
+      "allow": [
+        "finance",
+        "operations",
+        "records",
+        "secure"
+      ],
+      "allow_external": [
+        "github.com/mattn/go-sqlite3",
+        "golang.org/x/crypto/argon2"
+      ],
+      "forbid_imports": [
+        "net/http*"
+      ]
+    },
+    {
+      "name": "upstream",
+      "paths": [
+        "internal/upstream/**"
+      ],
+      "allow": [
+        "jsoncodec",
+        "names"
+      ],
+      "allow_external": [],
+      "forbid_imports": [
+        "database/sql*"
+      ]
+    },
+    {
+      "name": "httpconsole",
+      "paths": [
+        "internal/httpconsole/**"
+      ],
+      "allow": [
+        "access",
+        "accounting",
+        "apikey",
+        "catalog",
+        "configstate",
+        "fault",
+        "finance",
+        "httpapi",
+        "identity",
+        "names",
+        "operations",
+        "records",
+        "reporting",
+        "secure",
+        "sessions"
+      ],
+      "allow_external": [],
+      "forbid_imports": [
+        "database/sql*"
+      ]
+    },
+    {
+      "name": "httpapi",
+      "paths": [
+        "internal/httpapi/**"
+      ],
+      "allow": [
+        "jsoncodec"
+      ],
+      "allow_external": [],
+      "forbid_imports": [
+        "database/sql*"
+      ]
+    },
+    {
+      "name": "webui",
+      "paths": [
+        "internal/webui/*.go"
+      ],
+      "allow": [],
+      "allow_external": [],
+      "forbid_imports": [
+        "database/sql*"
+      ]
+    },
+    {
+      "name": "access",
+      "paths": [
+        "internal/access/**"
+      ],
+      "allow": [],
+      "allow_external": [],
+      "forbid_imports": [
+        "net/http*"
+      ]
+    },
+    {
+      "name": "operations",
+      "paths": [
+        "internal/operations/**"
+      ],
+      "allow": [
+        "names",
+        "secure"
+      ],
+      "allow_external": [],
+      "forbid_imports": [
+        "net/http*"
+      ]
+    },
+    {
+      "name": "sqlread",
+      "paths": [
+        "internal/sqlread/**"
+      ],
+      "allow": [],
+      "allow_external": [],
+      "forbid_imports": [
+        "net/http*"
+      ]
+    },
+    {
+      "name": "routing",
+      "paths": [
+        "internal/routing/**"
+      ],
+      "allow": [],
+      "allow_external": [],
+      "forbid_imports": [
+        "net/http*",
+        "database/sql*"
+      ]
+    },
+    {
+      "name": "accounting",
+      "paths": [
+        "internal/accounting/**"
+      ],
+      "allow": [],
+      "allow_external": [],
+      "forbid_imports": [
+        "net/http*",
+        "database/sql*"
+      ]
+    },
+    {
+      "name": "configstate",
+      "paths": [
+        "internal/configstate/**"
+      ],
+      "allow": [
+        "routing"
+      ],
+      "allow_external": [],
+      "forbid_imports": [
+        "net/http*",
+        "database/sql*"
+      ]
+    },
+    {
+      "name": "sessions",
+      "paths": [
+        "internal/sessions/**"
+      ],
+      "allow": [
+        "secure"
+      ],
+      "allow_external": [],
+      "forbid_imports": [
+        "net/http*",
+        "database/sql*"
+      ]
+    },
+    {
+      "name": "fault",
+      "paths": [
+        "internal/fault/**"
+      ],
+      "allow": [],
+      "allow_external": [],
+      "forbid_imports": [
+        "net/http*",
+        "database/sql*"
+      ]
+    },
+    {
+      "name": "names",
+      "paths": [
+        "internal/names/**"
+      ],
+      "allow": [],
+      "allow_external": [],
+      "forbid_imports": [
+        "net/http*",
+        "database/sql*"
+      ]
+    },
+    {
+      "name": "secure",
+      "paths": [
+        "internal/secure/**"
+      ],
+      "allow": [],
+      "allow_external": [],
+      "forbid_imports": [
+        "net/http*",
+        "database/sql*"
+      ]
+    },
+    {
+      "name": "jsoncodec",
+      "paths": [
+        "internal/jsoncodec/**"
+      ],
+      "allow": [],
+      "allow_external": [],
+      "forbid_imports": [
+        "net/http*",
+        "database/sql*"
+      ]
+    },
+    {
+      "name": "console_shell",
+      "paths": [
+        "internal/webui/web/app.js",
+        "internal/webui/web/workspace.js"
+      ],
+      "allow": [
+        "console_shared",
+        "console_billing",
+        "console_keys",
+        "console_legacy_keys",
+        "console_legacy_models",
+        "console_legacy_overview",
+        "console_legacy_playground",
+        "console_legacy_records",
+        "console_legacy_upstreams",
+        "console_limits",
+        "console_models",
+        "console_overview",
+        "console_playground",
+        "console_reports",
+        "console_services",
+        "console_tenants"
+      ],
+      "allow_external": []
+    },
+    {
+      "name": "console_shared",
+      "paths": [
+        "internal/webui/web/shared/**"
+      ],
+      "allow": [],
+      "allow_external": []
+    },
+    {
+      "name": "console_billing",
+      "paths": [
+        "internal/webui/web/features/billing/**"
+      ],
+      "public": [
+        "internal/webui/web/features/billing/index.mjs"
+      ],
+      "allow": [
+        "console_shared"
+      ],
+      "allow_external": []
+    },
+    {
+      "name": "console_keys",
+      "paths": [
+        "internal/webui/web/features/keys/**"
+      ],
+      "public": [
+        "internal/webui/web/features/keys/index.mjs"
+      ],
+      "allow": [
+        "console_shared"
+      ],
+      "allow_external": []
+    },
+    {
+      "name": "console_legacy_keys",
+      "paths": [
+        "internal/webui/web/features/legacy-keys/**"
+      ],
+      "public": [
+        "internal/webui/web/features/legacy-keys/index.mjs"
+      ],
+      "allow": [
+        "console_shared"
+      ],
+      "allow_external": []
+    },
+    {
+      "name": "console_legacy_models",
+      "paths": [
+        "internal/webui/web/features/legacy-models/**"
+      ],
+      "public": [
+        "internal/webui/web/features/legacy-models/index.mjs"
+      ],
+      "allow": [
+        "console_shared"
+      ],
+      "allow_external": []
+    },
+    {
+      "name": "console_legacy_overview",
+      "paths": [
+        "internal/webui/web/features/legacy-overview/**"
+      ],
+      "public": [
+        "internal/webui/web/features/legacy-overview/index.mjs"
+      ],
+      "allow": [
+        "console_shared"
+      ],
+      "allow_external": []
+    },
+    {
+      "name": "console_legacy_playground",
+      "paths": [
+        "internal/webui/web/features/legacy-playground/**"
+      ],
+      "public": [
+        "internal/webui/web/features/legacy-playground/index.mjs"
+      ],
+      "allow": [
+        "console_shared"
+      ],
+      "allow_external": []
+    },
+    {
+      "name": "console_legacy_records",
+      "paths": [
+        "internal/webui/web/features/legacy-records/**"
+      ],
+      "public": [
+        "internal/webui/web/features/legacy-records/index.mjs"
+      ],
+      "allow": [
+        "console_shared"
+      ],
+      "allow_external": []
+    },
+    {
+      "name": "console_legacy_upstreams",
+      "paths": [
+        "internal/webui/web/features/legacy-upstreams/**"
+      ],
+      "public": [
+        "internal/webui/web/features/legacy-upstreams/index.mjs"
+      ],
+      "allow": [
+        "console_shared"
+      ],
+      "allow_external": []
+    },
+    {
+      "name": "console_limits",
+      "paths": [
+        "internal/webui/web/features/limits/**"
+      ],
+      "public": [
+        "internal/webui/web/features/limits/index.mjs"
+      ],
+      "allow": [
+        "console_shared"
+      ],
+      "allow_external": []
+    },
+    {
+      "name": "console_models",
+      "paths": [
+        "internal/webui/web/features/models/**"
+      ],
+      "public": [
+        "internal/webui/web/features/models/index.mjs"
+      ],
+      "allow": [
+        "console_shared"
+      ],
+      "allow_external": []
+    },
+    {
+      "name": "console_overview",
+      "paths": [
+        "internal/webui/web/features/overview/**"
+      ],
+      "public": [
+        "internal/webui/web/features/overview/index.mjs"
+      ],
+      "allow": [
+        "console_shared"
+      ],
+      "allow_external": []
+    },
+    {
+      "name": "console_playground",
+      "paths": [
+        "internal/webui/web/features/playground/**"
+      ],
+      "public": [
+        "internal/webui/web/features/playground/index.mjs"
+      ],
+      "allow": [
+        "console_shared"
+      ],
+      "allow_external": []
+    },
+    {
+      "name": "console_reports",
+      "paths": [
+        "internal/webui/web/features/reports/**"
+      ],
+      "public": [
+        "internal/webui/web/features/reports/index.mjs"
+      ],
+      "allow": [
+        "console_shared"
+      ],
+      "allow_external": []
+    },
+    {
+      "name": "console_services",
+      "paths": [
+        "internal/webui/web/features/services/**"
+      ],
+      "public": [
+        "internal/webui/web/features/services/index.mjs"
+      ],
+      "allow": [
+        "console_shared"
+      ],
+      "allow_external": []
+    },
+    {
+      "name": "console_tenants",
+      "paths": [
+        "internal/webui/web/features/tenants/**"
+      ],
+      "public": [
+        "internal/webui/web/features/tenants/index.mjs"
+      ],
+      "allow": [
+        "console_shared"
+      ],
+      "allow_external": []
     }
   ],
   "review_checks": [

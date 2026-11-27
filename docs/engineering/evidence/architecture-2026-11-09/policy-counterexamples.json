@@ -1,0 +1,78 @@
+[
+  {
+    "case": "bounded-control",
+    "command": [
+      "go",
+      "test",
+      "-race",
+      "-count=1",
+      "-timeout=60s",
+      "-run",
+      "^TestConsoleGovernanceActualHTTP$",
+      "./internal/app"
+    ],
+    "exit_code": 0,
+    "expected_observation": true,
+    "assertion": null,
+    "elapsed_seconds": 6.953,
+    "log": "bounded-control.log"
+  },
+  {
+    "case": "bounded-overlay",
+    "command": [
+      "go",
+      "test",
+      "-race",
+      "-count=1",
+      "-timeout=60s",
+      "-run",
+      "^TestConsoleGovernanceActualHTTP$",
+      "-overlay",
+      "$ROOT/harness-output/review-rejections-2026-11-09/testdata/bounded_shape.overlay.json",
+      "./internal/app"
+    ],
+    "exit_code": 1,
+    "expected_observation": true,
+    "assertion": "unsupported bounded request tools 200",
+    "elapsed_seconds": 5.445,
+    "log": "bounded-overlay.log"
+  },
+  {
+    "case": "queued-control",
+    "command": [
+      "go",
+      "test",
+      "-race",
+      "-count=1",
+      "-timeout=60s",
+      "-run",
+      "^TestConsoleClockQueuedDeadlineActualHTTP/models$",
+      "./internal/app"
+    ],
+    "exit_code": 0,
+    "expected_observation": true,
+    "assertion": null,
+    "elapsed_seconds": 4.492,
+    "log": "queued-control.log"
+  },
+  {
+    "case": "queued-overlay",
+    "command": [
+      "go",
+      "test",
+      "-race",
+      "-count=1",
+      "-timeout=60s",
+      "-run",
+      "^TestConsoleClockQueuedDeadlineActualHTTP/models$",
+      "-overlay",
+      "$ROOT/harness-output/review-rejections-2026-11-09/testdata/postlock_clock.overlay.json",
+      "./internal/app"
+    ],
+    "exit_code": 1,
+    "expected_observation": true,
+    "assertion": "resource receipt mismatch 200 401",
+    "elapsed_seconds": 4.273,
+    "log": "queued-overlay.log"
+  }
+]

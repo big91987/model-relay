@@ -6,6 +6,12 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"model-relay/internal/app"
+	"model-relay/internal/installation"
+
+	"model-relay/internal/relay"
+	upstreamclient "model-relay/internal/upstream"
+
 	"net"
 	"net/http"
 	"net/http/cookiejar"
@@ -16,8 +22,6 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
-
-	"model-relay/internal/relay"
 )
 
 const Credential = "controlled-latency-only"
@@ -36,7 +40,7 @@ type Timing struct {
 type Fixture struct {
 	Root      string
 	Password  string
-	Store     *relay.Store
+	Store     *installation.Store
 	Gateway   *httptest.Server
 	Upstream  *httptest.Server
 	Client    *http.Client
@@ -55,7 +59,7 @@ func New() (*Fixture, error) {
 	}
 	fixture := &Fixture{Root: root, scenarios: map[string]*Scenario{}, timings: map[string]Timing{}}
 	fixture.Upstream = httptest.NewServer(http.HandlerFunc(fixture.upstream))
-	fixture.Password, err = relay.InitConsole(filepath.Join(root, "data"), filepath.Join(root, "key"))
+	fixture.Password, err = installation.InitConsole(filepath.Join(root, "data"), filepath.Join(root, "key"))
 	if err == nil {
 		err = fixture.start()
 	}
@@ -66,7 +70,7 @@ func New() (*Fixture, error) {
 	return fixture, nil
 }
 func (fixture *Fixture) start() error {
-	store, err := relay.Open(filepath.Join(fixture.Root, "data"), filepath.Join(fixture.Root, "key"))
+	store, err := installation.Open(filepath.Join(fixture.Root, "data"), filepath.Join(fixture.Root, "key"))
 	if err != nil {
 		return err
 	}
@@ -76,7 +80,7 @@ func (fixture *Fixture) start() error {
 		store.Close()
 		return err
 	}
-	server := relay.New(store, relay.Config{Authority: listener.Addr().String(), Policy: relay.Policy{TestAuthority: strings.TrimPrefix(fixture.Upstream.URL, "http://")}})
+	server := app.New(store, relay.Config{Authority: listener.Addr().String(), Policy: upstreamclient.Policy{TestAuthority: strings.TrimPrefix(fixture.Upstream.URL, "http://")}})
 	gateway := httptest.NewUnstartedServer(server)
 	gateway.Listener.Close()
 	gateway.Listener = listener

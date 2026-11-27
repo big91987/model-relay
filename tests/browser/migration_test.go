@@ -2,11 +2,11 @@ package main
 
 import (
 	"encoding/json"
+	"model-relay/internal/installation"
+
 	"os/exec"
 	"path/filepath"
 	"testing"
-
-	"model-relay/internal/relay"
 )
 
 func TestMigrationUpgradeTargetContracts(test *testing.T) {
@@ -29,7 +29,7 @@ func TestMigrationUpgradeTargetContracts(test *testing.T) {
 			}
 			directory := filepath.Join(test.TempDir(), "data")
 			key := filepath.Join(test.TempDir(), "key")
-			if _, err := relay.Init(directory, key); err != nil {
+			if _, err := installation.Init(directory, key); err != nil {
 				test.Fatal("isolated schema2 initialization failed")
 			}
 			archive := filepath.Join(test.TempDir(), "before.tar")
@@ -38,14 +38,14 @@ func TestMigrationUpgradeTargetContracts(test *testing.T) {
 			if err != nil {
 				test.Fatal("isolated migration command failed")
 			}
-			var result relay.UpgradeResult
+			var result installation.UpgradeResult
 			if json.Unmarshal(output, &result) != nil || result.Schema != scenario.schema || result.FromSchema != 2 {
 				test.Fatal("migration target contract mismatch")
 			}
 			if scenario.schema == 3 && result.Result != "migrated" || scenario.schema == 2 && result.Result != "already_current" {
 				test.Fatal("migration disposition mismatch")
 			}
-			store, err := relay.Open(directory, key)
+			store, err := installation.Open(directory, key)
 			if err != nil {
 				test.Fatal("migration result unavailable")
 			}

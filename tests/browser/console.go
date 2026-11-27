@@ -3,6 +3,12 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"model-relay/internal/app"
+	"model-relay/internal/installation"
+
+	"model-relay/internal/relay"
+	upstreamclient "model-relay/internal/upstream"
+
 	"net"
 	"net/http"
 	"os"
@@ -10,8 +16,6 @@ import (
 	"path/filepath"
 	"sync/atomic"
 	"time"
-
-	"model-relay/internal/relay"
 )
 
 func consoleJourney() error {
@@ -20,11 +24,11 @@ func consoleJourney() error {
 		return err
 	}
 	defer os.RemoveAll(root)
-	password, err := relay.InitConsole(filepath.Join(root, "data"), filepath.Join(root, "key"))
+	password, err := installation.InitConsole(filepath.Join(root, "data"), filepath.Join(root, "key"))
 	if err != nil {
 		return err
 	}
-	store, err := relay.Open(filepath.Join(root, "data"), filepath.Join(root, "key"))
+	store, err := installation.Open(filepath.Join(root, "data"), filepath.Join(root, "key"))
 	if err != nil {
 		return err
 	}
@@ -95,7 +99,7 @@ func consoleJourney() error {
 	if err != nil {
 		return fmt.Errorf("console real Go listener unavailable: %w", err)
 	}
-	server := &http.Server{ReadHeaderTimeout: 5 * time.Second, Handler: relay.New(store, relay.Config{Authority: listener.Addr().String(), Version: "console-controlled-verification", Policy: relay.Policy{TestAuthority: upstreamListener.Addr().String()}})}
+	server := &http.Server{ReadHeaderTimeout: 5 * time.Second, Handler: app.New(store, relay.Config{Authority: listener.Addr().String(), Version: "console-controlled-verification", Policy: upstreamclient.Policy{TestAuthority: upstreamListener.Addr().String()}})}
 	go server.Serve(listener)
 	defer server.Close()
 	command := exec.Command("node", "tests/browser/console.mjs")

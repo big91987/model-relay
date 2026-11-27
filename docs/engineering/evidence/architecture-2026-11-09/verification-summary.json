@@ -1,0 +1,164 @@
+{
+  "command": "make verify",
+  "exit_code": 0,
+  "source": {
+    "files": 302,
+    "go": "go1.25.6",
+    "head": "064eb0b9c52d9b04a72ed3cd1dd70eeac756e58b",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "20639cfa21c3c460e6d001a682e9ab72bb8df2b94d46d28e075eec1feb0e7eb0"
+  },
+  "elapsed_seconds": 936.55,
+  "frontend": {
+    "tests": 314,
+    "passed": 314,
+    "failed": 0
+  },
+  "go_race_packages": [
+    {
+      "package": "model-relay/cmd/model-relay",
+      "seconds": 14.948
+    },
+    {
+      "package": "model-relay/internal/accounting",
+      "seconds": 1.862
+    },
+    {
+      "package": "model-relay/internal/admission",
+      "seconds": 24.85
+    },
+    {
+      "package": "model-relay/internal/apikey",
+      "seconds": 2.442
+    },
+    {
+      "package": "model-relay/internal/app",
+      "seconds": 367.39
+    },
+    {
+      "package": "model-relay/internal/catalog",
+      "seconds": 3.53
+    },
+    {
+      "package": "model-relay/internal/configstate",
+      "seconds": 4.321
+    },
+    {
+      "package": "model-relay/internal/finance",
+      "seconds": 4.937
+    },
+    {
+      "package": "model-relay/internal/httpconsole",
+      "seconds": 10.649
+    },
+    {
+      "package": "model-relay/internal/identity",
+      "seconds": 8.254
+    },
+    {
+      "package": "model-relay/internal/installation",
+      "seconds": 28.236
+    },
+    {
+      "package": "model-relay/internal/jsoncodec",
+      "seconds": 5.248
+    },
+    {
+      "package": "model-relay/internal/records",
+      "seconds": 10.922
+    },
+    {
+      "package": "model-relay/internal/relay",
+      "seconds": 11.237
+    },
+    {
+      "package": "model-relay/internal/reporting",
+      "seconds": 18.805
+    },
+    {
+      "package": "model-relay/internal/routing",
+      "seconds": 5.855
+    },
+    {
+      "package": "model-relay/internal/sessions",
+      "seconds": 4.733
+    },
+    {
+      "package": "model-relay/internal/upstream",
+      "seconds": 4.693
+    },
+    {
+      "package": "model-relay/internal/webui",
+      "seconds": 4.143
+    },
+    {
+      "package": "model-relay/tests/browser",
+      "seconds": 12.649
+    },
+    {
+      "package": "model-relay/tests/health-history",
+      "seconds": 10.121
+    },
+    {
+      "package": "model-relay/tests/latency-experiment",
+      "seconds": 2.291
+    },
+    {
+      "package": "model-relay/tests/latencyfixture",
+      "seconds": 4.79
+    },
+    {
+      "package": "model-relay/tests/review-history",
+      "seconds": 2.449
+    },
+    {
+      "package": "model-relay/tests/verification",
+      "seconds": 5.373
+    },
+    {
+      "package": "model-relay/tests/verify",
+      "seconds": 23.848
+    }
+  ],
+  "browser_phases": [
+    {
+      "name": "migration",
+      "elapsed_ms": 13497,
+      "passed": true
+    },
+    {
+      "name": "legacy-ui",
+      "elapsed_ms": 86851,
+      "passed": true
+    },
+    {
+      "name": "routing",
+      "elapsed_ms": 126104,
+      "passed": true
+    },
+    {
+      "name": "console",
+      "elapsed_ms": 15511,
+      "passed": true
+    },
+    {
+      "name": "full-console",
+      "elapsed_ms": 87763,
+      "passed": true
+    }
+  ],
+  "isolation": {
+    "node_modules_before": false,
+    "npm_cache_before": false,
+    "manual_preinstall": "none",
+    "source_unchanged": true,
+    "candidate_unchanged": true,
+    "cleanup": "owned_process_group_cleanup_attempted; candidate_removed"
+  },
+  "limits": "Controlled upstreams and architectural behavior regression; not independent product QA, real supplier validation, production load or deployment",
+  "controlled_experiment": {
+    "requests": 2480,
+    "failures": 0,
+    "elapsed_ms": 153234
+  }
+}

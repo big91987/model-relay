@@ -4,6 +4,15 @@ import (
 	"bytes"
 	"encoding/json"
 	"io"
+
+	"model-relay/internal/accounting"
+	"model-relay/internal/apikey"
+	"model-relay/internal/app"
+	"model-relay/internal/installation"
+
+	"model-relay/internal/relay"
+	upstreamclient "model-relay/internal/upstream"
+
 	"net/http"
 	"net/http/httptest"
 	"path/filepath"
@@ -11,8 +20,6 @@ import (
 	"sync/atomic"
 	"testing"
 	"time"
-
-	"model-relay/internal/relay"
 )
 
 func TestContinuousUpstreamResponseContract(test *testing.T) {
@@ -109,16 +116,16 @@ func TestContinuousUpstreamRelayHTTP(test *testing.T) {
 	upstream := httptest.NewServer(continuousUpstream(&dispatched))
 	defer upstream.Close()
 	root := test.TempDir()
-	password, err := relay.InitConsole(filepath.Join(root, "data"), filepath.Join(root, "key"))
+	password, err := installation.InitConsole(filepath.Join(root, "data"), filepath.Join(root, "key"))
 	if err != nil {
 		test.Fatal("isolated console initialization failed")
 	}
-	store, err := relay.Open(filepath.Join(root, "data"), filepath.Join(root, "key"))
+	store, err := installation.Open(filepath.Join(root, "data"), filepath.Join(root, "key"))
 	if err != nil {
 		test.Fatal("isolated console open failed")
 	}
 	defer store.Close()
-	server := relay.New(store, relay.Config{Authority: "console.test", Policy: relay.Policy{TestAuthority: strings.TrimPrefix(upstream.URL, "http://")}})
+	server := app.New(store, relay.Config{Authority: "console.test", Policy: upstreamclient.Policy{TestAuthority: strings.TrimPrefix(upstream.URL, "http://")}})
 	var cookie *http.Cookie
 	var csrf string
 	admin := func(method, path string, body any, status int) map[string]any {
@@ -155,8 +162,8 @@ func TestContinuousUpstreamRelayHTTP(test *testing.T) {
 	admin("PUT", "models/controlled/bounds", map[string]any{"upstream_id": service, "max_input": 100, "max_output": 100, "evidence": "controlled test contract; not supplier validation"}, 200)
 	admin("POST", "models/controlled/prices", map[string]any{"prices": []map[string]any{{"upstream_id": service, "cost_input_rate": 1000000, "cost_output_rate": 1000000, "tenant_input_rate": 2000000, "tenant_output_rate": 2000000}}}, 201)
 	budget := int64(100000)
-	admin("PUT", "tenants/"+tenant+"/limits", relay.ResourceLimits{Budget: &budget, Hard: true}, 200)
-	key := admin("POST", "tenants/"+tenant+"/keys", relay.KeyInput{Name: "controlled", Application: "test fixture", Enabled: true, Models: []string{"controlled"}}, 201)["key"].(string)
+	admin("PUT", "tenants/"+tenant+"/limits", accounting.ResourceLimits{Budget: &budget, Hard: true}, 200)
+	key := admin("POST", "tenants/"+tenant+"/keys", apikey.Input{Name: "controlled", Application: "test fixture", Enabled: true, Models: []string{"controlled"}}, 201)["key"].(string)
 	for _, scenario := range []struct {
 		name, message string
 		pending       float64

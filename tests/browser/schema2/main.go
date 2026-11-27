@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"os"
+	"model-relay/internal/installation"
 
-	"model-relay/internal/relay"
+	"os"
 )
 
 func main() {
@@ -14,7 +14,7 @@ func main() {
 	key := flag.String("key-file", "", "isolated material")
 	output := flag.String("output", "", "new pre-migration archive")
 	flag.Parse()
-	result, err := relay.Upgrade(*directory, *key, *output)
+	result, err := installation.Upgrade(*directory, *key, *output)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "schema2 compatibility upgrade failed")
 		os.Exit(1)

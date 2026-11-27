@@ -4,13 +4,17 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"model-relay/internal/app"
+	"model-relay/internal/installation"
+
+	"model-relay/internal/relay"
+	upstreamclient "model-relay/internal/upstream"
+
 	"net"
 	"net/http"
 	"os"
 	"os/signal"
 	"time"
-
-	"model-relay/internal/relay"
 )
 
 func main() {
@@ -18,7 +22,7 @@ func main() {
 	key := flag.String("key-file", "", "isolated material")
 	authority := flag.String("test-authority", "", "explicit isolated controlled upstream")
 	flag.Parse()
-	store, err := relay.Open(*directory, *key)
+	store, err := installation.Open(*directory, *key)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "fixture installation unavailable")
 		os.Exit(1)
@@ -29,7 +33,7 @@ func main() {
 		fmt.Fprintln(os.Stderr, "fixture listener unavailable")
 		os.Exit(1)
 	}
-	server := &http.Server{Handler: relay.New(store, relay.Config{Version: "isolated-migration-fixture", Authority: listener.Addr().String(), Policy: relay.Policy{TestAuthority: *authority}}), ReadHeaderTimeout: 5 * time.Second}
+	server := &http.Server{Handler: app.New(store, relay.Config{Version: "isolated-migration-fixture", Authority: listener.Addr().String(), Policy: upstreamclient.Policy{TestAuthority: *authority}}), ReadHeaderTimeout: 5 * time.Second}
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
 	defer stop()
 	go func() {

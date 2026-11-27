@@ -1,0 +1,53 @@
+{
+  "snapshot": "328ccea19f55b02826c37f3b48d89730e3153188fc695003288d1115b7a45fbe",
+  "raw_model_status": "review_required",
+  "independent_review": "Read-only whole-branch reviewer: no material architecture defect in these four candidates; full verification remains required.",
+  "findings": [
+    {
+      "title": "reporting 的可见范围谓词通过 SQL 文本替换复用到子查询",
+      "model_severity": "medium",
+      "disposition": "optional_readability",
+      "basis": "权限规则仅由 reportScope 决定；固定私有 SQL 别名适配并未分叉授权判断，值仍是绑定参数。可独立改善可读性，本轮不增加第二套查询抽象。"
+    },
+    {
+      "title": "受支持请求字段集在 admission 与 upstream 各维护一份",
+      "model_severity": "low",
+      "disposition": "not_accepted",
+      "basis": "协议接受面与硬预留资格是不同策略。把字段分类归上游再驱动预留会耦合两种变化；保持 admission 的显式默认拒绝。真实 HTTP 删保护反例失败，作为保留策略的行为证据，不冒称证明所有重构方法都不安全。"
+    },
+    {
+      "title": "存储 schema 版本分支散布在 relay、records、apikey 与 httpconsole",
+      "model_severity": "medium",
+      "disposition": "not_accepted",
+      "basis": "支持模式在安装/入口校验，局部能力差异未产生独立状态或生命周期；DDL 由 installation 独占不意味着所有能力必须用包装类型替代模式分支。"
+    },
+    {
+      "title": "中断请求的启动态迁移由 installation 直接改写 requests/attempt 状态",
+      "model_severity": "low",
+      "disposition": "not_accepted",
+      "basis": "独占启动恢复与普通请求完成是不同状态迁移，按现架构分别由 installation 和 records 拥有；共同财务不变量已通过 finance.Settle 复用。"
+    }
+  ],
+  "original_four_findings": [
+    {
+      "problem": "HTTP/rules/SQL mixed",
+      "status": "implemented",
+      "owners": "httpconsole + identity/apikey/catalog/finance/admission/records/reporting/installation"
+    },
+    {
+      "problem": "Server shared state bag",
+      "status": "implemented",
+      "owners": "sessions.Manager + configstate.Coordinator + routing.Engine"
+    },
+    {
+      "problem": "gateway inline upstream protocol",
+      "status": "implemented",
+      "owners": "upstream.PrepareChat + Client.Send + response/stream parsers"
+    },
+    {
+      "problem": "frontend concentrated business pages",
+      "status": "implemented",
+      "owners": "15 feature directories + shells/shared"
+    }
+  ]
+}

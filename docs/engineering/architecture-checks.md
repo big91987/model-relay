@@ -8,8 +8,9 @@
 
 默认只运行确定规则，不隐式调用外部模型。报告位于忽略的 `harness-output/architecture/`，每次独立保留，`latest-report` 文件用于固定归档入口。退出码 0 为声明规则通过，1 为违规或需复核，2 为检查未完成；未完成不当作通过。
 
-`architecture.json` 声明 `cmd`、`internal` 中的 Go 与 JavaScript 生产代码，测试从依赖规则排除。当前启动包依赖 `relay`，后端与控制台分别归属；`relay` 仍是集中业务包，控制台仍为原生 JavaScript。通过当前规则不代表已经符合目标职责划分，也不代表产品验收通过。
+`architecture.json` 声明 `cmd`、`internal` 中的 Go 与 JavaScript 生产代码，测试从导入规则排除。实际能力、HTTP 适配、网关协议、运行状态、安装和前端功能分别有包边界，详见[包地图](architecture.md)。业务能力禁止依赖 HTTP，HTTP 适配禁止 SQL，纯规则和状态包同时禁止 HTTP/SQL；前端功能仅通过公开入口与共享模块组合。
 
+导入检查不会判断一个函数是否混合了多种业务职责，也不会验证事务或超时的运行行为。模型评审与真实回归仍须分别执行；不能通过扩大模块允许依赖的范围掩盖违规。
 ## 模型架构评审
 
 需要模型评审时，按已安装工具 README 显式配置服务 URL、模型和私有凭据，运行 `inspect_project.py --review-command`。密钥不写入仓库或命令参数。材料发送范围和提供商使用由调用方明确授权。
@@ -20,4 +21,4 @@
 
 ## 安装升级
 
-首次采用维护源的 `scaffold.py --install-tool PROJECT`，后续使用 `--update-tool PROJECT`；本地工具源码漂移和运行中的检查会阻止升级。升级后重新安装锁定 npm 依赖并运行项目检查入口。模型评审、产品测试和平台工作流执行分别验收，本次接入不包含产品模块重构或产品 QA。
+首次采用维护源的 `scaffold.py --install-tool PROJECT`，后续使用 `--update-tool PROJECT`；本地工具源码漂移和运行中的检查会阻止升级。升级后重新安装锁定 npm 依赖并运行项目检查入口。模型评审、产品测试和平台工作流执行分别验收，工具初始接入不包含产品模块重构或产品 QA。首轮部分整改记录见 [工具驱动整改](architecture-remediation-2026-11-07.md)，完整治理记录见 [治理前后对照](architecture-remediation-2026-11-09.md)，本轮重构的回归不能代替独立产品 QA。

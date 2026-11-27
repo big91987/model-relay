@@ -1,0 +1,52 @@
+{
+  "snapshot": "328ccea19f55b02826c37f3b48d89730e3153188fc695003288d1115b7a45fbe",
+  "original_status": "incomplete",
+  "corrected_status": "review_required",
+  "original_judgments_unchanged": true,
+  "changed_citations": [
+    {
+      "section": "checks",
+      "index": 0,
+      "evidence_index": 0,
+      "before": {
+        "path": "internal/records/store.go",
+        "quote": "// Package records owns application credentials, generations and access grants."
+      },
+      "after": {
+        "path": "internal/records/store.go",
+        "quote": "func (store *Store) Start(record Record) error {"
+      }
+    },
+    {
+      "section": "checks",
+      "index": 2,
+      "evidence_index": 0,
+      "before": {
+        "path": "architecture.json",
+        "quote": "复杂业务操作拥有完整事务；供应商协议归 `upstream`，网关生命周期归 `relay`。"
+      },
+      "after": {
+        "path": "AGENTS.md",
+        "quote": "复杂业务操作拥有完整事务；供应商协议归 `upstream`，网关生命周期归 `relay`。"
+      }
+    }
+  ],
+  "implementation": "Diagnostic review-command adapter, unchanged installed validator, exact same source bundle, no finding removed or judgment edited",
+  "reviewer": {
+    "model": "deepseek-flash",
+    "usage": {
+      "prompt_tokens": 267312,
+      "completion_tokens": 6094,
+      "total_tokens": 273406,
+      "prompt_tokens_details": {
+        "cached_tokens": 261632
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 684
+      },
+      "prompt_cache_hit_tokens": 261632,
+      "prompt_cache_miss_tokens": 5680
+    },
+    "duration_seconds": 22.454
+  }
+}

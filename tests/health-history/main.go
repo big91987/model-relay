@@ -50,10 +50,11 @@ func run() error {
 	if err := extract.Run(); err != nil {
 		return fmt.Errorf("baseline extraction: %w", err)
 	}
-	testSource, err := os.ReadFile("internal/relay/health_test.go")
+	testSource, err := os.ReadFile("internal/app/health_test.go")
 	if err != nil {
 		return err
 	}
+	testSource = historicalTestSource(testSource)
 	if err := os.WriteFile(filepath.Join(directory, "internal/relay/health_test.go"), testSource, 0600); err != nil {
 		return err
 	}
@@ -174,4 +175,15 @@ func assess(data []byte, exitCode int) error {
 		}
 	}
 	return nil
+}
+
+func historicalTestSource(source []byte) []byte {
+	source = bytes.Replace(source, []byte("package app"), []byte("package relay"), 1)
+	for _, pair := range [][2]string{{"relay.Config", "Config"}, {"installation.Open", "Open"}, {"newInstallation(", "installation("}} {
+		source = bytes.ReplaceAll(source, []byte(pair[0]), []byte(pair[1]))
+	}
+	for _, owner := range []string{"installation", "relay"} {
+		source = bytes.ReplaceAll(source, []byte("\t\"model-relay/internal/"+owner+"\"\n"), nil)
+	}
+	return source
 }

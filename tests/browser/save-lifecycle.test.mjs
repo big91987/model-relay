@@ -1,9 +1,10 @@
+import {createModels} from '../../internal/webui/web/features/models/index.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import test from 'node:test';
 import vm from 'node:vm';
 
-const source=readFileSync('internal/relay/web/workspace.js','utf8');
+const source=readFileSync('internal/webui/web/workspace.js','utf8');
 const editor=source.slice(source.indexOf('function edit('),source.indexOf('function secretDialog('));
 const deferred=()=>{let resolve,reject;const promise=new Promise((success,failure)=>{resolve=success;reject=failure;});return {promise,resolve,reject};};
 function fixture() {
@@ -58,7 +59,7 @@ test('one-time secrets retain their separate editor lifecycle without page-read 
 test('actual syncTenants discards a collection settled after scope invalidation',async()=>{
   const collection=deferred(),state={epoch:1,tenants:[{id:'current'}],tenant:'current'},select={replaceChildren(){throw new Error('stale DOM mutation');}};
   const context=vm.createContext({state,collection:()=>collection.promise,byId:()=>select});
-  vm.runInContext(source.slice(source.indexOf('async function syncTenants('),source.indexOf('async function api(')),context);
+  vm.runInContext(source.slice(source.indexOf('async function syncTenants('),source.indexOf('const transport=')),context);
   const reading=vm.runInContext('syncTenants()',context);state.epoch++;
   collection.resolve([{id:'old'}]);await reading;
   assert.deepEqual(state.tenants,[{id:'current'}]);assert.equal(state.tenant,'current');
@@ -68,8 +69,8 @@ test('actual renderPage returns failed without old rows after catalog read failu
   const node=(tag,text='',className='')=>({tag,textContent:text,className,children:[],append(...values){this.children.push(...values);},replaceChildren(...values){this.children=values;}});
   const elements=new Map(['content','page-action','page-title','page-description','breadcrumb'].map(id=>[id,node('div')]));
   elements.get('content').children=[node('table','old model')];
-  const context=vm.createContext({state:{epoch:1,page:'models',user:{platform:true}},pages:{models:['模型托管','scope']},byId:id=>elements.get(id),node,scoped:path=>path,collection:async()=>{throw new Error('controlled read failed');},button:(text,onclick)=>({...node('button',text),onclick})});
-  vm.runInContext(source.slice(source.indexOf('async function renderPage('),source.indexOf('function callForm(')),context);
+  const context=vm.createContext({state:{epoch:1,page:'models',user:{platform:true}},pages:{models:['模型托管','scope']},byId:id=>elements.get(id),node,scoped:path=>path,featurePages:()=>({models:createModels({request:async()=>{throw new Error('controlled read failed');},scope:{platform:true},ui:{node}})}),button:(text,onclick)=>({...node('button',text),onclick})});
+  vm.runInContext(source.slice(source.indexOf('async function renderPage('),source.indexOf('async function navigate(')),context);
   assert.equal(await vm.runInContext('renderPage()',context),false);
   assert.equal(elements.get('content').children[0].className,'error');
   assert.match(elements.get('content').children[0].textContent,/controlled read failed/);

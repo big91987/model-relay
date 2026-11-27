@@ -129,6 +129,7 @@ func migrationJourney() error {
 	if err != nil {
 		return err
 	}
+	fixtureSource = historicalFixtureSource(fixtureSource)
 	fixtureDirectory := filepath.Join(source, "cmd/migration-fixture")
 	if err = os.Mkdir(fixtureDirectory, 0700); err != nil {
 		return err
@@ -385,4 +386,17 @@ func migrationJourney() error {
 		fmt.Printf("PASS production CLI migration schema=%d->3 exact legacy UI seed, identity/history/mapping conservation and native console; controlled evidence, not formal deployment\n", fromSchema)
 	}
 	return nil
+}
+
+// The pinned historical binary is compiled against its original package API.
+// Only this copied test fixture is translated; the historical source is immutable.
+func historicalFixtureSource(source []byte) []byte {
+	for _, owner := range []string{"app", "installation"} {
+		source = bytes.ReplaceAll(source, []byte("\t\"model-relay/internal/"+owner+"\"\n"), nil)
+	}
+	source = bytes.ReplaceAll(source, []byte("\tupstreamclient \"model-relay/internal/upstream\"\n"), nil)
+	for _, pair := range [][2]string{{"app.New(", "relay.New("}, {"installation.Open(", "relay.Open("}, {"upstreamclient.Policy", "relay.Policy"}} {
+		source = bytes.ReplaceAll(source, []byte(pair[0]), []byte(pair[1]))
+	}
+	return source
 }

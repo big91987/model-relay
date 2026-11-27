@@ -1,0 +1,17 @@
+import {createLifetime} from '../../shared/lifetime.mjs';
+import {list} from '../../shared/data.mjs';
+import {money,enumLabel} from '../../shared/catalog.mjs';
+export function createTenants({request,scope,ui,selectTenant}) {
+  const lifetime=createLifetime(request),{api,collection}=lifetime;
+  const {node,button,table,column,actions,edit,mainAction}=ui;
+  const tenantPath=resource=>`tenants/${encodeURIComponent(scope.tenant)}/${resource}`;
+function tenantBudget(summary) {if(!summary)return '需租户管理员权限';return `${summary.period} · 已确认 ${money(summary.usage.fee_micro_usd)} / 预留 ${money(summary.usage.reserved_micro_usd)} / 上限 ${summary.limits.budget_micro_usd==null?'无限':money(summary.limits.budget_micro_usd)} · ${summary.limits.hard?'硬预算':'软预算'} · 待确认 ${summary.usage.pending} · 平台上界 ${summary.platform_limits?.budget_micro_usd==null?'未设置':money(summary.platform_limits.budget_micro_usd)}`;}
+  const tenantDestination=(tenant,page)=>selectTenant(tenant,page);
+  async function render() {
+    lifetime.activate();
+    const section=node('section');
+const tenants=await collection('tenants');section.append(table([column('租户','name'),column('状态','active',value=>value?'活跃':'暂停'),column('人员资格','role',value=>value==null?'平台管理员':enumLabel('role',value)),{label:'负责人',render:row=>row.summary?(row.summary.owners.join('、')||'尚无有效租户管理员'):'需租户管理员权限'},{label:'成员数',render:row=>row.summary?.member_count??'受限'},{label:'授权模型',render:row=>row.summary?(row.summary.models.join('、')||'无授权'):'受限'},{label:'应用Key数（含撤销历史）',render:row=>row.summary?.key_count??'受限'},{label:'预算 / 已用',render:row=>tenantBudget(row.summary)},{label:'操作',render:row=>actions([['选择',()=>tenantDestination(row,'tenants')],['应用Key',()=>tenantDestination(row,'keys')],...(row.summary?[['预算详情',()=>tenantDestination(row,'limits')],['模型授权',()=>tenantDestination(row,'models')]]:[]),...(scope.platform?[['暂停 / 恢复',()=>edit('确认租户状态',[{name:'active',label:'启用新调用',type:'checkbox',value:!row.active}],values=>api('tenants/'+row.id,'PATCH',values))]]:[])])}],tenants));if(scope.platform)mainAction('创建租户',()=>edit('创建租户',[{name:'name',label:'租户名称',required:true}],values=>api('tenants','POST',values)));if(scope.tenant&&scope.role==='administrator'){const members=list(await collection(tenantPath('members'))),invitations=await collection(tenantPath('invitations'));section.append(node('h2','当前租户成员'),button('邀请成员',()=>edit('邀请成员',[{name:'account',label:'邮箱账号',type:'email',required:true},{name:'role',label:'角色',options:[{value:'administrator',label:'租户管理员'},{value:'developer',label:'开发者'},{value:'finance',label:'财务观察者'}],value:'developer'},{name:'hours',label:'有效小时（1–168）',type:'number',min:1,max:168,value:24}],values=>api(tenantPath('invitations'),'POST',{...values,hours:Number(values.hours)}))),table([column('账号','account'),column('角色','role'),{label:'操作',render:row=>actions([['改角色',()=>edit('修改成员角色',[{name:'role',label:'角色',options:['administrator','developer','finance'].map(value=>({value,label:enumLabel('role',value)})),value:row.role}],values=>api(tenantPath('members')+'/'+row.id,'PATCH',values))],['移除',()=>edit('移除成员，应用Key不会自动撤销',[],()=>api(tenantPath('members')+'/'+row.id,'DELETE',{}))]])}],members),node('h2','邀请记录（未发送邮件）'),table([column('账号','account'),column('角色','role'),column('到期','expires_at'),column('状态','state'),{label:'操作',render:row=>row.state==='pending'?button('撤销邀请',()=>edit('撤销邀请',[],()=>api(tenantPath('invitations')+'/'+row.id+'/revoke','POST',{}))):'—'}],invitations));}
+    return lifetime.mount(section);
+  }
+  return {render,dispose:()=>lifetime.dispose()};
+}

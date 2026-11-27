@@ -6,7 +6,21 @@ import { createHash } from 'node:crypto';
 import { observeSelection } from './selection-trace.mjs';
 import { typeAheadCandidate } from './candidate-keyboard.mjs';
 
-const source = readFileSync(new URL('../../internal/relay/web/app.js', import.meta.url), 'utf8');
+// Link the actual browser ES modules into each isolated VM; never select source slices.
+function browserModule(url, seen=new Map()) {
+  if(seen.has(url.href))return seen.get(url.href).name;
+  const name='browserModule'+seen.size,entry={name,source:''};seen.set(url.href,entry);
+  let source=readFileSync(url,'utf8');
+  source=source.replace(/^import \{([^}]+)\} from ['"]([^'"]+)['"];?$/gm,(_line,names,path)=>{
+    const dependency=browserModule(new URL(path,url),seen);
+    return 'const {'+names.replace(/\bas\b/g,':')+'}='+dependency+';';
+  });
+  const exports=[...source.matchAll(/export (?:async )?(?:function|const) (\w+)/g)].map(match=>match[1]);
+  source=source.replace(/\bexport /g,'');entry.order=[...seen.values()].filter(value=>value.order!==undefined).length;entry.source='const '+name+'=(()=>{'+source+'\nreturn {'+exports.join(',')+'};})();';
+  if(url.pathname.endsWith('/app.js'))return [...seen.values()].sort((a,b)=>a.order-b.order).map(value=>value.source).join('\n');
+  return name;
+}
+const source=browserModule(new URL('../../internal/webui/web/app.js',import.meta.url));
 const tick = () => new Promise(resolve => setImmediate(resolve));
 const snapshot = {upstream: {configured: false, enabled: false, credential_configured: false, total: 0, enabled_count: 0}, models: {total: 0, enabled: 0}, keys: {total: 0, enabled: 0}, callable_models: 0, call_evidence: null};
 
@@ -1567,4 +1581,69 @@ test('entire UTF-8 failure line fits host tail while retaining first and final k
     if (inflated) assert.equal(summary.compacted, true);
   }
   await diagnostic.context.end(diagnostic.page);
+});
+
+test('superseded precise record lookup cannot apply a late authentication failure',async()=>{
+  const app=await authenticated();
+  const navigation=app.navigate('records');app.respond('GET','requests',{data:[],next_cursor:null});await navigation;
+  app.element('find-request-id').value='first';
+  const first=app.element('find-record-form').onsubmit({preventDefault(){},submitter:{disabled:false}});
+  app.element('find-request-id').value='second';
+  const second=app.element('find-record-form').onsubmit({preventDefault(){},submitter:{disabled:false}});
+  app.respond('GET','requests/second',{id:'second',time:'now',state:'success'});await second;
+  app.respond('GET','requests/first',{error:{code:'unauthorized'}},401);await first;
+  assert.equal(app.element('console').hidden,false);
+  assert.match(app.element('record-status').textContent,/已定位同一请求 second/);
+});
+
+test('leaving the upstream feature clears its credential while preserving the public draft',async()=>{
+  const app=await authenticated();
+  const navigation=app.navigate('upstream');app.respond('GET','upstream',{enabled:true,credential_configured:true});await navigation;
+  app.element('upstream-name').value='public draft';app.element('upstream-token').value='private draft';
+  const next=app.navigate('records');app.respond('GET','requests',{data:[],next_cursor:null});await next;
+  assert.equal(app.element('upstream-token').value,'');assert.equal(app.element('upstream-name').value,'public draft');
+});
+
+test('upstream field failures retain feedback, clear credentials and focus the editable field',async()=>{
+  for(const [code,field] of [['invalid_destination','upstream-url'],['new_credential_required','upstream-token']]){
+    const app=await authenticated();
+    const navigation=app.navigate('upstream');app.respond('GET','upstream',{enabled:true,credential_configured:true});await navigation;
+    app.element('upstream-url').value='https://draft.example/v1';app.element('upstream-token').value='private draft';
+    const submitter=app.element('save-upstream');submitter.focus();
+    const saving=app.element('upstream-form').onsubmit({preventDefault(){},submitter});
+    assert.equal(submitter.disabled,true);app.respond('PUT','upstream',{error:{code}},400);await saving;
+    assert.equal(app.document.activeElement,app.element(field));assert.equal(app.element(field).disabled,false);
+    assert.equal(submitter.disabled,false);assert.equal(app.element('upstream-token').value,'');assert.equal(app.element('upstream-url').value,'https://draft.example/v1');
+    assert.match(app.element('error').textContent,/保存未确认；上游凭据已清除，请重新输入。/);assert.equal(app.element('notice').textContent,'');
+  }
+});
+
+test('model field failures retain the draft and focus its alias after releasing the save lock',async()=>{
+  for(const [code,status] of [['invalid_model',400],['alias_conflict',409]]){
+    const app=await authenticated();
+    const navigation=app.navigate('models');app.respond('GET','models',[]);app.respond('GET','upstreams',[]);await navigation;
+    app.element('model-alias').value='public draft';const submitter=app.element('create-model-submit');submitter.focus();
+    const saving=app.element('model-form').onsubmit({preventDefault(){},submitter});
+    assert.equal(app.element('model-alias').disabled,true);app.respond('POST','models',{error:{code}},status);await saving;
+    assert.equal(app.document.activeElement,app.element('model-alias'));assert.equal(app.element('model-alias').disabled,false);assert.equal(submitter.disabled,false);
+    assert.equal(app.element('model-alias').value,'public draft');assert.notEqual(app.element('error').textContent,'');assert.equal(app.element('notice').textContent,'');
+  }
+});
+
+test('key issuance retains failure feedback and focuses only its own field',async()=>{
+  for(const [code,feedback] of [['invalid_name','请输入有效名称，长度不超过128字符。'],['invalid_destination','上游地址不符合安全规则，请检查 HTTPS 地址和主机。']]){
+    const app=await authenticated();const navigation=app.navigate('keys');app.respond('GET','keys',[]);await navigation;
+    app.element('key-name').value='public key draft';app.element('key-name').focus();app.element('issued-key').value='old private draft';
+    const submitter=app.element('issue-button');
+    const issuing=app.element('key-form').onsubmit({preventDefault(){},submitter});
+    assert.equal(submitter.disabled,true);app.respond('POST','keys',{error:{code}},400);await issuing;
+    assert.equal(app.document.activeElement,app.element('key-name'));assert.equal(submitter.disabled,false);assert.equal(app.element('cancel-key-create').disabled,false);
+    assert.equal(app.element('key-name').value,'public key draft');assert.equal(app.element('issued-key').value,'');assert.equal(app.element('issued').hidden,true);
+    assert.equal(app.element('error').textContent,feedback);assert.equal(app.element('notice').textContent,'');
+  }
+  const app=await authenticated();const keys=app.navigate('keys');app.respond('GET','keys',[]);await keys;
+  const pending=app.element('key-form').onsubmit({preventDefault(){},submitter:app.element('issue-button')});
+  const next=app.navigate('upstream');app.respond('GET','upstream',{enabled:true,credential_configured:true});await next;app.element('upstream-name').focus();
+  const prior=app.element('notice').textContent;app.respond('POST','keys',{error:{code:'invalid_name'}},400);await pending;
+  assert.equal(app.document.activeElement,app.element('upstream-name'));assert.equal(app.element('notice').textContent,prior);assert.equal(app.element('error').textContent,'');
 });

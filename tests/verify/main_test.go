@@ -464,7 +464,8 @@ func TestFixedRunnerReceipts(test *testing.T) {
 			}
 			var err error
 			if scenario == "timeout_gate" {
-				err = runWithGateTimeout(ctx, 200*time.Millisecond)
+				// Leave process startup room under race instrumentation and parallel package load.
+				err = runWithGateTimeout(ctx, 2*time.Second)
 			} else {
 				err = run(ctx)
 			}
@@ -503,7 +504,7 @@ func TestFixedRunnerReceipts(test *testing.T) {
 			}
 			expectedTimeout := int64(25 * 60 * 1000)
 			if scenario == "timeout_gate" {
-				expectedTimeout = 200
+				expectedTimeout = 2000
 			}
 			if state.GateTimeoutMilliseconds != expectedTimeout {
 				test.Fatalf("wrong gate timeout: %+v", state)

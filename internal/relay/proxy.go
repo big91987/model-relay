@@ -1,37 +1,40 @@
 package relay
 
 import (
-	"bufio"
 	"context"
-	"database/sql"
 	"encoding/json"
 	"errors"
 	"io"
 	"mime"
+	"model-relay/internal/catalog"
+	"model-relay/internal/httpapi"
+	"model-relay/internal/names"
+	"model-relay/internal/records"
+	"model-relay/internal/secure"
+	provider "model-relay/internal/upstream"
 	"net"
 	"net/http"
 	"strings"
 	"sync/atomic"
 	"time"
-	"unicode/utf8"
 )
 
-func (server *Server) generate(writer http.ResponseWriter, request *http.Request) {
+func (server *Gateway) Generate(writer http.ResponseWriter, request *http.Request) {
 	ctx, cancel := context.WithTimeout(request.Context(), server.Config.TotalTimeout)
 	defer cancel()
-	id := randomSecret(16)
+	id := secure.Random(16)
 	writer.Header().Set("X-Request-ID", id)
 	started := time.Now()
-	record := Record{ID: id, Time: started.UTC().Format(time.RFC3339Nano)}
+	record := records.Record{ID: id, Time: started.UTC().Format(time.RFC3339Nano)}
 	if server.Store.Schema == 3 {
-		record.Time = server.Store.now().Format(time.RFC3339Nano)
+		record.Time = server.Store.Now().Format(time.RFC3339Nano)
 	}
-	server.mu.RLock()
+	server.State.RLock()
 	keyID, ok := server.identifyKey(request)
-	server.mu.RUnlock()
+	server.State.RUnlock()
 	record.KeyID = keyID
-	if server.degraded.Load() {
-		failure(writer, 503, "storage_unavailable", id)
+	if server.Degraded.Load() {
+		httpapi.Failure(writer, 503, "storage_unavailable", id)
 		return
 	}
 	var configEpoch uint64
@@ -47,30 +50,26 @@ func (server *Server) generate(writer http.ResponseWriter, request *http.Request
 		}
 		elapsed := time.Since(started).Milliseconds()
 		record.Duration = &elapsed
-		if server.Store.Finish(record) != nil {
+		if server.Records.Finish(record) != nil {
 			server.storageFailure()
 			return false
 		}
-		server.mu.Lock()
-		if state == "success" && configEpoch == server.configEpoch {
-			server.successID = id
-		} else if server.successID == id {
-			server.successID = ""
-		}
-		server.mu.Unlock()
+		server.State.Lock()
+		server.State.CompleteRequest(id, configEpoch, state == "success")
+		server.State.Unlock()
 		return true
 	}
 	reject := func(status int, code string) {
-		if server.Store.Start(record) != nil {
+		if server.Records.Start(record) != nil {
 			server.storageFailure()
-			failure(writer, 503, "storage_unavailable", id)
+			httpapi.Failure(writer, 503, "storage_unavailable", id)
 			return
 		}
 		if !finish("rejected", code) {
-			failure(writer, 503, "storage_unavailable", id)
+			httpapi.Failure(writer, 503, "storage_unavailable", id)
 			return
 		}
-		failure(writer, status, code, id)
+		httpapi.Failure(writer, status, code, id)
 	}
 	if !ok {
 		if keyID != "" {
@@ -79,10 +78,10 @@ func (server *Server) generate(writer http.ResponseWriter, request *http.Request
 			data, readErr := io.ReadAll(http.MaxBytesReader(writer, request.Body, 1<<20))
 			_ = controller.SetReadDeadline(time.Time{})
 			if readErr == nil {
-				_, alias, stream, code := validateRequest(data)
-				if code == "" && validAlias(alias) {
+				_, alias, stream, code := provider.ValidateRequest(data)
+				if code == "" && names.Alias(alias) {
 					record.Alias, record.Stream = alias, stream
-					_ = server.Store.DB.QueryRow("SELECT remote_model FROM route_candidates WHERE alias=? ORDER BY upstream_id LIMIT 1", alias).Scan(&record.Model)
+					record.Model = server.Catalog.FirstRemoteModel(request.Context(), alias)
 				}
 			}
 		}
@@ -107,8 +106,8 @@ func (server *Server) generate(writer http.ResponseWriter, request *http.Request
 		}
 		return
 	}
-	payload, alias, stream, code := validateRequest(data)
-	if validAlias(alias) {
+	payload, alias, stream, code := provider.ValidateRequest(data)
+	if names.Alias(alias) {
 		record.Alias = alias
 	}
 	record.Stream = stream
@@ -117,7 +116,7 @@ func (server *Server) generate(writer http.ResponseWriter, request *http.Request
 		return
 	}
 	if server.Store.Schema == 3 {
-		if allowed, code := server.Store.authorizeModel(keyID, alias); !allowed {
+		if allowed, code := server.Keys.AuthorizeModel(keyID, alias); !allowed {
 			status := 403
 			if code == "storage_unavailable" {
 				status = 503
@@ -126,17 +125,17 @@ func (server *Server) generate(writer http.ResponseWriter, request *http.Request
 			return
 		}
 	}
-	server.mu.Lock()
+	server.State.Lock()
 	keyID, ok = server.appID(request)
 	if !ok {
-		server.mu.Unlock()
+		server.State.Unlock()
 		reject(401, "unauthorized")
 		return
 	}
 	snapshot, err := server.snapshot(alias)
-	server.mu.Unlock()
+	server.State.Unlock()
 	if err != nil || !snapshot.Model.Enabled {
-		if err != nil && err != sql.ErrNoRows {
+		if err != nil && !errors.Is(err, catalog.ErrModelMissing) {
 			reject(503, "storage_unavailable")
 		} else {
 			reject(404, "model_unavailable")
@@ -146,28 +145,29 @@ func (server *Server) generate(writer http.ResponseWriter, request *http.Request
 	configEpoch = snapshot.Epoch
 	record.ConfigRevision = snapshot.ConfigRevision
 	record.ModelRevision = snapshot.Model.Revision
-	if server.Store.Start(record) != nil {
+	if server.Records.Start(record) != nil {
 		server.storageFailure()
-		failure(writer, 503, "storage_unavailable", id)
+		httpapi.Failure(writer, 503, "storage_unavailable", id)
 		return
 	}
 	if server.Store.Schema == 3 {
-		server.mu.Lock()
-		code, status, prior := server.Store.admit(record, snapshot, payload, request)
-		server.mu.Unlock()
+		server.State.Lock()
+		code, status, prior := server.Admission.Admit(record, snapshot, payload, strings.TrimPrefix(request.Header.Get("Authorization"), "Bearer "), request.Header.Get("Idempotency-Key"))
+		server.State.Unlock()
 		if code != "" {
 			finish("rejected", code)
 			if prior != "" {
 				writer.Header().Set("X-Request-ID", prior)
-				failure(writer, status, code, prior)
+				httpapi.Failure(writer, status, code, prior)
 				return
 			}
-			failure(writer, status, code, id)
+			httpapi.Failure(writer, status, code, id)
 			return
 		}
 	}
 	server.routedGenerate(writer, request, ctx, &record, payload, snapshot, finish)
 }
+
 func classify(ctx context.Context, err error, stream bool) (int, string, string) {
 	if errors.Is(ctx.Err(), context.Canceled) {
 		return 499, "canceled", "client_canceled"
@@ -181,9 +181,9 @@ func classify(ctx context.Context, err error, stream bool) (int, string, string)
 	}
 	return 502, "upstream_failed", "upstream_connection_failed"
 }
-func (server *Server) stream(writer http.ResponseWriter, request *http.Request, ctx context.Context, response *http.Response, record *Record, finish func(string, string) bool, measurement *latencyMeasurement) {
-	scanner := bufio.NewScanner(response.Body)
-	scanner.Buffer(make([]byte, 4096), 256*1024)
+
+func (server *Gateway) stream(writer http.ResponseWriter, request *http.Request, ctx context.Context, response *http.Response, record *records.Record, finish func(string, string) bool, measurement *latencyMeasurement) {
+	stream := provider.NewStream(response.Body)
 	var timedOut atomic.Bool
 	timer := time.AfterFunc(server.Config.IdleTimeout, func() { timedOut.Store(true); response.Body.Close() })
 	defer timer.Stop()
@@ -206,56 +206,27 @@ func (server *Server) stream(writer http.ResponseWriter, request *http.Request, 
 			code = "storage_unavailable"
 		}
 		if !opened {
-			failure(writer, status, code, record.ID)
+			httpapi.Failure(writer, status, code, record.ID)
 			return
 		}
 		value, _ := json.Marshal(map[string]any{"error": map[string]string{"type": "relay_error", "code": code, "message": "Stream incomplete"}, "request_id": record.ID})
 		_ = write("event: error\ndata: " + string(value) + "\n\n")
 	}
-	var lines []string
-	eventBytes := 0
-	total := 0
-	for scanner.Scan() {
-		line := strings.TrimSuffix(scanner.Text(), "\r")
-		eventBytes += len(line) + 1
-		total += len(line) + 1
-		if eventBytes > 256*1024 || total > 32<<20 || !utf8.ValidString(line) {
-			fail(502, "stream_interrupted", "upstream_protocol_error")
-			return
+	var terminalErr error
+	for {
+		event, err := stream.Next()
+		if err != nil {
+			terminalErr = err
+			break
 		}
-		if line != "" {
-			if !strings.HasPrefix(line, ":") && line != "data" && !strings.HasPrefix(line, "data:") {
-				fail(502, "stream_interrupted", "upstream_protocol_error")
+		if event.Kind == provider.EventComment {
+			if opened && write(event.Wire) != nil {
+				finish("canceled", "downstream_write_failed")
 				return
 			}
-			lines = append(lines, line)
 			continue
 		}
-		var dataLines []string
-		var comments []string
-		for _, entry := range lines {
-			if strings.HasPrefix(entry, ":") {
-				comments = append(comments, entry)
-			} else {
-				value := strings.TrimPrefix(entry, "data")
-				value = strings.TrimPrefix(value, ":")
-				value = strings.TrimPrefix(value, " ")
-				dataLines = append(dataLines, value)
-			}
-		}
-		lines = nil
-		eventBytes = 0
-		if len(dataLines) == 0 {
-			if opened && len(comments) > 0 {
-				if write(strings.Join(comments, "\n")+"\n\n") != nil {
-					finish("canceled", "downstream_write_failed")
-					return
-				}
-			}
-			continue
-		}
-		payload := strings.Join(dataLines, "\n")
-		if payload == "[DONE]" {
+		if event.Kind == provider.EventDone {
 			if !opened {
 				fail(502, "stream_interrupted", "upstream_protocol_error")
 				return
@@ -281,21 +252,16 @@ func (server *Server) stream(writer http.ResponseWriter, request *http.Request, 
 			}
 			return
 		}
-		value, ok := validResponse([]byte(payload), true)
-		if !ok {
-			fail(502, "stream_interrupted", "upstream_protocol_error")
-			return
-		}
-		if _, exists := object(value["usage"]); exists {
-			record.Usage = usageFrom(value)
+		if event.HasUsage {
+			record.Usage = records.Usage{Prompt: event.Usage.Prompt, Completion: event.Usage.Completion, Total: event.Usage.Total}
 		}
 		if !timer.Reset(server.Config.IdleTimeout) || timedOut.Load() {
 			fail(504, "timeout", "upstream_timeout")
 			return
 		}
 		measured := server.routingNow()
-		effective := outputDelta(value)
-		if write("data: "+strings.Join(dataLines, "\ndata: ")+"\n\n") != nil {
+		effective := event.EffectiveOutput
+		if write(event.Wire) != nil {
 			finish("canceled", "downstream_write_failed")
 			return
 		}
@@ -303,15 +269,15 @@ func (server *Server) stream(writer http.ResponseWriter, request *http.Request, 
 			measurement.mark(measured)
 		}
 	}
-	err := scanner.Err()
-	if errors.Is(err, bufio.ErrTooLong) {
+	err := terminalErr
+	if errors.Is(err, provider.ErrProtocol) && !errors.Is(err, provider.ErrIncomplete) {
 		fail(502, "stream_interrupted", "upstream_protocol_error")
 		return
 	}
 	if timedOut.Load() {
 		err = context.DeadlineExceeded
 	}
-	if err == nil {
+	if err == nil || errors.Is(err, provider.ErrIncomplete) {
 		fail(502, "stream_interrupted", "upstream_protocol_error")
 		return
 	}

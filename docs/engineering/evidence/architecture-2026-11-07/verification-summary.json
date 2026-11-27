@@ -1,0 +1,51 @@
+{
+  "scope": "Architecture remediation regression; not independent product QA, real-provider validation or deployment",
+  "final_source_evidence": {
+    "files": 184,
+    "go": "go1.25.6",
+    "head": "42b79a00d3ff7b8ed8957f87a97fd5b4c83abe64",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "c9a48a0503da936f5d5b50a59fef25c8c9e7ca6a2ca7aa32c1dc555863fb16bf"
+  },
+  "final_architecture_snapshot": "d698c922cac97afea3c81b4044805dcc7ad092c0d0a13f6a1ae3a75d8b84c117",
+  "commands": {
+    "race": {
+      "exit_code": 0,
+      "scope": "make test; before final two-line frontend fetch binding fix; Go source unchanged thereafter",
+      "local_log_sha256": "ac8d25d9fd292a81c7c0d5484bc338ea287a161feb6e02a140d5eb6b2ade6857"
+    },
+    "browser": {
+      "exit_code": 0,
+      "scope": "make browser; final source",
+      "local_log_sha256": "b813ec274320eeb75a704db5de4a059a544419778b787c780eb29bf8214c4456"
+    },
+    "frontend": {
+      "exit_code": 0,
+      "scope": "make frontend-test; final source; 295 tests",
+      "local_log_sha256": "e7d73cdea8eca79b22fbd74e674d5a011d60e463bc7935144940649977488370"
+    },
+    "latency": {
+      "exit_code": 0,
+      "scope": "go run ./tests/latency-experiment; 2480 controlled requests, 0 failures",
+      "local_log_sha256": "7fefed0221e1e0bfe65c91dd1a65c150a4fbc71537452af30169ff8e05ad61c6"
+    },
+    "cold_verify": {
+      "exit_code": 2,
+      "scope": "make verify; cold npm download ETIMEDOUT; failed, no gate skipping",
+      "local_log_sha256": "28aecb94fe5778f0df09cf40d7291f32b277b41371a49b59f51b0b3b95aba506"
+    }
+  },
+  "other_passed": [
+    "gofmt",
+    "go vet ./...",
+    "make build",
+    "git diff --check for source and maintenance docs, excluding verbatim generated reports",
+    "three isolated forbidden dependency probes"
+  ],
+  "limitations": [
+    "Cold isolated verify did not finish because of npm ETIMEDOUT",
+    "CI incremental model review and independent packaging are not implemented",
+    "Original runtime logs remain ignored; summary contains hashes, not uploaded traces",
+    "Verbatim generated Markdown code quotations retain tabs and trigger space-before-tab warnings in an unfiltered Git whitespace check"
+  ]
+}

@@ -7,6 +7,12 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"model-relay/internal/app"
+	"model-relay/internal/installation"
+
+	"model-relay/internal/relay"
+	upstreamclient "model-relay/internal/upstream"
+
 	"net"
 	"net/http"
 	"os"
@@ -16,8 +22,6 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
-
-	"model-relay/internal/relay"
 )
 
 type capturedLog struct {
@@ -52,11 +56,11 @@ func journey() error {
 		return err
 	}
 	defer os.RemoveAll(root)
-	password, err := relay.Init(filepath.Join(root, "data"), filepath.Join(root, "key"))
+	password, err := installation.Init(filepath.Join(root, "data"), filepath.Join(root, "key"))
 	if err != nil {
 		return err
 	}
-	store, err := relay.Open(filepath.Join(root, "data"), filepath.Join(root, "key"))
+	store, err := installation.Open(filepath.Join(root, "data"), filepath.Join(root, "key"))
 	if err != nil {
 		return err
 	}
@@ -214,7 +218,7 @@ func journey() error {
 	if err != nil {
 		return fmt.Errorf("real browser service listener unavailable: %w", err)
 	}
-	server := relay.New(store, relay.Config{Version: "dev", Authority: listener.Addr().String(), Policy: relay.Policy{TestAuthority: upstreamListener.Addr().String()}})
+	server := app.New(store, relay.Config{Version: "dev", Authority: listener.Addr().String(), Policy: upstreamclient.Policy{TestAuthority: upstreamListener.Addr().String()}})
 	httpServer := &http.Server{Handler: server, ReadHeaderTimeout: 5 * time.Second}
 	go httpServer.Serve(listener)
 	defer func() { httpServer.Close() }()
@@ -273,7 +277,7 @@ func journey() error {
 				http.Error(writer, "controlled shutdown failed", 500)
 				return
 			}
-			reopenedStore, openErr := relay.Open(filepath.Join(root, "data"), filepath.Join(root, "key"))
+			reopenedStore, openErr := installation.Open(filepath.Join(root, "data"), filepath.Join(root, "key"))
 			if openErr != nil {
 				http.Error(writer, "controlled reopen failed", 500)
 				return
@@ -284,7 +288,7 @@ func journey() error {
 				http.Error(writer, "controlled restart listener failed", 500)
 				return
 			}
-			server = relay.New(store, relay.Config{Version: "dev", Authority: address, Policy: relay.Policy{TestAuthority: upstreamListener.Addr().String()}})
+			server = app.New(store, relay.Config{Version: "dev", Authority: address, Policy: upstreamclient.Policy{TestAuthority: upstreamListener.Addr().String()}})
 			httpServer = &http.Server{Handler: server, ReadHeaderTimeout: 5 * time.Second}
 			go httpServer.Serve(restartedListener)
 			writer.WriteHeader(204)

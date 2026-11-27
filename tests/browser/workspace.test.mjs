@@ -1,12 +1,19 @@
+import {createFactSummary} from '../../internal/webui/web/shared/facts.mjs';
+import {createLimitSummary} from '../../internal/webui/web/features/limits/presentation.mjs';
+import {createServices} from '../../internal/webui/web/features/services/index.mjs';
+import {createModels} from '../../internal/webui/web/features/models/index.mjs';
+import {createLimits} from '../../internal/webui/web/features/limits/index.mjs';
+import {collection as readCollection} from '../../internal/webui/web/shared/data.mjs';
+import {enumLabel} from '../../internal/webui/web/shared/catalog.mjs';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import vm from 'node:vm';
 
-const source = readFileSync(new URL('../../internal/relay/web/workspace.js', import.meta.url), 'utf8');
+const source = readFileSync(new URL('../../internal/webui/web/workspace.js', import.meta.url), 'utf8');
 
 test('workspace clips background scrolling only while a native modal is open',()=>{
-  const style=readFileSync(new URL('../../internal/relay/web/workspace.css',import.meta.url),'utf8');
+  const style=readFileSync(new URL('../../internal/webui/web/workspace.css',import.meta.url),'utf8');
   assert.match(style,/html:has\(dialog:modal\)\{overflow:clip\}/);
   assert.match(style,/body\.modal-scroll-locked\{position:fixed;top:var\(--modal-scroll-top\);left:var\(--modal-scroll-left\);width:100%\}/);
   assert.match(style,/dialog\{[^}]*overflow:auto/);
@@ -95,7 +102,7 @@ test('workspace invalidation closes both native dialogs before synchronously rel
   const calls=[];
   const dialogs=new Map(['editor','detail'].map(name=>[name,{open:true,close(){this.open=false;calls.push(name);}}]));
   dialogs.set('editor-form',{dataset:{}});
-  const context=vm.createContext({state:{epoch:0,controllers:new Set(),call:null,busy:true},byId:name=>dialogs.get(name),releaseModalScroll(){assert.equal(dialogs.get('editor').open,false);assert.equal(dialogs.get('detail').open,false);calls.push('release');},clearSensitive(){calls.push('clear');}});
+  const context=vm.createContext({state:{epoch:0,busy:true},transport:{cancel(){}},playground:null,activeFeature:null,features:null,byId:name=>dialogs.get(name),releaseModalScroll(){assert.equal(dialogs.get('editor').open,false);assert.equal(dialogs.get('detail').open,false);calls.push('release');},clearSensitive(){calls.push('clear');}});
   vm.runInContext(source.slice(source.indexOf('function invalidate('),source.indexOf('function signedOut(')),context);
   context.invalidate();assert.deepEqual(calls,['editor','detail','release','clear']);
 });
@@ -179,7 +186,7 @@ test('interrupted editor driver releases only its controlled GET and retains the
       await interceptor({request:()=>({method:()=> 'POST'}),continue:async()=>{nonReadContinued=true;}});
       assert.equal(nonReadContinued,true);
       const collectionContext=vm.createContext({URLSearchParams,list:value=>value,api:async path=>{assert.equal(routePattern.test('http://controlled.invalid/admin/api/'+path),true);return [];}});
-      vm.runInContext(source.slice(source.indexOf('async function collection('),source.indexOf('const scope =')),collectionContext);
+      collectionContext.collection=path=>readCollection(collectionContext.api,path);
       await collectionContext.collection('tenants');
       pending=interceptor({request:()=>({method:()=> 'GET'}),continue:async()=>{await new Promise(resolve=>setImmediate(resolve));released=true;}});
       return 'controlled-acknowledgement';
@@ -256,21 +263,10 @@ test('old editor close event cannot erase a reopened one-time dialog', () => {
   fixture.controls.get('close')();
   assert.ok(fixture.secrets.every(input => input.value !== ''));
 });
-const summaryStart = source.indexOf('function factSummary(');
-const summaryEnd = source.indexOf('async function priceEditor(');
-assert.ok(summaryStart >= 0 && summaryEnd > summaryStart, 'workspace summary source boundaries');
-const summarySource = source.slice(summaryStart, summaryEnd);
-
 function summary(value) {
-  const context = vm.createContext({
-    node(tag, text = '') { return { tag, text, children: [], append(...values) { this.children.push(...values); },setAttribute(){} }; },
-    table(columns, values) { return { tag: 'table', columns, values }; },
-    column(label, field) { return { label, field }; },
-    money(value) { return String(value); },
-    value
-  });
-  const displaySource=source.slice(source.indexOf('function enumLabel('),source.indexOf('function modelSources('));
-  return vm.runInContext(displaySource + '\n' + summarySource + '\nlimitSummary(value);', context);
+  const node=(tag,text='')=>({tag,text,children:[],append(...values){this.children.push(...values);},setAttribute(){}});
+  const {factSummary}=createFactSummary({node});
+  return createLimitSummary({node,table:(columns,values)=>({tag:'table',columns,values}),column:(label,field)=>({label,field}),factSummary})(value);
 }
 
 for (const [name, value] of Object.entries({
@@ -308,7 +304,7 @@ test('workspace request and price details label actual API fields without changi
 
 test('workspace Key budget cards render the shared resource contract instead of raw JSON', async () => {
   const resource={limits:{calls:10},usage:{calls:2,fee_micro_usd:'7',reserved_micro_usd:'3',pending:1},period:'2026-10'};
-  const summarized=[];
+  const summaries=[];
   const node=(tag,text='')=>({tag,text,children:[],append(...children){this.children.push(...children);},replaceChildren(...children){this.children=children;}});
   const elements=new Map();
   const context=vm.createContext({
@@ -316,16 +312,23 @@ test('workspace Key budget cards render the shared resource contract instead of 
     byId(id){if(!elements.has(id))elements.set(id,node('div'));return elements.get(id);},node,
     needTenant:()=>false,role:()=> 'administrator',tenantPath:path=>'tenants/controlled/'+path,
     api:async()=>resource,collection:async()=>[{id:'app',name:'App'}],
-    limitSummary(value){summarized.push(value);return node('resource-summary');},
+    table(columns,values){const result={tag:'resource-table',columns,values};summaries.push(result);return result;},
+    column(label,field){return {label,field};},factSummary:()=>node('facts'),
     mainAction(){},button:()=>node('button')
   });
-  const render=source.slice(source.indexOf('async function renderPage('),source.indexOf('function callForm('));
-  await vm.runInContext(render+'\nrenderPage();',context);
-  assert.equal(summarized.length,2);
-  assert.ok(summarized.every(value=>value===resource));
+  const feature=createLimits({request:path=>path.includes('/limits')?context.api(path):context.collection(path),scope:{tenant:'controlled',role:'administrator'},ui:context});
+  const rendered=await feature.render();context.byId('content').replaceChildren(rendered);
+  assert.equal(summaries.length,2);
+  for(const {values} of summaries){
+    assert.equal(values.length,5);
+    assert.deepEqual(values.map(value=>value.name),['本周期次数','每分钟请求 RPM','每分钟收费Token TPM（含预留）','本地活跃并发','费用预算（USD）']);
+    assert.equal(values[0].limit,10);assert.equal(values[0].used,2);assert.equal(values[0].remaining,'8');
+    assert.equal(values[4].used,'0.000010 USD');assert.equal(values[4].limit,'无限');
+  }
   const content=elements.get('content').children[0];
-  const card=content.children.find(child=>child.tag==='div');
-  assert.equal(card.children[1].tag,'resource-summary');
+  const card=content.children.find(child=>child.tag==='div'&&child.children.some(value=>value.tag==='h3'&&value.text==='App · 独立Key限额'));
+  assert.equal(card.children[1].children[1].tag,'resource-table');
+  assert.equal(card.children[1].children[2].text,'已确认费用 0.000007 USD · 未决费用预留 0.000003 USD · 1 个待确认尝试；未知金额不是零。');
   assert.ok(!card.children.some(child=>child.tag==='pre'));
 });
 
@@ -338,7 +341,7 @@ test('workspace local list search spans fetched groups and recovers after cleari
   }
   const create = (tag, text) => new Element(tag, text);
   const context = vm.createContext({ Node: Element, node: create, button: create, values: Array.from({ length: 30 }, (_, index) => ({ name: `row-${index}` })) });
-  const tableSource = source.slice(source.indexOf('function table('), source.indexOf('const column ='));
+  const tableSource = source.slice(source.indexOf('function table('), source.indexOf('const {column,factSummary}='));
   const result = vm.runInContext(tableSource + '\ntable([{label:"name",render:value=>value.name}],values);', context);
   const search = result.children[0], body = result.children[1];
   const text = element => [element.textContent ?? element.text ?? '', ...element.children.map(text)].join(' ');
@@ -375,8 +378,8 @@ async function serviceCheckFixture(rejected = false) {
     detail(title, value) { details.push({ title, value }); },
     notice(value) { notices.push(value); }
   });
-  const renderSource = source.slice(source.indexOf('async function renderPage()'), source.indexOf('function callForm()'));
-  await vm.runInContext(renderSource + '\nrenderPage();', context);
+  const feature=createServices({request:(path,...args)=>args.length?context.api(path,...args):context.collection(path.split('?')[0]),scope:{platform:true},ui:context});
+  await feature.render();
   assert.ok(controls.has('核验'), 'actual service row renders check action');
   await controls.get('核验')();
   return { requests, details, notices };
@@ -403,8 +406,7 @@ test('console model driver uniquely targets actual editor labels without editing
     async collection(path) { assert.equal(path, 'upstreams'); return [{ id: 7, name: 'Controlled' }]; },
     edit(title, values) { fields = values; }
   });
-  const editorSource = source.slice(source.indexOf('async function modelEditor('), source.indexOf('async function grantEditor('));
-  await vm.runInContext(editorSource + '\nmodelEditor();', editorContext);
+  await createModels({request:path=>editorContext.collection(path.split('?')[0]),scope:{platform:true},ui:editorContext}).editModel();
   assert.equal(fields.filter(field => field.label.includes('远端模型名')).length, 2);
   assert.equal(fields.filter(field => field.label === '远端模型名').length, 1);
   const writes = [];
@@ -619,7 +621,7 @@ test('keyboard projection emits only fixed booleans for editor, body, root and m
 
 test('latency diagnostics distinguish failure invalidation from success and unknown', () => {
   const context = vm.createContext({});
-  vm.runInContext(source.slice(source.indexOf('function enumLabel('), source.indexOf('function technicalValue(')), context);
+  context.enumLabel=enumLabel;
   assert.equal(context.enumLabel('sample_acceptance', 'invalidated_by_failure'), '故障前在途观测已失效，不采纳');
   assert.equal(context.enumLabel('sample_acceptance', 'accepted'), '有效成功观测');
   assert.equal(context.enumLabel('sample_state', 'unknown'), '无本进程样本 / 未知');

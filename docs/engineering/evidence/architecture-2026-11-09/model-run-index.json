@@ -1,0 +1,176 @@
+[
+  {
+    "run": "49d878b8e1204ea8a828e59758b524bb",
+    "status": "incomplete",
+    "snapshot": "da0492fa3267bec862100ab22aa002ad3849c15a10d71ed7bacfc95e7c7fcd5f",
+    "checked_at": "2026-11-09T03:02:56.279729+00:00",
+    "model_review_status": "incomplete",
+    "reviewer": {
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 251820,
+        "completion_tokens": 35351,
+        "total_tokens": 287171,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 30857
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 251820
+      },
+      "duration_seconds": 222.891
+    },
+    "report_sha256": "6c9e582d42b25b349d622fd524f68cb62c37045894b2d19326798aecc8f2e0cf",
+    "errors": [
+      "bundle source, version, requirements, policy or coverage differs"
+    ],
+    "accepted_findings": 0,
+    "raw_candidates": 4
+  },
+  {
+    "run": "64d0a9509da14af5b81ca9076f895654",
+    "status": "review_required",
+    "snapshot": "6d87cdf27cb279f705b089d80cc2f14e870fc7e92a302e65884df72363085f90",
+    "checked_at": "2026-11-09T03:12:00.274857+00:00",
+    "model_review_status": "findings",
+    "reviewer": {
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 252433,
+        "completion_tokens": 30073,
+        "total_tokens": 282506,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 24508
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 252433
+      },
+      "duration_seconds": 187.531
+    },
+    "report_sha256": "a5d41bba32badf958a154a282bd7cc3aab50a10638aa19b8b4758cd5d8d5202e",
+    "errors": [],
+    "accepted_findings": 3,
+    "raw_candidates": 3
+  },
+  {
+    "run": "fe65d5d6c3e34fb9a88639c0e240202b",
+    "status": "review_required",
+    "snapshot": "25b69de6ac75c0aec83db377959ef4c5758d0fac1c91ed11921adca4f9d200b7",
+    "checked_at": "2026-11-09T03:26:45.884905+00:00",
+    "model_review_status": "findings",
+    "reviewer": {
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 253754,
+        "completion_tokens": 20998,
+        "total_tokens": 274752,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 14932
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 253754
+      },
+      "duration_seconds": 135.244
+    },
+    "report_sha256": "790972832555cbe726feb93f36f1c46e14f465b487a5f820e2cfa8577020b9c0",
+    "errors": [],
+    "accepted_findings": 4,
+    "raw_candidates": 4
+  },
+  {
+    "run": "adb686cad11244febbb8ab37474b0530",
+    "status": "review_required",
+    "snapshot": "512a435ffc0288b80b7b14f65cf3c1d59c6a2f256f92407f79ed8b19b8629fcd",
+    "checked_at": "2026-11-09T03:40:13.584504+00:00",
+    "model_review_status": "findings",
+    "reviewer": {
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 254307,
+        "completion_tokens": 23691,
+        "total_tokens": 277998,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 20005
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 254307
+      },
+      "duration_seconds": 141.837
+    },
+    "report_sha256": "29fd2994baa991819b4cc90cf0974d02126cb54c295d60c20007ac16638daec2",
+    "errors": [],
+    "accepted_findings": 3,
+    "raw_candidates": 3
+  },
+  {
+    "run": "2ee00f826ce44446898b01df66680462",
+    "status": "incomplete",
+    "snapshot": "5fb90da1d575a140843b48514f185829ff49868486782ffed2b296eacb0468b6",
+    "checked_at": "2026-11-09T03:52:21.113712+00:00",
+    "model_review_status": "incomplete",
+    "reviewer": {
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 255418,
+        "completion_tokens": 19591,
+        "total_tokens": 275009,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 13276
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 255418
+      },
+      "duration_seconds": 108.19
+    },
+    "report_sha256": "501357d4e91d1428a2b1cbc2d14f9a3869be8e35e6ffd14161e83d21c737e280",
+    "errors": [
+      "invalid model finding fields"
+    ],
+    "accepted_findings": 0,
+    "raw_candidates": 4
+  },
+  {
+    "run": "074bd5c088634c9281a8a650f533631b",
+    "status": "incomplete",
+    "snapshot": "328ccea19f55b02826c37f3b48d89730e3153188fc695003288d1115b7a45fbe",
+    "checked_at": "2026-11-09T04:07:01.453688+00:00",
+    "model_review_status": "incomplete",
+    "reviewer": {
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 261703,
+        "completion_tokens": 23077,
+        "total_tokens": 284780,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 17147
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 261703
+      },
+      "duration_seconds": 131.448
+    },
+    "report_sha256": "a86dddd2cb8b44fc942c429493aea9467291de4f8fe9fbc57b9d1efabee973f4",
+    "errors": [
+      "evidence quotation must match one exact unique span: internal/records/store.go"
+    ],
+    "accepted_findings": 0,
+    "raw_candidates": 4
+  }
+]

@@ -1,0 +1,33 @@
+{
+  "production_unchanged": true,
+  "results": [
+    {
+      "mutant": "upstream-execution",
+      "expected_failure": true,
+      "evidence": [
+        "--- FAIL: TestGatewayObserveRejectsStaleUpstreamExecution (1.24s)",
+        "observation_guard_test.go:92: stale upstream observation poisoned current health &{100 0 2026-11-09 01:01:00 +0000 UTC failed 2026-11-09 01:00:00 +0000 UTC 1}"
+      ]
+    },
+    {
+      "mutant": "candidate-mapping",
+      "expected_failure": true,
+      "evidence": [
+        "--- FAIL: TestGatewayObserveRejectsChangedCandidateMapping (2.42s)",
+        "--- FAIL: TestGatewayObserveRejectsChangedCandidateMapping/new_remote (1.22s)",
+        "observation_guard_test.go:130: stale candidate observation recreated obsolete mapping health",
+        "--- FAIL: TestGatewayObserveRejectsChangedCandidateMapping/restored_remote_new_execution (1.20s)",
+        "observation_guard_test.go:127: stale candidate observation poisoned current health &{100 0 2026-11-09 01:01:00 +0000 UTC failed 2026-11-09 01:00:00 +0000 UTC 1}"
+      ]
+    },
+    {
+      "mutant": "candidate-execution",
+      "expected_failure": true,
+      "evidence": [
+        "--- FAIL: TestGatewayObserveRejectsChangedCandidateMapping (1.23s)",
+        "--- FAIL: TestGatewayObserveRejectsChangedCandidateMapping/restored_remote_new_execution (1.23s)",
+        "observation_guard_test.go:127: stale candidate observation poisoned current health &{100 0 2026-11-09 01:01:00 +0000 UTC failed 2026-11-09 01:00:00 +0000 UTC 1}"
+      ]
+    }
+  ]
+}

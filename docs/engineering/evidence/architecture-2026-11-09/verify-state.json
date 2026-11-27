@@ -1,0 +1,147 @@
+{
+  "gate_timeout_ms": 1500000,
+  "gate_started_utc": "2026-11-09T04:15:24.395279Z",
+  "gate_finished_utc": "2026-11-09T04:30:47.796085Z",
+  "gate_cancelled": false,
+  "started_utc": "2026-11-09T04:15:13.958005Z",
+  "finished_utc": "2026-11-09T04:30:50.507656Z",
+  "command": "make verify -\u003e isolated make verify-gates",
+  "isolation": "new private candidate; git history read-only",
+  "node_modules_before": false,
+  "clean_start_measured": true,
+  "npm_cache_before": false,
+  "node_modules_after": true,
+  "npm_cache_after": true,
+  "source_unchanged": true,
+  "candidate_unchanged": true,
+  "NODE_PATH": "unset",
+  "manual_preinstall": "none",
+  "source_before": {
+    "files": 302,
+    "go": "go1.25.6",
+    "head": "064eb0b9c52d9b04a72ed3cd1dd70eeac756e58b",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "20639cfa21c3c460e6d001a682e9ab72bb8df2b94d46d28e075eec1feb0e7eb0"
+  },
+  "source_after": {
+    "files": 302,
+    "go": "go1.25.6",
+    "head": "064eb0b9c52d9b04a72ed3cd1dd70eeac756e58b",
+    "scope": "product + tests + build locks + project contracts + historical/current acceptance/design + Trellis specs; excludes delivery receipts to avoid self-reference",
+    "working_tree_sha256": "20639cfa21c3c460e6d001a682e9ab72bb8df2b94d46d28e075eec1feb0e7eb0"
+  },
+  "versions": {
+    "go": "go version go1.25.6 darwin/arm64",
+    "node": "v26.0.0",
+    "npm": "11.12.1"
+  },
+  "dependency_receipt": "playwright=1.59.1; resolution=candidate/node_modules\nplaywright-core=1.59.1; resolution=candidate/node_modules\nchromium=Google Chrome for Testing 147.0.7727.15",
+  "gate_exit": 0,
+  "exit_code": 0,
+  "log_sha256": "dedd16e00b299c0d9c0aaef545f9769fc575bd5eb2d84843311bffaec48f62d0",
+  "log_bytes": 1147023,
+  "cleanup": "owned_process_group_cleanup_attempted; candidate_removed",
+  "owned_group_absent": true,
+  "auxiliary_commands": [
+    {
+      "stage": "source-inventory",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-11-09T04:15:13.958644Z",
+      "budget_ms": 119999,
+      "execute_ms": 28,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "git-directory",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-11-09T04:15:21.351689Z",
+      "budget_ms": 119999,
+      "execute_ms": 14,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-11-09T04:15:21.366781Z",
+      "budget_ms": 119999,
+      "execute_ms": 2773,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-11-09T04:15:24.140574Z",
+      "budget_ms": 119999,
+      "execute_ms": 94,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "prerequisite-go",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-11-09T04:15:24.235347Z",
+      "budget_ms": 119999,
+      "execute_ms": 6,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "prerequisite-node",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-11-09T04:15:24.242106Z",
+      "budget_ms": 119999,
+      "execute_ms": 24,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "prerequisite-npm",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-11-09T04:15:24.267357Z",
+      "budget_ms": 119999,
+      "execute_ms": 127,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-11-09T04:30:47.796162Z",
+      "budget_ms": 119999,
+      "execute_ms": 109,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "source-evidence",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-11-09T04:30:47.905274Z",
+      "budget_ms": 119999,
+      "execute_ms": 95,
+      "group_check_ms": 0
+    },
+    {
+      "stage": "dependency-probe",
+      "exit": 0,
+      "cancelled": false,
+      "owned_group_absent": true,
+      "started_utc": "2026-11-09T04:30:48.000841Z",
+      "budget_ms": 119999,
+      "execute_ms": 1679,
+      "group_check_ms": 0
+    }
+  ]
+}
