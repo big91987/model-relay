@@ -5,6 +5,17 @@ import vm from 'node:vm';
 
 const source = readFileSync(new URL('../../internal/relay/web/workspace.js', import.meta.url), 'utf8');
 
+test('workspace logout button keeps the emphasized palette outside media queries and retains focus cue and logout wiring',()=>{
+  const style=readFileSync(new URL('../../internal/relay/web/workspace.css',import.meta.url),'utf8');
+  let unconditional='',index=0;
+  for(;;){const at=style.indexOf('@media',index);if(at<0){unconditional+=style.slice(index);break;}unconditional+=style.slice(index,at);let depth=0,position=style.indexOf('{',at);do{if(style[position]==='{')depth++;else if(style[position]==='}')depth--;position++;}while(depth>0);index=position;}
+  assert.match(unconditional,/#logout\{background:#fff1f2;color:#9f1239\}/);
+  assert.match(unconditional,/#logout:hover\{background:#ffe4e6\}/);
+  assert.match(unconditional,/:focus-visible\{outline:3px solid #8caeee;outline-offset:3px\}/);
+  assert.match(source,/byId\('logout'\)\.onclick=async\(\)=>\{const token=state\.csrf;signedOut\(\);/);
+  assert.match(source,/fetch\('\/admin\/api\/logout',\{method:'POST'/);
+});
+
 test('workspace clips background scrolling only while a native modal is open',()=>{
   const style=readFileSync(new URL('../../internal/relay/web/workspace.css',import.meta.url),'utf8');
   assert.match(style,/html:has\(dialog:modal\)\{overflow:clip\}/);

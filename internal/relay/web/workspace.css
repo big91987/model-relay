@@ -4,3 +4,5 @@
 .table-wrap,.technical-value{overscroll-behavior-x:none}
 html:has(dialog:modal){overflow:clip}
 body.modal-scroll-locked{position:fixed;top:var(--modal-scroll-top);left:var(--modal-scroll-left);width:100%}
+#logout{background:#fff1f2;color:#9f1239}
+#logout:hover{background:#ffe4e6}

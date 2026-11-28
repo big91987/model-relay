@@ -381,6 +381,14 @@ func TestCaptureCommandTiming(test *testing.T) {
 	}
 }
 
+// timeoutGateFixtureBudget is the fixture-only gate budget for the
+// timeout_gate scenario. It must clear the host's process-spawn latency
+// (observed ~300ms per trivial command on loaded hosts) so the fixture child
+// publishes its cancellation receipts before the bounded timeout fires,
+// while staying far below the parent budget. The production gate timeout
+// remains 25 minutes (gateTimeout in main.go) and is not affected.
+const timeoutGateFixtureBudget = 5 * time.Second
+
 func TestFixedRunnerReceipts(test *testing.T) {
 	for _, scenario := range []string{"green_fixture", "failed_fixture", "prerequisite_failed_fixture", "evidence_failed_fixture", "probe_failed_fixture", "copy_failed_fixture", "cancel_inventory", "cancel_git_directory", "cancel_evidence", "cancel_prerequisite", "cancel_probe", "cancel_gate", "timeout_gate"} {
 		test.Run(scenario, func(test *testing.T) {
@@ -421,10 +429,20 @@ func TestFixedRunnerReceipts(test *testing.T) {
 				files["tools/git"] = "#!/bin/sh\nprintf 'input.txt\\0internal/input.txt\\0'\n"
 			}
 			cancelStage := map[string]string{"cancel_inventory": "source-inventory", "cancel_git_directory": "git-directory", "cancel_evidence": "source-evidence", "cancel_prerequisite": "prerequisite-npm", "cancel_probe": "dependency-probe"}[scenario]
-			waitScript := "printf 'auxiliary-ready\\n'; sleep 30 & child=$!; printf '%s\\n' \"$child\" > \"$CANCEL_READY\"; wait\n"
-			if scenario == "cancel_gate" || scenario == "timeout_gate" {
-				files["tools/make"] = "#!/bin/sh\npwd > \"$CANDIDATE_READY\"\n" + waitScript
+			// Receipts are published through temporary files renamed into place so a
+			// visible ready file always carries complete content.
+			waitScript := "printf 'auxiliary-ready\\n'; sleep 30 & child=$!; printf '%s\\n' \"$child\" > \"$CANCEL_READY.tmp\"; mv \"$CANCEL_READY.tmp\" \"$CANCEL_READY\""
+			publishCandidate := "pwd > \"$CANDIDATE_READY.tmp\"; mv \"$CANDIDATE_READY.tmp\" \"$CANDIDATE_READY\""
+			switch scenario {
+			case "cancel_gate":
+				// Cancellation triggers on CANCEL_READY, so the candidate receipt must be published first.
+				files["tools/make"] = "#!/bin/sh\n" + publishCandidate + "\n" + waitScript + "; wait\n"
+			case "timeout_gate":
+				// The PID receipt is published first so the bounded gate timeout
+				// finds the fixture's cancellation evidence already in place.
+				files["tools/make"] = "#!/bin/sh\n" + waitScript + "; " + publishCandidate + "; wait\n"
 			}
+			waitScript += "; wait\n"
 			switch scenario {
 			case "cancel_inventory":
 				files["tools/git"] = "#!/bin/sh\n" + waitScript
@@ -448,7 +466,14 @@ func TestFixedRunnerReceipts(test *testing.T) {
 			if err := os.Mkdir(filepath.Join(root, "node_modules"), 0700); err != nil {
 				test.Fatal(err)
 			}
-			ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
+			parentBudget := 8 * time.Second
+			if scenario == "timeout_gate" {
+				// Keep the same margin the 8s budget gave the original 200ms
+				// gate: parent deadline stays well beyond the fixture gate
+				// budget plus spawn-latency overhead on loaded hosts.
+				parentBudget = 15 * time.Second
+			}
+			ctx, cancel := context.WithTimeout(context.Background(), parentBudget)
 			defer cancel()
 			ready := filepath.Join(root, "cancel-ready")
 			test.Setenv("CANCEL_READY", ready)
@@ -464,7 +489,7 @@ func TestFixedRunnerReceipts(test *testing.T) {
 			}
 			var err error
 			if scenario == "timeout_gate" {
-				err = runWithGateTimeout(ctx, 200*time.Millisecond)
+				err = runWithGateTimeout(ctx, timeoutGateFixtureBudget)
 			} else {
 				err = run(ctx)
 			}
@@ -503,7 +528,7 @@ func TestFixedRunnerReceipts(test *testing.T) {
 			}
 			expectedTimeout := int64(25 * 60 * 1000)
 			if scenario == "timeout_gate" {
-				expectedTimeout = 200
+				expectedTimeout = timeoutGateFixtureBudget.Milliseconds()
 			}
 			if state.GateTimeoutMilliseconds != expectedTimeout {
 				test.Fatalf("wrong gate timeout: %+v", state)
@@ -520,19 +545,13 @@ func TestFixedRunnerReceipts(test *testing.T) {
 				if !state.GateCancelled || state.GateStartedUTC == "" || state.GateFinishedUTC == "" || state.GateExit == 0 || state.Exit == 0 || state.OwnedGroupAbsent == nil || !*state.OwnedGroupAbsent {
 					test.Fatalf("gate cancellation receipt incomplete: %+v", state)
 				}
-				childData, readErr := os.ReadFile(ready)
+				childData := awaitReadyFile(test, ready, 5*time.Second, pidReceipt)
 				var child int
-				if readErr != nil {
-					test.Fatal(readErr)
-				}
-				if _, scanErr := fmt.Sscanf(string(childData), "%d", &child); scanErr != nil || syscall.Kill(child, 0) != syscall.ESRCH {
+				if _, scanErr := fmt.Sscanf(childData, "%d", &child); scanErr != nil || syscall.Kill(child, 0) != syscall.ESRCH {
 					test.Fatal("gate child remains or has invalid receipt")
 				}
-				candidateData, readErr := os.ReadFile(candidateReady)
-				if readErr != nil {
-					test.Fatal(readErr)
-				}
-				if _, statErr := os.Stat(strings.TrimSpace(string(candidateData))); !os.IsNotExist(statErr) {
+				candidateData := awaitReadyFile(test, candidateReady, 5*time.Second, func(content string) bool { return content != "" })
+				if _, statErr := os.Stat(candidateData); !os.IsNotExist(statErr) {
 					test.Fatal("actual candidate remains after gate cancellation")
 				}
 			} else if scenario == "prerequisite_failed_fixture" {
@@ -560,12 +579,9 @@ func TestFixedRunnerReceipts(test *testing.T) {
 				if !found || state.Exit == 0 {
 					test.Fatalf("missing cancelled group evidence: %+v", state)
 				}
-				data, err := os.ReadFile(ready)
+				data := awaitReadyFile(test, ready, 5*time.Second, pidReceipt)
 				var child int
-				if err != nil {
-					test.Fatal(err)
-				}
-				if _, err := fmt.Sscanf(string(data), "%d", &child); err != nil {
+				if _, err := fmt.Sscanf(data, "%d", &child); err != nil {
 					test.Fatal("invalid auxiliary child receipt")
 				}
 				if probeErr := syscall.Kill(child, 0); probeErr != syscall.ESRCH {
@@ -591,4 +607,32 @@ func TestFixedRunnerReceipts(test *testing.T) {
 
 func fmtHash(data []byte) string {
 	return fmt.Sprintf("%x", sha256.Sum256(data))
+}
+
+// awaitReadyFile polls a fixture receipt file until its trimmed content
+// satisfies complete or the bound elapses. Fixture scripts publish receipts
+// atomically (temporary file + mv), so a visible file always carries complete
+// content; polling only covers the window between gate cleanup and assertion.
+func awaitReadyFile(test *testing.T, path string, bound time.Duration, complete func(string) bool) string {
+	test.Helper()
+	deadline := time.Now().Add(bound)
+	for {
+		if data, err := os.ReadFile(path); err == nil {
+			if content := strings.TrimSpace(string(data)); complete(content) {
+				return content
+			}
+		}
+		if !time.Now().Before(deadline) {
+			test.Fatalf("ready file %s incomplete within %s", filepath.Base(path), bound)
+		}
+		time.Sleep(5 * time.Millisecond)
+	}
+}
+
+func pidReceipt(content string) bool {
+	var pid int
+	if _, err := fmt.Sscanf(content, "%d", &pid); err != nil {
+		return false
+	}
+	return pid > 0
 }
