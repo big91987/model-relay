@@ -133,6 +133,18 @@ try {
     });
     const pressNav=async title=>{if(width===390)await page.getByRole('button',{name:'菜单',exact:true}).click();await navigate(page,title);};
     stage=`login-${width}`;await page.goto(origin+'/admin/');await page.getByLabel('账号',{exact:true}).fill('admin');await page.getByLabel('密码',{exact:true}).fill(process.env.RELAY_CONSOLE_PASSWORD);await page.getByRole('button',{name:'登录',exact:true}).click();await page.locator('#workspace').waitFor({state:'visible'});
+    stage=`logout-style-${width}`;
+    const logoutButton=page.locator('#logout');
+    assert.deepEqual(await logoutButton.evaluate(element=>{const style=getComputedStyle(element);return {background:style.backgroundColor,color:style.color};}),{background:'rgb(255, 241, 242)',color:'rgb(159, 18, 57)'});
+    await logoutButton.hover();
+    assert.equal(await logoutButton.evaluate(element=>getComputedStyle(element).backgroundColor),'rgb(255, 228, 230)');
+    await page.mouse.move(0,0);
+    assert.equal(await logoutButton.evaluate(element=>getComputedStyle(element).backgroundColor),'rgb(255, 241, 242)');
+    await page.keyboard.press('Tab');
+    await logoutButton.evaluate(element=>element.focus());
+    assert.deepEqual(await logoutButton.evaluate(element=>({focus_visible:element.matches(':focus-visible'),outline:getComputedStyle(element).outlineStyle,background:getComputedStyle(element).backgroundColor})),{focus_visible:true,outline:'solid',background:'rgb(255, 241, 242)'});
+    await logoutButton.evaluate(element=>element.blur());
+    assert.deepEqual(await page.locator('#nav-toggle').evaluate(element=>{const style=getComputedStyle(element);return {background:style.backgroundColor,color:style.color};}),{background:'rgb(255, 255, 255)',color:'rgb(51, 71, 102)'});
     stage=`tenant-${width}`;await pressNav('租户与成员');await page.getByRole('button',{name:'创建租户',exact:true}).click();await page.getByLabel('租户名称').fill('Team '+width);const created=await save(page,'/admin/api/tenants');const tenant=(await created.json()).id;await page.getByLabel('当前租户').selectOption(tenant);
     stage=`service-create-${width}`;await pressNav('供应商与服务');await page.getByRole('button',{name:'接入服务',exact:true}).click();await page.getByLabel('服务名称').fill('Controlled '+width);await page.getByLabel('兼容API基础地址').fill(process.env.RELAY_CONSOLE_UPSTREAM);await page.getByLabel('上游凭据（编辑留空保留同地址原值）').fill('controlled-console-upstream');const upstreamResponse=await interruptedEditorJourney(page,pressNav,()=>save(page,'/admin/api/upstreams'),width);const upstream=(await upstreamResponse.json()).id;
     stage=`service-check-http-${width}`;
